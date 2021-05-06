@@ -6,7 +6,7 @@ Tool 作为 UniversalFrame 的延续产品，将开源源代码，继续维护�
 2. 欢迎有兴趣的小伙伴参与，一起开发维护的路上，目前涉及范围有限，需要更多志同道合的朋友一起创造。
 3. 在此，非常感谢，长久以来对作者支持的小伙伴们，感觉一路有你。
 4. 相关开发文档：https://blog.csdn.net/qq_33484542
-5. 使用API文档：http://core.turl.xin/
+5. 使用API文档：http://tool.nixue.top/index.html
 6. 开源项目实例：https://github.com/ni-xue/UniversalFrame
 
 # 执照
