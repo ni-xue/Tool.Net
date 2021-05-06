@@ -1,0 +1,274 @@
+﻿-------------------------------------功能简介-----------------------------------------
+
+1.详细AIP文档：http://tool.nixue.top/index.html
+
+2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils）
+
+3. 当前版本（3.3.0）为正式包，用于进行实际线上项目开发。 
+
+4. 架构基于 .Net 5 采用最新技术，具有最新的技术支持。
+
+-------------------------------------功能详解-----------------------------------------
+
+1. Web包含，Api创建，路由构建，可替代MVC写Api，和对Http多个扩展函数方便开发。
+
+2. Sql包含，包含常用三种数据库的默认实现，其余数据库可以根据开源地址的实现，自行实现接口，支持所有数据库操作，提供获取原始数据库操作对象，由自行实现。
+
+3. Sockets包含，Tcp，Udp，WebTcp(WebSocket)，TcpFrame（内置实现的一种和WPF差不多的消息传输协议，后期的维护重点）（TcpFrame 重点，重构，对数据包体的高度使用，提高传输性能）
+
+4. TypeExtension包含，bool,byte,char,datetime,decimal,double,fioat,int,long,object,short,string,uint,ulong,ushort，相关扩展函数。
+
+5. Utils包含，ActionDelegate，Data，Encryption，FtpHelper，Other，TaskHelper，Log，等等一系列帮助类型函数。
+
+5.1 大致包含： 委托，反射，Log，验证码生成，正则验证，DataSet/DataTable/DataRow（验证，To实体？ToJson?），AppSettings（获取Core下面的配置文件：appsettings.json），等等
+
+6. 目前功能基本满足小规模开发。
+-------------------------------------历史功能-----------------------------------------
+
+1. MinApi 增加ApiOut.View(); ApiOut.ViewAsyn(); 结果重新调整，
+
+1.1 MinApi：Initialize函数改进，使用户可以直接返回结果。
+
+1.2 HttpContext 提供扩展支持获取服务（HttpContext.GetService<>()）。
+
+1.3 MinApi：修复了错误发生时抛出异常的显示，ApiOut改为抽象类提供实现。
+
+1.4 修复在获取From表单的接口，在请求时未发送From表单而报错的问题。
+
+2. 增加AsSession 内置Session体积小，（services.AddAsSession(); app.UseAsSession();）
+
+3. Sql 增加DbTransactionExensions 提供扩展支持，增加DbHelperExensions 提供扩展支持。
+
+3.1 IDbProvider接口再次简化，更加人性化，可选择自行实现，采用了默认实现，可替换。
+
+3.2 ITableProvider数据结构验证，使其支持主流数据库无任何问题，有使用问题，尽可提问与我。
+
+3.3 DbHelper 提供：TransExecuteNonQuery 开启事物处理的函数。
+
+3.4 DbHelper 提供：GetInParam 原 MakeInParam 函数更名。（优化内置结构）
+
+3.5 DbHelper 提供：CreateCommand(),CreateCommandBuilder(),CreateConnection(),CreateDataAdapter(),CreateParameter(),CreateTransaction() 可大大由执行实现特殊效果。
+
+4. Dictionary 给键值对增加扩展(Remove,TryRemove,AsReadOnly),分别是删除多个，删除多个不抛异常，只读。
+
+4.1 示例：var d = new Dictionary<string, string> { { "1", "111" }, { "2", "222" }, { "3", "333" } };
+            d.Remove("1", "2");
+            d.TryRemove(out string key, "1", "2", "3");
+            d.AsReadOnly();
+			
+5. Xml 的数据处理：提供扩展（ToXml，Xml）
+
+5.1 示例：  var d1 =new List<string>{ "5","10" };
+            string xml = d1.ToXml();
+            List<string> s = xml.Xml<List<string>>();
+			
+6. 增加属性读取/修改Api，扩展方法，高效操作，（GetValue，SetValue）
+
+6.1 示例：  object sd = new { a = "嗨！", B = 5 };
+            object d = sd.GetValue("a");
+            bool b = sd.SetValue("b", 10, true);//对象匿名对象无法修改。
+			
+7. HttpHelpers 帮助类下增加异步请求。
+
+8. 修复AsSession 无法使用等问题，增加相关操作日志，更加详细，增加许可证，可放心使用。
+
+9. 新增 IServiceCollection 扩展，AddObject() 提供，数据持久化注册。方便操作更快捷。
+
+9.1 新增 IApplicationBuilder 扩展 GetObject() 提供，获取服务的快捷方式。
+
+10. 新增Api 请求状态提供 更多, Ashx.State
+
+11. 优化跨域部分配置，让其更加全面。[CrossDomain] 新增跨域属性配置
+
+12. 移除 Ashx.IsSession 因为为无法实现。
+
+13. 特别声明最新版本Api 内核采用新的方式，更快了。
+
+14. DbHelper 新增系统日志 ILogger 对象，在您提供对象时，打程序日志。提供构造 或 SetLogger() 配置。
+
+15. DbHelper 新增 ExecuteDataSetAsync 异步查询函数，用于生产使用，后期会提供更多的异步函数。
+
+16. ToTryVar<T>(); 该方法解决强转结果不理想问题，支持返回默认值。（容错效果良好）
+int sd1 = "你是傻逼！".ToTryVar(10);
+decimal sd2 = "你是傻逼！".ToTryVar(10.00m);
+double sd3 = "你是傻逼！".ToTryVar(10.00);
+DateTime sd4 = "你是傻逼！".ToTryVar(DateTime.Now);
+int sd = "1000000000".ToTryVar(10);
+
+17. 优化 Json 有关的函数，目前 Json 相关内部均采用了 System.Text.Json.JsonSerializer 为了提高可用性，
+提供对应的 JsonSerializerOptions 条件对象参数，方便使用，有关自定义的Json格式后续会出一个相关的Json类型转换命名空间下面将包含部分常用类型的转换。
+
+18. 优化 ISession 对象，增加Get方法的扩展，方便简单调用。
+
+19. 优化 string.MD5Lower()或MD5Upper()，这些内部代码过度重叠已经删减优化。
+
+20. 优化 ExecuteNonQuery() 方法返回插入ID时，因为Id 类型为int 导致其他特殊类型id值无法获取，现已改成 object 类型
+
+21. 优化 DbHelper 增加 GetAndSetConnectionString 函数，提供连接字符串的有效管理。
+
+22. 优化 DbHelper 新增 ExecuteNonQueryAsync 函数，提供异步返回受影响行数。
+
+-------------------------------------最新功能-----------------------------------------
+小版本：V2.1.0
+1. WebApi 部分 优化调整，提供如下写法：
+
+public JsonOut GetSql(
+            HttpContext context
+            , [ApiVal(Val.Query)] int Id
+            , [ApiVal(Val.Form)] string Key
+            , [ApiVal(Val.Service)] Tool.SqlCore.DbHelper dbHelper
+            , [ApiVal(Val.File)] IFormFile file
+            //,[ApiVal(Val.Session)] int key10
+            //,[ApiVal(Val.Session)] ps key11
+            , [ApiVal(Val.RouteKey)] int id1
+            , [ApiVal(Val.RouteKey)] string controller
+            , [ApiVal(Val.RouteKey)] string action
+
+            , [ApiVal(Val.Service)] Microsoft.Extensions.Logging.ILoggerFactory factory
+
+            , [ApiVal(Val.Cookie)] int SessionId
+            , [ApiVal(Val.Header)] string Cookie1)
+        {
+
+            return ApiOut.Json(new { msg = $"暂无数据。 \n\taction:{controller}\action:{action}\action:{id1}", IsTask = false, count });
+        }
+
+备注：[ApiVal(Val.Query)] 为本功能更新主要功能。
+
+2. Ashx 移除 参数：IsMode，解决方案：[ApiVal(Val.AllMode)] T Key 可以完全替代原有的，实现更加完善的功能。
+
+3. 部分Bug优化。
+
+年前大版本：V2.2.2
+1. 用于注册请求流大小限制的上限。（示例为解决上传文件的大小）
+public void ConfigureServices(IServiceCollection services)
+{ 
+    app.SetFormOptions(optins => 
+    {
+      optins.MultipartBodyLengthLimit = 60000000;用于处理上传文件大小被限制的问题。
+    }) 
+}
+
+2. 优化 ApiOut.View 方法，默认视图存储位置（示例：\wwwroot\Views\类名\方法名.html）
+
+3. 新增 ApiOut.File, 下载文件流的函数。
+
+4. 新增 IFormFile.Save 保存上传的文件
+
+5. 新增 OnResult 函数接口，同时实现了 （ApiAshx/MinApi）两种路由模式
+
+6. 优化 SQL 所有可以传入 where 条件的接口均允许传入（ (NOLOCK)WHERE）该参数。
+
+7. 优化 ApiVal 增加第二个条件，允许指定Key值，处理部分无法通过代码实现的写法。（示例如下：）
+ public async Task<IApiOut> Upload(
+    [ApiVal(Val.File)] IFormFile file_data, 
+    [ApiVal(Val.Header, ".123")] string abc, 
+    [ApiVal(Val.Header, "User-Agent")] string agent)
+{
+    await file_data.Save(AppContext.BaseDirectory + "Upload\\" + file_data.FileName);//顺带实现了上传保存文件的示例
+    return await ApiOut.JsonAsyn(new { mag = "保存成功！", agent = agent });
+}
+
+8. 新增 ApiOut.Redirect, 重定向URL的函数。
+
+3月12日新年首个大版本：V3.0.0
+1. 新增路由自定义模式 MapApiRoute
+
+2. 新增特性 路由 [AshxRoute("url/{id?}")] 支持接口/控制，注册
+
+3. 新增DbProviderType.SqlServer1 用于包括新的 SqlServer（SKD:Microsoft.Data.SqlClient）
+
+4. 优化Api命名空间引用复杂问题，简化引用。
+
+5. 优化 TcpFrame 命名空间下的，全部有关部分，重新定义新的协议，支持字节流传输和字符串传输，基础协议更小。
+
+6. ClientFrame 模块 新增 心跳功能，需要手动开启 AddKeepAlive(5);（心跳模式开启后，将会自动检查是否断开连接）
+
+6. ApiPacket 允许发起方，发送超过配置包大小的包，系统会自动分包处理
+
+7. 重新优化多宝协议，现在更安全，更可靠。
+
+8. ClientFrame 转发模式，优化，现在性能可靠。
+
+9. TcpFrame 模块下存在大量与内存使用有关的资源，目前已经全部通过GC管理起来，内存泄漏无需关心，后期会着重处理有关GC部分。
+
+10. 多个已知Bug优化。
+
+4月05日（月）更新：V3.1.0
+1. 优化自定义路由在特定模式下不生效的BUG AshxRoute
+
+2. 移除AsSession模块，原因是因为无效，并且无用。
+
+3. 新增DiySession模块，支持自定义实现Session，具有高度可用，可用自实现。
+示例：
+services.AddDiySession(d => 
+{
+    d.GetDiySession<DiySession>(); //DiySession必须自己实现。
+});
+app.UseDiySession();
+
+4. 多个已知Bug优化。
+
+-------------------------------------2021/05/06--------------------------------------
+月度更新：V3.3.0
+1. 新增 UseIgnoreUrl 拦截器 用拦截部分请求
+
+2. 新增 ApiOut.PathViewAsync("文件夹路径") 文件夹路径对象
+
+3. 新增 Api 输出 Json 方法允许携带序列化对象
+
+4. 新增 AshxRouteData.GetNewJsonOptions() 方法获取全新的 JsonSerializerOptions 配置对象
+
+5. 新增 AddAshx 下面配置 JsonOptions 变量 允许注册Api全局 JsonSerializerOptions 配置对象
+
+6. 优化 Api底层，优化性能
+
+7. 优化 Api 异常反馈，解决异步异常下的错误点不明确。
+
+8. 优化全局Web异常拦截器 app.UseExceptionHandler() 异步改为异步实现。
+
+9. 新增 JsonConverterHelper 对象，目前下面只包含时间类型对象的，如果有需要的可以向作者提交建议
+
+10. 优化 Json 字符串转 键值对或强类型变量的值是不确定的问题，现在已经改的基本满意了
+
+11. 优化 Sql 请求统计 类型改为 ulong 存储更大。
+
+12. 新增 VerificCodeHelper.GetRandomCodeV2
+
+13. 移除 VerificationCodeHelper 类 改为 VerificCodeHelper 类
+
+14. 验证码类改进优化较多，不详细说明，多线程下无问题。
+
+以上是大致更新说明，详情还请执行查看api文档。
+
+-------------------------------------移除SDK-----------------------------------------
+本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。
+1. Microsoft.AspNetCore.Diagnostics
+2. Microsoft.AspNetCore.Http
+3. Microsoft.AspNetCore.Routing
+4. Microsoft.Extensions.Configuration.Json
+5. Microsoft.Extensions.DependencyInjection.Abstractions
+
+-------------------------------------取消计划-----------------------------------------
+
+1. 项目减小化，推出 Tool.Core 包， 去除所有引用独立包，增加对各种场景的适用性。
+
+理由：因采用 .net5 自生SDK包，解决了引用包过多的问题，现已解决Web部分SDK的引用。
+
+-------------------------------------后续方向-----------------------------------------
+
+1. 增加SQL部分的异步调用。
+
+2. 可能考虑移除掉验证码部分的模块，达到取消掉最后一个SDK包的引用目的。（如果确定取消，源代码将会公开）
+
+-------------------------------------开发建议-----------------------------------------
+
+工具包-逆血著作 (未经本人许可，不可擅自进行任何交易)
+
+有任何优化建议，请联系作者，作者很愿意讨论和学习。
+
+可以发送邮件至 1477863629@qq.com
+
+也可加QQ群：857401501
+
+也可以 https://github.com/ni-xue/Tool.Net 把问题提到这里。

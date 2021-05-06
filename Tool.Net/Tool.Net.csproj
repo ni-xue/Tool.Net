@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Tool</RootNamespace>
+    <Version>3.3.0</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Copyright>Copyright © Microsoft 2021-05-06 10:30:00</Copyright>
+    <Company>NiXue</Company>
+    <Authors>NiXue</Authors>
+    <PackageProjectUrl>https://github.com/nixue-xin/UniversalFrame</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ni-xue/Tool.Net</RepositoryUrl>
+    <PackageIcon>Icon.png</PackageIcon>
+    <RepositoryType>C#</RepositoryType>
+    <PackageTags>Sql Socket Web Tools</PackageTags>
+	<IsPackable>true</IsPackable>
+	<NeutralLanguage>中文(简体)</NeutralLanguage>
+    <PackageReleaseNotes>当前版本为正式包，用于进行实际线上项目开发。
+详细说明请下载后查看。
+补充说明：接下来将重点新增SQL异步方法，以及修复其他特殊bug。
+TcpFrame 模块将会持续关注。
+下一个版本，Api工具。</PackageReleaseNotes>
+    <Description>Tool.Net-逆血著作 (本产品完全免费)，
+由逆血本人持有：联系方式-QQ群：857401501，
+有任何优化建议，请联系作者，作者很愿意讨论和学习。
+Url:nixue.top</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>nixue.Tool.pfx</AssemblyOriginatorKeyFile>
+	<Guid>00D70EFE-32AC-43D9-96FA-A3E8CC4A79BB</Guid>
+	<OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile></DocumentationFile>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>Tool.Net\Tool.Net.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Sockets\TcpFrame\CoreCode.cs" />
+    <Compile Remove="SqlCore\SqlServerProvider.cs" />
+    <Compile Remove="Utils\ManagedThreadPool.cs" />
+    <Compile Remove="Utils\Other\SystemInformation.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
