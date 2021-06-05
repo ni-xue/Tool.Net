@@ -56,6 +56,8 @@ namespace WebTestApp
                 };
 
                 o.JsonOptions.Converters.Add(JsonConverterHelper.GetDateConverter());
+
+                o.JsonOptions.Converters.Add(JsonConverterHelper.GetDBNullConverter());
             }).AddHttpContext();
 
             services.AddDiySession(d =>
@@ -116,8 +118,61 @@ namespace WebTestApp
                 optins.MultipartBodyLengthLimit = 60000000;
             });
 
+            //Tool.Sockets.TcpFrame.ServerFrame server = new(9);
+            //server.StartAsync(9999);
+
+            //Tool.Sockets.TcpFrame.ClientFrame client = new(Tool.Sockets.SupportCode.TcpBufferSize.Default, 9, true);
+            //client.ConnectAsync(9999);
+            //client.AddKeepAlive(5);
+
+            //Tool.Utils.ThreadQueue.WaitAction wait = new((a)=> 
+            //{
+            //    System.Threading.Thread.Sleep(3500);
+            //}, 1);
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    Tool.Utils.ThreadQueue.ActionQueue.Add(wait);
+            //}
+            
+            //Tool.Sockets.SupportCode.KeepAlive keep = new(1, ()=> 
+            //{
+            //    Console.WriteLine("000_1");
+
+            //    //wait.Wait(out _);
+
+            //    if (Tool.Utils.ThreadQueue.ActionLock.Start())
+            //    {
+            //        Console.WriteLine("111_1");
+            //        Tool.Utils.ThreadQueue.ActionLock.End();
+            //    }
+            //});
+
+            //Tool.Sockets.SupportCode.KeepAlive keep1 = new(1, () =>
+            //{
+            //    Console.WriteLine("000_2");
+
+            //    //wait.Wait(out _);
+
+            //    if (Tool.Utils.ThreadQueue.ActionLock.Start())
+            //    {
+            //        Console.WriteLine("111_2");
+            //        //Tool.Utils.ThreadQueue.ActionLock.End();
+            //    }
+            //});
+
+            //Tool.Utils.ThreadQueue.ActionQueue.ContinueWith += ActionQueue_ContinueWith;
+
+            //wait.Run();
+
             services.AddObject(new DbHelper("data source=47.94.109.199;database=liquortribe;user id=liquortribe;password=NjCHBrzhrWpJZr8a;pooling=true;charset=utf8;", DbProviderType.MySql, new MySqlProvider()));
         }
+
+        //private void ActionQueue_ContinueWith(Tool.Utils.ThreadQueue.WaitAction obj)
+        //{
+        //    //obj.Dispose();
+        //    Console.WriteLine("完成");
+        //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
@@ -202,9 +257,9 @@ namespace WebTestApp
             //});
         }
 
-        public void AllException(HttpContext context, Exception exception)
+        public async Task AllException(HttpContext context, Exception exception)
         {
-            context.Response.Write("An unknown error has occurred!");
+            await context.Response.WriteAsync("An unknown error has occurred!");
             Log.Error("捕获全局异常：", exception);
         }
     }

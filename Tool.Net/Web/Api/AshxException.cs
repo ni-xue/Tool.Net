@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using Tool.Utils.Data;
 
 namespace Tool.Web.Api
 {
@@ -34,18 +36,74 @@ namespace Tool.Web.Api
         public bool ExceptionHandled { get; set; }
 
         /// <summary>
+        /// 获取可读的请求参数信息
+        /// </summary>
+        public IReadOnlyDictionary<string, (Val val, string name, object obj)> Parameters { get; }
+
+        /// <summary>
+        /// 表示异常输出结果是否包含详细接口调用数据
+        /// </summary>
+        public bool IsParameters { get; set; } = true;
+
+        /// <summary>
         /// 有参构造方法
         /// </summary>
         /// <param name="ashx"></param>
         /// <param name="exception"></param>
-        internal AshxException(Ashx ashx, Exception exception) : base($"Api异常（{ashx.Method.DeclaringType}.{ashx.Methods}）", exception) //("API异常", exception.InnerException)
+        /// <param name="objs"></param>
+        internal AshxException(Ashx ashx, Exception exception, object[] objs) : base($"Api异常（{ashx.Method.DeclaringType}.{ashx.Methods}）", exception) //("API异常", exception.InnerException)
         {
+            if (objs != null && objs.Any())
+            {
+                Dictionary<string, (Val val, string name, object obj)> pairs = new();
+                for (int i = 0; i < objs.Length; i++)
+                {
+                    pairs.Add(ashx.Parameters[i].Name, (ashx.Parameters[i].GetVal, ashx.Parameters[i].Type, objs[i]));
+                }
+                Parameters = pairs.AsReadOnly();
+            }
+
             this.ID = ashx.ID;
             this.State = ashx.State;
             this.Methods = ashx.Methods;
             //this.TargetSite = ashx.Method;
             this.ExceptionHandled = false;
             //base.TargetSite = 
+        }
+
+        /// <summary>
+        /// 获取接口调用参数文字版
+        /// </summary>
+        /// <returns>文字表达</returns>
+        public string ToParameters()
+        {
+            if (Parameters == null) return null;
+
+            StringBuilder builder = new();
+            foreach (var pair in Parameters)
+            {
+                string txt = "NULL";
+                switch (pair.Value.val)
+                {
+                    case Val.Query:
+                    case Val.Form:
+                    case Val.Header:
+                    case Val.Cookie:
+                    case Val.AllData:
+                    case Val.RouteKey:
+                        txt = pair.Value.obj?.ToString();
+                        break;
+
+                    case Val.AllMode:
+                    case Val.QueryMode:
+                    case Val.FormMode:
+                        txt = pair.Value.obj?.ToJson();
+                        break;
+                }
+                txt ??= "Null";
+                builder.AppendFormat("Name:{0} | Val.{1} | ({2}){3}{4}", pair.Key, pair.Value.val, pair.Value.name, txt, Environment.NewLine);
+            }
+            return builder.ToString();
         }
 
         //// <summary>
@@ -107,13 +165,14 @@ namespace Tool.Web.Api
         //// <exception cref="System.ArgumentNullException">该对象必须为运行时 System.Reflection 对象</exception>
         //public override string Source { get => base.Source; set => base.Source = value; }
 
-        ///// <summary>
-        ///// 创建并返回当前异常的字符串表示形式。
-        ///// </summary>
-        ///// <returns>当前异常的字符串表示形式。</returns>
-        //public override string ToString()
-        //{
-        //    return base.ToString();
-        //}
+        /// <summary>
+        /// 创建并返回当前异常的字符串表示形式。
+        /// </summary>
+        /// <returns>当前异常的字符串表示形式。</returns>
+        public override string ToString()
+        {
+            string pr = IsParameters ? ToParameters() : string.Empty;
+            return $"{Message}{Environment.NewLine}{pr}";//base.ToString();
+        }
     }
 }

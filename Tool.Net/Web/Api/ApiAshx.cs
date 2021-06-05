@@ -532,7 +532,7 @@ namespace Tool.Web.Api
             }
             catch (Exception ex)
             {
-                AshxException exception = new(ashx, ex) { ExceptionHandled = true };
+                AshxException exception = new(ashx, ex, _objs) { ExceptionHandled = true };
                 AshxException(exception);
                 IsException(exception);
             }
@@ -548,7 +548,7 @@ namespace Tool.Web.Api
                 {
                     //OnAshxEvent onAshxEvent = ashx.Action.Execute(this, _objs) as OnAshxEvent;
 
-                    Func<OnAshxEvent> func = () => { return ashx.Action.Execute(this, _objs) as OnAshxEvent; };
+                    OnAshxEvent func() => ashx.Action.Execute(this, _objs) as OnAshxEvent;
                     OnAshxEvent onAshxEvent = func();
                     await RequestAsyncEvent(onAshxEvent);
                 }
@@ -556,7 +556,7 @@ namespace Tool.Web.Api
                 {
                     //Func<Task> func = () => { return ashx.Action.Execute(this, _objs) as Task; };
 
-                    async Task func() { await (Task)ashx.Action.Execute(this, _objs); } //ThreadLocal AsyncLocal
+                    async Task func() => await (Task)ashx.Action.Execute(this, _objs); //ThreadLocal AsyncLocal
 
                     await func(); //AshxExtension.Invoke(ashx.Method, this, _objs as object[]) as Task; //
                 }
@@ -575,7 +575,7 @@ namespace Tool.Web.Api
             //}
             catch (Exception ex)
             {
-                AshxException exception = new(ashx, ex) { ExceptionHandled = true };
+                AshxException exception = new(ashx, ex, _objs) { ExceptionHandled = true };
                 AshxException(exception);
                 await IsTaskException(exception);
             }

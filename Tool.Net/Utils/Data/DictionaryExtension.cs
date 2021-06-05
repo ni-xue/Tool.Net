@@ -65,7 +65,13 @@ namespace Tool.Utils.Data
         {
             object value = property.GetValue(source);
             if (IsOfType<T>(value))
+            { 
                 dictionary.Add(property.Name, (T)value);
+            }
+            else if (typeof(T) == typeof(object) && value == null)
+            {
+                dictionary.Add(property.Name, default);
+            }
         }
 
         private static bool IsOfType<T>(object value)

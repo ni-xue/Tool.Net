@@ -2429,6 +2429,13 @@
             <param name="parameter">匿名对象</param>
             <returns><see cref="T:System.Data.Common.DbParameter"/>[]对象集合</returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelper.SetParameterList(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            将匿名对象转换成<see cref="T:System.Data.Common.DbParameter"/>[]对象集合
+            </summary>
+            <param name="parameter"><see cref="T:System.Collections.Generic.Dictionary`2"/>对象</param>
+            <returns><see cref="T:System.Data.Common.DbParameter"/>[]对象集合</returns>
+        </member>
         <member name="M:Tool.SqlCore.DbHelper.SetDictionaryParam(System.Object)">
             <summary>
             将匿名对象转换成<see cref="T:System.Collections.Generic.Dictionary`2"/>对象集合
@@ -3682,6 +3689,14 @@
             <param name="dbHelper">数据库引擎</param>
             <param name="commandText">查询语句</param>
             <param name="prams">携带的值<see cref="T:System.Data.Common.DbParameter"/>[]</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.Select``1(Tool.SqlCore.DbHelper,System.Action{``0})">
+            <summary>
+            查询单张表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="prams">查询条件</param>
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.Select(Tool.SqlCore.DbHelper,System.String[])">
@@ -7663,6 +7678,14 @@
             <param name="table">DataTable</param>
             <returns>返回Dictionary</returns>
         </member>
+        <member name="M:Tool.Utils.Data.DataTableExtension.ToDictionaryIf(System.Data.DataTable,System.Func{System.String,System.Object,System.Object})">
+            <summary>
+            （DataTable）转换 <see cref="T:System.Collections.Generic.Dictionary`2"/> 集合（结果可自定义）
+            </summary>
+            <param name="table">DataTable</param>
+            <param name="func">用于指定特殊结果的函数</param>
+            <returns>返回Dictionary</returns>
+        </member>
         <member name="M:Tool.Utils.Data.DataTableExtension.ToObject(System.Data.DataTable)">
             <summary>
             （DataTable）转换 <see cref="T:System.Object"/> 集合
@@ -8473,7 +8496,7 @@
             <param name="append">是否追加内容</param>
             <param name="encoding">数据类型</param>
         </member>
-        <member name="M:Tool.Utils.FileManager.GetCurrentLogName(System.String,System.String,System.String,System.Int32@)">
+        <member name="M:Tool.Utils.FileManager.GetCurrentLogName(System.String,System.String,System.UInt32@,System.String@)">
             <summary>
             用来探测一个日志文件的id
             </summary>
@@ -9572,6 +9595,12 @@
             <param name="format">标准或自定义日期和时间格式字符串。</param>
             <returns><see cref="T:Tool.Utils.DateConverter"/></returns>
         </member>
+        <member name="M:Tool.Utils.JsonConverterHelper.GetDBNullConverter">
+            <summary>
+            <see cref="T:System.DBNull"/> 将 {} 改Null输出
+            </summary>
+            <returns><see cref="T:Tool.Utils.DateConverter"/></returns>
+        </member>
         <member name="T:Tool.Utils.DateConverter">
             <summary>
             Json 标准或自定义日期和时间格式字符串。
@@ -9606,6 +9635,40 @@
             <param name="options"></param>
         </member>
         <member name="M:Tool.Utils.DateConverter.CanConvert(System.Type)">
+            <summary>
+            验证是否支持类型
+            </summary>
+            <param name="objectType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tool.Utils.DBNullConverter">
+            <summary>
+            Json <see cref="T:System.DBNull"/> 将 {} 改Null输出
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.DBNullConverter.#ctor">
+            <summary>
+            注册 <see cref="T:System.DBNull"/> 将 {} 改Null输出
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.DBNullConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            将字符串转换成原数据
+            </summary>
+            <param name="reader"></param>
+            <param name="typeToConvert"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.DBNullConverter.Write(System.Text.Json.Utf8JsonWriter,System.DBNull,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            将原数据转换成字符串
+            </summary>
+            <param name="writer"></param>
+            <param name="value"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:Tool.Utils.DBNullConverter.CanConvert(System.Type)">
             <summary>
             验证是否支持类型
             </summary>
@@ -9696,9 +9759,14 @@
             当前锁
             </summary>
         </member>
-        <member name="M:Tool.Utils.Log.#ctor">
+        <member name="P:Tool.Utils.Log.IgnoreMethodName">
             <summary>
-            
+            用于打印异常信息时，忽略掉堆栈中的部分方法。
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.Log.IsMoveNext">
+            <summary>
+            是否在方法名为《MoveNext》时验证是否是异步函数生成，获取显示实际名称
             </summary>
         </member>
         <member name="P:Tool.Utils.Log.Instance">
@@ -10849,6 +10917,144 @@
             </summary>
             <param name="url">字符串</param>
             <returns></returns>
+        </member>
+        <member name="T:Tool.Utils.ThreadQueue.ActionLock">
+            <summary>
+            一个公共锁
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.ActionLock.WaitTimeout">
+            <summary>
+            锁定时长最大限制 （毫秒）
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.ActionLock.Start">
+            <summary>
+            上锁
+            </summary>
+            <returns>返回是否成功</returns>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.ActionLock.End">
+            <summary>
+            解锁
+            </summary>
+            <returns>返回是否成功</returns>
+        </member>
+        <member name="T:Tool.Utils.ThreadQueue.ActionQueue">
+            <summary>
+            一个消息队列任务模型
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.ActionQueue.Add(System.Action{System.Object},System.Object)">
+            <summary>
+            添加无返回值任务
+            </summary>
+            <param name="action">任务</param>
+            <param name="state">参数</param>
+            <returns>获取<see cref="T:Tool.Utils.ThreadQueue.WaitAction"/>对象</returns>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.ActionQueue.Add(System.Func{System.Object,System.Object},System.Object)">
+            <summary>
+            添加有返回值任务
+            </summary>
+            <param name="func">任务</param>
+            <param name="state">参数</param>
+            <returns>获取<see cref="T:Tool.Utils.ThreadQueue.WaitAction"/>对象</returns>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.ActionQueue.Add(Tool.Utils.ThreadQueue.WaitAction)">
+            <summary>
+            添加队列任务
+            </summary>
+            <param name="waitaction">任务对象</param>
+        </member>
+        <member name="E:Tool.Utils.ThreadQueue.ActionQueue.ContinueWith">
+            <summary>
+            注册完成任务后触发的事件
+            </summary>
+        </member>
+        <member name="T:Tool.Utils.ThreadQueue.WaitAction">
+            <summary>
+            创建任务执行对象
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.WaitAction.WaitTimeout">
+            <summary>
+            Wait函数最大等待时长 -1 无限制等待
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.WaitAction.IsCompleted">
+            <summary>
+            任务完成情况
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.WaitAction.IsException">
+            <summary>
+            是否发生异常
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.WaitAction.Exception">
+            <summary>
+            任务执行中发生的异常
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.WaitAction.IsWait">
+            <summary>
+            是否正在调用Wait函数
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.WaitAction.TResult">
+            <summary>
+            任务完成后的结果
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.WaitAction.#ctor(System.Func{System.Object,System.Object},System.Object)">
+            <summary>
+            创建有返回结果的任务
+            </summary>
+            <param name="func">任务</param>
+            <param name="state">参数</param>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.WaitAction.#ctor(System.Action{System.Object},System.Object)">
+            <summary>
+            创建无返回结果的任务
+            </summary>
+            <param name="action">任务</param>
+            <param name="state">参数</param>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.WaitAction.Wait(Tool.Utils.ThreadQueue.WaitAction@)">
+            <summary>
+            其他线程中可用等待获取的任务结果
+            </summary>
+            <param name="waitAction">结果</param>
+            <returns>返回成功失败</returns>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.WaitAction.Run">
+            <summary>
+            启动已就绪的任务
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.WaitAction.Dispose">
+            <summary>
+            回收对象
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.WaitAction.Func">
+            <summary>
+            执行的任务
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.WaitAction.State">
+            <summary>
+            需要的参数
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.WaitAction.WaitHandle">
+            <summary>
+            任务的事件
+            </summary>
         </member>
         <member name="T:Tool.Utils.TypeExtension">
             <summary>
@@ -13476,12 +13682,35 @@
             表示该异常是否已经处理
             </summary>
         </member>
-        <member name="M:Tool.Web.Api.AshxException.#ctor(Tool.Web.Api.Ashx,System.Exception)">
+        <member name="P:Tool.Web.Api.AshxException.Parameters">
+            <summary>
+            获取可读的请求参数信息
+            </summary>
+        </member>
+        <member name="P:Tool.Web.Api.AshxException.IsParameters">
+            <summary>
+            表示异常输出结果是否包含详细接口调用数据
+            </summary>
+        </member>
+        <member name="M:Tool.Web.Api.AshxException.#ctor(Tool.Web.Api.Ashx,System.Exception,System.Object[])">
             <summary>
             有参构造方法
             </summary>
             <param name="ashx"></param>
             <param name="exception"></param>
+            <param name="objs"></param>
+        </member>
+        <member name="M:Tool.Web.Api.AshxException.ToParameters">
+            <summary>
+            获取接口调用参数文字版
+            </summary>
+            <returns>文字表达</returns>
+        </member>
+        <member name="M:Tool.Web.Api.AshxException.ToString">
+            <summary>
+            创建并返回当前异常的字符串表示形式。
+            </summary>
+            <returns>当前异常的字符串表示形式。</returns>
         </member>
         <member name="T:Tool.Web.Api.MinApi">
             <summary>
@@ -13953,7 +14182,7 @@
             <param name="configureRoutes"><see cref="T:Microsoft.AspNetCore.Routing.IRouteBuilder"/></param>
             <returns>IApplicationBuilder</returns>
         </member>
-        <member name="M:Tool.Web.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{Microsoft.AspNetCore.Http.HttpContext,System.Exception})">
+        <member name="M:Tool.Web.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Func{Microsoft.AspNetCore.Http.HttpContext,System.Exception,System.Threading.Tasks.Task})">
             <summary>
             注入 捕获全局异常 对象
             </summary>

@@ -31,7 +31,7 @@
   },
   "targets": {
     ".NETCoreApp,Version=v5.0": {
-      "Tool.Net/3.3.0": {
+      "Tool.Net/3.4.0": {
         "dependencies": {
           "System.Drawing.Common": "5.0.0",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
@@ -2040,7 +2040,7 @@
     }
   },
   "libraries": {
-    "Tool.Net/3.3.0": {
+    "Tool.Net/3.4.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

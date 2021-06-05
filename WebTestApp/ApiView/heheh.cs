@@ -24,8 +24,17 @@ namespace WebTestApp.ApiView
 
         protected override IApiOut AshxException(AshxException ex)
         {
+            //for (int i = 0; i < 10000; i++)
+            //{
+            //    Tool.Utils.Log.Error("异常日志", ex);
+            //}
+
             Tool.Utils.Log.Error("异常日志", ex);
-            return base.AshxException(ex);
+
+            
+            //ex.IsParameters = true;
+            ex.ExceptionHandled = true;
+            return null;//base.AshxException(ex);
         }
 
         protected override void OnResult(AshxRouteData ashxRoute)
@@ -42,10 +51,12 @@ namespace WebTestApp.ApiView
         //    return ApiOut.View(id + ".html");// ApiOut.ViewAsyn();  //
         //}
 
-        public async Task<IApiOut> Index([ApiVal(Val.RouteKey)] string id = "cs")
+        public async Task<IApiOut> Index(string p, int a, decimal c, [ApiVal(Val.AllMode)] Api.ps app, [ApiVal(Val.RouteKey)] string d,
+            [ApiVal(Val.Service)] AshxRouteData e,
+            [ApiVal(Val.RouteKey)] string id = "cs")
         {
             "hhh".ToInt();
-
+            
             return await ApiOut.PathViewAsync(id);// ApiOut.ViewAsyn();  //
         }
 

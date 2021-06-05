@@ -29,7 +29,7 @@ namespace Tool.Utils.TaskHelper
             {
                 task.Start();
             }
-            TaskWrapperAsyncResult resultToReturn = new TaskWrapperAsyncResult(task, state);//底层封装实现
+            TaskWrapperAsyncResult resultToReturn = new(task, state);//底层封装实现
             bool isCompleted = task.IsCompleted;
             if (isCompleted)
             {
@@ -60,11 +60,11 @@ namespace Tool.Utils.TaskHelper
         {
             if (ar == null)
             {
-                throw new ArgumentNullException("ar");
+                throw new ArgumentNullException(nameof(ar));
             }
-            if (!(ar is TaskWrapperAsyncResult taskWrapperAsyncResult))
+            if (ar is not TaskWrapperAsyncResult taskWrapperAsyncResult)
             {
-                throw new ArgumentException("TaskAsyncHelper_ParameterInvalid", "ar");
+                throw new ArgumentException("TaskAsyncHelper_ParameterInvalid", nameof(ar));
             }
             if (!taskWrapperAsyncResult.IsCompleted)
             {

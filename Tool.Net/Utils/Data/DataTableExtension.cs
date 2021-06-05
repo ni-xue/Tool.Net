@@ -47,22 +47,52 @@ namespace Tool.Utils.Data
         /// <returns>返回Dictionary</returns>
         public static List<Dictionary<string, object>> ToDictionary(this DataTable table)
         {
+            //if (!table.IsEmpty())
+            //{
+            //    List<Dictionary<string, object>> parentRow = new();
+            //    Dictionary<string, object> childRow;
+            //    foreach (DataRow row in table.Rows)
+            //    {
+            //        childRow = new Dictionary<string, object>();
+            //        foreach (DataColumn col in table.Columns)
+            //        {
+            //            childRow.Add(col.ColumnName, row[col]);
+            //        }
+            //        parentRow.Add(childRow);
+            //    }
+            //    return parentRow;
+            //}
+            //return default;
+
+            return table.ToDictionaryIf(null);
+        }
+
+        /// <summary>
+        /// （DataTable）转换 <see cref="Dictionary{T, I}"/> 集合（结果可自定义）
+        /// </summary>
+        /// <param name="table">DataTable</param>
+        /// <param name="func">用于指定特殊结果的函数</param>
+        /// <returns>返回Dictionary</returns>
+        public static List<Dictionary<string, object>> ToDictionaryIf(this DataTable table, Func<string, object, object> func)
+        {
+            //if (func == null) throw new ArgumentNullException(nameof(func), "请实现该方法，验证版！");
             if (!table.IsEmpty())
             {
-                List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
+                List<Dictionary<string, object>> parentRow = new();
                 Dictionary<string, object> childRow;
                 foreach (DataRow row in table.Rows)
                 {
                     childRow = new Dictionary<string, object>();
                     foreach (DataColumn col in table.Columns)
                     {
-                        childRow.Add(col.ColumnName, row[col]);
+                        object _obj = func?.Invoke(col.ColumnName, row[col]) ?? row[col];
+                        childRow.Add(col.ColumnName, _obj);
                     }
                     parentRow.Add(childRow);
                 }
                 return parentRow;
             }
-            return default(List<Dictionary<string, object>>);
+            return default;
         }
 
         /// <summary>
@@ -107,7 +137,7 @@ namespace Tool.Utils.Data
         {
             if (!table.IsEmpty())
             {
-                List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
+                List<Dictionary<string, object>> parentRow = new();
                 Dictionary<string, object> childRow;
                 foreach (DataRow row in table.Rows)
                 {
@@ -205,9 +235,9 @@ namespace Tool.Utils.Data
                 try
                 {
                     Type type = typeof(T);
-                    List<PropertyInfo> _properties = new List<PropertyInfo>(type.GetProperties());
+                    List<PropertyInfo> _properties = new(type.GetProperties());
 
-                    Dictionary<PropertyInfo, DataColumn> keys = new Dictionary<PropertyInfo, DataColumn>();
+                    Dictionary<PropertyInfo, DataColumn> keys = new();
                     foreach (DataColumn dataColumn in dataTable.Columns)
                     {
                         foreach (PropertyInfo property in _properties)

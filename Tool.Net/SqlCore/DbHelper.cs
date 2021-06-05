@@ -342,7 +342,7 @@ namespace Tool.SqlCore
         {
             if (parameter != null)
             {
-                List<DbParameter> parms = new List<DbParameter>();
+                List<DbParameter> parms = new();
 
                 Type type = parameter.GetType();
                 PropertyInfo[] _properties = type.GetProperties();
@@ -362,6 +362,27 @@ namespace Tool.SqlCore
         }
 
         /// <summary>
+        /// 将匿名对象转换成<see cref="DbParameter"/>[]对象集合
+        /// </summary>
+        /// <param name="parameter"><see cref="Dictionary{String,Object}"/>对象</param>
+        /// <returns><see cref="DbParameter"/>[]对象集合</returns>
+        public List<DbParameter> SetParameterList(Dictionary<string, object> parameter)
+        {
+            if (parameter != null && parameter.Count > 0)
+            {
+                List<DbParameter> parms = new();
+
+                foreach (var pair in parameter)
+                {
+                    parms.Add(this.GetInParam(pair.Key, pair.Value));
+                }
+
+                return parms;
+            }
+            return null;
+        }
+
+        /// <summary>
         /// 将匿名对象转换成<see cref="Dictionary{String,Object}"/>对象集合
         /// </summary>
         /// <param name="parameter">匿名对象</param>
@@ -370,7 +391,7 @@ namespace Tool.SqlCore
         {
             if (parameter != null)
             {
-                Dictionary<string, object> keyValuePairs = new Dictionary<string, object>();
+                Dictionary<string, object> keyValuePairs = new();
 
                 Type type = parameter.GetType();
                 PropertyInfo[] _properties = type.GetProperties();

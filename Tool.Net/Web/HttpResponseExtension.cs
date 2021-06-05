@@ -22,7 +22,7 @@ namespace Tool.Web
         /// <exception cref="System.NotSupportedException">已发送的 HTTP 标头之后追加标头。</exception>
         public static void AppendHeader(this HttpResponse response, string name, string value)
         {
-            response.Headers.Add(name, value);
+            response.Headers.Add(name.StringEncode(), value.StringEncode());
         }
 
         /// <summary>

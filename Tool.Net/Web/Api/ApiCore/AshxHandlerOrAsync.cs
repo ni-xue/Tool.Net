@@ -194,8 +194,6 @@ namespace Tool.Web.Api.ApiCore
                 httpHandler.Request(objs);
             }
 
-
-
             return Task.CompletedTask;
         }
 

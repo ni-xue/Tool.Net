@@ -178,11 +178,11 @@ namespace Tool.Sockets.TcpHelper
         {
             if (DataLength < 8 * 1024)
             {
-                throw new ArgumentException("DataLength 值必须大于8KB！", "DataLength");
+                throw new ArgumentException("DataLength 值必须大于8KB！", nameof(DataLength));
             }
             if (DataLength > 1024 * 1024 * 20)
             {
-                throw new ArgumentException("DataLength 值必须是在20M(DataLength < 1024 * 1024 * 20)以内！", "DataLength");
+                throw new ArgumentException("DataLength 值必须是在20M(DataLength < 1024 * 1024 * 20)以内！", nameof(DataLength));
             }
             this.BufferSize = bufferSize;
             if (TcpBufferSize.Default == this.BufferSize)
@@ -433,10 +433,11 @@ namespace Tool.Sockets.TcpHelper
         {
             Task.Factory.StartNew(() =>
             {
+                Thread.CurrentThread.Name = "Tcp客户端-业务";
                 //用于控制异步接收消息
-                ManualResetEvent doReceive = new ManualResetEvent(false);
+                ManualResetEvent doReceive = new(false);
                 //接收数据包
-                TcpStateObject obj = new TcpStateObject(client, this.DataLength) { doReceive = doReceive };
+                TcpStateObject obj = new(client, this.DataLength) { doReceive = doReceive };
                 while (!isClose)
                 {
                     if (TcpStateObject.IsConnected(client))
@@ -489,6 +490,7 @@ namespace Tool.Sockets.TcpHelper
         {
             Task.Factory.StartNew(() =>
             {
+                Thread.CurrentThread.Name = "Tcp客户端-重连";
                 bool _reconnect = true;
                 while (_reconnect && IsReconnect)
                 {
@@ -630,6 +632,7 @@ namespace Tool.Sockets.TcpHelper
         private void SendCallBack(IAsyncResult ar)
         {
             TcpClient client = ar.AsyncState as TcpClient;
+
             try
             {
                 int count = client.Client.EndSend(ar);
@@ -643,6 +646,7 @@ namespace Tool.Sockets.TcpHelper
                 //string key = StateObject.GetIpPort(client);
                 OnComplete(server, EnSocketAction.Close);
             }
+
         }
 
         /// <summary>

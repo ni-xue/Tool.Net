@@ -17,12 +17,19 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="format">标准或自定义日期和时间格式字符串。</param>
         /// <returns><see cref="DateConverter"/></returns>
-        public static DateConverter GetDateConverter(string format = "yyyy-MM-dd HH:mm:ss.fff") 
+        public static DateConverter GetDateConverter(string format = "yyyy-MM-dd HH:mm:ss.fff")
         {
             return new DateConverter(format);
         }
 
-
+        /// <summary>
+        /// <see cref="DBNull"/> 将 {} 改Null输出
+        /// </summary>
+        /// <returns><see cref="DateConverter"/></returns>
+        public static DBNullConverter GetDBNullConverter()
+        {
+            return new DBNullConverter();
+        }
     }
 
     /// <summary>
@@ -83,6 +90,54 @@ namespace Tool.Utils
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(DateTime);
+        }
+    }
+
+    /// <summary>
+    /// Json <see cref="DBNull"/> 将 {} 改Null输出
+    /// </summary>
+    public class DBNullConverter : JsonConverter<DBNull>
+    {
+
+        /// <summary>
+        /// 注册 <see cref="DBNull"/> 将 {} 改Null输出
+        /// </summary>
+        public DBNullConverter()
+        {
+
+        }
+
+        /// <summary>
+        /// 将字符串转换成原数据
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public override DBNull Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            return DBNull.Value;
+        }
+
+        /// <summary>
+        /// 将原数据转换成字符串
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="value"></param>
+        /// <param name="options"></param>
+        public override void Write(Utf8JsonWriter writer, DBNull value, JsonSerializerOptions options)
+        {
+            writer.WriteNullValue();
+        }
+
+        /// <summary>
+        /// 验证是否支持类型
+        /// </summary>
+        /// <param name="objectType"></param>
+        /// <returns></returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(DBNull);
         }
     }
 }

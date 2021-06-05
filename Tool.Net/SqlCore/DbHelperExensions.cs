@@ -36,6 +36,66 @@ namespace Tool.SqlCore
         }
 
         /// <summary>
+        /// 查询单张表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="prams">查询条件</param>
+        /// <returns></returns>
+        public static IList<T> Select<T>(this DbHelper dbHelper, Action<T> prams = null) where T : new()
+        {
+            string where;
+            var dic = default(Dictionary<string, object>);
+            if (prams != null)
+            {
+                var t = new T();
+
+                dic = t.ToDictionary();
+
+                prams?.Invoke(t);
+
+                var dic1 = t.ToDictionary();
+
+                StringBuilder @string = new("1=1");
+
+                foreach (var pair in dic1)
+                {
+                    if (pair.Value == null)
+                    {
+                        dic.Remove(pair.Key);
+                        continue;
+                    }
+                    if (pair.Value.Equals(dic[pair.Key]))
+                    {
+                        dic.Remove(pair.Key);
+                        continue;
+                    }
+                    dic[pair.Key] = pair.Value;
+                    @string.AppendFormat(" AND {0}={1}{2}", pair.Key, dbHelper.Provider.ParameterPrefix, pair.Key);
+                }
+
+                dic1.Clear();
+
+                where = @string.ToString();
+            }
+            else
+            {
+                where = "1=1";
+            }
+
+            //System.Collections.ObjectModel.ObservableCollection
+
+            string sql = $"SELECT * FROM {typeof(T).Name} WHERE {where}";
+            using (DataSet dataSet = dbHelper.ExecuteDataset(commandType: CommandType.Text, sql, dbHelper.SetParameterList(dic)?.ToArray()))
+            {
+                if (!dataSet.IsEmpty())
+                {
+                    return dataSet.Tables[0].ToEntityList<T>();
+                }
+            }
+            return default;
+        }
+
+        /// <summary>
         /// 查询多张表
         /// </summary>
         /// <param name="dbHelper">数据库引擎</param>
@@ -57,7 +117,7 @@ namespace Tool.SqlCore
         /// <param name="dbHelper">数据库引擎</param>
         /// <param name="prams">携带的值<see cref="DbParameter"/>[]</param>
         /// <returns></returns>
-        public static int Insert<T>(this DbHelper dbHelper, object prams) 
+        public static int Insert<T>(this DbHelper dbHelper, object prams) where T : new()
         {
             return dbHelper.Insert(typeof(T).Name, prams);
         }
@@ -103,7 +163,7 @@ namespace Tool.SqlCore
         /// <param name="where">修改的条件</param>
         /// <param name="prams">修改表的参数 Or 修改条件的参数</param>
         /// <returns></returns>
-        public static int Update<T>(this DbHelper dbHelper, string where, params object[] prams)
+        public static int Update<T>(this DbHelper dbHelper, string where, params object[] prams) where T : new()
         {
             return dbHelper.Update(typeof(T).Name, where, prams);
         }
@@ -164,7 +224,7 @@ namespace Tool.SqlCore
         /// <param name="where">删除的条件</param>
         /// <param name="prams">删除条件的参数</param>
         /// <returns></returns>
-        public static int Delete<T>(this DbHelper dbHelper, string where, object prams)
+        public static int Delete<T>(this DbHelper dbHelper, string where, object prams) where T : new()
         {
             return dbHelper.Delete(typeof(T).Name, where, prams);
         }
@@ -179,7 +239,7 @@ namespace Tool.SqlCore
         /// <returns></returns>
         public static int Delete(this DbHelper dbHelper, string TableName, string where, object prams)
         {
-             DbParameter[] parameters = dbHelper.SetParameters(prams);
+            DbParameter[] parameters = dbHelper.SetParameters(prams);
 
             if (parameters == null || parameters.Length == 0)
             {
@@ -198,7 +258,7 @@ namespace Tool.SqlCore
         /// <returns></returns>
         public static int Delete(this DbHelper dbHelper, params string[] commandTexts)
         {
-            return ExecuteNonQuery(dbHelper,commandTexts);
+            return ExecuteNonQuery(dbHelper, commandTexts);
         }
 
         /// <summary>
@@ -208,13 +268,13 @@ namespace Tool.SqlCore
         /// <param name="commandText">执行的SQL语句</param>
         /// <param name="prams">携带的参数可以是Null</param>
         /// <returns>返回<see cref="SqlTextParameter"/>对象</returns>
-        public static SqlTextParameter GetTextParameter(this DbHelper dbHelper, string commandText, object prams) 
+        public static SqlTextParameter GetTextParameter(this DbHelper dbHelper, string commandText, object prams)
         {
             DbParameter[] _parameters = dbHelper.SetParameters(prams);
             return new SqlTextParameter(commandText, _parameters);
         }
 
-        private static int ExecuteNonQuery(DbHelper dbHelper, params string[] commandTexts) 
+        private static int ExecuteNonQuery(DbHelper dbHelper, params string[] commandTexts)
         {
             if (commandTexts == null || commandTexts.Length == 0)
             {
@@ -236,7 +296,7 @@ namespace Tool.SqlCore
                 return "WHERE 1=1";
             }
             where = where.TrimStart();
-            if (where.StartsWith("WHERE", StringComparison.OrdinalIgnoreCase) 
+            if (where.StartsWith("WHERE", StringComparison.OrdinalIgnoreCase)
                 || where.StartsWith("(NOLOCK)", StringComparison.OrdinalIgnoreCase)
                 || where.StartsWith("WITH(", StringComparison.OrdinalIgnoreCase)
                 || System.Text.RegularExpressions.Regex.IsMatch(where, "^(?=\\().*(?<=\\))", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
@@ -259,9 +319,9 @@ namespace Tool.SqlCore
         /// <returns><see cref="List{DbParameter}"/></returns>
         public static List<DbParameter> GetInsertParams(this DbHelper database, Dictionary<string, object> keyValues, out string key, out string value)
         {
-            StringBuilder _key = new StringBuilder(), _value = new StringBuilder();
+            StringBuilder _key = new(), _value = new();
 
-            List<DbParameter> parms = new List<DbParameter>();
+            List<DbParameter> parms = new();
 
             foreach (KeyValuePair<string, object> keyValue in keyValues)
             {
@@ -303,9 +363,9 @@ namespace Tool.SqlCore
         /// <returns><see cref="List{DbParameter}"/></returns>
         public static List<DbParameter> GetUpdateParams(this DbHelper database, Dictionary<string, object> keyValues, out string strsql)
         {
-            StringBuilder _value = new StringBuilder();
+            StringBuilder _value = new();
 
-            List<DbParameter> parms = new List<DbParameter>();
+            List<DbParameter> parms = new();
 
             foreach (KeyValuePair<string, object> keyValue in keyValues)
             {

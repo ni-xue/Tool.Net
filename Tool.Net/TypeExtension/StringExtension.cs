@@ -397,9 +397,9 @@ namespace Tool //万能属性公有父类
             //serializer.Serialize(sw, obj);
             //sw.Close();
             //return sw.ToString();
-
-            using StringReader sr = new StringReader(txt);
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            
+            using StringReader sr = new(txt);
+            XmlSerializer serializer = new(typeof(T));
             return serializer.Deserialize(sr) as T;
         }
 

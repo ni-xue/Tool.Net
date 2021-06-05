@@ -50,8 +50,9 @@ namespace Tool.Sockets.SupportCode
 
             _logthread = new Thread(new ThreadStart(TaskOnComplete))
             {
-                Name = "TCP事件线程",
-                IsBackground = true//false https://blog.csdn.net/snakorse/article/details/43888847
+                Name = "Tcp事件线程",
+                IsBackground = true,
+                Priority = ThreadPriority.Lowest //false https://blog.csdn.net/snakorse/article/details/43888847
             };
         }
 

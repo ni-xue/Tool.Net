@@ -252,29 +252,30 @@ namespace Tool.Web.Api.ApiCore
 
             object GetSession()
             {
-                ISession session;
                 try
                 {
-                    session = request.HttpContext.Session;
+                    ISession session = request.HttpContext.Session;
+
+                    if (typeof(byte[]) == parameter.ParameterType)
+                    {
+                        session.TryGetValue(parameter.KeyName, out byte[] value3);
+                        return value3;
+                    }
+                    else if (parameter.IsType)//(typeof(string) == parameter.ParameterType)
+                    {
+                        if (session.TryGetValue(parameter.KeyName, out string value3)) return value3.ToVar(parameter.ParameterType, false); else return null;
+                    }
+                    else //if(!parameter.IsType)
+                    {
+                        session.TryGetValue(parameter.KeyName, parameter.ParameterType, out object value3);
+                        return value3;
+                    }
                 }
                 catch (Exception)
                 {
                     return null;
                 }
-                if (typeof(byte[]) == parameter.ParameterType)
-                {
-                    session.TryGetValue(parameter.KeyName, out byte[] value3);
-                    return value3;
-                }
-                else if (parameter.IsType)//(typeof(string) == parameter.ParameterType)
-                {
-                    if (session.TryGetValue(parameter.KeyName, out string value3)) return value3.ToVar(parameter.ParameterType, false); else return null;
-                }
-                else //if(!parameter.IsType)
-                {
-                    session.TryGetValue(parameter.KeyName, parameter.ParameterType, out object value3);
-                    return value3;
-                }
+
                 //return null;//(parameter.DefaultValue is System.DBNull) ? parameter.ParameterObj : parameter.DefaultValue;
             }
 
@@ -1115,7 +1116,7 @@ namespace Tool.Web.Api.ApiCore
 
         private class TryFormFile : IFormFile
         {
-            public TryFormFile(Exception tryExc) 
+            public TryFormFile(Exception tryExc)
             {
                 TryExc = tryExc;
             }

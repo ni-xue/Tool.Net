@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tool.Utils
 {
@@ -29,12 +30,12 @@ namespace Tool.Utils
         /// <summary>
         /// 日志
         /// </summary>
-        private readonly StringBuilder _log = new StringBuilder();
+        private readonly StringBuilder _log = new();
 
         /// <summary>
         /// 日志
         /// </summary>
-        private static readonly Log _flashLog = new Log();
+        private static readonly Log _flashLog = new();
 
         /// <summary>
         /// 日志线程
@@ -52,16 +53,33 @@ namespace Tool.Utils
         private readonly object _lockobj;
 
         /// <summary>
-        /// 
+        /// 用于打印异常信息时，忽略掉堆栈中的部分方法。
         /// </summary>
+        public HashSet<string> IgnoreMethodName { get; }
+
+        /// <summary>
+        /// 是否在方法名为《MoveNext》时验证是否是异步函数生成，获取显示实际名称
+        /// </summary>
+        public bool IsMoveNext { set; get; }
+
         private Log()
         {
-            _directory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, LogFilePath);
+            _directory = Path.Combine(Environment.CurrentDirectory, LogFilePath); //AppDomain.CurrentDomain.BaseDirectory
 
             if (!Directory.Exists(_directory))
             {
                 Directory.CreateDirectory(_directory);
             }
+
+            IsMoveNext = true;
+
+            IgnoreMethodName = new(new string[] 
+            {
+                "System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw",
+                "System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess",
+                "System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification",
+                "System.Runtime.CompilerServices.TaskAwaiter`1.GetResult"
+            });
 
             //if (!configFile.Exists)
             //{
@@ -76,10 +94,11 @@ namespace Tool.Utils
             _que = new ConcurrentQueue<FlashLogMessage>();
             _mre = new ManualResetEvent(false);
 
-            _logthread = new Thread(new ThreadStart(WriteLog))
+            _logthread = new Thread(new ThreadStart(async () => await WriteLog()))
             {
                 Name = "日志线程",
-                IsBackground = true//false
+                IsBackground = true,//false
+                Priority = ThreadPriority.Lowest
             };
 
             //有点可怕，可以获取到当前对象详情信息
@@ -109,16 +128,17 @@ namespace Tool.Utils
         /// <summary>
         /// 从队列中写日志至磁盘
         /// </summary>
-        private void WriteLog()
+        private async Task WriteLog()
         {
+            //Thread.CurrentThread.Name = "日志线程";
+
             while (true)
             {
                 // 等待信号通知
                 _mre.WaitOne();
 
-                FlashLogMessage msg;
                 // 判断是否有内容需要如磁盘 从列队中获取内容，并删除列队中的内容
-                while (_que.Count > 0 && _que.TryDequeue(out msg))
+                while (!_que.IsEmpty && _que.TryDequeue(out FlashLogMessage msg))
                 {
                     // 判断日志等级，然后写日志
                     switch (msg.Level)
@@ -140,7 +160,7 @@ namespace Tool.Utils
                                 //}
                             }
 
-                            Write("Debug", msg.LogFilePath);
+                            await Write("Debug", msg.LogFilePath);
                             break;
                         case FlashLogLevel.Info:
                             _log.Append($"[Info { msg.LogDateTime }]\r\n");
@@ -159,7 +179,7 @@ namespace Tool.Utils
                                 //}
                             }
 
-                            Write("Info", msg.LogFilePath);
+                            await Write("Info", msg.LogFilePath);
                             break;
                         case FlashLogLevel.Error:
                             _log.Append($"[Error { msg.LogDateTime }]\r\n");
@@ -178,7 +198,7 @@ namespace Tool.Utils
                                 //}
                             }
 
-                            Write("Error", msg.LogFilePath);
+                            await Write("Error", msg.LogFilePath);
                             break;
                         case FlashLogLevel.Warn:
                             _log.Append($"[Warn { msg.LogDateTime }]\r\n");
@@ -197,7 +217,7 @@ namespace Tool.Utils
                                 //}
                             }
 
-                            Write("Warn", msg.LogFilePath);
+                            await Write("Warn", msg.LogFilePath);
                             break;
                         case FlashLogLevel.Fatal:
                             _log.Append($"[Fatal { msg.LogDateTime }]\r\n");
@@ -216,7 +236,7 @@ namespace Tool.Utils
                                 //}
                             }
 
-                            Write("Fatal", msg.LogFilePath);
+                            await Write("Fatal", msg.LogFilePath);
                             break;
                     }
                 }
@@ -227,15 +247,16 @@ namespace Tool.Utils
             }
         }
 
-        private StackFrame[] StackFrame(Exception exception)
+        private static StackFrame[] StackFrame(Exception exception)
         {
-            StackTrace st = new StackTrace(exception, true);
+            StackTrace st = new(exception, true);
             return st.GetFrames();
         }
 
         private void ToStringExceptions(Exception exception)
         {
             Exception Exception = exception;
+            Aex:
             try
             {
                 bool IsException = false;
@@ -247,10 +268,53 @@ namespace Tool.Utils
                     if (Exception.TargetSite != null)
                     {
                         _log.Append($"  异常方法：{ (Exception.TargetSite.DeclaringType != null ? Exception.TargetSite.DeclaringType.FullName : "无") }.{Exception.TargetSite.Name}\r\n");//DeclaringType.FullName
+
+                        if (stackframes != null)
+                        {
+                            if (stackframes.LongLength > 1)
+                            {
+                                Array.Reverse(stackframes);
+                            }
+                            int i = 1;//下标
+                            foreach (StackFrame stackframe in stackframes)
+                            {
+                                //非用户代码,系统方法及后面的都是系统调用，不获取用户代码调用结束
+                                if (System.Diagnostics.StackFrame.OFFSET_UNKNOWN == stackframe.GetILOffset()) break;
+
+                                var method = stackframe.GetMethod();
+                                //System.Runtime.CompilerServices.IAsyncStateMachine System.Runtime.CompilerServices.CompilerGeneratedAttribute
+
+                                string _namespace = method.DeclaringType.Namespace ?? "", _name = method?.DeclaringType.Name, _methodname = method.Name, outname = string.Empty;
+
+                                if (IsMoveNext && _methodname.Equals("MoveNext") && _name[0].Equals('<'))
+                                {
+                                    int head = 1, last = _name.LastIndexOf('>');
+                                    last = last != -1 ? last : _name.Length;
+                                    outname = $"{_namespace}.{method.DeclaringType?.ReflectedType?.Name}.{_name[head..last]}";
+                                }
+                                else
+                                {
+                                    outname = $"{_namespace}.{_name}.{_methodname}";
+                                }
+
+                                if (IgnoreMethodName.Contains(outname)) continue;
+
+                                _log.Append($"    （{i}）当前堆栈异常方法名：{outname}\r\n");
+                                int lineNumber = stackframe.GetFileLineNumber();
+                                int columnNumber = stackframe.GetFileColumnNumber();
+                                if (lineNumber > 0 || columnNumber > 0)
+                                {
+                                    _log.Append($"    异常行号：{lineNumber},下标位置：{columnNumber}\r\n");
+                                }
+                                i++;
+                            }
+                        }
+
+                        _log.Append($"  异常提示：{Exception.Message}\r\n");//DeclaringType.FullName
                     }
                     else
                     {
-                        _log.Append($"  异常方法：没有方法信息\r\n");//DeclaringType.FullName//无法获取，出现该情况一般是自定义异常的原因
+                        //_log.Append($"  异常方法：没有方法信息\r\n");//DeclaringType.FullName//无法获取，出现该情况一般是自定义异常的原因
                         //if (Exception.GetType() == typeof(AshxException))
                         //{
                         //    AshxException ashxException = Exception as AshxException;
@@ -260,29 +324,9 @@ namespace Tool.Utils
                         //{
                         //    _log.Append($"  异常方法：无法获取，出现该情况一般是自定义异常的原因\r\n");//DeclaringType.FullName
                         //}
-                    }
 
-                    if (stackframes != null)
-                    {
-                        if (stackframes.LongLength > 1)
-                        {
-                            Array.Reverse(stackframes);
-                        }
-                        int i = 1;//下标
-                        foreach (StackFrame stackframe in stackframes)
-                        {
-                            _log.Append($"    （{i}）当前堆栈异常方法名：{stackframe.GetMethod().Name}\r\n");
-                            int lineNumber = stackframe.GetFileLineNumber();
-                            int columnNumber = stackframe.GetFileColumnNumber();
-                            if (lineNumber > 0 || columnNumber > 0)
-                            {
-                                _log.Append($"    异常行号：{lineNumber},下标位置：{columnNumber}\r\n");
-                            }
-                            i++;
-                        }
+                        _log.Append($"  异常提示：{Exception}\r\n");
                     }
-
-                    _log.Append($"  异常提示：{Exception.Message}\r\n");//DeclaringType.FullName
 
                     if (Exception.InnerException != null)
                     {
@@ -296,59 +340,62 @@ namespace Tool.Utils
             {
                 Exception = e;
                 _log.Clear();
-                bool IsException;
-                do
-                {
-                    IsException = false;
-                    var stackframes = StackFrame(Exception);
+                _log.Append("  特殊情况，在获取任务异常信息的时候，发生了错误，下面是错误引发的原因。  \r\n");
+                goto Aex;
+                
+                //bool IsException;
+                //do
+                //{
+                //    IsException = false;
+                //    var stackframes = StackFrame(Exception);
 
-                    if (Exception.TargetSite != null)
-                    {
-                        _log.Append($"  异常方法：{ (Exception.TargetSite.DeclaringType != null ? Exception.TargetSite.DeclaringType.FullName : "无") }.{Exception.TargetSite.Name}\r\n");//DeclaringType.FullName
-                    }
-                    else
-                    {
-                        _log.Append($"  异常方法：没有方法信息\r\n");//DeclaringType.FullName //无法获取，出现该情况一般是自定义异常的原因
-                        //if (Exception.GetType() == typeof(AshxException))
-                        //{
-                        //    AshxException ashxException = Exception as AshxException;
-                        //    _log.Append($"  异常方法：{ (ashxException.TargetSite.DeclaringType != null ? ashxException.TargetSite.DeclaringType.FullName : "无") }.{ashxException.TargetSite.Name}\r\n");//DeclaringType.FullName
-                        //}
-                        //else
-                        //{
-                        //    _log.Append($"  异常方法：无法获取，出现该情况一般是自定义异常的原因\r\n");//DeclaringType.FullName
-                        //}
-                    }
+                //    if (Exception.TargetSite != null)
+                //    {
+                //        _log.Append($"  异常方法：{ (Exception.TargetSite.DeclaringType != null ? Exception.TargetSite.DeclaringType.FullName : "无") }.{Exception.TargetSite.Name}\r\n");//DeclaringType.FullName
+                //    }
+                //    else
+                //    {
+                //        _log.Append($"  异常方法：没有方法信息\r\n");//DeclaringType.FullName //无法获取，出现该情况一般是自定义异常的原因
+                //        //if (Exception.GetType() == typeof(AshxException))
+                //        //{
+                //        //    AshxException ashxException = Exception as AshxException;
+                //        //    _log.Append($"  异常方法：{ (ashxException.TargetSite.DeclaringType != null ? ashxException.TargetSite.DeclaringType.FullName : "无") }.{ashxException.TargetSite.Name}\r\n");//DeclaringType.FullName
+                //        //}
+                //        //else
+                //        //{
+                //        //    _log.Append($"  异常方法：无法获取，出现该情况一般是自定义异常的原因\r\n");//DeclaringType.FullName
+                //        //}
+                //    }
 
-                    if (stackframes != null)
-                    {
-                        if (stackframes.LongLength > 1)
-                        {
-                            Array.Reverse(stackframes);
-                        }
-                        int i = 1;//下标
-                        foreach (StackFrame stackframe in stackframes)
-                        {
-                            _log.Append($"    （{i}）当前堆栈异常方法名：{stackframe.GetMethod().Name}\r\n");
-                            int lineNumber = stackframe.GetFileLineNumber();
-                            int columnNumber = stackframe.GetFileColumnNumber();
-                            if (lineNumber > 0 || columnNumber > 0)
-                            {
-                                _log.Append($"    异常行号：{lineNumber},下标位置：{columnNumber}\r\n");
-                            }
-                            i++;
-                        }
-                    }
+                //    if (stackframes != null)
+                //    {
+                //        if (stackframes.LongLength > 1)
+                //        {
+                //            Array.Reverse(stackframes);
+                //        }
+                //        int i = 1;//下标
+                //        foreach (StackFrame stackframe in stackframes)
+                //        {
+                //            _log.Append($"    （{i}）当前堆栈异常方法名：{stackframe.GetMethod().Name}\r\n");
+                //            int lineNumber = stackframe.GetFileLineNumber();
+                //            int columnNumber = stackframe.GetFileColumnNumber();
+                //            if (lineNumber > 0 || columnNumber > 0)
+                //            {
+                //                _log.Append($"    异常行号：{lineNumber},下标位置：{columnNumber}\r\n");
+                //            }
+                //            i++;
+                //        }
+                //    }
 
-                    _log.Append($"  异常提示：{Exception.Message}\r\n");//DeclaringType.FullName
+                //    _log.Append($"  异常提示：{Exception.Message}\r\n");//DeclaringType.FullName
 
-                    if (Exception.InnerException != null)
-                    {
-                        _log.Append("-----------------------------------------------------------------------------------------------\r\n");
-                        Exception = Exception.InnerException;
-                        IsException = true;
-                    }
-                } while (IsException);
+                //    if (Exception.InnerException != null)
+                //    {
+                //        _log.Append("-----------------------------------------------------------------------------------------------\r\n");
+                //        Exception = Exception.InnerException;
+                //        IsException = true;
+                //    }
+                //} while (IsException);
             }
         }
 
@@ -357,7 +404,7 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="LevelName">日志类型</param>
         /// <param name="LogFilePath">提供的是绝对路径</param>
-        private void Write(string LevelName, string LogFilePath)
+        private async Task Write(string LevelName, string LogFilePath)
         {
             try
             {
@@ -372,24 +419,18 @@ namespace Tool.Utils
                     directory = Path.Combine(LogFilePath, $@"{LevelName}\");
                 }
 
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
+                if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
                 // 检查当前日志文件大小 超过30M则创建一个新的日志文件
-                string fullPath = directory + $"{LevelName}Log" + DateTime.Now.ToString("yyyy-MM") + ".log";
-                int i = 0;
-                fullPath = FileManager.GetCurrentLogName(directory, fullPath, LevelName, ref i);
-                if (File.Exists(fullPath))
-                {
-                    FileInfo fi = new FileInfo(fullPath);
-                    if (fi.Length > 30 * 1024 * 1024)
-                        fullPath = directory + $"{LevelName}Log" + DateTime.Now.ToString("yyyy-MM") + "[" + i + "].log";
-                }
+                //string fullPath = $"{directory}{LevelName}Log{DateTime.Now:yyyy-MM}.log";
+                uint i = 0;
+                string fullPath = FileManager.GetCurrentLogName(directory, LevelName, ref i, out string sparepath);//fullPath
+                FileInfo fi = new(fullPath);
+                if (fi.Exists && fi.Length > 30 * 1024 * 1024)
+                    fullPath = sparepath;//$"{directory}{LevelName}Log{DateTime.Now:yyyy-MM}[{i}].log";
 
                 // 写入日志
-                File.AppendAllText(fullPath, $"{ _log}———————————————————————————————————————\r\n", Encoding.Unicode);
+                await File.AppendAllTextAsync(fullPath, $"{_log}———————————————————————————————————————\r\n", Encoding.Unicode);
 
                 _log.Clear();
             }
@@ -707,31 +748,30 @@ namespace Tool.Utils
         Fatal
     }
 
-
     /// <summary>
     /// 日志内容
     /// </summary>
-    public class FlashLogMessage
+    public record FlashLogMessage
     {
         /// <summary>
         /// 记录时间
         /// </summary>
-        public string LogDateTime { get; set; }
+        public string LogDateTime { get; init; }
         /// <summary>
         /// 输出内容
         /// </summary>
-        public string Message { get; set; }
+        public string Message { get; init; }
         /// <summary>
         /// 日志级别
         /// </summary>
-        public FlashLogLevel Level { get; set; }
+        public FlashLogLevel Level { get; init; }
         /// <summary>
         /// 异常信息
         /// </summary>
-        public Exception Exception { get; set; }
+        public Exception Exception { get; init; }
         /// <summary>
         /// 日志存放路径，默认为空，是默认路径可以填写（绝对的日志存放路径）
         /// </summary>
-        public string LogFilePath { get; set; }
+        public string LogFilePath { get; init; }
     }
 }

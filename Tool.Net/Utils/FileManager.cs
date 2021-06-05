@@ -590,19 +590,15 @@ namespace Tool.Utils
 		/// <param name="encoding">数据类型</param>
 		public static void WriteFile(string file, string fileContent, bool append, Encoding encoding)
 		{
-			FileInfo fileInfo = new FileInfo(file);
+			FileInfo fileInfo = new(file);
 			if (!Directory.Exists(fileInfo.DirectoryName))
 			{
 				Directory.CreateDirectory(fileInfo.DirectoryName);
 			}
-			StreamWriter streamWriter = new StreamWriter(file, append, encoding);
+			StreamWriter streamWriter = new(file, append, encoding);
 			try
 			{
 				streamWriter.Write(fileContent);
-			}
-			catch (Exception ex)
-			{
-				throw new Exception(ex.ToString());
 			}
 			finally
 			{
@@ -615,14 +611,14 @@ namespace Tool.Utils
 		/// 用来探测一个日志文件的id
 		/// </summary>
 		/// <param name="directory">路径</param>
-		/// <param name="path">文件名</param>
 		/// <param name="levelName">日志名称</param>
 		/// <param name="i">存在数量</param>
+		/// <param name="sparepath">备用文件名</param>
 		/// <returns></returns>
-		public static string GetCurrentLogName(string directory, string path, string levelName, ref int i)
+		public static string GetCurrentLogName(string directory, string levelName, ref uint i, out string sparepath)
 		{
             string path2;
-            if (i != 0)
+            if (i > 0)
 			{
 				path2 = $"{directory}{levelName}Log{DateTime.Now:yyyy-MM}[{i}].log";
 				//path2 = string.Concat(new object[]
@@ -634,17 +630,20 @@ namespace Tool.Utils
 				//	i,
 				//	"].log"
 				//});
+				sparepath = path2;
 			}
 			else
 			{
-				path2 = path;
+				path2 = $"{directory}{levelName}Log{DateTime.Now:yyyy-MM}.log";// path;
+				sparepath = string.Empty;
 			}
 			if (File.Exists(path2))
 			{
 				i++;
-				return FileManager.GetCurrentLogName(directory, path2, levelName, ref i);
+				string path3 = FileManager.GetCurrentLogName(directory, levelName, ref i, out sparepath);
+				return path3.Equals(sparepath) ? path2 : path3;
 			}
-			return path;
+			return path2;
 		}
 	}
 }

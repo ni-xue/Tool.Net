@@ -19,12 +19,12 @@ namespace Tool.Sockets.TcpHelper
         private readonly int DataLength = 1024 * 8;
         private TcpListener listener;
         //用于控制异步接受连接
-        private readonly ManualResetEvent doConnect = new ManualResetEvent(false);
+        private readonly ManualResetEvent doConnect = new(false);
         ////用于控制异步接收数据
         //private readonly ManualResetEvent doReceive = new ManualResetEvent(false);
         //标识服务端连接是否关闭
         private bool isClose = false;
-        private ConcurrentDictionary<string, TcpClient> listClient = new ConcurrentDictionary<string, TcpClient>();
+        private ConcurrentDictionary<string, TcpClient> listClient = new();
 
         /// <summary>
         /// 是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
@@ -178,6 +178,7 @@ namespace Tool.Sockets.TcpHelper
 
             Task.Factory.StartNew(() =>
             {
+                Thread.CurrentThread.Name = $"Tcp服务端-监听({port})";
                 while (!isClose)
                 {
                     doConnect.Reset();
@@ -358,9 +359,10 @@ namespace Tool.Sockets.TcpHelper
         {
             Task.Factory.StartNew(() =>
             {
+                Thread.CurrentThread.Name = "Tcp服务端-业务";
                 //用于控制异步接收数据
-                ManualResetEvent doReceive = new ManualResetEvent(false);
-                TcpStateObject obj = new TcpStateObject(client, this.DataLength) { doReceive = doReceive };
+                ManualResetEvent doReceive = new(false);
+                TcpStateObject obj = new(client, this.DataLength) { doReceive = doReceive };
                 while (ListClient.TryGetValue(key, out client) && !isClose)
                 {
                     if (TcpStateObject.IsConnected(client))

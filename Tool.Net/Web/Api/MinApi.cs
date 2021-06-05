@@ -126,7 +126,7 @@ namespace Tool.Web.Api
             }
             catch (Exception ex)
             {
-                AshxException exception = new(ashx, ex) { ExceptionHandled = true };
+                AshxException exception = new(ashx, ex, _objs) { ExceptionHandled = true };
                 IApiOut aipOut = AshxException(exception);
                 IsException(exception, ashxRoute, aipOut);
             }
@@ -147,13 +147,13 @@ namespace Tool.Web.Api
                 //Type type = task.GetType();
                 //var field = type.GetType().GetField("Result", System.Reflection.BindingFlags.Public);
 
-                async Task<IApiOut> func()
-                {
-                    return await (Task<IApiOut>)ashx.Action.Execute(this, _objs);
+                async Task<IApiOut> func() => await (Task<IApiOut>)ashx.Action.Execute(this, _objs);
+                //{
+                //    return await (Task<IApiOut>)ashx.Action.Execute(this, _objs);
 
-                    //Task <IApiOut> task = ashx.Action.Execute(this, _objs) as Task<IApiOut>;
-                    //return await task;
-                } //Task
+                //    //Task <IApiOut> task = ashx.Action.Execute(this, _objs) as Task<IApiOut>;
+                //    //return await task;
+                //} //Task
 
                 //object _task = func();// dynamic，Task
 
@@ -201,7 +201,7 @@ namespace Tool.Web.Api
             catch (Exception ex)
             {
                 //AshxException(new AshxException(ashx, ex) { ExceptionHandled = true });
-                AshxException exception = new(ashx, ex) { ExceptionHandled = true };
+                AshxException exception = new(ashx, ex, _objs) { ExceptionHandled = true };
                 IApiOut aipOut = AshxException(exception);
                 await IsTaskException(exception, ashxRoute, aipOut);
             }

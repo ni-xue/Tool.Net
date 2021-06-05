@@ -98,7 +98,7 @@ namespace Tool.Web.Builder
         /// <param name="app">IApplicationBuilder框架对象</param>
         /// <param name="action">需要提供处理这些异常的委托函数</param>
         /// <returns>IApplicationBuilder</returns>
-        public static IApplicationBuilder UseExceptionHandler(this IApplicationBuilder app, Action<HttpContext, Exception> action)
+        public static IApplicationBuilder UseExceptionHandler(this IApplicationBuilder app, Func<HttpContext, Exception, Task> action)
         {
             if (app == null)
             {
@@ -114,12 +114,12 @@ namespace Tool.Web.Builder
 
             ExceptionHandlerOptions options = new()
             {
-                ExceptionHandler = (context) => 
+                ExceptionHandler = async (context) => 
                 {
                     var feature = context.Features.Get<IExceptionHandlerPathFeature>();
                     //var exception = feature.Error;
-                    action(context, feature.Error);
-                    return Task.CompletedTask; 
+                    await action?.Invoke(context, feature?.Error);
+                    //await Task.CompletedTask; 
                 }
             };
 

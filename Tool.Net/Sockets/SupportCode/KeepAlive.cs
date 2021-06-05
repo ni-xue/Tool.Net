@@ -47,8 +47,9 @@ namespace Tool.Sockets.SupportCode
 
         private void HeartBeatStart() 
         {
-            Task.Run(() =>
+            Task.Factory.StartNew(() =>
             {
+                System.Threading.Thread.CurrentThread.Name = "心跳线程";
                 while (!OnClose)
                 {
                     ResetTime();
@@ -59,7 +60,9 @@ namespace Tool.Sockets.SupportCode
                         OnStart();
                     }
                 }
-            });
+            }, TaskCreationOptions.LongRunning);
+
+            //Task.Run();
         }
 
         /// <summary>

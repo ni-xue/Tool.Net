@@ -483,9 +483,9 @@ namespace Tool
         {
             try
             {
-                MethodInfo methodInfo = TypeInvoke.GetMethodInfo<T>(Methods);
+                MethodInfo methodInfo = TypeInvoke.GetMethodInfo<T>(Methods); //Delegate
 
-                ActionDispatcher<T> action = new ActionDispatcher<T>(methodInfo);
+                ActionDispatcher<T> action = new(methodInfo);
 
                 return action;
             }

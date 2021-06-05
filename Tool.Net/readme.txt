@@ -25,7 +25,7 @@
 6. 目前功能基本满足小规模开发。
 -------------------------------------历史功能-----------------------------------------
 
-1. MinApi 增加ApiOut.View(); ApiOut.ViewAsyn(); 结果重新调整，
+1. MinApi 增加ApiOut.View(); ApiOut.ViewAsyn(); 结果重新调整
 
 1.1 MinApi：Initialize函数改进，使用户可以直接返回结果。
 
@@ -238,6 +238,33 @@ app.UseDiySession();
 13. 移除 VerificationCodeHelper 类 改为 VerificCodeHelper 类
 
 14. 验证码类改进优化较多，不详细说明，多线程下无问题。
+
+-------------------------------------2021/06/05--------------------------------------
+月度更新：V3.4.0
+1. 新增 DataTable扩展 ToDictionaryIf 可自定义输出结果
+
+2. 新增 JsonConverterHelper.GetDBNullConverter() 方法，DBNull 结果将自动转化为 null 输出
+
+3. 优化改进 app.UseExceptionHandler(AllException); 实现方法改为 异步函数，考虑合理性。
+
+4. 新增扩展 DbHelper.Select<T>(Action<T> prams) 示例：var list = dbHelper.Select<system>(s => s.id = 1);
+
+5. AshxException 新增接口调用参数信息，方便定位异常发生时存在的值，日志输出时默认输出， IsParameters 默认开启。
+
+6. AshxException.ToParameters() 手动获取参数结果函数。
+
+7. 改进实体ToDictionary(), 当字段值为 Null 特殊值时，object 自动将结果转换成 null
+
+8. Log 日志模块改进，在 Debug 模式下，日志将打印在项目目录。
+
+9. Log 日志打印相关对象调整，日志打印模块改为异步IO写入，提高吞吐量。
+
+10. Tool.Utils 命名空间下，新增ThreadQueue 该命名空间下面，可用于实现简易的，多线程，对应抢单模式，先后顺序，依次完成，可等待。
+
+11. Log 类下新增 IgnoreMethodName 对象，用于屏蔽不想再日志中看见的异常方法。（目前默认会屏蔽掉 Task 对应的方法名）Tool.Utils.Log.Instance.IgnoreMethodName.Add()
+
+12. Log 类新增 IsMoveNext 变量，默认为true，用于自动验证堆栈方法中的异常方法，返回原有名称,如需关闭请设置为 false。
+
 
 以上是大致更新说明，详情还请执行查看api文档。
 

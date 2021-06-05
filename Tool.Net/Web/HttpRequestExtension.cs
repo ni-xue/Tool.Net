@@ -296,6 +296,7 @@ namespace Tool.Web
         {
             try
             {
+                if (!reques.HasFormContentType) return default;
                 //M m = (default(M) == null) ? Activator.CreateInstance<M>() : default(M);
                 object m = Activator.CreateInstance(type);
                 PropertyInfo[] properties = type.GetProperties();
@@ -340,23 +341,22 @@ namespace Tool.Web
                 foreach (PropertyInfo property in properties)
                 {
                     string name = property.Name;
-                    string value = reques.Form[name];
-
-                    if (property.PropertyType != typeof(string))
+                    string value = reques.Query[name];
+                    if (string.IsNullOrEmpty(value) && reques.HasFormContentType)
                     {
-                        if (string.IsNullOrEmpty(value))
+                        value = reques.Form[name];
+                    }
+
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        if (property.PropertyType != typeof(string))
                         {
-                            value = reques.Query[name];
-                        }
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            //type.GetProperty(name).SetValue(f, Sharing.ToValueByType(propertyInfo.PropertyType.Name, value), null);
                             type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
                         }
-                    }
-                    else
-                    {
-                        type.GetProperty(name).SetValue(m, value);
+                        else
+                        {
+                            type.GetProperty(name).SetValue(m, value);
+                        }
                     }
                 }
                 return m;
