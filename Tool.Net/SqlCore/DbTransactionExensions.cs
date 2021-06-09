@@ -35,7 +35,7 @@ namespace Tool.SqlCore
         {
             if (string.IsNullOrWhiteSpace(commandText))
             {
-                throw new ArgumentException("执行SQL为空！", "commandText");
+                throw new ArgumentException("执行SQL为空！", nameof(commandText));
             }
             return transaction.ExecuteNonQuery(dbHelper, new SqlTextParameter(commandText, commandParameters));
         }

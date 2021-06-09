@@ -202,7 +202,7 @@ namespace Tool.SqlCore
         /// 返回实现 <see cref="DbDataAdapter"/> 类的提供程序类的一个新实例。
         /// </summary>
         /// <returns><see cref="DbDataAdapter"/> 的新实例。</returns>
-        public DbDataAdapter CreateDataAdapter() 
+        public DbDataAdapter CreateDataAdapter()
         {
             if (!this.Factory.CanCreateDataAdapter)
             {
@@ -352,8 +352,8 @@ namespace Tool.SqlCore
                     foreach (PropertyInfo property in _properties)
                     {
                         object Value = property.GetValue(parameter);
-
-                        parms.Add(this.GetInParam(property.Name, Value));
+                        if (Value != null)
+                            parms.Add(this.GetInParam(property.Name, Value));
                     }
                     return parms;
                 }
@@ -374,7 +374,8 @@ namespace Tool.SqlCore
 
                 foreach (var pair in parameter)
                 {
-                    parms.Add(this.GetInParam(pair.Key, pair.Value));
+                    if (pair.Value != null)
+                        parms.Add(this.GetInParam(pair.Key, pair.Value));
                 }
 
                 return parms;
@@ -425,7 +426,7 @@ namespace Tool.SqlCore
         /// 提供一个通道用于替换日志或关闭日志。
         /// </summary>
         /// <param name="logger">用于打印程序日志，可以为null</param>
-        public void SetLogger(ILogger logger) 
+        public void SetLogger(ILogger logger)
         {
             this.Logger = logger;
         }
@@ -435,7 +436,7 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="connectionstring">为null时，不修改。</param>
         /// <returns></returns>
-        public string GetAndSetConnectionString(string connectionstring = null) 
+        public string GetAndSetConnectionString(string connectionstring = null)
         {
             if (connectionstring != null)
             {
@@ -989,7 +990,7 @@ namespace Tool.SqlCore
                 throw NullConnectionString;
             }
 
-            async Task<DataSet> ExecuteDataset() 
+            async Task<DataSet> ExecuteDataset()
             {
                 DataSet result;
                 using (DbConnection dbConnection = CreateConnection())
@@ -1485,7 +1486,7 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="commandText">SQL字符串</param>
         /// <returns></returns>
-        public async Task<int> ExecuteNonQueryAsync(string commandText) 
+        public async Task<int> ExecuteNonQueryAsync(string commandText)
         {
             return await this.ExecuteNonQueryAsync(CommandType.Text, commandText, null);
         }
@@ -3190,7 +3191,7 @@ namespace Tool.SqlCore
         public DbParameter GetParam(string paraName, object paraValue, ParameterDirection direction)
         {
             //return this.Provider.MakeParam(GetDbParameter(paraName), paraValue, direction);
-            Type paraType = paraValue.GetType();
+            Type paraType = paraValue?.GetType();
             return GetParam(paraName, paraValue, direction, paraType, null);
         }
 

@@ -85,7 +85,7 @@ namespace Tool.Utils.Data
         }
 
         /// <summary>
-        /// 批量删除 <see cref="IDictionary{TKey, TValue}"/>对象 中的值（异常提示）
+        /// 批量删除 <see cref="IDictionary{TKey, TValue}"/>对象 出现不包含的会返回 false
         /// </summary>
         /// <typeparam name="TKey">键</typeparam>
         /// <typeparam name="TValue">值</typeparam>
@@ -102,37 +102,44 @@ namespace Tool.Utils.Data
             //    }
             //}
 
-            if (!keys.TryRemove(out TKey _key, key))
+            bool type = true;
+            if (!keys.TryRemove(out _, key))
             {
-                throw new ArgumentNullException("某个key不存在：", $"警告：key（{_key}）不存在,无法删除！");
+                type = false;
+                 //throw new ArgumentNullException("某个key不存在：", $"警告：key（{_key}）不存在,无法删除！");
             }
-            return true;
+            return type;
         }
 
         /// <summary>
-        /// 批量删除 <see cref="IDictionary{TKey, TValue}"/>对象 中的值（异常返回值）
+        /// 批量删除 <see cref="IDictionary{TKey, TValue}"/>对象 中的值
         /// </summary>
         /// <typeparam name="TKey">键</typeparam>
         /// <typeparam name="TValue">值</typeparam>
-        /// <param name="trykey">删除失败时返回无法删除的哪一项。</param>
+        /// <param name="trykey">删除失败时返回无法删除的哪些项。</param>
         /// <param name="keys"><see cref="IDictionary{TKey, TValue}"/>对象</param>
         /// <returns><see cref="Dictionary{TKey, TValue}"/></returns>
         /// /// <param name="key">需要删除的键值集合</param>
-        public static bool TryRemove<TKey, TValue>(this IDictionary<TKey, TValue> keys, out TKey trykey, params TKey[] key)
+        public static bool TryRemove<TKey, TValue>(this IDictionary<TKey, TValue> keys, out TKey[] trykey, params TKey[] key)
         {
+            bool type = true;
+            trykey = default;
             if (!object.Equals(key, null) && key.Length > 0)
             {
+                List<TKey> keys1 = new();
                 foreach (var _key in key)
                 {
                     if (!keys.Remove(_key)) 
                     {
-                        trykey = _key;
-                        return false; 
+                        keys1.Add(_key);
+
+                        type = false;
+                        //return false; 
                     }
                 }
+                if (keys1.Any()) trykey = keys1.ToArray();
             }
-            trykey = default;
-            return true;
+            return type;
         }
 
         /// <summary>

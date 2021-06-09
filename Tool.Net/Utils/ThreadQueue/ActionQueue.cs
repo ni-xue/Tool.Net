@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Tool.Utils.ThreadQueue
 {
     /// <summary>
-    /// 一个消息队列任务模型
+    /// 一个(公共)消息队列任务模型
     /// </summary>
     /// <remarks>代码由逆血提供支持</remarks>
     public static class ActionQueue

@@ -507,7 +507,7 @@ namespace Tool.Utils
                 }
                 else
                 {
-                    LogFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, LogFilePath);
+                    LogFilePath = Path.Combine(Environment.CurrentDirectory, LogFilePath);//AppDomain.CurrentDomain.BaseDirectory
                     if (!Directory.Exists(LogFilePath))
                     {
                         Directory.CreateDirectory(LogFilePath);

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Tool;
 using Tool.SqlCore;
 using Tool.Utils.Data;
+using Tool.Utils.ThreadQueue;
 using Tool.Web;
 
 namespace WebTestApp.Controllers
@@ -30,7 +31,31 @@ namespace WebTestApp.Controllers
 
             System.Data.DataSet ds = await dbHelper.ExecuteDataSetAsync("SELECT * FROM system OrDER by id desc", new { a = 1, b = 2, c = 3, d = 4 });
 
+            Test.system sy = new()
+            {
+                key_cn = "66666"
+            };
+
+            var a1 = dbHelper.GetInsertParams(sy.ToDictionary(), out string key, out string value);
+
+            var a2 = dbHelper.GetUpdateParams(sy.ToDictionary(), out string key1);
+
             var list = dbHelper.Select<Test.system>(s => s.key_cn = "可用积分价值");
+
+            TaskOueue<string, string> taskOueue = new(func: (a) =>
+            {
+                return a;
+            });
+
+            taskOueue.ContinueWith += TaskOueue_ContinueWith;
+
+            taskOueue.Add("55");
+
+            taskOueue.Add("66");
+
+            taskOueue.Add("77");
+
+            taskOueue.Add("88");
 
             //var reader = dbHelper.ExecuteReader(System.Data.CommandType.Text, "SELECT * FROM system OrDER by id desc");
 
@@ -60,6 +85,11 @@ namespace WebTestApp.Controllers
 
 
             return Json(data);
+        }
+
+        private void TaskOueue_ContinueWith(string arg1, string arg2, Exception arg3)
+        {
+            
         }
     }
 }

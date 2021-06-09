@@ -327,6 +327,8 @@ namespace Tool.SqlCore
             {
                 //_key.AppendFormat("[{0}],", keyValue.Key);
 
+                if (keyValue.Value == null) continue;
+
                 switch (database.DbProviderType)
                 {
                     case DbProviderType.SqlServer:
@@ -370,6 +372,9 @@ namespace Tool.SqlCore
             foreach (KeyValuePair<string, object> keyValue in keyValues)
             {
                 //_value.AppendFormat("[{0}] = @{0},", keyValue.Key);
+
+                if (keyValue.Value == null) continue;
+
                 switch (database.DbProviderType)
                 {
                     case DbProviderType.SqlServer:

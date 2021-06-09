@@ -7806,7 +7806,7 @@
         </member>
         <member name="M:Tool.Utils.Data.DictionaryExtension.Remove``2(System.Collections.Generic.IDictionary{``0,``1},``0[])">
             <summary>
-            批量删除 <see cref="T:System.Collections.Generic.IDictionary`2"/>对象 中的值（异常提示）
+            批量删除 <see cref="T:System.Collections.Generic.IDictionary`2"/>对象 出现不包含的会返回 false
             </summary>
             <typeparam name="TKey">键</typeparam>
             <typeparam name="TValue">值</typeparam>
@@ -7814,13 +7814,13 @@
             <returns><see cref="T:System.Collections.Generic.Dictionary`2"/></returns>
             <param name="key">需要删除的键值集合</param>
         </member>
-        <member name="M:Tool.Utils.Data.DictionaryExtension.TryRemove``2(System.Collections.Generic.IDictionary{``0,``1},``0@,``0[])">
+        <member name="M:Tool.Utils.Data.DictionaryExtension.TryRemove``2(System.Collections.Generic.IDictionary{``0,``1},``0[]@,``0[])">
             <summary>
-            批量删除 <see cref="T:System.Collections.Generic.IDictionary`2"/>对象 中的值（异常返回值）
+            批量删除 <see cref="T:System.Collections.Generic.IDictionary`2"/>对象 中的值
             </summary>
             <typeparam name="TKey">键</typeparam>
             <typeparam name="TValue">值</typeparam>
-            <param name="trykey">删除失败时返回无法删除的哪一项。</param>
+            <param name="trykey">删除失败时返回无法删除的哪些项。</param>
             <param name="keys"><see cref="T:System.Collections.Generic.IDictionary`2"/>对象</param>
             <returns><see cref="T:System.Collections.Generic.Dictionary`2"/></returns>
             /// <param name="key">需要删除的键值集合</param>
@@ -8501,9 +8501,9 @@
             用来探测一个日志文件的id
             </summary>
             <param name="directory">路径</param>
-            <param name="path">文件名</param>
             <param name="levelName">日志名称</param>
             <param name="i">存在数量</param>
+            <param name="sparepath">备用文件名</param>
             <returns></returns>
         </member>
         <member name="T:Tool.Utils.FolderInfo">
@@ -10943,7 +10943,7 @@
         </member>
         <member name="T:Tool.Utils.ThreadQueue.ActionQueue">
             <summary>
-            一个消息队列任务模型
+            一个(公共)消息队列任务模型
             </summary>
             <remarks>代码由逆血提供支持</remarks>
         </member>
@@ -10973,6 +10973,28 @@
             <summary>
             注册完成任务后触发的事件
             </summary>
+        </member>
+        <member name="T:Tool.Utils.ThreadQueue.TaskOueue`2">
+            <summary>
+            一个消息队列任务模型（异步处理任务）
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="E:Tool.Utils.ThreadQueue.TaskOueue`2.ContinueWith">
+            <summary>
+            注册完成任务后触发的事件
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.TaskOueue`2.#ctor(System.Func{`0,`1})">
+            <summary>
+            创建执行需要的函数
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.TaskOueue`2.Add(`0)">
+            <summary>
+            添加一个新的任务（他会排队一个一个完成）
+            </summary>
+            <param name="state">任务需要的参数</param>
         </member>
         <member name="T:Tool.Utils.ThreadQueue.WaitAction">
             <summary>

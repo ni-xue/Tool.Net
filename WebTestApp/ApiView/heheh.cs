@@ -31,7 +31,6 @@ namespace WebTestApp.ApiView
 
             Tool.Utils.Log.Error("异常日志", ex);
 
-            
             //ex.IsParameters = true;
             ex.ExceptionHandled = true;
             return null;//base.AshxException(ex);
