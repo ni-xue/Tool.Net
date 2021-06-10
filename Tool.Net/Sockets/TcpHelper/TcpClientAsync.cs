@@ -433,7 +433,7 @@ namespace Tool.Sockets.TcpHelper
         {
             Task.Factory.StartNew(() =>
             {
-                Thread.CurrentThread.Name = "Tcp客户端-业务";
+                Thread.CurrentThread.Name ??= "Tcp客户端-业务";
                 //用于控制异步接收消息
                 ManualResetEvent doReceive = new(false);
                 //接收数据包
@@ -490,7 +490,7 @@ namespace Tool.Sockets.TcpHelper
         {
             Task.Factory.StartNew(() =>
             {
-                Thread.CurrentThread.Name = "Tcp客户端-重连";
+                Thread.CurrentThread.Name ??= "Tcp客户端-重连";
                 bool _reconnect = true;
                 while (_reconnect && IsReconnect)
                 {
@@ -501,7 +501,7 @@ namespace Tool.Sockets.TcpHelper
                     }
                     Thread.Sleep(20);
                 }
-            }, TaskCreationOptions.None);
+            }, TaskCreationOptions.LongRunning);
         }
 
         /**

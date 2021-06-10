@@ -178,7 +178,7 @@ namespace Tool.Sockets.TcpHelper
 
             Task.Factory.StartNew(() =>
             {
-                Thread.CurrentThread.Name = $"Tcp服务端-监听({port})";
+                Thread.CurrentThread.Name ??= $"Tcp服务端-监听({port})";
                 while (!isClose)
                 {
                     doConnect.Reset();
@@ -359,7 +359,7 @@ namespace Tool.Sockets.TcpHelper
         {
             Task.Factory.StartNew(() =>
             {
-                Thread.CurrentThread.Name = "Tcp服务端-业务";
+                Thread.CurrentThread.Name ??= "Tcp服务端-业务";
                 //用于控制异步接收数据
                 ManualResetEvent doReceive = new(false);
                 TcpStateObject obj = new(client, this.DataLength) { doReceive = doReceive };

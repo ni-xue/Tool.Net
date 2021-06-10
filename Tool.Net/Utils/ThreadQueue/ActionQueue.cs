@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,27 +20,25 @@ namespace Tool.Utils.ThreadQueue
                 {
                     ActionQueue.task = Task.Factory.StartNew(delegate ()
                     {
-                        System.Threading.Thread.CurrentThread.Name = "队列任务线程";
+                        System.Threading.Thread.CurrentThread.Name ??= "公共队列任务线程";
 
-                        while (ActionQueue.queue.Count > 0)
+                        while (!queue.IsEmpty && ActionQueue.queue.TryDequeue(out WaitAction waitAction))
                         {
-                            WaitAction waitAction = ActionQueue.queue.Dequeue();
-                            if (waitAction != null)
+                            if (waitAction != null && !waitAction.IsCompleted)
                             {
-                                if (!waitAction.IsCompleted)
+                                using (waitAction)
                                 {
-                                    using (waitAction)
-                                    {
-                                        waitAction.Run();
-                                        ContinueWith?.Invoke(waitAction);
-                                    }
+                                    waitAction.Run();
+                                    ContinueWith?.Invoke(waitAction);
                                 }
-                                
                             }
                         }
+
+                        ActionQueue.task = null;
+
                     }, TaskCreationOptions.LongRunning).ContinueWith(delegate (Task i)
                     {
-                        ActionQueue.task = null;
+                        i.Dispose();
                     });
                 }
             }
@@ -85,7 +84,7 @@ namespace Tool.Utils.ThreadQueue
 
         private static readonly object _lock = new();
 
-        private static readonly Queue<WaitAction> queue = new();
+        private static readonly ConcurrentQueue<WaitAction> queue = new();
 
         private static Task task = null;
 

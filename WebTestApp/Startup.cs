@@ -134,7 +134,7 @@ namespace WebTestApp
             //{
             //    Tool.Utils.ThreadQueue.ActionQueue.Add(wait);
             //}
-            
+
             //Tool.Sockets.SupportCode.KeepAlive keep = new(1, ()=> 
             //{
             //    Console.WriteLine("000_1");
@@ -165,7 +165,9 @@ namespace WebTestApp
 
             //wait.Run();
 
-            services.AddObject(new DbHelper("data source=47.94.109.199;database=liquortribe;user id=liquortribe;password=NjCHBrzhrWpJZr8a;pooling=true;charset=utf8;", DbProviderType.MySql, new MySqlProvider()));
+            services.AddObject(new DbHelper("server=nixue.top;database=CommunDB;uid=user;password=123456;Pooling=true;", DbProviderType.SqlServer1, new SqlServerProvider()));
+
+            //services.AddObject(new DbHelper("data source=47.94.109.199;database=liquortribe;user id=liquortribe;password=NjCHBrzhrWpJZr8a;pooling=true;charset=utf8;", DbProviderType.MySql, new MySqlProvider()));
         }
 
         //private void ActionQueue_ContinueWith(Tool.Utils.ThreadQueue.WaitAction obj)

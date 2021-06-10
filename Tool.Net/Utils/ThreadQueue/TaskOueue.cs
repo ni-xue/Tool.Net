@@ -52,7 +52,7 @@ namespace Tool.Utils.ThreadQueue
                 {
                     task = Task.Factory.StartNew(delegate ()
                     {
-                        System.Threading.Thread.CurrentThread.Name = "独立队列任务线程";
+                        System.Threading.Thread.CurrentThread.Name ??= "独立队列任务线程";
 
                         while (!queue.IsEmpty && queue.TryDequeue(out T obj))
                         {
@@ -66,9 +66,12 @@ namespace Tool.Utils.ThreadQueue
                                 ContinueWith?.Invoke(obj, default, ex);
                             }
                         }
+
+                        task = null;
+
                     }, TaskCreationOptions.LongRunning).ContinueWith(delegate (Task i)
                     {
-                        task = null;
+                        i.Dispose();
                     });
                 }
             }

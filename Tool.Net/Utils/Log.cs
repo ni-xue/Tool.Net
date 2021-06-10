@@ -37,10 +37,20 @@ namespace Tool.Utils
         /// </summary>
         private static readonly Log _flashLog = new();
 
+        ///// <summary>
+        ///// 日志线程
+        ///// </summary>
+        //private readonly Thread _logthread;
+
         /// <summary>
         /// 日志线程
         /// </summary>
-        private readonly Thread _logthread;
+        private readonly Task _logtask;
+
+        /// <summary>
+        /// 日志任务是否已经启动了（没有启动时 false，启动后发生意外时 false， 其余时候一直都是 true ）
+        /// </summary>
+        public bool IsAlive { get; private set; } = false;
 
         /// <summary>
         /// 当前的存放地址
@@ -73,7 +83,7 @@ namespace Tool.Utils
 
             IsMoveNext = true;
 
-            IgnoreMethodName = new(new string[] 
+            IgnoreMethodName = new(new string[]
             {
                 "System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw",
                 "System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess",
@@ -94,12 +104,20 @@ namespace Tool.Utils
             _que = new ConcurrentQueue<FlashLogMessage>();
             _mre = new ManualResetEvent(false);
 
-            _logthread = new Thread(new ThreadStart(async () => await WriteLog()))
+            //System.Diagnostics.Debug.Write("日志模块结束!");
+
+            _logtask = Task.Run(WriteLog).ContinueWith((task) =>
             {
-                Name = "日志线程",
-                IsBackground = true,//false
-                Priority = ThreadPriority.Lowest
-            };
+                IsAlive = false;
+                System.Diagnostics.Debug.Fail("日志模块结束!");
+            });//TaskCreationOptions.LongRunning
+
+            //_logthread = new Thread(asynclog)
+            //{
+            //    Name = "日志线程",
+            //    IsBackground = true,//false
+            //    Priority = ThreadPriority.Lowest
+            //};
 
             //有点可怕，可以获取到当前对象详情信息
             //var sd = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType;
@@ -110,10 +128,23 @@ namespace Tool.Utils
         /// <summary>
         /// 实现单例,不建议直接调用。
         /// </summary>
-        public static Log Instance
-        {
-            get { return _flashLog; }
-        }
+        public static Log Instance => _flashLog;
+        //{
+        //    get
+        //    {
+        //        if (_flashLog == null)
+        //        {
+        //            lock (_lockobj)
+        //            {
+        //                if (_flashLog == null)
+        //                {
+        //                    _flashLog = new Log();
+        //                }
+        //            }
+        //        }
+        //        return _flashLog;
+        //    }
+        //}
 
         ///// <summary>
         ///// 另一个线程记录日志，只在程序初始化时调用一次
@@ -130,7 +161,9 @@ namespace Tool.Utils
         /// </summary>
         private async Task WriteLog()
         {
-            //Thread.CurrentThread.Name = "日志线程";
+            Thread.CurrentThread.Name ??= "日志线程";
+
+            IsAlive = true;
 
             while (true)
             {
@@ -243,7 +276,9 @@ namespace Tool.Utils
 
                 // 重新设置信号
                 _mre.Reset();
-                Thread.Sleep(1);
+                //Thread.Sleep(1);
+
+                //await Task.Delay(1);
             }
         }
 
@@ -256,7 +291,7 @@ namespace Tool.Utils
         private void ToStringExceptions(Exception exception)
         {
             Exception Exception = exception;
-            Aex:
+        Aex:
             try
             {
                 bool IsException = false;
@@ -342,7 +377,7 @@ namespace Tool.Utils
                 _log.Clear();
                 _log.Append("  特殊情况，在获取任务异常信息的时候，发生了错误，下面是错误引发的原因。  \r\n");
                 goto Aex;
-                
+
                 //bool IsException;
                 //do
                 //{
@@ -406,8 +441,12 @@ namespace Tool.Utils
         /// <param name="LogFilePath">提供的是绝对路径</param>
         private async Task Write(string LevelName, string LogFilePath)
         {
+            int tryi = 0;
+
+            A:
             try
             {
+                tryi++;
                 string directory = string.Empty;
 
                 if (string.IsNullOrWhiteSpace(LogFilePath))
@@ -436,8 +475,16 @@ namespace Tool.Utils
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.Write("日志打印异常：" + e);
-                _log.Clear();
+                if (tryi <= 10 && e.Message.EndsWith("because it is being used by another process."))
+                {
+                    Thread.Sleep(100);
+                    goto A;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.Write("日志打印异常：" + e);
+                    _log.Clear();
+                }
             }
         }
 
@@ -454,10 +501,15 @@ namespace Tool.Utils
             {
                 lock (_lockobj)
                 {
-                    if (!_logthread.IsAlive)
-                    {
-                        _logthread.Start();
-                    }
+                    if (_logtask.IsCompleted) throw new Exception("日志线程，在未知原因情况下结束了！");
+                    //{
+                    //    _logtask.Start();
+                    //}
+
+                    //if (!_logthread.IsAlive && _logthread.ThreadState == System.Threading.ThreadState.Unstarted)
+                    //{
+                    //    _logthread.Start(); //Stopped
+                    //}
 
                     if ((level == FlashLogLevel.Debug)
                      || (level == FlashLogLevel.Error)
@@ -479,9 +531,10 @@ namespace Tool.Utils
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception e) when (!e.Message.Equals("日志线程，在未知原因情况下结束了！"))
             {
-                EnqueueMessage(e.Message, level, e, logFilePath);
+                //EnqueueMessage(e.Message, level, e, logFilePath);
+                System.Diagnostics.Debug.Write("日志打印异常：" + e);
             }
         }
 

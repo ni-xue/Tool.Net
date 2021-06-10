@@ -101,7 +101,7 @@ namespace Tool.Web.Api
                         break;
                 }
                 txt ??= "Null";
-                builder.AppendFormat("Name:{0} | Val.{1} | ({2}){3}{4}", pair.Key, pair.Value.val, pair.Value.name, txt, Environment.NewLine);
+                builder.AppendFormat("  Name:{0} | Val.{1} | ({2}){3}{4}", pair.Key, pair.Value.val, pair.Value.name, txt, Environment.NewLine);
             }
             return builder.ToString();
         }

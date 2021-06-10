@@ -49,7 +49,7 @@ namespace Tool.Sockets.SupportCode
         {
             Task.Factory.StartNew(() =>
             {
-                System.Threading.Thread.CurrentThread.Name = "心跳线程";
+                System.Threading.Thread.CurrentThread.Name ??= "心跳线程";
                 while (!OnClose)
                 {
                     ResetTime();
