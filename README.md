@@ -9,6 +9,18 @@ Tool 作为 UniversalFrame 的延续产品，将开源源代码，继续维护�
 5. 使用API文档：http://tool.nixue.top/index.html
 6. 开源项目实例：https://github.com/ni-xue/UniversalFrame
 
+# 贡献
+
+遵循 Fork and Pull GitHub工作流：
+
+  1.**Fork**GitHub回购；
+  2.**本地克隆**项目；
+  3.**提交**变更；
+  4.**把**你的工作推回到你的叉子上；
+  5.提交**请求**，以便对更改进行审查。
+
+有关更多信息，请阅读 [CONTRIBUTING](https://github.com/Vect0rZ/Quic.NET/blob/master/CONTRIBUTING.md)
+
 # 执照
 ``` a
 
