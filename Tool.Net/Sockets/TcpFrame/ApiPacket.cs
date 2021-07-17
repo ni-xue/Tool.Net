@@ -182,7 +182,7 @@ namespace Tool.Sockets.TcpFrame
 
         public TcpResponse Response { get; set; }
 
-        public Action<TcpResponse> Action { get; set; }
+        //public Action<TcpResponse> Action { get; set; }
 
         //~ThreadObj()
         //{
@@ -199,7 +199,7 @@ namespace Tool.Sockets.TcpFrame
                 AutoReset.Dispose();
                 AutoReset = null;
                 Response = null;
-                Action = null;
+                //Action = null;
             }
             Length = 0;
             OjbCount = null;

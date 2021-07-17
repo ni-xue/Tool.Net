@@ -7,32 +7,44 @@ using Tool.Sockets.TcpFrame;
 
 namespace TcpFrameTest
 {
+    
     public class Class1 : DataBase
     {
-        public Class1() : base(1)
+        [DataTcp(1)]
+        public Class1()
         {
+
         }
 
-        [DataTcp(100, ObjType = DataTcpState.String)]
-        public object A(int a) 
+        protected override bool Initialize(DataTcp dataTcp)
         {
-            return a;// new { a };
+            return true;
         }
 
-        [DataTcp(101, ObjType = DataTcpState.Byte)]
-        public byte[] B(string path)
+        [DataTcp(100)]
+        public IGoOut A(int a) 
+        {
+            return Json(new { a });
+        }
+
+        [DataTcp(101)]
+        public IGoOut B(string path)
         {
             byte[] s = System.IO.File.ReadAllBytes(path);
-
-            return s;//new byte[1024 * 100];
+            return Write(s);
         }
 
-        [DataTcp(102, ObjType = DataTcpState.String)]
-        public string C(string path)
+        [DataTcp(102)]
+        public IGoOut C(string path)
         {
-            //System.IO.File.WriteAllBytes(path, Bytes);//23797
+            //System.IO.File.WriteAllBytes(path, Bytes);
+            return Write("保存成功！"); //Ok("保存成功！", Bytes); //new byte[] { 0,1,2,3,4,5 }
+        }
 
-            return "保存成功！";//new byte[1024 * 100];
+        [DataTcp(103)]
+        public IGoOut D(string path)
+        {
+            return Write("保存成功！");
         }
 
     }

@@ -92,5 +92,10 @@ namespace Tool.Utils.ThreadQueue
         /// 注册完成任务后触发的事件
         /// </summary>
         public static event Action<WaitAction> ContinueWith;
+
+        /// <summary>
+        /// 表示当前事件是否已经注册
+        /// </summary>
+        public static bool IsContinueWith => ContinueWith != null;
     }
 }

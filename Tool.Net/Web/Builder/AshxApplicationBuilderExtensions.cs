@@ -10,10 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Tool.Web;
 using Tool.Web.Api.ApiCore;
+using Tool.Web.Builder;
 using Tool.Web.Routing;
 
-namespace Tool.Web.Builder
+namespace Microsoft.AspNetCore.Builder //Tool.Web.Builder
 {
     /// <summary>
     /// Ashx 核心路由 扩展类

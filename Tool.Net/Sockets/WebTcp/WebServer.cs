@@ -19,10 +19,10 @@ namespace Tool.Sockets.WebTcp
         private readonly int DataLength = 1024 * 8;
         private HttpListener listener;
         //用于控制异步接受连接
-        private readonly ManualResetEvent doConnect = new ManualResetEvent(false);
+        private readonly ManualResetEvent doConnect = new(false);
         //标识服务端连接是否关闭
         private bool isClose = false;
-        private ConcurrentDictionary<string, WebContext> listClient = new ConcurrentDictionary<string, WebContext>();
+        private ConcurrentDictionary<string, WebContext> listClient = new();
 
         /// <summary>
         /// 是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
@@ -78,6 +78,11 @@ namespace Tool.Sockets.WebTcp
         }
 
         /**
+         * 提供自定义注册的服务
+         */
+        private Func<HttpListenerContext, WebContext> InitWebContext;
+
+        /**
          * 连接、发送、关闭事件
          */
         private Action<string, EnServer, DateTime> Completed; //event
@@ -97,6 +102,16 @@ namespace Tool.Sockets.WebTcp
         // */
         //private readonly ConcurrentQueue<GetQueOnEnum> _que;
 
+        /// <summary>
+        /// 当新连接，创建时，可以自定义之协议，不实现走默认流程（当实现后，返回null时取消后续业务，请自行关闭连接）
+        /// </summary>
+        /// <param name="InitWebContext"></param>
+        public void SetInitWebContext(Func<HttpListenerContext, WebContext> InitWebContext)
+        {
+            if (this.InitWebContext == null)
+                this.InitWebContext = InitWebContext;
+        }
+        
         /// <summary>
         /// 连接、发送、关闭事件
         /// </summary>
@@ -404,16 +419,26 @@ namespace Tool.Sockets.WebTcp
 
             if (!client.Request.IsWebSocketRequest)
             {
-                byte[] bytes = Encoding.UTF8.GetBytes("{\"code\": 500,\"msg\": \"已被拦截，非HTTP请求！\"}");
+                byte[] bytes = Encoding.UTF8.GetBytes("{\"code\": 403,\"msg\": \"已被拦截，非[ws.wss]请求！\"}");
                 client.Response.ContentEncoding = Encoding.UTF8;
                 client.Response.ContentType = "application/json; charset=utf-8";
+                client.Response.StatusCode = 403;
                 client.Response.Close(bytes, false);
 
                 Debug.WriteLine("已拦截一个未满足WebSocket的请求！");
             }
             else
             {
-                WebContext webContext = new WebContext(client);
+                WebContext webContext;
+                if (InitWebContext == null)
+                {
+                    webContext = new(client);
+                }
+                else
+                {
+                    webContext = InitWebContext(client);
+                }
+                if (webContext == null) return;
                 string key = webContext.IpPort;
                 Debug.WriteLine("来自：{0},连接完成！ {1}", key, DateTime.Now.ToString());
                 if (ListClient.TryAdd(key, webContext))
@@ -432,8 +457,8 @@ namespace Tool.Sockets.WebTcp
             Task.Factory.StartNew(() =>
             {
                 //用于控制异步接收数据
-                ManualResetEvent doReceive = new ManualResetEvent(false);
-                WebStateObject obj = new WebStateObject(client, this.DataLength) { doReceive = doReceive };
+                ManualResetEvent doReceive = new(false);
+                WebStateObject obj = new(client, this.DataLength) { doReceive = doReceive };
                 while (ListClient.TryGetValue(key, out client) && !isClose)
                 {
                     if (WebStateObject.IsConnected(client))

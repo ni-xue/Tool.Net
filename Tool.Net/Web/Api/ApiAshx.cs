@@ -12,6 +12,18 @@ namespace Tool.Web.Api
 {
     /// <summary>
     /// 针对于新版Ashx路由模式，的同步，异步，支持
+    /// <para>该控制器，相对于Mvc的控制器轻，应有功能都有，可自由扩展。</para>
+    /// <para>方便实现，您最想实现的效果，最大的优点还是因为他轻量级。</para>
+    /// <example>   Api 方法创建示例：
+    /// <code>
+    ///   public <see cref="void"/> GetApi(<see cref="string"/> context)  => Json(new { msg = "路由版本api。" });
+    /// </code>
+    /// </example>
+    /// <example>Api 方法创建示例：(异步实现)
+    /// <code>
+    ///   public async <see cref="Task"/> GetTaskApi(<see cref="string"/> context) => await JsonAsync(new { msg = "路由版本api。" });
+    /// </code>
+    /// </example>
     /// </summary>
     /// <remarks>代码由逆血提供支持</remarks>
     public abstract class ApiAshx : IHttpAsynApi, IHttpApi, IAshxAction

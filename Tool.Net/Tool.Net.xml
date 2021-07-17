@@ -9744,9 +9744,14 @@
             日志
             </summary>
         </member>
-        <member name="F:Tool.Utils.Log._logthread">
+        <member name="F:Tool.Utils.Log._logtask">
             <summary>
             日志线程
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.Log.IsAlive">
+            <summary>
+            日志任务是否已经启动了（没有启动时 false，启动后发生意外时 false， 其余时候一直都是 true ）
             </summary>
         </member>
         <member name="F:Tool.Utils.Log._directory">

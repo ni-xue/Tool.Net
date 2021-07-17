@@ -135,7 +135,7 @@ namespace Tool.Sockets.SupportCode
         /// <summary>
         /// 设置开启或关闭不想收到的消息事件
         /// </summary>
-        /// <param name="enAction">屏蔽不触发的事件状态（<see cref="EnClient"/>|<see cref="EnServer"/>）</param>
+        /// <param name="enAction">屏蔽不触发的事件状态（<see cref="EnClient"/> | <see cref="EnServer"/>）</param>
         /// <param name="state">等于true时生效，将关闭一切的相关事件</param>
         /// <returns>返回是否设置成功</returns>
         public static bool OnInterceptor(Enum enAction, bool state) 

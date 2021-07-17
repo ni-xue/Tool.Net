@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Tool.Sockets.SupportCode;
 
 namespace Tool.Sockets.TcpFrame
@@ -146,11 +147,10 @@ namespace Tool.Sockets.TcpFrame
         /// 异步发送消息（多服务器协调发送）
         /// </summary>
         /// <param name="api">接口调用信息</param>
-        /// <param name="action">异步回调返回消息</param>
-        /// <param name="i">返回成功发送包的下标</param>
-        public void SendAsync(ApiPacket api, Action<TcpResponse> action, out int i)
+        /// <returns>返回数据包，以及下标</returns>
+        public async Task<(TcpResponse, int i)> SendAsync(ApiPacket api)
         {
-            i = Interlocked.Increment(ref LockCount);
+            int i = Interlocked.Increment(ref LockCount);
             if (ClientFrames.Count - 1 == i)
             {
                 Interlocked.Add(ref LockCount, -ClientFrames.Count);
@@ -159,7 +159,7 @@ namespace Tool.Sockets.TcpFrame
             {
                 i = 0;
             }
-            ClientFrames[i].SendAsync(api, action);
+            return (await ClientFrames[i].SendAsync(api), i);
         }
 
         /// <summary>
@@ -188,11 +188,10 @@ namespace Tool.Sockets.TcpFrame
         /// </summary>
         /// <param name="IpPort">事件处理的服务器</param>
         /// <param name="api">接口调用信息</param>
-        /// <param name="action">异步回调返回消息</param>
-        /// <param name="i">返回成功发送包的下标</param>
-        public void SendIpIdeaAsync(string IpPort, ApiPacket api, Action<TcpResponse> action, out int i)
+        /// <returns>返回数据包，以及下标</returns>
+        public async Task<(TcpResponse, int i)> SendIpIdeaAsync(string IpPort, ApiPacket api)
         {
-            i = Interlocked.Increment(ref LockCount);
+            int i = Interlocked.Increment(ref LockCount);
             if (ClientFrames.Count - 1 == i)
             {
                 Interlocked.Add(ref LockCount, -ClientFrames.Count);
@@ -201,7 +200,7 @@ namespace Tool.Sockets.TcpFrame
             {
                 i = 0;
             }
-            ClientFrames[i].SendIpIdeaAsync(IpPort, api, action);
+            return (await ClientFrames[i].SendIpIdeaAsync(IpPort, api), i);
         }
 
         /// <summary>
@@ -241,14 +240,13 @@ namespace Tool.Sockets.TcpFrame
         /// </summary>
         /// <param name="i">向那个服务器端口发包</param>
         /// <param name="api">接口调用信息</param>
-        /// <param name="action">异步回调返回消息</param>
-        public void SendAsync(int i, ApiPacket api, Action<TcpResponse> action)
+        public async Task<TcpResponse> SendAsync(int i, ApiPacket api)
         {
             if (i >= ClientFrames.Count)
             {
                 i = 0;
             }
-            ClientFrames[i].SendAsync(api, action);
+            return await ClientFrames[i].SendAsync(api);
         }
 
     }

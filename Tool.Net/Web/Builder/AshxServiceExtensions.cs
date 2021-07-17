@@ -6,10 +6,12 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tool.Web;
 using Tool.Web.Api.ApiCore;
+using Tool.Web.Builder;
 using Tool.Web.Routing;
 
-namespace Tool.Web.Builder
+namespace Microsoft.Extensions.DependencyInjection //Tool.Web.Builder
 {
     /// <summary>
     /// Ashx 核心对象扩展类
@@ -39,7 +41,7 @@ namespace Tool.Web.Builder
                 throw new ArgumentNullException(nameof(services));
             }
 
-            AshxBuilder builder = new AshxBuilder(services);
+            AshxBuilder builder = new(services);
 
             services.Add(new ServiceDescriptor(builder.GetType(), builder));//services.Add, 
 

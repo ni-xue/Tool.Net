@@ -70,7 +70,7 @@ namespace Tool.Utils.ActionDelegate
             //Assembly ass = Assembly.LoadFrom("Universal_Parent_Class.dll");
             //通过Assembly获取程序集中类
             this.type = t ?? throw new ArgumentNullException("未找到此类！");
-            obj = Activator.CreateInstance(this.type);
+            this.obj = Activator.CreateInstance(this.type);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Tool.Utils.ActionDelegate
             //Assembly ass = Assembly.LoadFrom("Universal_Parent_Class.dll");
             //通过Assembly获取程序集中类
             this.type = t ?? throw new ArgumentNullException("未找到此类！");
-            obj = Activator.CreateInstance(this.type, args);
+            this.obj = Activator.CreateInstance(this.type, args);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Tool.Utils.ActionDelegate
 
             //通过Assembly获取程序集中类
             this.type = t ?? throw new ArgumentNullException("未找到此类！");
-            obj = Activator.CreateInstance(this.type);
+            this.obj = Activator.CreateInstance(this.type);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Tool.Utils.ActionDelegate
 
             //通过Assembly获取程序集中类
             this.type = t ?? throw new ArgumentNullException("未找到此类！");
-            obj = Activator.CreateInstance(this.type, args);
+            this.obj = Activator.CreateInstance(this.type, args);
         }
         /// <summary>
         /// 初始化，并赋值
@@ -172,7 +172,7 @@ namespace Tool.Utils.ActionDelegate
             //Assembly ass = Assembly.LoadFrom("Universal_Parent_Class.dll");
             //通过Assembly获取程序集中类
             this.type = t ?? throw new ArgumentNullException("未找到此类！");
-            obj = args;
+            this.obj = args;
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Tool.Utils.ActionDelegate
         public TypeInvoke(Type type)
         {
             this.type = type;
-            obj = Activator.CreateInstance(this.type);
+            this.obj = Activator.CreateInstance(this.type);
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Tool.Utils.ActionDelegate
         public TypeInvoke(object obj)
         {
             this.type = obj.GetType();
-            obj = type;
+            this.obj = obj;
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Tool.Utils.ActionDelegate
         public TypeInvoke(Type type, params object[] args)
         {
             this.type = type;
-            obj = Activator.CreateInstance(this.type, args);
+            this.obj = Activator.CreateInstance(this.type, args);
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace Tool.Utils.ActionDelegate
         public TypeInvoke(Type type, object args)
         {
             this.type = type;
-            obj = args;
+            this.obj = args;
         }
 
         /// <summary>
@@ -429,12 +429,7 @@ namespace Tool.Utils.ActionDelegate
                 throw new ArgumentNullException("未找到此方法！");
             }
             ParameterInfo[] member = method.GetParameters();
-            List<Parameter> members = new List<Parameter>();
-            foreach (var Member in member)
-            {
-                members.Add(new Parameter(Member));//(Member.Name, Member.ParameterType.Name, Member.ParameterType.Namespace, Member.ParameterType, Member.DefaultValue)
-            }
-            return members.ToArray();
+            return GetParameter(member);
         }
 
         /// <summary>
@@ -449,7 +444,21 @@ namespace Tool.Utils.ActionDelegate
                 throw new ArgumentNullException("对象不能为空！");
             }
             ParameterInfo[] member = method.GetParameters();
-            List<Parameter> members = new List<Parameter>();
+            return GetParameter(member);
+        }
+
+        /// <summary>
+        /// 获取该方法需要的参数
+        /// </summary>
+        /// <param name="member">对象</param>
+        /// <returns>返回所有的参数</returns>
+        public static Parameter[] GetParameter(params ParameterInfo[] member)
+        {
+            if (member == null)
+            {
+                throw new ArgumentNullException("对象不能为空！");
+            }
+            List<Parameter> members = new();
             foreach (var Member in member)
             {
                 members.Add(new Parameter(Member)); //(Member.Name, Member.ParameterType.Name, Member.ParameterType.Namespace, Member.ParameterType, Member.DefaultValue)
@@ -658,15 +667,9 @@ namespace Tool.Utils.ActionDelegate
                     type = null;
                     obj = null;
                     GC.SuppressFinalize(this);
-                }
-                else
-                {
-                    return;
 
-                    //GC.SuppressFinalize(this);
-                    //GC.ReRegisterForFinalize(this);
+                    IsDisposed = true;
                 }
-                IsDisposed = true;
             }
         }
     }

@@ -16,7 +16,7 @@ namespace Tool.Web.Api.ApiCore
         /// <summary>
         /// 当前Ashx版本号
         /// </summary>
-        public const string AshxVersion = "2.3.0"; // static readonly 
+        public const string AshxVersion = "3.0.0"; // static readonly 
 
         /// <summary>
         /// Ashx路由模式的表头 同步
@@ -47,15 +47,8 @@ namespace Tool.Web.Api.ApiCore
         internal static bool Initialize(IHttpApi httpHandler, AshxRouteData RouteData)
         {
             httpHandler.SetRouteData(RouteData);
-            if (RouteData.GetAshx.IsTask)
-            {
-                RouteData.HttpContext.Response.AppendHeader(AshxVersionHeaderAsyncName, AshxVersion);
-            }
-            else
-            {
-                RouteData.HttpContext.Response.AppendHeader(AshxVersionHeaderName, AshxVersion);
-            }
-            AshxExtension.CrossDomain(RouteData.HttpContext.Response, RouteData.GetAshx);
+            RouteData.HttpContext.Response.AppendHeader(RouteData.GetAshx.IsTask ? AshxVersionHeaderAsyncName : AshxVersionHeaderName, AshxVersion);
+            //AshxExtension.CrossDomain(RouteData.HttpContext.Response, RouteData.GetAshx);
             return httpHandler.Initialize(RouteData.GetAshx);
         }
 
@@ -67,15 +60,8 @@ namespace Tool.Web.Api.ApiCore
         /// <returns></returns>
         internal static bool MinInitialize(IMinHttpApi httpHandler, AshxRouteData RouteData)
         {
-            if (RouteData.GetAshx.IsTask)
-            {
-                RouteData.HttpContext.Response.AppendHeader(MinAshxVersionHeaderAsyncName, AshxVersion);
-            }
-            else
-            {
-                RouteData.HttpContext.Response.AppendHeader(MinAshxVersionHeaderName, AshxVersion);
-            }
-            AshxExtension.CrossDomain(RouteData.HttpContext.Response, RouteData.GetAshx);
+            RouteData.HttpContext.Response.AppendHeader(RouteData.GetAshx.IsTask ? MinAshxVersionHeaderAsyncName : MinAshxVersionHeaderName, AshxVersion);
+            //AshxExtension.CrossDomain(RouteData.HttpContext.Response, RouteData.GetAshx);
             return httpHandler.Initialize(RouteData);
         }
 

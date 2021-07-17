@@ -425,13 +425,12 @@ namespace Tool.Web.Api
     /// <para>相关配置：</para>
     /// <para>'Access-Control-Allow-Origin:http://172.20.0.206'  一般用法（*，指定域，动态设置），3是因为*不允许携带认证头和cookies</para>
     /// <para>'Access-Control-Allow-Credentials:true'  是否允许后续请求携带认证信息（cookies）,该值只能是true,否则不返回</para>
-    /// <para>'Access-Control-Max-Age: 1800'  预检结果缓存时间,也就是上面说到的缓存啦</para>
-    /// <para>'Access-Control-Allow-Methods:GET,POST,PUT,POST'  允许的请求类型</para>
+    /// <para>'Access-Control-Allow-Methods:HEAD,GET,POST,PUT,PATCH,DELETE'  允许的请求类型</para>
     /// <para>'Access-Control-Allow-Headers:x-requested-with,content-type'  允许的请求头字段</para>
     /// </summary>
     /// <remarks>代码由逆血提供支持</remarks>
     [Serializable]
-    [AttributeUsage(AttributeTargets.Method, Inherited = false)]//| AttributeTargets.Property
+    [AttributeUsage(AttributeTargets.Method, Inherited = false)]//| AttributeTargets.Property /// <para>'Access-Control-Max-Age: 1800'  预检结果缓存时间,也就是上面说到的缓存啦</para>
     public class CrossDomain : Attribute
     {
         /// <summary>
@@ -445,7 +444,7 @@ namespace Tool.Web.Api
         public string Origin { get; set; } = "*";
 
         /// <summary>
-        /// 允许的请求类型 可选：GET,POST,PUT,POST
+        /// 允许的请求类型 可选：HEAD,GET,POST,PUT,PATCH,DELETE
         /// </summary>
         public string Methods { get; set; } = null;
 
@@ -453,5 +452,10 @@ namespace Tool.Web.Api
         /// 允许的请求头字段 例如：content-type
         /// </summary>
         public string Headers { get; set; } = null;
+
+        ///// <summary>
+        ///// 允许的请求缓存 （缓存时间 1800 常见）
+        ///// </summary>
+        //public uint MaxAge { get; set; } = 0;
     }
 }

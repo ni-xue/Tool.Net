@@ -27,6 +27,11 @@ namespace Tool.Utils.ThreadQueue
         public event Action<T, V, Exception> ContinueWith;
 
         /// <summary>
+        /// 表示当前事件是否已经注册
+        /// </summary>
+        public bool IsContinueWith => ContinueWith != null;
+
+        /// <summary>
         /// 创建执行需要的函数
         /// </summary>
         public TaskOueue(Func<T, V> func)

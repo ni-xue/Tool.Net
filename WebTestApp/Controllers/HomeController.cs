@@ -63,6 +63,7 @@ namespace WebTestApp.Controllers
             return Ok();
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             Response.AppendHeader("a我", "abc123我是谁？");

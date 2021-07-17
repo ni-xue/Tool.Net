@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Tool.Web.Builder
+namespace Microsoft.AspNetCore.Builder  //Tool.Web.Builder
 {
     /// <summary>
     /// Ashx 路由模式扩展

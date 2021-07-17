@@ -15,7 +15,8 @@ namespace WebTestApp
 {
     public class Class1 : Tool.Sockets.TcpFrame.DataBase
     {
-        public Class1() : base(1)
+        [Tool.Sockets.TcpFrame.DataTcp(1)]
+        public Class1()
         {
 
         }
@@ -27,7 +28,7 @@ namespace WebTestApp
             return new { a };
         }
 
-        [Tool.Sockets.TcpFrame.DataTcp(101, ObjType = Tool.Sockets.TcpFrame.DataTcpState.Byte)]
+        [Tool.Sockets.TcpFrame.DataTcp(101)]
         public byte[] B(string path)
         {
             byte[] s = System.IO.File.ReadAllBytes(path);
@@ -35,7 +36,7 @@ namespace WebTestApp
             return s;//new byte[1024 * 100];
         }
 
-        [Tool.Sockets.TcpFrame.DataTcp(102, ObjType = Tool.Sockets.TcpFrame.DataTcpState.String)]
+        [Tool.Sockets.TcpFrame.DataTcp(102)]
         public string C(string path)
         {
             //System.IO.File.WriteAllBytes(path, Bytes);//23797

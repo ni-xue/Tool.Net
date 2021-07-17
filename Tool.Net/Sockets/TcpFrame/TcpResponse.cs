@@ -35,19 +35,19 @@ namespace Tool.Sockets.TcpFrame
         public bool IsAsync { get; internal set; }
 
         /// <summary>
-        /// 数据包
+        /// 数据包（文字类型的数据）
         /// </summary>
-        public string Obj { get; internal set; }
-
-        /// <summary>
-        /// 当前发生的异常
-        /// </summary>
-        public Exception Exception { get; internal set; }
+        public string Text { get; internal set; }
 
         /// <summary>
         /// 当前消息携带的数据流
         /// </summary>
         public byte[] Bytes { get; internal set; }
+
+        /// <summary>
+        /// 当前发生的异常
+        /// </summary>
+        public Exception Exception { get; internal set; }
 
         ///**
         // * 返回可查找的方法键值
@@ -64,6 +64,8 @@ namespace Tool.Sockets.TcpFrame
 
         internal static DataPacket GetDataPacket(ApiPacket api, string ipPort, bool isServer, bool isAsync) //bool isSend, bool isErr, 
         {
+            if (api == null) throw new ArgumentException(" ApiPacket 对象不能为空！", nameof(api));
+
             string msg = api.FormatData();
             DataPacket dataPacket = new()
             {

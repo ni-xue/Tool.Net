@@ -13,15 +13,15 @@ namespace Tool.Sockets.TcpFrame
     /// <remarks>代码由逆血提供支持</remarks>
     public abstract class DataBase : IDisposable
     {
-        /// <summary>
-        /// 必须定义ID，并保证唯一
-        /// </summary>
-        /// <param name="ClassID"></param>
-        public DataBase(byte ClassID)
-        {
-            this.ClassID = ClassID;
-            //Form = new Dictionary<string, string>().AsReadOnly();
-        }
+        ///// <summary>
+        ///// 必须定义ID，并保证唯一
+        ///// </summary>
+        ///// <param name="ClassID"></param>
+        //public DataBase(byte ClassID)
+        //{
+        //    this.ClassID = ClassID;
+        //    //Form = new Dictionary<string, string>().AsReadOnly();
+        //}
 
         /**
          * 初始化数据绑定
@@ -115,31 +115,33 @@ namespace Tool.Sockets.TcpFrame
             {
                 if (this.Initialize(dataTcp))
                 {
-                    object obj = dataTcp.Action.Invoke(this, paras);
+                    IGoOut obj = dataTcp.Action.Execute(this, paras) as IGoOut;
                     if (obj != null)
                     {
-                        switch (dataTcp.ObjType)
-                        {
-                            case DataTcpState.Byte:
-                                if (obj is byte[])
-                                {
-                                    dataPacket.Bytes = obj.ToVar<byte[]>();
-                                }
-                                break;
-                            case DataTcpState.Json:
-                                if (obj is string)
-                                {
-                                    dataPacket.Obj = obj.ToString();
-                                }
-                                else
-                                {
-                                    dataPacket.Obj = obj.ToJson();
-                                }
-                                break;
-                            case DataTcpState.String:
-                                dataPacket.Obj = obj.ToString();
-                                break;
-                        }
+                        dataPacket.Bytes = obj.Bytes;
+                        dataPacket.Obj = obj.Text;
+                        //switch (dataTcp.ObjType)
+                        //{
+                        //    case DataTcpState.Byte:
+                        //        if (obj is byte[])
+                        //        {
+                        //            dataPacket.Bytes = obj.ToVar<byte[]>();
+                        //        }
+                        //        break;
+                        //    case DataTcpState.Json:
+                        //        if (obj is string)
+                        //        {
+                        //            dataPacket.Obj = obj.ToString();
+                        //        }
+                        //        else
+                        //        {
+                        //            dataPacket.Obj = obj.ToJson();
+                        //        }
+                        //        break;
+                        //    case DataTcpState.String:
+                        //        dataPacket.Obj = obj.ToString();
+                        //        break;
+                        //}
 
                         //Type type = obj.GetType();
                         //string strobj;
@@ -200,10 +202,10 @@ namespace Tool.Sockets.TcpFrame
             return dataPacket;
         }
 
-        /// <summary>
-        /// 为当前类设置一个唯一ID，用于通讯
-        /// </summary>
-        public byte ClassID { get; }
+        ///// <summary>
+        ///// 为当前类设置一个唯一ID，用于通讯
+        ///// </summary>
+        //public byte ClassID { get; }
 
         /// <summary>
         /// 发送的参数
@@ -235,6 +237,70 @@ namespace Tool.Sockets.TcpFrame
         }
 
         /// <summary>
+        /// 默认完成结果
+        /// </summary>
+        /// <returns></returns>
+        public IGoOut Ok() 
+        {
+            return new GoOut();
+        }
+
+        /// <summary>
+        /// 完成结果,并输出类容
+        /// </summary>
+        /// <param name="test">文本类容</param>
+        /// <param name="bytes">字节流类容</param>
+        /// <returns></returns>
+        public IGoOut Ok(string test, byte[] bytes)
+        {
+            if (test == null) throw new ArgumentException("参数为空！", nameof(test));
+            if (bytes == null) throw new ArgumentException("参数为空！", nameof(bytes));
+            return new GoOut(bytes, test);
+        }
+
+        /// <summary>
+        /// 完成结果,并输出文本类容
+        /// </summary>
+        /// <param name="test">文本类容</param>
+        /// <returns></returns>
+        public IGoOut Write(string test)
+        {
+            if (test == null) throw new ArgumentException("参数为空！", nameof(test));
+            return new GoOut(test);
+        }
+
+        /// <summary>
+        /// 完成结果,并输出字节流类容
+        /// </summary>
+        /// <param name="bytes">字节流类容</param>
+        /// <returns></returns>
+        public IGoOut Write(byte[] bytes)
+        {
+            if (bytes == null) throw new ArgumentException("参数为空！", nameof(bytes));
+            return new GoOut(bytes);
+        }
+
+        /// <summary>
+        /// 完成结果,返回Json格式数据
+        /// </summary>
+        /// <param name="json">Json格式数据</param>
+        /// <returns></returns>
+        public IGoOut Json(object json)
+        {
+            if (json == null) throw new ArgumentException("参数为空！", nameof(json));
+            string _json;
+            if (json is string)
+            {
+                _json = json.ToString();
+            }
+            else
+            {
+                _json = json.ToJson();
+            }
+            return new GoOut(_json);
+        }
+
+        /// <summary>
         /// 当前API消息发生异常时触发
         /// </summary>
         /// <param name="ex">异常信息</param>
@@ -245,26 +311,14 @@ namespace Tool.Sockets.TcpFrame
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // 要检测冗余调用
+        //private bool disposedValue = false; // 要检测冗余调用
 
         /// <summary>
-        /// 用于开发者重写的回收
+        /// 用于开发者重写的回收（可回收使用的非托管资源）
         /// </summary>
-        /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing)
+        protected virtual void Dispose()
         {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: 释放托管状态(托管对象)。
-                }
 
-                // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
-                // TODO: 将大型字段设置为 null。
-
-                disposedValue = true;
-            }
         }
 
         // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
@@ -278,7 +332,7 @@ namespace Tool.Sockets.TcpFrame
         void IDisposable.Dispose()
         {
             // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-            Dispose(true);
+            Dispose();
 
             //Form.Clear();
             Form = null;

@@ -15,7 +15,7 @@ namespace Tool.Tests
     public class ObjectExtensionTests
     {
         [TestMethod()]
-        public void ToJsonActionTest([ApiVal(Val.Query)] int id, [ApiVal(Val.Form)] int id1)
+        public void ToJsonActionTest()//[ApiVal(Val.Query)] int id, [ApiVal(Val.Form)] int id1
         {
             string text = string.Concat("{\"code\":", 200, ",\"msg\":\"", "哈哈哈", "\"}");
 

@@ -3,8 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tool.Web.Session;
 
-namespace Tool.Web.Session
+namespace Microsoft.Extensions.DependencyInjection //Tool.Web.Session
 {
     /// <summary>
     /// AsSession服务的注册帮助类

@@ -11,15 +11,15 @@ using Tool.Utils;
 namespace Tool.Web.Api
 {
     /// <summary>
-    /// 针对于新版Ashx路由模式，的同步，异步，支持（此API为最轻量级，请严格遵循实现写法）
+    /// 针对于新版Ashx路由模式，的同步，异步，支持（此Api为最轻量级，请严格遵循实现写法）
     /// <para>给你一个快的理由，因为该路由接口类在启动路由时就已经创建，中途调用，无需创建新的实例，达到最大性能优化。</para>
-    /// <para>同时请注意您这个API类对象的生命周期，将伴随着整个Web应用程序一致，也就意味着类中的所有对象将不是安全的，请合理声明类变量使用。</para>
+    /// <para>同时请注意您这个Api类对象的生命周期，将伴随着整个Web应用程序一致，也就意味着类中的所有对象将不是安全的，请合理声明类变量使用。</para>
     /// <example>   Api 方法创建示例：
     /// <code>
     ///   public <see cref="IApiOut"/> GetApi(<see cref="HttpContext"/> context)  => ApiOut.Json(new { msg = "最小，路由版本api。" });
     /// </code>
     /// </example>
-    /// <example>Api 方法创建示例：
+    /// <example>Api 方法创建示例：(异步实现)
     /// <code>
     ///   public async <see cref="Task{IApiOut}"/> GetTaskApi(<see cref="HttpContext"/> context) => await ApiOut.JsonAsync(new { msg = "最小，路由版本api。" });
     /// </code>

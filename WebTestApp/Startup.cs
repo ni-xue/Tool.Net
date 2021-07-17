@@ -18,6 +18,7 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Tool;
 using System.Diagnostics;
+using Tool.Utils.ActionDelegate;
 
 namespace WebTestApp
 {
@@ -46,7 +47,7 @@ namespace WebTestApp
             services.AddMvc(o => o.EnableEndpointRouting = false);
             //services.AddAshx().AddHttpContext();
 
-            services.AddAshx(o => 
+            services.AddAshx(o =>
             {
                 o.IsAsync = true;
                 o.JsonOptions = new System.Text.Json.JsonSerializerOptions
@@ -58,15 +59,30 @@ namespace WebTestApp
                 o.JsonOptions.Converters.Add(JsonConverterHelper.GetDateConverter());
 
                 o.JsonOptions.Converters.Add(JsonConverterHelper.GetDBNullConverter());
-            }).AddHttpContext();
+            });//.AddHttpContext();
 
             services.AddDiySession(d =>
             {
                 d.GetDiySession<Test.Class>();
+                //d.GetKey = async (s) =>
+                //{
+                //    return await Task.FromResult<(string, bool)>((null, true));
+                //};
             });
 
             Test.Class1 class1 = new();
             class1.sd();
+
+            var str = "{ \"result\": {\"code\":0, \"hehe\": [0,5,10] } }";
+
+            var json = str.JsonDynamic();
+
+            JsonVal jsonVal = new(json);
+
+            var code = jsonVal["result"]["hehe"][2];
+
+            Console.WriteLine();
+
             //var sda1 = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, dynamic>>("{ \"aa\":{\"a1\":\"aa11\",\"a2\":\"https:\\/\\/www.abc.com\\/asfasd8asfad\"},\"bb\":\"bbbbbbbbbasdfasdxxx\"}");
 
             //Dictionary<string, dynamic> sda = 
@@ -165,9 +181,9 @@ namespace WebTestApp
 
             //wait.Run();
 
-            services.AddObject(new DbHelper("server=nixue.top;database=CommunDB;uid=user;password=123456;Pooling=true;", DbProviderType.SqlServer1, new SqlServerProvider()));
+            //services.AddObject(new DbHelper("server=nixue.top;database=CommunDB;uid=user;password=123456;Pooling=true;", DbProviderType.SqlServer1, new SqlServerProvider()));
 
-            //services.AddObject(new DbHelper("data source=47.94.109.199;database=liquortribe;user id=liquortribe;password=NjCHBrzhrWpJZr8a;pooling=true;charset=utf8;", DbProviderType.MySql, new MySqlProvider()));
+            services.AddObject(new DbHelper("data source=47.94.109.199;database=liquortribe;user id=liquortribe;password=NjCHBrzhrWpJZr8a;pooling=true;charset=utf8;", DbProviderType.MySql, new MySqlProvider()));
         }
 
         //private void ActionQueue_ContinueWith(Tool.Utils.ThreadQueue.WaitAction obj)
@@ -240,6 +256,13 @@ namespace WebTestApp
                     controller: "Heheh",
                     action: "Index",
                     template: "v1/{id?}");
+
+                routes.MapApiRoute(
+                    name: "default4",
+                    areaName: "WebTestApp.ApiView",
+                    controller: "Class",
+                    action: "As",
+                    template: "v2/{id?}");
             });
 
             //Microsoft.AspNetCore.Mvc.Routing.MvcRouteHandler//MvcBuilder//AttributeRouting.CreateAttributeMegaRoute(app.ApplicationServices)

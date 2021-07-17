@@ -16,12 +16,12 @@ namespace Tool.Sockets.WebTcp
         /// <summary>
         /// 连接时的原始对象信息
         /// </summary>
-        internal HttpListenerContext httpListenerContext { get; }
+        public HttpListenerContext HttpListenerContext { get; }
 
         /// <summary>
         /// 握手后的重要数据
         /// </summary>
-        internal HttpListenerWebSocketContext httpListenerWebSocketContext { get; }
+        public HttpListenerWebSocketContext HttpListenerWebSocketContext { get; }
 
         /// <summary>
         /// 当前客户端IP信息
@@ -31,7 +31,7 @@ namespace Tool.Sockets.WebTcp
         /// <summary>
         /// 当前连接客户端信息
         /// </summary>
-        public WebSocket Socket { get { return httpListenerWebSocketContext.WebSocket; } }
+        public WebSocket Socket { get { return HttpListenerWebSocketContext.WebSocket; } }
 
         /// <summary>
         /// 返回 WebSocket 连接的当前状态。
@@ -50,11 +50,34 @@ namespace Tool.Sockets.WebTcp
                 throw new NullReferenceException("httpListenerContext 对象不能为空！");
             }
 
-            this.httpListenerContext = httpListenerContext;
+            this.HttpListenerContext = httpListenerContext;
 
             IpPort = WebStateObject.GetIpPort(httpListenerContext);
 
-            this.httpListenerWebSocketContext = httpListenerContext.AcceptWebSocketAsync(null).GetAwaiter().GetResult();
+            this.HttpListenerWebSocketContext = httpListenerContext.AcceptWebSocketAsync(null).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// 创建用户连接信息存储对象
+        /// </summary>
+        /// <param name="httpListenerContext">用户连接凭证</param>
+        /// <param name="httpListenerWebSocketContext">连接后的信息</param>
+        public WebContext(HttpListenerContext httpListenerContext, HttpListenerWebSocketContext httpListenerWebSocketContext)
+        {
+            if (httpListenerContext == null)
+            {
+                throw new NullReferenceException("httpListenerContext 对象不能为空！");
+            }
+            if (httpListenerWebSocketContext == null)
+            {
+                throw new NullReferenceException("httpListenerWebSocketContext 对象不能为空！");
+            }
+
+            this.HttpListenerContext = httpListenerContext;
+
+            IpPort = WebStateObject.GetIpPort(httpListenerContext);
+
+            this.HttpListenerWebSocketContext = httpListenerWebSocketContext;
         }
 
         /// <summary>

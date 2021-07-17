@@ -3,10 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Tool</RootNamespace>
-    <Version>3.4.3</Version>
+    <Version>3.5.0</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Copyright>Copyright © Microsoft 2021-06-10 18:00:00</Copyright>
+    <Copyright>Copyright © Microsoft 2021-07-18 18:00:00</Copyright>
     <Company>NiXue</Company>
     <Authors>NiXue</Authors>
     <PackageProjectUrl>https://github.com/nixue-xin/UniversalFrame</PackageProjectUrl>

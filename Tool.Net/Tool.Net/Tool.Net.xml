@@ -287,7 +287,7 @@
             <summary>
             设置开启或关闭不想收到的消息事件
             </summary>
-            <param name="enAction">屏蔽不触发的事件状态（<see cref="T:Tool.Sockets.SupportCode.EnClient"/>|<see cref="T:Tool.Sockets.SupportCode.EnServer"/>）</param>
+            <param name="enAction">屏蔽不触发的事件状态（<see cref="T:Tool.Sockets.SupportCode.EnClient"/> | <see cref="T:Tool.Sockets.SupportCode.EnServer"/>）</param>
             <param name="state">等于true时生效，将关闭一切的相关事件</param>
             <returns>返回是否设置成功</returns>
         </member>
@@ -573,9 +573,6 @@
             封装的一个TCP框架（客户端）
             </summary>
         </member>
-        <member name="F:Tool.Sockets.TcpFrame.ClientFrame.DicDataTcps">
-            当前请求方法
-        </member>
         <member name="F:Tool.Sockets.TcpFrame.ClientFrame.Lock">
             锁
         </member>
@@ -674,28 +671,18 @@
             <param name="api">接口调用信息</param>
             <param name="IpPort"></param>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ClientFrame.SendAsync(System.String,Tool.Sockets.TcpFrame.ApiPacket,System.Action{Tool.Sockets.TcpFrame.TcpResponse})">
-            <summary>
-            异步发送消息
-            </summary>
-            <param name="IpPort"></param>
-            <param name="api">接口调用信息</param>
-            <param name="action">异步回调返回消息</param>
-        </member>
-        <member name="M:Tool.Sockets.TcpFrame.ClientFrame.SendAsync(Tool.Sockets.TcpFrame.ApiPacket,System.Action{Tool.Sockets.TcpFrame.TcpResponse})">
+        <member name="M:Tool.Sockets.TcpFrame.ClientFrame.SendAsync(Tool.Sockets.TcpFrame.ApiPacket)">
             <summary>
             异步发送消息
             </summary>
             <param name="api">接口调用信息</param>
-            <param name="action">异步回调返回消息</param>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ClientFrame.SendIpIdeaAsync(System.String,Tool.Sockets.TcpFrame.ApiPacket,System.Action{Tool.Sockets.TcpFrame.TcpResponse})">
+        <member name="M:Tool.Sockets.TcpFrame.ClientFrame.SendIpIdeaAsync(System.String,Tool.Sockets.TcpFrame.ApiPacket)">
             <summary>
             异步发送消息（转发给指定客户端）
             </summary>
             <param name="IpPort">事件处理的服务器</param>
             <param name="api">接口调用信息</param>
-            <param name="action">异步回调返回消息</param>
         </member>
         <member name="M:Tool.Sockets.TcpFrame.ClientFrame.Send(Tool.Sockets.TcpFrame.ApiPacket)">
             <summary>
@@ -790,13 +777,12 @@
             <param name="i">返回成功发送包的下标</param>
             <returns>返回数据包</returns>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.SendAsync(Tool.Sockets.TcpFrame.ApiPacket,System.Action{Tool.Sockets.TcpFrame.TcpResponse},System.Int32@)">
+        <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.SendAsync(Tool.Sockets.TcpFrame.ApiPacket)">
             <summary>
             异步发送消息（多服务器协调发送）
             </summary>
             <param name="api">接口调用信息</param>
-            <param name="action">异步回调返回消息</param>
-            <param name="i">返回成功发送包的下标</param>
+            <returns>返回数据包，以及下标</returns>
         </member>
         <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.SendIpIdea(System.String,Tool.Sockets.TcpFrame.ApiPacket,System.Int32@)">
             <summary>
@@ -807,14 +793,13 @@
             <param name="i">返回成功发送包的下标</param>
             <returns>返回数据包</returns>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.SendIpIdeaAsync(System.String,Tool.Sockets.TcpFrame.ApiPacket,System.Action{Tool.Sockets.TcpFrame.TcpResponse},System.Int32@)">
+        <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.SendIpIdeaAsync(System.String,Tool.Sockets.TcpFrame.ApiPacket)">
             <summary>
             异步发送消息（多服务器协调发送+转发给指定客户端）
             </summary>
             <param name="IpPort">事件处理的服务器</param>
             <param name="api">接口调用信息</param>
-            <param name="action">异步回调返回消息</param>
-            <param name="i">返回成功发送包的下标</param>
+            <returns>返回数据包，以及下标</returns>
         </member>
         <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.Reconnection(System.Int32)">
             <summary>
@@ -831,25 +816,18 @@
             <param name="api">接口调用信息</param>
             <returns>返回数据包</returns>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.SendAsync(System.Int32,Tool.Sockets.TcpFrame.ApiPacket,System.Action{Tool.Sockets.TcpFrame.TcpResponse})">
+        <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.SendAsync(System.Int32,Tool.Sockets.TcpFrame.ApiPacket)">
             <summary>
             异步发送消息（多服务器协调发送）
             </summary>
             <param name="i">向那个服务器端口发包</param>
             <param name="api">接口调用信息</param>
-            <param name="action">异步回调返回消息</param>
         </member>
         <member name="T:Tool.Sockets.TcpFrame.DataBase">
             <summary>
             提供的唯一数据包接口类，必须实现
             </summary>
             <remarks>代码由逆血提供支持</remarks>
-        </member>
-        <member name="M:Tool.Sockets.TcpFrame.DataBase.#ctor(System.Byte)">
-            <summary>
-            必须定义ID，并保证唯一
-            </summary>
-            <param name="ClassID"></param>
         </member>
         <member name="M:Tool.Sockets.TcpFrame.DataBase.Initialize(System.String,System.String,System.String,System.Byte[])">
             初始化数据绑定
@@ -858,11 +836,6 @@
             获取方法调用参数
             parameters 参数信息
             参数值
-        </member>
-        <member name="P:Tool.Sockets.TcpFrame.DataBase.ClassID">
-            <summary>
-            为当前类设置一个唯一ID，用于通讯
-            </summary>
         </member>
         <member name="P:Tool.Sockets.TcpFrame.DataBase.Form">
             <summary>
@@ -890,6 +863,41 @@
             </summary>
             <param name="dataTcp">调用方法信息</param>
         </member>
+        <member name="M:Tool.Sockets.TcpFrame.DataBase.Ok">
+            <summary>
+            默认完成结果
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.TcpFrame.DataBase.Ok(System.String,System.Byte[])">
+            <summary>
+            完成结果,并输出类容
+            </summary>
+            <param name="test">文本类容</param>
+            <param name="bytes">字节流类容</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.TcpFrame.DataBase.Write(System.String)">
+            <summary>
+            完成结果,并输出文本类容
+            </summary>
+            <param name="test">文本类容</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.TcpFrame.DataBase.Write(System.Byte[])">
+            <summary>
+            完成结果,并输出字节流类容
+            </summary>
+            <param name="bytes">字节流类容</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.TcpFrame.DataBase.Json(System.Object)">
+            <summary>
+            完成结果,返回Json格式数据
+            </summary>
+            <param name="json">Json格式数据</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.Sockets.TcpFrame.DataBase.TcpException(System.Exception)">
             <summary>
             当前API消息发生异常时触发
@@ -897,11 +905,10 @@
             <param name="ex">异常信息</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.DataBase.Dispose(System.Boolean)">
+        <member name="M:Tool.Sockets.TcpFrame.DataBase.Dispose">
             <summary>
-            用于开发者重写的回收
+            用于开发者重写的回收（可回收使用的非托管资源）
             </summary>
-            <param name="disposing"></param>
         </member>
         <member name="M:Tool.Sockets.TcpFrame.DataBase.System#IDisposable#Dispose">
             添加此代码以正确实现可处置模式。
@@ -971,7 +978,7 @@
         </member>
         <member name="T:Tool.Sockets.TcpFrame.DataTcp">
             <summary>
-            针对于一般处理程序，备注一般处理程序必须继承于（<see cref="T:Tool.Sockets.TcpFrame.DataBase"/> 类才会生效） 所有状态（用于更好的使用一般处理程序，实现API接口）
+            针对于一般处理程序，备注一般处理程序必须继承于（<see cref="T:Tool.Sockets.TcpFrame.DataBase"/> 类才会生效） 所有状态（用于更好的使用 自定义通讯协议规范，实现Api接口）
             </summary>
             <remarks>代码由逆血提供支持</remarks>
         </member>
@@ -979,13 +986,14 @@
             <summary>
             用于实现构造(带默认参数)
             </summary>
+            <param name="ID">此处Id,与绑定函数有关，绑定在方法上，为方法ID，构造函数上为类ID</param>
         </member>
-        <member name="P:Tool.Sockets.TcpFrame.DataTcp.ObjType">
+        <member name="P:Tool.Sockets.TcpFrame.DataTcp.ClassID">
             <summary>
-            消息数据格式
+            表示为该方法指定了一个名称，用于对外的访问安全
             </summary>
         </member>
-        <member name="P:Tool.Sockets.TcpFrame.DataTcp.ID">
+        <member name="P:Tool.Sockets.TcpFrame.DataTcp.ActionID">
             <summary>
             表示为该方法指定了一个名称，用于对外的访问安全
             </summary>
@@ -1008,6 +1016,12 @@
         <member name="P:Tool.Sockets.TcpFrame.DataTcp.Action">
             当前方法的执行信息,目前只支持 <see cref="T:Tool.Sockets.TcpFrame.DataBase"/> 对象
         </member>
+        <member name="P:Tool.Sockets.TcpFrame.DataTcp.NewClass">
+            当前主消息的类委托,目前只支持 <see cref="T:Tool.Sockets.TcpFrame.DataBase"/> 对象
+        </member>
+        <member name="P:Tool.Sockets.TcpFrame.DataTcp.DicDataTcps">
+            当前请求方法
+        </member>
         <member name="M:Tool.Sockets.TcpFrame.DataTcp.GetAttribute``1">
             <summary>
             根据指定的自定义类获取当前接口对象上的<see cref="T:System.Attribute"/>（自定义类）
@@ -1021,28 +1035,15 @@
             </summary>
             <returns>返回所有的<see cref="T:System.Attribute"/>（自定义类）</returns>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.DataTcp.GetDicDataTcps``1">
+        <member name="M:Tool.Sockets.TcpFrame.DataTcp.InitDicDataTcps``1">
             获取所有接口
         </member>
-        <member name="T:Tool.Sockets.TcpFrame.DataTcpState">
+        <member name="M:Tool.Sockets.TcpFrame.DataTcp.AddDataTcps(System.Reflection.Assembly)">
             <summary>
-            针对于框架数据包,输出格式的描述
+            给<see cref="T:Tool.Sockets.TcpFrame.DataBase"/>相关业务追加新的服务，如果ID相同，将采用替换方式
             </summary>
-        </member>
-        <member name="F:Tool.Sockets.TcpFrame.DataTcpState.Byte">
-            <summary>
-            <see cref="T:System.Byte"/> 格式的数据包
-            </summary>
-        </member>
-        <member name="F:Tool.Sockets.TcpFrame.DataTcpState.Json">
-            <summary>
-            通用格式数据包
-            </summary>
-        </member>
-        <member name="F:Tool.Sockets.TcpFrame.DataTcpState.String">
-            <summary>
-            最常见的数据包
-            </summary>
+            <param name="assembly">需要验证接口的程序集</param>
+            <returns>程序集中存在接口，为[true/false]</returns>
         </member>
         <member name="T:Tool.Sockets.TcpFrame.IApiResult">
             <summary>
@@ -1263,13 +1264,65 @@
             </summary>
             <param name="value"></param>
         </member>
+        <member name="T:Tool.Sockets.TcpFrame.IGoOut">
+            <summary>
+            实现<see cref="T:Tool.Sockets.TcpFrame.DataBase"/>协议，接口输出规范
+            <para>两种数据格式可一起使用。</para>
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.TcpFrame.IGoOut.Bytes">
+            <summary>
+            返回的数据流
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.TcpFrame.IGoOut.Text">
+            <summary>
+            返回的文本类容
+            </summary>
+        </member>
+        <member name="T:Tool.Sockets.TcpFrame.GoOut">
+            <summary>
+            默认实现
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.TcpFrame.GoOut.#ctor">
+            <summary>
+            初始化输出结果
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.TcpFrame.GoOut.#ctor(System.String)">
+            <summary>
+            初始化输出结果
+            </summary>
+            <param name="text">字符串类容</param>
+        </member>
+        <member name="M:Tool.Sockets.TcpFrame.GoOut.#ctor(System.Byte[])">
+            <summary>
+            初始化输出结果
+            </summary>
+            <param name="bytes">字节流类容</param>
+        </member>
+        <member name="M:Tool.Sockets.TcpFrame.GoOut.#ctor(System.Byte[],System.String)">
+            <summary>
+            初始化输出结果
+            </summary>
+            <param name="bytes">字节流类容</param>
+            <param name="text">字符串类容</param>
+        </member>
+        <member name="P:Tool.Sockets.TcpFrame.GoOut.Bytes">
+            <summary>
+            返回的数据流
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.TcpFrame.GoOut.Text">
+            <summary>
+            返回的文本类容
+            </summary>
+        </member>
         <member name="T:Tool.Sockets.TcpFrame.ServerFrame">
             <summary>
             封装的一个TCP框架（服务端）
             </summary>
-        </member>
-        <member name="F:Tool.Sockets.TcpFrame.ServerFrame.DicDataTcps">
-            当前请求方法
         </member>
         <member name="F:Tool.Sockets.TcpFrame.ServerFrame.Lock">
             锁
@@ -1343,13 +1396,12 @@
             key 发送人的IP
             dataPacket 数据包
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ServerFrame.SendAsync(System.String,Tool.Sockets.TcpFrame.ApiPacket,System.Action{Tool.Sockets.TcpFrame.TcpResponse})">
+        <member name="M:Tool.Sockets.TcpFrame.ServerFrame.SendAsync(System.String,Tool.Sockets.TcpFrame.ApiPacket)">
             <summary>
             异步发送消息
             </summary>
             <param name="key">发送人的IP</param>
             <param name="api">接口调用信息</param>
-            <param name="action">异步回调返回消息</param>
         </member>
         <member name="M:Tool.Sockets.TcpFrame.ServerFrame.Send(System.String,Tool.Sockets.TcpFrame.ApiPacket)">
             <summary>
@@ -1399,19 +1451,19 @@
             是否是异步
             </summary>
         </member>
-        <member name="P:Tool.Sockets.TcpFrame.TcpResponse.Obj">
+        <member name="P:Tool.Sockets.TcpFrame.TcpResponse.Text">
             <summary>
-            数据包
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.TcpFrame.TcpResponse.Exception">
-            <summary>
-            当前发生的异常
+            数据包（文字类型的数据）
             </summary>
         </member>
         <member name="P:Tool.Sockets.TcpFrame.TcpResponse.Bytes">
             <summary>
             当前消息携带的数据流
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.TcpFrame.TcpResponse.Exception">
+            <summary>
+            当前发生的异常
             </summary>
         </member>
         <member name="M:Tool.Sockets.TcpFrame.TcpResponse.GetDataPacket(Tool.Sockets.TcpFrame.ApiPacket,System.String,System.Boolean,System.Boolean)">
@@ -1924,12 +1976,12 @@
             获取当客户端的详细信息
             </summary>
         </member>
-        <member name="P:Tool.Sockets.WebTcp.WebContext.httpListenerContext">
+        <member name="P:Tool.Sockets.WebTcp.WebContext.HttpListenerContext">
             <summary>
             连接时的原始对象信息
             </summary>
         </member>
-        <member name="P:Tool.Sockets.WebTcp.WebContext.httpListenerWebSocketContext">
+        <member name="P:Tool.Sockets.WebTcp.WebContext.HttpListenerWebSocketContext">
             <summary>
             握手后的重要数据
             </summary>
@@ -1955,6 +2007,13 @@
             创建用户连接信息存储对象
             </summary>
             <param name="httpListenerContext">用户连接凭证</param>
+        </member>
+        <member name="M:Tool.Sockets.WebTcp.WebContext.#ctor(System.Net.HttpListenerContext,System.Net.WebSockets.HttpListenerWebSocketContext)">
+            <summary>
+            创建用户连接信息存储对象
+            </summary>
+            <param name="httpListenerContext">用户连接凭证</param>
+            <param name="httpListenerWebSocketContext">连接后的信息</param>
         </member>
         <member name="M:Tool.Sockets.WebTcp.WebContext.Close">
             <summary>
@@ -1999,11 +2058,20 @@
             监听控制毫秒
             </summary>
         </member>
+        <member name="F:Tool.Sockets.WebTcp.WebServer.InitWebContext">
+            提供自定义注册的服务
+        </member>
         <member name="F:Tool.Sockets.WebTcp.WebServer.Completed">
             连接、发送、关闭事件
         </member>
         <member name="F:Tool.Sockets.WebTcp.WebServer.Received">
             接收到数据事件
+        </member>
+        <member name="M:Tool.Sockets.WebTcp.WebServer.SetInitWebContext(System.Func{System.Net.HttpListenerContext,Tool.Sockets.WebTcp.WebContext})">
+            <summary>
+            当新连接，创建时，可以自定义之协议，不实现走默认流程（当实现后，返回null时取消后续业务，请自行关闭连接）
+            </summary>
+            <param name="InitWebContext"></param>
         </member>
         <member name="M:Tool.Sockets.WebTcp.WebServer.SetCompleted(System.Action{System.String,Tool.Sockets.SupportCode.EnServer,System.DateTime})">
             <summary>
@@ -6672,6 +6740,11 @@
             是否有返回值，默认没有
             </summary>
         </member>
+        <member name="F:Tool.Utils.ActionDelegate.ActionDispatcher`1.ReturnType">
+            <summary>
+            调用接口的返回值
+            </summary>
+        </member>
         <member name="F:Tool.Utils.ActionDelegate.ActionDispatcher`1.Method">
             <summary>
             当前方法的执行信息
@@ -6780,6 +6853,15 @@
             </summary>
             <param name="methodInfo"></param>
             <returns>返回委托类型</returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.ActionDispatcher`1.GetParameter(System.Collections.Generic.List{System.Linq.Expressions.Expression}@,System.Linq.Expressions.ParameterExpression,System.Reflection.ParameterInfo[])">
+            <summary>
+            用于特殊的表达式树式
+            </summary>
+            <param name="expressions">返回表达参数结果</param>
+            <param name="parametersParameter">特定结构</param>
+            <param name="paramInfos">参数</param>
+            <returns></returns>
         </member>
         <member name="M:Tool.Utils.ActionDelegate.ActionDispatcher`1.ToString">
             <summary>
@@ -6917,6 +6999,56 @@
             返回方法信息缩写
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Tool.Utils.ActionDelegate.ClassDispatcher`1">
+            <summary>
+            根据 ConstructorInfo 对象，创建一个委托，实现类调用，提高性能，支持各种返回值
+            </summary>
+            <typeparam name="T">返回任何类型</typeparam>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.ClassDispatcher`1.Parameters">
+            <summary>
+            方法参数
+            </summary>
+        </member>
+        <member name="T:Tool.Utils.ActionDelegate.ClassDispatcher`1.NewClass`1">
+            <summary>
+            定义构造函数
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.ClassDispatcher`1.#ctor">
+            <summary>
+            根据构造函数，创建对象委托
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.ClassDispatcher`1.#ctor(System.Reflection.ConstructorInfo)">
+            <summary>
+            根据构造函数，创建对象委托
+            </summary>
+            <param name="constructor">构造函数对象</param>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.ClassDispatcher`1.#ctor(System.Type)">
+            <summary>
+            根据构造函数，创建对象委托
+            </summary>
+            <param name="classtype">对象类型</param>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.ClassDispatcher`1.Invoke(System.Object[])">
+            <summary>
+            创建 New 对象
+            </summary>
+            <param name="parameters">参数</param>
+            <returns>返回 New 新对象</returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.ClassDispatcher`1.GetClass(System.Reflection.ConstructorInfo)">
+            <summary>
+            通过构造器，直接获取相关构造委托
+            </summary>
+            <param name="constructor">构造器</param>
+            <returns>构造委托</returns>
         </member>
         <member name="T:Tool.Utils.ActionDelegate.MethodFlags">
             <summary>
@@ -7182,6 +7314,13 @@
             获取该方法需要的参数
             </summary>
             <param name="method">对象</param>
+            <returns>返回所有的参数</returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.TypeInvoke.GetParameter(System.Reflection.ParameterInfo[])">
+            <summary>
+            获取该方法需要的参数
+            </summary>
+            <param name="member">对象</param>
             <returns>返回所有的参数</returns>
         </member>
         <member name="M:Tool.Utils.ActionDelegate.TypeInvoke.GetProperty(System.String)">
@@ -9744,9 +9883,14 @@
             日志
             </summary>
         </member>
-        <member name="F:Tool.Utils.Log._logthread">
+        <member name="F:Tool.Utils.Log._logtask">
             <summary>
             日志线程
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.Log.IsAlive">
+            <summary>
+            日志任务是否已经启动了（没有启动时 false，启动后发生意外时 false， 其余时候一直都是 true ）
             </summary>
         </member>
         <member name="F:Tool.Utils.Log._directory">
@@ -10974,6 +11118,11 @@
             注册完成任务后触发的事件
             </summary>
         </member>
+        <member name="P:Tool.Utils.ThreadQueue.ActionQueue.IsContinueWith">
+            <summary>
+            表示当前事件是否已经注册
+            </summary>
+        </member>
         <member name="T:Tool.Utils.ThreadQueue.TaskOueue`2">
             <summary>
             一个消息队列任务模型（异步处理任务）
@@ -10983,6 +11132,11 @@
         <member name="E:Tool.Utils.ThreadQueue.TaskOueue`2.ContinueWith">
             <summary>
             注册完成任务后触发的事件
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.TaskOueue`2.IsContinueWith">
+            <summary>
+            表示当前事件是否已经注册
             </summary>
         </member>
         <member name="M:Tool.Utils.ThreadQueue.TaskOueue`2.#ctor(System.Func{`0,`1})">
@@ -12767,6 +12921,18 @@
         <member name="T:Tool.Web.Api.ApiAshx">
             <summary>
             针对于新版Ashx路由模式，的同步，异步，支持
+            <para>该控制器，相对于Mvc的控制器轻，应有功能都有，可自由扩展。</para>
+            <para>方便实现，您最想实现的效果，最大的优点还是因为他轻量级。</para>
+            <example>   Api 方法创建示例：
+            <code>
+              public <see cref="T:System.Void"/> GetApi(<see cref="T:System.String"/> context)  => Json(new { msg = "路由版本api。" });
+            </code>
+            </example>
+            <example>Api 方法创建示例：(异步实现)
+            <code>
+              public async <see cref="T:System.Threading.Tasks.Task"/> GetTaskApi(<see cref="T:System.String"/> context) => await JsonAsync(new { msg = "路由版本api。" });
+            </code>
+            </example>
             </summary>
             <remarks>代码由逆血提供支持</remarks>
         </member>
@@ -13003,9 +13169,14 @@
             当前对象的AshxType
             </summary>
         </member>
+        <member name="P:Tool.Web.Api.ApiCore.AshxExtension.AshxClassDelegater">
+            <summary>
+            当前控制器的 New 对象
+            </summary>
+        </member>
         <member name="P:Tool.Web.Api.ApiCore.AshxExtension.MinHttpAsynApi">
             <summary>
-            开始就是实力的API类
+            开始就实现的API类
             </summary>
         </member>
         <member name="P:Tool.Web.Api.ApiCore.AshxExtension.IsMin">
@@ -13047,6 +13218,13 @@
             </summary>
             <param name="response"></param>
             <param name="ashx"></param>
+        </member>
+        <member name="M:Tool.Web.Api.ApiCore.AshxExtension.NewClassAshx(System.IServiceProvider)">
+            <summary>
+            创建 新的 控制器对象
+            </summary>
+            <param name="service"></param>
+            <returns></returns>
         </member>
         <member name="M:Tool.Web.Api.ApiCore.AshxExtension.GetApiAction(System.Type,System.Boolean)">
             <summary>
@@ -13653,8 +13831,7 @@
             <para>相关配置：</para>
             <para>'Access-Control-Allow-Origin:http://172.20.0.206'  一般用法（*，指定域，动态设置），3是因为*不允许携带认证头和cookies</para>
             <para>'Access-Control-Allow-Credentials:true'  是否允许后续请求携带认证信息（cookies）,该值只能是true,否则不返回</para>
-            <para>'Access-Control-Max-Age: 1800'  预检结果缓存时间,也就是上面说到的缓存啦</para>
-            <para>'Access-Control-Allow-Methods:GET,POST,PUT,POST'  允许的请求类型</para>
+            <para>'Access-Control-Allow-Methods:HEAD,GET,POST,PUT,PATCH,DELETE'  允许的请求类型</para>
             <para>'Access-Control-Allow-Headers:x-requested-with,content-type'  允许的请求头字段</para>
             </summary>
             <remarks>代码由逆血提供支持</remarks>
@@ -13671,7 +13848,7 @@
         </member>
         <member name="P:Tool.Web.Api.CrossDomain.Methods">
             <summary>
-            允许的请求类型 可选：GET,POST,PUT,POST
+            允许的请求类型 可选：HEAD,GET,POST,PUT,PATCH,DELETE
             </summary>
         </member>
         <member name="P:Tool.Web.Api.CrossDomain.Headers">
@@ -13736,15 +13913,15 @@
         </member>
         <member name="T:Tool.Web.Api.MinApi">
             <summary>
-            针对于新版Ashx路由模式，的同步，异步，支持（此API为最轻量级，请严格遵循实现写法）
+            针对于新版Ashx路由模式，的同步，异步，支持（此Api为最轻量级，请严格遵循实现写法）
             <para>给你一个快的理由，因为该路由接口类在启动路由时就已经创建，中途调用，无需创建新的实例，达到最大性能优化。</para>
-            <para>同时请注意您这个API类对象的生命周期，将伴随着整个Web应用程序一致，也就意味着类中的所有对象将不是安全的，请合理声明类变量使用。</para>
+            <para>同时请注意您这个Api类对象的生命周期，将伴随着整个Web应用程序一致，也就意味着类中的所有对象将不是安全的，请合理声明类变量使用。</para>
             <example>   Api 方法创建示例：
             <code>
               public <see cref="T:Tool.Web.Api.IApiOut"/> GetApi(<see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> context)  => ApiOut.Json(new { msg = "最小，路由版本api。" });
             </code>
             </example>
-            <example>Api 方法创建示例：
+            <example>Api 方法创建示例：(异步实现)
             <code>
               public async <see cref="T:System.Threading.Tasks.Task`1"/> GetTaskApi(<see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> context) => await ApiOut.JsonAsync(new { msg = "最小，路由版本api。" });
             </code>
@@ -14138,171 +14315,46 @@
             <param name="ashxRoute">核心传输对象</param>
             <returns>返回任务</returns>
         </member>
-        <member name="T:Tool.Web.Builder.ApiRouteBuilderExtensions">
+        <member name="F:Tool.Web.AshxBuilder.RouteDefaults">
             <summary>
-            Ashx 路由模式扩展
+            子一级路由对象
             </summary>
         </member>
-        <member name="M:Tool.Web.Builder.ApiRouteBuilderExtensions.MapApiRoute(Microsoft.AspNetCore.Routing.IRouteBuilder,System.String,System.String,System.String)">
+        <member name="P:Tool.Web.AshxBuilder.AshxRoute">
             <summary>
-            创建与AshxApi有关的路由
-            </summary>
-            <param name="routeBuilder">路由核心对象</param>
-            <param name="name">路由规则名称</param>
-            <param name="areaName">区域名称，可为null</param>
-            <param name="template">路由的规则</param>
-            <returns>路由核心对象</returns>
-        </member>
-        <member name="M:Tool.Web.Builder.ApiRouteBuilderExtensions.MapApiRoute(Microsoft.AspNetCore.Routing.IRouteBuilder,System.String,System.String,System.String,System.String)">
-            <summary>
-            创建与AshxApi有关的路由
-            </summary>
-            <param name="routeBuilder">路由核心对象</param>
-            <param name="name">路由规则名称</param>
-            <param name="areaName">区域名称，可为null</param>
-            <param name="controller">控制器名称，可为null</param>
-            <param name="template">路由的规则</param>
-            <returns>路由核心对象</returns>
-        </member>
-        <member name="M:Tool.Web.Builder.ApiRouteBuilderExtensions.MapApiRoute(Microsoft.AspNetCore.Routing.IRouteBuilder,System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            创建与AshxApi有关的路由
-            </summary>
-            <param name="routeBuilder">路由核心对象</param>
-            <param name="name">路由规则名称</param>
-            <param name="areaName">区域名称，可为null</param>
-            <param name="controller">控制器名称，可为null</param>
-            <param name="action">方法名称，可为null</param>
-            <param name="template">路由的规则</param>
-            <returns>路由核心对象</returns>
-        </member>
-        <member name="M:Tool.Web.Builder.ApiRouteBuilderExtensions.MapApiRoute(Microsoft.AspNetCore.Routing.IRouteBuilder,System.String,System.String,System.String,System.String,System.String,System.Object,System.Object,System.Object)">
-            <summary>
-            创建与AshxApi有关的路由
-            </summary>
-            <param name="routeBuilder">路由核心对象</param>
-            <param name="name">路由规则名称</param>
-            <param name="areaName">区域名称，可为null</param>
-            <param name="controller">控制器名称，可为null</param>
-            <param name="action">方法名称，可为null</param>
-            <param name="template">路由的规则</param>
-            <param name="defaults">包含路由参数默认值的对象。对象的属性表示，默认值的名称和值，可为null。</param>
-            <param name="constraints">包含路由约束的对象。对象的属性表示，约束的名称和值，可为null。</param>
-            <param name="dataTokens">包含路由的数据标记的对象。对象的属性表示，数据标记的名称和值，可为null。</param>
-            <returns>路由核心对象</returns>
-        </member>
-        <member name="T:Tool.Web.Builder.AshxApplicationBuilderExtensions">
-            <summary>
-            Ashx 核心路由 扩展类
+            路由对象
             </summary>
         </member>
-        <member name="M:Tool.Web.Builder.AshxApplicationBuilderExtensions.UseAshx(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{Microsoft.AspNetCore.Routing.IRouteBuilder})">
+        <member name="P:Tool.Web.AshxBuilder.Options">
             <summary>
-            Ashx路由
-            </summary>
-            <param name="app"><see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/></param>
-            <param name="configureRoutes"><see cref="T:Microsoft.AspNetCore.Routing.IRouteBuilder"/></param>
-            <returns>IApplicationBuilder</returns>
-        </member>
-        <member name="M:Tool.Web.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Func{Microsoft.AspNetCore.Http.HttpContext,System.Exception,System.Threading.Tasks.Task})">
-            <summary>
-            注入 捕获全局异常 对象
-            </summary>
-            <param name="app">IApplicationBuilder框架对象</param>
-            <param name="action">需要提供处理这些异常的委托函数</param>
-            <returns>IApplicationBuilder</returns>
-        </member>
-        <member name="M:Tool.Web.Builder.AshxApplicationBuilderExtensions.GetObject``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-            获取 已经注册的 服务或数据
-            </summary>
-            <param name="app">IApplicationBuilder框架对象</param>
-            <typeparam name="T">获取的服务类型</typeparam>
-            <returns>IApplicationBuilder</returns>
-        </member>
-        <member name="M:Tool.Web.Builder.AshxApplicationBuilderExtensions.GetObject(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Type)">
-            <summary>
-            获取 已经注册的 服务或数据
-            </summary>
-            <param name="app">IApplicationBuilder框架对象</param>
-            <param name="type">获取的服务类型</param>
-            <returns>IApplicationBuilder</returns>
-        </member>
-        <member name="M:Tool.Web.Builder.AshxApplicationBuilderExtensions.AddHttpContext(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-            注入HttpContext对象，实现静态获取
-            </summary>
-            <param name="app">IApplicationBuilder框架对象</param>
-            <returns>IHttpContextAccessor</returns>
-        </member>
-        <member name="M:Tool.Web.Builder.AshxApplicationBuilderExtensions.UseIgnoreUrl(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String[])">
-            <summary>
-            注册 IgnoreUrl （忽略请求地址）
-            </summary>
-            <param name="app">IApplicationBuilder框架对象</param>
-            <param name="urls">需要忽略的地址，必填项</param>
-            <returns>IApplicationBuilder</returns>
-        </member>
-        <member name="T:Tool.Web.Builder.AshxServiceExtensions">
-            <summary>
-            Ashx 核心对象扩展类
+            当前对象注册所需要选项对象
             </summary>
         </member>
-        <member name="M:Tool.Web.Builder.AshxServiceExtensions.AddAshx(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="F:Tool.Web.AshxBuilder.Namespace">
             <summary>
-            启动Ashx路由模式
+            API项目目录
             </summary>
-            <param name="services"></param>
-            <returns>IAshxBuilder</returns>
         </member>
-        <member name="M:Tool.Web.Builder.AshxServiceExtensions.AddAshx(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Tool.Web.Api.ApiCore.AshxOptions})">
+        <member name="M:Tool.Web.AshxBuilder.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            启动Ashx路由模式
+            启动Ashx核心对象
             </summary>
-            <param name="services">注册对象</param>
-            <param name="action">选择委托</param>
-            <returns>IAshxBuilder</returns>
+            <param name="Services"></param>
         </member>
-        <member name="M:Tool.Web.Builder.AshxServiceExtensions.AddHttpContext(Tool.Web.Builder.IAshxBuilder)">
+        <member name="P:Tool.Web.AshxBuilder.Services">
             <summary>
-            注入HttpContext对象，实现静态获取
+            容器对象
             </summary>
-            <param name="ashxBuilder">Ashx框架对象</param>
-            <returns>IAshxBuilder</returns>
         </member>
-        <member name="M:Tool.Web.Builder.AshxServiceExtensions.AddObject(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Object)">
+        <member name="P:Tool.Web.AshxBuilder.Application">
             <summary>
-            将用户自定义的数据注册进服务。
+            提供整个请求服务者（依赖注入）
             </summary>
-            <param name="services">Ashx框架对象</param>
-            <param name="_obj">注册的数据</param>
-            <returns>IServiceCollection</returns>
         </member>
-        <member name="M:Tool.Web.Builder.AshxServiceExtensions.AddObject``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,``0)">
+        <member name="P:Tool.Web.AshxBuilder.IsHttpContext">
             <summary>
-            将用户自定义的数据注册进服务。
+            是否注入HttpContext对象
             </summary>
-            <param name="services">Ashx框架对象</param>
-            <param name="_obj">注册的数据</param>
-            <typeparam name="T"></typeparam>
-            <returns>IServiceCollection</returns>
-        </member>
-        <member name="M:Tool.Web.Builder.AshxServiceExtensions.AddObject(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type,System.Object)">
-            <summary>
-            将用户自定义的数据注册进服务。
-            </summary>
-            <param name="services">主服务</param>
-            <param name="type">注册对象类型</param>
-            <param name="_obj">注册的数据</param>
-            <returns>IServiceCollection</returns>
-        </member>
-        <member name="M:Tool.Web.Builder.AshxServiceExtensions.SetFormOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Http.Features.FormOptions})">
-            <summary>
-            设置系统默认配置的<see cref="T:Microsoft.AspNetCore.Http.Features.FormOptions"/>对象属性
-            </summary>
-            <param name="app">IServiceCollection框架对象</param>
-            <param name="action">用于属性配置的方法</param>
-            <returns>IServiceCollection框架对象</returns>
         </member>
         <member name="T:Tool.Web.Builder.IAshxBuilder">
             <summary>
@@ -14347,47 +14399,6 @@
             </summary>
             <param name="context"></param>
             <returns></returns>
-        </member>
-        <member name="F:Tool.Web.AshxBuilder.RouteDefaults">
-            <summary>
-            子一级路由对象
-            </summary>
-        </member>
-        <member name="P:Tool.Web.AshxBuilder.AshxRoute">
-            <summary>
-            路由对象
-            </summary>
-        </member>
-        <member name="P:Tool.Web.AshxBuilder.Options">
-            <summary>
-            当前对象注册所需要选项对象
-            </summary>
-        </member>
-        <member name="F:Tool.Web.AshxBuilder.Namespace">
-            <summary>
-            API项目目录
-            </summary>
-        </member>
-        <member name="M:Tool.Web.AshxBuilder.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            启动Ashx核心对象
-            </summary>
-            <param name="Services"></param>
-        </member>
-        <member name="P:Tool.Web.AshxBuilder.Services">
-            <summary>
-            容器对象
-            </summary>
-        </member>
-        <member name="P:Tool.Web.AshxBuilder.Application">
-            <summary>
-            提供整个请求服务者（依赖注入）
-            </summary>
-        </member>
-        <member name="P:Tool.Web.AshxBuilder.IsHttpContext">
-            <summary>
-            是否注入HttpContext对象
-            </summary>
         </member>
         <member name="T:Tool.Web.HttpContextExtension">
             <summary>
@@ -15033,13 +15044,186 @@
             </summary>
             <typeparam name="T">实现的基类</typeparam>
         </member>
-        <member name="T:Tool.Web.Session.SessionServiceExtensions">
+        <member name="P:Tool.Web.Session.DiySessionOptions.GetKey">
+            <summary>
+            注册一个可以自由控制的开关，以及自由规则的键值。 （key：返回生效的键值，isSession：是否创建Session对象）
+            <para>不注册，系统使用默认的方式。</para>
+            <para>key 为空，走默认值。</para>
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Builder.ApiRouteBuilderExtensions">
+            <summary>
+            Ashx 路由模式扩展
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.ApiRouteBuilderExtensions.MapApiRoute(Microsoft.AspNetCore.Routing.IRouteBuilder,System.String,System.String,System.String)">
+            <summary>
+            创建与AshxApi有关的路由
+            </summary>
+            <param name="routeBuilder">路由核心对象</param>
+            <param name="name">路由规则名称</param>
+            <param name="areaName">区域名称，可为null</param>
+            <param name="template">路由的规则</param>
+            <returns>路由核心对象</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.ApiRouteBuilderExtensions.MapApiRoute(Microsoft.AspNetCore.Routing.IRouteBuilder,System.String,System.String,System.String,System.String)">
+            <summary>
+            创建与AshxApi有关的路由
+            </summary>
+            <param name="routeBuilder">路由核心对象</param>
+            <param name="name">路由规则名称</param>
+            <param name="areaName">区域名称，可为null</param>
+            <param name="controller">控制器名称，可为null</param>
+            <param name="template">路由的规则</param>
+            <returns>路由核心对象</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.ApiRouteBuilderExtensions.MapApiRoute(Microsoft.AspNetCore.Routing.IRouteBuilder,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            创建与AshxApi有关的路由
+            </summary>
+            <param name="routeBuilder">路由核心对象</param>
+            <param name="name">路由规则名称</param>
+            <param name="areaName">区域名称，可为null</param>
+            <param name="controller">控制器名称，可为null</param>
+            <param name="action">方法名称，可为null</param>
+            <param name="template">路由的规则</param>
+            <returns>路由核心对象</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.ApiRouteBuilderExtensions.MapApiRoute(Microsoft.AspNetCore.Routing.IRouteBuilder,System.String,System.String,System.String,System.String,System.String,System.Object,System.Object,System.Object)">
+            <summary>
+            创建与AshxApi有关的路由
+            </summary>
+            <param name="routeBuilder">路由核心对象</param>
+            <param name="name">路由规则名称</param>
+            <param name="areaName">区域名称，可为null</param>
+            <param name="controller">控制器名称，可为null</param>
+            <param name="action">方法名称，可为null</param>
+            <param name="template">路由的规则</param>
+            <param name="defaults">包含路由参数默认值的对象。对象的属性表示，默认值的名称和值，可为null。</param>
+            <param name="constraints">包含路由约束的对象。对象的属性表示，约束的名称和值，可为null。</param>
+            <param name="dataTokens">包含路由的数据标记的对象。对象的属性表示，数据标记的名称和值，可为null。</param>
+            <returns>路由核心对象</returns>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions">
+            <summary>
+            Ashx 核心路由 扩展类
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseAshx(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{Microsoft.AspNetCore.Routing.IRouteBuilder})">
+            <summary>
+            Ashx路由
+            </summary>
+            <param name="app"><see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/></param>
+            <param name="configureRoutes"><see cref="T:Microsoft.AspNetCore.Routing.IRouteBuilder"/></param>
+            <returns>IApplicationBuilder</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Func{Microsoft.AspNetCore.Http.HttpContext,System.Exception,System.Threading.Tasks.Task})">
+            <summary>
+            注入 捕获全局异常 对象
+            </summary>
+            <param name="app">IApplicationBuilder框架对象</param>
+            <param name="action">需要提供处理这些异常的委托函数</param>
+            <returns>IApplicationBuilder</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            获取 已经注册的 服务或数据
+            </summary>
+            <param name="app">IApplicationBuilder框架对象</param>
+            <typeparam name="T">获取的服务类型</typeparam>
+            <returns>IApplicationBuilder</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Type)">
+            <summary>
+            获取 已经注册的 服务或数据
+            </summary>
+            <param name="app">IApplicationBuilder框架对象</param>
+            <param name="type">获取的服务类型</param>
+            <returns>IApplicationBuilder</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.AddHttpContext(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            注入HttpContext对象，实现静态获取
+            </summary>
+            <param name="app">IApplicationBuilder框架对象</param>
+            <returns>IHttpContextAccessor</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseIgnoreUrl(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String[])">
+            <summary>
+            注册 IgnoreUrl （忽略请求地址）
+            </summary>
+            <param name="app">IApplicationBuilder框架对象</param>
+            <param name="urls">需要忽略的地址，必填项</param>
+            <returns>IApplicationBuilder</returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.AshxServiceExtensions">
+            <summary>
+            Ashx 核心对象扩展类
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AshxServiceExtensions.AddAshx(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            启动Ashx路由模式
+            </summary>
+            <param name="services"></param>
+            <returns>IAshxBuilder</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AshxServiceExtensions.AddAshx(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Tool.Web.Api.ApiCore.AshxOptions})">
+            <summary>
+            启动Ashx路由模式
+            </summary>
+            <param name="services">注册对象</param>
+            <param name="action">选择委托</param>
+            <returns>IAshxBuilder</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AshxServiceExtensions.AddHttpContext(Tool.Web.Builder.IAshxBuilder)">
+            <summary>
+            注入HttpContext对象，实现静态获取
+            </summary>
+            <param name="ashxBuilder">Ashx框架对象</param>
+            <returns>IAshxBuilder</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AshxServiceExtensions.AddObject(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Object)">
+            <summary>
+            将用户自定义的数据注册进服务。
+            </summary>
+            <param name="services">Ashx框架对象</param>
+            <param name="_obj">注册的数据</param>
+            <returns>IServiceCollection</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AshxServiceExtensions.AddObject``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,``0)">
+            <summary>
+            将用户自定义的数据注册进服务。
+            </summary>
+            <param name="services">Ashx框架对象</param>
+            <param name="_obj">注册的数据</param>
+            <typeparam name="T"></typeparam>
+            <returns>IServiceCollection</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AshxServiceExtensions.AddObject(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type,System.Object)">
+            <summary>
+            将用户自定义的数据注册进服务。
+            </summary>
+            <param name="services">主服务</param>
+            <param name="type">注册对象类型</param>
+            <param name="_obj">注册的数据</param>
+            <returns>IServiceCollection</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AshxServiceExtensions.SetFormOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Http.Features.FormOptions})">
+            <summary>
+            设置系统默认配置的<see cref="T:Microsoft.AspNetCore.Http.Features.FormOptions"/>对象属性
+            </summary>
+            <param name="app">IServiceCollection框架对象</param>
+            <param name="action">用于属性配置的方法</param>
+            <returns>IServiceCollection框架对象</returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.SessionServiceExtensions">
             <summary>
             AsSession服务的注册帮助类
             </summary>
             <remarks>代码由逆血提供支持</remarks>
         </member>
-        <member name="M:Tool.Web.Session.SessionServiceExtensions.AddDiySession(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Tool.Web.Session.DiySessionOptions})">
+        <member name="M:Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.AddDiySession(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Tool.Web.Session.DiySessionOptions})">
             <summary>
             添加AsSession，暂时可以不需要写，目前还没实现长连接数据绑定，采用内存处理。
             </summary>
@@ -15047,7 +15231,7 @@
             <param name="action">必须实现的条件</param>
             <returns>IServiceCollection</returns>
         </member>
-        <member name="M:Tool.Web.Session.SessionServiceExtensions.UseDiySession(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.UseDiySession(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             注册AsSession
             </summary>

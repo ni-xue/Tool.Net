@@ -39,7 +39,7 @@ namespace Tool.Web.Routing
             return null;
         }
 
-        private static AshxRouteData Filter(RouteContext context, System.Text.Json.JsonSerializerOptions jsonOptions) 
+        private static AshxRouteData Filter(RouteContext context, System.Text.Json.JsonSerializerOptions jsonOptions)
         {
             //AshxRouteData _routeData = new AshxRouteData(requestContext);
             //context.
@@ -58,7 +58,7 @@ namespace Tool.Web.Routing
             {
                 await IHttpHandlerAshxExecute(_routeData);
             }
-            
+
             //HttpContextExtension.Current
             //context.Handler
             //return Task.Run(() =>
@@ -96,7 +96,7 @@ namespace Tool.Web.Routing
                 }
 
                 Ashx ashx;
-                void isMethod() 
+                void isMethod()
                 {
                     if (extension.IsMethod(_routeData.Action, out ashx))
                     {
@@ -116,17 +116,30 @@ namespace Tool.Web.Routing
 
                 isMethod();
 
+                _routeData.SetKey();
+
+                bool isOptions() 
+                {
+                    if (AshxExtension.CrossDomain(_routeData.HttpContext.Response, _routeData.GetAshx) && _routeData.HttpContext.Request.Method.EqualsNotCase("OPTIONS"))
+                    {
+                        _routeData.Handler = async (_) => await Task.CompletedTask;
+                        Info(_routeData);
+                        return true;
+                    }
+                    return false;
+                }
+
+                if (isOptions()) return Task.CompletedTask;
+
                 if (!AshxExtension.HttpMethod(_routeData.HttpContext.Request.Method, ashx.State))
                 {
-                    _routeData.Handler = async (HttpContext i) => await AshxHandlerOrAsync.CustomOutput(i, "application/json", "请求类型错误！", 250);
+                    _routeData.Handler = async (HttpContext i) => await AshxHandlerOrAsync.CustomOutput(i, "application/json", "请求类型错误！", 403);
                     return Task.CompletedTask;
                 }
 
-                _routeData.SetKey();
-
                 if (extension.IsMin)
                 {
-                    Task minapi() 
+                    Task minapi()
                     {
                         IMinHttpAsynApi handler = extension.MinHttpAsynApi;
 
@@ -166,12 +179,12 @@ namespace Tool.Web.Routing
                 }
                 else
                 {
-                    Task ashxapi() 
+                    Task ashxapi()
                     {
                         IHttpAsynApi handler;
                         try
                         {
-                            handler = Activator.CreateInstance(extension.AshxType) as IHttpAsynApi;
+                            handler = extension.NewClassAshx(AshxBuilder.Application.ApplicationServices);//handler = Activator.CreateInstance(extension.AshxType) as IHttpAsynApi;
                         }
                         catch (Exception e)
                         {
@@ -223,7 +236,7 @@ namespace Tool.Web.Routing
         {
             if (Logger.IsEnabled(LogLevel.Information))
             {
-                void info() 
+                void info()
                 {
                     string ApiName;
 

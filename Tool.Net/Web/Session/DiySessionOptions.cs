@@ -32,6 +32,13 @@ namespace Tool.Web.Session
             TypeDiySession = typeof(T);
         }
 
+        /// <summary>
+        /// 注册一个可以自由控制的开关，以及自由规则的键值。 （key：返回生效的键值，isSession：是否创建Session对象）
+        /// <para>不注册，系统使用默认的方式。</para>
+        /// <para>key 为空，走默认值。</para>
+        /// </summary>
+        public Func<Microsoft.AspNetCore.Http.HttpContext, Task<(string key,bool isSession)>> GetKey { get; set; }
+
         internal Type TypeDiySession { get; set; }
     }
 }

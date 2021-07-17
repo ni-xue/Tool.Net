@@ -19,12 +19,17 @@ namespace Tool.Utils.ActionDelegate
         /// <summary>
         /// 是否有返回值，默认没有
         /// </summary>
-        internal readonly bool IsVoid;
+        public readonly bool IsVoid;
+
+        /// <summary>
+        /// 调用接口的返回值
+        /// </summary>
+        public readonly Type ReturnType;
 
         /// <summary>
         /// 当前方法的执行信息
         /// </summary>
-        internal readonly MethodInfo Method;
+        public readonly MethodInfo Method;
 
         private readonly Parameter[] _parameters;
 
@@ -83,6 +88,8 @@ namespace Tool.Utils.ActionDelegate
         {
             this.IsVoid = methodInfo.ReturnType == typeof(void);
 
+            this.ReturnType = methodInfo.ReturnType;
+
             this.Method = methodInfo;
 
             _parameters = TypeInvoke.GetParameter(methodInfo);
@@ -107,6 +114,8 @@ namespace Tool.Utils.ActionDelegate
         public ActionDispatcher(MethodInfo methodInfo, Type type)
         {
             this.IsVoid = methodInfo.ReturnType == typeof(void);
+
+            this.ReturnType = methodInfo.ReturnType;
 
             this.Method = methodInfo;
 
@@ -253,34 +262,42 @@ namespace Tool.Utils.ActionDelegate
             ParameterExpression parametersParameter = Expression.Parameter(typeof(object[]), "parameters");
 
             // Build parameter list
-            List<Expression> parameters = new List<Expression>();
-            ParameterInfo[] paramInfos = methodInfo.GetParameters();
-            for (int i = 0; i < paramInfos.Length; i++)
+            if (!GetParameter(out List<Expression> parameters, parametersParameter, methodInfo.GetParameters()))
             {
-                ParameterInfo paramInfo = paramInfos[i];
-                BinaryExpression valueObj = Expression.ArrayIndex(parametersParameter, Expression.Constant(i));
-                UnaryExpression valueCast;
-                if (paramInfo.ParameterType.IsByRef)
-                {
-                    try
-                    {
-                        string fullName = $"{ paramInfo.ParameterType.FullName.Substring(0, paramInfo.ParameterType.FullName.Length - 1) }, {paramInfo.ParameterType.Assembly}";
-                        Type type1 = Type.GetType(fullName);
-                        valueCast = Expression.Convert(valueObj, type1);
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine($"方法：{methodInfo.ToString()},无法创建委托进行调用。");
-                        return null;
-                    }
-                }
-                else
-                {
-                    valueCast = Expression.Convert(valueObj, paramInfo.ParameterType);
-                }
-                // valueCast is "(Ti) parameters[i]"
-                parameters.Add(valueCast);
+                System.Diagnostics.Debug.WriteLine($"方法：{methodInfo},无法创建委托进行调用。");
+                return null;
             }
+
+            //List<Expression> parameters = new List<Expression>();
+            //ParameterInfo[] paramInfos = methodInfo.GetParameters();
+            //for (int i = 0; i < paramInfos.Length; i++)
+            //{
+            //    ParameterInfo paramInfo = paramInfos[i];
+
+            //    BinaryExpression valueObj = Expression.ArrayIndex(parametersParameter, Expression.Constant(i));
+            //    UnaryExpression valueCast;
+            //    if (paramInfo.ParameterType.IsByRef)
+            //    {
+            //        try
+            //        {
+            //            string fullName = $"{ paramInfo.ParameterType.FullName.Substring(0, paramInfo.ParameterType.FullName.Length - 1) }, {paramInfo.ParameterType.Assembly}";
+            //            Type type = Type.GetType(fullName);
+            //            valueCast = Expression.Convert(valueObj, type);
+            //        }
+            //        catch (Exception)
+            //        {
+            //            System.Diagnostics.Debug.WriteLine($"方法：{methodInfo.ToString()},无法创建委托进行调用。");
+            //            return null;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        valueCast = Expression.Convert(valueObj, paramInfo.ParameterType);
+            //    }
+
+            //    // valueCast is "(Ti) parameters[i]"
+            //    parameters.Add(valueCast);
+            //}
 
             // Call method
             UnaryExpression instanceCast = (!methodInfo.IsStatic) ? Expression.Convert(controllerParameter, methodInfo.ReflectedType) : null;
@@ -317,36 +334,42 @@ namespace Tool.Utils.ActionDelegate
             ParameterExpression parametersParameter = Expression.Parameter(typeof(object[]), "parameters");
 
             // Build parameter list
-            List<Expression> parameters = new List<Expression>();
-            ParameterInfo[] paramInfos = methodInfo.GetParameters();
-            for (int i = 0; i < paramInfos.Length; i++)
+            if (!GetParameter(out List<Expression> parameters, parametersParameter, methodInfo.GetParameters()))
             {
-                ParameterInfo paramInfo = paramInfos[i];
-
-                BinaryExpression valueObj = Expression.ArrayIndex(parametersParameter, Expression.Constant(i));
-                UnaryExpression valueCast;
-                if (paramInfo.ParameterType.IsByRef)
-                {
-                    try
-                    {
-                        string fullName = $"{ paramInfo.ParameterType.FullName.Substring(0, paramInfo.ParameterType.FullName.Length - 1) }, {paramInfo.ParameterType.Assembly}";
-                        Type type = Type.GetType(fullName);
-                        valueCast = Expression.Convert(valueObj, type);
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine($"方法：{methodInfo.ToString()},无法创建委托进行调用。");
-                        return null;
-                    }
-                }
-                else
-                {
-                    valueCast = Expression.Convert(valueObj, paramInfo.ParameterType);
-                }
-
-                // valueCast is "(Ti) parameters[i]"
-                parameters.Add(valueCast);
+                System.Diagnostics.Debug.WriteLine($"方法：{methodInfo},无法创建委托进行调用。");
+                return null;
             }
+            
+            //List<Expression> parameters = new List<Expression>();
+            //ParameterInfo[] paramInfos = methodInfo.GetParameters();
+            //for (int i = 0; i < paramInfos.Length; i++)
+            //{
+            //    ParameterInfo paramInfo = paramInfos[i];
+
+            //    BinaryExpression valueObj = Expression.ArrayIndex(parametersParameter, Expression.Constant(i));
+            //    UnaryExpression valueCast;
+            //    if (paramInfo.ParameterType.IsByRef)
+            //    {
+            //        try
+            //        {
+            //            string fullName = $"{ paramInfo.ParameterType.FullName.Substring(0, paramInfo.ParameterType.FullName.Length - 1) }, {paramInfo.ParameterType.Assembly}";
+            //            Type type = Type.GetType(fullName);
+            //            valueCast = Expression.Convert(valueObj, type);
+            //        }
+            //        catch (Exception)
+            //        {
+            //            System.Diagnostics.Debug.WriteLine($"方法：{methodInfo.ToString()},无法创建委托进行调用。");
+            //            return null;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        valueCast = Expression.Convert(valueObj, paramInfo.ParameterType);
+            //    }
+
+            //    // valueCast is "(Ti) parameters[i]"
+            //    parameters.Add(valueCast);
+            //}
 
             // Call method
             UnaryExpression instanceCast = (!methodInfo.IsStatic) ? Expression.Convert(controllerParameter, methodInfo.ReflectedType) : null;
@@ -382,34 +405,42 @@ namespace Tool.Utils.ActionDelegate
             ParameterExpression parametersParameter = Expression.Parameter(typeof(object[]), "parameters");
 
             // Build parameter list
-            List<Expression> parameters = new List<Expression>();
-            ParameterInfo[] paramInfos = methodInfo.GetParameters();
-            for (int i = 0; i < paramInfos.Length; i++)
+            if (!GetParameter(out List<Expression> parameters, parametersParameter, methodInfo.GetParameters()))
             {
-                ParameterInfo paramInfo = paramInfos[i];
-                BinaryExpression valueObj = Expression.ArrayIndex(parametersParameter, Expression.Constant(i));
-                UnaryExpression valueCast;
-                if (paramInfo.ParameterType.IsByRef)
-                {
-                    try
-                    {
-                        string fullName = $"{ paramInfo.ParameterType.FullName.Substring(0, paramInfo.ParameterType.FullName.Length - 1) }, {paramInfo.ParameterType.Assembly}";
-                        Type type = Type.GetType(fullName);
-                        valueCast = Expression.Convert(valueObj, type);
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine($"方法：{methodInfo.ToString()},无法创建委托进行调用。");
-                        return null;
-                    }
-                }
-                else
-                {
-                    valueCast = Expression.Convert(valueObj, paramInfo.ParameterType);
-                }
-                // valueCast is "(Ti) parameters[i]"
-                parameters.Add(valueCast);
+                System.Diagnostics.Debug.WriteLine($"方法：{methodInfo},无法创建委托进行调用。");
+                return null;
             }
+
+            //List<Expression> parameters = new List<Expression>();
+            //ParameterInfo[] paramInfos = methodInfo.GetParameters();
+            //for (int i = 0; i < paramInfos.Length; i++)
+            //{
+            //    ParameterInfo paramInfo = paramInfos[i];
+
+            //    BinaryExpression valueObj = Expression.ArrayIndex(parametersParameter, Expression.Constant(i));
+            //    UnaryExpression valueCast;
+            //    if (paramInfo.ParameterType.IsByRef)
+            //    {
+            //        try
+            //        {
+            //            string fullName = $"{ paramInfo.ParameterType.FullName.Substring(0, paramInfo.ParameterType.FullName.Length - 1) }, {paramInfo.ParameterType.Assembly}";
+            //            Type type = Type.GetType(fullName);
+            //            valueCast = Expression.Convert(valueObj, type);
+            //        }
+            //        catch (Exception)
+            //        {
+            //            System.Diagnostics.Debug.WriteLine($"方法：{methodInfo.ToString()},无法创建委托进行调用。");
+            //            return null;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        valueCast = Expression.Convert(valueObj, paramInfo.ParameterType);
+            //    }
+
+            //    // valueCast is "(Ti) parameters[i]"
+            //    parameters.Add(valueCast);
+            //}
 
             // Call method
             UnaryExpression instanceCast = (!methodInfo.IsStatic) ? Expression.Convert(controllerParameter, methodInfo.ReflectedType) : null;
@@ -431,6 +462,50 @@ namespace Tool.Utils.ActionDelegate
                 Expression<ActionExecutor<T>> lambda = Expression.Lambda<ActionExecutor<T>>(castMethodCall, controllerParameter, parametersParameter);
                 return lambda.Compile();
             }
+        }
+
+        /// <summary>
+        /// 用于特殊的表达式树式
+        /// </summary>
+        /// <param name="expressions">返回表达参数结果</param>
+        /// <param name="parametersParameter">特定结构</param>
+        /// <param name="paramInfos">参数</param>
+        /// <returns></returns>
+        internal static bool GetParameter(out List<Expression> expressions, ParameterExpression parametersParameter, params ParameterInfo[] paramInfos)
+        {
+            List<Expression> parameters = new();
+            //ParameterInfo[] paramInfos = methodInfo.GetParameters();
+            for (int i = 0; i < paramInfos.Length; i++)
+            {
+                ParameterInfo paramInfo = paramInfos[i];
+
+                BinaryExpression valueObj = Expression.ArrayIndex(parametersParameter, Expression.Constant(i));
+                UnaryExpression valueCast;
+                if (paramInfo.ParameterType.IsByRef)
+                {
+                    try
+                    {
+                        string fullName = $"{ paramInfo.ParameterType.FullName.Substring(0, paramInfo.ParameterType.FullName.Length - 1) }, {paramInfo.ParameterType.Assembly}";
+                        Type type = Type.GetType(fullName);
+                        valueCast = Expression.Convert(valueObj, type);
+                    }
+                    catch //(Exception)
+                    {
+                        expressions = null;
+                        return false;
+                    }
+                }
+                else
+                {
+                    valueCast = Expression.Convert(valueObj, paramInfo.ParameterType);
+                }
+
+                // valueCast is "(Ti) parameters[i]"
+                parameters.Add(valueCast);
+            }
+
+            expressions = parameters;
+            return true;
         }
 
         //private static ActionExecutor<T> WrapVoidAction<T>(VoidActionExecutor<T> executor)

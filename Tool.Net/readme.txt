@@ -279,6 +279,60 @@ app.UseDiySession();
 
 6. 改进写日志，会在文件被占用时，每隔100毫秒重试一次/10 如还是占用，将输入一个 DEBUG 日志提示。
 
+------------2021/07/17------------
+久违的大版本来了 V3.6.0
+1. WebApi ApiAshx 控制器 允许在构造中，使用注入服务了。
+
+2. CrossDomain 特性，重新实现，考虑到顺序，现在已经完全无问题了。
+
+3. ApiAshx 模式 性能大幅度提升。
+
+4. AppendHeader() 扩展函数，支持了中文类容，符号等。
+
+5. TypeInvoke 类，相关BUG改进，新增部分函数。
+
+6. ActionDispatcher 类，改进，公开更多变量。
+
+7. 新增 ClassDispatcher 类，用于提高创建对象。 方便管理，后期还会优化，增加类可用变量。
+
+8. 新增 GoOut 类，实现至 IGoOut 接口，用于规范 DataBase 协议模型。
+
+9. DataBase 继承类不在需要实现父类构造，改为如下示例：
+    public class Class1 : DataBase
+    {
+        [DataTcp(1)]// 在无参构造上标注他的主ID
+        public Class1()
+        {
+
+        }
+    }
+
+10. DataTcp 类，移除了 DataTcpState ObjType 枚举类型，因为他目前看来毫无意义。
+
+11. WebServer 类，新增了事件，可自定义实现自协议，或拒绝对方。
+
+12. WebContext 类，公开了原本未公开的变量。
+
+13. DataTcp 类，新增 AddDataTcps() 函数，用于注册需要注册的新接口。（可替换原有接口）
+
+14. AddDiySession 服务，新增GetKey 委托，用于提供自定义的Session 值，或拒绝 提供Session 服务。（自由发挥吧）
+     services.AddDiySession(d =>
+     {
+         d.GetDiySession<Test.Class>();
+         d.GetKey = async (s) =>
+         {
+             return await Task.FromResult<(string, bool)>((null, true));
+         };
+     });
+
+15. 取消了，在Web Startup 中需要引用特别的命名空间。
+
+16. ClientFrame 类 和 ServerFrame 类，重写异步函数，让其更加合理 返回类型 Task<TcpResponse>
+
+17. ClientFrame 类，提供当前连接用户生命周期内的，用户信息存储字典。
+
+18. ServerFrame 类，
+
 以上是大致更新说明，详情还请执行查看api文档。
 
 -------------------------------------移除SDK-----------------------------------------

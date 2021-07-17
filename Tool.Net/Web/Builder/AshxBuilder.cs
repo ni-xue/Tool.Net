@@ -63,7 +63,7 @@ namespace Tool.Web
 
         private Dictionary<string, AshxExtension> GetAssembly()
         {
-            Dictionary<string, AshxExtension> _RouteDefaults = new Dictionary<string, AshxExtension>(StringComparer.OrdinalIgnoreCase);
+            Dictionary<string, AshxExtension> _RouteDefaults = new(StringComparer.OrdinalIgnoreCase);
 
             Assembly assembly = GetHttpApplicationAssembly();
 
@@ -73,7 +73,7 @@ namespace Tool.Web
 
             foreach (Type type in types)
             {
-                if (typeof(ApiAshx).IsAssignableFrom(type) && type.IsClass)
+                if (typeof(ApiAshx).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
                 {
                     string typeFullName = type.FullName.Split('.')[0];
 
@@ -81,12 +81,12 @@ namespace Tool.Web
                     {
                         string url = type.Name.ToLower(); //$"{Registration.Segment}{ type.Name }".ToLower();
 
-                        AshxExtension extension = new AshxExtension(type, false);
+                        AshxExtension extension = new(type, false);
 
                         _RouteDefaults.TryAdd(url, extension);
                     }
                 }
-                else if (typeof(MinApi).IsAssignableFrom(type) && type.IsClass)
+                else if (typeof(MinApi).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
                 {
                     string typeFullName = type.FullName.Split('.')[0];
 
@@ -94,7 +94,7 @@ namespace Tool.Web
                     {
                         string url = type.Name.ToLower(); //$"{Registration.Segment}{ type.Name }".ToLower();
 
-                        AshxExtension extension = new AshxExtension(type, true);
+                        AshxExtension extension = new(type, true);
 
                         _RouteDefaults.TryAdd(url, extension);
                     }

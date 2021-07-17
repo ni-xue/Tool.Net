@@ -13,12 +13,14 @@ namespace WebTestApp.Api
 {
     public class GetCore: ApiAshx
     {
-        //public GetCore Core { get; set; }
-
         //public HttpClient httpClient { get; set; }
 
-        public GetCore()//HttpClient httpClient
+        private readonly Tool.SqlCore.DbHelper dbHelper;
+
+        public GetCore(Tool.SqlCore.DbHelper dbHelper)//HttpClient httpClient
         {
+            this.dbHelper = dbHelper;
+
             //this.httpClient = httpClient;
             //var configuration = AppSettings.Configuration;
 

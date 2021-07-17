@@ -1,5 +1,25 @@
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<script>
+
+    var url = "http://127.0.0.1:5050/v2";
+
+    $.ajax({
+        type: "Post",
+        url: url,
+        contentType: "text/html; charset=utf-8", //"application/json;charset=utf-8", Form/Payload
+        dataType: "json",
+        success: function (data) {
+            console.log('ÇëÇó½á¹û¡¾' + data + '¡¿¡£');
+        },
+        error: function (e) {
+            console.log('ÍøÂç´íÎó¡¾' + url + '¡¿£¡');
+        }
+    });
+
+</script>

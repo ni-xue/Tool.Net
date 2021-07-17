@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,7 +30,12 @@ namespace Tool.Web.Api.ApiCore
         internal Type AshxType { get; private set; }
 
         /// <summary>
-        /// 开始就是实力的API类
+        /// 当前控制器的 New 对象
+        /// </summary>
+        internal ClassDispatcher<IHttpAsynApi> AshxClassDelegater { get; private set; }
+
+        /// <summary>
+        /// 开始就实现的API类
         /// </summary>
         internal IMinHttpAsynApi MinHttpAsynApi { get; private set; }
 
@@ -49,7 +55,7 @@ namespace Tool.Web.Api.ApiCore
         /// <summary>
         /// 安全锁
         /// </summary>
-        private static readonly object state = new object();
+        private static readonly object state = new();
 
         /// <summary>
         /// 初始化
@@ -73,7 +79,59 @@ namespace Tool.Web.Api.ApiCore
                         throw new Exception(string.Format(System.Globalization.CultureInfo.CurrentCulture, "在创建时发生异常，应该是使用有参构造函数，类信息: {0}", this.AshxType.FullName));
                     }
                 }
+                else
+                {
+                    var constructorInfos = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+
+                    if (constructorInfos.Length == 0) throw new Exception(string.Format("类：{0}，继承了【ApiAshx】类，但是无法获取到公开的构造函数，无法创建消息体。", type.FullName));
+
+                    if (constructorInfos.Length > 1) throw new Exception(string.Format("类：{0}，继承了【ApiAshx】类，但是存在多个构造函数，无法创建消息体。", type.FullName));
+
+                    //var par =  constructorInfos[0].GetParameters();
+                    // if (par.Length > 0) 
+                    // {
+                    //     //List<System.Linq.Expressions.Expression> expressions = new();
+                    //     //for (int i = 0; i < par.Length; i++)
+                    //     //{
+                    //     //    expressions.Add(System.Linq.Expressions.Expression.Parameter(par[i].ParameterType, par[i].Name));
+                    //     //}
+
+                    //     //var as1 = System.Linq.Expressions.Expression.New(constructorInfos[0], expressions);
+
+
+                    //     var as0 = System.Linq.Expressions.Expression.Parameter(typeof(object[]), "parameters");
+
+                    //     ActionDispatcher<object>.GetParameter(out List<System.Linq.Expressions.Expression> expressions, as0, par);
+
+                    //     var as1 = System.Linq.Expressions.Expression.New(constructorInfos[0], expressions);
+
+                    //     //System.Linq.Expressions.MethodCallExpression methodCall = System.Linq.Expressions.Expression.Call(as1, null, expressions);//(MethodInfo)(MethodBase)constructorInfos[0]
+
+                    //     var as2 = System.Linq.Expressions.Expression.Lambda<NewClass<object>>(as1, as0);
+
+                    //     //constructorInfos[0].DeclaringType
+
+                    //     var as3 = as2.Compile(); //_newclass(null);
+
+
+
+                    // }
+
+                    //var as0 = ClassDelegater<object>.GetClass(constructorInfos[0]);
+
+                    AshxClassDelegater = new ClassDispatcher<IHttpAsynApi>(constructorInfos[0]);
+
+                    //var as4 = as0(new object[] { null });
+
+                    //var as5 = AshxClassDelegater.Invoke(new object[] { null });
+                }
                 this.Ashxes = AshxExtension.GetApiAction(type, this.IsMin).AsReadOnly();
+
+
+                if (this.Ashxes == null || this.Ashxes.Count == 0)
+                {
+                    throw new Exception(string.Format(System.Globalization.CultureInfo.CurrentCulture, "【{0}】控制器不包含任何一个可访问接口，请检查！", this.AshxType.FullName));
+                }
             }
         }
 
@@ -133,12 +191,12 @@ namespace Tool.Web.Api.ApiCore
                 return State switch
                 {
                     //AshxState.All => true,
-                    AshxState.Get => httpMethod.Equals("GET", StringComparison.OrdinalIgnoreCase),
-                    AshxState.Post => httpMethod.Equals("POST", StringComparison.OrdinalIgnoreCase),
-                    AshxState.Put => httpMethod.Equals("PUT", StringComparison.OrdinalIgnoreCase),
-                    AshxState.Patch => httpMethod.Equals("PATCH", StringComparison.OrdinalIgnoreCase),
-                    AshxState.Delete => httpMethod.Equals("DELETE", StringComparison.OrdinalIgnoreCase),
-                    AshxState.Head => httpMethod.Equals("HEAD", StringComparison.OrdinalIgnoreCase),
+                    AshxState.Get => httpMethod.EqualsNotCase("GET"),
+                    AshxState.Post => httpMethod.EqualsNotCase("POST"),
+                    AshxState.Put => httpMethod.EqualsNotCase("PUT"),
+                    AshxState.Patch => httpMethod.EqualsNotCase("PATCH"),
+                    AshxState.Delete => httpMethod.EqualsNotCase("DELETE"),
+                    AshxState.Head => httpMethod.EqualsNotCase("HEAD"),
                     _ => false,
                 };
             }
@@ -418,7 +476,7 @@ namespace Tool.Web.Api.ApiCore
         /// </summary>
         /// <param name="response"></param>
         /// <param name="ashx"></param>
-        internal static void CrossDomain(HttpResponse response, Ashx ashx)
+        internal static bool CrossDomain(HttpResponse response, Ashx ashx)
         {
 
             //指定允许其他域名访问
@@ -438,25 +496,70 @@ namespace Tool.Web.Api.ApiCore
             {
                 void crossdomain()
                 {
-                    if (Microsoft.Extensions.Primitives.StringValues.IsNullOrEmpty(response.Headers["Access-Control-Allow-Origin"]))
+                    if (!response.Headers.ContainsKey("Access-Control-Allow-Origin"))
                     {
                         response.AppendHeader("Access-Control-Allow-Origin", crossDomain.Origin ?? "*");
                     }
-                    if (Microsoft.Extensions.Primitives.StringValues.IsNullOrEmpty(response.Headers["Access-Control-Allow-Credentials"]) && crossDomain.Credentials == true)
+                    if (!response.Headers.ContainsKey("Access-Control-Allow-Credentials") && crossDomain.Credentials == true)
                     {
                         response.AppendHeader("Access-Control-Allow-Credentials", "true");
                     }
-                    if (!string.IsNullOrWhiteSpace(crossDomain.Methods) && Microsoft.Extensions.Primitives.StringValues.IsNullOrEmpty(response.Headers["Access-Control-Allow-Methods"]))
+                    if (!string.IsNullOrWhiteSpace(crossDomain.Methods) && !response.Headers.ContainsKey("Access-Control-Allow-Methods"))
                     {
                         response.AppendHeader("Access-Control-Allow-Methods", crossDomain.Methods);
                     }
-                    if (!string.IsNullOrWhiteSpace(crossDomain.Headers) && Microsoft.Extensions.Primitives.StringValues.IsNullOrEmpty(response.Headers["Access-Control-Allow-Headers"]))
+                    if (!string.IsNullOrWhiteSpace(crossDomain.Headers) && !response.Headers.ContainsKey("Access-Control-Allow-Headers"))
                     {
                         response.AppendHeader("Access-Control-Allow-Headers", crossDomain.Headers);
                     }
+                    //if (crossDomain.MaxAge > 0 && !response.Headers.ContainsKey("Access-Control-Max-Age"))
+                    //{
+                    //    response.AppendHeader("Access-Control-Max-Age", crossDomain.MaxAge.ToString());
+                    //}
                 }
                 crossdomain();
+
+                return true;
             }
+            return false;
+        }
+
+        /// <summary>
+        /// 创建 新的 控制器对象
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
+        internal IHttpAsynApi NewClassAshx(IServiceProvider service)
+        {
+            object[] parameters = null;
+            if (AshxClassDelegater.Parameters.Length > 0)
+            {
+                void getParameters()
+                {
+                    parameters = new object[AshxClassDelegater.Parameters.Length];
+                    for (int i = 0; i < parameters.Length; i++)
+                    {
+                        var parameter = AshxClassDelegater.Parameters[i];
+                        if (parameter.IsType)
+                        {
+                            parameters[i] = parameter.DefaultValue.GetType() == typeof(DBNull) ? parameter.ParameterObj : parameter.DefaultValue;
+                        }
+                        else
+                        {
+                            object _obj = service.GetService(parameter.ParameterType);
+                            if (_obj == null)
+                            {
+                                parameters[i] = parameter.DefaultValue.GetType() == typeof(DBNull) ? parameter.ParameterObj : parameter.DefaultValue;
+                            }
+                            parameters[i] = _obj;
+                        }
+                    }
+                }
+
+                getParameters();
+            }
+
+            return AshxClassDelegater.Invoke(parameters);
         }
 
         ///// <summary>
@@ -682,6 +785,18 @@ namespace Tool.Web.Api.ApiCore
                     if (cross != null)
                     {
                         hobbyAttr.CrossDomain = cross;
+
+                        if (cross.Methods == null)
+                        {
+                            if (hobbyAttr.State == AshxState.All)
+                            {
+                                cross.Methods = "HEAD,GET,POST,PUT,PATCH,DELETE";
+                            }
+                            else
+                            {
+                                cross.Methods = hobbyAttr.State.ToString().ToUpper();
+                            }
+                        }
                     }
                     //hobbyAttr.IsTask = (info.ReturnType == typeof(Task) || info.ReturnType == typeof(OnAshxEvent) ? true : false);
 
@@ -814,53 +929,6 @@ namespace Tool.Web.Api.ApiCore
         //    Dispatcher.PushFrame(frame);
         //    return task.Result;
         //}
-
-        //// <summary>
-        //// 销毁类时，会调用析构函数
-        //// </summary>
-        //~AshxExtension()
-        //{
-        //    Dispose(false);
-        //}
-
-        //// <summary>
-        //// 回收资源
-        //// </summary>
-        //public void Dispose()
-        //{
-        //    //asyncInvoke.Dispose();
-
-        //    Dispose(true);
-        //    //GC.Collect();
-
-        //    //GC.SuppressFinalize(this);
-        //    //GC.ReRegisterForFinalize(this);
-        //    //Ashxes = null;
-        //}
-
-        //// <summary>
-        //// 回收资源
-        //// </summary>
-        //// <param name="disposing"></param>
-        //protected virtual void Dispose(bool disposing)
-        //{
-        //    if (!disposing)
-        //    {
-        //        return;
-        //    }
-        //    Ashxes = null;
-        //    //GC.Collect();
-        //    GC.SuppressFinalize(this);
-        //}
-
-
-
-
-
-
-
-
-
 
         //Enumerator<Parameter> enumerator = ashx.Parameters.GetEnumerator<Parameter>();//System.Collections.
 

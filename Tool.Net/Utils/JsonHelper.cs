@@ -150,4 +150,70 @@ namespace Tool.Utils
             return _obj;
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public readonly struct JsonVal
+    {
+        public JsonValueKind ValueKind { get; }
+
+        public object Data { get; }
+
+        public JsonVal(object data)
+        {
+            if (data == null)
+            {
+                ValueKind = JsonValueKind.Null;
+            }
+            else if(data.GetType() == typeof(Dictionary<string, object>))
+            {
+                ValueKind = JsonValueKind.Object;
+            }
+            else if (data.GetType() == typeof(System.Collections.ArrayList))
+            {
+                ValueKind = JsonValueKind.Array;
+            }
+            else if (data.GetType() == typeof(string))
+            {
+                ValueKind = JsonValueKind.String;
+            }
+            else
+            {
+                ValueKind = JsonValueKind.Undefined;
+            }
+
+            this.Data = data;
+        }
+
+        public JsonVal this[string name]
+        {
+            get
+            {
+                if (ValueKind == JsonValueKind.Object)
+                {
+                    var _data = Data.ToVar<Dictionary<string, object>>();
+
+                    return new JsonVal(_data[name]);
+                }
+
+                throw new Exception("对象下不存在字典结构！");
+            }
+        }
+
+        public JsonVal this[int i]
+        {
+            get
+            {
+                if (ValueKind == JsonValueKind.Array)
+                {
+                    var _data = Data.ToVar<System.Collections.ArrayList>();
+
+                    return new JsonVal(_data[i]);
+                }
+
+                throw new Exception("对象下不存在数组结构！");
+            }
+        }
+    }
 }

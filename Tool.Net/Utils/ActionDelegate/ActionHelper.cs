@@ -104,7 +104,7 @@ namespace Tool.Utils.ActionDelegate
             return new List<ActionMethod<T>>(_actionDispatchers.Where(s => s.Name == name));
         }
 
-        private List<ActionMethod<T>> GetMethodInfos(Type type, MethodInfo[] methodInfos, MethodFlags methodFlags)
+        private static List<ActionMethod<T>> GetMethodInfos(Type type, MethodInfo[] methodInfos, MethodFlags methodFlags)
         {
             List<ActionMethod<T>> actionMethods = new List<ActionMethod<T>>();
 
@@ -152,7 +152,7 @@ namespace Tool.Utils.ActionDelegate
             return actionMethods;
         }
 
-        private MethodInfo[] GetMethodInfos(Type type, MethodFlags methodFlags)
+        private static MethodInfo[] GetMethodInfos(Type type, MethodFlags methodFlags)
         {
             BindingFlags bindingFlags = BindingFlags.InvokeMethod | BindingFlags.Instance;
 
@@ -220,7 +220,7 @@ namespace Tool.Utils.ActionDelegate
         /// <returns></returns>
         public override string ToString()
         {
-            return $"{typeof(T).ToString()}.Action[{Count}]";
+            return $"{typeof(T)}.Action[{Count}]";
         }
     }
 }
