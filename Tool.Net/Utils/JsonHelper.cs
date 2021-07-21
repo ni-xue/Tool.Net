@@ -152,15 +152,25 @@ namespace Tool.Utils
     }
 
     /// <summary>
-    /// 
+    /// 一种获取 Json 格式数据的实现
     /// </summary>
-    public readonly struct JsonVal
+    public readonly struct JsonVar
     {
+        /// <summary>
+        /// 大概确定 Json 数据的类型
+        /// </summary>
         public JsonValueKind ValueKind { get; }
 
+        /// <summary>
+        /// 当前 Json 的数据结构
+        /// </summary>
         public object Data { get; }
 
-        public JsonVal(object data)
+        /// <summary>
+        /// 添加任意的数据，无规则。
+        /// </summary>
+        /// <param name="data">一类数据结构</param>
+        public JsonVar(object data)
         {
             if (data == null)
             {
@@ -186,7 +196,12 @@ namespace Tool.Utils
             this.Data = data;
         }
 
-        public JsonVal this[string name]
+        /// <summary>
+        /// 通过键名获取值
+        /// </summary>
+        /// <param name="name">键名</param>
+        /// <returns></returns>
+        public JsonVar this[string name]
         {
             get
             {
@@ -194,14 +209,19 @@ namespace Tool.Utils
                 {
                     var _data = Data.ToVar<Dictionary<string, object>>();
 
-                    return new JsonVal(_data[name]);
+                    return new JsonVar(_data[name]);
                 }
 
                 throw new Exception("对象下不存在字典结构！");
             }
         }
 
-        public JsonVal this[int i]
+        /// <summary>
+        /// 通过下标获取值
+        /// </summary>
+        /// <param name="i">下标</param>
+        /// <returns></returns>
+        public JsonVar this[int i]
         {
             get
             {
@@ -209,7 +229,7 @@ namespace Tool.Utils
                 {
                     var _data = Data.ToVar<System.Collections.ArrayList>();
 
-                    return new JsonVal(_data[i]);
+                    return new JsonVar(_data[i]);
                 }
 
                 throw new Exception("对象下不存在数组结构！");

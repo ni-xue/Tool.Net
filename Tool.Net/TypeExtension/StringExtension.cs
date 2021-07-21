@@ -285,6 +285,16 @@ namespace Tool //万能属性公有父类
         }
 
         /// <summary>
+        /// 一种获取 Json 格式数据的实现
+        /// </summary>
+        /// <param name="txt">Json 格式字符串</param>
+        /// <returns>转换成特殊结构对象，用于获取值</returns>
+        public static JsonVar JsonVar(this string txt) 
+        {
+            return new(txt.JsonDynamic());
+        }
+
+        /// <summary>
         /// 转换成Dictionary对象
         /// </summary>
         /// <param name="txt">String</param>

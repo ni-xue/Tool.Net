@@ -444,11 +444,9 @@ namespace Tool.Sockets.TcpHelper
                 if (TcpStateObject.IsConnected(obj.Client))
                     count = obj.SocketClient.EndReceive(ar);
 
-                if (count == 0)
-                {
-                    obj.Client.Close();
-                }
-                else if (this.OnlyData)
+                if (count == 0) obj.Client.Close();
+
+                if (this.OnlyData)
                 {
                     if (obj.WriteIndex + count > 6)
                     {

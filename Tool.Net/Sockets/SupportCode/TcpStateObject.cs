@@ -29,6 +29,8 @@ namespace Tool.Sockets.SupportCode
             this.ListData = new byte[DataLength];
             this.Client = Client;
             this.IpPort = GetIpPort(Client);
+
+            //vs = new List<ArraySegment<byte>>() { new ArraySegment<byte>(ListData) };
         }
 
         /// <summary>
@@ -274,6 +276,8 @@ namespace Tool.Sockets.SupportCode
         /// 接收的数据
         /// </summary>
         public byte[] ListData { get; set; }
+
+        //public IList<ArraySegment<byte>> vs;
 
         /// <summary>
         /// 回收对象所以资源

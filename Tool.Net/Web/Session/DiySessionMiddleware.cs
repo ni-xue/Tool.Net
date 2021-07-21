@@ -151,17 +151,16 @@ namespace Tool.Web.Session
                 });
             }
 
-            AddAsSession(out DiySession session, value);
+            AddAsSession(out DiySession session, value, context);
             context.Session = session;
             await Next?.Invoke(context);
         }
 
-        private void AddAsSession(out DiySession session, string value) 
+        private void AddAsSession(out DiySession session, string value, HttpContext context) 
         {
             //InsideInitialize
             session = this.NewDiySession.Invoke(); // Activator.CreateInstance(this.TypeDiySession) as DiySession;  //this.SessionOptions.OnGetSession(value);//new DiySession(value);
-            session.Logger = this.Logger;
-            session.InsideInitialize(value);
+            session.InsideInitialize(value, context, this.Logger);
             //AsSessionList.TryAdd(value, session);
 
             if (session.IsAvailable)

@@ -21,13 +21,20 @@ namespace Tool.Web.Session
         private bool _isAvailable;
 
         /// <summary>
-        /// 提供的日志输出模块
+        /// 提供日志输出模块
         /// </summary>
-        public ILogger Logger { get; internal set; }
+        public ILogger Logger { get; private set; }
 
-        internal void InsideInitialize(string id)
+        /// <summary>
+        /// 提供当前请求信息模块
+        /// </summary>
+        public HttpContext Context { get; private set; }
+
+        internal void InsideInitialize(string id, HttpContext context, ILogger logger)
         {
             this._id = id;
+            this.Context = context;
+            this.Logger = logger;
             try
             {
                 this.Initialize();

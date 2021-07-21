@@ -75,11 +75,9 @@ namespace WebTestApp
 
             var str = "{ \"result\": {\"code\":0, \"hehe\": [0,5,10] } }";
 
-            var json = str.JsonDynamic();
+            var json = str.JsonVar();
 
-            JsonVal jsonVal = new(json);
-
-            var code = jsonVal["result"]["hehe"][2];
+            var code = json["result"]["hehe"][2];
 
             Console.WriteLine();
 

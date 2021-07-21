@@ -30,12 +30,39 @@ namespace Tool.Web
         }
 
         /// <summary>
-        /// 获取客户端请求的IP地址
+        /// 获取当前请求地址的 主要信息（支持代理模式信息获取）
+        /// </summary>
+        /// <param name="context">HttpContext</param>
+        /// <returns>返回连接协议和原始主机请求地址</returns>
+        public static (string scheme, string host) GetSchemeHost(this HttpContext context)
+        {
+            HttpRequest request = context.Request;
+            if (request.Headers.TryGetValue("X-Forwarded-Proto", out var scheme) && request.Headers.TryGetValue("X-Forwarded-Host", out var host))
+            {
+                return (scheme, host);
+            }
+            else
+            {
+                return (request.Scheme, request.Host.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 获取客户端请求的IP地址（支持代理模式信息获取）
         /// </summary>
         /// <param name="context">HttpContext</param>
         /// <returns>返回IP地址</returns>
-        public static string GetIP(this HttpContext context)
+        public static string GetUserIp(this HttpContext context)
         {
+            if (context.Request.Headers.TryGetValue("X-Forwarded-For", out var ips))
+            {
+                return ips;
+            }
+            else
+            {
+                return context.Connection.RemoteIpAddress.ToString();
+            }
+
             //string text = string.Empty;
             //if (!string.IsNullOrEmpty(context.Request.ServerVariables["HTTP_VIA"]))
             //{
@@ -50,7 +77,7 @@ namespace Tool.Web
             //    text = "127.0.0.1";
             //}
 
-            return context.Connection.RemoteIpAddress.ToString();
+            //return context.Connection.RemoteIpAddress.ToString();
 
             //return string.Concat(context.Connection.RemoteIpAddress.ToString(), ':', context.Connection.RemotePort);
 

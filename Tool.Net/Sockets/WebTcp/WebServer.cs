@@ -24,10 +24,10 @@ namespace Tool.Sockets.WebTcp
         private bool isClose = false;
         private ConcurrentDictionary<string, WebContext> listClient = new();
 
-        /// <summary>
-        /// 是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
-        /// </summary>
-        public bool OnlyData { get; }
+        ///// <summary>
+        ///// 是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
+        ///// </summary>
+        //public bool OnlyData { get; }
 
         /// <summary>
         /// 标识服务端连接是否关闭
@@ -144,7 +144,7 @@ namespace Tool.Sockets.WebTcp
         /// 创建一个WebTcp服务器类，并确定是否开启框架验证模式保证数据唯一性。
         /// </summary>
         /// <param name="OnlyData">是否启动框架模式</param>
-        public WebServer(bool OnlyData) : this(OnlyData, 8 * 1024)
+        private WebServer(bool OnlyData) : this(OnlyData, 8 * 1024)
         {
 
         }
@@ -162,7 +162,7 @@ namespace Tool.Sockets.WebTcp
         /// </summary>
         /// <param name="OnlyData">是否启动框架模式</param>
         /// <param name="DataLength">每次包的最大大小(警告：请务必保证服务端的大小和客户端一致)</param>
-        public WebServer(bool OnlyData, int DataLength)
+        private WebServer(bool OnlyData, int DataLength)
         {
             if (DataLength < 8 * 1024)
             {
@@ -173,7 +173,7 @@ namespace Tool.Sockets.WebTcp
                 throw new ArgumentException("DataLength 值必须是在20M(DataLength < 1024 * 1024 * 20)以内！", nameof(DataLength));
             }
             this.DataLength = DataLength;
-            this.OnlyData = OnlyData;
+            //this.OnlyData = OnlyData;
 
             //_que = new ConcurrentQueue<GetQueOnEnum>();
             //_mre = new ManualResetEvent(false);
@@ -352,22 +352,22 @@ namespace Tool.Sockets.WebTcp
         {
             ArraySegment<byte> _data = new ArraySegment<byte>(listData);
 
-            if (this.OnlyData)
-            {
-                byte[] Data = WebStateObject.GetDataSend(listData, DataLength);
+            //if (this.OnlyData)
+            //{
+            //    byte[] Data = WebStateObject.GetDataSend(listData, DataLength);
 
-                if (client == null)
-                {
-                    throw new ArgumentException("client 对象是空的！", nameof(client));
-                }
-                if (!WebStateObject.IsConnected(client))
-                {
-                    throw new Exception("与客户端的连接已断开！");
-                }
-                //client.Client.BeginSend(Data, 0, Data.Length, SocketFlags.None, SendCallBack, client);
-            }
-            else
-            {
+            //    if (client == null)
+            //    {
+            //        throw new ArgumentException("client 对象是空的！", nameof(client));
+            //    }
+            //    if (!WebStateObject.IsConnected(client))
+            //    {
+            //        throw new Exception("与客户端的连接已断开！");
+            //    }
+            //    //client.Client.BeginSend(Data, 0, Data.Length, SocketFlags.None, SendCallBack, client);
+            //}
+            //else
+            //{
                 if (client == null)
                 {
                     throw new ArgumentException("client 对象是空的！", nameof(client));
@@ -390,7 +390,7 @@ namespace Tool.Sockets.WebTcp
                         //OnComplete(key.IpPort, EnSocketAction.SendMsg);
                     }
                 }, client);
-            }
+            //}
         }
 
         /**
@@ -419,7 +419,7 @@ namespace Tool.Sockets.WebTcp
 
             if (!client.Request.IsWebSocketRequest)
             {
-                byte[] bytes = Encoding.UTF8.GetBytes("{\"code\": 403,\"msg\": \"已被拦截，非[ws.wss]请求！\"}");
+                byte[] bytes = Encoding.UTF8.GetBytes("{\"code\": 403,\"msg\": \"已被拦截，非[ws,wss]请求！\"}");
                 client.Response.ContentEncoding = Encoding.UTF8;
                 client.Response.ContentType = "application/json; charset=utf-8";
                 client.Response.StatusCode = 403;

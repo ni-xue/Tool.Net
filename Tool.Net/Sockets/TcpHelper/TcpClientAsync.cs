@@ -27,7 +27,8 @@ namespace Tool.Sockets.TcpHelper
         /**
          * 客户端接收消息触发的事件
          */
-        private Action<string, byte[]> Received; //event
+        private Action<string, byte[]> Received; //event Span<byte>
+
         //标识客户端是否关闭
         private bool isClose = false;
 
@@ -369,6 +370,8 @@ namespace Tool.Sockets.TcpHelper
             {
                 try
                 {
+                    //obj.SocketClient.BeginReceive(obj.vs, SocketFlags.None, ReceiveCallBack, obj);
+
                     obj.SocketClient.BeginReceive(obj.ListData, obj.WriteIndex, obj.ListData.Length - obj.WriteIndex, SocketFlags.None, ReceiveCallBack, obj);
                     obj.doReceive.WaitOne();
                 }
@@ -517,17 +520,15 @@ namespace Tool.Sockets.TcpHelper
                 if (TcpStateObject.IsConnected(obj.Client))
                     count = obj.SocketClient.EndReceive(ar);
 
-                if (count == 0)
-                {
-                    obj.Client.Close();
-                }
-                else if (this.OnlyData)
+                if (count == 0) obj.Client.Close();
+
+                if (this.OnlyData)
                 {
                     if (obj.WriteIndex + count > 6)
                     {
-                        Verify:
+                    Verify:
                         byte[] headby = new byte[6];
-                        Array.Copy(obj.ListData, 0, headby, 0, 6);
+                        Array.Copy(obj.ListData, 0, headby, 0, 6); 
                         int head = TcpStateObject.GetDataHead(headby);
 
                         if (head != -1)

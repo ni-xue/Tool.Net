@@ -15,6 +15,11 @@ namespace Tool.Utils.ActionDelegate
         private readonly NewClass<T> _newclass;
 
         /// <summary>
+        /// 实例化对象类型
+        /// </summary>
+        public readonly Type Type;
+
+        /// <summary>
         /// 方法参数
         /// </summary>
         public Parameter[] Parameters { get; }
@@ -44,6 +49,8 @@ namespace Tool.Utils.ActionDelegate
 
             this.Parameters = TypeInvoke.GetParameter(constructor.GetParameters());
 
+            this.Type = constructor.DeclaringType;
+
             _newclass = GetClass(constructor);
         }
 
@@ -62,6 +69,8 @@ namespace Tool.Utils.ActionDelegate
             if (constructorInfos.Length > 1) throw new Exception(string.Format("类：{0}，存在多个构造函数，无法创建消息体。", classtype.FullName));
 
             this.Parameters = TypeInvoke.GetParameter(constructorInfos[0].GetParameters());
+
+            this.Type = classtype;
 
             _newclass = GetClass(constructorInfos[0]);
         }

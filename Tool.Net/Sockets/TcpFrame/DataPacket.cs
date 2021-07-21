@@ -436,7 +436,7 @@ namespace Tool.Sockets.TcpFrame
          */
         internal static DataPacket DataByte(ReadOnlySpan<byte> bytes)//byte[]
         {
-            DataPacket packet = new DataPacket();// { OnlyId = new byte[16] }
+            DataPacket packet = new();// { OnlyId = new byte[16] }
                                                  //unsafe
                                                  //{
                                                  //    //int length = bytes.Length;

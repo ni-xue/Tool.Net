@@ -279,7 +279,7 @@ app.UseDiySession();
 
 6. 改进写日志，会在文件被占用时，每隔100毫秒重试一次/10 如还是占用，将输入一个 DEBUG 日志提示。
 
-------------2021/07/17------------
+------------2021/07/21------------
 久违的大版本来了 V3.6.0
 1. WebApi ApiAshx 控制器 允许在构造中，使用注入服务了。
 
@@ -309,7 +309,7 @@ app.UseDiySession();
 
 10. DataTcp 类，移除了 DataTcpState ObjType 枚举类型，因为他目前看来毫无意义。
 
-11. WebServer 类，新增了事件，可自定义实现自协议，或拒绝对方。
+11. WebServer 类，新增了事件，可自定义实现自协议，或拒绝对方。0
 
 12. WebContext 类，公开了原本未公开的变量。
 
@@ -329,9 +329,16 @@ app.UseDiySession();
 
 16. ClientFrame 类 和 ServerFrame 类，重写异步函数，让其更加合理 返回类型 Task<TcpResponse>
 
-17. ClientFrame 类，提供当前连接用户生命周期内的，用户信息存储字典。
+17. 新增 JsonVar 扩展函数 返回 JsonVar 类型 用于直接取值，简化开发流程。
+var str = "{ \"result\": {\"code\":0, \"hehe\": [0,5,10] } }";
+var json = str.JsonVar();
+var code = json["result"]["hehe"][2].Data;
 
-18. ServerFrame 类，
+18. DiySession 类 提供 HttpContext 方便给你带来更多方便实用操作。
+
+19. HttpContext 下 扩展 GetIP 更名为 GetUserIp 同时支持代理模式，获取IP
+
+20. HttpContext 下 新增扩展 GetSchemeHost 用于获取请求 地址等信息，支持代理
 
 以上是大致更新说明，详情还请执行查看api文档。
 
