@@ -113,8 +113,8 @@ namespace Tool.Utils.Encryption
 				//cipherkey = TextUtility.CutLeft(cipherkey, 8); cipherkey.PadRight(8, ' ');
 				encryptKey = DES.GetPassword(encryptKey);
 
-				using DESCryptoServiceProvider aesCryptoServiceProvider = new DESCryptoServiceProvider();
-				using ICryptoTransform cryptoTransform = aesCryptoServiceProvider.CreateDecryptor(Encoding.UTF8.GetBytes(encryptKey), DES.Keys);
+				using System.Security.Cryptography.DES myAes = System.Security.Cryptography.DES.Create(); //DESCryptoServiceProvider aesCryptoServiceProvider = new DESCryptoServiceProvider();
+				using ICryptoTransform cryptoTransform = myAes.CreateDecryptor(Encoding.UTF8.GetBytes(encryptKey), DES.Keys);
 
 				result = cryptoTransform.TransformFinalBlock(plainText, 0, plainText.Length);
 			}
@@ -135,8 +135,8 @@ namespace Tool.Utils.Encryption
         {
 			//cipherkey = TextUtility.CutLeft(cipherkey, 8); cipherkey.PadRight(8, ' ');
 			encryptKey = DES.GetPassword(encryptKey);
-			using DESCryptoServiceProvider aesCryptoServiceProvider = new DESCryptoServiceProvider();
-			using ICryptoTransform cryptoTransform = aesCryptoServiceProvider.CreateEncryptor(Encoding.UTF8.GetBytes(encryptKey), DES.Keys);
+			using System.Security.Cryptography.DES myAes = System.Security.Cryptography.DES.Create(); //DESCryptoServiceProvider aesCryptoServiceProvider = new();
+			using ICryptoTransform cryptoTransform = myAes.CreateEncryptor(Encoding.UTF8.GetBytes(encryptKey), DES.Keys);
 
 			return cryptoTransform.TransformFinalBlock(plainText, 0, plainText.Length);
 		}
@@ -162,7 +162,7 @@ namespace Tool.Utils.Encryption
 		///	205,
 		///	239
 		/// </summary>
-		private static readonly byte[] Keys = new byte[]
+		public static readonly byte[] Keys = new byte[]
 		{
 			18,
 			52,

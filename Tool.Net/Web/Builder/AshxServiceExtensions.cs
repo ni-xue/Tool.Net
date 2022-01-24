@@ -43,7 +43,7 @@ namespace Microsoft.Extensions.DependencyInjection //Tool.Web.Builder
 
             AshxBuilder builder = new(services);
 
-            services.Add(new ServiceDescriptor(builder.GetType(), builder));//services.Add, 
+            services.TryAdd(new ServiceDescriptor(builder.GetType(), builder));//services.Add, 
 
             var sd = services.AddOptions<AshxOptions>();
             if (action != null)
@@ -84,7 +84,7 @@ namespace Microsoft.Extensions.DependencyInjection //Tool.Web.Builder
                 throw new ArgumentNullException(nameof(ashxBuilder));
             }
 
-            ashxBuilder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();//Type.GetType("Microsoft.AspNetCore.Http.HttpContextAccessor")
+            ashxBuilder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();//Type.GetType("Microsoft.AspNetCore.Http.HttpContextAccessor")
 
             //ashxBuilder.Services.AddSingleton(typeof(IHttpContextAccessor), Type.GetType("Microsoft.AspNetCore.Http.HttpContextAccessor, Microsoft.AspNetCore.Http"));
 
@@ -130,7 +130,7 @@ namespace Microsoft.Extensions.DependencyInjection //Tool.Web.Builder
                 throw new ArgumentNullException(nameof(services));
             }
 
-            services.Add(new ServiceDescriptor(type, _obj));//services.Add, 
+            services.TryAdd(new ServiceDescriptor(type, _obj));//services.Add, 
 
             return services;
         }

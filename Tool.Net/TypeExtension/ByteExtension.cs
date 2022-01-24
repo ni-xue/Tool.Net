@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -96,6 +97,7 @@ namespace Tool
         /// </summary>
         /// <param name="Bytes">byte[]数组</param>
         /// <returns>返回一个原图片对象</returns>
+        [SupportedOSPlatform("windows")]
         public static Image ToImage(this byte[] Bytes)
         {
             if (Bytes == null)

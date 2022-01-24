@@ -53,42 +53,42 @@ namespace Tool.Utils
 			return d * Math.PI / 180d;
 		}
 
-		/// <summary>
-		/// 根据url路径获取网页源码
-		/// </summary>
-		/// <param name="sUrl">请求的URL地址</param>
-		/// <returns>返回访问内容</returns>
-		[MTAThread]
-		public static string GetWebContent(string sUrl)
-		{
-			if (sUrl.Equals("about:blank")) return null;
-			string strResult = "";
+		///// <summary>
+		///// 根据url路径获取网页源码
+		///// </summary>
+		///// <param name="sUrl">请求的URL地址</param>
+		///// <returns>返回访问内容</returns>
+		//[MTAThread]
+		//public static string GetWebContent(string sUrl)
+		//{
+		//	if (sUrl.Equals("about:blank")) return null;
+		//	string strResult = "";
 
-			if (!sUrl.StartsWith("http://") && !sUrl.StartsWith("https://")) { sUrl = "http://" + sUrl; }
-			try
-			{
-				HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sUrl);
-				//声明一个HttpWebRequest请求
-				request.Timeout = 50000;//给了50秒超时
-										//设置连接超时时间
-				request.Headers.Set("Pragma", "no-cache");
-				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-				if (response.ToString() != "")
-				{
-					Stream streamReceive = response.GetResponseStream();
-					Encoding encoding = Encoding.GetEncoding("UTF-8");
+		//	if (!sUrl.StartsWith("http://") && !sUrl.StartsWith("https://")) { sUrl = "http://" + sUrl; }
+		//	try
+		//	{
+		//		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sUrl);
+		//		//声明一个HttpWebRequest请求
+		//		request.Timeout = 50000;//给了50秒超时
+		//								//设置连接超时时间
+		//		request.Headers.Set("Pragma", "no-cache");
+		//		HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+		//		if (response.ToString() != "")
+		//		{
+		//			Stream streamReceive = response.GetResponseStream();
+		//			Encoding encoding = Encoding.GetEncoding("UTF-8");
 
-					StreamReader streamReader = new StreamReader(streamReceive, encoding);
-					strResult = streamReader.ReadToEnd();
-				}
-			}
-			catch (Exception e)
-			{
-				throw new Exception("出现异常:", e);
-				//strResult = "异常提示：" + e.Message;
-			}
-			return strResult;
-		}
+		//			StreamReader streamReader = new(streamReceive, encoding);
+		//			strResult = streamReader.ReadToEnd();
+		//		}
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		throw new Exception("出现异常:", e);
+		//		//strResult = "异常提示：" + e.Message;
+		//	}
+		//	return strResult;
+		//}
 
 		///// <summary>
 		///// 生成指定长度的随机密码。

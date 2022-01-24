@@ -852,7 +852,7 @@ namespace Tool.Web.Api
         {
             ashxRoute.HttpContext.Response.Headers.Add("Connection", "Keep-Alive");
             ashxRoute.HttpContext.Response.Headers.Add("Content-Length", FileStream.Length.ToString());
-            ashxRoute.HttpContext.Response.Headers.Add("Content-Disposition", "attachment;filename=" + Name);
+            ashxRoute.HttpContext.Response.AppendHeader("Content-Disposition", "attachment;filename=" + Name);
 
             //await ashxRoute.HttpContext.Response.Body.WriteAsync(Body.AsMemory(0, Body.Length));
 

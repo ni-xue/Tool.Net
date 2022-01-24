@@ -55,6 +55,11 @@ namespace Microsoft.AspNetCore.Builder //Tool.Web.Builder
 
             var options = app.ApplicationServices.GetRequiredService<IOptions<AshxOptions>>();
 
+            if (options.Value.EnableEndpointRouting)
+            {
+                throw new Exception("您当前采用的是终结点模式，请使用 app.UseEndpoints()！ 若要使用当前模式，请将 EnableEndpointRouting 值设置为 false");
+            }
+
             //if (options.Value.IsException)
             //{
             //    //app.ApplicationServices.GetRequiredService<I>();
@@ -67,7 +72,7 @@ namespace Microsoft.AspNetCore.Builder //Tool.Web.Builder
             // ILoggerFactory loggerFactory
             ILoggerFactory loggerFactory = app.ApplicationServices.GetRequiredService<ILoggerFactory>();
 
-            builder.AshxRoute.Logger = loggerFactory.CreateLogger("Tool.Api");
+            builder.Logger = loggerFactory.CreateLogger("Tool.Api");
 
             //创建默认mvc处理类 
             //RouteBuilder为RouterMiddleware中间件创建所需的Router对象

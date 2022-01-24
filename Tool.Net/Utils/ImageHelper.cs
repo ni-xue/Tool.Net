@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Text;
 
 namespace Tool.Utils
@@ -18,6 +19,7 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="mime_type"></param>
         /// <returns></returns>
+        [SupportedOSPlatform("windows")]
         private static ImageCodecInfo GetEncoderInfo(string mime_type)
         {
             ImageCodecInfo[] imageEncoders = ImageCodecInfo.GetImageEncoders();
@@ -37,14 +39,14 @@ namespace Tool.Utils
         /// <param name="image"></param>
         /// <param name="file_name"></param>
         /// <param name="level"></param>
+        [SupportedOSPlatform("windows")]
         public static void SaveJpg(Image image, string file_name, int level)
         {
             try
             {
-                EncoderParameters encoderParameters = new EncoderParameters(1);
-                encoderParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)level);
-                ImageCodecInfo encoderInfo = ImageHelper.GetEncoderInfo("image/jpeg");
-
+                EncoderParameters encoderParameters = new(1);
+                encoderParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, level);
+                ImageCodecInfo encoderInfo = GetEncoderInfo("image/jpeg");
 
                 File.Delete(file_name);
                 image.Save(file_name, encoderInfo, encoderParameters);
@@ -56,19 +58,20 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 
+        /// 将 图片 转换成 数据流
         /// </summary>
         /// <param name="image"></param>
         /// <param name="level"></param>
         /// <returns></returns>
+        [SupportedOSPlatform("windows")]
         public static MemoryStream SaveJpgToStream(Image image, int level)
         {
             try
             {
-                EncoderParameters encoderParameters = new EncoderParameters(1);
-                encoderParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)level);
-                ImageCodecInfo encoderInfo = ImageHelper.GetEncoderInfo("image/jpeg");
-                MemoryStream strem = new MemoryStream();
+                EncoderParameters encoderParameters = new(1);
+                encoderParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, level);
+                ImageCodecInfo encoderInfo = GetEncoderInfo("image/jpeg");
+                MemoryStream strem = new();
                 image.Save(strem, encoderInfo, encoderParameters);
                 return strem;
 
@@ -87,6 +90,7 @@ namespace Tool.Utils
         /// <param name="file_name"></param>
         /// <param name="max_size"></param>
         /// <returns></returns>
+        [SupportedOSPlatform("windows")]
         public static int SaveJpgAtFileSize(Image image, string file_name, long max_size)
         {
             int result;
@@ -136,6 +140,7 @@ namespace Tool.Utils
         /// <param name="maxWidth">压缩宽</param>
         /// <param name="maxHeight">压缩高</param>
         /// <returns></returns>
+        [SupportedOSPlatform("windows")]
         public static Bitmap ShrinkageImg(Image iSource, int maxWidth = 800, int maxHeight = 0)
         {
             int sW = iSource.Width, sH = iSource.Height;
@@ -149,7 +154,7 @@ namespace Tool.Utils
                 sH = maxHeight;
                 sW = iSource.Width * maxHeight / iSource.Height;
             }
-            Bitmap ob = new Bitmap(sW, sH);
+            Bitmap ob = new(sW, sH);
             Graphics g = Graphics.FromImage(ob);
             try
             {
@@ -174,17 +179,18 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="file_name">图片文件路径</param>
         /// <returns></returns>
+        [SupportedOSPlatform("windows")]
         public static Bitmap LoadBitmap(string file_name)
         {
             Bitmap result;
             try
             {
                 Bitmap bitmap2;
-                using (Bitmap bitmap = new Bitmap(file_name))
+                using (Bitmap bitmap = new(file_name))
                 {
                     bitmap2 = new Bitmap(bitmap.Width, bitmap.Height);
                     using Graphics graphics = Graphics.FromImage(bitmap2);
-                    Rectangle rectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+                    Rectangle rectangle = new(0, 0, bitmap.Width, bitmap.Height);
                     graphics.DrawImage(bitmap, rectangle, rectangle, GraphicsUnit.Pixel);
                 }
                 result = bitmap2;
@@ -201,13 +207,14 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
+        [SupportedOSPlatform("windows")]
         public static byte[] ImageToBytes(Image image)
         {
             byte[] result;
             try
             {
                 ImageFormat rawFormat = image.RawFormat;
-                using MemoryStream memoryStream = new MemoryStream();
+                using MemoryStream memoryStream = new();
                 if (rawFormat.Equals(ImageFormat.Jpeg))
                 {
                     image.Save(memoryStream, ImageFormat.Jpeg);
@@ -245,15 +252,16 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="FilePath">图片文件路径</param>
         /// <returns></returns>
+        [SupportedOSPlatform("windows")]
         public static byte[] ImageToBytes(string FilePath)
         {
             byte[] result;
             try
             {
-                using MemoryStream memoryStream = new MemoryStream();
+                using MemoryStream memoryStream = new();
                 using (Image image = Image.FromFile(FilePath))
                 {
-                    using Bitmap bitmap = new Bitmap(image);
+                    using Bitmap bitmap = new(image);
                     bitmap.Save(memoryStream, image.RawFormat);
                 }
                 result = memoryStream.ToArray();
@@ -272,12 +280,13 @@ namespace Tool.Utils
         /// <param name="maxWidth">压缩宽</param>
         /// <param name="maxHeight">压缩高</param>
         /// <returns></returns>
+        [SupportedOSPlatform("windows")]
         public static Image BytesToImage(byte[] buffer, int maxWidth = 800, int maxHeight = 0)
         {
             Image result;
             try
             {
-                MemoryStream stream = new MemoryStream(buffer);
+                MemoryStream stream = new(buffer);
                 Image image = Image.FromStream(stream);
                 result = ShrinkageImg(image, maxWidth, maxHeight);
             }
@@ -293,13 +302,14 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="Bytes"></param>
         /// <returns></returns>
+        [SupportedOSPlatform("windows")]
         public static Bitmap BytesToBitmap(byte[] Bytes)
         {
             MemoryStream stream = null;
             try
             {
                 stream = new MemoryStream(Bytes);
-                return new Bitmap((Image)new Bitmap(stream));
+                return new Bitmap(stream);
             }
             catch (ArgumentNullException)
             {

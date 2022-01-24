@@ -117,10 +117,10 @@ namespace Tool.Utils.Encryption
             try
             {
                 //cipherkey = TextUtility.CutLeft(cipherkey, 32); cipherkey.PadRight(32, ' ');
-                cipherkey = AES.GetPassword(cipherkey);
+                cipherkey = AES.GetPassword(cipherkey); 
 
-                using AesCryptoServiceProvider aesCryptoServiceProvider = new AesCryptoServiceProvider();
-                using ICryptoTransform cryptoTransform = aesCryptoServiceProvider.CreateDecryptor(Encoding.UTF8.GetBytes(cipherkey), AES.Keys);
+                using Aes myAes = Aes.Create(); //AesCryptoServiceProvider aesCryptoServiceProvider = new();
+                using ICryptoTransform cryptoTransform = myAes.CreateDecryptor(Encoding.UTF8.GetBytes(cipherkey), AES.Keys);
 
                 result = cryptoTransform.TransformFinalBlock(cipherText, 0, cipherText.Length);
             }
@@ -200,8 +200,8 @@ namespace Tool.Utils.Encryption
             //cipherkey = TextUtility.CutLeft(cipherkey, 32); cipherkey.PadRight(32, ' ');
             cipherkey = AES.GetPassword(cipherkey);
 
-            using AesCryptoServiceProvider aesCryptoServiceProvider = new AesCryptoServiceProvider();
-            using ICryptoTransform cryptoTransform = aesCryptoServiceProvider.CreateEncryptor(Encoding.UTF8.GetBytes(cipherkey), AES.Keys);
+            using Aes myAes = Aes.Create(); //AesCryptoServiceProvider aesCryptoServiceProvider = new();
+            using ICryptoTransform cryptoTransform = myAes.CreateEncryptor(Encoding.UTF8.GetBytes(cipherkey), AES.Keys);
 
             return cryptoTransform.TransformFinalBlock(plainText, 0, plainText.Length);
 
@@ -242,7 +242,7 @@ namespace Tool.Utils.Encryption
         ///	110,
         ///	63
         /// </summary>
-        private static readonly byte[] Keys = new byte[]
+        public static readonly byte[] Keys = new byte[]
         {
             65,
             114,

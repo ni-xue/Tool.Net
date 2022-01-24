@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 
 namespace Tool.Utils
@@ -9,6 +10,7 @@ namespace Tool.Utils
     /// <summary>
     /// 验证码帮助类
     /// </summary>
+    [SupportedOSPlatform("windows")]
     public static class VerificCodeHelper
     {
         /// <summary>
@@ -72,6 +74,7 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="codeStr">要生成的验证码字符串</param>
         /// <returns></returns>
+        [SupportedOSPlatform("windows")]
         public static byte[] GetVCode(string codeStr)
         {
             Color _brushName;
@@ -105,6 +108,7 @@ namespace Tool.Utils
         /// <param name="brush"></param>
         /// <param name="font"></param>
         /// <param name="code"></param>
+        [SupportedOSPlatform("windows")]
         private static void Paint_Text(Graphics g, Font font, Brush brush, string code)
         {
             g.DrawString(code, font, brush, 3, 1);
@@ -115,6 +119,7 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="b"></param>
         /// <param name="brushName"></param>
+        [SupportedOSPlatform("windows")]
         private static void Paint_TextStain(Bitmap b, Color brushName)
         {
             for (int n = 0; n < 30; n++)
@@ -129,6 +134,7 @@ namespace Tool.Utils
         /// 随机取一个字体
         /// </summary>
         /// <returns></returns>
+        [SupportedOSPlatform("windows")]
         private static Font GetFont()
         {
             int fontIndex = _random.Next(0, FontItems.Length);
@@ -140,6 +146,7 @@ namespace Tool.Utils
         /// 随机取一个笔刷
         /// </summary>
         /// <returns></returns>
+        [SupportedOSPlatform("windows")]
         private static Brush GetBrush(out Color brushName)
         {
             Brush brush;

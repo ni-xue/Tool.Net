@@ -21,7 +21,7 @@ namespace Tool.Web.Routing
 
         internal AshxBuilder AshxBuilder { get; }
 
-        internal ILogger Logger { get; set; }
+        internal ILogger Logger => AshxBuilder.Logger;
 
         /// <summary>初始化类的新实例。<see cref="AshxRouteHandler" /></summary>
         public AshxRouteHandler(AshxBuilder AshxBuilder)
@@ -39,16 +39,9 @@ namespace Tool.Web.Routing
             return null;
         }
 
-        private static AshxRouteData Filter(RouteContext context, System.Text.Json.JsonSerializerOptions jsonOptions)
-        {
-            //AshxRouteData _routeData = new AshxRouteData(requestContext);
-            //context.
-            return new AshxRouteData(context, jsonOptions);
-        }
-
         public async Task RouteAsync(RouteContext context)
         {
-            AshxRouteData _routeData = Filter(context, AshxBuilder.Options.JsonOptions);
+            AshxRouteData _routeData = AshxBuilder.Filter(context);
 
             if (AshxBuilder.Options.IsAsync)
             {

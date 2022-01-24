@@ -9,7 +9,7 @@ namespace WebTestApp.ApiView
     public class Class : MinApi
     {
         [CrossDomain(Origin = "*", Headers = "content-Type")]
-        [Ashx(State = AshxState.Post)]
+        [Ashx(State = AshxState.Get)]
         public IApiOut As() { return ApiOut.Json(new { a = 5 }); }
     }
 }

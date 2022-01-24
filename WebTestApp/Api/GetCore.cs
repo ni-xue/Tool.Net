@@ -103,7 +103,7 @@ namespace WebTestApp.Api
         {
             //"sda".ToInt();
 
-            ps s = "{\"msg\":\"暂无数据。\",\"time\":\"2021-05-04 15:41:00.407\",\"isTask\":false}".Json<ps>(RouteData.GetNewJsonOptions());
+            //ps s = "{\"msg\":\"暂无数据。\",\"time\":\"2021-05-04 15:41:00.407\",\"isTask\":false}".Json<ps>(RouteData.GetNewJsonOptions());
 
             return JsonAsync(new { msg = "暂无数据。", time = DateTime.Now, IsTask = false }); // Task.Run(() => { Json(new { msg = "暂无数据。", IsTask = false }); });
         }

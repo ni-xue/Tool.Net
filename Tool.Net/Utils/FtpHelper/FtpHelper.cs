@@ -10,6 +10,7 @@ namespace Tool.Utils.FtpHelper
     /// <summary>
     /// FTP帮助类
     /// </summary>
+    [Obsolete("FTP 过时 是因为 6.0 版本 将WebRequest 设置为了过时，目前还可用，后期可能取消 或 改用其他方式。")]
     public class FTPHelper
     {
         #region 字段
@@ -36,14 +37,17 @@ namespace Tool.Utils.FtpHelper
             ftpURI = "ftp://" + ftpServerIP + "/" + ftpRemotePath + "/";
         }
 
+
+        private static FtpWebRequest GetFtpWebRequest(string ftpURI) => WebRequest.Create(new Uri(ftpURI)) as FtpWebRequest;
+
         /// <summary>  
         /// 上传  
         /// </summary>   
         public void Upload(string filename)
         {
-            FileInfo fileInf = new FileInfo(filename);
+            FileInfo fileInf = new(filename);
             FtpWebRequest reqFTP;
-            reqFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpURI + fileInf.Name));
+            reqFTP = GetFtpWebRequest(ftpURI + fileInf.Name);
             reqFTP.Credentials = new NetworkCredential(ftpUserID, ftpPassword);
             reqFTP.Method = WebRequestMethods.Ftp.UploadFile;
             reqFTP.KeepAlive = false;
@@ -78,9 +82,9 @@ namespace Tool.Utils.FtpHelper
         {
             try
             {
-                FileStream outputStream = new FileStream(filePath + "\\" + fileName, FileMode.Create);
+                FileStream outputStream = new(filePath + "\\" + fileName, FileMode.Create);
                 FtpWebRequest reqFTP;
-                reqFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpURI + fileName));
+                reqFTP = GetFtpWebRequest(ftpURI + fileName);
                 reqFTP.Credentials = new NetworkCredential(ftpUserID, ftpPassword);
                 reqFTP.Method = WebRequestMethods.Ftp.DownloadFile;
                 reqFTP.UseBinary = true;
@@ -114,7 +118,7 @@ namespace Tool.Utils.FtpHelper
             try
             {
                 FtpWebRequest reqFTP;
-                reqFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpURI + fileName));
+                reqFTP = GetFtpWebRequest(ftpURI + fileName);
                 reqFTP.Credentials = new NetworkCredential(ftpUserID, ftpPassword);
                 reqFTP.Method = WebRequestMethods.Ftp.DeleteFile;
                 reqFTP.KeepAlive = false;
@@ -122,7 +126,7 @@ namespace Tool.Utils.FtpHelper
                 FtpWebResponse response = (FtpWebResponse)reqFTP.GetResponse();
                 long size = response.ContentLength;
                 Stream datastream = response.GetResponseStream();
-                StreamReader sr = new StreamReader(datastream);
+                StreamReader sr = new(datastream);
                 result = sr.ReadToEnd();
                 sr.Close();
                 datastream.Close();
@@ -141,13 +145,13 @@ namespace Tool.Utils.FtpHelper
         {
             try
             {
-                StringBuilder result = new StringBuilder();
+                StringBuilder result = new();
                 FtpWebRequest ftp;
-                ftp = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpURI));
+                ftp = GetFtpWebRequest(ftpURI);
                 ftp.Credentials = new NetworkCredential(ftpUserID, ftpPassword);
                 ftp.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
                 WebResponse response = ftp.GetResponse();
-                StreamReader reader = new StreamReader(response.GetResponseStream());
+                StreamReader reader = new(response.GetResponseStream());
                 string line = reader.ReadLine();
                 line = reader.ReadLine();
                 line = reader.ReadLine();
@@ -174,8 +178,8 @@ namespace Tool.Utils.FtpHelper
         /// <param name="url">请求地址</param>
         public string[] GetAllList(string url)
         {
-            List<string> list = new List<string>();
-            FtpWebRequest req = (FtpWebRequest)WebRequest.Create(new Uri(url));
+            List<string> list = new();
+            FtpWebRequest req = GetFtpWebRequest(url);
             req.Credentials = new NetworkCredential(ftpPassword, ftpPassword);
             req.Method = WebRequestMethods.Ftp.ListDirectory;
             req.UseBinary = true;
@@ -183,7 +187,7 @@ namespace Tool.Utils.FtpHelper
             try
             {
                 using FtpWebResponse res = (FtpWebResponse)req.GetResponse();
-                using StreamReader sr = new StreamReader(res.GetResponseStream());
+                using StreamReader sr = new(res.GetResponseStream());
                 string s;
                 while ((s = sr.ReadLine()) != null)
                 {
@@ -202,11 +206,11 @@ namespace Tool.Utils.FtpHelper
         /// </summary>  
         public string[] GetFileList(string url)
         {
-            StringBuilder result = new StringBuilder();
+            StringBuilder result = new();
             FtpWebRequest reqFTP;
             try
             {
-                reqFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(url));
+                reqFTP = GetFtpWebRequest(url);
                 reqFTP.UseBinary = true;
                 reqFTP.Credentials = new NetworkCredential(ftpPassword, ftpPassword);
                 reqFTP.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
@@ -259,7 +263,7 @@ namespace Tool.Utils.FtpHelper
             FtpWebRequest reqFTP;
             try
             {
-                reqFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpURI + dirName));
+                reqFTP = GetFtpWebRequest(ftpURI + dirName);
                 reqFTP.Method = WebRequestMethods.Ftp.MakeDirectory;
                 reqFTP.UseBinary = true;
                 reqFTP.Credentials = new NetworkCredential(ftpUserID, ftpPassword);
@@ -281,7 +285,7 @@ namespace Tool.Utils.FtpHelper
             long fileSize = 0;
             try
             {
-                reqFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpURI + filename));
+                reqFTP = GetFtpWebRequest(ftpURI + filename);
                 reqFTP.Method = WebRequestMethods.Ftp.GetFileSize;
                 reqFTP.UseBinary = true;
                 reqFTP.Credentials = new NetworkCredential(ftpUserID, ftpPassword);
@@ -304,7 +308,7 @@ namespace Tool.Utils.FtpHelper
             FtpWebRequest reqFTP;
             try
             {
-                reqFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri(ftpURI + currentFilename));
+                reqFTP = GetFtpWebRequest(ftpURI + currentFilename);
                 reqFTP.Method = WebRequestMethods.Ftp.Rename;
                 reqFTP.RenameTo = newFilename;
                 reqFTP.UseBinary = true;

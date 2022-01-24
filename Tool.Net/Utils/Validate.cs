@@ -4,9 +4,11 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Tool.Utils.Data;
 using Tool.Web;
 
@@ -67,7 +69,7 @@ namespace Tool.Utils
             {
                 string url = $"http://api.map.baidu.com/location/ip?ak={ak}&ip={ip}";
 
-                string reval = Utility.GetWebContent(url);
+                string reval = HttpHelpers.GetString(url); //Utility.GetWebContent(url);
 
                 return reval.JsonDynamic();
             }
@@ -99,7 +101,7 @@ namespace Tool.Utils
             {
                 string url = $"https://restapi.amap.com/v3/ip?ip={ip}&key={key}";
 
-                string reval = Utility.GetWebContent(url);
+                string reval = HttpHelpers.GetString(url); //Utility.GetWebContent(url);
 
                 return reval.JsonDynamic();
             }
@@ -118,9 +120,9 @@ namespace Tool.Utils
         {
             try
             {
-                string url = $"http://ip.taobao.com/service/getIpInfo.php?ip={ip}";
+                string url = $"http://ip.taobao.com/service/getIpInfo.php?ip={ip}";//
 
-                string reval = Utility.GetWebContent(url);
+                string reval = HttpHelpers.GetString(url); //Utility.GetWebContent(url);
 
                 return reval.JsonDynamic();
             }
@@ -134,14 +136,13 @@ namespace Tool.Utils
         /// 根据银行卡获取信息
         /// </summary>
         /// <param name="cardNo">银行卡</param>
+        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
         public static CardDetail GetCardDetail(string cardNo)
         {
-            string url = "https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo=";
-            url += cardNo;
-            url += "&cardBinCheck=true";
+            string url = $"https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo={cardNo}&cardBinCheck=true";
             try
             {
-                string reval = Utility.GetWebContent(url);
+                string reval = HttpHelpers.GetString(url); //Utility.GetWebContent(url);
 
                 CardDetail cardDetail;
 
@@ -160,6 +161,22 @@ namespace Tool.Utils
             catch (Exception e)
             {
                 throw new Exception("银行验证出现问题了，请联系管理员进行修缮。", e);
+            }
+
+            /// <summary>
+            /// 根据银行缩写,获得银行图片
+            /// </summary>
+            /// <param name="bank">银行编号</param>
+            /// <returns>返回图片对象</returns>
+            static Image GetCardDetailimg(string bank)
+            {
+                Image iSource = null;
+
+                using (Stream stream = HttpHelpers.Get($"https://apimg.alipay.com/combo.png?d=cashier&t={bank}"))
+                {
+                    iSource = Image.FromStream(stream);
+                }
+                return iSource;
             }
         }
 
@@ -207,26 +224,9 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 根据银行缩写,获得银行图片
-        /// </summary>
-        /// <param name="bank">银行编号</param>
-        /// <returns>返回图片对象</returns>
-        private static Image GetCardDetailimg(string bank)
-        {
-            string sFile = "https://apimg.alipay.com/combo.png?d=cashier&t=" + bank + "";
-            Image iSource = null;
-            WebRequest webreq = WebRequest.Create(sFile);
-            WebResponse webres = webreq.GetResponse();
-            using (Stream stream = webres.GetResponseStream())
-            {
-                iSource = Image.FromStream(stream);
-            }
-            return iSource;
-        }
-
-        /// <summary>
         /// 银行卡信息
         /// </summary>
+        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
         public class CardDetail
         {
             /// <summary>
@@ -247,7 +247,7 @@ namespace Tool.Utils
                 this.BankName = BankName;
                 this.BankImage = BankImage;
 
-                using (MemoryStream ms = new MemoryStream())
+                using (MemoryStream ms = new())
                 {
                     BankImage.Save(ms, BankImage.RawFormat);
                     this.BankImagebytes = ms.ToArray();

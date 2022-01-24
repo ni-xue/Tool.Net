@@ -32,7 +32,7 @@ namespace WebTestApp.ApiView
             Tool.Utils.Log.Error("异常日志", ex);
 
             //ex.IsParameters = true;
-            ex.ExceptionHandled = true;
+            ex.ExceptionHandled = false;
             return null;//base.AshxException(ex);
         }
 
@@ -42,7 +42,7 @@ namespace WebTestApp.ApiView
         }
 
         //[AshxRoute(template: "小鸟/{id?}")]
-        [AshxRoute(template: "小鸟/{id=cs}.html")]
+        //[AshxRoute(template: "小鸟/{id=cs}.html")]
         //public IApiOut Index([ApiVal(Val.RouteKey)] string id)
         //{
         //    "hhh".ToInt();
@@ -59,7 +59,7 @@ namespace WebTestApp.ApiView
             return await ApiOut.PathViewAsync(id);// ApiOut.ViewAsyn();  //
         }
 
-        [AshxRoute(template: "小鸟/{id?}/{id1?}")]
+        //[AshxRoute(template: "小鸟/{id?}/{id1?}")]
         public async Task<IApiOut> Cs([ApiVal(Val.RouteKey)] string action, [ApiVal(Val.RouteKey)] string id, [ApiVal(Val.RouteKey)] string id1)
         {
             return await ApiOut.WriteAsync(action + id + id1);

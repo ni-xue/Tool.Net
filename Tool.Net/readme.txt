@@ -4,9 +4,9 @@
 
 2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils）
 
-3. 当前版本（3.4.3）为正式包，用于进行实际线上项目开发。 
+3. 当前版本（3.8.0）为正式包，用于进行实际线上项目开发。 
 
-4. 架构基于 .Net 5 采用最新技术，具有最新的技术支持。
+4. 架构基于 .Net 6 采用最新技术，具有最新的技术支持。
 
 -------------------------------------功能详解-----------------------------------------
 
@@ -340,7 +340,60 @@ var code = json["result"]["hehe"][2].Data;
 
 20. HttpContext 下 新增扩展 GetSchemeHost 用于获取请求 地址等信息，支持代理
 
+------------2021/08/27------------
+很抱歉来晚了 V3.7.0
+首先说明：因为这个月作者发生了很多事情，导致了更新放缓，在这里表示非常抱歉，让支撑我的朋友们久等了。
+
+1. 新版本中的细节优化。
+
+2. 新增，web 终结点模式，目前属于公测阶段，可以尝试一下哦，新模式嘛。
+具体操作：
+services.AddAshx(o =>
+{
+    o.EnableEndpointRouting = true; //注意因为是公测版本，模式不开启。
+    o.IsAsync = true;
+    o.JsonOptions = new System.Text.Json.JsonSerializerOptions
+    {
+        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),
+    };
+
+    o.JsonOptions.Converters.Add(JsonConverterHelper.GetDateConverter());
+
+    o.JsonOptions.Converters.Add(JsonConverterHelper.GetDBNullConverter());
+});
+-----------------------------------------
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapAshxs(routes => 
+    {
+        routes.MapApiRoute(areaName: "WebTestApp.Api",
+            template: "Api/{controller=GetMin}/{action=GetSql}/{id1?}");
+
+        routes.MapApiRoute(areaName: "WebTestApp.ApiView",
+            template: "{controller=Heheh}/{action=Index}/{id?}");
+    });
+});
+
+3. 将以前的 ObjectExtension.Dynamic 相关模块全部，增加了弃用标识。
+
+4. 新增 ObjectExtension 下 Services 和 Provider 独立的 DI 版本，用于使用者的特殊操作。
+
+5. 新增 IocHelper 和 IocCore 类，用于管理相关 DI
+
+6. 以上DI都是基于 Microsoft.Extensions.DependencyInjection 提供的模块的包装简化。
+
+7. 一些相关，方法函数值的限制。
+
 以上是大致更新说明，详情还请执行查看api文档。
+
+------------2022/01/22------------
+很抱歉来晚了 V3.8.0
+
+1. 本版本，主要是更新至 6.0 将多个过时接口更换。
+
+2. 并且在之后版本 只继续维护 6.0， 5.0 的最后一个版本将定格在 3.7 版本中。
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。

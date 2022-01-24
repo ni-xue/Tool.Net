@@ -10,6 +10,8 @@ using Tool.Web.Routing;
 using Tool.Utils.Data;
 using Microsoft.AspNetCore.Builder;
 using Tool.Web.Builder;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Routing;
 
 namespace Tool.Web
 {
@@ -21,9 +23,19 @@ namespace Tool.Web
         internal readonly IReadOnlyDictionary<string, AshxExtension> RouteDefaults = null;
 
         /// <summary>
-        /// 路由对象
+        /// 核心日志对象
+        /// </summary>
+        internal ILogger Logger { get; set; }
+
+        /// <summary>
+        /// 路由对象 （旧模式）
         /// </summary>
         internal AshxRouteHandler AshxRoute { get; }
+
+        /// <summary>
+        /// 终结点对象 （新模式）
+        /// </summary>
+        internal AshxEndpointDataSource AshxEndpoint { get; }
 
         /// <summary>
         /// 当前对象注册所需要选项对象
@@ -56,6 +68,9 @@ namespace Tool.Web
             this.Services = Services;
 
             AshxRoute = new AshxRouteHandler(this);//ReadOnlyDictionary
+
+            AshxEndpoint = new AshxEndpointDataSource(this);
+
             Dictionary<string, AshxExtension> keys = GetAssembly();
 
             RouteDefaults = keys.AsReadOnly(); //new ReadOnlyDictionary<string, AshxExtension>(new Dictionary<string, AshxExtension>(StringComparer.OrdinalIgnoreCase)); // new RouteValueDictionary();
@@ -137,7 +152,7 @@ namespace Tool.Web
             return types;
         }
 
-        internal void RegisterAshxRoute(Microsoft.AspNetCore.Routing.RouteBuilder builder) 
+        internal void RegisterAshxRoute(object builder) 
         {
             foreach (var keyValue in RouteDefaults)
             {
@@ -149,7 +164,14 @@ namespace Tool.Web
                 {
                     ashxRoute.Name ??= keyValue.Key;
 
-                    builder.MapApiRoute(ashxRoute.Name, areaName: extension.AshxType.Namespace, controller: keyValue.Key, template: ashxRoute.Template);
+                    if (Options.EnableEndpointRouting)//ashxRoute.Name, 
+                    {
+                        ((Microsoft.AspNetCore.Routing.EndpointDataSource)builder).MapApiRoute(areaName: extension.AshxType.Namespace, controller: keyValue.Key, template: ashxRoute.Template);
+                    }
+                    else
+                    {
+                        ((Microsoft.AspNetCore.Routing.IRouteBuilder)builder).MapApiRoute(ashxRoute.Name, areaName: extension.AshxType.Namespace, controller: keyValue.Key, template: ashxRoute.Template);
+                    }
                 }
 
                 foreach (var ashx in extension.Ashxes)
@@ -160,10 +182,35 @@ namespace Tool.Web
                     {
                         ashxRoute1.Name ??= string.Concat(keyValue.Key, '-', ashx.Key);
 
-                        builder.MapApiRoute(ashxRoute1.Name, areaName: extension.AshxType.Namespace, controller: keyValue.Key, action: ashx.Key, template: ashxRoute1.Template);
+                        if (Options.EnableEndpointRouting)//ashxRoute1.Name,
+                        {
+                            ((Microsoft.AspNetCore.Routing.EndpointDataSource)builder).MapApiRoute(areaName: extension.AshxType.Namespace, controller: keyValue.Key, action: ashx.Key, template: ashxRoute1.Template);
+                        }
+                        else
+                        {
+                            ((Microsoft.AspNetCore.Routing.IRouteBuilder)builder).MapApiRoute(ashxRoute1.Name, areaName: extension.AshxType.Namespace, controller: keyValue.Key, action: ashx.Key, template: ashxRoute1.Template);
+                        }
                     }
                 }
             }
+        }
+
+        internal AshxRouteData Filter(Microsoft.AspNetCore.Http.HttpContext context)
+        {
+            var routeData = context.GetRouteData() ?? throw new ArgumentNullException("无法获取到，请求信息的路由配置信息！");
+
+            //var routeData = context.Features.Get<IRoutingFeature>()?.RouteData ?? throw new ArgumentNullException("无法获取到，请求信息的路由配置信息！"); ;
+
+            var routeContext = new RouteContext(context) { RouteData = routeData };
+
+            return Filter(routeContext);
+        }
+
+        internal AshxRouteData Filter(Microsoft.AspNetCore.Routing.RouteContext context)
+        {
+            //AshxRouteData _routeData = new AshxRouteData(requestContext);, System.Text.Json.JsonSerializerOptions jsonOptions
+            //context.
+            return new AshxRouteData(context, Options.JsonOptions);
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Text;
 
 namespace Tool.Utils.Data
@@ -11,6 +12,7 @@ namespace Tool.Utils.Data
     /// 对<see cref="Image"/>进行升级
     /// </summary>
     /// <remarks>代码由逆血提供支持</remarks>
+    [SupportedOSPlatform("windows")]
     public static class ImageExtension
     {
         /// <summary>
@@ -21,7 +23,7 @@ namespace Tool.Utils.Data
         public static byte[] ToImageBytes(this Image image, ImageFormat imageFormat = null)
         {
             if (imageFormat == null) imageFormat = ImageFormat.Jpeg;
-            MemoryStream stream = new MemoryStream();
+            MemoryStream stream = new();
             image.Save(stream, imageFormat);// 保存图像到文件
             using (stream)
             {

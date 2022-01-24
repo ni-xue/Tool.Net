@@ -80,8 +80,9 @@ namespace Tool.Utils
 		public static string CreateRandom(int length, bool isuseNum, bool isuseLow, bool isuseUpp, bool isuseSpe, string custom)
 		{
 			byte[] array = new byte[4];
-			new RNGCryptoServiceProvider().GetBytes(array);
-			Random random = new Random(BitConverter.ToInt32(array, 0));
+			using var ran = RandomNumberGenerator.Create();
+			ran.GetBytes(array);
+			Random random = new(BitConverter.ToInt32(array, 0));
 			string text = null;
 			string text2 = custom;
 			if (isuseNum)
@@ -1406,6 +1407,6 @@ namespace Tool.Utils
 
 		private static readonly string PROLONG_SYMBOL = "...";
 
-		private static RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+		private static readonly RandomNumberGenerator rng = RandomNumberGenerator.Create();//RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
 	}
 }

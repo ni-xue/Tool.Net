@@ -61,7 +61,7 @@ namespace Tool.Utils.Encryption
             {
                 throw new ArgumentNullException(nameof(password));
             }
-            using DSACryptoServiceProvider dSACryptoServiceProvider = new DSACryptoServiceProvider();
+            using DSACryptoServiceProvider dSACryptoServiceProvider = new();
             string text = BitConverter.ToString(dSACryptoServiceProvider.SignData(Encoding.UTF8.GetBytes(password)));
             dSACryptoServiceProvider.Clear();
             return text.Replace("-", null);
@@ -99,11 +99,11 @@ namespace Tool.Utils.Encryption
             {
                 throw new ArgumentNullException(nameof(password));
             }
-            using MD5CryptoServiceProvider mD5CryptoServiceProvider = new MD5CryptoServiceProvider();
+            using MD5 mD5 = MD5.Create();//MD5CryptoServiceProvider mD5CryptoServiceProvider = new MD5CryptoServiceProvider();
 
             byte[] passd = Encoding.UTF8.GetBytes(password);
 
-            byte[] md5bytes = mD5CryptoServiceProvider.ComputeHash(passd);
+            byte[] md5bytes = mD5.ComputeHash(passd);
 
             string text0;
             if (mode == MD5ResultMode.Strong)
@@ -118,7 +118,7 @@ namespace Tool.Utils.Encryption
             string text1 = text0.Replace("-", null);
 
             //string text = BitConverter.ToString(mD5CryptoServiceProvider.ComputeHash(Encoding.UTF8.GetBytes(password)));
-            mD5CryptoServiceProvider.Clear();
+            mD5.Clear();
 
             return text1;
 
@@ -140,9 +140,9 @@ namespace Tool.Utils.Encryption
             {
                 throw new ArgumentNullException(nameof(password));
             }
-            using SHA1CryptoServiceProvider sHA1CryptoServiceProvider = new SHA1CryptoServiceProvider();
-            string text = BitConverter.ToString(sHA1CryptoServiceProvider.ComputeHash(Encoding.UTF8.GetBytes(password)));
-            sHA1CryptoServiceProvider.Clear();
+            using SHA1 sHA1 = SHA1.Create();//SHA1CryptoServiceProvider sHA1CryptoServiceProvider = new SHA1CryptoServiceProvider();
+            string text = BitConverter.ToString(sHA1.ComputeHash(Encoding.UTF8.GetBytes(password)));
+            sHA1.Clear();
             return text.Replace("-", null);
         }
 
@@ -158,8 +158,8 @@ namespace Tool.Utils.Encryption
                 throw new ArgumentNullException(nameof(password));
             }
             byte[] bytes = Encoding.UTF8.GetBytes(password);
-            using SHA256Managed sHA256Managed = new SHA256Managed();
-            return Convert.ToBase64String(sHA256Managed.ComputeHash(bytes));
+            using SHA256 sHA256 = System.Security.Cryptography.SHA256.Create();//SHA256Managed sHA256Managed = new SHA256Managed();
+            return Convert.ToBase64String(sHA256.ComputeHash(bytes));
         }
     }
 

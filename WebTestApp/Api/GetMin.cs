@@ -83,7 +83,8 @@ namespace WebTestApp.Api
             , [ApiVal(Val.Service)] Microsoft.Extensions.Logging.ILoggerFactory factory
 
             , [ApiVal(Val.Cookie)] int SessionId
-            , [ApiVal(Val.Header)] string Cookie1)
+            , [ApiVal(Val.Header)] string Cookie1
+            , [ApiVal(Val.QueryMode)] system whereSort)
         {
             //System.Data.DataSet ds = dbHelper.Query("SELECT * FROM system WHERE Id=@a OrDER by id desc", new { a = 1, b = "2", c = true, d = DateTime.Now, e = new byte[] { 60, 254 } });
 
@@ -132,7 +133,7 @@ namespace WebTestApp.Api
             return ApiOut.Json(new { msg = $"暂无数据。 action:{controller}\\action:{action}\\action:{id1}", IsTask = false, count });
         }
 
-        public class system { }
+        public class system { public string SortKey { get; init; } = "Id"; }
 
         public async Task<IApiOut> GetTaskSql(HttpContext context, int id =5)
         {

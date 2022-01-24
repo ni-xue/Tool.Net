@@ -11,6 +11,10 @@ namespace Tool.NetTests.Cs
     [TestClass()]
     public class Class1
     {
+        public readonly int A;
+
+        public readonly int B;
+
         public Class1() 
         {
         
@@ -18,7 +22,7 @@ namespace Tool.NetTests.Cs
 
         public Class1(int a, int b)
         {
-
+            A = a; B = b;
         }
 
         [TestMethod()]

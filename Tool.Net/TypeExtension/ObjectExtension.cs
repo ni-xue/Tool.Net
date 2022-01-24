@@ -22,8 +22,25 @@ namespace Tool
     public static class ObjectExtension
     {
         /// <summary>
+        /// 提供用于添加对象服务
+        /// </summary>
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection Services => Utils.IocHelper.IocCore.Services;
+
+        /// <summary>
+        /// 提供用于获取注入对象的服务
+        /// </summary>
+        public static IServiceProvider Provider => Utils.IocHelper.IocCore.Provider;
+
+        /// <summary>
+        /// 创建用于获取服务对象
+        /// <para>调用该函数，将会释放掉原本的服务</para>
+        /// </summary>
+        public static void BuildProvider() => Utils.IocHelper.IocCore.Build();
+
+        /// <summary>
         /// 虚拟参数(备注：要引用 <see cref="Microsoft.CSharp"/> .dll 方可使用)
         /// </summary>
+        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
         public static dynamic Dynamic = new ExpandoObject();
 
         /// <summary>
@@ -47,6 +64,7 @@ namespace Tool
         /// <summary>
         /// 添加虚拟参数(备注：如果对象名存在则会在直接修改原对象名内的数据，type字段默认为true，为false时则不进行修改),注明：如果存在多线程添加同一个键值的情况，请自己使用锁解决
         /// </summary>
+        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
         public static void DynamicAdd(string key, object value, bool type = true)
         {
             if (Dynamic is ExpandoObject)
@@ -69,6 +87,7 @@ namespace Tool
         /// <summary>
         /// 删除全部虚拟参数
         /// </summary>
+        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
         public static void DynamicRemove()
         {
             if (Dynamic is ExpandoObject)
@@ -82,6 +101,7 @@ namespace Tool
         /// 删除指定名称的虚拟参数（备注：如果键值不存在则不会删除任何键值，不抛出异常）
         /// </summary>
         /// <param name="key">简直名称</param>
+        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
         public static void DynamicRemove(string key)
         {
             if (Dynamic is ExpandoObject)
@@ -99,6 +119,7 @@ namespace Tool
         /// </summary>
         /// <param name="key">简直名称</param>
         /// <returns>返回结果</returns>
+        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
         public static dynamic Dynamickey(string key)
         {
             return DynamicObjectkey(key);
@@ -109,6 +130,7 @@ namespace Tool
         /// </summary>
         /// <param name="key">简直名称</param>
         /// <returns>返回结果</returns>
+        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
         public static T Dynamickey<T>(string key)
         {
             if (Dynamic is ExpandoObject)
@@ -132,6 +154,7 @@ namespace Tool
         /// </summary>
         /// <param name="key">简直名称</param>
         /// <returns>返回结果</returns>
+        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
         public static object DynamicObjectkey(string key)
         {
             if (Dynamic is ExpandoObject)
@@ -153,6 +176,7 @@ namespace Tool
         /// <summary>
         /// 获取虚拟键值下面的所有名称
         /// </summary>
+        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
         public static string[] DynamicKeys
         {
             get
@@ -164,6 +188,7 @@ namespace Tool
         /// <summary>
         /// 获取虚拟键值下面的所有内容
         /// </summary>
+        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
         public static dynamic[] DynamicValues
         {
             get
@@ -175,6 +200,7 @@ namespace Tool
         /// <summary>
         /// 获取当前包含的虚拟参数数量
         /// </summary>
+        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
         public static int DynamicCount
         {
             get
@@ -188,6 +214,7 @@ namespace Tool
         /// </summary>
         /// <param name="propertyname">参数名</param>
         /// <returns></returns>
+        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
         public static bool IsPropertyExist(string propertyname)
         {
             if (Dynamic is ExpandoObject)

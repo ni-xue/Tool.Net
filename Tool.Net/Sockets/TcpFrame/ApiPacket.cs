@@ -18,11 +18,8 @@ namespace Tool.Sockets.TcpFrame
         /// </summary>
         /// <param name="ClassID">类ID</param>
         /// <param name="ActionID">方法ID</param>
-        public ApiPacket(byte ClassID, byte ActionID)
+        public ApiPacket(byte ClassID, byte ActionID) : this(ClassID, ActionID, 60 * 1000)
         {
-            this.ClassID = ClassID;
-            this.ActionID = ActionID;
-            Data = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -36,7 +33,7 @@ namespace Tool.Sockets.TcpFrame
             this.ClassID = ClassID;
             this.ActionID = ActionID;
             this.Millisecond = Millisecond;
-            Data = new Dictionary<string, object>();
+            Data = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -62,7 +59,7 @@ namespace Tool.Sockets.TcpFrame
         /**
          * 发送的参数
          */
-        internal Dictionary<string, object> Data { get; set; }
+        readonly internal Dictionary<string, string> Data;// { get; set; }
 
         /// <summary>
         /// 加入数据（如果有则修改）
@@ -83,15 +80,27 @@ namespace Tool.Sockets.TcpFrame
                 throw new FormatException("当前key的值不符合参数名的定义，请以首字母定义。");
             }
 
+            if (key.Contains("=") || key.Contains("&"))
+            {
+                throw new FormatException("当前key的值存在【=或&】符号，需要转义后再加入。");
+            }
+
+            var val = value.ToString();
+
+            if (val.Contains("=") || val.Contains("&"))
+            {
+                throw new FormatException("当前value的值存在【=或&】符号，需要转义后再加入。");
+            }
+
             if (value.GetType().IsType())
             {
                 if (Data.ContainsKey(key))
                 {
-                    Data[key] = value;
+                    Data[key] = val;
                 }
                 else
                 {
-                    Data.Add(key, value);
+                    Data.Add(key, val);
                 }
             }
             else
@@ -124,7 +133,7 @@ namespace Tool.Sockets.TcpFrame
         /// <param name="key">键</param>
         /// <param name="value">要返回的值</param>
         /// <returns>是否存在</returns>
-        public bool TryGet(string key, out object value)
+        public bool TryGet(string key, out string value)
         {
             return Data.TryGetValue(key, out value);
         }
@@ -147,7 +156,7 @@ namespace Tool.Sockets.TcpFrame
             var s = Data == null
                 ? string.Empty
                 : string.Join("&",
-                    Data.Select(d => string.Concat(d.Key, "=", d.Value.ToString())));
+                    Data.Select(d => string.Concat(d.Key, "=", d.Value)));
 
             //if (s.Contains("\""))
             //{

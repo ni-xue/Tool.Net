@@ -28,6 +28,11 @@ namespace Tool.Web.Api.ApiCore
         public bool IsAsync { get; set; }
 
         /// <summary>
+        /// 是否使用终结点模式路由 (目前公测阶段)
+        /// </summary>
+        public bool EnableEndpointRouting { get; set; } = false;
+
+        /// <summary>
         /// 允许注册 全局<see cref="System.Text.Json.JsonSerializerOptions"/> Json 序列化条件。 默认 null
         /// </summary>
         public System.Text.Json.JsonSerializerOptions JsonOptions { get; set; }
