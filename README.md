@@ -9,6 +9,14 @@ Tool 作为 UniversalFrame 的延续产品，将开源源代码，继续维护�
 5. 使用API文档：http://tool.nixue.top/index.html
 6. 开源项目实例：https://github.com/ni-xue/UniversalFrame
 
+### Nuget
+
+| 包名 | 描述 | Nuget |
+---|---|--|
+| UniversalFrame | 2020 年定为存档 适用于 .net framework | [![NuGet](https://buildstats.info/nuget/UniversalFrame)](https://www.nuget.org/packages/UniversalFrame) |
+| UniversalFrame.Core | 2021 年定为存档 适用于 .net core | [![NuGet](https://buildstats.info/nuget/UniversalFrame.Core)](https://www.nuget.org/packages/UniversalFrame.Core) |
+| Tool.Net | 目前还在维护的最新包 适用于 .net 5 以上 | [![NuGet](https://buildstats.info/nuget/Tool.Net)](https://www.nuget.org/packages/Tool.Net) |
+
 # 贡献
 
 遵循 Fork and Pull GitHub工作流：
