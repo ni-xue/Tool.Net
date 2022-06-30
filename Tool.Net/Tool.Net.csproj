@@ -32,7 +32,7 @@ Url:nixue.top</Description>
 	<Guid>00D70EFE-32AC-43D9-96FA-A3E8CC4A79BB</Guid>
 	<OutputType>Library</OutputType>
 	<Nullable>disable</Nullable>
-	<GenerateDocumentationFile>False</GenerateDocumentationFile>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

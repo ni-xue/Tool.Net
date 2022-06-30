@@ -36,14 +36,16 @@ namespace Tool.Utils
             _HttpClient = new(new SocketsHttpHandler() { UseCookies = false, AutomaticDecompression = DecompressionMethods.All, SslOptions = new System.Net.Security.SslClientAuthenticationOptions { RemoteCertificateValidationCallback = (a, b, c, d) => true } }, true);   //HttpClientHandler
         }
 
+        /// <summary>
+        /// 自动回收
+        /// </summary>
         ~HttpHelpers() { _HttpClient.Dispose(); }
 
         /// <summary>
         /// GET 方式获取响应流
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="queryString"></param>
-        /// <param name="cc"></param>
+        /// <param name="cookies"></param>
         /// <param name="refer"></param>
         /// <returns></returns>
         public static Stream Get(string url, string cookies = null, Uri refer = null)
@@ -58,7 +60,7 @@ namespace Tool.Utils
 
                 using var http = _HttpClient.Send(requestMessage);
 
-                http.EnsureSuccessStatusCode();
+                //http.EnsureSuccessStatusCode();
 
                 var stream = http.Content.ReadAsStream();
 
@@ -70,7 +72,7 @@ namespace Tool.Utils
 
                 return memoryStream;
             }
-            catch
+            catch(Exception)
             {
                 return default;
             }
@@ -80,7 +82,7 @@ namespace Tool.Utils
         /// GET 方式获取响应流(异步获取)
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="cc"></param>
+        /// <param name="cookies"></param>
         /// <param name="refer"></param>
         /// <returns></returns>
         public static async Task<Stream> GetAsync(string url, string cookies = null, Uri refer = null)
@@ -95,7 +97,7 @@ namespace Tool.Utils
 
                 using var http = await _HttpClient.SendAsync(requestMessage);
 
-                http.EnsureSuccessStatusCode();
+                //http.EnsureSuccessStatusCode();
 
                 var stream = await http.Content.ReadAsStreamAsync();
 
@@ -168,7 +170,7 @@ namespace Tool.Utils
 
             if (result == null)
             {
-                throw new Exception("调用失败。");
+                return null; //throw new Exception("请求失败。");
             }
 
             using var _StreamReader = new StreamReader(result, DefaultEncoding);
@@ -188,7 +190,7 @@ namespace Tool.Utils
 
             if (result == null)
             {
-                throw new Exception("调用失败。");
+                return null; //throw new Exception("请求失败。");
             }
 
             using var _StreamReader = new StreamReader(result, DefaultEncoding);
@@ -217,7 +219,7 @@ namespace Tool.Utils
 
                 using var http = _HttpClient.Send(requestMessage);
 
-                http.EnsureSuccessStatusCode();
+                //http.EnsureSuccessStatusCode();
 
                 var stream = http.Content.ReadAsStream();
 
@@ -257,7 +259,7 @@ namespace Tool.Utils
 
                 using var http = await _HttpClient.SendAsync(requestMessage);
 
-                http.EnsureSuccessStatusCode();
+                //http.EnsureSuccessStatusCode();
 
                 var stream = await http.Content.ReadAsStreamAsync();
 
@@ -358,7 +360,7 @@ namespace Tool.Utils
 
             if (result == null)
             {
-                throw new Exception("调用失败。");
+                return null; //throw new Exception("请求失败。");
             }
             using var _StreamReader = new StreamReader(result, DefaultEncoding);
             return _StreamReader.ReadToEnd();
@@ -378,7 +380,7 @@ namespace Tool.Utils
 
             if (result == null)
             {
-                throw new Exception("调用失败。");
+                return null; //throw new Exception("请求失败。");
             }
             using var _StreamReader = new StreamReader(result, DefaultEncoding);
             return _StreamReader.ReadToEnd();
@@ -476,8 +478,6 @@ namespace Tool.Utils
                 if (!string.IsNullOrWhiteSpace(cookies)) requestMessage.Headers.TryAddWithoutValidation("Cookie", cookies);
 
                 using var http = _HttpClient.Send(requestMessage);
-
-                http.EnsureSuccessStatusCode();
 
                 return http.StatusCode;
             }

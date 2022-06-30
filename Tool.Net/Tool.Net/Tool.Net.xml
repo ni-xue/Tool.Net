@@ -9309,7 +9309,7 @@
         </member>
         <member name="T:Tool.Utils.HttpHelpers">
             <summary>
-            提供部分的API请求访问类
+            提供部分的API请求访问类 (内置调用接口 替换为 HttpClient)
             </summary>
             <remarks>代码由逆血提供支持</remarks>
         </member>
@@ -9320,256 +9320,202 @@
         </member>
         <member name="P:Tool.Utils.HttpHelpers.Timeout">
             <summary>
-            毫秒
+            等待毫秒
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">指定的超时值小于或等于零，并且不是系统超时值。穿线。超时。无穷大跨度。</exception>
+            <exception cref="T:System.InvalidOperationException">已在当前实例上启动操作。</exception>
+            <exception cref="T:System.ObjectDisposedException">当前实例已被释放。</exception>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.Finalize">
+            <summary>
+            自动回收
             </summary>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.Get(System.String,System.String,System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.Get(System.String,System.String,System.Uri)">
             <summary>
             GET 方式获取响应流
             </summary>
             <param name="url"></param>
-            <param name="queryString"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.GetAsync(System.String,System.String,System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.GetAsync(System.String,System.String,System.Uri)">
             <summary>
             GET 方式获取响应流(异步获取)
             </summary>
             <param name="url"></param>
-            <param name="queryString"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.Get(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Net.CookieContainer,System.String)">
-            <summary>
-            GET 方式获取响应流
-            </summary>
-            <param name="url"></param>
-            <param name="data"></param>
-            <param name="cc"></param>
-            <param name="refer"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Utils.HttpHelpers.GetAsync(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Net.CookieContainer,System.String)">
-            <summary>
-            GET 方式获取响应流(异步获取)
-            </summary>
-            <param name="url"></param>
-            <param name="data"></param>
-            <param name="cc"></param>
-            <param name="refer"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Utils.HttpHelpers.Get``1(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.GetJson``1(System.String,System.String,System.Uri)">
             <summary>
             GET 方式获取响应流 返回实体
             </summary>
             <typeparam name="T"></typeparam>
             <param name="url"></param>
-            <param name="data"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.GetAsync``1(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.GetJsonAsync``1(System.String,System.String,System.Uri)">
             <summary>
             GET 方式获取响应流 返回实体 (异步获取)
             </summary>
             <typeparam name="T"></typeparam>
             <param name="url"></param>
-            <param name="data"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.GetString(System.String,System.String,System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.GetString(System.String,System.String,System.Uri)">
             <summary>
             GET 方式获取响应流 返回字符串
             </summary>
             <param name="url"></param>
-            <param name="queryString"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.GetStringAsync(System.String,System.String,System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.GetStringAsync(System.String,System.String,System.Uri)">
             <summary>
             GET 方式获取响应流 返回字符串 (异步获取)
             </summary>
             <param name="url"></param>
-            <param name="queryString"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.GetString(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Net.CookieContainer,System.String)">
-            <summary>
-            GET 方式获取响应流 返回字符串
-            </summary>
-            <param name="url"></param>
-            <param name="data"></param>
-            <param name="cc"></param>
-            <param name="refer"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Utils.HttpHelpers.GetStringAsync(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Net.CookieContainer,System.String)">
-            <summary>
-            GET 方式获取响应流 返回字符串 (异步获取)
-            </summary>
-            <param name="url"></param>
-            <param name="data"></param>
-            <param name="cc"></param>
-            <param name="refer"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Utils.HttpHelpers.Post(System.String,System.String,System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.Post(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}},System.String,System.Uri)">
             <summary>
             POST 方式获取响应流
             </summary>
             <param name="url"></param>
             <param name="data"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.PostAsync(System.String,System.String,System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.PostAsync(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}},System.String,System.Uri)">
             <summary>
             POST 方式获取响应流(异步获取)
             </summary>
             <param name="url"></param>
             <param name="data"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.Post(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.Post(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String)">
             <summary>
             POST 方式获取响应流
             </summary>
             <param name="url"></param>
             <param name="data"></param>
-            <param name="cc"></param>
-            <param name="refer"></param>
+            <param name="cookies"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.PostAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.PostAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String)">
             <summary>
             POST 方式获取响应流(异步获取)
             </summary>
             <param name="url"></param>
             <param name="data"></param>
-            <param name="cc"></param>
-            <param name="refer"></param>
+            <param name="cookies"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.PostString(System.String,System.String,System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.PostString(System.String,System.String,System.String,System.Uri)">
             <summary>
             POST 方式获取响应流  返回字符串
             </summary>
             <param name="url"></param>
             <param name="data"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.PostStringAsync(System.String,System.String,System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.PostStringAsync(System.String,System.String,System.String,System.Uri)">
             <summary>
             POST 方式获取响应流  返回字符串 (异步获取)
             </summary>
             <param name="url"></param>
             <param name="data"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.PostString(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.PostString(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.Uri)">
             <summary>
             POST 方式获取响应流  返回字符串
             </summary>
             <param name="url"></param>
             <param name="data"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.PostStringAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.PostStringAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.Uri)">
             <summary>
             POST 方式获取响应流  返回字符串 (异步获取)
             </summary>
             <param name="url"></param>
             <param name="data"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.Post``1(System.String,System.String,System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.PostJson``1(System.String,System.String,System.String,System.Uri)">
             <summary>
             POST 方式获取响应流  返回实体
             </summary>
             <typeparam name="T"></typeparam>
             <param name="url"></param>
             <param name="data"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.PostAsync``1(System.String,System.String,System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.PostJsonAsync``1(System.String,System.String,System.String,System.Uri)">
             <summary>
             POST 方式获取响应流  返回实体 (异步获取)
             </summary>
             <typeparam name="T"></typeparam>
             <param name="url"></param>
             <param name="data"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.Post``1(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.PostJson``1(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.Uri)">
             <summary>
             POST 方式获取响应流  返回实体
             </summary>
             <typeparam name="T"></typeparam>
             <param name="url"></param>
             <param name="data"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.PostAsync``1(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.PostJsonAsync``1(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.String,System.Uri)">
             <summary>
             POST 方式获取响应流  返回实体 (异步获取)
             </summary>
             <typeparam name="T"></typeparam>
             <param name="url"></param>
             <param name="data"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.HeadHttpCode(System.String,System.Net.CookieContainer,System.String)">
+        <member name="M:Tool.Utils.HttpHelpers.HeadHttpCode(System.String,System.String,System.Uri)">
             <summary>
             HEAD 方式获取响应的状态
             </summary>
             <param name="url"></param>
-            <param name="cc"></param>
+            <param name="cookies"></param>
             <param name="refer"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Utils.HttpHelpers.CreateHttpWebRequest(System.String)">
-            <summary>
-            根据http链接获取<see cref="T:System.Net.HttpWebRequest"/>对象
-            </summary>
-            <param name="url"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Utils.HttpHelpers.FormatData(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
-            <summary>
-            返回 Format 表单提交
-            </summary>
-            <param name="data"></param>
             <returns></returns>
         </member>
         <member name="T:Tool.Utils.ImageHelper">
@@ -9594,7 +9540,7 @@
         </member>
         <member name="M:Tool.Utils.ImageHelper.SaveJpgToStream(System.Drawing.Image,System.Int32)">
             <summary>
-            
+            将 图片 转换成 数据流
             </summary>
             <param name="image"></param>
             <param name="level"></param>
@@ -9964,6 +9910,11 @@
             大概确定 Json 数据的类型
             </summary>
         </member>
+        <member name="P:Tool.Utils.JsonVar.Count">
+            <summary>
+            当前 层 可能存在的 集合 长度
+            </summary>
+        </member>
         <member name="P:Tool.Utils.JsonVar.Data">
             <summary>
             当前 Json 的数据结构
@@ -9988,6 +9939,69 @@
             </summary>
             <param name="i">下标</param>
             <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.JsonVar.GetVar``1">
+            <summary>
+            将对象还原成 特定值
+            </summary>
+            <typeparam name="T">转换的值</typeparam>
+            <returns>得到的值</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Tool.Utils.JsonVar.op_Implicit(System.Collections.Generic.Dictionary{System.String,System.Object})~Tool.Utils.JsonVar" -->
+        <!-- Badly formed XML comment ignored for member "M:Tool.Utils.JsonVar.op_Implicit(Tool.Utils.JsonVar)~System.Collections.Generic.Dictionary{System.String,System.Object}" -->
+        <member name="M:Tool.Utils.JsonVar.op_Implicit(System.Collections.ArrayList)~Tool.Utils.JsonVar">
+            <summary>
+            ArrayList
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Tool.Utils.JsonVar.op_Implicit(Tool.Utils.JsonVar)~System.Collections.ArrayList">
+            <summary>
+            ArrayList
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Tool.Utils.JsonVar.op_Implicit(System.String)~Tool.Utils.JsonVar">
+            <summary>
+            string
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Tool.Utils.JsonVar.op_Implicit(Tool.Utils.JsonVar)~System.String">
+            <summary>
+            string
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Tool.Utils.JsonVar.op_Implicit(Tool.Utils.JsonVar)~System.Boolean">
+            <summary>
+            bool
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Tool.Utils.JsonVar.op_Implicit(Tool.Utils.JsonVar)~System.Int32">
+            <summary>
+            int
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Tool.Utils.JsonVar.op_Implicit(Tool.Utils.JsonVar)~System.Int64">
+            <summary>
+            long
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Tool.Utils.JsonVar.op_Implicit(Tool.Utils.JsonVar)~System.Double">
+            <summary>
+            double
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Tool.Utils.JsonVar.op_Implicit(Tool.Utils.JsonVar)~System.Decimal">
+            <summary>
+            decimal
+            </summary>
+            <param name="value"></param>
         </member>
         <member name="T:Tool.Utils.Log">
             <summary>
@@ -11225,6 +11239,16 @@
             </summary>
             <remarks>代码由逆血提供支持</remarks>
         </member>
+        <member name="E:Tool.Utils.ThreadQueue.ActionQueue.ContinueWith">
+            <summary>
+            注册完成任务后触发的事件
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.ActionQueue.IsContinueWith">
+            <summary>
+            表示当前事件是否已经注册
+            </summary>
+        </member>
         <member name="M:Tool.Utils.ThreadQueue.ActionQueue.Add(System.Action{System.Object},System.Object)">
             <summary>
             添加无返回值任务
@@ -11247,16 +11271,6 @@
             </summary>
             <param name="waitaction">任务对象</param>
         </member>
-        <member name="E:Tool.Utils.ThreadQueue.ActionQueue.ContinueWith">
-            <summary>
-            注册完成任务后触发的事件
-            </summary>
-        </member>
-        <member name="P:Tool.Utils.ThreadQueue.ActionQueue.IsContinueWith">
-            <summary>
-            表示当前事件是否已经注册
-            </summary>
-        </member>
         <member name="T:Tool.Utils.ThreadQueue.TaskOueue`2">
             <summary>
             一个消息队列任务模型（异步处理任务）
@@ -11277,6 +11291,14 @@
             <summary>
             创建执行需要的函数
             </summary>
+            <param name="func">队列处理的函数</param>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.TaskOueue`2.#ctor(System.Func{`0,`1},System.Threading.Tasks.TaskCreationOptions)">
+            <summary>
+            创建执行需要的函数
+            </summary>
+            <param name="func">队列处理的函数</param>
+            <param name="creationOptions">异步线程属性</param>
         </member>
         <member name="M:Tool.Utils.ThreadQueue.TaskOueue`2.Add(`0)">
             <summary>
@@ -11852,13 +11874,6 @@
             </summary>
             <param name="bank">银行编号</param>
             <returns>返回银行名称</returns>
-        </member>
-        <member name="M:Tool.Utils.Validate.GetCardDetailimg(System.String)">
-            <summary>
-            根据银行缩写,获得银行图片
-            </summary>
-            <param name="bank">银行编号</param>
-            <returns>返回图片对象</returns>
         </member>
         <member name="T:Tool.Utils.Validate.CardDetail">
             <summary>

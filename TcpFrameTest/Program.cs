@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Tool;
 using Tool.Sockets.SupportCode;
 using Tool.Sockets.TcpFrame;
+using Tool.Utils;
 using Tool.Utils.ThreadQueue;
 
 namespace TcpFrameTest
@@ -21,6 +22,17 @@ namespace TcpFrameTest
         public static void Main(string[] args)
         {
             //TextTemplate1
+
+            HttpHelpers.Timeout = 3000;
+
+            var s1 = HttpHelpers.GetString("http://baidu.com");//("https://v1.hitokoto.cn/");
+            var s2 = HttpHelpers.GetString("http://baidu.com");//("https://v1.hitokoto.cn/");
+            var s3 = HttpHelpers.GetString("http://baidu.com");//("https://v1.hitokoto.cn/");
+            var s4 = HttpHelpers.GetString("http://baidu.com");//("https://v1.hitokoto.cn/");
+
+            var s5 = HttpHelpers.PostString("https://sdk-tj.img4399.com/playtime/collect.html", "action=APP_DID_BECOME_ACTIVE&device={\"DEVICE_IDENTIFIER\":\"\",\"SCREEN_RESOLUTION\":\"2340*1036\",\"DEVICE_MODEL\":\"Redmi K20 Pro\",\"DEVICE_MODEL_VERSION\":\"11\",\"SYSTEM_VERSION\":\"11\",\"PLATFORM_TYPE\":\"Android\",\"SDK_VERSION\":\"2.37.0.214\",\"GAME_KEY\":\"40025\",\"GAME_VERSION\":\"12.1.1\",\"BID\":\"org.yjmobile.zmxy\",\"IMSI\":\"\",\"PHONE\":\"\",\"RUNTIME\":\"Origin\",\"CANAL_IDENTIFIER\":\"\",\"UDID\":\"1100gihU8AkKanE4wnDVX6dac\",\"DEBUG\":\"false\",\"NETWORK_TYPE\":\"WIFI\",\"SERVER_SERIAL\":\"0\",\"UID\":\"266873866\"}");
+
+            var s6 = HttpHelpers.GetString("http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1");
 
             TaskOueue<int, bool> taskOueue = new((i) =>
             {
