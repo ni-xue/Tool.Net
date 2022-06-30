@@ -14,6 +14,6 @@ namespace Tool
         /// <summary>
         /// 当前全局的 <see cref="OnAshxEvent"/> 对象集合
         /// </summary>
-        internal static ConcurrentDictionary<string, OnAshxEvent> StaticAshxEvents = new ConcurrentDictionary<string, OnAshxEvent>();
+        internal static ConcurrentDictionary<string, OnAshxEvent> StaticAshxEvents = new();
     }
 }

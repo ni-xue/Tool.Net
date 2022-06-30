@@ -43,7 +43,7 @@ namespace Tool.Utils
                     byte[] buffer = calculator.ComputeHash(fs);
                     calculator.Clear();
                     //将字节数组转换成十六进制的字符串形式
-                    StringBuilder stringBuilder = new StringBuilder();
+                    StringBuilder stringBuilder = new();
                     for (int i = 0; i < buffer.Length; i++)
                     {
                         stringBuilder.Append(buffer[i].ToString("x2"));
@@ -68,7 +68,7 @@ namespace Tool.Utils
                 using (System.IO.FileStream fs = new System.IO.FileStream(fileName, System.IO.FileMode.Open, System.IO.FileAccess.Read))
                 {
                     //计算文件的CSC32值
-                    Crc32 calculator = new Crc32();
+                    Crc32 calculator = new();
                     byte[] buffer = calculator.ComputeHash(fs);
                     calculator.Clear();
                     //将字节数组转换成十六进制的字符串形式
@@ -101,7 +101,7 @@ namespace Tool.Utils
                     byte[] buffer = calculator.ComputeHash(fs);
                     calculator.Clear();
                     //将字节数组转换成十六进制的字符串形式
-                    StringBuilder stringBuilder = new StringBuilder();
+                    StringBuilder stringBuilder = new();
                     for (int i = 0; i < buffer.Length; i++)
                     {
                         stringBuilder.Append(buffer[i].ToString("x2"));

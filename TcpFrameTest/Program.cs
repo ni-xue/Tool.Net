@@ -2,17 +2,96 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Tool;
 using Tool.Sockets.SupportCode;
 using Tool.Sockets.TcpFrame;
+using Tool.Utils.ThreadQueue;
 
 namespace TcpFrameTest
 {
     public class Program
     {
+        public static string get() 
+        {
+            return "哈哈哈，测试自动生成模板";
+        }
+
         public static void Main(string[] args)
         {
+            //TextTemplate1
+
+            TaskOueue<int, bool> taskOueue = new((i) =>
+            {
+                return i.IsWhether(2);
+            });
+
+            taskOueue.ContinueWith += (a, b, c) => { Console.WriteLine("I:{0},{1}", a, b); };
+
+            //for (int i = 0; i < 1_000_000_000; i++)
+            //{
+            //    taskOueue.Add(i);
+            //}
+
+            int c = 0;
+
+            //taskOueue.Add(Interlocked.Increment(ref c));
+
+            //Thread.Sleep(10);
+
+            //taskOueue.Add(Interlocked.Increment(ref c));
+
+            //Thread.Sleep(20);
+
+            //taskOueue.Add(Interlocked.Increment(ref c));
+
+            //Thread.Sleep(30);
+
+            //taskOueue.Add(Interlocked.Increment(ref c));
+
+            //Thread.Sleep(40);
+
+            //taskOueue.Add(Interlocked.Increment(ref c));
+
+            //Thread.Sleep(50);
+
+            //taskOueue.Add(Interlocked.Increment(ref c));
+
+            //Thread.Sleep(2000);
+
+            for (int i = 0; i < 20; i++)
+            {
+                //Thread.Sleep(200);
+                Task.Run(() => 
+                {
+                    for (int i = 0; i < 5_0000; i++)
+                    {
+                        if(i.IsWhether(2)) Thread.Sleep(1);
+                        taskOueue.Add(Interlocked.Increment(ref c));
+                    }
+                });
+            }
+
+            Console.ReadLine();
+
+            return;
+
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    //Thread.Sleep(200);
+            //    Task.Run(() =>
+            //    {
+            //        for (int i = 0; i < 5_000; i++)
+            //        {
+            //            if (i.IsWhether(2)) Thread.Sleep(1);
+            //            taskOueue.Add(Interlocked.Increment(ref c));
+            //        }
+            //    });
+            //}
+
+            //Console.ReadLine();
+
             //Console.BackgroundColor = ConsoleColor.Cyan;
             //Console.ForegroundColor = ConsoleColor.White;
 
@@ -53,7 +132,7 @@ namespace TcpFrameTest
             int c1 = 0;
             //for (int i = 0; i < 1; i++)
             //{
-            ClientFrame client = new( TcpBufferSize.Default, 108, true);
+            ClientFrame client = new(TcpBufferSize.Default, 108, true);
 
             client.SetCompleted((a, b, c) =>
             {
@@ -61,7 +140,7 @@ namespace TcpFrameTest
 
                 if (b == EnClient.Connect) //|| b == Tool.Sockets.SupportCode.EnClient.Receive)
                 {
-                    Cstest();
+                    //Cstest();
                     //var data = new ApiPacket(1, 102);
                     //int c2 = ++c1;
                     //data.Set("a", c2);
@@ -95,14 +174,17 @@ namespace TcpFrameTest
                         int c2 = ++c1;
                         stopwatch.Restart();
 
-                        try
-                        {
-                            data.Bytes = System.IO.File.ReadAllBytes("3cd107e4ec103f614b6f7f1eca9e18e6.jpeg");
-                        }
-                        catch (Exception)
-                        {
-                            data.Bytes = new byte[] { 1, 0, 1 };
-                        }
+                        //try
+                        //{
+                        //    data.Bytes = System.IO.File.ReadAllBytes("3cd107e4ec103f614b6f7f1eca9e18e6.jpeg");
+                        //}
+                        //catch (Exception)
+                        //{
+                        //    data.Bytes = new byte[] { 1, 0, 1 };
+                        //}
+
+                        data.Bytes = new byte[] { 1, 0, 1 };
+
                         //client.SendAsync(data, (a1) =>
                         //{
                         //    Console.WriteLine("请求结果：{0},{1} \t{2}ms \t{3}", a1.Obj, a1.OnTcpFrame, stopwatch.ElapsedMilliseconds, c2);
@@ -110,7 +192,7 @@ namespace TcpFrameTest
                         //var mag = client.SendIpIdea(client1.LocalPoint, data);
                         var mag = client.Send(data);
                         Console.WriteLine("请求结果：{0},{1} \t{2}ms \t{3}", mag.Text, mag.OnTcpFrame, stopwatch.Elapsed.TotalMilliseconds, c2);
-                        System.Threading.Thread.Sleep(5 * 200);
+                        System.Threading.Thread.Sleep(1);
                         //break;
                     }
                 });
@@ -138,16 +220,16 @@ namespace TcpFrameTest
                 var data = new ApiPacket(1, 100, 100);
                 data.Set("a", cot++);
 
-                var mag = client.Send(data);
-                
+                var mag = client1.Send(data);
+
                 //client.SendAsync(data).ContinueWith(s =>
                 //{
                 //    var mag = s.Result;
                 //    Console.WriteLine("\n请求结果：{0},{1} \t{2}ms", mag.Text, mag.OnTcpFrame, stopwatch.Elapsed.TotalMilliseconds);
                 //});
                 Console.WriteLine("请求结果：{0},{1} \t{2}ms", mag.Text, mag.OnTcpFrame, stopwatch.Elapsed.TotalMilliseconds);
-
-                if (cot == 100) break;
+                System.Threading.Thread.Sleep(1);
+                if (cot == 10000) break;
             }
 
             Console.ReadLine();

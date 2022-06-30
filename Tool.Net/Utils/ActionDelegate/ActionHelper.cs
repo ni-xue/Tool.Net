@@ -106,7 +106,7 @@ namespace Tool.Utils.ActionDelegate
 
         private static List<ActionMethod<T>> GetMethodInfos(Type type, MethodInfo[] methodInfos, MethodFlags methodFlags)
         {
-            List<ActionMethod<T>> actionMethods = new List<ActionMethod<T>>();
+            List<ActionMethod<T>> actionMethods = new();
 
             foreach (MethodInfo methodInfo in methodInfos)
             {

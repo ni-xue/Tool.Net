@@ -90,29 +90,33 @@ namespace Tool.Web
             {
                 if (typeof(ApiAshx).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
                 {
-                    string typeFullName = type.FullName.Split('.')[0];
+                    //string typeFullName = type.FullName.Split('.')[0];
 
-                    if (typeFullName.Equals(Namespace))
-                    {
-                        string url = type.Name.ToLower(); //$"{Registration.Segment}{ type.Name }".ToLower();
+                    //if (typeFullName.Equals(Namespace))
+                    //{
+                        
+                    //}
 
-                        AshxExtension extension = new(type, false);
+                    string url = type.Name.ToLower(); //$"{Registration.Segment}{ type.Name }".ToLower();
 
-                        _RouteDefaults.TryAdd(url, extension);
-                    }
+                    AshxExtension extension = new(type, false);
+
+                    _RouteDefaults.TryAdd(url, extension);
                 }
                 else if (typeof(MinApi).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
                 {
-                    string typeFullName = type.FullName.Split('.')[0];
+                    //string typeFullName = type.FullName.Split('.')[0];
 
-                    if (typeFullName.Equals(Namespace))
-                    {
-                        string url = type.Name.ToLower(); //$"{Registration.Segment}{ type.Name }".ToLower();
+                    //if (typeFullName.Equals(Namespace))
+                    //{
 
-                        AshxExtension extension = new(type, true);
+                    //}
 
-                        _RouteDefaults.TryAdd(url, extension);
-                    }
+                    string url = type.Name.ToLower(); //$"{Registration.Segment}{ type.Name }".ToLower();
+
+                    AshxExtension extension = new(type, true);
+
+                    _RouteDefaults.TryAdd(url, extension);
                 }
             }
 

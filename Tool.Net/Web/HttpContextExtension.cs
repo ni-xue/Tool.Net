@@ -37,14 +37,11 @@ namespace Tool.Web
         public static (string scheme, string host) GetSchemeHost(this HttpContext context)
         {
             HttpRequest request = context.Request;
-            if (request.Headers.TryGetValue("X-Forwarded-Proto", out var scheme) && request.Headers.TryGetValue("X-Forwarded-Host", out var host))
-            {
-                return (scheme, host);
-            }
-            else
-            {
-                return (request.Scheme, request.Host.ToString());
-            }
+
+            if (!request.Headers.TryGetValue("X-Forwarded-Proto", out var scheme)) scheme = request.Scheme;
+            if (!request.Headers.TryGetValue("X-Forwarded-Host", out var host)) host = request.Host.ToString();
+
+            return (scheme, host);
         }
 
         /// <summary>
@@ -135,7 +132,7 @@ namespace Tool.Web
                     return string.Empty;
                 }
                 string text = Current.Request.Path;
-                text = text.Substring(0, text.LastIndexOf("/"));
+                text = text[..text.LastIndexOf("/")];
                 if (text == "/")
                 {
                     return string.Empty;

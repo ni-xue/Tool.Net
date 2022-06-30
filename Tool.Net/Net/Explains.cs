@@ -28,4 +28,5 @@ namespace Tool.Net
 也使用了几个名字了，在这里我依次罗列出：【UniversalFrame，UniversalFrame.Core】，还有一个名字这里就不提及了，这两个名字均能在NuGet上搜索到，
 现在已经确定了名字‘Tool.Net’这包的名字好记且符合，框架本身定义，从.Net5开始支持下去。前面的版本请使用以前的版本，最新版本只支持.Net5及之后。";
     }
+    //sn -i "nixue.Tool.pfx" VS_KEY_57DAB3E1397282F0 强命名注册
 }

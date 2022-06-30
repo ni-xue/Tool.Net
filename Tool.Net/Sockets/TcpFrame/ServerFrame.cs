@@ -480,7 +480,7 @@ namespace Tool.Sockets.TcpFrame
                     }
                     else
                     {
-                        DataPacket dataPacket = new DataPacket
+                        DataPacket dataPacket = new()
                         {
                             ClassID = json.ClassID,
                             ActionID = json.ActionID,

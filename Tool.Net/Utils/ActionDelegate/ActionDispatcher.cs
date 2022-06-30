@@ -339,7 +339,7 @@ namespace Tool.Utils.ActionDelegate
                 System.Diagnostics.Debug.WriteLine($"方法：{methodInfo},无法创建委托进行调用。");
                 return null;
             }
-            
+
             //List<Expression> parameters = new List<Expression>();
             //ParameterInfo[] paramInfos = methodInfo.GetParameters();
             //for (int i = 0; i < paramInfos.Length; i++)
@@ -485,7 +485,7 @@ namespace Tool.Utils.ActionDelegate
                 {
                     try
                     {
-                        string fullName = $"{ paramInfo.ParameterType.FullName.Substring(0, paramInfo.ParameterType.FullName.Length - 1) }, {paramInfo.ParameterType.Assembly}";
+                        string fullName = $"{ paramInfo.ParameterType.FullName[0..^1] }, {paramInfo.ParameterType.Assembly}";
                         Type type = Type.GetType(fullName);
                         valueCast = Expression.Convert(valueObj, type);
                     }

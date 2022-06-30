@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -162,6 +163,11 @@ namespace Tool.Utils
         public JsonValueKind ValueKind { get; }
 
         /// <summary>
+        /// 当前 层 可能存在的 集合 长度
+        /// </summary>
+        public int Count { get; }
+
+        /// <summary>
         /// 当前 Json 的数据结构
         /// </summary>
         public object Data { get; }
@@ -172,6 +178,7 @@ namespace Tool.Utils
         /// <param name="data">一类数据结构</param>
         public JsonVar(object data)
         {
+            int count = 0;
             if (data == null)
             {
                 ValueKind = JsonValueKind.Null;
@@ -179,10 +186,12 @@ namespace Tool.Utils
             else if(data.GetType() == typeof(Dictionary<string, object>))
             {
                 ValueKind = JsonValueKind.Object;
+                count = (data as Dictionary<string, object>).Count;
             }
-            else if (data.GetType() == typeof(System.Collections.ArrayList))
+            else if (data.GetType() == typeof(ArrayList))
             {
                 ValueKind = JsonValueKind.Array;
+                count = (data as ArrayList).Count;
             }
             else if (data.GetType() == typeof(string))
             {
@@ -194,6 +203,7 @@ namespace Tool.Utils
             }
 
             this.Data = data;
+            this.Count =count;
         }
 
         /// <summary>
@@ -235,5 +245,81 @@ namespace Tool.Utils
                 throw new Exception("对象下不存在数组结构！");
             }
         }
+
+        /// <summary>
+        /// 将对象还原成 特定值
+        /// </summary>
+        /// <typeparam name="T">转换的值</typeparam>
+        /// <returns>得到的值</returns>
+        public T GetVar<T>()
+        {
+            return Data.ToVar<T>();
+        }
+
+        /// <summary>
+        /// Dictionary<string, object>
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator JsonVar(Dictionary<string, object> value) => new(value);
+
+        /// <summary>
+        /// Dictionary<string, object>
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator Dictionary<string, object>(JsonVar value) => value.GetVar<Dictionary<string, object>>();
+
+        /// <summary>
+        /// ArrayList
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator JsonVar(ArrayList value) => new(value);
+
+        /// <summary>
+        /// ArrayList
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator ArrayList(JsonVar value) => value.GetVar<ArrayList>();
+
+        /// <summary>
+        /// string
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator JsonVar(string value) => new(value);
+
+        /// <summary>
+        /// string
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator string(JsonVar value) => value.GetVar<string>();
+
+        /// <summary>
+        /// bool
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator bool(JsonVar value) => value.GetVar<bool>();
+
+        /// <summary>
+        /// int
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator int(JsonVar value) => value.GetVar<int>();
+
+        /// <summary>
+        /// long
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator long(JsonVar value) => value.GetVar<long>();
+
+        /// <summary>
+        /// double
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator double(JsonVar value) => value.GetVar<double>();
+
+        /// <summary>
+        /// decimal
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator decimal(JsonVar value) => value.GetVar<decimal>();
     }
 }

@@ -23,13 +23,17 @@ namespace Tool.Utils
         public static Encoding DefaultEncoding { get; set; } = Encoding.UTF8;
 
         /// <summary>
-        /// 毫秒
+        /// 等待毫秒
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">指定的超时值小于或等于零，并且不是系统超时值。穿线。超时。无穷大跨度。</exception>
+        /// <exception cref="InvalidOperationException">已在当前实例上启动操作。</exception>
+        /// <exception cref="ObjectDisposedException">当前实例已被释放。</exception>
         public static double Timeout { get { return _HttpClient.Timeout.TotalMilliseconds; } set { _HttpClient.Timeout = TimeSpan.FromMilliseconds(value); } } // = 5 * 1000;
 
         static HttpHelpers()
         {
-            _HttpClient = new(new HttpClientHandler() { UseCookies = false }, true);
+            
+            _HttpClient = new(new SocketsHttpHandler() { UseCookies = false, AutomaticDecompression = DecompressionMethods.All, SslOptions = new System.Net.Security.SslClientAuthenticationOptions { RemoteCertificateValidationCallback = (a, b, c, d) => true } }, true);   //HttpClientHandler
         }
 
         ~HttpHelpers() { _HttpClient.Dispose(); }
@@ -516,7 +520,7 @@ namespace Tool.Utils
         //    return s;
         //}
 
-        private static IDictionary<string, string> FormatData(string query)
+        internal static IDictionary<string, string> FormatData(string query)
         {
             if (string.IsNullOrWhiteSpace(query)) return default;
 
@@ -526,7 +530,7 @@ namespace Tool.Utils
 
             foreach (string val in nameValue)
             {
-               result.TryAdd(val, nameValue.Get(val));
+                result.TryAdd(val, nameValue.Get(val));
             }
 
             return result;

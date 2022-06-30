@@ -46,22 +46,22 @@ namespace WebTestApp
         {
             //services.AddSession();
 
-            var s = HttpHelpers.Timeout;
+            //var s = HttpHelpers.Timeout;
 
-            HttpHelpers.Timeout = 3000;
+            //HttpHelpers.Timeout = 3000;
 
-            //var s1 = HttpHelpers.GetString("https://v1.hitokoto.cn/");
+            ////var s1 = HttpHelpers.GetString("https://v1.hitokoto.cn/");
 
-            //var s2 = HttpHelpers.GetString("https://v1.hitokoto.cn/");
+            ////var s2 = HttpHelpers.GetString("https://v1.hitokoto.cn/");
 
-            //var s3 = HttpHelpers.GetString("https://v1.hitokoto.cn/");
+            ////var s3 = HttpHelpers.GetString("https://v1.hitokoto.cn/");
 
-            //var s4 = HttpHelpers.GetString("https://v1.hitokoto.cn/");
+            ////var s4 = HttpHelpers.GetString("https://v1.hitokoto.cn/");
 
-            var s1 = HttpHelpers.PostString("https://sdk-tj.img4399.com/playtime/collect.html", "action=APP_DID_BECOME_ACTIVE&device={\"DEVICE_IDENTIFIER\":\"\",\"SCREEN_RESOLUTION\":\"2340*1036\",\"DEVICE_MODEL\":\"Redmi K20 Pro\",\"DEVICE_MODEL_VERSION\":\"11\",\"SYSTEM_VERSION\":\"11\",\"PLATFORM_TYPE\":\"Android\",\"SDK_VERSION\":\"2.37.0.214\",\"GAME_KEY\":\"40025\",\"GAME_VERSION\":\"12.1.1\",\"BID\":\"org.yjmobile.zmxy\",\"IMSI\":\"\",\"PHONE\":\"\",\"RUNTIME\":\"Origin\",\"CANAL_IDENTIFIER\":\"\",\"UDID\":\"1100gihU8AkKanE4wnDVX6dac\",\"DEBUG\":\"false\",\"NETWORK_TYPE\":\"WIFI\",\"SERVER_SERIAL\":\"0\",\"UID\":\"266873866\"}");
+            //var s1 = HttpHelpers.PostString("https://sdk-tj.img4399.com/playtime/collect.html", "action=APP_DID_BECOME_ACTIVE&device={\"DEVICE_IDENTIFIER\":\"\",\"SCREEN_RESOLUTION\":\"2340*1036\",\"DEVICE_MODEL\":\"Redmi K20 Pro\",\"DEVICE_MODEL_VERSION\":\"11\",\"SYSTEM_VERSION\":\"11\",\"PLATFORM_TYPE\":\"Android\",\"SDK_VERSION\":\"2.37.0.214\",\"GAME_KEY\":\"40025\",\"GAME_VERSION\":\"12.1.1\",\"BID\":\"org.yjmobile.zmxy\",\"IMSI\":\"\",\"PHONE\":\"\",\"RUNTIME\":\"Origin\",\"CANAL_IDENTIFIER\":\"\",\"UDID\":\"1100gihU8AkKanE4wnDVX6dac\",\"DEBUG\":\"false\",\"NETWORK_TYPE\":\"WIFI\",\"SERVER_SERIAL\":\"0\",\"UID\":\"266873866\"}");
 
-            WebServer webServer = new();
-            webServer.StartAsync("127.0.0.1", 9999, false);
+            //WebServer webServer = new();
+            //webServer.StartAsync("127.0.0.1", 9999, false);
 
             services.AddRouting();
 
@@ -70,8 +70,8 @@ namespace WebTestApp
 
             services.AddAshx(o =>
             {
-                o.EnableEndpointRouting = true;
-                o.IsAsync = true;
+                //o.EnableEndpointRouting = true;
+                //o.IsAsync = true;
                 o.JsonOptions = new System.Text.Json.JsonSerializerOptions
                 {
                     //IgnoreReadOnlyFields = true,
@@ -99,7 +99,11 @@ namespace WebTestApp
 
             var json = str.JsonVar();
 
-            var code = json["result"]["hehe"][2];
+            JsonVar code = json["result"]["hehe"][2];
+
+            int _code = json["result"]["hehe"][2];
+
+            //int _code = json["result"]["hehe"][2];
 
             Console.WriteLine();
 
@@ -217,6 +221,13 @@ namespace WebTestApp
         {
             //HttpContextExtension.Current.//env.IsDevelopment
 
+            //var s = ActionHelper<Test.Property>.GetActionMethodHelper(MethodFlags.Private);
+
+            //s.ActionMethods[0].Action.Invoke()
+
+            //var s = ActionHelper<ApplicationBuilder>.GetActionMethodHelper(MethodFlags.Private);
+
+
             DbHelper dbHelper = app.GetObject<DbHelper>();
             dbHelper.SetLogger(loggerFactory.CreateLogger("sql"));
 
@@ -229,53 +240,53 @@ namespace WebTestApp
                 app.UseExceptionHandler(AllException);
             }
 
-            app.UseRouting();
+            //app.UseRouting();
 
             //var sc = app.ApplicationServices.GetRequiredService<IEnumerable<Microsoft.AspNetCore.Routing.EndpointDataSource>>().OfType<AshxEndpointDataSource>().First();
 
             //var endpointRouteBuilder = new EndpointRouteBuilder(app);//EndpointRoutingMiddleware EndpointMiddleware
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapAshxs(routes =>
-                {
-                    routes.MapApiRoute(areaName: "WebTestApp.Api",
-                        template: "Api/{controller=GetMin}/{action=GetSql}/{id1?}");
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapAshxs(routes =>
+            //    {
+            //        routes.MapApiRoute(areaName: "WebTestApp.Api",
+            //            template: "Api/{controller=GetMin}/{action=GetSql}/{id1?}");
 
-                    routes.MapApiRoute(areaName: "WebTestApp.ApiView",
-                        //controller: "Class",
-                        //action: "As",
-                        template: "{controller=Heheh}/{action=Index}/{id?}");
+            //        routes.MapApiRoute(areaName: "WebTestApp.ApiView",
+            //            //controller: "Class",
+            //            //action: "As",
+            //            template: "{controller=Heheh}/{action=Index}/{id?}");
 
-                    //routes.MapApiRoute(areaName: "WebTestApp.ApiView",
-                    //    controller: null,
-                    //    action: null,
-                    //    template: "{controller=Class}/{action}/{id?}");
+            //        //routes.MapApiRoute(areaName: "WebTestApp.ApiView",
+            //        //    controller: null,
+            //        //    action: null,
+            //        //    template: "{controller=Class}/{action}/{id?}");
 
 
 
-                    //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
+            //        //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
 
-                    //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
+            //        //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
 
-                    //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
+            //        //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
 
-                    //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
+            //        //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
 
-                    //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
-                }).Add(routes =>
-                {
+            //        //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
+            //    }).Add(routes =>
+            //    {
 
-                });
+            //    });
 
-                //endpoints.MapDefaultControllerRoute().Add(routes =>
-                //{
-                //    if (routes.DisplayName == "Route: {controller=Home}/{action=Index}/{id?}")
-                //    {
-                //        routes.RequestDelegate = (a) => Task.CompletedTask;
-                //    }
-                //});
-            });
+            //    //endpoints.MapDefaultControllerRoute().Add(routes =>
+            //    //{
+            //    //    if (routes.DisplayName == "Route: {controller=Home}/{action=Index}/{id?}")
+            //    //    {
+            //    //        routes.RequestDelegate = (a) => Task.CompletedTask;
+            //    //    }
+            //    //});
+            //});
 
             //SqlConnection sqlConnection = new SqlConnection();
 
@@ -304,34 +315,34 @@ namespace WebTestApp
             //    RequestPath = "/Raa"
             //});
 
-            //app.UseAshx(routes =>
-            //{
-            //    routes.MapApiRoute(
-            //        name: "default",
-            //        areaName: "WebTestApp.Api",
-            //        template: "Api/{controller=GetMin}/{action=GetSql}/{id1?}");
+            app.UseAshx(routes =>
+            {
+                routes.MapApiRoute(
+                    name: "default",
+                    areaName: "WebTestApp.Api",
+                    template: "Api/{controller=GetMin}/{action=GetSql}/{id1?}");
 
-            //    routes.MapApiRoute(
-            //        name: "default2",
-            //        areaName: "WebTestApp.ApiView",
-            //        controller: "Heheh",
-            //        action: "Index",
-            //        template: "v/{id?}");
+                routes.MapApiRoute(
+                    name: "default2",
+                    areaName: "WebTestApp.ApiView",
+                    controller: "Heheh",
+                    action: "Index",
+                    template: "v/{id?}");
 
-            //    routes.MapApiRoute(
-            //        name: "default3",
-            //        areaName: null,
-            //        controller: "Heheh",
-            //        action: "Index",
-            //        template: "v1/{id?}");
+                routes.MapApiRoute(
+                    name: "default3",
+                    areaName: null,
+                    controller: "Heheh",
+                    action: "Index",
+                    template: "v1/{id?}");
 
-            //    routes.MapApiRoute(
-            //        name: "default4",
-            //        areaName: "WebTestApp.ApiView",
-            //        controller: "Class",
-            //        action: "As",
-            //        template: "v2/{id?}");
-            //});
+                routes.MapApiRoute(
+                    name: "default4",
+                    areaName: "WebTestApp.ApiView",
+                    controller: "Class",
+                    action: "As",
+                    template: "v2/{id?}");
+            });
 
             //Microsoft.AspNetCore.Mvc.Routing.MvcRouteHandler//MvcBuilder//AttributeRouting.CreateAttributeMegaRoute(app.ApplicationServices)
 

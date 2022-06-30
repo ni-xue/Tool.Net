@@ -31,22 +31,25 @@ namespace Tool.Sockets.TcpFrame
             this.IPEndPoint = IPEndPoint;
             this.OnlyID = OnlyID;
             this.Bytes = Bytes;
-            if (Data != null)
-            {
-                string objstr = Data;
-                if (objstr.Length > 0)
-                {
-                    var keys = new Dictionary<string, string>();
 
-                    string[] forms = objstr.Split("&");
-                    foreach (var form in forms)
-                    {
-                        string[] kv = form.Split("=");
-                        keys.Add(kv[0], kv[1]);
-                    }
-                    this.Form = keys.AsReadOnly();
-                }
-            }
+            this.Form = HttpHelpers.FormatData(Data).AsReadOnly();
+
+            //if (Data != null)
+            //{
+            //    string objstr = Data;
+            //    if (objstr.Length > 0)
+            //    {
+            //        var keys = new Dictionary<string, string>();
+
+            //        string[] forms = objstr.Split("&");
+            //        foreach (var form in forms)
+            //        {
+            //            string[] kv = form.Split("=");
+            //            keys.Add(kv[0], kv[1]);
+            //        }
+            //        this.Form = keys.AsReadOnly();
+            //    }
+            //}
         }
 
         /**
@@ -63,7 +66,7 @@ namespace Tool.Sockets.TcpFrame
                 Parameter parameter = parameters[i];
                 if (parameter.IsType)
                 {
-                    if (this.Form.TryGetValue(parameter.Name, out string value))
+                    if (this.Form?.TryGetValue(parameter.Name, out string value) ?? false)
                     {
                         object _obj = value.ToVar(parameter.ParameterType, false);
                         if (_obj == null)
