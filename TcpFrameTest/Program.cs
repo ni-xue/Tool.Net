@@ -23,6 +23,8 @@ namespace TcpFrameTest
         {
             //TextTemplate1
 
+            ObjectExtension.Static.Add("ss", "sss");
+
             HttpHelpers.Timeout = 3000;
 
             var s1 = HttpHelpers.GetString("http://baidu.com");//("https://v1.hitokoto.cn/");
@@ -79,7 +81,8 @@ namespace TcpFrameTest
                 {
                     for (int i = 0; i < 5_0000; i++)
                     {
-                        if(i.IsWhether(2)) Thread.Sleep(1);
+                        ObjectExtension.Static.Add(i.ToString(), c);
+                        if (i.IsWhether(2)) Thread.Sleep(1);
                         taskOueue.Add(Interlocked.Increment(ref c));
                     }
                 });

@@ -257,13 +257,13 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// Dictionary<string, object>
+        /// <see cref="Dictionary{String, Object}"/>
         /// </summary>
         /// <param name="value"></param>
         public static implicit operator JsonVar(Dictionary<string, object> value) => new(value);
 
         /// <summary>
-        /// Dictionary<string, object>
+        /// <see cref="Dictionary{String, Object}"/>
         /// </summary>
         /// <param name="value"></param>
         public static implicit operator Dictionary<string, object>(JsonVar value) => value.GetVar<Dictionary<string, object>>();

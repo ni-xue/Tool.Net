@@ -21,6 +21,11 @@ namespace Tool
     /// <remarks>代码由逆血提供支持</remarks>
     public static class ObjectExtension
     {
+        static ObjectExtension() 
+        {
+            Static = new(5);
+        }
+
         /// <summary>
         /// 提供用于添加对象服务
         /// </summary>
@@ -42,6 +47,11 @@ namespace Tool
         /// </summary>
         [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
         public static dynamic Dynamic = new ExpandoObject();
+
+        /// <summary>
+        /// 全局公共对象 可以用于 存放任何对象 管理，存在拆箱装箱行为
+        /// </summary>
+        public static GlobalObj Static { get; }
 
         /// <summary>
         /// 获取当前上下文正在运行的当前线程

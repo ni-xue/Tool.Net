@@ -163,11 +163,7 @@ namespace Tool.Utils
                 throw new Exception("银行验证出现问题了，请联系管理员进行修缮。", e);
             }
 
-            /// <summary>
-            /// 根据银行缩写,获得银行图片
-            /// </summary>
-            /// <param name="bank">银行编号</param>
-            /// <returns>返回图片对象</returns>
+            // 根据银行缩写,获得银行图片 bank:银行编号,返回支付宝图片对象
             static Image GetCardDetailimg(string bank)
             {
                 Image iSource = null;

@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+	<!--<TargetFramework>net6.0</TargetFramework>-->
+    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <RootNamespace>Tool</RootNamespace>
-    <Version>3.8.5</Version>
+    <Version>3.8.8</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Copyright>Copyright © Microsoft 2022-06-30 23:15:00</Copyright>
+    <Copyright>Copyright © Microsoft 2022-07-01 15:50:00</Copyright>
     <Company>NiXue</Company>
     <Authors>NiXue</Authors>
     <PackageProjectUrl>https://github.com/nixue-xin/UniversalFrame</PackageProjectUrl>
@@ -43,7 +44,7 @@ Url:nixue.top</Description>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>Tool.Net\Tool.Net.xml</DocumentationFile>
+    <DocumentationFile>Tool.Net.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -72,8 +73,12 @@ Url:nixue.top</Description>
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  <ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
+  	<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
