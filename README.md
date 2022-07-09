@@ -9,6 +9,10 @@ Tool 作为 UniversalFrame 的延续产品，将开源源代码，继续维护�
 5. 使用API文档：http://tool.nixue.top/index.html
 6. 开源项目实例：https://github.com/ni-xue/UniversalFrame
 
+[![](https://img.shields.io/badge/IDE-Visual%20Studio%20Code-blue?style=flat-square&logo=visual-studio-code&logoColor=ffffff)](https://code.visualstudio .com/)
+
+[![](https://img.shields.io/badge/C%23-43853d?style=flat-square&logo=CSharp&logoColor=ffffff)](https://docs.microsoft.com/en-us/dotnet /csharp/)
+
 ### Nuget
 
 | 包名 | 描述 | Nuget |
@@ -16,6 +20,10 @@ Tool 作为 UniversalFrame 的延续产品，将开源源代码，继续维护�
 | UniversalFrame | 2020 年定为存档 适用于 .net framework | [![NuGet](https://buildstats.info/nuget/UniversalFrame)](https://www.nuget.org/packages/UniversalFrame) |
 | UniversalFrame.Core | 2021 年定为存档 适用于 .net core | [![NuGet](https://buildstats.info/nuget/UniversalFrame.Core)](https://www.nuget.org/packages/UniversalFrame.Core) |
 | Tool.Net | 目前还在维护的最新包 适用于 .net 5 以上 | [![NuGet](https://buildstats.info/nuget/Tool.Net)](https://www.nuget.org/packages/Tool.Net) |
+
+<p对齐=“中心”>
+<a href="https://chat.getloli.com/room/@JasonkayZK?title=JasonkayZK-chatroom"><img src="https://chat.getloli.com/room/@JasonkayZK/svg?width =750&height=340&limit=20&theme=light&title=JasonayZK@github:%20~&fontSize=13"></a>
+</p>
 
 # 贡献
 
@@ -32,7 +40,7 @@ Tool 作为 UniversalFrame 的延续产品，将开源源代码，继续维护�
 # 执照
 ``` a
 
-Copyright 2018-2020 Gianluca Cacace
+Copyright 2018-2022 Gianluca Cacace
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
