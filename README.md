@@ -32,6 +32,13 @@ Tool 作为 UniversalFrame 的延续产品，将秉承开源原则，继续维�
 
 有关更多信息，请联系作者。 QQ群： 857401501， 邮箱：nx@nixue.top
 
+<br>
+<p align="center"> 
+  访问数量
+  <br>
+  <img src="https://profile-counter.glitch.me/ni-xue/count.svg" />
+</p>
+
 # 执照
 ``` a
 
