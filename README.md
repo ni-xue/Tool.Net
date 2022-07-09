@@ -1,9 +1,9 @@
 # Tool.Net [![](https://img.shields.io/badge/IDE-Visual%20Studio-blue?style=flat-square&logo=visual-studio-code&logoColor=ffffff)](https://visualstudio.com/) [![](https://img.shields.io/badge/IDE-Visual%20Studio%20Code-blue?style=flat-square&logo=visual-studio-code&logoColor=ffffff)](https://code.visualstudio.com/) [![](https://img.shields.io/badge/C%23-43853d?style=flat-square&logo=CSharp&logoColor=ffffff)](https://docs.microsoft.com/en-us/dotnet/csharp/)
 
-Tool 作为 UniversalFrame 的延续产品，将开源源代码，继续维护，主要包含：Sql，Socket，Web，Tools
+Tool 作为 UniversalFrame 的延续产品，将秉承开源原则，继续维护，主要包含：Sql，Socket，Web，Tools
 有任何问题建议提问，我将会在第一时间给出答复。
 
-1. 当前这个库仅用于显示，暂时为开源，仅用于问题提交反馈。
+1. 当前仓库为主库，开源共建，欢迎感兴趣或正在使用的朋友一起建设。
 2. 欢迎有兴趣的小伙伴参与，一起开发维护的路上，目前涉及范围有限，需要更多志同道合的朋友一起创造。
 3. 在此，非常感谢，长久以来对作者支持的小伙伴们，感觉一路有你。
 4. 相关开发文档：https://blog.csdn.net/qq_33484542
