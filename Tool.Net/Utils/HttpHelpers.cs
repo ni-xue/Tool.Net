@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tool.Utils
 {
     /// <summary>
     /// 提供部分的API请求访问类 (内置调用接口 替换为 HttpClient)
+    /// 注意此类下所有函数调用皆无异常抛出，但为了方便问题排查，增加异常相关日志
     /// </summary>
     /// <remarks>代码由逆血提供支持</remarks>
     public class HttpHelpers
     {
+        /// <summary>
+        /// 相关请求异常日志输出位置
+        /// </summary>
+        public const string LogFilePath = "Log/HttpHelpers/";
+
         private static readonly HttpClient _HttpClient;
 
         /// <summary>
@@ -32,7 +38,7 @@ namespace Tool.Utils
 
         static HttpHelpers()
         {
-            
+
             _HttpClient = new(new SocketsHttpHandler() { UseCookies = false, AutomaticDecompression = DecompressionMethods.All, SslOptions = new System.Net.Security.SslClientAuthenticationOptions { RemoteCertificateValidationCallback = (a, b, c, d) => true } }, true);   //HttpClientHandler
         }
 
@@ -62,18 +68,24 @@ namespace Tool.Utils
 
                 //http.EnsureSuccessStatusCode();
 
-                var stream = http.Content.ReadAsStream();
-
-                byte[] buffer = new byte[stream.Length];
-
-                stream.Read(buffer);
-
-                MemoryStream memoryStream = new(buffer);
-
+                MemoryStream memoryStream = new();
+                http.Content.CopyTo(memoryStream, null, CancellationToken.None);
+                memoryStream.Position = 0;
                 return memoryStream;
+
+                //var stream = http.Content.ReadAsStream();
+
+                //byte[] buffer = new byte[stream.Length];
+
+                //stream.Read(buffer);
+
+                //MemoryStream memoryStream = new(buffer);
+
+                //return memoryStream;
             }
-            catch(Exception)
+            catch (Exception ex)
             {
+                Log.Error("Get", ex, LogFilePath);
                 return default;
             }
         }
@@ -99,18 +111,24 @@ namespace Tool.Utils
 
                 //http.EnsureSuccessStatusCode();
 
-                var stream = await http.Content.ReadAsStreamAsync();
-
-                byte[] buffer = new byte[stream.Length];
-
-                await stream.ReadAsync(buffer);
-
-                MemoryStream memoryStream = new(buffer);
-
+                MemoryStream memoryStream = new();
+                await http.Content.CopyToAsync(memoryStream, null, CancellationToken.None);
+                memoryStream.Position = 0;
                 return memoryStream;
+
+                //var stream = await http.Content.ReadAsStreamAsync();
+
+                //byte[] buffer = new byte[stream.Length];
+
+                //await stream.ReadAsync(buffer);
+
+                //MemoryStream memoryStream = new(buffer);
+
+                //return memoryStream;
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Error("GetAsync", ex, LogFilePath);
                 return default;
             }
         }
@@ -173,7 +191,7 @@ namespace Tool.Utils
                 return null; //throw new Exception("请求失败。");
             }
 
-            using var _StreamReader = new StreamReader(result, DefaultEncoding);
+            using var _StreamReader = new StreamReader(result, DefaultEncoding ?? Encoding.Default);
             return _StreamReader.ReadToEnd();
         }
 
@@ -193,8 +211,8 @@ namespace Tool.Utils
                 return null; //throw new Exception("请求失败。");
             }
 
-            using var _StreamReader = new StreamReader(result, DefaultEncoding);
-            return _StreamReader.ReadToEnd();
+            using var _StreamReader = new StreamReader(result, DefaultEncoding ?? Encoding.Default);
+            return await _StreamReader.ReadToEndAsync();
         }
 
         /// <summary>
@@ -221,19 +239,25 @@ namespace Tool.Utils
 
                 //http.EnsureSuccessStatusCode();
 
-                var stream = http.Content.ReadAsStream();
-
-                byte[] buffer = new byte[stream.Length];
-
-                stream.Read(buffer);
-
-                MemoryStream memoryStream = new(buffer);
-
+                MemoryStream memoryStream = new();
+                http.Content.CopyTo(memoryStream, null, CancellationToken.None);
+                memoryStream.Position = 0;
                 return memoryStream;
+
+                //var stream = http.Content.ReadAsStream();
+
+                //byte[] buffer = new byte[stream.Length];
+
+                //stream.Read(buffer);
+
+                //MemoryStream memoryStream = new(buffer);
+
+                //return memoryStream;
             }
-            catch (WebException)
+            catch (Exception ex)
             {
-                throw;
+                Log.Error("Post", ex, LogFilePath);
+                return default;
             }
         }
 
@@ -261,19 +285,25 @@ namespace Tool.Utils
 
                 //http.EnsureSuccessStatusCode();
 
-                var stream = await http.Content.ReadAsStreamAsync();
-
-                byte[] buffer = new byte[stream.Length];
-
-                await stream.ReadAsync(buffer);
-
-                MemoryStream memoryStream = new(buffer);
-
+                MemoryStream memoryStream = new();
+                await http.Content.CopyToAsync(memoryStream, null, CancellationToken.None);
+                memoryStream.Position = 0;
                 return memoryStream;
+
+                //var stream = await http.Content.ReadAsStreamAsync();
+
+                //byte[] buffer = new byte[stream.Length];
+
+                //await stream.ReadAsync(buffer);
+
+                //MemoryStream memoryStream = new(buffer);
+
+                //return memoryStream;
             }
-            catch (WebException)
+            catch (Exception ex)
             {
-                throw;
+                Log.Error("PostAsync", ex, LogFilePath);
+                return default;
             }
         }
 
@@ -305,7 +335,7 @@ namespace Tool.Utils
         /// POST 方式获取响应流  返回字符串
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="data"></param>
+        /// <param name="data">字符串拼接的数据</param>
         /// <param name="cookies"></param>
         /// <param name="refer"></param>
         /// <returns></returns>
@@ -314,7 +344,6 @@ namespace Tool.Utils
             try
             {
                 var s = FormatData(data);
-
                 return PostString(url, s, cookies, refer);
             }
             catch
@@ -336,9 +365,7 @@ namespace Tool.Utils
             try
             {
                 var s = FormatData(data);
-                var result = await PostStringAsync(url, s, cookies, refer);
-
-                return await PostStringAsync(url, new Dictionary<string, string>(s), cookies, refer);
+                return await PostStringAsync(url, s, cookies, refer);
             }
             catch
             {
@@ -362,7 +389,7 @@ namespace Tool.Utils
             {
                 return null; //throw new Exception("请求失败。");
             }
-            using var _StreamReader = new StreamReader(result, DefaultEncoding);
+            using var _StreamReader = new StreamReader(result, DefaultEncoding ?? Encoding.Default);
             return _StreamReader.ReadToEnd();
         }
 
@@ -382,8 +409,8 @@ namespace Tool.Utils
             {
                 return null; //throw new Exception("请求失败。");
             }
-            using var _StreamReader = new StreamReader(result, DefaultEncoding);
-            return _StreamReader.ReadToEnd();
+            using var _StreamReader = new StreamReader(result, DefaultEncoding ?? Encoding.Default);
+            return await _StreamReader.ReadToEndAsync();
         }
 
         /// <summary>
@@ -481,8 +508,9 @@ namespace Tool.Utils
 
                 return http.StatusCode;
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Error("HeadHttpCode", ex, LogFilePath);
                 return HttpStatusCode.ExpectationFailed;
             }
         }
@@ -520,20 +548,39 @@ namespace Tool.Utils
         //    return s;
         //}
 
-        internal static IDictionary<string, string> FormatData(string query)
+        /// <summary>
+        /// 高效解析http表单类文本 
+        /// </summary>
+        /// <param name="query">待解析的http表单值</param>
+        /// <returns></returns>
+        public static IDictionary<string, string> FormatData(string query)
         {
             if (string.IsNullOrWhiteSpace(query)) return default;
-
-            var nameValue = System.Web.HttpUtility.ParseQueryString(query);
+            var querys = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseNullableQuery(query);
 
             Dictionary<string, string> result = new();
 
-            foreach (string val in nameValue)
+            foreach (var pair in querys)
             {
-                result.TryAdd(val, nameValue.Get(val));
+                result.Add(pair.Key, pair.Value);
             }
 
             return result;
         }
+
+        //public static IDictionary<string, string> FormatData(string query)
+        //{
+        //    if (string.IsNullOrWhiteSpace(query)) return default;
+        //    var nameValue = System.Web.HttpUtility.ParseQueryString(query);//弃用的
+
+        //    Dictionary<string, string> result = new();
+
+        //    foreach (string val in nameValue)
+        //    {
+        //        result.Add(val, nameValue.Get(val));
+        //    }
+
+        //    return result;
+        //}
     }
 }

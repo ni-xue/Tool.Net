@@ -9,18 +9,70 @@ using Tool.Sockets.SupportCode;
 using Tool.Sockets.TcpFrame;
 using Tool.Utils;
 using Tool.Utils.ThreadQueue;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Running;
+using System.Collections;
 
 namespace TcpFrameTest
 {
     public class Program
     {
-        public static string get() 
+        const string httpQuery = "?a=1&b=6&c=aaa";
+
+        [Benchmark]
+        public string abc() 
         {
-            return "哈哈哈，测试自动生成模板";
+            _ = HttpHelpers.FormatData(httpQuery);
+            return "";
+        }
+
+        [Benchmark]
+        public string abc1()
+        {
+            _ = HttpHelpers.FormatData1(httpQuery);
+            return "";
         }
 
         public static void Main(string[] args)
         {
+            //Tool.SqlCore.DbHelper dbHelper = new("123465", Tool.SqlCore.DbProviderType.SqlServer, null);
+
+            //Dictionary<string, object> map = new()
+            //{
+            //    { "1", 20 },
+            //    { "2", DateTime.Now },
+            //    { "3", 20 }
+            //};
+
+            //Hashtable hashtable = new()
+            //{
+            //    { "1", 20 },
+            //    { "2", DateTime.Now },
+            //    { "3", 20 }
+            //};
+
+            //var dd = new { a1 = 5, b2 = DateTime.Now };
+
+            //dbHelper.SetDictionaryParam(map);
+
+
+
+            var ss = HttpHelpers.GetString("http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1");
+
+            var ss1 = HttpHelpers.GetStringAsync("http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1").Result;
+
+            var ss2 = HttpHelpers.PostString("http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1");
+
+            var ss3 = HttpHelpers.PostStringAsync("http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1").Result;
+
+            //var q = "?a=1&b=6&c=aaa";
+
+            //var q1 = HttpHelpers.FormatData(q);
+            //var q2 = HttpHelpers.FormatData1(q);
+
+            var sbc = BenchmarkRunner.Run<Program>();
+
+            return;
             //TextTemplate1
 
             ObjectExtension.Static.Add("ss", "sss");

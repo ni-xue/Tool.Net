@@ -3751,7 +3751,7 @@
             </summary>
             <param name="dbHelper">数据库引擎</param>
             <param name="commandText">查询语句</param>
-            <param name="prams">携带的值<see cref="T:System.Data.Common.DbParameter"/>[]</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.Select``1(Tool.SqlCore.DbHelper,System.Action{``0})">
@@ -3775,7 +3775,7 @@
             插入一条结果
             </summary>
             <param name="dbHelper">数据库引擎</param>
-            <param name="prams">携带的值<see cref="T:System.Data.Common.DbParameter"/>[]</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.Insert(Tool.SqlCore.DbHelper,System.String,System.Object)">
@@ -3784,7 +3784,7 @@
             </summary>
             <param name="dbHelper">数据库引擎</param>
             <param name="TableName">表名</param>
-            <param name="prams">携带的值<see cref="T:System.Data.Common.DbParameter"/>[]</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.Insert(Tool.SqlCore.DbHelper,System.String[])">
@@ -3801,7 +3801,7 @@
             </summary>
             <param name="dbHelper">数据库引擎</param>
             <param name="where">修改的条件</param>
-            <param name="prams">修改表的参数 Or 修改条件的参数</param>
+            <param name="prams">修改表的参数 Or 修改条件的参数,可以是任何类型的键值对</param>
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.Update(Tool.SqlCore.DbHelper,System.String,System.String,System.Object[])">
@@ -3811,7 +3811,7 @@
             <param name="dbHelper">数据库引擎</param>
             <param name="TableName">表名</param>
             <param name="where">修改的条件，无需写 WHERE 直接条件</param>
-            <param name="prams">修改表的参数 Or 修改条件的参数</param>
+            <param name="prams">修改表的参数 Or 修改条件的参数,可以是任何类型的键值对</param>
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.Update(Tool.SqlCore.DbHelper,System.String[])">
@@ -3828,7 +3828,7 @@
             </summary>
             <param name="dbHelper">数据库引擎</param>
             <param name="where">删除的条件</param>
-            <param name="prams">删除条件的参数</param>
+            <param name="prams">删除条件的参数,可以是任何类型的键值对</param>
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.Delete(Tool.SqlCore.DbHelper,System.String,System.String,System.Object)">
@@ -3838,7 +3838,7 @@
             <param name="dbHelper">数据库引擎</param>
             <param name="TableName">表名</param>
             <param name="where">删除的条件</param>
-            <param name="prams">删除条件的参数</param>
+            <param name="prams">删除条件的参数,可以是任何类型的键值对</param>
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.Delete(Tool.SqlCore.DbHelper,System.String[])">
@@ -3855,7 +3855,7 @@
             </summary>
             <param name="dbHelper">数据库引擎</param>
             <param name="commandText">执行的SQL语句</param>
-            <param name="prams">携带的参数可以是Null</param>
+            <param name="prams">携带的参数可以是Null,可以是任何类型的键值对</param>
             <returns>返回<see cref="T:Tool.SqlCore.SqlTextParameter"/>对象</returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.WhereStr(System.String)">
@@ -9355,8 +9355,14 @@
         <member name="T:Tool.Utils.HttpHelpers">
             <summary>
             提供部分的API请求访问类 (内置调用接口 替换为 HttpClient)
+            注意此类下所有函数调用皆无异常抛出，但为了方便问题排查，增加异常相关日志
             </summary>
             <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="F:Tool.Utils.HttpHelpers.LogFilePath">
+            <summary>
+            相关请求异常日志输出位置
+            </summary>
         </member>
         <member name="P:Tool.Utils.HttpHelpers.DefaultEncoding">
             <summary>
@@ -9475,7 +9481,7 @@
             POST 方式获取响应流  返回字符串
             </summary>
             <param name="url"></param>
-            <param name="data"></param>
+            <param name="data">字符串拼接的数据</param>
             <param name="cookies"></param>
             <param name="refer"></param>
             <returns></returns>

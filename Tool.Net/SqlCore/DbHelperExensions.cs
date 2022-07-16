@@ -19,7 +19,7 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="dbHelper">数据库引擎</param>
         /// <param name="commandText">查询语句</param>
-        /// <param name="prams">携带的值<see cref="DbParameter"/>[]</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
         /// <returns></returns>
         public static DataTable Select(this DbHelper dbHelper, string commandText, object prams = null)
         {
@@ -115,7 +115,7 @@ namespace Tool.SqlCore
         /// 插入一条结果
         /// </summary>
         /// <param name="dbHelper">数据库引擎</param>
-        /// <param name="prams">携带的值<see cref="DbParameter"/>[]</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
         /// <returns></returns>
         public static int Insert<T>(this DbHelper dbHelper, object prams) where T : new()
         {
@@ -127,7 +127,7 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="dbHelper">数据库引擎</param>
         /// <param name="TableName">表名</param>
-        /// <param name="prams">携带的值<see cref="DbParameter"/>[]</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
         /// <returns></returns>
         public static int Insert(this DbHelper dbHelper, string TableName, object prams)
         {
@@ -135,7 +135,7 @@ namespace Tool.SqlCore
 
             if (keyValues == null || keyValues.Count == 0)
             {
-                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！（传入的新增参数是空的）", "prams");
+                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！（传入的新增参数是空的）", nameof(prams));
             }
 
             List<DbParameter> parms = dbHelper.GetInsertParams(keyValues, out string key, out string value);
@@ -161,7 +161,7 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="dbHelper">数据库引擎</param>
         /// <param name="where">修改的条件</param>
-        /// <param name="prams">修改表的参数 Or 修改条件的参数</param>
+        /// <param name="prams">修改表的参数 Or 修改条件的参数,可以是任何类型的键值对</param>
         /// <returns></returns>
         public static int Update<T>(this DbHelper dbHelper, string where, params object[] prams) where T : new()
         {
@@ -174,13 +174,13 @@ namespace Tool.SqlCore
         /// <param name="dbHelper">数据库引擎</param>
         /// <param name="TableName">表名</param>
         /// <param name="where">修改的条件，无需写 WHERE 直接条件</param>
-        /// <param name="prams">修改表的参数 Or 修改条件的参数</param>
+        /// <param name="prams">修改表的参数 Or 修改条件的参数,可以是任何类型的键值对</param>
         /// <returns></returns>
         public static int Update(this DbHelper dbHelper, string TableName, string where, params object[] prams)
         {
             if (prams == null || prams.Length == 0)
             {
-                throw new ArgumentException("键值对集合为空！", "prams");
+                throw new ArgumentException("键值对集合为空！", nameof(prams));
             }
 
             Dictionary<string, object> keyValues = dbHelper.SetDictionaryParam(prams[0]);
@@ -222,7 +222,7 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="dbHelper">数据库引擎</param>
         /// <param name="where">删除的条件</param>
-        /// <param name="prams">删除条件的参数</param>
+        /// <param name="prams">删除条件的参数,可以是任何类型的键值对</param>
         /// <returns></returns>
         public static int Delete<T>(this DbHelper dbHelper, string where, object prams) where T : new()
         {
@@ -235,7 +235,7 @@ namespace Tool.SqlCore
         /// <param name="dbHelper">数据库引擎</param>
         /// <param name="TableName">表名</param>
         /// <param name="where">删除的条件</param>
-        /// <param name="prams">删除条件的参数</param>
+        /// <param name="prams">删除条件的参数,可以是任何类型的键值对</param>
         /// <returns></returns>
         public static int Delete(this DbHelper dbHelper, string TableName, string where, object prams)
         {
@@ -266,7 +266,7 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="dbHelper">数据库引擎</param>
         /// <param name="commandText">执行的SQL语句</param>
-        /// <param name="prams">携带的参数可以是Null</param>
+        /// <param name="prams">携带的参数可以是Null,可以是任何类型的键值对</param>
         /// <returns>返回<see cref="SqlTextParameter"/>对象</returns>
         public static SqlTextParameter GetTextParameter(this DbHelper dbHelper, string commandText, object prams)
         {

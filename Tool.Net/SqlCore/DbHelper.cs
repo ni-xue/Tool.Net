@@ -345,17 +345,29 @@ namespace Tool.SqlCore
                 List<DbParameter> parms = new();
 
                 Type type = parameter.GetType();
-                PropertyInfo[] _properties = type.GetProperties();
 
-                if (_properties.Length > 0)
+                if (type.IsAssignableTo(typeof(IDictionary)))
                 {
-                    foreach (PropertyInfo property in _properties)
+                    foreach (DictionaryEntry keys in parameter as IDictionary)
                     {
-                        object Value = property.GetValue(parameter);
-                        if (Value != null)
-                            parms.Add(this.GetInParam(property.Name, Value));
+                            parms.Add(this.GetInParam(keys.Key?.ToString(), keys.Value));
                     }
                     return parms;
+                }
+                else
+                {
+                    PropertyInfo[] _properties = type.GetProperties();
+
+                    if (_properties.Length > 0)
+                    {
+                        foreach (PropertyInfo property in _properties)
+                        {
+                            object Value = property.GetValue(parameter);
+                            if (Value != null) //因为此处直接将空值忽略了导致的一个问题后面考虑修复
+                                parms.Add(this.GetInParam(property.Name, Value));
+                        }
+                        return parms;
+                    }
                 }
             }
             return null;
@@ -395,17 +407,29 @@ namespace Tool.SqlCore
                 Dictionary<string, object> keyValuePairs = new();
 
                 Type type = parameter.GetType();
-                PropertyInfo[] _properties = type.GetProperties();
 
-                if (_properties.Length > 0)
+                if (type.IsAssignableTo(typeof(IDictionary)))
                 {
-                    foreach (PropertyInfo property in _properties)
+                    foreach (DictionaryEntry keys in parameter as IDictionary)
                     {
-                        object Value = property.GetValue(parameter);
-
-                        keyValuePairs.Add(property.Name, Value);
+                        keyValuePairs.Add(keys.Key?.ToString(), keys.Value);
                     }
                     return keyValuePairs;
+                }
+                else
+                {
+                    PropertyInfo[] _properties = type.GetProperties();
+
+                    if (_properties.Length > 0)
+                    {
+                        foreach (PropertyInfo property in _properties)
+                        {
+                            object Value = property.GetValue(parameter);
+
+                            keyValuePairs.Add(property.Name, Value);
+                        }
+                        return keyValuePairs;
+                    }
                 }
             }
             return null;
