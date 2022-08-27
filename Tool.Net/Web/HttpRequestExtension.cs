@@ -2,8 +2,11 @@
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Reflection;
 using System.Text;
+using Tool.Utils;
+using Tool.Utils.ActionDelegate;
 
 namespace Tool.Web
 {
@@ -254,28 +257,34 @@ namespace Tool.Web
         /// <returns>返回对象</returns>
         internal static object GetToMode(HttpRequest reques, Type type, bool istype = true)
         {
-            //M m = (default(M) == null) ? Activator.CreateInstance<M>() : default(M);
-
             try
             {
-                object m = Activator.CreateInstance(type);
-                PropertyInfo[] properties = type.GetProperties();
+                var modeBuild = EntityBuilder.GetEntity(type);
+                object m = modeBuild.New;//object m = Activator.CreateInstance(type);
+                PropertyInfo[] properties = modeBuild.Parameters;// type.GetProperties();
+                IDictionary<string, object> keys = new Dictionary<string, object>();
                 foreach (PropertyInfo property in properties)
                 {
-                    string name = property.Name;
-                    string value = reques.Query[name];
-                    if (property.PropertyType != typeof(string))
+                    if (reques.Query.TryGetValue(property.Name, out var value))
                     {
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
-                        }
+                        AddValue(keys, value, property.PropertyType, property.Name, istype);
                     }
-                    else
-                    {
-                        type.GetProperty(name).SetValue(m, value);
-                    }
+
+                    //string name = property.Name;
+                    //string value = reques.Query[name];
+                    //if (property.PropertyType != typeof(string))
+                    //{
+                    //    if (!string.IsNullOrEmpty(value))
+                    //    {
+                    //        type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    type.GetProperty(name).SetValue(m, value);
+                    //}
                 }
+                if (keys.Count > 0) modeBuild.Set(m, keys);
 
                 return m;
             }
@@ -296,26 +305,34 @@ namespace Tool.Web
         {
             try
             {
-                if (!reques.HasFormContentType) return default;
-                //M m = (default(M) == null) ? Activator.CreateInstance<M>() : default(M);
-                object m = Activator.CreateInstance(type);
-                PropertyInfo[] properties = type.GetProperties();
+                var modeBuild = EntityBuilder.GetEntity(type);
+                object m = modeBuild.New;//object m = Activator.CreateInstance(type);
+                if (!reques.HasFormContentType) return m;
+                PropertyInfo[] properties = modeBuild.Parameters;// type.GetProperties();
+                IDictionary<string, object> keys = new Dictionary<string, object>();
                 foreach (PropertyInfo property in properties)
                 {
-                    string name = property.Name;
-                    string value = reques.Form[name];
-                    if (property.PropertyType != typeof(string))
+                    if (reques.Form.TryGetValue(property.Name, out var value))
                     {
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
-                        }
+                        AddValue(keys, value, property.PropertyType, property.Name, istype);
                     }
-                    else
-                    {
-                        type.GetProperty(name).SetValue(m, value);
-                    }
+
+                    //string name = property.Name;
+                    //string value = reques.Form[name];
+                    //if (property.PropertyType != typeof(string))
+                    //{
+                    //    if (!string.IsNullOrEmpty(value))
+                    //    {
+                    //        type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    type.GetProperty(name).SetValue(m, value);
+                    //}
                 }
+                if (keys.Count > 0) modeBuild.Set(m, keys);
+
                 return m;
             }
             catch (Exception)
@@ -335,36 +352,51 @@ namespace Tool.Web
         {
             try
             {
-                //M m = (default(M) == null) ? Activator.CreateInstance<M>() : default(M);
-                object m = Activator.CreateInstance(type);
-                PropertyInfo[] properties = type.GetProperties();
+                var modeBuild = EntityBuilder.GetEntity(type);
+                object m = modeBuild.New;//object m = Activator.CreateInstance(type);
+                PropertyInfo[] properties = modeBuild.Parameters;// type.GetProperties();
+                IDictionary<string, object> keys = new Dictionary<string, object>();
                 foreach (PropertyInfo property in properties)
                 {
-                    string name = property.Name;
-                    string value = reques.Query[name];
-                    if (string.IsNullOrEmpty(value) && reques.HasFormContentType)
+                    if (reques.Query.TryGetValue(property.Name, out var value) || (reques.HasFormContentType && reques.Form.TryGetValue(property.Name, out value)))
                     {
-                        value = reques.Form[name];
+                        AddValue(keys, value, property.PropertyType, property.Name, istype);
                     }
 
-                    if (!string.IsNullOrEmpty(value))
-                    {
-                        if (property.PropertyType != typeof(string))
-                        {
-                            type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
-                        }
-                        else
-                        {
-                            type.GetProperty(name).SetValue(m, value);
-                        }
-                    }
+                    //string name = property.Name;
+                    //string value = reques.Query[name];
+                    //if (string.IsNullOrEmpty(value) && reques.HasFormContentType)
+                    //{
+                    //    value = reques.Form[name];
+                    //}
+
+                    //if (!string.IsNullOrEmpty(value))
+                    //{
+                    //    if (property.PropertyType != typeof(string))
+                    //    {
+                    //        type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
+                    //    }
+                    //    else
+                    //    {
+                    //        type.GetProperty(name).SetValue(m, value);
+                    //    }
+                    //}
                 }
+                if (keys.Count > 0) modeBuild.Set(m, keys);
+
                 return m;
             }
             catch (Exception)
             {
                 return null;
             }
+        }
+
+        private static void AddValue(IDictionary<string, object> keys, string value, Type type, string name, bool istype) 
+        {
+            var data = value.ToVar(type, istype);
+            if (data is not null)
+                keys.Add(name, data); //value.Equals(StringValues.Empty)
         }
 
         ///// <summary>
@@ -428,18 +460,15 @@ namespace Tool.Web
             {
                 string bytes = Range.Replace("bytes=", "");
 
-                bool IsMultiple = bytes.Contains(",");
+                bool IsMultiple = bytes.Contains(',');
 
                 if (IsMultiple)
                 {
-                    string[] bytes1 = bytes.Split(",");//返回多个数据节点内容
+                    string[] bytes1 = bytes.Split(',');//返回多个数据节点内容
 
                     foreach (string _bytes1 in bytes1)
                     {
-                        long from = 0;
-
-                        long to = 0;
-
+                        long from, to;
                         if (_bytes1.StartsWith("-"))
                         {
                             from = Length + _bytes1.ToLong();
@@ -452,7 +481,7 @@ namespace Tool.Web
                             to = Length - 1;
                             range.Add(new Range(from, to));
                         }
-                        else if (_bytes1.Contains("-"))
+                        else if (_bytes1.Contains('-'))
                         {
                             string[] _bytes = _bytes1.Split("-");
 
@@ -464,10 +493,7 @@ namespace Tool.Web
                 }
                 else
                 {
-                    long from = 0;
-
-                    long to = 0;
-
+                    long from, to;
                     if (bytes.StartsWith("-"))
                     {
                         from = Length + bytes.ToLong();
@@ -480,7 +506,7 @@ namespace Tool.Web
                         to = Length - 1;
                         range.Add(new Range(from, to));
                     }
-                    else if (bytes.Contains("-"))
+                    else if (bytes.Contains('-'))
                     {
                         string[] _bytes = bytes.Split("-");
 
@@ -500,7 +526,7 @@ namespace Tool.Web
         /// <param name="formFile">上传资源对象</param>
         /// <param name="filename">保存文件的完整地址(当地址存在时会覆盖原有文件)</param>
         /// <returns></returns>
-        public static async System.Threading.Tasks.Task Save(this IFormFile formFile, string filename) 
+        public static async System.Threading.Tasks.Task Save(this IFormFile formFile, string filename)
         {
             System.IO.Stream stream = formFile.OpenReadStream();
 
@@ -557,7 +583,7 @@ namespace Tool.Web
         /// </summary>
         public long To;
     }
-
+    
     ///// <summary>
     ///// 支持压缩的枚举类型
     ///// </summary>

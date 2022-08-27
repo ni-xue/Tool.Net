@@ -21,6 +21,11 @@ namespace Tool.SqlCore
         #region Sql 公开变量
 
         /// <summary>
+        /// 在开启数据库日志模式后，将日志打印至该路径下。
+        /// </summary>
+        public const string LogPath = "Log/Sql/";
+
+        /// <summary>
         /// 链接Sql字符串
         /// </summary>
         protected internal string ConnectionString
@@ -38,33 +43,13 @@ namespace Tool.SqlCore
         /// <summary>
         /// 获取当前访问的数据库类型
         /// </summary>
-        protected internal string DbProviderName
-        {
-            get
-            {
-                return this.m_dbProviderName;
-            }
-            //set
-            //{
-            //    this.m_dbProviderName = value;
-            //}
-        }
+        protected internal string DbProviderName => this.m_dbProviderName;
 
 
         /// <summary>
         /// 获取当前访问的数据库类型
         /// </summary>
-        protected internal DbProviderType DbProviderType
-        {
-            get
-            {
-                return this.m_dbProviderType;
-            }
-            //set
-            //{
-            //    this.m_dbProviderType = value;
-            //}
-        }
+        protected internal DbProviderType DbProviderType => this.m_dbProviderType;
 
         /// <summary>
         /// 数据工厂对象
@@ -94,31 +79,7 @@ namespace Tool.SqlCore
         /// <summary>
         /// IDB提供商
         /// </summary>
-        public IDbProvider Provider
-        {
-            get
-            {
-                //if (this.m_provider == null)
-                //{
-                //    lock (this.lockHelper)
-                //    {
-                //        if (this.m_provider == null)
-                //        {
-                //            try
-                //            {
-                //                this.m_provider = new SqlServerProvider();
-                //                //this.m_provider = (IDbProvider)Activator.CreateInstance(Type.GetType("Game.Kernel.SqlServerProvider, Game.Kernel", false, true));
-                //            }
-                //            catch
-                //            {
-                //                throw Throw("SqlServerProvider 数据库访问器创建失败！");
-                //            }
-                //        }
-                //    }
-                //}
-                return this.m_provider;
-            }
-        }
+        public IDbProvider Provider => this.m_provider;
 
         /// <summary>
         /// 是否启动SQL日志打印
@@ -136,24 +97,34 @@ namespace Tool.SqlCore
         public bool IsSqlLogHtml { get; set; } = false;
 
         /// <summary>
+        /// 打印日志的子路径段
+        /// </summary>
+        public string SubPath
+        {
+            get => log_subPath; set
+            {
+                for (int q = 0; q < value.Length; q++)
+                {
+                    var length = value.Length - 1;
+                    var w = value[q];
+
+                    if (!(((q > 0 || q < length) && w == '.') || 'A' <= w && w <= 'Z' || 'a' <= w && w <= 'z' || '0' <= w && w <= '9'))
+                    {
+                        throw new FormatException("字符串只能包含英文和数字和点。");
+                    }
+                    else if ((q == 0 || q == length) && w == '.')
+                    {
+                        throw new FormatException("开头或结尾处不能出现‘.’");
+                    }
+                }
+                log_subPath = $"/{value}";
+            }
+        }
+
+        /// <summary>
         /// 查询计数
         /// </summary>
         public ulong QueryCount { get; set; }
-
-        ///// <summary>
-        ///// 程序运行过程中的所有增删改查操作的耗时详情
-        ///// </summary>
-        //public static List<string> QueryDetail
-        //{
-        //    get
-        //    {
-        //        return DbHelper.m_querydetail;
-        //    }
-        //    set
-        //    {
-        //        DbHelper.m_querydetail = value;
-        //    }
-        //}
 
         #endregion
 
@@ -340,45 +311,17 @@ namespace Tool.SqlCore
         /// <returns><see cref="DbParameter"/>[]对象集合</returns>
         public List<DbParameter> SetParameterList(object parameter)
         {
-            if (parameter != null)
-            {
-                List<DbParameter> parms = new();
-
-                Type type = parameter.GetType();
-
-                if (type.IsAssignableTo(typeof(IDictionary)))
-                {
-                    foreach (DictionaryEntry keys in parameter as IDictionary)
-                    {
-                            parms.Add(this.GetInParam(keys.Key?.ToString(), keys.Value));
-                    }
-                    return parms;
-                }
-                else
-                {
-                    PropertyInfo[] _properties = type.GetProperties();
-
-                    if (_properties.Length > 0)
-                    {
-                        foreach (PropertyInfo property in _properties)
-                        {
-                            object Value = property.GetValue(parameter);
-                            if (Value != null) //因为此处直接将空值忽略了导致的一个问题后面考虑修复
-                                parms.Add(this.GetInParam(property.Name, Value));
-                        }
-                        return parms;
-                    }
-                }
-            }
-            return null;
+            var keys = SetDictionaryParam(parameter, out bool isnull);
+            return SetParameterList(keys, isnull);
         }
 
         /// <summary>
         /// 将匿名对象转换成<see cref="DbParameter"/>[]对象集合
         /// </summary>
-        /// <param name="parameter"><see cref="Dictionary{String,Object}"/>对象</param>
+        /// <param name="parameter"><see cref="IDictionary{String,Object}"/>对象</param>]
+        /// <param name="isnull">是否允许为空</param>
         /// <returns><see cref="DbParameter"/>[]对象集合</returns>
-        public List<DbParameter> SetParameterList(Dictionary<string, object> parameter)
+        public List<DbParameter> SetParameterList(IDictionary<string, object> parameter, bool isnull = false)
         {
             if (parameter != null && parameter.Count > 0)
             {
@@ -386,7 +329,7 @@ namespace Tool.SqlCore
 
                 foreach (var pair in parameter)
                 {
-                    if (pair.Value != null)
+                    if (pair.Value != null || isnull)
                         parms.Add(this.GetInParam(pair.Key, pair.Value));
                 }
 
@@ -400,39 +343,64 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="parameter">匿名对象</param>
         /// <returns><see cref="Dictionary{String,Object}"/>对象集合</returns>
-        public Dictionary<string, object> SetDictionaryParam(object parameter)
+        public IDictionary<string, object> SetDictionaryParam(object parameter)
+        {
+            var keys = SetDictionaryParam(parameter, out bool isnull);
+            if (!isnull)
+            {
+                List<string> strings = new();
+                foreach (var pair in keys)
+                {
+                    if (pair.Value == null) strings.Add(pair.Key);
+                }
+                keys.Remove(strings.ToArray());
+            }
+            return keys;
+        }
+
+        /// <summary>
+        /// 将匿名对象转换成<see cref="Dictionary{String,Object}"/>对象集合
+        /// </summary>
+        /// <param name="parameter">匿名对象</param>
+        /// <param name="isnull">解析对象是否是字典，字典将保留空字典值</param>
+        /// <returns><see cref="Dictionary{String,Object}"/>对象集合</returns>
+        private static IDictionary<string, object> SetDictionaryParam(object parameter, out bool isnull)
         {
             if (parameter != null)
             {
-                Dictionary<string, object> keyValuePairs = new();
-
-                Type type = parameter.GetType();
-
-                if (type.IsAssignableTo(typeof(IDictionary)))
+                if (parameter is IDictionary<string, object> dic)
                 {
-                    foreach (DictionaryEntry keys in parameter as IDictionary)
+                    isnull = true;
+                    return dic;
+                }
+                if (parameter is IDictionary dictionary)
+                {
+                    Dictionary<string, object> keyValuePairs = new();
+                    foreach (DictionaryEntry keys in dictionary)
                     {
-                        keyValuePairs.Add(keys.Key?.ToString(), keys.Value);
+                        keyValuePairs.Add(keys.Key.ToString(), keys.Value);
                     }
+                    isnull = true;
                     return keyValuePairs;
                 }
-                else
-                {
-                    PropertyInfo[] _properties = type.GetProperties();
+                isnull = false;
+                return parameter.GetDictionary();
 
-                    if (_properties.Length > 0)
-                    {
-                        foreach (PropertyInfo property in _properties)
-                        {
-                            object Value = property.GetValue(parameter);
+                //Type type = parameter.GetType();
+                //PropertyInfo[] _properties = type.GetProperties();
+                //if (_properties.Length > 0)
+                //{
+                //    foreach (PropertyInfo property in _properties)
+                //    {
+                //        object Value = property.GetValue(parameter);
 
-                            keyValuePairs.Add(property.Name, Value);
-                        }
-                        return keyValuePairs;
-                    }
-                }
+                //        keyValuePairs.Add(property.Name, Value);
+                //    }
+                //    return keyValuePairs;
+                //}
             }
-            return null;
+            isnull = false;
+            return default;
         }
 
         /// <summary>
@@ -885,6 +853,20 @@ namespace Tool.SqlCore
 
         #endregion
 
+        #region Sql 分页调用接口
+
+        /// <summary>
+        /// 分页函数 实现至 IDbProvider 接口 GetPagerSet 方法
+        /// </summary>
+        /// <param name="pager">相关参数</param>
+        /// <returns></returns>
+        public PagerSet GetPagerSet(PagerParameters pager)
+        {
+            return Provider.GetPagerSet(this, pager);
+        }
+
+        #endregion
+
         #region Sql 公共查询函数 返回（DataSet） ExecuteDataSet
 
         /// <summary>
@@ -1083,28 +1065,32 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentNullException(nameof(connection));
             }
-            DbCommand dbCommand = CreateCommand();
-            PrepareCommand(dbCommand, connection, null, commandType, commandText, commandParameters, out bool flag);
-            DataSet result;
-            using (DbDataAdapter dbDataAdapter = CreateDataAdapter())
+            using DbCommand dbCommand = CreateCommand();
+
+            Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
+            bool iserror = false, flag = false;
+            try
             {
+                PrepareCommand(dbCommand, connection, null, commandType, commandText, commandParameters, out flag);
+                using DbDataAdapter dbDataAdapter = CreateDataAdapter();
                 dbDataAdapter.SelectCommand = dbCommand;
                 DataSet dataSet = new();
 
-                Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
-
                 dbDataAdapter.Fill(dataSet);
 
-                AddQueryDetail(dbCommand.CommandText, watch, commandParameters);
-                //DbHelper.m_querydetail.Add(DbHelper.GetQueryDetail(dbCommand.CommandText, now, now2, commandParameters));
-                dbCommand.Parameters.Clear();
-                if (flag)
-                {
-                    connection.Close();
-                }
-                result = dataSet;
+                return dataSet;
             }
-            return result;
+            catch (Exception)
+            {
+                iserror = true;
+                throw;
+            }
+            finally
+            {
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                dbCommand.Parameters.Clear();
+                if (flag) connection.Close();
+            }
         }
 
         /// <summary>
@@ -1167,18 +1153,29 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentException("事务被回滚或提交，请提供一个打开的事务。", "提交事务");
             }
-            DbCommand dbCommand = CreateCommand();
-            PrepareCommand(dbCommand, transaction.Connection, transaction, commandType, commandText, commandParameters, out _);
-            DataSet result;
-            using (DbDataAdapter dbDataAdapter = CreateDataAdapter())
+            using DbCommand dbCommand = CreateCommand();
+
+            Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
+            bool iserror = false;
+            try
             {
+                PrepareCommand(dbCommand, transaction.Connection, transaction, commandType, commandText, commandParameters, out _);
+                using DbDataAdapter dbDataAdapter = CreateDataAdapter();
                 dbDataAdapter.SelectCommand = dbCommand;
-                DataSet dataSet = new DataSet();
+                DataSet dataSet = new();
                 dbDataAdapter.Fill(dataSet);
-                dbCommand.Parameters.Clear();
-                result = dataSet;
+                return dataSet;
             }
-            return result;
+            catch (Exception)
+            {
+                iserror = true;
+                throw;
+            }
+            finally
+            {
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                dbCommand.Parameters.Clear();
+            }
         }
 
         #endregion
@@ -1389,18 +1386,26 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentNullException(nameof(connection));
             }
-            DbCommand dbCommand = CreateCommand();
-            PrepareCommand(dbCommand, connection, null, commandType, commandText, commandParameters, out bool flag);
+            using DbCommand dbCommand = CreateCommand();
+
             Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
-            int result = dbCommand.ExecuteNonQuery();
-            AddQueryDetail(dbCommand.CommandText, watch, commandParameters);
-            //DbHelper.m_querydetail.Add(DbHelper.GetQueryDetail(dbCommand.CommandText, now, now2, commandParameters));
-            dbCommand.Parameters.Clear();
-            if (flag)
+            bool iserror = false, flag = false;
+            try
             {
-                connection.Close();
+                PrepareCommand(dbCommand, connection, null, commandType, commandText, commandParameters, out flag);
+                return dbCommand.ExecuteNonQuery();
             }
-            return result;
+            catch (Exception)
+            {
+                iserror = true;
+                throw;
+            }
+            finally
+            {
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                dbCommand.Parameters.Clear();
+                if (flag) connection.Close();
+            }
         }
 
         /// <summary>
@@ -1463,11 +1468,25 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentException("事务被回滚或提交，请提供一个打开的事务。", nameof(transaction));
             }
-            DbCommand dbCommand = CreateCommand();
-            PrepareCommand(dbCommand, transaction.Connection, transaction, commandType, commandText, commandParameters, out _);
-            int result = dbCommand.ExecuteNonQuery();
-            dbCommand.Parameters.Clear();
-            return result;
+            using DbCommand dbCommand = CreateCommand();
+
+            Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
+            bool iserror = false;
+            try
+            {
+                PrepareCommand(dbCommand, transaction.Connection, transaction, commandType, commandText, commandParameters, out _);
+                return dbCommand.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                iserror = true;
+                throw;
+            }
+            finally
+            {
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                dbCommand.Parameters.Clear();
+            }
         }
 
         /// <summary>
@@ -1492,11 +1511,27 @@ namespace Tool.SqlCore
             }
             int result = 0;
             using DbCommand dbCommand = CreateCommand();
+
             foreach (SqlTextParameter sqlText in sqlTexts)
             {
-                PrepareCommand(dbCommand, transaction.Connection, transaction, sqlText.CommandType, sqlText.CommandText, sqlText.Parameters, out bool flag);
-                result += dbCommand.ExecuteNonQuery();
-                dbCommand.Parameters.Clear();
+                Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
+                bool iserror = false;
+                try
+                {
+                    PrepareCommand(dbCommand, transaction.Connection, transaction, sqlText.CommandType, sqlText.CommandText, sqlText.Parameters, out _);
+                    result += dbCommand.ExecuteNonQuery();
+
+                }
+                catch (Exception)
+                {
+                    iserror = true;
+                    throw;
+                }
+                finally
+                {
+                    AddQueryDetail(dbCommand.CommandText, watch, sqlText.Parameters, iserror);
+                    dbCommand.Parameters.Clear();
+                }
             }
             return result;
         }
@@ -1586,18 +1621,26 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentNullException(nameof(connection));
             }
-            DbCommand dbCommand = CreateCommand();
-            PrepareCommand(dbCommand, connection, null, commandType, commandText, commandParameters, out bool flag);
+            using DbCommand dbCommand = CreateCommand();
+
             Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
-            int result = await dbCommand.ExecuteNonQueryAsync();
-            AddQueryDetail(dbCommand.CommandText, watch, commandParameters);
-            //DbHelper.m_querydetail.Add(DbHelper.GetQueryDetail(dbCommand.CommandText, now, now2, commandParameters));
-            dbCommand.Parameters.Clear();
-            if (flag)
+            bool iserror = false, flag = false;
+            try
             {
-                connection.Close();
+                PrepareCommand(dbCommand, connection, null, commandType, commandText, commandParameters, out flag);
+                return await dbCommand.ExecuteNonQueryAsync();
             }
-            return result;
+            catch (Exception)
+            {
+                iserror = true;
+                throw;
+            }
+            finally
+            {
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                dbCommand.Parameters.Clear();
+                if (flag) await connection.CloseAsync();
+            }
         }
 
         #endregion
@@ -1813,40 +1856,47 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentNullException("GetLastIdSql is \"\"");
             }
-            DbCommand dbCommand = CreateCommand();
-            Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
-
+            using DbCommand dbCommand = CreateCommand();
             commandText = $"{commandText} {this.Provider.GetLastIdSql()} AS ID";//, @@rowcount AS Count 
 
-            PrepareCommand(dbCommand, connection, null, commandType, commandText, commandParameters, out bool flag);
-
-            var reader = dbCommand.ExecuteReader(CommandBehavior.CloseConnection);
-            reader.Read();
-            int result = reader.RecordsAffected;
-            id = reader.GetValue(0);
-            //int result = dbCommand.ExecuteNonQuery();
-            //object obj = dbCommand.ExecuteScalar();
-            dbCommand.Parameters.Clear();
-            //dbCommand.CommandType = CommandType.Text;
-            //dbCommand.CommandText = this.Provider.GetLastIdSql();
-            //object obj = dbCommand.ExecuteScalar();
-            //if (obj is System.DBNull)
-            //{
-            //    id = 0;
-            //}
-            //else
-            //{
-            //    int.TryParse(obj.ToString(), out id);
-            //}
-
-            reader.Close();
-            AddQueryDetail(dbCommand.CommandText, watch, commandParameters);
-            //DbHelper.m_querydetail.Add(DbHelper.GetQueryDetail(dbCommand.CommandText, now, now2, commandParameters));
-            if (flag)
+            Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
+            bool iserror = false, flag = false;
+            try
             {
-                connection.Close();
+                PrepareCommand(dbCommand, connection, null, commandType, commandText, commandParameters, out flag);
+
+                var reader = dbCommand.ExecuteReader(CommandBehavior.CloseConnection);
+                reader.Read();
+                int result = reader.RecordsAffected;
+                id = reader.GetValue(0);
+                //int result = dbCommand.ExecuteNonQuery();
+                //object obj = dbCommand.ExecuteScalar();
+                //dbCommand.CommandType = CommandType.Text;
+                //dbCommand.CommandText = this.Provider.GetLastIdSql();
+                //object obj = dbCommand.ExecuteScalar();
+                //if (obj is System.DBNull)
+                //{
+                //    id = 0;
+                //}
+                //else
+                //{
+                //    int.TryParse(obj.ToString(), out id);
+                //}
+
+                reader.Close();
+                return result;
             }
-            return result;
+            catch (Exception)
+            {
+                iserror = true;
+                throw;
+            }
+            finally
+            {
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                dbCommand.Parameters.Clear();
+                if (flag) connection.Close();
+            }
         }
 
         /// <summary>
@@ -1868,28 +1918,31 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentException("事务被回滚或提交，请提供一个打开的事务。", nameof(transaction));
             }
-            DbCommand dbCommand = CreateCommand();
-
+            using DbCommand dbCommand = CreateCommand();
             commandText = $"{commandText} {this.Provider.GetLastIdSql()} AS ID";
-            PrepareCommand(dbCommand, transaction.Connection, transaction, commandType, commandText, commandParameters, out _);
-            var reader = dbCommand.ExecuteReader(CommandBehavior.CloseConnection);
-            reader.Read();
-            int result = reader.RecordsAffected;
-            id = reader.GetValue(0);
-            dbCommand.Parameters.Clear();
-            //dbCommand.CommandType = CommandType.Text;
-            //dbCommand.CommandText = this.Provider.GetLastIdSql();
-            //id = int.Parse(dbCommand.ExecuteScalar().ToString());
-            //if (obj is System.DBNull)
-            //{
-            //    id = 0;
-            //}
-            //else
-            //{
-            //    int.TryParse(obj.ToString(), out id);
-            //}
-            reader.Close();
-            return result;
+
+            Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
+            bool iserror = false;
+            try
+            {
+                PrepareCommand(dbCommand, transaction.Connection, transaction, commandType, commandText, commandParameters, out _);
+                var reader = dbCommand.ExecuteReader(CommandBehavior.CloseConnection);
+                reader.Read();
+                int result = reader.RecordsAffected;
+                id = reader.GetValue(0);
+                reader.Close();
+                return result;
+            }
+            catch (Exception)
+            {
+                iserror = true;
+                throw;
+            }
+            finally
+            {
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                dbCommand.Parameters.Clear();
+            }
         }
 
         #endregion
@@ -2283,47 +2336,40 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentNullException(nameof(connection));
             }
-            bool flag = false;
-            DbCommand dbCommand = CreateCommand();
-            DbDataReader result;
+            using DbCommand dbCommand = CreateCommand();
+
+            Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
+            bool iserror = false, flag = false, flag1 = true;
             try
             {
                 PrepareCommand(dbCommand, connection, transaction, commandType, commandText, commandParameters, out flag);
-                Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
-                DbDataReader dbDataReader;
-                if (connectionOwnership == DbHelper.DbConnectionOwnership.External)
-                {
-                    dbDataReader = dbCommand.ExecuteReader();
-                }
-                else
-                {
-                    dbDataReader = dbCommand.ExecuteReader(CommandBehavior.CloseConnection);
-                }
-                AddQueryDetail(dbCommand.CommandText, watch, commandParameters);
-                //DbHelper.m_querydetail.Add(DbHelper.GetQueryDetail(dbCommand.CommandText, now, now2, commandParameters));
-                bool flag2 = true;
+
+                DbDataReader dbDataReader = connectionOwnership == DbHelper.DbConnectionOwnership.External
+                    ? dbCommand.ExecuteReader()
+                    : dbCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
                 foreach (DbParameter dbParameter in dbCommand.Parameters)
                 {
                     if (dbParameter.Direction != ParameterDirection.Input)
                     {
-                        flag2 = false;
+                        flag1 = false;
+                        break;
                     }
                 }
-                if (flag2)
-                {
-                    dbCommand.Parameters.Clear();
-                }
-                result = dbDataReader;
+
+                return dbDataReader;
             }
-            catch
+            catch (Exception)
             {
-                if (flag)
-                {
-                    connection.Close();
-                }
+                iserror = true;
                 throw;
             }
-            return result;
+            finally
+            {
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                if (flag1) dbCommand.Parameters.Clear();
+                if (flag) connection.Close();
+            }
         }
 
         #endregion
@@ -2552,15 +2598,26 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentNullException(nameof(connection));
             }
-            DbCommand dbCommand = CreateCommand();
-            PrepareCommand(dbCommand, connection, null, commandType, commandText, commandParameters, out bool flag);
-            object result = dbCommand.ExecuteScalar();
-            dbCommand.Parameters.Clear();
-            if (flag)
+            using DbCommand dbCommand = CreateCommand();
+
+            Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
+            bool iserror = false, flag = false;
+            try
             {
-                connection.Close();
+                PrepareCommand(dbCommand, connection, null, commandType, commandText, commandParameters, out flag);
+                return dbCommand.ExecuteScalar();
             }
-            return result;
+            catch (Exception)
+            {
+                iserror = true;
+                throw;
+            }
+            finally
+            {
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                dbCommand.Parameters.Clear();
+                if (flag) connection.Close();
+            }
         }
 
         /// <summary>
@@ -2581,14 +2638,25 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentException("事务被回滚或提交，请提供一个打开的事务。", nameof(transaction));
             }
-            DbCommand dbCommand = CreateCommand();
-            PrepareCommand(dbCommand, transaction.Connection, transaction, commandType, commandText, commandParameters, out _);
+            using DbCommand dbCommand = CreateCommand();
+
             Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
-            object result = dbCommand.ExecuteScalar();
-            AddQueryDetail(dbCommand.CommandText, watch, commandParameters);
-            //DbHelper.m_querydetail.Add(DbHelper.GetQueryDetail(dbCommand.CommandText, now, now2, commandParameters));
-            dbCommand.Parameters.Clear();
-            return result;
+            bool iserror = false;
+            try
+            {
+                PrepareCommand(dbCommand, transaction.Connection, transaction, commandType, commandText, commandParameters, out _);
+                return dbCommand.ExecuteScalar();
+            }
+            catch (Exception)
+            {
+                iserror = true;
+                throw;
+            }
+            finally
+            {
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                dbCommand.Parameters.Clear();
+            }
         }
 
         #endregion
@@ -2910,6 +2978,18 @@ namespace Tool.SqlCore
             this.FillDataset(transaction.Connection, transaction, commandType, commandText, dataSet, tableNames, commandParameters);
         }
 
+        /// <summary>
+        /// 看着像是表修改 忘记啥时候写的了 意义可能不大了
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="transaction"></param>
+        /// <param name="commandType"></param>
+        /// <param name="commandText"></param>
+        /// <param name="dataSet"></param>
+        /// <param name="tableNames"></param>
+        /// <param name="commandParameters"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         private void FillDataset(DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params DbParameter[] commandParameters)
         {
             if (connection == null)
@@ -2920,10 +3000,14 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentNullException(nameof(dataSet));
             }
-            DbCommand dbCommand = CreateCommand();
-            PrepareCommand(dbCommand, connection, transaction, commandType, commandText, commandParameters, out bool flag);
-            using (DbDataAdapter dbDataAdapter = CreateDataAdapter())
+            using DbCommand dbCommand = CreateCommand();
+
+            Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
+            bool iserror = false, flag = false;
+            try
             {
+                PrepareCommand(dbCommand, connection, transaction, commandType, commandText, commandParameters, out flag);
+                using DbDataAdapter dbDataAdapter = CreateDataAdapter();
                 dbDataAdapter.SelectCommand = dbCommand;
                 if (tableNames != null && tableNames.Length > 0)
                 {
@@ -2939,11 +3023,17 @@ namespace Tool.SqlCore
                     }
                 }
                 dbDataAdapter.Fill(dataSet);
-                dbCommand.Parameters.Clear();
             }
-            if (flag)
+            catch (Exception)
             {
-                connection.Close();
+                iserror = true;
+                throw;
+            }
+            finally
+            {
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                dbCommand.Parameters.Clear();
+                if (flag) connection.Close();
             }
         }
 
@@ -2986,24 +3076,39 @@ namespace Tool.SqlCore
         /// <param name="commandText">SQL字符串</param>
         /// <param name="watch">时间测量器</param>
         /// <param name="cmdParams">执行参数</param>
-        private void AddQueryDetail(string commandText, Stopwatch watch, DbParameter[] cmdParams)
+        /// <param name="iserror">是否执行时异常</param>
+        private void AddQueryDetail(string commandText, Stopwatch watch, DbParameter[] cmdParams, bool iserror)
         {
+            watch.Stop();
             if (IsSqlLog)
             {
-                watch.Stop();
                 string sqltext = DbHelper.GetQueryDetail(commandText, watch.ElapsedMilliseconds, cmdParams, IsSqlLogHtml);
-                Log.Debug(sqltext, LogPath + DbProviderName);
-                Info(sqltext);
-                //DbHelper.m_querydetail.Add();
+                string logpath = $"{LogPath}{DbProviderName}{log_subPath}";//{Logger}
+                if (iserror)
+                {
+                    Log.Error(sqltext, logpath);
+                }
+                else
+                {
+                    Log.Debug(sqltext, logpath);
+                }
+                Info(sqltext, iserror);
             }
-            if (this.QueryCount < ulong.MaxValue) this.QueryCount++;
+            unchecked
+            {
+                this.QueryCount++;
+            }
         }
 
-        private void Info(string sqltext)
+        private void Info(string sqltext, bool iserror)
         {
-            if (Logger != null && Logger.IsEnabled(LogLevel.Information))
+            if (Logger is not null)
             {
-                Logger.LogInformation(sqltext);
+                var loglevel = iserror ? LogLevel.Error : LogLevel.Information;
+                if (Logger.IsEnabled(loglevel))
+                {
+                    Logger.Log(loglevel, sqltext);
+                }
             }
         }
 
@@ -3144,7 +3249,7 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentNullException(nameof(spName));
             }
-            string key = connection.ConnectionString + ":" + spName + (includeReturnValueParameter ? ":包含ReturnValue参数" : "");
+            string key = $"{connection.ConnectionString}:{spName}{(includeReturnValueParameter ? ":包含ReturnValue参数" : "")}";
             if (this.m_paramcache[key] is not DbParameter[] array)
             {
                 DbParameter[] array2 = this.DiscoverSpParameterSet(connection, spName, includeReturnValueParameter);
@@ -3564,12 +3669,17 @@ namespace Tool.SqlCore
 
         #region 私有变量
 
-        private readonly object lockHelper = new object();
+        private readonly object lockHelper = new();
 
         /// <summary>
         /// 连接字符串
         /// </summary>
 		private string m_connectionstring;
+
+        /// <summary>
+        /// 子路径
+        /// </summary>
+        private string log_subPath = string.Empty;
 
         /// <summary>
         /// 数据库类型对象
@@ -3586,16 +3696,6 @@ namespace Tool.SqlCore
         private readonly Hashtable m_paramcache = Hashtable.Synchronized(new Hashtable());
 
         private IDbProvider m_provider;
-
-        /// <summary>
-        /// 在开启数据库日志模式后，将日志打印至该路径下。
-        /// </summary>
-        public const string LogPath = "Log/Sql/";
-
-        ///// <summary>
-        ///// 程序运行过程中的所有增删改查操作的耗时详情
-        ///// </summary>
-        //private static List<string> m_querydetail = new List<string>();
 
         #endregion
 

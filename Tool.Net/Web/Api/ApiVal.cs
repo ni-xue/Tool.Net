@@ -66,46 +66,50 @@ namespace Tool.Web.Api
         /// <summary>
         /// 表单提交数据 支持其他类型强转。
         /// </summary>
-        Form = 1,
+        Form,
         /// <summary>
         /// 将Query和Form 的值，找到提供给 实体类（接收实体类）
         /// </summary>
-        AllMode = 2,
+        AllMode,
         /// <summary>
         /// 将Query 的值，找到提供给 实体类（接收实体类）
         /// </summary>
-        QueryMode = 3,
+        QueryMode,
         /// <summary>
         /// 将Form 的值，找到提供给 实体类（接收实体类）
         /// </summary>
-        FormMode = 4,
+        FormMode,
         /// <summary>
         /// 获取Header下面的某个键的值，支持其他类型强转。
         /// </summary>
-        Header = 5,
+        Header,
         /// <summary>
         /// 获取Cookie下面的某个键的值，支持其他类型强转。
         /// </summary>
-        Cookie = 6,
+        Cookie,
         /// <summary>
         /// 获取上传的文件对象，接收对象必须是<see cref="Microsoft.AspNetCore.Http.IFormFile"/> 
         /// </summary>
-        File = 7,//IFormFileCollection
+        File,
+        /// <summary>
+        /// 获取上传的文件对象集合，接收对象必须是<see cref="Microsoft.AspNetCore.Http.IFormFileCollection"/> 
+        /// </summary>
+        Files,
         /// <summary>
         /// 获取注册的对象（ServiceProvider）
         /// </summary>
-        Service = 8,
+        Service,
         /// <summary>
         /// 目前 支持 String 和 byte[] , Json 自动转对象，以及其他类型强转。
         /// </summary>
-        Session = 9,
+        Session,
         /// <summary>
         /// 只包含 Query 和 Form 的值 支持其他类型强转。
         /// </summary>
-        AllData = 10,
+        AllData,
         /// <summary>
         /// 获取请求的路由格式 指定的键 的值 支持其他类型强转。
         /// </summary>
-        RouteKey = 11  
+        RouteKey  
     }
 }

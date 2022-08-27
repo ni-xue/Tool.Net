@@ -12,7 +12,7 @@ namespace Tool.SqlCore
     /// </summary>
     public class ProviderFactory
     {
-        private static readonly Dictionary<DbProviderType, string> providerInvariantNames = new Dictionary<DbProviderType, string>();
+        private static readonly Dictionary<DbProviderType, string> providerInvariantNames = new();
         //private static readonly Dictionary<DbProviderType, DbProviderFactory> providerFactoies = new Dictionary<DbProviderType, DbProviderFactory>(20);
 
         static ProviderFactory()

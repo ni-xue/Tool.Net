@@ -15,7 +15,7 @@ namespace Tool.Sockets.SupportCode
         /// <summary>
         /// 日志
         /// </summary>
-        private static TcpEventQueue _messageQueue;
+        private static readonly TcpEventQueue _messageQueue;
 
         /// <summary>
         /// TCP连接公共的事件线程
@@ -37,10 +37,15 @@ namespace Tool.Sockets.SupportCode
          */
         private readonly ConcurrentQueue<GetQueOnEnum> _que;
 
-        /// <summary>
-        /// 当前锁
-        /// </summary>
-        private static readonly object _lockobj = new object();
+        /**
+         * 当前锁
+         */
+        //private static readonly object _lockobj = new();
+
+        static TcpEventQueue() 
+        {
+            _messageQueue = new TcpEventQueue();
+        }
 
         private TcpEventQueue()
         {
@@ -48,34 +53,20 @@ namespace Tool.Sockets.SupportCode
             _mre = new ManualResetEvent(false);
             _IsEnumOns = new ConcurrentDictionary<Enum, bool>();
 
-            _logthread = new Thread(new ThreadStart(TaskOnComplete))
+            _logthread = new Thread(TaskOnComplete)
             {
                 Name = "Tcp事件线程",
                 IsBackground = true,
                 Priority = ThreadPriority.Lowest //false https://blog.csdn.net/snakorse/article/details/43888847
             };
+
+            _logthread.Start();
         }
 
         /// <summary>
         /// 实现单例,不建议直接调用。
         /// </summary>
-        private static TcpEventQueue Instance
-        {
-            get
-            {
-                if (_messageQueue == null)
-                {
-                    lock (_lockobj)
-                    {
-                        if (_messageQueue == null)
-                        {
-                            _messageQueue = new TcpEventQueue();
-                        }
-                    }
-                }
-                return _messageQueue;
-            }
-        }
+        private static TcpEventQueue Instance => _messageQueue;
 
         private void TaskOnComplete()
         {
@@ -92,7 +83,7 @@ namespace Tool.Sockets.SupportCode
 
                 // 重新设置信号
                 _mre.Reset();
-                Thread.Sleep(1);
+                //Thread.Sleep(1);
             }
         }
 
@@ -102,24 +93,24 @@ namespace Tool.Sockets.SupportCode
         /// <param name="key">IP</param>
         /// <param name="enAction">事件枚举</param>
         /// <param name="action">委托事件</param>
-        public void Complete(string key, Enum enAction, object action)
+        public void Complete(string key, Enum enAction, Delegate action)
         {
             try
             {
-                lock (_lockobj)
-                {
+                //lock (_lockobj)
+                //{
                     if (!_mre.SafeWaitHandle.IsClosed)
                     {
-                        if (!_logthread.IsAlive)
-                        {
-                            _logthread.Start();
-                        }
+                        //if (!_logthread.IsAlive)
+                        //{
+                        //    _logthread.Start();
+                        //}
                         if (!_IsEnumOns.IsEmpty && _IsEnumOns.TryGetValue(enAction, out bool value) && value) return; //_IsEnumOns.Count > 0 
 
                         _que.Enqueue(new GetQueOnEnum(key, enAction, action));//Completed?.Invoke(key, enAction)
                         _mre.Set();//启动
                     }
-                }
+                //}
             }
             catch (Exception e)
             {
@@ -127,7 +118,7 @@ namespace Tool.Sockets.SupportCode
             }
         }
 
-        internal static void OnComplete(string key, Enum enAction, object action)
+        internal static void OnComplete(string key, Enum enAction, Delegate action)
         {
             Instance.Complete(key, enAction, action);
         }
@@ -140,12 +131,14 @@ namespace Tool.Sockets.SupportCode
         /// <returns>返回是否设置成功</returns>
         public static bool OnInterceptor(Enum enAction, bool state) 
         {
-            if (typeof(EnClient) == enAction.GetType() || typeof(EnServer) == enAction.GetType())
+            if (enAction is EnClient or EnServer) //(typeof(EnClient) == enAction.GetType() || typeof(EnServer) == enAction.GetType())
             {
-                if (!Instance._IsEnumOns.TryAdd(enAction, state))
-                {
-                    Instance._IsEnumOns[enAction] = state;
-                }
+                //if (!Instance._IsEnumOns.TryAdd(enAction, state))
+                //{
+                //    Instance._IsEnumOns[enAction] = state;
+                //}
+
+                _ = Instance._IsEnumOns.AddOrUpdate(enAction, state, (_, _) => state);
                 return true;
             }
             else

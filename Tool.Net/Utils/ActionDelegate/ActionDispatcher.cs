@@ -19,17 +19,17 @@ namespace Tool.Utils.ActionDelegate
         /// <summary>
         /// 是否有返回值，默认没有
         /// </summary>
-        public readonly bool IsVoid;
+        public bool IsVoid { get; }
 
         /// <summary>
         /// 调用接口的返回值
         /// </summary>
-        public readonly Type ReturnType;
+        public Type ReturnType { get; }
 
         /// <summary>
         /// 当前方法的执行信息
         /// </summary>
-        public readonly MethodInfo Method;
+        public MethodInfo Method { get; }
 
         private readonly Parameter[] _parameters;
 

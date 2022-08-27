@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,49 +15,47 @@ namespace Tool.Utils.Data
         /// <summary>
         /// 将实体转换为JSON格式字符串 （再三强调，要是实体，而且是实集合必须是<see cref="List{T}"/>。）
         /// </summary>
-        /// <param name="obj">实体</param>
+        /// <param name="list">实体</param>
         /// <returns>返回JSON字符串</returns>
-        public static string EntitysToJson(this object obj)
+        public static string EntitysToJson(this IList list)
         {
-            return EntitysToJson(obj);
+            return EntitysToJson(list);
         }
 
         /// <summary>
         /// 将实体转换为JSON格式字符串 （再三强调，要是实体，而且是实集合必须是<see cref="List{T}"/>。）
         /// </summary>
-        /// <param name="obj">实体</param>
+        /// <param name="list">实体</param>
         /// <param name="IsDate">ToJson格式时间，启用转字符串</param>
         /// <returns>返回JSON字符串</returns>
-        public static string EntitysToJson(this object obj, bool IsDate)
+        public static string EntitysToJson(this IList list, bool IsDate)
         {
-            return EntitysToJson(obj, IsDate, null);
+            return EntitysToJson(list, IsDate, null);
         }
 
         /// <summary>
         /// 将实体转换为JSON格式字符串 （再三强调，要是实体，而且是实集合必须是<see cref="List{T}"/>。）
         /// </summary>
-        /// <param name="obj">实体</param>
+        /// <param name="list">实体</param>
         /// <param name="IsDate">ToJson格式时间，启用转字符串</param>
         /// <param name="ToDateString">Date.ToString()的写法。</param>
         /// <returns>返回JSON字符串</returns>
-        public static string EntitysToJson(this object obj, bool IsDate, string ToDateString)
+        public static string EntitysToJson(this IList list, bool IsDate, string ToDateString)
         {
-            if (obj == null)
+            if (list == null)
             {
                 throw new System.SystemException("该object为空！");
             }
 
-            var list = (dynamic)obj;
-
-            List<IDictionary<string, object>> _list = new List<IDictionary<string, object>>();
+            List<IDictionary<string, object>> _list = new();
 
             foreach (object _obj in list)
             {
-                IDictionary<string, object> keyValuePairs = _obj.ToIDictionary();
+                IDictionary<string, object> keyValuePairs = _obj.GetDictionary();
 
                 if (IsDate)
                 {
-                    Dictionary<string, object> childRow = new Dictionary<string, object>();
+                    Dictionary<string, object> childRow = new();
 
                     foreach (var Pairs in keyValuePairs)
                     {
@@ -99,7 +98,7 @@ namespace Tool.Utils.Data
         /// <param name="match">条件</param>
         /// <param name="routs">List数组</param>
         /// <returns>该方法返回，成功，或失败。</returns>
-        public static bool TrueForAll<T>(this List<T> routs, Predicate<T> match) where T : new()
+        public static bool TrueForAll<T>(this IList<T> routs, Predicate<T> match) where T : new()
         {
             if (match == null)
             {
@@ -137,7 +136,7 @@ namespace Tool.Utils.Data
         /// <param name="index">从下标N开始</param>
         /// <param name="count">到下标N结束</param>
         /// <returns>返回一部分的数组内容</returns>
-        public static List<T> GetArrayIndex<T>(this List<T> list, int index, int count) where T : new()
+        public static List<T> GetArrayIndex<T>(this IList<T> list, int index, int count) where T : new()
         {
             if (list == null)
             {
@@ -163,7 +162,7 @@ namespace Tool.Utils.Data
             {
                 throw new System.SystemException("count超出了数组，数组越界！");
             }
-            List<T> obj1 = new List<T>();
+            List<T> obj1 = new();
 
             for (int i = index; i < count; i++)
             {

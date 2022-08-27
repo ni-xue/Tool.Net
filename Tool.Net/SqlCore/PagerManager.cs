@@ -104,47 +104,49 @@ namespace Tool.SqlCore
 		/// <returns>返回查询的SQL字段字符串</returns>
 		public static string GetFieldString(string[] fields, string[] fieldAlias)
 		{
-			if (fields == null)
-			{
-				fields = new string[]
-				{
-					"*"
-				};
-			}
-			string text = "";
-			if (fieldAlias == null)
-			{
-				for (int i = 0; i < fields.Length; i++)
-				{
-					text = text + " " + fields[i];
-					if (i != fields.Length - 1)
-					{
-						text += " , ";
-					}
-					else
-					{
-						text += " ";
-					}
-				}
-				return text;
-			}
-			for (int i = 0; i < fields.Length; i++)
-			{
-				text = text + " " + fields[i];
-				if (fieldAlias[i] != null)
-				{
-					text = text + " as " + fieldAlias[i];
-				}
-				if (i != fields.Length - 1)
-				{
-					text += " , ";
-				}
-				else
-				{
-					text += " ";
-				}
-			}
-			return text;
+			fields ??= new string[]{ "*" };
+			StringBuilder str = new();
+            for (int i = 0; i < fields.Length; i++)
+            {
+				str.AppendFormat(" {0}{1}, ", fields[i], fieldAlias == null ? string.Empty : $" as {fieldAlias[i]}");
+            }
+			str.Insert(str.Length - 2, ' ');
+            return str.ToString(0, str.Length - 2);
+
+			//string text = "";
+			//if (fieldAlias == null)
+			//{
+			//	for (int i = 0; i < fields.Length; i++)
+			//	{
+			//		text = $"{text} {fields[i]}";
+			//		if (i != fields.Length - 1)
+			//		{
+			//			text += " , ";
+			//		}
+			//		else
+			//		{
+			//			text += " ";
+			//		}
+			//	}
+			//	return text;
+			//}
+			//for (int i = 0; i < fields.Length; i++)
+			//{
+			//	text = $"{text} {fields[i]}";
+			//	if (fieldAlias[i] != null)
+			//	{
+			//		text = $"{text} as {fieldAlias[i]}";
+			//	}
+			//	if (i != fields.Length - 1)
+			//	{
+			//		text += " , ";
+			//	}
+			//	else
+			//	{
+			//		text += " ";
+			//	}
+			//}
+			//return text;
 		}
 
 		///// <summary>

@@ -495,20 +495,19 @@ namespace Tool
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static object MapTo(object obj_T, string Methods, params object[] parameter)
         {
-            using (TypeInvoke asyncInvoke = new TypeInvoke(obj_T.GetType(), obj_T))
+            //using
+            TypeInvoke asyncInvoke = new TypeInvoke(obj_T.GetType(), obj_T);
+            if (!asyncInvoke.IsMethod(Methods, true))
             {
-                if (!asyncInvoke.IsMethod(Methods, true))
-                {
-                    throw new System.SystemException(string.Format("该类：（{0}）下面不包含这个方法名：（{1}）。", asyncInvoke.ToString(), Methods));
-                }
-                if (asyncInvoke.GetParameter(Methods).Length != parameter.Length)
-                {
-                    throw new System.SystemException(string.Format("该类：（{0}）下面的方法：（{1}）与指定的参数不一致。", asyncInvoke.ToString(), Methods));
-                }
-
-                //操作
-                return asyncInvoke.Invoke(Methods, parameter);
+                throw new System.SystemException(string.Format("该类：（{0}）下面不包含这个方法名：（{1}）。", asyncInvoke.ToString(), Methods));
             }
+            if (asyncInvoke.GetParameter(Methods).Length != parameter.Length)
+            {
+                throw new System.SystemException(string.Format("该类：（{0}）下面的方法：（{1}）与指定的参数不一致。", asyncInvoke.ToString(), Methods));
+            }
+
+            //操作
+            return asyncInvoke.Invoke(Methods, parameter);
         }
 
         /// <summary>
@@ -622,11 +621,11 @@ namespace Tool
                 throw new System.SystemException("该object为空！");
             }
 
-            IDictionary<string, object> keyValuePairs = obj.ToIDictionary();
+            IDictionary<string, object> keyValuePairs = obj.GetDictionary();
 
             if (IsDate)
             {
-                Dictionary<string, object> childRow = new Dictionary<string, object>();
+                Dictionary<string, object> childRow = new();
 
                 foreach (var Pairs in keyValuePairs)
                 {

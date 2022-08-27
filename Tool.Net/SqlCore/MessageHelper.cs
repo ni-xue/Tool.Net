@@ -32,10 +32,7 @@ namespace Tool.SqlCore
         /// <returns>返回存储过程对象<see cref="Message"/></returns>
         public static Message GetMessage(this DbHelper database, string procName, List<DbParameter> prams)
         {
-            if (prams == null)
-            {
-                prams = new List<DbParameter>();
-            }
+            prams ??= new List<DbParameter>();
             database.RunProc(procName, prams);
             return MessageHelper.GetMessage(prams);
         }
@@ -64,12 +61,8 @@ namespace Tool.SqlCore
         /// <returns>返回存储过程对象<see cref="Message"/></returns>
         public static Message GetMessageForDataSet(this DbHelper database, string procName, List<DbParameter> prams)
         {
-            if (prams == null)
-            {
-                prams = new List<DbParameter>();
-            }
-            DataSet entity = null;
-            database.RunProc(procName, prams, out entity);
+            prams ??= new List<DbParameter>();
+            database.RunProc(procName, prams, out DataSet entity);
             Message message = MessageHelper.GetMessage(prams);
             if (message.MessageID == 0)
             {
@@ -108,10 +101,7 @@ namespace Tool.SqlCore
         /// <returns>返回存储过程对象<see cref="Message"/></returns>
         public static Message GetMessageForObject<T>(this DbHelper database, string procName, List<DbParameter> prams)
         {
-            if (prams == null)
-            {
-                prams = new List<DbParameter>();
-            }
+            prams ??= new List<DbParameter>();
             database.RunProc(procName, prams, out DataSet dataSet);
             Message message = MessageHelper.GetMessage(prams);
             if (message.MessageID == 0)
@@ -152,10 +142,7 @@ namespace Tool.SqlCore
         /// <returns>返回存储过程对象<see cref="Message"/></returns>
         public static Message GetMessageForObjectList<T>(this DbHelper database, string procName, List<DbParameter> prams)
         {
-            if (prams == null)
-            {
-                prams = new List<DbParameter>();
-            }
+            prams ??= new List<DbParameter>();
             database.RunProc(procName, prams, out DataSet dataSet);
             Message message = MessageHelper.GetMessage(prams);
             if (message.MessageID == 0)
@@ -196,10 +183,7 @@ namespace Tool.SqlCore
         /// <returns>泛型对象</returns>
         public static T GetObject<T>(this DbHelper database, string procName, List<DbParameter> prams)
         {
-            if (prams == null)
-            {
-                prams = new List<DbParameter>();
-            }
+            prams ??= new List<DbParameter>();
             return database.RunProcObject<T>(procName, prams);
         }
 
@@ -243,10 +227,7 @@ namespace Tool.SqlCore
         /// <returns>泛型数组对象</returns>
         public static IList<T> GetObjectList<T>(this DbHelper database, string procName, List<DbParameter> prams)
         {
-            if (prams == null)
-            {
-                prams = new List<DbParameter>();
-            }
+            prams ??= new List<DbParameter>();
             return database.RunProcObjectList<T>(procName, prams);
         }
 
@@ -290,10 +271,7 @@ namespace Tool.SqlCore
         private static List<DbParameter> SetParameterParams(this DbHelper database, object prams, DbParameter[] parameter)
         {
             List<DbParameter> commandParameters = database.SetParameterList(prams);
-            if (commandParameters == null)
-            {
-                commandParameters = new List<DbParameter>();
-            }
+            commandParameters ??= new List<DbParameter>();
             if (parameter != null && parameter.Length > 0)
             {
                 foreach (DbParameter _parameter in parameter)
@@ -301,7 +279,6 @@ namespace Tool.SqlCore
                     commandParameters.Add(_parameter);
                 }
             }
-
             return commandParameters;
         }
     }

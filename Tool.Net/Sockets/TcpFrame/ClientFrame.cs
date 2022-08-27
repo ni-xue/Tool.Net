@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using Tool.Sockets.SupportCode;
@@ -106,10 +107,10 @@ namespace Tool.Sockets.TcpFrame
             DataTcp.InitDicDataTcps<ClientFrame>();
 
             this.DataLength = DataLength * 1024 - 6; //这个6是上层包装必须满足大小
-            clientAsync = new TcpClientAsync(bufferSize, true, this.DataLength + 6, IsReconnect) { Millisecond = 0 };//这里就必须加回去
+            clientAsync = new TcpClientAsync(bufferSize, true, this.DataLength + 6, IsReconnect) { Millisecond = 0, IsThreadPool = false };//这里就必须加回去
 
-            clientAsync.SetCompleted(ClientAsync_Completed);
-            clientAsync.SetReceived(ClientAsync_Received);
+            clientAsync.SetCompleted(Client_Completed);
+            clientAsync.SetReceived(Client_Received);
         }
 
         /// <summary>
@@ -119,7 +120,12 @@ namespace Tool.Sockets.TcpFrame
         public void SetCompleted(Action<string, EnClient, DateTime> Completed)
         {
             if (this.Completed == null)
-                this.Completed = Completed;
+                UpdateCompleted(Completed);
+        }
+
+        internal void UpdateCompleted(Action<string, EnClient, DateTime> Completed)
+        {
+            this.Completed = Completed;
         }
 
         /// <summary>
@@ -150,10 +156,10 @@ namespace Tool.Sockets.TcpFrame
         }
 
         /**
-         * 异步发送消息
+         * 异步或同步发送消息
          * dataPacket 数据包
          */
-        private void SendAsync(DataPacket dataPacket)
+        private void SendOrAsync(DataPacket dataPacket)
         {//给定空包为100
             //分包算法
             dataPacket.SetMany(DataLength);
@@ -162,12 +168,12 @@ namespace Tool.Sockets.TcpFrame
             {
                 //byte[] listData = Encoding.UTF8.GetBytes(dataPacket.ToJson());
                 //string Json = dataPacket.StringData(); //Json();
-                byte[] listData = dataPacket.ByteData();//Encoding.UTF8.GetBytes(Json);
+                ArraySegment<byte> listData = dataPacket.ByteData();//Encoding.UTF8.GetBytes(Json);
                 //if (listData.Length > DataLength)
                 //{
                 //    throw new System.SystemException($"发送数据的包大于配置的包体大小！（发送包大小{listData.Length},本该最大大小{DataLength}。）");
                 //}
-                clientAsync.SendAsync(listData);
+                SendIsAsync(dataPacket.IsAsync, listData);
             }
             else
             {
@@ -185,11 +191,23 @@ namespace Tool.Sockets.TcpFrame
                 //    }
                 //    buffers[i] = listData;
                 //}
-                byte[][] buffers = dataPacket.ByteDatas();
-                clientAsync.SendAsync(buffers);
+                ArraySegment<byte>[] buffers = dataPacket.ByteDatas();
+                SendIsAsync(dataPacket.IsAsync, buffers);
             }
             Keep?.ResetTime();
             dataPacket.Dispose();
+        }
+
+        private void SendIsAsync(bool IsAsync, params ArraySegment<byte>[] Data)
+        {
+            if (ApiPacket.TcpAsync || IsAsync)
+            {
+                clientAsync.SendAsync(Data);
+            }
+            else
+            {
+                clientAsync.Send(Data);
+            }
         }
 
         /// <summary>
@@ -482,12 +500,9 @@ namespace Tool.Sockets.TcpFrame
             {
                 _threadObj.Response.OnTcpFrame = TcpFrameState.OnlyID;
                 _threadObj.AutoReset.Set();
-                _DataPacketThreads.TryAdd(clmidmt, _threadObj = new ThreadObj(clmidmt));
             }
-            else
-            {
-                _DataPacketThreads.TryAdd(clmidmt, _threadObj = new ThreadObj(clmidmt));
-            }
+
+            _DataPacketThreads.TryAdd(clmidmt, _threadObj = new ThreadObj(clmidmt));
 
             //DataPacket dataPacket = new DataPacket
             //{
@@ -503,7 +518,7 @@ namespace Tool.Sockets.TcpFrame
             //    Obj = msg,
             //};
 
-            _threadObj.Response.IsAsync = dataPacket.IsAsync;//是异步的？
+            //_threadObj.Response.IsAsync = dataPacket.IsAsync;//是异步的？
             //_threadObj.Response.OnTcpFrame = TcpFrameState.Timeout;
             //_threadObj.AutoReset.WaitOne(api.Millisecond);
             //if (_threadObj.Response.OnTcpFrame == TcpFrameState.Timeout)
@@ -513,7 +528,7 @@ namespace Tool.Sockets.TcpFrame
 
             try
             {
-                SendAsync(dataPacket);
+                SendOrAsync(dataPacket);
                 if (!_threadObj.AutoReset.WaitOne(Millisecond, true))
                 {
                     _threadObj.Response.OnTcpFrame = TcpFrameState.Timeout;
@@ -548,7 +563,7 @@ namespace Tool.Sockets.TcpFrame
                         {
                             try
                             {
-                                clientAsync.SendAsync(TcpResponse.KeepAlive);
+                                clientAsync.Send(TcpResponse.KeepAlive);
                             }
                             catch (Exception)
                             {
@@ -565,10 +580,13 @@ namespace Tool.Sockets.TcpFrame
         /**
          * 回调包信息
          */
-        private void ClientAsync_Received(string arg1, byte[] arg2)
+        private void Client_Received(TcpBytes bytes)
         {
             Keep?.ResetTime();
-            TcpResponse.Receiveds(arg1, arg2, ClientAsync_Received);
+            if (TcpResponse.Receiveds(bytes, out var dataPacket))
+            {
+                Client_Received(bytes, dataPacket);
+            }
             //string msg = Encoding.UTF8.GetString(arg2, 0, arg2.Length);
             //if (!string.IsNullOrEmpty(msg))
             //{
@@ -579,43 +597,18 @@ namespace Tool.Sockets.TcpFrame
         /**
          * 有效包处理
          */
-        private void ClientAsync_Received(string key, DataPacket json)
+        private void Client_Received(TcpBytes tcpBytes, DataPacket json)
         {
             try
             {
-                if (!json.IsServer) return;
+                //if (!json.IsServer) return;
 
-                if (!TcpResponse.IsComplete(ref json, _DataPacketThreads, Lock)) return;
+                if (!TcpResponse.IsComplete(false , ref json)) return;
 
-                OnComplete(key, EnClient.Receive);
+                OnComplete(tcpBytes.Key, EnClient.Receive);
                 if (json.IsSend) //表示服务器发包
                 {
-                    if (DataTcp.DicDataTcps.TryGetValue(TcpResponse.GetActionID(json), out DataTcp dataTcp))
-                    {
-                        DataBase handler = dataTcp.NewClass.Invoke();// Activator.CreateInstance(dataTcp.Action.Method.DeclaringType) as DataBase;
-                        using (handler)
-                        {
-                            DataPacket dataPacket = handler.Request(json, key, dataTcp);
-                            SendAsync(dataPacket);
-                        }
-                    }
-                    else
-                    {
-                        DataPacket dataPacket = new()
-                        {
-                            ClassID = json.ClassID,
-                            ActionID = json.ActionID,
-                            OnlyId = json.OnlyId,
-                            //OnlyID = json.OnlyID,
-                            IsSend = false,
-                            IsErr = true,
-                            IsServer = false,
-                            IsAsync = json.IsAsync,
-                            IpPort = json.IpPort,
-                            Obj = "接口不存在",
-                        };
-                        SendAsync(dataPacket);
-                    }
+                    System.Threading.ThreadPool.UnsafeQueueUserWorkItem(SetPool, (json, tcpBytes.Key), false);
                 }
                 else //表示服务器回包
                 {
@@ -623,20 +616,21 @@ namespace Tool.Sockets.TcpFrame
                     //{
                     if (_DataPacketThreads.TryRemove(json.OnlyID, out ThreadObj Threads))
                     {
-                        Threads.Response.OnTcpFrame = json.IsErr ? TcpFrameState.Exception : TcpFrameState.Success;
-
-                        if (!json.IsErr)
-                        {
-                            Threads.Response.Text = json.Obj;
-                            Threads.Response.Bytes = json.Bytes;
-                        }
-                        else
-                        {
-                            Threads.Response.Exception = new Exception(json.Obj);
-                        }
-                        Threads.Response.IsAsync = json.IsAsync;//是异步的？
+                        //Threads.Response.OnTcpFrame = json.IsErr ? TcpFrameState.Exception : TcpFrameState.Success;
+                        //if (!json.IsErr)
+                        //{
+                        //    Threads.Response.Text = json.Text;
+                        //    Threads.Response.Bytes = json.Bytes.ToArray();
+                        //}
+                        //else
+                        //{
+                        //    Threads.Response.Exception = new Exception(json.Text);
+                        //}
+                        //Threads.Response.IsAsync = json.IsAsync;//是异步的？
+                        Threads.Response.Complete(ref json);
                         Threads.AutoReset.Set();
                     }
+                    json.Dispose();
                     //}
                     //else
                     //{
@@ -676,15 +670,56 @@ namespace Tool.Sockets.TcpFrame
                     //    }
                     //}
                 }
-                json.Dispose();
             }
             catch (Exception ex)
             {
+                json.Dispose();
                 Log.Error("客户端消息异常", ex, "Log/TcpFrame");
+            }
+
+            void SetPool((DataPacket packet, string key) data)
+            {
+                try
+                {
+                    if (DataTcp.DicDataTcps.TryGetValue(data.packet.ActionKey, out DataTcp dataTcp))
+                    {
+                        DataBase handler = dataTcp.NewClass.Invoke();// Activator.CreateInstance(dataTcp.Action.Method.DeclaringType) as DataBase;
+                        using (handler)
+                        {
+                            DataPacket dataPacket = handler.Request(data.packet, data.key, dataTcp);
+                            SendOrAsync(dataPacket);
+                        }
+                    }
+                    else
+                    {
+                        DataPacket dataPacket = new()
+                        {
+                            ClassID = data.packet.ClassID,
+                            ActionID = data.packet.ActionID,
+                            OnlyId = data.packet.OnlyId,
+                            //OnlyID = json.OnlyID,
+                            IsSend = false,
+                            IsErr = true,
+                            IsServer = false,
+                            IsAsync = data.packet.IsAsync,
+                            IpPort = data.packet.IpPort,
+                            Text = "接口不存在",
+                        };
+                        SendOrAsync(dataPacket);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("客户端消息异常", ex, "Log/TcpFrame");
+                }
+                finally
+                {
+                    data.packet.Dispose();
+                }
             }
         }
 
-        private void ClientAsync_Completed(string arg1, EnSocketAction arg2)
+        private void Client_Completed(string arg1, EnSocketAction arg2)
         {
             switch (arg2)
             {

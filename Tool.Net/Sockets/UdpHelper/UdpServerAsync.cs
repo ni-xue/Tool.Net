@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -17,18 +18,18 @@ namespace Tool.Sockets.UdpHelper
         private UdpClient listener = null;
 
         //用于控制异步接受连接
-        private readonly ManualResetEvent doConnect = new ManualResetEvent(false);
+        private readonly ManualResetEvent doConnect = new(false);
         //用于控制异步接收数据
-        private readonly ManualResetEvent doReceive = new ManualResetEvent(false);
+        private readonly ManualResetEvent doReceive = new(false);
         //标识服务端连接是否关闭
         private bool isClose = false;
-        private LazyConcurrentDictionary<string, UdpClient> listClient = new LazyConcurrentDictionary<string, UdpClient>();
+        private ConcurrentDictionary<string, UdpClient> listClient = new();
         /// <summary>
         /// 已建立连接的集合
         /// key:ip:port
         /// value:TcpClient
         /// </summary>
-        public LazyConcurrentDictionary<string, UdpClient> ListClient
+        public ConcurrentDictionary<string, UdpClient> ListClient
         {
             get { return listClient; }
             private set { listClient = value; }
@@ -68,7 +69,7 @@ namespace Tool.Sockets.UdpHelper
             }
             //listener = new TcpListener(new IPEndPoint(ipAddress, port));
             //listener.Start();
-            IPEndPoint localIpep = new IPEndPoint(ipAddress, port); // 本机IP，指定的端口号
+            IPEndPoint localIpep = new(ipAddress, port); // 本机IP，指定的端口号
 
             listener = new UdpClient(localIpep);
             ThreadPool.QueueUserWorkItem(x =>
@@ -80,8 +81,6 @@ namespace Tool.Sockets.UdpHelper
                     doConnect.WaitOne();
                 }
             });
-
-
         }
 
         /// <summary>
@@ -125,7 +124,7 @@ namespace Tool.Sockets.UdpHelper
                 //    OnComplete(key, EnSocketAction.Close);
                 //    return;
                 //}
-                UdpStateObject obj = new UdpStateObject
+                UdpStateObject obj = new()
                 {
                     Client = client
                 };
@@ -153,7 +152,7 @@ namespace Tool.Sockets.UdpHelper
             string key = string.Format("{0}:{1}", iep.Address.ToString(), iep.Port);
             if (!ListClient.ContainsKey(key))
             {
-                ListClient.Add(key, client);
+                ListClient.TryAdd(key, client);
                 OnComplete(key, EnSocketAction.Connect);
             }
 

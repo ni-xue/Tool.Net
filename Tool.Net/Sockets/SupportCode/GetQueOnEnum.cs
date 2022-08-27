@@ -16,7 +16,7 @@ namespace Tool.Sockets.SupportCode
         /// <param name="Key">IP+端口</param>
         /// <param name="EnumAction">事件枚举</param>
         /// <param name="Completed">委托事件</param>
-        public GetQueOnEnum(string Key, Enum EnumAction, object Completed)
+        public GetQueOnEnum(string Key, Enum EnumAction, Delegate Completed)
         {
             this.Key = Key;
             this.EnumAction = EnumAction;
@@ -31,13 +31,23 @@ namespace Tool.Sockets.SupportCode
         {
             try
             {
-                if (typeof(EnClient) == EnumAction.GetType())
+                //switch (EnumAction)
+                //{
+                //    case EnClient:
+                //        (EnCompleted as Action<string, EnClient, DateTime>)?.Invoke(Key, (EnClient)EnumAction, Time);
+                //        break;
+                //    case EnServer:
+                //        (EnCompleted as Action<string, EnServer, DateTime>)?.Invoke(Key, (EnServer)EnumAction, Time);
+                //        break;
+                //}
+
+                if (EnumAction is EnClient client) // (typeof(EnClient) == EnumAction.GetType())
                 {
-                    ((Action<string, EnClient, DateTime>)EnCompleted)?.Invoke(Key, (EnClient)EnumAction, Time);
+                    (EnCompleted as Action<string, EnClient, DateTime>)?.Invoke(Key, client, Time);
                 }
-                else if (typeof(EnServer) == EnumAction.GetType())
+                else if (EnumAction is EnServer server) //(typeof(EnServer) == EnumAction.GetType())
                 {
-                    ((Action<string, EnServer, DateTime>)EnCompleted)?.Invoke(Key, (EnServer)EnumAction, Time);
+                    (EnCompleted as Action<string, EnServer, DateTime>)?.Invoke(Key, server, Time);
                 }
             }
             catch (Exception e)
@@ -59,7 +69,7 @@ namespace Tool.Sockets.SupportCode
         /// <summary>
         /// 回调函数
         /// </summary>
-        public object EnCompleted { get; set; }
+        public Delegate EnCompleted { get; set; }
 
         /// <summary>
         /// 客户端或服务器枚举

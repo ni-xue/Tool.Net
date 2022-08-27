@@ -245,7 +245,7 @@ namespace Tool.Web.Api
         /// </summary>
         /// <param name="obj">要写入 HTTP 输出流的 System.Object。</param>
         /// <param name="JsonOptions">Json 特殊格式输出</param>
-        public void Json(object obj, System.Text.Json.JsonSerializerOptions JsonOptions) 
+        public void Json(object obj, System.Text.Json.JsonSerializerOptions JsonOptions)
         {
             JsonAsync(obj, JsonOptions).Wait();
         }
@@ -254,7 +254,7 @@ namespace Tool.Web.Api
         /// Json 格式输出，将 System.Object 写入 HTTP 响应流。 
         /// </summary>
         /// <param name="obj">要写入 HTTP 输出流的 System.Object。</param>
-        public async Task JsonAsync(object obj) 
+        public async Task JsonAsync(object obj)
         {
             await JsonAsync(obj, null);
         }
@@ -282,7 +282,7 @@ namespace Tool.Web.Api
                     }
                 }
 
-               await Response.WriteAsync(json);
+                await Response.WriteAsync(json);
             }
             else
             {
@@ -307,7 +307,7 @@ namespace Tool.Web.Api
         {
             if (Response != null)
             {
-               await Response.WriteAsync(obj);
+                await Response.WriteAsync(obj);
             }
             else
             {
@@ -332,7 +332,7 @@ namespace Tool.Web.Api
         {
             if (Response != null)
             {
-               await Response.WriteAsync(test);
+                await Response.WriteAsync(test);
             }
             else
             {
@@ -530,7 +530,7 @@ namespace Tool.Web.Api
             Ashx ashx = this.RouteData.GetAshx;
             try
             {
-                Action action = () => { ashx.Action.VoidExecute(this, _objs); }; //AshxExtension.Invoke(ashx.Method, this);
+                void action() => ashx.Action.VoidExecute(this, _objs); //AshxExtension.Invoke(ashx.Method, this);
 
                 action();
 
@@ -568,7 +568,7 @@ namespace Tool.Web.Api
                 {
                     //Func<Task> func = () => { return ashx.Action.Execute(this, _objs) as Task; };
 
-                    async Task func() => await (Task)ashx.Action.Execute(this, _objs); //ThreadLocal AsyncLocal
+                    async Task func() => await (ashx.Action.Execute(this, _objs) as Task); //ThreadLocal AsyncLocal
 
                     await func(); //AshxExtension.Invoke(ashx.Method, this, _objs as object[]) as Task; //
                 }
@@ -608,34 +608,28 @@ namespace Tool.Web.Api
             //    response.Headers.Add("IsFlush", "false");
             //}
 
-            if (StaticData.StaticAshxEvents.TryRemove(onAshxEvent.GuId, out OnAshxEvent onAshxEvent1))
+            if (StaticData.AshxEvents.TryRemove(onAshxEvent.GuId, out OnAshxEvent onAshxEvent1))
             {
                 onAshxEvent1.OnAshx = OnAshxEventState.OnlyID;
-                onAshxEvent1.ManualReset.Set();
+                onAshxEvent1.ManualReset?.Set();
             }
 
-            StaticData.StaticAshxEvents.TryAdd(onAshxEvent.GuId, onAshxEvent);
+            StaticData.AshxEvents.TryAdd(onAshxEvent.GuId, onAshxEvent);
 
-            Task task = Task.Factory.StartNew((_event) =>
+            Task task = Task.Run(() =>
             {
-                OnAshxEvent _onAshxEvent = _event as OnAshxEvent;
+                onAshxEvent.ManualReset = new ManualResetEvent(false);
 
-                _onAshxEvent.ManualReset = new ManualResetEvent(false);
-
-                if (!_onAshxEvent.ManualReset.WaitOne(_onAshxEvent.DelayTime))
+                if (!onAshxEvent.ManualReset.WaitOne(onAshxEvent.DelayTime))
                 {
-                    _onAshxEvent.OnAshx = OnAshxEventState.Timeout;
-                    StaticData.StaticAshxEvents.TryRemove(_onAshxEvent.GuId, out _);
+                    StaticData.AshxEvents.TryRemove(onAshxEvent.GuId, out _);
+                    onAshxEvent.OnAshx = OnAshxEventState.Timeout;
                 }
 
-                _onAshxEvent.ActionEvent(_onAshxEvent);
-
-            }, onAshxEvent, TaskCreationOptions.PreferFairness);
-
-            _ = task.ContinueWith((t) =>
-            {
-                OnAshxEvent _onAshxEvent = t.AsyncState as OnAshxEvent;
-                _onAshxEvent.Dispose();
+                using (onAshxEvent)
+                {
+                    onAshxEvent.Revive();
+                }
             });
 
             await task;
@@ -682,7 +676,7 @@ namespace Tool.Web.Api
         /// <returns></returns>
         protected virtual void OnResult(Ashx ashx)
         {
-            
+
         }
 
         void IHttpAsynApi.ContinueWith(Task task)

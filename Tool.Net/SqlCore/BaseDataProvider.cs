@@ -108,7 +108,7 @@ namespace Tool.SqlCore
         /// <returns></returns>
         protected virtual PagerSet GetPagerSet(PagerParameters prams)
         {
-            return this.Database.Provider.GetPagerSet(this.Database, prams); // this.PagerHelper.GetPagerSet(prams);
+            return this.Database.GetPagerSet(prams); // this.PagerHelper.GetPagerSet(prams);
         }
 
         ///// <summary>
@@ -138,9 +138,9 @@ namespace Tool.SqlCore
         /// <param name="tableName">表名</param>
         /// <typeparam name="T">自己实现的单表操作类</typeparam>
         /// <returns></returns>
-        protected virtual ITableProvider GetTableProvider<T>(string tableName) where T : ITableProvider
+        protected virtual ITableProvider GetTableProvider<T>(string tableName) where T : ITableProvider, new()
         {
-            ITableProvider provider = Activator.CreateInstance<T>();
+            ITableProvider provider = new T();
             provider.Initialize(this.Database, tableName);
             return provider;//new T(this.Database, tableName);
         }

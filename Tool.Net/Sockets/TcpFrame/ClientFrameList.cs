@@ -29,6 +29,11 @@ namespace Tool.Sockets.TcpFrame
         private List<ClientFrame> ClientFrames { get; set; }
 
         /// <summary>
+        /// 当前拥有的队列数
+        /// </summary>
+        public int ClientCount => ClientFrames.Count;
+
+        /// <summary>
         /// 返回加入的ClientFrame对象
         /// </summary>
         /// <param name="i">下标</param>
@@ -42,69 +47,24 @@ namespace Tool.Sockets.TcpFrame
         /// 初始化一次性加入队列服务器
         /// </summary>
         /// <param name="clientFrames">队列服务器</param>
-        public ClientFrameList(List<ClientFrame> clientFrames)
+        public ClientFrameList(IList<ClientFrame> clientFrames) : this(clientFrames.ToArray())
         {
-            LockCount = -1;
-            if (clientFrames == null)
-            {
-                throw new Exception("服务器队列不能为空");
-            }
-            else if (clientFrames.Count < 2)
-            {
-                throw new Exception("服务器队列必须大于2个以上");
-            }
-            ClientFrames = clientFrames;
-
-            ClientFrames.ForEach(x => { x.SetCompleted(SetCompleted); });
         }
 
         /// <summary>
         /// 初始化一次性加入队列服务器
         /// </summary>
         /// <param name="clientFrames">队列服务器</param>
-        public ClientFrameList(IList<ClientFrame> clientFrames)
+        public ClientFrameList(IEnumerable<ClientFrame> clientFrames) : this(clientFrames.ToArray())
         {
-            LockCount = -1;
-            if (clientFrames == null)
-            {
-                throw new Exception("服务器队列不能为空");
-            }
-            else if (clientFrames.Count < 2)
-            {
-                throw new Exception("服务器队列必须大于2个以上");
-            }
-            ClientFrames = new List<ClientFrame>(clientFrames);
-
-            ClientFrames.ForEach(x => { x.SetCompleted(SetCompleted); });
         }
 
         /// <summary>
         /// 初始化一次性加入队列服务器
         /// </summary>
         /// <param name="clientFrames">队列服务器</param>
-        public ClientFrameList(IEnumerable<ClientFrame> clientFrames)
+        public ClientFrameList(params ClientFrame[] clientFrames) : this()
         {
-            LockCount = -1;
-            if (clientFrames == null)
-            {
-                throw new Exception("服务器队列不能为空");
-            }
-            else if (clientFrames.Count() < 2)
-            {
-                throw new Exception("服务器队列必须大于2个以上");
-            }
-            ClientFrames = new List<ClientFrame>(clientFrames);
-
-            ClientFrames.ForEach(x => { x.SetCompleted(SetCompleted); });
-        }
-
-        /// <summary>
-        /// 初始化一次性加入队列服务器
-        /// </summary>
-        /// <param name="clientFrames">队列服务器</param>
-        public ClientFrameList(params ClientFrame[] clientFrames)
-        {
-            LockCount = -1;
             if (clientFrames == null)
             {
                 throw new Exception("服务器队列不能为空");
@@ -114,8 +74,32 @@ namespace Tool.Sockets.TcpFrame
                 throw new Exception("服务器队列必须大于2个以上");
             }
             ClientFrames = new List<ClientFrame>(clientFrames);
+            ClientFrames.ForEach(x => { x.UpdateCompleted(SetCompleted); });
+        }
 
-            ClientFrames.ForEach(x => { x.SetCompleted(SetCompleted); });
+        /// <summary>
+        /// 初始化 可为空
+        /// </summary>
+        /// <param name="capacity">默认大小</param>
+        public ClientFrameList(int capacity) : this()
+        {
+            ClientFrames = new List<ClientFrame>(capacity);
+            ClientFrames.ForEach(x => { x.UpdateCompleted(SetCompleted); });
+        }
+
+        private ClientFrameList() 
+        {
+            LockCount = -1;
+        }
+
+        /// <summary>
+        /// 主动添加客户端服务
+        /// </summary>
+        /// <param name="clientFrame">客户端</param>
+        public void AddClientFrame(ClientFrame clientFrame) 
+        {
+            clientFrame.UpdateCompleted(SetCompleted);
+            ClientFrames.Add(clientFrame);
         }
 
         private void SetCompleted(string arg1, EnClient arg2, DateTime arg3)
@@ -132,11 +116,11 @@ namespace Tool.Sockets.TcpFrame
         public TcpResponse Send(ApiPacket api, out int i)
         {
             i = Interlocked.Increment(ref LockCount);
-            if (ClientFrames.Count - 1 == i)
+            if (ClientCount - 1 == i)
             {
-                Interlocked.Add(ref LockCount, -ClientFrames.Count);
+                Interlocked.Add(ref LockCount, -ClientCount);
             }
-            if (i >= ClientFrames.Count)
+            if (i >= ClientCount)
             {
                 i = 0;
             }
@@ -151,11 +135,11 @@ namespace Tool.Sockets.TcpFrame
         public async Task<(TcpResponse, int i)> SendAsync(ApiPacket api)
         {
             int i = Interlocked.Increment(ref LockCount);
-            if (ClientFrames.Count - 1 == i)
+            if (ClientCount - 1 == i)
             {
-                Interlocked.Add(ref LockCount, -ClientFrames.Count);
+                Interlocked.Add(ref LockCount, -ClientCount);
             }
-            if (i >= ClientFrames.Count)
+            if (i >= ClientCount)
             {
                 i = 0;
             }
@@ -172,11 +156,11 @@ namespace Tool.Sockets.TcpFrame
         public TcpResponse SendIpIdea(string IpPort, ApiPacket api, out int i)
         {
             i = Interlocked.Increment(ref LockCount);
-            if (ClientFrames.Count - 1 == i)
+            if (ClientCount - 1 == i)
             {
-                Interlocked.Add(ref LockCount, -ClientFrames.Count);
+                Interlocked.Add(ref LockCount, -ClientCount);
             }
-            if (i >= ClientFrames.Count)
+            if (i >= ClientCount)
             {
                 i = 0;
             }
@@ -192,11 +176,11 @@ namespace Tool.Sockets.TcpFrame
         public async Task<(TcpResponse, int i)> SendIpIdeaAsync(string IpPort, ApiPacket api)
         {
             int i = Interlocked.Increment(ref LockCount);
-            if (ClientFrames.Count - 1 == i)
+            if (ClientCount - 1 == i)
             {
-                Interlocked.Add(ref LockCount, -ClientFrames.Count);
+                Interlocked.Add(ref LockCount, -ClientCount);
             }
-            if (i >= ClientFrames.Count)
+            if (i >= ClientCount)
             {
                 i = 0;
             }
@@ -210,7 +194,7 @@ namespace Tool.Sockets.TcpFrame
         /// <returns></returns>
         public bool Reconnection(int i)
         {
-            if (i > -1 && i < ClientFrames.Count)
+            if (i > -1 && i < ClientCount)
             {
                 return ClientFrames[i].Reconnection();
             }
@@ -228,7 +212,7 @@ namespace Tool.Sockets.TcpFrame
         /// <returns>返回数据包</returns>
         public TcpResponse Send(int i, ApiPacket api)
         {
-            if (i >= ClientFrames.Count)
+            if (i >= ClientCount)
             {
                 i = 0;
             }
@@ -242,7 +226,7 @@ namespace Tool.Sockets.TcpFrame
         /// <param name="api">接口调用信息</param>
         public async Task<TcpResponse> SendAsync(int i, ApiPacket api)
         {
-            if (i >= ClientFrames.Count)
+            if (i >= ClientCount)
             {
                 i = 0;
             }

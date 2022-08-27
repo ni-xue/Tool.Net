@@ -144,7 +144,7 @@
             存储事件队列的类
             </summary>
         </member>
-        <member name="M:Tool.Sockets.SupportCode.GetQueOnEnum.#ctor(System.String,System.Enum,System.Object)">
+        <member name="M:Tool.Sockets.SupportCode.GetQueOnEnum.#ctor(System.String,System.Enum,System.Delegate)">
             <summary>
             构造服务端或客户端事件
             </summary>
@@ -265,17 +265,15 @@
         <member name="F:Tool.Sockets.SupportCode.TcpEventQueue._que">
             事件消息Queue
         </member>
-        <member name="F:Tool.Sockets.SupportCode.TcpEventQueue._lockobj">
-            <summary>
+        <member name="M:Tool.Sockets.SupportCode.TcpEventQueue.#cctor">
             当前锁
-            </summary>
         </member>
         <member name="P:Tool.Sockets.SupportCode.TcpEventQueue.Instance">
             <summary>
             实现单例,不建议直接调用。
             </summary>
         </member>
-        <member name="M:Tool.Sockets.SupportCode.TcpEventQueue.Complete(System.String,System.Enum,System.Object)">
+        <member name="M:Tool.Sockets.SupportCode.TcpEventQueue.Complete(System.String,System.Enum,System.Delegate)">
             <summary>
             调用TCP事件队列线程
             </summary>
@@ -344,7 +342,7 @@
             <param name="Client">对象</param>
             <param name="DataLength">包的大小</param>
         </member>
-        <member name="M:Tool.Sockets.SupportCode.TcpStateObject.GetBuffers(System.Boolean,System.Int32,System.Byte[][])">
+        <member name="M:Tool.Sockets.SupportCode.TcpStateObject.GetBuffers(System.Boolean,System.Int32,System.ArraySegment{System.Byte}[])">
             <summary>
             将包重新封装打包
             </summary>
@@ -374,22 +372,40 @@
             <param name="Client"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Sockets.SupportCode.TcpStateObject.GetDataSend(System.Byte[],System.Int32)">
+        <member name="M:Tool.Sockets.SupportCode.TcpStateObject.SetDataHead(System.Span{System.Byte},System.Int32,System.Int32)">
+            给包加头保证其数据完整性(内置)
+            listData 数据
+            datalength 限制数据量
+        </member>
+        <member name="M:Tool.Sockets.SupportCode.TcpStateObject.GetDataSend(System.Int32,System.Int32)">
             给包加头保证其数据完整性
             listData 数据
             datalength 限制数据量
         </member>
-        <member name="M:Tool.Sockets.SupportCode.TcpStateObject.GetDataHead(System.Byte[])">
+        <member name="M:Tool.Sockets.SupportCode.TcpStateObject.GetDataHead(System.ReadOnlySpan{System.Byte})">
             给包加头保证其数据完整性
             headby 数据头
+        </member>
+        <member name="F:Tool.Sockets.SupportCode.TcpStateObject.HeadSize">
+            <summary>
+            默认大小
+            </summary>
         </member>
         <member name="P:Tool.Sockets.SupportCode.TcpStateObject.Client">
             <summary>
             为 TCP 网络服务提供客户端连接。
             </summary>
         </member>
+        <member name="F:Tool.Sockets.SupportCode.TcpStateObject.doReceive">
+            <summary>
+            用于控制异步接收消息
+            </summary>
+        </member>
         <member name="P:Tool.Sockets.SupportCode.TcpStateObject.WriteIndex">
             写入索引
+        </member>
+        <member name="P:Tool.Sockets.SupportCode.TcpStateObject.SpareSize">
+            剩余大小
         </member>
         <member name="P:Tool.Sockets.SupportCode.TcpStateObject.IpPort">
             <summary>
@@ -401,9 +417,68 @@
             接收的数据
             </summary>
         </member>
+        <member name="P:Tool.Sockets.SupportCode.TcpStateObject.MemoryData">
+            <summary>
+            一个连续的内存块
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.SupportCode.TcpStateObject.Count">
+            <summary>
+            表示当前一共接收到了多少
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.SupportCode.TcpStateObject.DataLength">
+            <summary>
+            可用最大空间
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.SupportCode.TcpStateObject.OnReceiveTask(System.Boolean,System.Boolean,System.Action{Tool.Sockets.SupportCode.TcpBytes}@)">
+            <summary>
+            任务处理机制 合并
+            </summary>
+        </member>
         <member name="M:Tool.Sockets.SupportCode.TcpStateObject.Close">
             <summary>
             回收对象所以资源
+            </summary>
+        </member>
+        <member name="T:Tool.Sockets.SupportCode.TcpBytes">
+            <summary>
+            Tcp 通讯资源 对象（必须回收，丢失风险大）
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.SupportCode.TcpBytes.Length">
+            <summary>
+            流长度
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.SupportCode.TcpBytes.#ctor(System.String,System.Net.Sockets.TcpClient,System.Buffers.IMemoryOwner{System.Byte},System.Int32)">
+            <summary>
+            资源对象
+            </summary>
+            <param name="key">IP端口</param>
+            <param name="client">连接对象</param>
+            <param name="dataOwner">可回收数据对象</param>
+            <param name="length">包含长度</param>
+        </member>
+        <member name="P:Tool.Sockets.SupportCode.TcpBytes.Key">
+            <summary>
+            IP端口
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.SupportCode.TcpBytes.Client">
+            <summary>
+            连接对象
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.SupportCode.TcpBytes.Data">
+            <summary>
+            返回数据
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.SupportCode.TcpBytes.Dispose">
+            <summary>
+            使用完后及时回收
             </summary>
         </member>
         <member name="T:Tool.Sockets.SupportCode.UdpStateObject">
@@ -490,6 +565,15 @@
             接口请求数据包
             </summary>
         </member>
+        <member name="F:Tool.Sockets.TcpFrame.ApiPacket.TcpAsync">
+            <summary>
+            该字段默认 为true, 出现这个字段的本意是 作者认为， 通知都在线程池中操作 用 同步方案 好像很合理。
+            <para></para>
+            但是实际情况是 好像 IO 线程 可以帮忙 所以默认是 启用异步通讯，可以根据自己的实际效果而定。
+            <para></para>
+            这里设置成 true, 默认用全用异步发送，设置为false 将根据请求 类型 选择相对于的方式
+            </summary>
+        </member>
         <member name="M:Tool.Sockets.TcpFrame.ApiPacket.#ctor(System.Byte,System.Byte)">
             <summary>
             数据包初始化
@@ -533,11 +617,11 @@
             加入数据（如果有则修改）
             </summary>
             <param name="key">键</param>
-            <param name="value">值</param>
+            <param name="value">值（支持传输转义）</param>
         </member>
         <member name="M:Tool.Sockets.TcpFrame.ApiPacket.Set(System.Object)">
             <summary>
-            加入数据,如果有则修改（以虚构对象参数传入，请确保已认真读注释。）
+            加入数据,如果有则修改（以虚构对象参数传入，请确保已认真读注释。）（支持传输转义）
             </summary>
             <param name="dictionary">虚构对象</param>
         </member>
@@ -562,11 +646,11 @@
         <member name="T:Tool.Sockets.TcpFrame.ThreadObj">
             内部包
         </member>
-        <member name="F:Tool.Sockets.TcpFrame.ThreadObj._lock">
-            一个锁，保证其在线程中的安全
-        </member>
         <member name="M:Tool.Sockets.TcpFrame.ThreadObj.Dispose">
             回收资源
+        </member>
+        <member name="T:Tool.Sockets.TcpFrame.TcpByteObjs">
+            内部多包处理
         </member>
         <member name="T:Tool.Sockets.TcpFrame.ClientFrame">
             <summary>
@@ -660,8 +744,8 @@
             重连，返回是否重连，如果没有断开是不会重连的
             </summary>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ClientFrame.SendAsync(Tool.Sockets.TcpFrame.DataPacket)">
-            异步发送消息
+        <member name="M:Tool.Sockets.TcpFrame.ClientFrame.SendOrAsync(Tool.Sockets.TcpFrame.DataPacket)">
+            异步或同步发送消息
             dataPacket 数据包
         </member>
         <member name="M:Tool.Sockets.TcpFrame.ClientFrame.Send(Tool.Sockets.TcpFrame.ApiPacket,System.String)">
@@ -702,10 +786,10 @@
             添加持久化消息（心跳），防止特殊情况下的断开连接
             </summary>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ClientFrame.ClientAsync_Received(System.String,System.Byte[])">
+        <member name="M:Tool.Sockets.TcpFrame.ClientFrame.Client_Received(Tool.Sockets.SupportCode.TcpBytes)">
             回调包信息
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ClientFrame.ClientAsync_Received(System.String,Tool.Sockets.TcpFrame.DataPacket)">
+        <member name="M:Tool.Sockets.TcpFrame.ClientFrame.Client_Received(Tool.Sockets.SupportCode.TcpBytes,Tool.Sockets.TcpFrame.DataPacket)">
             有效包处理
         </member>
         <member name="M:Tool.Sockets.TcpFrame.ClientFrame.OnComplete(System.String,Tool.Sockets.SupportCode.EnClient)">
@@ -738,18 +822,17 @@
             当前分发消息的服务器服务器队列
             </summary>
         </member>
+        <member name="P:Tool.Sockets.TcpFrame.ClientFrameList.ClientCount">
+            <summary>
+            当前拥有的队列数
+            </summary>
+        </member>
         <member name="P:Tool.Sockets.TcpFrame.ClientFrameList.Item(System.Int32)">
             <summary>
             返回加入的ClientFrame对象
             </summary>
             <param name="i">下标</param>
             <returns>位于指定索引处的元素。</returns>
-        </member>
-        <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.#ctor(System.Collections.Generic.List{Tool.Sockets.TcpFrame.ClientFrame})">
-            <summary>
-            初始化一次性加入队列服务器
-            </summary>
-            <param name="clientFrames">队列服务器</param>
         </member>
         <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.#ctor(System.Collections.Generic.IList{Tool.Sockets.TcpFrame.ClientFrame})">
             <summary>
@@ -768,6 +851,18 @@
             初始化一次性加入队列服务器
             </summary>
             <param name="clientFrames">队列服务器</param>
+        </member>
+        <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.#ctor(System.Int32)">
+            <summary>
+            初始化 可为空
+            </summary>
+            <param name="capacity">默认大小</param>
+        </member>
+        <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.AddClientFrame(Tool.Sockets.TcpFrame.ClientFrame)">
+            <summary>
+            主动添加客户端服务
+            </summary>
+            <param name="clientFrame">客户端</param>
         </member>
         <member name="M:Tool.Sockets.TcpFrame.ClientFrameList.Send(Tool.Sockets.TcpFrame.ApiPacket,System.Int32@)">
             <summary>
@@ -829,7 +924,7 @@
             </summary>
             <remarks>代码由逆血提供支持</remarks>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.DataBase.Initialize(System.String,System.String,System.String,System.Byte[])">
+        <member name="M:Tool.Sockets.TcpFrame.DataBase.Initialize(System.String,System.String,System.String,System.ArraySegment{System.Byte})">
             初始化数据绑定
         </member>
         <member name="M:Tool.Sockets.TcpFrame.DataBase.GetForm(Tool.Utils.ActionDelegate.Parameter[])">
@@ -873,7 +968,7 @@
             <summary>
             完成结果,并输出类容
             </summary>
-            <param name="test">文本类容</param>
+            <param name="text">文本类容</param>
             <param name="bytes">字节流类容</param>
             <returns></returns>
         </member>
@@ -881,7 +976,7 @@
             <summary>
             完成结果,并输出文本类容
             </summary>
-            <param name="test">文本类容</param>
+            <param name="text">文本类容</param>
             <returns></returns>
         </member>
         <member name="M:Tool.Sockets.TcpFrame.DataBase.Write(System.Byte[])">
@@ -916,6 +1011,11 @@
         <member name="T:Tool.Sockets.TcpFrame.DataPacket">
             数据接收对象
         </member>
+        <member name="P:Tool.Sockets.TcpFrame.DataPacket.ActionKey">
+            <summary>
+            获取对应消息Key
+            </summary>
+        </member>
         <member name="P:Tool.Sockets.TcpFrame.DataPacket.ClassID">
             通道ID
         </member>
@@ -949,8 +1049,11 @@
         <member name="P:Tool.Sockets.TcpFrame.DataPacket.IsObj">
             是否携带数据包 0 = 不携带， 1 = 携带字符串， 2 = 携带字节流， 3 = 携带字符串加字节流
         </member>
-        <member name="P:Tool.Sockets.TcpFrame.DataPacket.Obj">
-            数据包
+        <member name="P:Tool.Sockets.TcpFrame.DataPacket.Text">
+            文本数据包
+        </member>
+        <member name="P:Tool.Sockets.TcpFrame.DataPacket.TextBytes">
+            文本流数据包
         </member>
         <member name="P:Tool.Sockets.TcpFrame.DataPacket.Bytes">
             携带数据包
@@ -970,10 +1073,10 @@
         <member name="M:Tool.Sockets.TcpFrame.DataPacket.ByteData">
             将对象转为数据包
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.DataPacket.DataByte(System.ReadOnlySpan{System.Byte})">
+        <member name="M:Tool.Sockets.TcpFrame.DataPacket.DataByte(System.Span{System.Byte})">
             将字节流转为原对象
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.DataPacket.GetCount(System.ReadOnlySpan{System.Byte},System.Int32,System.Int32,System.Int32)">
+        <member name="M:Tool.Sockets.TcpFrame.DataPacket.GetCount(System.ArraySegment{System.Byte},System.Int32,System.Int32,System.Int32)">
             返回指定的部分数据包
         </member>
         <member name="T:Tool.Sockets.TcpFrame.DataTcp">
@@ -1386,12 +1489,12 @@
             <param name="ip"></param>
             <param name="port"></param>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ServerFrame.SendAsync(System.String,Tool.Sockets.TcpFrame.DataPacket)">
-            异步发送消息
+        <member name="M:Tool.Sockets.TcpFrame.ServerFrame.SendOrAsync(Tool.Sockets.TcpFrame.DataPacket,System.Net.Sockets.TcpClient,System.String)">
+            异步或同步发送消息
             key 发送人的IP
             dataPacket 数据包
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ServerFrame.AgentSendAsync(System.String,Tool.Sockets.TcpFrame.DataPacket)">
+        <member name="M:Tool.Sockets.TcpFrame.ServerFrame.AgentSendAsync(Tool.Sockets.TcpFrame.DataPacket,System.Net.Sockets.TcpClient,System.String)">
             异步代理发送消息
             key 发送人的IP
             dataPacket 数据包
@@ -1410,10 +1513,10 @@
             <param name="key">发送人的IP</param>
             <param name="api">接口调用信息</param>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ServerFrame.Server_Received(System.String,System.Byte[])">
+        <member name="M:Tool.Sockets.TcpFrame.ServerFrame.Server_Received(Tool.Sockets.SupportCode.TcpBytes)">
             回调包信息
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.ServerFrame.Server_Received(System.String,Tool.Sockets.TcpFrame.DataPacket)">
+        <member name="M:Tool.Sockets.TcpFrame.ServerFrame.Server_Received(Tool.Sockets.SupportCode.TcpBytes,Tool.Sockets.TcpFrame.DataPacket)">
             有效包处理
         </member>
         <member name="M:Tool.Sockets.TcpFrame.ServerFrame.OnComplete(System.String,Tool.Sockets.SupportCode.EnServer)">
@@ -1469,17 +1572,13 @@
         <member name="M:Tool.Sockets.TcpFrame.TcpResponse.GetDataPacket(Tool.Sockets.TcpFrame.ApiPacket,System.String,System.Boolean,System.Boolean)">
             **
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.TcpResponse.IsComplete(Tool.Sockets.TcpFrame.DataPacket@,System.Collections.Concurrent.ConcurrentDictionary{System.String,Tool.Sockets.TcpFrame.ThreadObj},System.Object)">
+        <member name="M:Tool.Sockets.TcpFrame.TcpResponse.IsComplete(System.Boolean,Tool.Sockets.TcpFrame.DataPacket@)">
             <summary>
             验证并确保包100%完整
             </summary>
+            <param name="isSorC">验证差异</param>
             <param name="packet">原始包</param>
-            <param name="dictionary"></param>
-            <param name="_lock"></param>
             <returns></returns>
-        </member>
-        <member name="M:Tool.Sockets.TcpFrame.TcpResponse.GetActionID(Tool.Sockets.TcpFrame.DataPacket)">
-            返回可查找的方法键值
         </member>
         <member name="P:Tool.Sockets.TcpFrame.TcpResponse.KeepAlive">
             <summary>
@@ -1487,7 +1586,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Tool.Sockets.TcpFrame.TcpResponse.Receiveds(System.String,System.Byte[],System.Action{System.String,Tool.Sockets.TcpFrame.DataPacket})">
+        <member name="M:Tool.Sockets.TcpFrame.TcpResponse.Receiveds(Tool.Sockets.SupportCode.TcpBytes,Tool.Sockets.TcpFrame.DataPacket@)">
             根据一次性回复数据包解析成一个或多个包
         </member>
         <member name="T:Tool.Sockets.TcpHelper.TcpClientAsync">
@@ -1509,6 +1608,12 @@
         <member name="P:Tool.Sockets.TcpHelper.TcpClientAsync.OnlyData">
             <summary>
             是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.TcpHelper.TcpClientAsync.IsThreadPool">
+            <summary>
+            是否使用线程池调度接收后的数据
+            默认 true 开启
             </summary>
         </member>
         <member name="P:Tool.Sockets.TcpHelper.TcpClientAsync.IsReconnect">
@@ -1552,7 +1657,7 @@
             </summary>
             <param name="Completed"></param>
         </member>
-        <member name="M:Tool.Sockets.TcpHelper.TcpClientAsync.SetReceived(System.Action{System.String,System.Byte[]})">
+        <member name="M:Tool.Sockets.TcpHelper.TcpClientAsync.SetReceived(System.Action{Tool.Sockets.SupportCode.TcpBytes})">
             <summary>
             接收到数据事件
             </summary>
@@ -1636,9 +1741,21 @@
             </summary>
             <param name="msg"></param>
         </member>
-        <member name="M:Tool.Sockets.TcpHelper.TcpClientAsync.SendAsync(System.Byte[][])">
+        <member name="M:Tool.Sockets.TcpHelper.TcpClientAsync.SendAsync(System.ArraySegment{System.Byte}[])">
             <summary>
             异步发送消息
+            </summary>
+            <param name="listData">数据包</param>
+        </member>
+        <member name="M:Tool.Sockets.TcpHelper.TcpClientAsync.Send(System.String)">
+            <summary>
+            发送消息
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="M:Tool.Sockets.TcpHelper.TcpClientAsync.Send(System.ArraySegment{System.Byte}[])">
+            <summary>
+            发送消息
             </summary>
             <param name="listData">数据包</param>
         </member>
@@ -1689,6 +1806,12 @@
             标识服务端连接是否关闭
             </summary>
         </member>
+        <member name="P:Tool.Sockets.TcpHelper.TcpServerAsync.IsThreadPool">
+            <summary>
+            是否使用线程池调度接收后的数据
+            默认 true 开启
+            </summary>
+        </member>
         <member name="P:Tool.Sockets.TcpHelper.TcpServerAsync.ListClient">
             <summary>
             已建立连接的集合
@@ -1718,7 +1841,7 @@
             </summary>
             <param name="Completed"></param>
         </member>
-        <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.SetReceived(System.Action{System.String,System.Byte[]})">
+        <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.SetReceived(System.Action{Tool.Sockets.SupportCode.TcpBytes})">
             <summary>
             接收到数据事件
             </summary>
@@ -1768,7 +1891,7 @@
             <param name="key">客户端的ip地址和端口号</param>
             <param name="msg">要发送的内容</param>
         </member>
-        <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync(System.String,System.Byte[][])">
+        <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync(System.String,System.ArraySegment{System.Byte}[])">
             开始异步发送数据
             key 客户端的ip地址和端口号
             Data 要发送的内容
@@ -1780,9 +1903,35 @@
             <param name="client">客户端的ip地址和端口号</param>
             <param name="msg">要发送的内容</param>
         </member>
-        <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync(System.Net.Sockets.TcpClient,System.Byte[][])">
+        <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync(System.Net.Sockets.TcpClient,System.ArraySegment{System.Byte}[])">
             <summary>
             开始异步发送数据
+            </summary>
+            <param name="client">客户端的ip地址和端口号</param>
+            <param name="listData">要发送的内容，允许多个包</param>
+        </member>
+        <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.Send(System.String,System.String)">
+            <summary>
+            开始发送数据
+            </summary>
+            <param name="key">客户端的ip地址和端口号</param>
+            <param name="msg">要发送的内容</param>
+        </member>
+        <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.Send(System.String,System.ArraySegment{System.Byte}[])">
+            开始发送数据
+            key 客户端的ip地址和端口号
+            Data 要发送的内容
+        </member>
+        <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.Send(System.Net.Sockets.TcpClient,System.String)">
+            <summary>
+            开始发送数据
+            </summary>
+            <param name="client">客户端的ip地址和端口号</param>
+            <param name="msg">要发送的内容</param>
+        </member>
+        <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.Send(System.Net.Sockets.TcpClient,System.ArraySegment{System.Byte}[])">
+            <summary>
+            开始发送数据
             </summary>
             <param name="client">客户端的ip地址和端口号</param>
             <param name="listData">要发送的内容，允许多个包</param>
@@ -2313,6 +2462,11 @@
             Sql 核心 操作底层
             </summary>
         </member>
+        <member name="F:Tool.SqlCore.DbHelper.LogPath">
+            <summary>
+            在开启数据库日志模式后，将日志打印至该路径下。
+            </summary>
+        </member>
         <member name="P:Tool.SqlCore.DbHelper.ConnectionString">
             <summary>
             链接Sql字符串
@@ -2351,6 +2505,11 @@
         <member name="P:Tool.SqlCore.DbHelper.IsSqlLogHtml">
             <summary>
             打印模式，true = 采用HTML打印模式，false = 采用txt打印模式
+            </summary>
+        </member>
+        <member name="P:Tool.SqlCore.DbHelper.SubPath">
+            <summary>
+            打印日志的子路径段
             </summary>
         </member>
         <member name="P:Tool.SqlCore.DbHelper.QueryCount">
@@ -2662,6 +2821,13 @@
             </summary>
             <param name="commandText">SQL语句</param>
             <param name="splitter">验证</param>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetPagerSet(Tool.SqlCore.PagerParameters)">
+            <summary>
+            分页函数 实现至 IDbProvider 接口 GetPagerSet 方法
+            </summary>
+            <param name="pager">相关参数</param>
+            <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.ExecuteDataset(System.String)">
             <summary>
@@ -3468,6 +3634,20 @@
             <param name="tableNames"><see cref="T:System.Data.DataSet"/>对象中的列名</param>
             <param name="commandParameters">字符串映射对象</param>
         </member>
+        <member name="M:Tool.SqlCore.DbHelper.FillDataset(System.Data.Common.DbConnection,System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.DataSet,System.String[],System.Data.Common.DbParameter[])">
+            <summary>
+            看着像是表修改 忘记啥时候写的了 意义可能不大了
+            </summary>
+            <param name="connection"></param>
+            <param name="transaction"></param>
+            <param name="commandType"></param>
+            <param name="commandText"></param>
+            <param name="dataSet"></param>
+            <param name="tableNames"></param>
+            <param name="commandParameters"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
         <member name="M:Tool.SqlCore.DbHelper.GetEmptyTable(System.String)">
             <summary>
             根据表名返回当前这张表
@@ -3481,13 +3661,14 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.AddQueryDetail(System.String,System.Diagnostics.Stopwatch,System.Data.Common.DbParameter[])">
+        <member name="M:Tool.SqlCore.DbHelper.AddQueryDetail(System.String,System.Diagnostics.Stopwatch,System.Data.Common.DbParameter[],System.Boolean)">
             <summary>
             增加SQL请求日志
             </summary>
             <param name="commandText">SQL字符串</param>
             <param name="watch">时间测量器</param>
             <param name="cmdParams">执行参数</param>
+            <param name="iserror">是否执行时异常</param>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.GetQueryDetail(System.String,System.Int64,System.Data.Common.DbParameter[],System.Boolean)">
             <summary>
@@ -3724,6 +3905,11 @@
             连接字符串
             </summary>
         </member>
+        <member name="F:Tool.SqlCore.DbHelper.log_subPath">
+            <summary>
+            子路径
+            </summary>
+        </member>
         <member name="F:Tool.SqlCore.DbHelper.m_dbProviderType">
             <summary>
             数据库类型对象
@@ -3732,11 +3918,6 @@
         <member name="F:Tool.SqlCore.DbHelper.m_dbProviderName">
             <summary>
             数据库类型对象
-            </summary>
-        </member>
-        <member name="F:Tool.SqlCore.DbHelper.LogPath">
-            <summary>
-            在开启数据库日志模式后，将日志打印至该路径下。
             </summary>
         </member>
         <member name="T:Tool.SqlCore.DbHelperExensions">
@@ -5358,11 +5539,6 @@
             静态数据类，用于存放核心数据对象的类
             </summary>
         </member>
-        <member name="F:Tool.StaticData.StaticAshxEvents">
-            <summary>
-            当前全局的 <see cref="T:Tool.Web.Api.OnAshxEvent"/> 对象集合
-            </summary>
-        </member>
         <member name="T:Tool.GlobalObj">
             <summary>
             全局公共对象，支持线程安全访问
@@ -6798,17 +6974,17 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="F:Tool.Utils.ActionDelegate.ActionDispatcher`1.IsVoid">
+        <member name="P:Tool.Utils.ActionDelegate.ActionDispatcher`1.IsVoid">
             <summary>
             是否有返回值，默认没有
             </summary>
         </member>
-        <member name="F:Tool.Utils.ActionDelegate.ActionDispatcher`1.ReturnType">
+        <member name="P:Tool.Utils.ActionDelegate.ActionDispatcher`1.ReturnType">
             <summary>
             调用接口的返回值
             </summary>
         </member>
-        <member name="F:Tool.Utils.ActionDelegate.ActionDispatcher`1.Method">
+        <member name="P:Tool.Utils.ActionDelegate.ActionDispatcher`1.Method">
             <summary>
             当前方法的执行信息
             </summary>
@@ -7069,7 +7245,7 @@
             </summary>
             <typeparam name="T">返回任何类型</typeparam>
         </member>
-        <member name="F:Tool.Utils.ActionDelegate.ClassDispatcher`1.Type">
+        <member name="P:Tool.Utils.ActionDelegate.ClassDispatcher`1.Type">
             <summary>
             实例化对象类型
             </summary>
@@ -7117,6 +7293,96 @@
             </summary>
             <param name="constructor">构造器</param>
             <returns>构造委托</returns>
+        </member>
+        <member name="T:Tool.Utils.ActionDelegate.ClassField">
+            <summary>
+            表示 获取 的范围
+            </summary>
+        </member>
+        <member name="F:Tool.Utils.ActionDelegate.ClassField.All">
+            <summary>
+            读写
+            </summary>
+        </member>
+        <member name="F:Tool.Utils.ActionDelegate.ClassField.Get">
+            <summary>
+            读
+            </summary>
+        </member>
+        <member name="F:Tool.Utils.ActionDelegate.ClassField.Set">
+            <summary>
+            写
+            </summary>
+        </member>
+        <member name="T:Tool.Utils.ActionDelegate.ClassFieldDispatcher">
+            <summary>
+            类中字段赋值，创建一个委托，实现类调用，提高性能 (赋值/取值)
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.ClassFieldDispatcher.Type">
+            <summary>
+            实例化对象类型
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.ClassFieldDispatcher.Parameters">
+            <summary>
+            类成员
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.ClassFieldDispatcher.Field">
+            <summary>
+            覆盖功能
+            </summary>
+        </member>
+        <member name="T:Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassField">
+            <summary>
+            定义类成员赋值函数
+            </summary>
+            <param name="callclass"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassField">
+            <summary>
+            定义类成员取值函数
+            </summary>
+            <param name="callclass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.ClassFieldDispatcher.#ctor(System.Type,Tool.Utils.ActionDelegate.ClassField)">
+            <summary>
+            根据类，创建对象委托
+            </summary>
+            <param name="classtype">类对象类型</param>
+            <param name="classField">默认读取所有行为</param>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.ClassFieldDispatcher.Set(System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            向类传入修改集合
+            </summary>
+            <param name="_class">类对象</param>
+            <param name="parameters">值集合</param>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.ClassFieldDispatcher.Get(System.Object)">
+            <summary>
+            从类中获取所有可读值
+            </summary>
+            <param name="_class">类对象</param>
+            <returns>返回值集合</returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassFields(System.Type)">
+            <summary>
+            通过构造器，直接获取相关赋值委托
+            </summary>
+            <param name="classtype">类</param>
+            <returns>赋值委托或无法委托因为都是只读</returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassFields(System.Type)">
+            <summary>
+            通过构造器，直接获取相关取值委托
+            </summary>
+            <param name="classtype">类</param>
+            <returns>取值委托或无法委托因为不可读</returns>
         </member>
         <member name="T:Tool.Utils.ActionDelegate.MethodFlags">
             <summary>
@@ -7446,27 +7712,6 @@
             <param name="bindingFlags">自定义返回内容</param>
             <returns>返回一个类型实体</returns>
         </member>
-        <member name="F:Tool.Utils.ActionDelegate.TypeInvoke.IsDisposed">
-            <summary>
-            资源是否已被清理
-            </summary>
-        </member>
-        <member name="M:Tool.Utils.ActionDelegate.TypeInvoke.Finalize">
-            <summary>
-            底层资源回收
-            </summary>
-        </member>
-        <member name="M:Tool.Utils.ActionDelegate.TypeInvoke.Dispose">
-            <summary>
-            清除缓存
-            </summary>
-        </member>
-        <member name="M:Tool.Utils.ActionDelegate.TypeInvoke.Dispose(System.Boolean)">
-            <summary>
-            清除缓存
-            </summary>
-            <param name="Disposing">为（true时清空掉对象的数据）</param>
-        </member>
         <member name="T:Tool.Utils.ActionDelegate.Method">
             <summary>
             获取指定类下面的所有方法，低级封装
@@ -7510,6 +7755,16 @@
         <member name="T:Tool.Utils.AppSettings">
             <summary>
             获取配置文件数据
+            </summary>
+        </member>
+        <member name="F:Tool.Utils.AppSettings.FileName">
+            <summary>
+            主配置文件名
+            </summary>
+        </member>
+        <member name="F:Tool.Utils.AppSettings.FileNameDevelopment">
+            <summary>
+            调试配置文件名
             </summary>
         </member>
         <member name="P:Tool.Utils.AppSettings.Configuration">
@@ -7980,6 +8235,15 @@
             </summary>
             <remarks>代码由逆血提供支持</remarks>
         </member>
+        <member name="M:Tool.Utils.Data.DictionaryExtension.NewDictionary``2(System.Collections.Generic.IDictionary{``0,``1})">
+            <summary>
+            将 <see cref="T:System.Collections.Generic.IDictionary`2"/>对象 拷贝创建新 <see cref="T:System.Collections.Generic.Dictionary`2"/>对象
+            </summary>
+            <typeparam name="TKey">键</typeparam>
+            <typeparam name="TValue">值</typeparam>
+            <param name="oldDictionary"><see cref="T:System.Collections.Generic.IDictionary`2"/>对象</param>
+            <returns><see cref="T:System.Collections.Generic.Dictionary`2"/></returns>
+        </member>
         <member name="M:Tool.Utils.Data.DictionaryExtension.ToIDictionary(System.Object)">
             <summary>
             将对象转换成<see cref="T:System.Collections.Generic.IDictionary`2"/>
@@ -7994,16 +8258,14 @@
             <param name="source">对象</param>
             <returns><see cref="T:System.Collections.Generic.Dictionary`2"/></returns>
         </member>
-        <member name="M:Tool.Utils.Data.DictionaryExtension.ToDictionary``2(System.Collections.Generic.IDictionary{``0,``1})">
-            <summary>
-            将 <see cref="T:System.Collections.Generic.IDictionary`2"/>对象 转换成 <see cref="T:System.Collections.Generic.Dictionary`2"/>对象
-            </summary>
-            <typeparam name="TKey">键</typeparam>
-            <typeparam name="TValue">值</typeparam>
-            <param name="oldDictionary"><see cref="T:System.Collections.Generic.IDictionary`2"/>对象</param>
-            <returns><see cref="T:System.Collections.Generic.Dictionary`2"/></returns>
-        </member>
         <member name="M:Tool.Utils.Data.DictionaryExtension.ToIDictionary``1(System.Object)">
+            <summary>
+            将对象转换成<see cref="T:System.Collections.Generic.IDictionary`2"/>
+            </summary>
+            <param name="source">对象</param>
+            <returns><see cref="T:System.Collections.Generic.IDictionary`2"/></returns>
+        </member>
+        <member name="M:Tool.Utils.Data.DictionaryExtension.ToDictionary``1(System.Object)">
             <summary>
             将对象转换成<see cref="T:System.Collections.Generic.IDictionary`2"/>
             </summary>
@@ -9569,6 +9831,20 @@
             <param name="refer"></param>
             <returns></returns>
         </member>
+        <member name="M:Tool.Utils.HttpHelpers.QueryString(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            根据字典高效组装成以转义的字符串
+            </summary>
+            <param name="data">字典对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.FormatData(System.String)">
+            <summary>
+            高效解析http表单类文本 
+            </summary>
+            <param name="query">待解析的http表单值</param>
+            <returns></returns>
+        </member>
         <member name="T:Tool.Utils.ImageHelper">
             <summary>
             图片压缩帮助类
@@ -10105,11 +10381,6 @@
         <member name="F:Tool.Utils.Log._directory">
             <summary>
             当前的存放地址
-            </summary>
-        </member>
-        <member name="F:Tool.Utils.Log._lockobj">
-            <summary>
-            当前锁
             </summary>
         </member>
         <member name="P:Tool.Utils.Log.IgnoreMethodName">
@@ -13738,6 +14009,11 @@
             获取上传的文件对象，接收对象必须是<see cref="T:Microsoft.AspNetCore.Http.IFormFile"/> 
             </summary>
         </member>
+        <member name="F:Tool.Web.Api.Val.Files">
+            <summary>
+            获取上传的文件对象集合，接收对象必须是<see cref="T:Microsoft.AspNetCore.Http.IFormFileCollection"/> 
+            </summary>
+        </member>
         <member name="F:Tool.Web.Api.Val.Service">
             <summary>
             获取注册的对象（ServiceProvider）
@@ -14890,6 +15166,18 @@
             <summary>
             停止发送数据的位置。
             </summary>
+        </member>
+        <member name="P:Tool.Web.WebModeBuild.Get">
+            <summary>
+            获取对象
+            </summary>
+        </member>
+        <member name="M:Tool.Web.WebModeBuild.Set(System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            赋值对象
+            </summary>
+            <param name="_class"></param>
+            <param name="parameters"></param>
         </member>
         <member name="T:Tool.Web.HttpResponseExtension">
             <summary>

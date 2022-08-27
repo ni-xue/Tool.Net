@@ -174,7 +174,7 @@ namespace Tool.SqlCore
                 {
                     return null;
                 }
-                List<DbParameter> list = new List<DbParameter>
+                List<DbParameter> list = new()
                 {
                     dbHelper.GetInParam("IsSql", pramsPager.IsSql ? 1 : 0),
                     dbHelper.GetInParam("TableName", pramsPager.Table),
@@ -187,11 +187,11 @@ namespace Tool.SqlCore
                     dbHelper.GetOutParam("RecordCount", typeof(int))
                 };
                 dbHelper.RunProc("WEB_PageView", list, out DataSet pageSet);
-                return new PagerSet(pramsPager.PageIndex, pramsPager.PageSize, Convert.ToInt32(list[list.Count - 3].Value), Convert.ToInt32(list[list.Count - 2].Value), pageSet)
+                return new PagerSet(pramsPager.PageIndex, pramsPager.PageSize, Convert.ToInt32(list[^3].Value), Convert.ToInt32(list[^2].Value), pageSet)
                 {
                     PageSet =
                     {
-                        DataSetName = "PagerSet_" + pramsPager.Table
+                        DataSetName = $"PagerSet_{pramsPager.Table}"
                     }
                 };
             }

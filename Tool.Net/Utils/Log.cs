@@ -57,10 +57,10 @@ namespace Tool.Utils
         /// </summary>
         private readonly string _directory;
 
-        /// <summary>
-        /// 当前锁
-        /// </summary>
-        private readonly object _lockobj;
+        ///// <summary>
+        ///// 当前锁
+        ///// </summary>
+        //private readonly object _lockobj;
 
         /// <summary>
         /// 用于打印异常信息时，忽略掉堆栈中的部分方法。
@@ -99,7 +99,7 @@ namespace Tool.Utils
             // 设置日志配置文件路径
             //XmlConfigurator.Configure(configFile);
 
-            _lockobj = new object();
+            //_lockobj = new object();
 
             _que = new ConcurrentQueue<FlashLogMessage>();
             _mre = new ManualResetEvent(false);
@@ -499,8 +499,8 @@ namespace Tool.Utils
         {
             try
             {
-                lock (_lockobj)
-                {
+                //lock (_lockobj)
+                //{
                     if (_logtask.IsCompleted) throw new Exception("日志线程，在未知原因情况下结束了！");
                     //{
                     //    _logtask.Start();
@@ -511,12 +511,13 @@ namespace Tool.Utils
                     //    _logthread.Start(); //Stopped
                     //}
 
-                    if ((level == FlashLogLevel.Debug)
-                     || (level == FlashLogLevel.Error)
-                     || (level == FlashLogLevel.Fatal)
-                     || (level == FlashLogLevel.Info)
-                     || (level == FlashLogLevel.Warn))
-                    {
+                    //if ((level == FlashLogLevel.Debug)
+                    // || (level == FlashLogLevel.Error)
+                    // || (level == FlashLogLevel.Fatal)
+                    // || (level == FlashLogLevel.Info)
+                    // || (level == FlashLogLevel.Warn))
+                    //{
+                    if (!_mre.SafeWaitHandle.IsClosed) { 
                         _que.Enqueue(new FlashLogMessage
                         {
                             LogDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff"),
@@ -525,11 +526,10 @@ namespace Tool.Utils
                             Exception = ex,
                             LogFilePath = logFilePath
                         });
-
-                        // 通知线程往磁盘中写日志
-                        _mre.Set();
+                        _mre.Set();// 通知线程往磁盘中写日志
                     }
-                }
+                    //}
+                //}
             }
             catch (Exception e) when (!e.Message.Equals("日志线程，在未知原因情况下结束了！"))
             {

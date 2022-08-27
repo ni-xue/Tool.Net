@@ -44,16 +44,16 @@ namespace Tool.SqlCore
         public static IList<T> Select<T>(this DbHelper dbHelper, Action<T> prams = null) where T : new()
         {
             string where;
-            var dic = default(Dictionary<string, object>);
+            var dic = default(IDictionary<string, object>);
             if (prams != null)
             {
                 var t = new T();
 
-                dic = t.ToDictionary();
+                dic = t.GetDictionary();
 
                 prams?.Invoke(t);
 
-                var dic1 = t.ToDictionary();
+                var dic1 = t.GetDictionary();
 
                 StringBuilder @string = new("1=1");
 
@@ -131,7 +131,7 @@ namespace Tool.SqlCore
         /// <returns></returns>
         public static int Insert(this DbHelper dbHelper, string TableName, object prams)
         {
-            Dictionary<string, object> keyValues = dbHelper.SetDictionaryParam(prams);
+            IDictionary<string, object> keyValues = dbHelper.SetDictionaryParam(prams);
 
             if (keyValues == null || keyValues.Count == 0)
             {
@@ -183,7 +183,7 @@ namespace Tool.SqlCore
                 throw new ArgumentException("键值对集合为空！", nameof(prams));
             }
 
-            Dictionary<string, object> keyValues = dbHelper.SetDictionaryParam(prams[0]);
+            IDictionary<string, object> keyValues = dbHelper.SetDictionaryParam(prams[0]);
 
             if (keyValues == null || keyValues.Count == 0)
             {
@@ -317,7 +317,7 @@ namespace Tool.SqlCore
         /// <param name="key">返回生成的部分SQL语句</param>
         /// <param name="value">返回生成的部分SQL语句</param>
         /// <returns><see cref="List{DbParameter}"/></returns>
-        public static List<DbParameter> GetInsertParams(this DbHelper database, Dictionary<string, object> keyValues, out string key, out string value)
+        public static List<DbParameter> GetInsertParams(this DbHelper database, IDictionary<string, object> keyValues, out string key, out string value)
         {
             StringBuilder _key = new(), _value = new();
 
@@ -363,7 +363,7 @@ namespace Tool.SqlCore
         /// <param name="keyValues">数据集键值对</param>
         /// <param name="strsql">返回生成的部分SQL语句</param>
         /// <returns><see cref="List{DbParameter}"/></returns>
-        public static List<DbParameter> GetUpdateParams(this DbHelper database, Dictionary<string, object> keyValues, out string strsql)
+        public static List<DbParameter> GetUpdateParams(this DbHelper database, IDictionary<string, object> keyValues, out string strsql)
         {
             StringBuilder _value = new();
 

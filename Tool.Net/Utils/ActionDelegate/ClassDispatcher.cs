@@ -17,7 +17,7 @@ namespace Tool.Utils.ActionDelegate
         /// <summary>
         /// 实例化对象类型
         /// </summary>
-        public readonly Type Type;
+        public Type Type { get; }
 
         /// <summary>
         /// 方法参数

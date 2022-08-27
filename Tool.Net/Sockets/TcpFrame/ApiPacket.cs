@@ -14,6 +14,15 @@ namespace Tool.Sockets.TcpFrame
     public class ApiPacket
     {
         /// <summary>
+        /// 该字段默认 为true, 出现这个字段的本意是 作者认为， 通知都在线程池中操作 用 同步方案 好像很合理。
+        /// <para></para>
+        /// 但是实际情况是 好像 IO 线程 可以帮忙 所以默认是 启用异步通讯，可以根据自己的实际效果而定。
+        /// <para></para>
+        /// 这里设置成 true, 默认用全用异步发送，设置为false 将根据请求 类型 选择相对于的方式
+        /// </summary>
+        public static bool TcpAsync = true;
+
+        /// <summary>
         /// 数据包初始化
         /// </summary>
         /// <param name="ClassID">类ID</param>
@@ -49,7 +58,7 @@ namespace Tool.Sockets.TcpFrame
         /// <summary>
         /// 默认等待超时时间为60秒
         /// </summary>
-        public int Millisecond { get; } = 60 * 1000;
+        public int Millisecond { get; }
 
         /// <summary>
         /// 当前消息携带的数据流
@@ -65,7 +74,7 @@ namespace Tool.Sockets.TcpFrame
         /// 加入数据（如果有则修改）
         /// </summary>
         /// <param name="key">键</param>
-        /// <param name="value">值</param>
+        /// <param name="value">值（支持传输转义）</param>
         public void Set(string key, object value)
         {
             if (string.IsNullOrWhiteSpace(key))
@@ -80,14 +89,14 @@ namespace Tool.Sockets.TcpFrame
                 throw new FormatException("当前key的值不符合参数名的定义，请以首字母定义。");
             }
 
-            if (key.Contains("=") || key.Contains("&"))
+            if (key.Contains('=') || key.Contains('&'))
             {
                 throw new FormatException("当前key的值存在【=或&】符号，需要转义后再加入。");
             }
 
             var val = value.ToString();
 
-            if (val.Contains("=") || val.Contains("&"))
+            if (val.Contains('=') || val.Contains('&'))
             {
                 throw new FormatException("当前value的值存在【=或&】符号，需要转义后再加入。");
             }
@@ -110,12 +119,12 @@ namespace Tool.Sockets.TcpFrame
         }
 
         /// <summary>
-        /// 加入数据,如果有则修改（以虚构对象参数传入，请确保已认真读注释。）
+        /// 加入数据,如果有则修改（以虚构对象参数传入，请确保已认真读注释。）（支持传输转义）
         /// </summary>
         /// <param name="dictionary">虚构对象</param>
         public void Set(object dictionary)
         {
-            var _objs = dictionary.ToDictionary();
+            var _objs = dictionary.GetDictionary();
 
             foreach (var item in _objs)
             {
@@ -153,16 +162,11 @@ namespace Tool.Sockets.TcpFrame
          */
         internal string FormatData()
         {
-            var s = Data == null
-                ? string.Empty
-                : string.Join("&",
-                    Data.Select(d => string.Concat(d.Key, "=", d.Value)));
-
-            //if (s.Contains("\""))
-            //{
-            //    s.Replace("\"", "\\\"");//解析
-            //}
-            return s;
+            //var s = Data is null
+            //    ? string.Empty
+            //    : string.Join("&",
+            //        Data.Select(d => string.Concat(d.Key, "=", d.Value)));
+            return HttpHelpers.QueryString(Data);
         }
     }
 
@@ -177,43 +181,54 @@ namespace Tool.Sockets.TcpFrame
             Response = new TcpResponse(onlyID);
         }
 
-        /**
-         * 一个锁，保证其在线程中的安全
-         */
-        internal readonly object _lock = new();
+        public ManualResetEvent AutoReset { get; private set; }
 
-        public int Count { get; set; }
-        public byte[][] OjbCount { get; set; }
-
-        public ManualResetEvent AutoReset { get; set; }
-
-        public int Length { get; set; }
-
-        public TcpResponse Response { get; set; }
-
-        //public Action<TcpResponse> Action { get; set; }
-
-        //~ThreadObj()
-        //{
-        //    Dispose();
-        //}
+        public TcpResponse Response { get; private set; }
 
         /**
          * 回收资源
          */
         public void Dispose()
         {
-            if (AutoReset != null)
-            {
-                AutoReset.Dispose();
-                AutoReset = null;
-                Response = null;
-                //Action = null;
-            }
-            Length = 0;
-            OjbCount = null;
-            Count = 0;
+            if (AutoReset is null) return;
+            AutoReset.Dispose();
+            AutoReset = null;
+            Response = null;
             GC.SuppressFinalize(this);
         }
+    }
+
+    /**
+     * 内部多包处理
+     */
+    internal class TcpByteObjs //: IDisposable
+    {
+        public TcpByteObjs(int count) 
+        {
+            //_lock = new();
+            Count = count;
+            OjbCount = new ArraySegment<byte>[Count];
+            Length = 0;
+        }
+
+        //public readonly object _lock; //一个锁，保证其在线程中的安全
+
+        public int Count { get; set; }
+
+        public int Length { get; set; }
+
+        public ArraySegment<byte>[] OjbCount { get; private set; }
+
+        //public void Dispose()
+        //{
+        //    if (this.OjbCount is not null)
+        //    {
+        //        // 请将清理代码放入下面
+        //        this.Length = 0;
+        //        this.Count = 0;
+        //        this.OjbCount = null;
+        //        GC.SuppressFinalize(this);
+        //    }
+        //}
     }
 }

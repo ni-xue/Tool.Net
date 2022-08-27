@@ -4,7 +4,7 @@
 	<!--<TargetFramework>net6.0</TargetFramework>-->
     <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <RootNamespace>Tool</RootNamespace>
-    <Version>3.8.9</Version>
+    <Version>3.9.9</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Copyright>Copyright © Microsoft 2022-07-16 21:30:00</Copyright>
@@ -61,6 +61,7 @@ Url:nixue.top</Description>
   <ItemGroup>
     <None Remove="Icon.png1" />
     <None Remove="nixue.Tool.pfx" />
+    <None Remove="Sockets\SupportCode\TcpStateObject.cs~RF27598bc2.TMP" />
     <None Remove="Tool.Net.dll" />
     <None Remove="Tool.Net.pdb" />
     <None Remove="Tool.Net.xml" />

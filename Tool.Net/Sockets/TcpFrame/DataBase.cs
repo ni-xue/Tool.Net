@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Text;
 using Tool.Utils;
 using Tool.Utils.ActionDelegate;
@@ -26,11 +27,11 @@ namespace Tool.Sockets.TcpFrame
         /**
          * 初始化数据绑定
          */
-        private void Initialize(string OnlyID, string IPEndPoint, string Data, byte[] Bytes)
+        private void Initialize(string OnlyID, string IPEndPoint, string Data, ArraySegment<byte> Bytes)
         {
             this.IPEndPoint = IPEndPoint;
             this.OnlyID = OnlyID;
-            this.Bytes = Bytes;
+            this.Bytes = Bytes; //Bytes.Count is 0 ? null : Bytes.ToArray();
 
             this.Form = HttpHelpers.FormatData(Data).AsReadOnly();
 
@@ -94,7 +95,7 @@ namespace Tool.Sockets.TcpFrame
 
         internal DataPacket Request(DataPacket packet, string ip, DataTcp dataTcp)
         {
-            this.Initialize(packet.OnlyID, ip, packet.Obj, packet.Bytes);
+            this.Initialize(packet.OnlyID, ip, packet.Text, packet.Bytes);
 
             object[] paras = this.GetForm(dataTcp.Parameters);
 
@@ -118,11 +119,10 @@ namespace Tool.Sockets.TcpFrame
             {
                 if (this.Initialize(dataTcp))
                 {
-                    IGoOut obj = dataTcp.Action.Execute(this, paras) as IGoOut;
-                    if (obj != null)
+                    if (dataTcp.Action.Execute(this, paras) is IGoOut obj)
                     {
                         dataPacket.Bytes = obj.Bytes;
-                        dataPacket.Obj = obj.Text;
+                        dataPacket.Text = obj.Text;
                         //switch (dataTcp.ObjType)
                         //{
                         //    case DataTcpState.Byte:
@@ -197,8 +197,14 @@ namespace Tool.Sockets.TcpFrame
             catch (Exception ex)
             {
                 dataPacket.IsErr = true;
-                dataPacket.Obj = "接口调用异常";
-                this.TcpException(ex);
+                dataPacket.Text = "接口调用异常";
+                try
+                {
+                    this.TcpException(ex);
+                }
+                catch (Exception)
+                {
+                }
             }
             //string as1 = dataPacket.StringData();
             //DataPacket packet1 = DataPacket.DataString(as1);
@@ -223,7 +229,7 @@ namespace Tool.Sockets.TcpFrame
         /// <summary>
         /// 消息接收的字节流数据
         /// </summary>
-        public byte[] Bytes { get; private set; }
+        public ArraySegment<byte> Bytes { get; private set; }
 
         /// <summary>
         /// 数据交互的方
@@ -251,25 +257,25 @@ namespace Tool.Sockets.TcpFrame
         /// <summary>
         /// 完成结果,并输出类容
         /// </summary>
-        /// <param name="test">文本类容</param>
+        /// <param name="text">文本类容</param>
         /// <param name="bytes">字节流类容</param>
         /// <returns></returns>
-        public IGoOut Ok(string test, byte[] bytes)
+        public IGoOut Ok(string text, byte[] bytes)
         {
-            if (test == null) throw new ArgumentException("参数为空！", nameof(test));
+            if (text == null) throw new ArgumentException("参数为空！", nameof(text));
             if (bytes == null) throw new ArgumentException("参数为空！", nameof(bytes));
-            return new GoOut(bytes, test);
+            return new GoOut(bytes, text);
         }
 
         /// <summary>
         /// 完成结果,并输出文本类容
         /// </summary>
-        /// <param name="test">文本类容</param>
+        /// <param name="text">文本类容</param>
         /// <returns></returns>
-        public IGoOut Write(string test)
+        public IGoOut Write(string text)
         {
-            if (test == null) throw new ArgumentException("参数为空！", nameof(test));
-            return new GoOut(test);
+            if (text == null) throw new ArgumentException("参数为空！", nameof(text));
+            return new GoOut(text);
         }
 
         /// <summary>
@@ -310,7 +316,7 @@ namespace Tool.Sockets.TcpFrame
         /// <returns></returns>
         protected virtual void TcpException(Exception ex)
         {
-            throw ex;
+            //throw ex;
         }
 
         #region IDisposable Support

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30615.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tool.Net", "Tool.Net\Tool.Net.csproj", "{1ADB39BA-750E-4542-B630-ECD3B86F7412}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTestApp", "WebTestApp\WebTestApp.csproj", "{1DAB5233-2785-4C2A-95DA-8549DE1BF14B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TcpFrameTest", "TcpFrameTest\TcpFrameTest.csproj", "{151C5A81-4580-4B37-92BE-59AA87D63C77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpTest", "TcpTest\TcpTest.csproj", "{EA43AE89-41FF-4A71-BD6A-E4A22D687A2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{151C5A81-4580-4B37-92BE-59AA87D63C77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{151C5A81-4580-4B37-92BE-59AA87D63C77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{151C5A81-4580-4B37-92BE-59AA87D63C77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA43AE89-41FF-4A71-BD6A-E4A22D687A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA43AE89-41FF-4A71-BD6A-E4A22D687A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA43AE89-41FF-4A71-BD6A-E4A22D687A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA43AE89-41FF-4A71-BD6A-E4A22D687A2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

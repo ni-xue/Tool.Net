@@ -31,7 +31,7 @@ namespace Tool.SqlCore
 			{
 				if (!ProxyFactory.m_Handlers.ContainsKey(key))
 				{
-					DynamicMethod dynamicMethod = new DynamicMethod(key, typeof(object), new Type[]
+					DynamicMethod dynamicMethod = new(key, typeof(object), new Type[]
 					{
 						typeof(object[])
 					}, typeof(ProxyFactory).Module);
@@ -111,7 +111,7 @@ namespace Tool.SqlCore
 		{
 			if (parameters == null)
 			{
-				return new Type[0];
+				return Array.Empty<Type>();
 			}
 			Type[] array = new Type[parameters.Length];
 			for (int i = 0; i < parameters.Length; i++)
@@ -124,7 +124,7 @@ namespace Tool.SqlCore
 		/// <summary>
 		/// 存储所有的数据库类
 		/// </summary>
-		private static readonly Dictionary<string, ProxyFactory.CreateInstanceHandler> m_Handlers = new Dictionary<string, ProxyFactory.CreateInstanceHandler>();
+		private static readonly Dictionary<string, ProxyFactory.CreateInstanceHandler> m_Handlers = new();
 
 		/// <summary>
 		/// 实现回调数据接口

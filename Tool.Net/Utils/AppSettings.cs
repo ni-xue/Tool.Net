@@ -12,12 +12,22 @@ namespace Tool.Utils
     /// </summary>
     public class AppSettings
     {
+        /// <summary>
+        /// 主配置文件名
+        /// </summary>
+        public const string FileName = "appsettings.json";
+
+        /// <summary>
+        /// 调试配置文件名
+        /// </summary>
+        public const string FileNameDevelopment = "appsettings.Development.json";
+
         private const string WebConfigHasNotAddKey = "当前项目配置 “.config” 下面的appSettings节点不包含，{0}字段，请检查配置文件。";
 
         /// <summary>
         /// 项目配置文件获取对象
         /// </summary>
-        public static IConfiguration Configuration { get; }
+        public static IConfigurationRoot Configuration { get; }
 
         /// <summary>
         /// 自动注入
@@ -26,34 +36,61 @@ namespace Tool.Utils
         {
             try
             {
-                //在当前目录或者根目录中寻找appsettings.json文件
-                var fileName = "appsettings.json";//appsettings.Development.json
-                var fileNameDevelopment = "appsettings.Development.json";
-
-                var builder = new ConfigurationBuilder().AddJsonFile(fileName, false, true);
-                string directory = AppContext.BaseDirectory.Replace("\\", "/");
-
-                var filePath = $"{directory}/{fileNameDevelopment}";
-                if (File.Exists(filePath))
+                if (IsBuild(Environment.CurrentDirectory, out IConfigurationRoot configurationRoot)) 
                 {
-                    builder.AddJsonFile(fileNameDevelopment, false, true);
+                    Configuration = configurationRoot;
                 }
-                IConfigurationRoot configurationRoot = builder.Build();
-                Configuration = configurationRoot;
+                else if (IsBuild(AppContext.BaseDirectory, out configurationRoot))
+                {
+                    Configuration = configurationRoot;
+                }
+                
+                //var builder = new ConfigurationBuilder().AddJsonFile(fileName, false, true);
+                //directory = AppContext.BaseDirectory;//.Replace("\\", "/");
+
+                //var filePath = Path.Combine(directory, fileNameDevelopment);// $"{directory}\\{fileNameDevelopment}";
+                //if (File.Exists(filePath))
+                //{
+                //    builder.AddJsonFile(fileNameDevelopment, false, true);
+                //}
+                //IConfigurationRoot configurationRoot = builder.Build();
+                //Configuration = configurationRoot;
             }
             catch (Exception ex)
             {
                 //System.Diagnostics.Trace.TraceError(ex.Message);
                 System.Diagnostics.Debug.Write(ex.Message);
             }
+
+            static bool IsBuild(string directory, out IConfigurationRoot configurationRoot)
+            {
+                string filePath = Path.Combine(directory, FileName);
+                if (File.Exists(filePath))
+                {
+                    var builder = new ConfigurationBuilder().AddJsonFile(filePath, false, true);
+
+                    filePath = Path.Combine(directory, FileNameDevelopment);
+                    if (File.Exists(filePath))
+                    {
+                        builder.AddJsonFile(filePath, false, true);
+                    }
+                    configurationRoot = builder.Build();
+                    //Configuration = configurationRoot;
+                    return true;
+                }
+                configurationRoot = null;
+                return false;
+            }
         }
+        
+
 
         /// <summary>
         /// 根据你提供的地址获取配置文件信息
         /// </summary>
         /// <param name="filePath">配置文件路径</param>
         /// <returns>返回指定对象</returns>
-        public static IConfiguration AddJsonFile(string filePath) 
+        public static IConfiguration AddJsonFile(string filePath)
         {
             var builder = new ConfigurationBuilder().AddJsonFile(filePath, false, true);
             return builder.Build();
@@ -124,9 +161,9 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="key">配置部分的键。</param>
         /// <returns>这个 Microsoft.Extensions.Configuration.IConfigurationSection</returns>
-        public static IConfigurationSection GetSection(string key) 
+        public static IConfigurationSection GetSection(string key)
         {
-           return Configuration?.GetSection(key);
+            return Configuration?.GetSection(key);
         }
 
         /// <summary>
@@ -142,7 +179,7 @@ namespace Tool.Utils
         /// 返回Microsoft.Extensions.Primitives.IChangeToken，可用于观察重新加载此配置时。
         /// </summary>
         /// <returns>一个Microsoft.Extensions.Primitives.IChangeToken。</returns>
-        public static IChangeToken GetReloadToken() 
+        public static IChangeToken GetReloadToken()
         {
             return Configuration?.GetReloadToken();
         }

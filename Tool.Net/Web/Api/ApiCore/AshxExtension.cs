@@ -275,6 +275,8 @@ namespace Tool.Web.Api.ApiCore
                     return request.Cookies.TryGetValue(parameter.KeyName, out string value2) ? value2.ToVar(parameter.ParameterType, false) : null;
                 case Val.File:
                     return GetFile();// request.HasFormContentType ? request.Form.Files.GetFile(parameter.Name) : null;
+                case Val.Files:
+                    return request.HasFormContentType ? request.Form.Files : null;
                 case Val.Service:
                     return request.HttpContext.RequestServices.GetService(parameter.ParameterType);
                 case Val.Session:

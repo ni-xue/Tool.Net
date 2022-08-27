@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Threading;
 using Tool.Sockets.SupportCode;
 using Tool.Utils;
 
@@ -42,12 +45,27 @@ namespace Tool.Sockets.TcpFrame
         /// <summary>
         /// 当前消息携带的数据流
         /// </summary>
-        public byte[] Bytes { get; internal set; }
+        public ArraySegment<byte> Bytes { get; internal set; }
 
         /// <summary>
         /// 当前发生的异常
         /// </summary>
         public Exception Exception { get; internal set; }
+
+        internal void Complete(ref DataPacket packet)
+        {
+            OnTcpFrame = packet.IsErr ? TcpFrameState.Exception : TcpFrameState.Success;
+            if (!packet.IsErr)
+            {
+                Text = packet.Text;
+                Bytes = packet.Bytes; // packet.Bytes.Count is 0 ? null : packet.Bytes.ToArray();
+            }
+            else
+            {
+                Exception = new Exception(packet.Text);
+            }
+            IsAsync = packet.IsAsync;//是异步的？
+        }
 
         ///**
         // * 返回可查找的方法键值
@@ -80,7 +98,7 @@ namespace Tool.Sockets.TcpFrame
                 IsAsync = isAsync,
                 //IsIpIdea = isIpPort,
                 IpPort = ipPort,
-                Obj = msg,
+                Text = msg,
             };
 
             return dataPacket;
@@ -89,97 +107,83 @@ namespace Tool.Sockets.TcpFrame
         /// <summary>
         /// 验证并确保包100%完整
         /// </summary>
+        /// <param name="isSorC">验证差异</param>
         /// <param name="packet">原始包</param>
-        /// <param name="dictionary"></param>
-        /// <param name="_lock"></param>
         /// <returns></returns>
-        internal static bool IsComplete(ref DataPacket packet, System.Collections.Concurrent.ConcurrentDictionary<string, ThreadObj> dictionary, object _lock)
+        internal static bool IsComplete(bool isSorC, ref DataPacket packet)
         {
+            if (packet.IsServer == isSorC)// 验证差异 服务端客户端 差异
+            {
+                packet.Dispose();
+                return false;
+            }
+
             if (packet.NotIsMany || packet.IsIpIdea && !packet.IsServer)
             {
                 return true;
             }
             else
             {
-                ThreadObj _threadObj;
-                if (packet.IsSend)
+                string OnlyID = packet.OnlyID;
+                int objcount = packet.Many.End.Value;
+
+                //if (packet.IsSend)
+                //{
+                //    int count = packet.Many.End.Value;
+                //    _threadObj = StaticData.TcpByteObjs.GetOrAdd(OnlyID, a => new TcpByteObjs(count));
+                //}
+                //else if (!StaticData.TcpByteObjs.TryGetValue(OnlyID, out _threadObj))
+                //{
+                //    packet.Dispose();
+                //    return false;
+                //}
+
+                TcpByteObjs _byteObjs = StaticData.TcpByteObjs.GetOrAdd(OnlyID, a => new TcpByteObjs(objcount));
+
+                //lock (_byteObjs._lock)
+                //{
+                _byteObjs.OjbCount[packet.Many.Start.Value] = packet.Bytes;
+                _byteObjs.Length += packet.Bytes.Count;
+                _byteObjs.Count--;
+
+                if (_byteObjs.Count == 0)
                 {
-                    lock (_lock)
+                    // Memory<>
+                    ArraySegment<byte> bytes = new byte[_byteObjs.Length];
+                    int count = 0; //计数用于处理多包叠加
+                    for (int i = 0; i < _byteObjs.OjbCount.Length; i++)
                     {
-                        if (!dictionary.TryGetValue(packet.OnlyID, out _threadObj))
-                        {
-                            dictionary.TryAdd(packet.OnlyID, _threadObj = new ThreadObj(packet.OnlyID));
-                        }
-                    }
-                }
-                else if (!dictionary.TryGetValue(packet.OnlyID, out _threadObj))
-                {
-                    packet.Dispose();
-                    return false;
-                }
-
-                lock (_threadObj._lock)
-                {
-                    if (_threadObj.Count == 0)
-                    {
-                        _threadObj.Count = packet.Many.End.Value;
-                        _threadObj.OjbCount = new byte[_threadObj.Count][];
+                        count += i > 0 ? _byteObjs.OjbCount[i - 1].Count : 0;
+                        _byteObjs.OjbCount[i].CopyTo(bytes[count..]);
                     }
 
-                    _threadObj.OjbCount[packet.Many.Start.Value] = packet.Bytes;//.Clone() as byte[]
-                    _threadObj.Length += packet.Bytes.Length;
-                    _threadObj.Count--;
+                    int length = TcpStateObject.GetDataHead(bytes);//(bytes[0..TcpStateObject.HeadSize]);
 
-                    if (_threadObj.Count == 0)
+                    if (length > 0)//这里为处理问题
                     {
-                        byte[] bytes = new byte[_threadObj.Length];
-                        int count = 0; //计数用于处理多包叠加
-                        for (int i = 0; i < _threadObj.OjbCount.Length; i++)
-                        {
-                            count += i > 0 ? _threadObj.OjbCount[i - 1].Length : 0;
-                            _threadObj.OjbCount[i].CopyTo(bytes, count);
-                        }
-
-                        int length = TcpStateObject.GetDataHead(bytes[0..6]);
-
-                        if (length > 0)
-                        {
-                            packet.Obj = Encoding.UTF8.GetString(bytes, 6, length);
-                            packet.Bytes = bytes[(6 + length)..];
-                        }
-                        else
-                        {
-                            packet.Bytes = bytes;
-                        }
-                        packet.EmptyMany();
-                        if (packet.IsSend)
-                        {
-                            dictionary.TryRemove(packet.OnlyID, out _);
-                            _threadObj.Dispose();
-                        }
-                        return true;
+                        //packet.Text = Encoding.UTF8.GetString(bytes, 6, length);
+                        packet.TextBytes = bytes.Slice(TcpStateObject.HeadSize, length);
+                        int bytelength = TcpStateObject.HeadSize + length;
+                        if(bytes.Count > bytelength) packet.Bytes = bytes[bytelength..];
                     }
-                    packet.Dispose();
+                    else
+                    {
+                        packet.Bytes = bytes;
+                    }
+                    packet.EmptyMany();
+                    //if (packet.IsSend)
+                    //{
+                    //    StaticData.TcpByteObjs.TryRemove(OnlyID, out _);
+                    //}
+                    StaticData.TcpByteObjs.TryRemove(OnlyID, out _);
+                    //_byteObjs.Dispose();
+                    return true;
                 }
+                packet.Dispose();
+                //}
 
                 return false;
             }
-        }
-
-        //**
-        // * 返回可查找的方法键值
-        // */
-        //internal static string GetActionID(string OnlyID)
-        //{
-        //    return OnlyID.Substring(32);
-        //}
-
-        /**
-         * 返回可查找的方法键值
-         */
-        internal static string GetActionID(DataPacket packet)
-        {
-            return string.Concat(packet.ClassID, '.', packet.ActionID); //OnlyID.Substring(32);
         }
 
         /// <summary>
@@ -191,17 +195,28 @@ namespace Tool.Sockets.TcpFrame
         /**
          * 根据一次性回复数据包解析成一个或多个包
          */
-        internal static void Receiveds(string key, byte[] bytes, Action<string, DataPacket> action)
+        internal static bool Receiveds(TcpBytes tcpBytes, out DataPacket dataPacket)
         {
             try
             {
-                if (bytes[0] != 123) return;
-                DataPacket json = DataPacket.DataByte(bytes);
-                action(key, json);
+                var spans = tcpBytes.Data.Span;
+                if (spans[0] == KeepAlive[0])
+                {
+                    dataPacket = DataPacket.DataByte(spans);
+                    return true;
+                }
+                dataPacket = default;
+                return false;
             }
             catch (Exception ex)
             {
                 Log.Error("消息解包异常", ex, "Log/TcpFrame");
+                dataPacket = default;
+                return false;
+            }
+            finally
+            {
+                tcpBytes.Dispose();
             }
         }
 

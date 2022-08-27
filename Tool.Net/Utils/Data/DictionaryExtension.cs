@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Tool.Utils.Data
@@ -12,6 +13,18 @@ namespace Tool.Utils.Data
     /// <remarks>代码由逆血提供支持</remarks>
     public static class DictionaryExtension
     {
+        /// <summary>
+        /// 将 <see cref="IDictionary{TKey, TValue}"/>对象 拷贝创建新 <see cref="Dictionary{TKey, TValue}"/>对象
+        /// </summary>
+        /// <typeparam name="TKey">键</typeparam>
+        /// <typeparam name="TValue">值</typeparam>
+        /// <param name="oldDictionary"><see cref="IDictionary{TKey, TValue}"/>对象</param>
+        /// <returns><see cref="Dictionary{TKey, TValue}"/></returns>
+        public static Dictionary<TKey, TValue> NewDictionary<TKey, TValue>(this IDictionary<TKey, TValue> oldDictionary)
+        {
+            return new Dictionary<TKey, TValue>(oldDictionary);
+        }
+
         /// <summary>
         /// 将对象转换成<see cref="IDictionary{TKey, TValue}"/>
         /// </summary>
@@ -29,19 +42,17 @@ namespace Tool.Utils.Data
         /// <returns><see cref="Dictionary{TKey, TValue}"/></returns>
         public static Dictionary<string, object> ToDictionary(this object source)
         {
-            return source.ToIDictionary<object>() as Dictionary<string, object>;
+            return source.ToDictionary<object>();// as Dictionary<string, object>;
         }
 
         /// <summary>
-        /// 将 <see cref="IDictionary{TKey, TValue}"/>对象 转换成 <see cref="Dictionary{TKey, TValue}"/>对象
+        /// 将对象转换成<see cref="IDictionary{TKey, TValue}"/>
         /// </summary>
-        /// <typeparam name="TKey">键</typeparam>
-        /// <typeparam name="TValue">值</typeparam>
-        /// <param name="oldDictionary"><see cref="IDictionary{TKey, TValue}"/>对象</param>
-        /// <returns><see cref="Dictionary{TKey, TValue}"/></returns>
-        public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IDictionary<TKey, TValue> oldDictionary)
+        /// <param name="source">对象</param>
+        /// <returns><see cref="IDictionary{TKey, TValue}"/></returns>
+        public static IDictionary<string, T> ToIDictionary<T>(this object source)
         {
-            return new Dictionary<TKey, TValue>(oldDictionary);
+            return source.ToDictionary<T>();
         }
 
         /// <summary>
@@ -50,38 +61,71 @@ namespace Tool.Utils.Data
         /// <typeparam name="T"></typeparam>
         /// <param name="source">对象</param>
         /// <returns><see cref="IDictionary{TKey, TValue}"/></returns>
-        public static IDictionary<string, T> ToIDictionary<T>(this object source)
+        public static Dictionary<string, T> ToDictionary<T>(this object source)
         {
             if (source == null)
-                ThrowExceptionWhenSourceArgumentIsNull();
+                throw new ArgumentNullException(nameof(source), "无法将对象转换为字典。源对象为NULL");
 
             var dictionary = new Dictionary<string, T>();
-            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(source))
-                AddPropertyToDictionary<T>(property, source, dictionary);
+            var entityBuilder = EntityBuilder.GetEntity(source.GetType());
+            foreach (PropertyInfo property in entityBuilder.Parameters) //PropertyDescriptor property is TypeDescriptor.GetProperties(source)
+                AddPropertyToDictionary(property, source, dictionary);
             return dictionary;
         }
 
-        private static void AddPropertyToDictionary<T>(PropertyDescriptor property, object source, Dictionary<string, T> dictionary)
+        private static void AddPropertyToDictionary<T>(PropertyInfo property, object source, Dictionary<string, T> dictionary) //PropertyDescriptor property
         {
             object value = property.GetValue(source);
-            if (IsOfType<T>(value))
-            { 
-                dictionary.Add(property.Name, (T)value);
-            }
-            else if (typeof(T) == typeof(object) && value == null)
+            if (IsOfType(value, out T data))
             {
-                dictionary.Add(property.Name, default);
+                dictionary.Add(property.Name, data);
             }
+            //else if (typeof(T) == typeof(object) && value == null)
+            //{
+            //    dictionary.Add(property.Name, default);
+            //}
         }
 
-        private static bool IsOfType<T>(object value)
+        private static bool IsOfType<T>(object value, out T data)
         {
-            return value is T;
+            if (value is T _data)
+            {
+                data = _data;
+                return true;
+            }
+            if (typeof(T) == typeof(object))
+            {
+                data = (T)value;
+                return true;
+            }
+            data = default;
+            return false;
         }
 
-        private static void ThrowExceptionWhenSourceArgumentIsNull()
+        /// <summary>
+        /// 获取对象结果集<see cref="IDictionary{TKey, TValue}"/>
+        /// </summary>
+        /// <param name="source">对象</param>
+        /// <returns><see cref="IDictionary{TKey, TValue}"/>对象结果集</returns>
+        public static IDictionary<string, object> GetDictionary(this object source)
         {
-            throw new ArgumentNullException("source", "无法将对象转换为字典。源对象为NULL");
+            if (source == null)
+                throw new ArgumentNullException(nameof(source), "无法将对象转换为字典。源对象为NULL");
+            var entityBuilder = EntityBuilder.GetEntity(source);
+            return entityBuilder.Get(source);
+        }
+
+        /// <summary>
+        /// 给对象赋值，使用字典赋值
+        /// </summary>
+        /// <param name="source">对象</param>
+        /// <param name="parameters">赋值键值对</param>
+        public static void SetDictionary(this object source, IDictionary<string, object> parameters)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source), "无法将对象转换为字典。源对象为NULL");
+            var entityBuilder = EntityBuilder.GetEntity(source);
+            entityBuilder.Set(source, parameters);
         }
 
         /// <summary>
@@ -106,7 +150,7 @@ namespace Tool.Utils.Data
             if (!keys.TryRemove(out _, key))
             {
                 type = false;
-                 //throw new ArgumentNullException("某个key不存在：", $"警告：key（{_key}）不存在,无法删除！");
+                //throw new ArgumentNullException("某个key不存在：", $"警告：key（{_key}）不存在,无法删除！");
             }
             return type;
         }
@@ -129,7 +173,7 @@ namespace Tool.Utils.Data
                 List<TKey> keys1 = new();
                 foreach (var _key in key)
                 {
-                    if (!keys.Remove(_key)) 
+                    if (!keys.Remove(_key))
                     {
                         keys1.Add(_key);
 
@@ -201,7 +245,7 @@ namespace Tool.Utils.Data
             {
                 throw new System.SystemException("count超出了数组，数组越界！");
             }
-            Dictionary<TKey, TValue> keyValuePairs1 = new Dictionary<TKey, TValue>();
+            Dictionary<TKey, TValue> keyValuePairs1 = new();
 
             int Index = 0;
 

@@ -1,29 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Tool.Sockets.SupportCode;
 
 namespace Tool.Sockets.TcpFrame
 {
     /**
     * 数据接收对象
     */
-    [Serializable]
-    internal class DataPacket : IDisposable
+    //[Serializable]
+    internal struct DataPacket //: IDisposable
     {
+        /// <summary>
+        /// 获取对应消息Key
+        /// </summary>
+        public string ActionKey => string.Concat(ClassID, '.', ActionID);
+
         /**
         * 通道ID
         */
-        public byte ClassID { get; set; }
+        public byte ClassID { get; init; }
 
         /**
          * 事件ID
          */
-        public byte ActionID { get; set; }
+        public byte ActionID { get; init; }
 
         /**
          * 唯一ID流
          */
-        public Guid OnlyId { get; set; }//byte[]
+        public Guid OnlyId { get; init; }//byte[]
 
         /**
          * 消息ID
@@ -35,7 +41,7 @@ namespace Tool.Sockets.TcpFrame
          */
         public Range Many { get; private set; } //= "0/0";//string
 
-        public bool NotIsMany => Many.Equals(new Range());
+        public bool NotIsMany => Many.Equals(Range.All);
 
         /**
          * 当前包是发包还是回复
@@ -60,7 +66,7 @@ namespace Tool.Sockets.TcpFrame
         /**
          * 是否转发数据，默认不转发
          */
-        public bool IsIpIdea { get { return this.IpPort != null; } }//{ get; set; }
+        public bool IsIpIdea { get { return this.IpPort is not null; } }//{ get; set; }
 
         /**
         * 是否携带数据包 0 = 不携带， 1 = 携带字符串， 2 = 携带字节流， 3 = 携带字符串加字节流
@@ -68,14 +74,23 @@ namespace Tool.Sockets.TcpFrame
         public byte IsObj { get { return GetIsObj(); } }//{ get; set; }
 
         /**
-         * 数据包
+         * 文本数据包
          */
-        public string Obj { get; set; }
+        public string Text
+        {
+            get => TextBytes.Count is 0 ? null : Encoding.UTF8.GetString(TextBytes);
+            set => TextBytes = value is null ? ArraySegment<byte>.Empty : Encoding.UTF8.GetBytes(value);
+        }
+
+        /**
+         * 文本流数据包
+         */
+        public ArraySegment<byte> TextBytes { get; set; }
 
         /**
          * 携带数据包
          */
-        public byte[] Bytes { get; set; }
+        public ArraySegment<byte> Bytes { get; set; }
 
         /**
          * 当为转发时，转发给谁的IpPort
@@ -127,8 +142,8 @@ namespace Tool.Sockets.TcpFrame
 
         private byte GetIsObj()
         {
-            bool isbytes = Bytes != null;
-            bool isobj = !string.IsNullOrWhiteSpace(Obj); //Obj != null;
+            bool isbytes = Bytes.Count > 0; //!ArraySegment<byte>.Empty.Equals(Bytes);
+            bool isobj = TextBytes.Count > 0; //!ArraySegment<byte>.Empty.Equals(TextBytes); //Obj != null;
 
             if (isbytes && isobj)
             {
@@ -158,41 +173,64 @@ namespace Tool.Sockets.TcpFrame
             switch (IsObj)
             {
                 case 3:
-                    listData += (6 + Encoding.UTF8.GetByteCount(this.Obj) + this.Bytes.Length);
+                    listData += TcpStateObject.HeadSize + this.TextBytes.Count + this.Bytes.Count;
                     break;
                 case 2:
-                    listData += this.Bytes.Length;
+                    listData += this.Bytes.Count;
                     break;
                 case 1:
-                    listData += Encoding.UTF8.GetByteCount(this.Obj);
+                    listData += this.TextBytes.Count;
                     break;
             }
 
             if (listData > BufferSize)
             {
-                double count = (double)listData / (double)BufferSize;
-                if (count > (int)count)
+                //方案一
+                //float count = listData / (float)BufferSize;
+                //if (count > (int)count)
+                //{
+                //    count++;
+                //}
+                //方案二
+                int count = listData / BufferSize;
+                if ((listData % BufferSize) > 0)
                 {
                     count++;
                 }
-                //this.Many = string.Concat("0/", (byte)count); //$"0/{(int)(count)}";
-                this.Many = new Range(0, (byte)count);
+
+                if (count > 255) throw new Exception("分包数超过 255 个包，请减少包体数据！");
+
+                this.Many = new Range(0, ^count);
 
                 if (IsObj == 3)
                 {
-                    byte[] objstr = SupportCode.TcpStateObject.GetDataSend(Encoding.UTF8.GetBytes(this.Obj), int.MaxValue);
-                    Array.Resize(ref objstr, objstr.Length + Bytes.Length);
-                    this.Bytes.CopyTo(objstr, objstr.Length - Bytes.Length);
-                    this.Bytes = objstr;
+                    ArraySegment<byte> newbytes = new byte[TcpStateObject.HeadSize + this.TextBytes.Count + Bytes.Count];
+                    TcpStateObject.SetDataHead(newbytes, this.TextBytes.Count, 0);
+                    this.TextBytes.CopyTo(newbytes[TcpStateObject.HeadSize..]);
+                    this.Bytes.CopyTo(newbytes[(TcpStateObject.HeadSize + this.TextBytes.Count)..]);
+                    this.Bytes = newbytes;
 
-                    this.Obj = null;
+                    //ArraySegment<byte> objstr = SupportCode.TcpStateObject.GetDataSend(this.TextBytes, int.MaxValue);
+                    //Array.Resize(ref objstr, objstr.Count + Bytes.Count);
+                    //this.Bytes.CopyTo(objstr, objstr.Count - Bytes.Count);
+                    //this.Bytes = objstr;
+
+                    this.Text = null;
                 }
                 else if (IsObj == 1)
                 {
-                    this.Bytes = SupportCode.TcpStateObject.GetDataSend(Encoding.UTF8.GetBytes(this.Obj), int.MaxValue);
-                    this.Obj = null;
-                }
+                    ArraySegment<byte> newbytes = new byte[TcpStateObject.HeadSize + this.TextBytes.Count];
+                    TcpStateObject.SetDataHead(newbytes, this.TextBytes.Count, 0);
+                    this.TextBytes.CopyTo(newbytes[TcpStateObject.HeadSize..]);
+                    this.Bytes = newbytes;
 
+                    //this.Bytes = SupportCode.TcpStateObject.GetDataSend(this.TextBytes, int.MaxValue);
+                    this.Text = null;
+                }
+            }
+            else
+            {
+                EmptyMany();
             }
         }
 
@@ -201,13 +239,13 @@ namespace Tool.Sockets.TcpFrame
          */
         internal void EmptyMany()
         {
-            this.Many = new Range();
+            this.Many = Range.All;
         }
 
         /**
          * 将对象转为数据包
          */
-        internal byte[] ByteData()
+        internal ArraySegment<byte> ByteData()
         {
             //**
             // * 固定体
@@ -224,10 +262,47 @@ namespace Tool.Sockets.TcpFrame
             // * 最少位数：23~29
             // */
 
-            int index = 0;
-            byte[] bytes = new byte[IsIpIdea ? 29 : 23];
+            int index = 0, origsize = IsIpIdea ? 29 : 23, size = origsize;
+            ArraySegment<byte> bytes;//byte[]
+
+            //byte[]
+            switch (IsObj)
+            {
+                case 3:
+                    size += TcpStateObject.HeadSize;
+                    size += this.TextBytes.Count;
+                    size += this.Bytes.Count;
+                    bytes = new byte[size];
+
+                    TcpStateObject.SetDataHead(bytes, this.TextBytes.Count, origsize);
+                    this.TextBytes.CopyTo(bytes[(origsize + TcpStateObject.HeadSize)..]);
+                    this.Bytes.CopyTo(bytes[(size - this.Bytes.Count)..]);
+
+                    //byte[] objstr = SupportCode.TcpStateObject.GetDataSend(this.TextBytes, int.MaxValue);
+                    //size += objstr.Length;
+                    //size += this.Bytes.Count;
+                    //bytes = new byte[size];
+                    //objstr.CopyTo(bytes.Array, origsize);
+                    //this.Bytes.CopyTo(bytes.Array, size - this.Bytes.Count);
+                    break;
+                case 2:
+                    size += this.Bytes.Count;
+                    bytes = new byte[size];
+                    this.Bytes.CopyTo(bytes[origsize..]);
+                    break;
+                case 1:
+                    size += this.TextBytes.Count;
+                    bytes = new byte[size];
+                    this.TextBytes.CopyTo(bytes[origsize..]);
+                    break;
+                default:
+                    bytes = new byte[size];
+                    break;
+            }
+
             bytes[index++] = 123;
-            this.OnlyId.ToByteArray().CopyTo(bytes, index); //Array.Copy(OnlyId, 0, bytes, index, 16);
+            //this.OnlyId.ToByteArray().CopyTo(bytes, index); //Array.Copy(OnlyId, 0, bytes, index, 16);
+            this.OnlyId.TryWriteBytes(bytes[index..]);
             index += 16;
             bytes[index++] = ClassID;
             bytes[index++] = ActionID;
@@ -260,39 +335,41 @@ namespace Tool.Sockets.TcpFrame
 
                 System.Net.IPEndPoint s1 = System.Net.IPEndPoint.Parse(IpPort);
 
-                s1.Address.GetAddressBytes().CopyTo(bytes, index);
+                //s1.Address.GetAddressBytes().CopyTo(bytes, index);
+
+                s1.Address.TryWriteBytes(bytes[index..], out _);
+
                 index += 4;
-                byte[] ports = BitConverter.GetBytes((ushort)s1.Port);
-                ports.CopyTo(bytes, index);
-                index += 2;
+                //byte[] ports = BitConverter.GetBytes((ushort)s1.Port);
+                //ports.CopyTo(bytes, index);
+
+                BitConverter.TryWriteBytes(bytes[index..], (ushort)s1.Port);
+                //index += 2;
             }
 
-            //byte[] 
-            switch (IsObj)
-            {
-                case 3:
-                    byte[] objstr = SupportCode.TcpStateObject.GetDataSend(Encoding.UTF8.GetBytes(this.Obj), int.MaxValue);
+            ////byte[] 
+            //switch (IsObj)
+            //{
+            //    case 3:
+            //        byte[] objstr = SupportCode.TcpStateObject.GetDataSend(Encoding.UTF8.GetBytes(this.Obj), int.MaxValue);
 
-                    Array.Resize(ref bytes, bytes.Length + objstr.Length + this.Bytes.Length);
+            //        //Array.Resize(ref bytes, bytes.Length + objstr.Length + this.Bytes.Length);
 
-                    //Array.Copy(objstr, 0, bytes, index, objstr.Length);  //bytes.AddRange(objstr);
-                    objstr.CopyTo(bytes, index);
-                    index += objstr.Length;
-                    this.Bytes.CopyTo(bytes, index);//Array.Copy(this.Bytes, 0, bytes, index, this.Bytes.Length); //bytes.AddRange(this.Bytes);
-                    break;
-                case 2:
-                    Array.Resize(ref bytes, bytes.Length + this.Bytes.Length);
-                    this.Bytes.CopyTo(bytes, index); //Array.Copy(this.Bytes, 0, bytes, index, this.Bytes.Length); //bytes.AddRange(this.Bytes);
-                    break;
-                case 1:
-                    objstr = Encoding.UTF8.GetBytes(this.Obj);
-                    Array.Resize(ref bytes, bytes.Length + objstr.Length);
-                    objstr.CopyTo(bytes, index);//Array.Copy(objstr, 0, bytes, index, objstr.Length); //bytes.AddRange(Encoding.UTF8.GetBytes(this.Obj));
-                    break;
-            }
-
-
-
+            //        //Array.Copy(objstr, 0, bytes, index, objstr.Length);  //bytes.AddRange(objstr);
+            //        objstr.CopyTo(bytes, index);
+            //        index += objstr.Length;
+            //        this.Bytes.CopyTo(bytes, index);//Array.Copy(this.Bytes, 0, bytes, index, this.Bytes.Length); //bytes.AddRange(this.Bytes);
+            //        break;
+            //    case 2:
+            //        //Array.Resize(ref bytes, bytes.Length + this.Bytes.Length);
+            //        this.Bytes.CopyTo(bytes, index); //Array.Copy(this.Bytes, 0, bytes, index, this.Bytes.Length); //bytes.AddRange(this.Bytes);
+            //        break;
+            //    case 1:
+            //        objstr = Encoding.UTF8.GetBytes(this.Obj);
+            //        //Array.Resize(ref bytes, bytes.Length + objstr.Length);
+            //        objstr.CopyTo(bytes, index);//Array.Copy(objstr, 0, bytes, index, objstr.Length); //bytes.AddRange(Encoding.UTF8.GetBytes(this.Obj));
+            //        break;
+            //}
 
             //for (int r = 0; r < 1000000; r++)
             //{
@@ -424,9 +501,9 @@ namespace Tool.Sockets.TcpFrame
             //string json = str.ToString();
             //str.Clear();
 
-            if (bytes.Length > this.BufferSize)
+            if (bytes.Count > this.BufferSize)
             {
-                throw new System.SystemException($"发送数据的包大于配置的包体大小！（发送包大小{bytes.Length},本该最大大小{this.BufferSize}。）");
+                throw new System.SystemException($"发送数据的包大于配置的包体大小！（发送包大小{bytes.Count},本该最大大小{this.BufferSize}。）");
             }
             return bytes;
         }
@@ -434,12 +511,12 @@ namespace Tool.Sockets.TcpFrame
         /**
          * 将字节流转为原对象
          */
-        internal static DataPacket DataByte(ReadOnlySpan<byte> bytes)//byte[]
+        internal static DataPacket DataByte(Span<byte> bytes)//byte[]
         {
-            DataPacket packet = new();// { OnlyId = new byte[16] }
-                                                 //unsafe
-                                                 //{
-                                                 //    //int length = bytes.Length;
+            // { OnlyId = new byte[16] }
+            //unsafe
+            //{
+            //    //int length = bytes.Length;
 
             //    fixed (byte* ps = bytes)
             //    {
@@ -543,10 +620,13 @@ namespace Tool.Sockets.TcpFrame
             //}
             int i = 1;
             //Array.Copy(bytes, 1, packet.OnlyId, 0, 16);
-            packet.OnlyId = new Guid(bytes.Slice(i, 16)); //bytes.AsMemory(i, 16).ToArray(); //ReadOnlySpan
-            packet.ClassID = bytes[17];
-            packet.ActionID = bytes[18];
-            packet.Many = new Range(bytes[19], bytes[20]);
+            DataPacket packet = new()
+            {
+                OnlyId = new Guid(bytes.Slice(i, 16)), //bytes.AsMemory(i, 16).ToArray(); //ReadOnlySpan
+                ClassID = bytes[17],
+                ActionID = bytes[18],
+                Many = new Range(bytes[19], ^bytes[20])
+            };
             byte is_1 = bytes[21], is_2 = bytes[22];
             i += 22;
             if (is_1 > 99)
@@ -572,31 +652,36 @@ namespace Tool.Sockets.TcpFrame
             if (is_2 > 9)
             {
                 is_2 -= 10;
-                packet.IpPort = new System.Net.IPEndPoint(new System.Net.IPAddress(bytes.Slice(i, 4)), BitConverter.ToUInt16(bytes.Slice(i + 4, 2))).ToString();//bytes, 27
+
+                packet.IpPort = $"{bytes[23]}.{bytes[24]}.{bytes[25]}.{bytes[26]}:{BitConverter.ToUInt16(bytes.Slice(27, 2))}";
+
+                //packet.IpPort = new System.Net.IPEndPoint(new System.Net.IPAddress(bytes.Slice(i, 4)), BitConverter.ToUInt16(bytes.Slice(i + 4, 2))).ToString();//bytes, 27
                 //packet.IpPort = string.Concat(bytes[23], '.', bytes[24], '.', bytes[25], '.', bytes[26], ':', BitConverter.ToUInt16(bytes, 27));
-                i += 6;
+                i += TcpStateObject.HeadSize;
             }
 
             switch (is_2)
             {
                 case 3:
-                    byte[] head = bytes.Slice(i, 6).ToArray(); //bytes.AsMemory(i, 6).ToArray(); //new byte[6];
+                    var head = bytes.Slice(i, TcpStateObject.HeadSize); //bytes.AsMemory(i, 6).ToArray(); //new byte[6];
                     //Array.Copy(bytes, i, head, 0, 6);
-                    int length = SupportCode.TcpStateObject.GetDataHead(head);
-                    i += 6;
+                    int length = TcpStateObject.GetDataHead(head);
+                    i += TcpStateObject.HeadSize;
 
-                    packet.Obj = Encoding.UTF8.GetString(bytes.Slice(i, length));//(bytes.ToArray(), i, length);
+                    //packet.Text = Encoding.UTF8.GetString(bytes.Slice(i, length));//(bytes.ToArray(), i, length);
+                    packet.TextBytes = bytes.Slice(i, length).ToArray();
                     i += length;
 
-                    packet.Bytes = bytes.Slice(i, bytes.Length - i).ToArray(); //new byte[bytes.Length - i];
+                    packet.Bytes = bytes[i..].ToArray(); //new byte[bytes.Length - i];
                     //Array.Copy(bytes.ToArray(), i, packet.Bytes, 0, packet.Bytes.Length);
                     break;
                 case 2:
-                    packet.Bytes = bytes.Slice(i, bytes.Length - i).ToArray(); //new byte[bytes.Length - i];
+                    packet.Bytes = bytes[i..].ToArray(); //new byte[bytes.Length - i];
                     //Array.Copy(bytes.ToArray(), i, packet.Bytes, 0, packet.Bytes.Length);
                     break;
                 case 1:
-                    packet.Obj = Encoding.UTF8.GetString(bytes.Slice(i, bytes.Length - i)); //(bytes.ToArray(), i, bytes.Length - i);
+                    //packet.Text = Encoding.UTF8.GetString(bytes[i..]); //(bytes.ToArray(), i, bytes.Length - i);
+                    packet.TextBytes = bytes[i..].ToArray();
                     break;
             }
             return packet;
@@ -753,22 +838,22 @@ namespace Tool.Sockets.TcpFrame
         /**
          * 返回指定的部分数据包
          */
-        private void GetCount(ReadOnlySpan<byte> bytes, int index, int count, int BufferSize)//ref byte[] internal
+        private void GetCount(ArraySegment<byte> bytes, int index, int count, int BufferSize)//ref byte[] internal
         {
             BufferSize -= IsIpIdea ? 29 : 23;
 
             if (index == count - 1)
             {
-                this.Bytes = bytes.Slice(index * BufferSize).ToArray();//, bytes.Length - index * BufferSize
+                this.Bytes = bytes.Slice(index * BufferSize);//, bytes.Length - index * BufferSize
             }
             else
             {
-                this.Bytes = bytes.Slice(index * BufferSize, BufferSize).ToArray();
+                this.Bytes = bytes.Slice(index * BufferSize, BufferSize);
             }
 
             //this.Many = string.Concat(index, '/', count);
             if (index > 0)
-                this.Many = new Range(index, count);
+                this.Many = new Range(index, ^count);
 
             //string Part;
             //if (index == count - 1)
@@ -812,19 +897,19 @@ namespace Tool.Sockets.TcpFrame
             //};
         }
 
-        internal byte[][] ByteDatas()
+        internal ArraySegment<byte>[] ByteDatas()
         {
             int count = this.Many.End.Value;// Substring(2).ToInt();
-            byte[][] buffers = new byte[count][];
-            byte[] bytes = this.Bytes;//Encoding.UTF8.GetBytes(dataPacket.Obj);// as byte[];string strobj = dataPacket.Obj;
+            ArraySegment<byte>[] buffers = new ArraySegment<byte>[count];
+            ArraySegment<byte> bytes = this.Bytes;//Encoding.UTF8.GetBytes(dataPacket.Obj);// as byte[];string strobj = dataPacket.Obj;
             for (int i = 0; i < count; i++)
             {
                 this.GetCount(bytes, i, count, this.BufferSize);
                 //string Json = dataPacket.StringData(); //data.Json();
-                byte[] listData = this.ByteData();//Encoding.UTF8.GetBytes(Json);
-                if (listData.Length > this.BufferSize)
+                ArraySegment<byte> listData = this.ByteData();//Encoding.UTF8.GetBytes(Json);
+                if (listData.Count > this.BufferSize)
                 {
-                    throw new System.SystemException($"发送数据的包大于配置的包体大小！（发送包大小{listData.Length},本该最大大小{this.BufferSize}。）");
+                    throw new System.SystemException($"发送数据的包大于配置的包体大小！（发送包大小{listData.Count},本该最大大小{this.BufferSize}。）");
                 }
                 buffers[i] = listData;
             }
@@ -834,16 +919,19 @@ namespace Tool.Sockets.TcpFrame
 
         public void Dispose()
         {
-            // 请将清理代码放入下面
-            this.ClassID = 0;
-            this.ActionID = 0;
-            this.OnlyId = Guid.Empty;
-            this.Many = Range.All;
-            this.IpPort = null;
-            this.Obj = null;
-            this.Bytes = null;
-            this.BufferSize = 0;
-            GC.SuppressFinalize(this);
+            if (this.ClassID > 0)
+            {
+                // 请将清理代码放入下面
+                //this.ClassID = 0;
+                //this.ActionID = 0;
+                //this.OnlyId = Guid.Empty;
+                this.Many = Range.All;
+                this.IpPort = null;
+                this.Text = null;
+                this.Bytes = null;
+                this.BufferSize = 0;
+                //GC.SuppressFinalize(this);
+            }
         }
 
         ///// <summary>

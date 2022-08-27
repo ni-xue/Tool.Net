@@ -41,6 +41,11 @@ namespace Tool.Web.Api.ApiCore
                     throw new Exception($"初始化 Api ({GetParameter.Member.DeclaringType.FullName}.{GetParameter.Member.Name}) 接口时，因参数名：{Name}，被定义为 Val.File 类型，但是参数类型并非 IFormFile，故无法实现。");
                 }
 
+                if (apiVal.State == Val.Files && typeof(Microsoft.AspNetCore.Http.IFormFileCollection) != ParameterType)
+                {
+                    throw new Exception($"初始化 Api ({GetParameter.Member.DeclaringType.FullName}.{GetParameter.Member.Name}) 接口时，因参数名：{Name}，被定义为 Val.Files 类型，但是参数类型并非 IFormFileCollection，故无法实现。");
+                }
+                
                 GetVal = apiVal.State;
             }
             else

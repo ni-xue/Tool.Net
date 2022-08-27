@@ -10,11 +10,11 @@ namespace Tool.Utils.ActionDelegate
     /// 用于对指定的类的方法进行调用，中级封装
     /// </summary>
     /// <remarks>代码由逆血提供支持</remarks>
-    public sealed class TypeInvoke : IDisposable
+    public sealed class TypeInvoke //: IDisposable
     {
-        private Type type;
+        private readonly Type type;
 
-        private object obj;
+        private readonly object obj;
 
         /// <summary>
         /// 获取当前被实例化的类的，名称包含命名空间
@@ -352,7 +352,7 @@ namespace Tool.Utils.ActionDelegate
             {
                 throw new ArgumentNullException("未找到此方法！");
             }
-            List<Method> methods = new List<Method>();
+            List<Method> methods = new();
             foreach (var Method in method)
             {
                 methods.Add(new Method(Method.ReflectedType.Name, Method.Name, Method.ReturnType, getType(Method.MemberType)));
@@ -466,6 +466,28 @@ namespace Tool.Utils.ActionDelegate
             return members.ToArray();
         }
 
+        ///// <summary>
+        ///// 获取该方法需要的参数
+        ///// </summary>
+        ///// <param name="member">对象</param>
+        ///// <returns>返回所有的参数</returns>
+        //public static Parameter[] GetParameter(params PropertyInfo[] member)
+        //{
+        //    if (member == null)
+        //    {
+        //        throw new ArgumentNullException("对象不能为空！");
+        //    }
+        //    List<Parameter> members = new();
+        //    foreach (var Member in member)
+        //    {
+        //        foreach (var info in Member.SetMethod.GetParameters())
+        //        {
+        //            members.Add(new Parameter(info));
+        //        }
+        //    }
+        //    return members.ToArray();
+        //}
+
         /// <summary>
         /// 获取该类指定的变量的值。
         /// </summary>
@@ -565,8 +587,8 @@ namespace Tool.Utils.ActionDelegate
             {
                 throw new ArgumentNullException("未找到此方法！");
             }
-            List<T> ts = new List<T>();
-            List<string> meths = new List<string>();
+            List<T> ts = new();
+            List<string> meths = new();
             foreach (var Method in method)
             {
                 meths.Add(Method.Name);
@@ -590,7 +612,7 @@ namespace Tool.Utils.ActionDelegate
             {
                 return null;
             }
-            Dictionary<string, T> keyValues = new Dictionary<string, T>();
+            Dictionary<string, T> keyValues = new();
             foreach (var Method in method)
             {
                 var hobbyAttr = Attribute.GetCustomAttribute(Method, typeof(T)).ToVar<T>();
@@ -622,7 +644,7 @@ namespace Tool.Utils.ActionDelegate
             {
                 return null;
             }
-            Dictionary<string, T> keyValues = new Dictionary<string, T>();
+            Dictionary<string, T> keyValues = new();
             foreach (var Method in method)
             {
                 var hobbyAttr = Attribute.GetCustomAttribute(Method, typeof(T)).ToVar<T>();
@@ -631,47 +653,44 @@ namespace Tool.Utils.ActionDelegate
             return keyValues;
         }
 
-        /// <summary>
-        /// 资源是否已被清理
-        /// </summary>
-        public bool IsDisposed = false;
+        ///// <summary>
+        ///// 资源是否已被清理
+        ///// </summary>
+        //public bool IsDisposed = false;
 
-        /// <summary>
-        /// 底层资源回收
-        /// </summary>
-        ~TypeInvoke()
-        {
-            Dispose(false);
-        }
+        ///// <summary>
+        ///// 底层资源回收
+        ///// </summary>
+        //~TypeInvoke()
+        //{
+        //    Dispose(false);
+        //}
 
-        /// <summary>
-        /// 清除缓存
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-        }
+        ///// <summary>
+        ///// 清除缓存
+        ///// </summary>
+        //public void Dispose() => Dispose(true);
 
-        /// <summary>
-        /// 清除缓存
-        /// </summary>
-        /// <param name="Disposing">为（true时清空掉对象的数据）</param>
-        public void Dispose(bool Disposing)
-        {
-            if (!IsDisposed)
-            {
-                if (Disposing)
-                {
-                    //清理托管资源
-                    //清理非托管资源
-                    type = null;
-                    obj = null;
-                    GC.SuppressFinalize(this);
+        ///// <summary>
+        ///// 清除缓存
+        ///// </summary>
+        ///// <param name="Disposing">为（true时清空掉对象的数据）</param>
+        //public void Dispose(bool Disposing)
+        //{
+        //    if (!IsDisposed)
+        //    {
+        //        if (Disposing)
+        //        {
+        //            //清理托管资源
+        //            //清理非托管资源
+        //            type = null;
+        //            obj = null;
+        //            //GC.SuppressFinalize(this);
 
-                    IsDisposed = true;
-                }
-            }
-        }
+        //            IsDisposed = true;
+        //        }
+        //    }
+        //}
     }
 
     /// <summary>

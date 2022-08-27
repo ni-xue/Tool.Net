@@ -175,7 +175,7 @@ namespace Tool.Web.Api
                 var Attributes = GetAttributes();
                 foreach (Attribute attribute in Attributes)
                 {
-                    if (!(attribute is Ashx))
+                    if (attribute is not Ashx)
                     {
                         _attrikeys.Add(attribute.GetType(), attribute);
                     }
@@ -200,10 +200,8 @@ namespace Tool.Web.Api
         /// 完成该有的配置
         /// </summary>
         /// <param name="Event">当前长连接要执行的消息方法</param>
-        public OnAshxEvent(Action<OnAshxEvent> Event)
+        public OnAshxEvent(Action<OnAshxEvent> Event): this(Event, StringExtension.GetGuid())
         {
-            this.GuId = StringExtension.GetGuid();
-            this.ActionEvent = Event;
         }
 
         /// <summary>
@@ -219,6 +217,7 @@ namespace Tool.Web.Api
             }
             this.GuId = GuId;
             this.ActionEvent = Event;
+            //this.ManualReset = new ManualResetEvent(false);
         }
 
         /// <summary>
@@ -284,37 +283,30 @@ namespace Tool.Web.Api
             {
                 throw new ArgumentException("值不能为空。", nameof(GuId));
             }
-            if (StaticData.StaticAshxEvents.TryRemove(GuId, out OnAshxEvent onAshxEvent))
+            if (StaticData.AshxEvents.TryRemove(GuId, out OnAshxEvent onAshxEvent))
             {
                 onAshxEvent.OnAshx = OnAshxEventState.Success;
                 onAshxEvent.Data = Data ?? onAshxEvent.Data;
-                onAshxEvent.ManualReset.Set();
+                onAshxEvent.ManualReset?.Set();
                 return true;
             }
             return false;
         }
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //~OnAshxEvent()
-        //{
-        //    Dispose();
-        //}
+        internal void Revive() => ActionEvent(this);
 
         /// <summary>
         /// 释放由 <see cref="OnAshxEvent"/> 类的当前实例使用的所有资源。
         /// </summary>
         public void Dispose()
         {
-            if (ManualReset != null)
-            {
-                ManualReset.Dispose();
-                ManualReset = null;
-                ActionEvent = null;
-                Data = null;
-                GuId = null;
-            }
+            if (ManualReset is null) return;
+            ManualReset.Dispose();
+            ManualReset = null;
+            ActionEvent = null;
+            Data = null;
+            GuId = null;
+            GC.SuppressFinalize(this);
         }
     }
 

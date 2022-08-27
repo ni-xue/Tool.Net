@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
-using Tool.Web.Api;
 
 namespace Tool
 {
@@ -11,10 +11,13 @@ namespace Tool
     /// </summary>
     internal class StaticData
     {
-        /// <summary>
-        /// 当前全局的 <see cref="OnAshxEvent"/> 对象集合
-        /// </summary>
-        internal static ConcurrentDictionary<string, OnAshxEvent> StaticAshxEvents = new();
+        internal readonly static ConcurrentDictionary<string, Web.Api.OnAshxEvent> AshxEvents = new();
+
+        internal readonly static ConcurrentDictionary<string, Sockets.TcpFrame.TcpByteObjs> TcpByteObjs = new();
+
+        internal readonly static ConcurrentDictionary<Type, Utils.EntityBuilder> EntityObjs = new();
+
+        //internal readonly static ConcurrentDictionary<Type, PropertyDescriptorCollection> Propertys = new();
     }
 
     /// <summary>

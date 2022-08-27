@@ -25,7 +25,7 @@ namespace Tool.Sockets.UdpHelper
         /// <summary>
         /// 用于控制异步接收消息
         /// </summary>
-        private readonly ManualResetEvent doReceive = new ManualResetEvent(false);
+        private readonly ManualResetEvent doReceive = new(false);
         //标识客户端是否关闭
         private bool isClose = false;
 

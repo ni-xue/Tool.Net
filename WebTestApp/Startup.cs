@@ -21,6 +21,10 @@ using System.Diagnostics;
 using Tool.Utils.ActionDelegate;
 using Tool.Sockets.WebTcp;
 using Microsoft.AspNetCore.Routing;
+using Tool.Sockets.TcpFrame;
+using Tool.Sockets.SupportCode;
+using System.Threading;
+using System.Buffers;
 
 namespace WebTestApp
 {
@@ -62,6 +66,17 @@ namespace WebTestApp
 
             //WebServer webServer = new();
             //webServer.StartAsync("127.0.0.1", 9999, false);
+
+            ClientFrame client = new();
+            client.SetCompleted((a, b, c) =>
+            {
+                Console.WriteLine("\nIP:{0} \t{1} \t{2}", a, b, c.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
+            });
+
+            client.ConnectAsync("127.0.0.1", 444);//120.79.58.17 
+            client.AddKeepAlive(5);
+
+            services.AddObject(client);
 
             services.AddRouting();
 
@@ -217,7 +232,7 @@ namespace WebTestApp
         //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, ClientFrame client)
         {
             //HttpContextExtension.Current.//env.IsDevelopment
 
@@ -227,6 +242,8 @@ namespace WebTestApp
 
             //var s = ActionHelper<ApplicationBuilder>.GetActionMethodHelper(MethodFlags.Private);
 
+            TcpEventQueue.OnInterceptor(EnClient.SendMsg, true);
+            TcpEventQueue.OnInterceptor(EnClient.Receive, true);
 
             DbHelper dbHelper = app.GetObject<DbHelper>();
             dbHelper.SetLogger(loggerFactory.CreateLogger("sql"));
@@ -239,6 +256,40 @@ namespace WebTestApp
             {
                 app.UseExceptionHandler(AllException);
             }
+
+            int a = 0, b = 0, c = 0, d = 0;
+
+            KeepAlive keep = new(1, () =>
+            {
+                Console.Clear();
+                Console.WriteLine("情况：{0}，{1}，{2}, 成功 {3},超时 {4},其他 {5},http计数：{6}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount, a, b, c, d);
+            });
+
+            app.UseRouting();
+
+            app.UseEndpoints(e =>
+            {
+                e.MapGet("/", async () =>
+                {
+                    Interlocked.Increment(ref d);
+                    ApiPacket packet = new(1, 250, 10000);
+                    packet.Set("a", StringExtension.GetGuid());
+                    var s = await client.SendAsync(packet);
+
+                    switch (s.OnTcpFrame)
+                    {
+                        case TcpFrameState.Success:
+                            Interlocked.Increment(ref a);
+                            return "OK";
+                        case TcpFrameState.Timeout:
+                            Interlocked.Increment(ref b);
+                            return "NO";
+                        default:
+                            Interlocked.Increment(ref c);
+                            return "SB";
+                    }
+                });
+            });
 
             //app.UseRouting();
 

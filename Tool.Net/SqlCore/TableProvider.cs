@@ -197,7 +197,7 @@ namespace Tool.SqlCore
         /// <returns>返回受影响数</returns>
         public int Insert(object prams)
         {
-            Dictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
 
             if (keyValues == null || keyValues.Count == 0)
             {
@@ -237,7 +237,7 @@ namespace Tool.SqlCore
         /// <returns>返回受影响数</returns>
         public int Insert(object prams, out object ID)
         {
-            Dictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
 
             if (keyValues == null || keyValues.Count == 0)
             {
@@ -299,7 +299,7 @@ namespace Tool.SqlCore
         /// <param name="where">指定的修改的条件</param>
         public int Update(object prams, string where)
         {
-            Dictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
 
             if (keyValues == null || keyValues.Count == 0)
             {
@@ -334,7 +334,7 @@ namespace Tool.SqlCore
         /// <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
         public int Update(object prams, string where, object parameter)
         {
-            Dictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
 
             if (keyValues == null || keyValues.Count == 0)
             {

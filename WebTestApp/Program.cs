@@ -22,26 +22,26 @@ namespace WebTestApp
         }
 
         [Tool.Sockets.TcpFrame.DataTcp(100)]
-        public object A(int a)
+        public Tool.Sockets.TcpFrame.IGoOut A(int a)
         {
             //this.Bytes
-            return new { a };
+            return Json(new { a });
         }
 
         [Tool.Sockets.TcpFrame.DataTcp(101)]
-        public byte[] B(string path)
+        public Tool.Sockets.TcpFrame.IGoOut B(string path)
         {
             byte[] s = System.IO.File.ReadAllBytes(path);
 
-            return s;//new byte[1024 * 100];
+            return Write(s);//new byte[1024 * 100];
         }
 
         [Tool.Sockets.TcpFrame.DataTcp(102)]
-        public string C(string path)
+        public Tool.Sockets.TcpFrame.IGoOut C(string path)
         {
             //System.IO.File.WriteAllBytes(path, Bytes);//23797
 
-            return "保存成功！";//new byte[1024 * 100];
+            return Write("保存成功！");//new byte[1024 * 100];
         }
     }
 

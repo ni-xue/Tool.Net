@@ -110,7 +110,7 @@ namespace Tool.Web.Api
             Ashx ashx = ashxRoute.GetAshx;
             try
             {
-                Func<IApiOut> func = () => { return ashx.Action.Execute(this, _objs) as IApiOut; }; //AshxExtension.Invoke(ashx.Method, this);
+                IApiOut func() => ashx.Action.Execute(this, _objs) as IApiOut;  //AshxExtension.Invoke(ashx.Method, this);
 
                 IApiOut aipOut = func();
 

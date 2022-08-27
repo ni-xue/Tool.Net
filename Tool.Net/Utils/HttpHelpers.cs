@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.WebUtilities;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -38,7 +39,6 @@ namespace Tool.Utils
 
         static HttpHelpers()
         {
-
             _HttpClient = new(new SocketsHttpHandler() { UseCookies = false, AutomaticDecompression = DecompressionMethods.All, SslOptions = new System.Net.Security.SslClientAuthenticationOptions { RemoteCertificateValidationCallback = (a, b, c, d) => true } }, true);   //HttpClientHandler
         }
 
@@ -549,6 +549,18 @@ namespace Tool.Utils
         //}
 
         /// <summary>
+        /// 根据字典高效组装成以转义的字符串
+        /// </summary>
+        /// <param name="data">字典对象</param>
+        /// <returns></returns>
+        public static string QueryString(IDictionary<string, string>  data) 
+        {
+            return data is null
+                 ? string.Empty
+                 : QueryHelpers.AddQueryString(string.Empty, data);
+        }
+
+        /// <summary>
         /// 高效解析http表单类文本 
         /// </summary>
         /// <param name="query">待解析的http表单值</param>
@@ -556,9 +568,9 @@ namespace Tool.Utils
         public static IDictionary<string, string> FormatData(string query)
         {
             if (string.IsNullOrWhiteSpace(query)) return default;
-            var querys = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseNullableQuery(query);
+            var querys = QueryHelpers.ParseNullableQuery(query);
 
-            Dictionary<string, string> result = new();
+            Dictionary<string, string> result = new(querys.Count);
 
             foreach (var pair in querys)
             {
