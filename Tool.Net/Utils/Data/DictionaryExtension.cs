@@ -67,7 +67,7 @@ namespace Tool.Utils.Data
                 throw new ArgumentNullException(nameof(source), "无法将对象转换为字典。源对象为NULL");
 
             var dictionary = new Dictionary<string, T>();
-            var entityBuilder = EntityBuilder.GetEntity(source.GetType());
+            var entityBuilder = EntityBuilder.GetEntity(source);
             foreach (PropertyInfo property in entityBuilder.Parameters) //PropertyDescriptor property is TypeDescriptor.GetProperties(source)
                 AddPropertyToDictionary(property, source, dictionary);
             return dictionary;
@@ -203,7 +203,7 @@ namespace Tool.Utils.Data
         /// </summary>
         /// <param name="keyValuePairs">Dictionary</param>
         /// <returns>返回重新排序好的结果</returns>
-        public static Dictionary<TKey, TValue> GetParamASCII<TKey, TValue>(this Dictionary<TKey, TValue> keyValuePairs)
+        public static Dictionary<TKey, TValue> GetParamAscii<TKey, TValue>(this Dictionary<TKey, TValue> keyValuePairs)
         {
             var vDic = keyValuePairs.OrderBy(x => x.Key.ToString(), new ComparerTest()).ToDictionary(x => x.Key, y => y.Value);
             //var param = keyValuePairs.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);

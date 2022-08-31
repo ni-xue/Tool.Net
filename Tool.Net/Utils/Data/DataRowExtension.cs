@@ -45,7 +45,7 @@ namespace Tool.Utils.Data
         public static Dictionary<string, object> ToDictionary(this DataRow dataRow)
         {
             if (dataRow.IsEmpty()) return default;
-            Dictionary<string, object> childRow = new Dictionary<string, object>();
+            Dictionary<string, object> childRow = new();
 
             foreach (DataColumn col in dataRow.Table.Columns)
             {
@@ -79,9 +79,10 @@ namespace Tool.Utils.Data
             {
                 try
                 {
-                    Dictionary<PropertyInfo, DataColumn> keys = DataRowExtension.GetDataPropertys<T>(dataRow.Table.Columns);
+                    var modeBuild = EntityBuilder.GetEntity(typeof(T));
+                    var tableProperties = DataHelper.GetTablePropertys(modeBuild.Parameters, dataRow.Table.Columns);
 
-                    T m = DataRowExtension.ToEntity<T>(keys, dataRow);
+                    T m = DataRowExtension.ToEntity<T>(modeBuild, tableProperties, dataRow);
 
                     return m;
 
@@ -128,24 +129,29 @@ namespace Tool.Utils.Data
         }
 
         /// <summary>
-        /// 将<see cref="DataRow"/>[] 对象 转换为 实体对象数组 (优化版)
+        /// 将<see cref="DataRowCollection"/> 对象 转换为 实体对象数组 (优化版)
         /// </summary>
         /// <typeparam name="T">实体对象</typeparam>
         /// <param name="dataRows">数据源</param>
         /// <returns>返回实体对象数组</returns>
-        public static T[] ToEntityList<T>(this DataRow[] dataRows) where T : new()
+        public static T[] ToEntityList<T>(this DataRowCollection dataRows) where T : new()
         {
             try
             {
-                T[] ts = new T[dataRows.Length];
+                T[] ts = new T[dataRows.Count];
+                var modeBuild = EntityBuilder.GetEntity(typeof(T));
+                IList<DataTableProperty> tableProperties = null;
                 for (int i = 0; i < ts.Length; i++)
                 {
                     DataRow dataRow = dataRows[i];
                     if (!dataRow.IsEmpty())
                     {
-                        Dictionary<PropertyInfo, DataColumn> keys = DataRowExtension.GetDataPropertys<T>(dataRow.Table.Columns);
+                        tableProperties ??= DataHelper.GetTablePropertys(modeBuild.Parameters, dataRow.Table.Columns);
+                        //Dictionary<PropertyInfo, DataColumn> keys = DataRowExtension.GetDataPropertys<T>(dataRow.Table.Columns);
 
-                        T m = DataRowExtension.ToEntity<T>(keys, dataRow);
+                        //T m = DataRowExtension.ToEntity<T>(keys, dataRow);
+
+                        T m = DataRowExtension.ToEntity<T>(modeBuild, tableProperties, dataRow);
 
                         ts[i] = m;
                     }
@@ -192,56 +198,77 @@ namespace Tool.Utils.Data
             }
         }
 
+        //internal static Dictionary<PropertyInfo, int> GetDataPropertys<T>(DataColumnCollection Columns)
+        //{
+        //    Type type = typeof(T);
 
-        internal static Dictionary<PropertyInfo, DataColumn> GetDataPropertys<T>(DataColumnCollection Columns)
+        //    List<PropertyInfo> _properties = new(type.GetProperties());
+
+        //    Dictionary<PropertyInfo, DataColumn> keys = new();
+        //    foreach (DataColumn dataColumn in Columns)
+        //    {
+        //        foreach (PropertyInfo property in _properties)
+        //        {
+        //            if (property.Name.Equals(dataColumn.ColumnName, StringComparison.OrdinalIgnoreCase))
+        //            {
+        //                keys.Add(property, dataColumn);
+        //                _properties.Remove(property);
+        //                break;
+        //            }
+        //        }
+        //    }
+
+        //    return keys;
+        //}
+
+        internal static T ToEntity<T>(EntityBuilder builder, IList<DataTableProperty> tableProperties, DataRow row) where T : new()
         {
-            Type type = typeof(T);
-
-            List<PropertyInfo> _properties = new List<PropertyInfo>(type.GetProperties());
-
-            Dictionary<PropertyInfo, DataColumn> keys = new Dictionary<PropertyInfo, DataColumn>();
-            foreach (DataColumn dataColumn in Columns)
+            object obj = builder.New;
+            var pairs = new Dictionary<string, object>();
+            foreach (var property in tableProperties)
             {
-                foreach (PropertyInfo property in _properties)
-                {
-                    if (property.Name.Equals(dataColumn.ColumnName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        keys.Add(property, dataColumn);
-                        _properties.Remove(property);
-                        break;
-                    }
-                }
-            }
-
-            return keys;
-        }
-
-        internal static T ToEntity<T>(Dictionary<PropertyInfo, DataColumn> prkeys, DataRow dataRow) where T : new()
-        {
-            T m = Activator.CreateInstance<T>();
-
-            foreach (KeyValuePair<PropertyInfo, DataColumn> _keyValue in prkeys)
-            {
-                object value = dataRow[_keyValue.Value];//dataRow[property.Name.ToLower()]; 
-
+                object value = row[property.Index];
                 if (DBNull.Value != value)
                 {
-                    if (_keyValue.Key.PropertyType != typeof(string))
+                    object obj2;
+                    if (property.Property.PropertyType != value.GetType() || property.Property.PropertyType != typeof(string))
                     {
-                        _keyValue.Key.SetValue(m, value.ToVar(_keyValue.Key.PropertyType, false));
-                    }
-                    else if (_keyValue.Key.PropertyType != value.GetType())
-                    {
-                        _keyValue.Key.SetValue(m, value.ToVar(_keyValue.Key.PropertyType, false));
+                        obj2 = value.ToVar(property.Property.PropertyType, false);
                     }
                     else
                     {
-                        _keyValue.Key.SetValue(m, value);
+                        obj2 = value;
                     }
+                    pairs.Add(property.Property.Name, obj2);
                 }
             }
+            if (pairs.Count > 0) builder.Set(obj, pairs);
 
-            return m;
+
+            //T m = Activator.CreateInstance<T>();
+
+            //foreach (KeyValuePair<PropertyInfo, DataColumn> _keyValue in prkeys)
+            //{
+            //    object value = dataRow[_keyValue.Value];//dataRow[property.Name.ToLower()]; 
+
+            //    if (DBNull.Value != value)
+            //    {
+            //        if (_keyValue.Key.PropertyType != typeof(string))
+            //        {
+            //            _keyValue.Key.SetValue(m, value.ToVar(_keyValue.Key.PropertyType, false));
+            //        }
+            //        else if (_keyValue.Key.PropertyType != value.GetType())
+            //        {
+            //            _keyValue.Key.SetValue(m, value.ToVar(_keyValue.Key.PropertyType, false));
+            //        }
+            //        else
+            //        {
+            //            _keyValue.Key.SetValue(m, value);
+            //        }
+            //    }
+            //}
+
+            return (T)obj;
         }
 
 
@@ -252,7 +279,7 @@ namespace Tool.Utils.Data
         /// <returns>返回List{Dictionary{string, object}}</returns>
         public static List<Dictionary<string, object>> ToDictionary(this DataRow[] dataRows)
         {
-            List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
+            List<Dictionary<string, object>> parentRow = new();
             Dictionary<string, object> childRow;
 
             foreach (DataRow row in dataRows)
@@ -268,54 +295,14 @@ namespace Tool.Utils.Data
         }
 
         /// <summary>
-        /// （DataRow[]）转换 <see cref="object"/> 对象
+        /// （DataRow）转换 <see cref="object"/> 对象
         /// </summary>
-        /// <param name="dataRows">DataRow[]</param>
+        /// <param name="dataRows">DataRow</param>
         /// <returns>返回dynamic</returns>
         public static dynamic ToObject(this DataRow dataRows)
         {
             if (dataRows.IsEmpty()) return null;
-            return new DataRow[] { dataRows }.ToObject(0);
-        }
-
-        /// <summary>
-        /// （DataRow[]）转换 <see cref="object"/> 集合
-        /// </summary>
-        /// <param name="dataRows">DataRow[]</param>
-        /// <returns>返回dynamic[]</returns>
-        public static dynamic[] ToObject(this DataRow[] dataRows)
-        {
-            object[] Dynamics = new object[dataRows.LongLength];
-
-            int i = 0;
-            foreach (DataRow row in dataRows)
-            {
-                dynamic Dynamic = new ExpandoObject();
-
-                if (Dynamic is ExpandoObject)
-                {
-                    var add = ((IDictionary<string, object>)Dynamic);
-
-                    foreach (DataColumn col in row.Table.Columns)
-                    {
-                        add.Add(col.ColumnName, row[col]);
-                    }
-                }
-                Dynamics[i] = (Dynamic);
-                i++;
-            }
-            return Dynamics;
-        }
-
-        /// <summary>
-        /// （DataRow[]）转换 <see cref="object"/> 
-        /// </summary>
-        /// <param name="dataRows">DataRow[]</param>
-        /// <param name="index">要读取的那一条数组的下标</param>
-        /// <returns>返回dynamic</returns>
-        public static dynamic ToObject(this DataRow[] dataRows, int index)
-        {
-            DataRow row = dataRows[index];
+            //return new DataRow[] { dataRows }.ToObject(0);
 
             dynamic Dynamic = new ExpandoObject();
 
@@ -323,13 +310,43 @@ namespace Tool.Utils.Data
             {
                 var add = ((IDictionary<string, object>)Dynamic);
 
-                foreach (DataColumn col in row.Table.Columns)
+                foreach (DataColumn col in dataRows.Table.Columns)
                 {
-                    add.Add(col.ColumnName, row[col]);
+                    add.Add(col.ColumnName, dataRows[col]);
                 }
             }
 
             return Dynamic;
+        }
+
+        /// <summary>
+        /// （DataRowCollection）转换 <see cref="object"/> 集合
+        /// </summary>
+        /// <param name="dataRows">DataRowCollection</param>
+        /// <returns>返回dynamic[]</returns>
+        public static dynamic[] ToObject(this DataRowCollection dataRows)
+        {
+            object[] Dynamics = new object[dataRows.Count];
+
+            int i = 0;
+            foreach (DataRow row in dataRows)
+            {
+                Dynamics[i] = row.ToObject();
+                i++;
+            }
+            return Dynamics;
+        }
+
+        /// <summary>
+        /// （DataRowCollection）转换 <see cref="object"/> 
+        /// </summary>
+        /// <param name="dataRows">DataRowCollection</param>
+        /// <param name="index">要读取的那一条数组的下标</param>
+        /// <returns>返回dynamic</returns>
+        public static dynamic ToObject(this DataRowCollection dataRows, int index)
+        {
+            DataRow row = dataRows[index];
+            return row.ToObject();
         }
     }
 }

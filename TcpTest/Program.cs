@@ -21,7 +21,7 @@ namespace TcpTest
 
         public class abc 
         {
-            public string a1;
+            public string A;
             public  int a { get; init; }
 
             public string b { get; set; } = string.Empty;
@@ -39,6 +39,24 @@ namespace TcpTest
 
         static void Main(string[] args)
         {
+            DataTable dataTable = new();
+
+            DataColumn dc = new();
+
+            dataTable.Columns.Add("column0", typeof(string));
+
+            DataRow dr = dataTable.NewRow();
+
+            dr[0] = "张三";
+
+            dataTable.Rows.Add(dr);
+
+            //dataTable.Rows[0]
+
+            dataTable.Rows[0][0] = "张三"; //通过索引赋值
+
+            dataTable.Rows[0]["COLumn0"] = "66666666666666666666666666666666666666666666666666666";
+
             //abc abc = new();
 
             //var aa = new { a = 66, b = "ok" };
@@ -87,11 +105,11 @@ namespace TcpTest
 
                 var abc = a2.New;
 
-                IDictionary<string, object> hashtable = new Dictionary<string, object>(5);
+                IDictionary<string, object> hashtable = new Dictionary<string, object>(5, StringComparer.OrdinalIgnoreCase);
                 hashtable.Add("a", i);
-                hashtable.Add("b", i.ToString());
+                hashtable.Add("B", i.ToString());
                 hashtable.Add("c", DateTime.Now);
-                hashtable.Add("d", true);
+                hashtable.Add("D", i.IsWhether(2));
                 hashtable.Add("e", (byte)66);
 
                 //hashtable.TryGetValue("e", out object v);

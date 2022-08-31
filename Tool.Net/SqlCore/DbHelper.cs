@@ -488,9 +488,9 @@ namespace Tool.SqlCore
                     {
                         throw Throw(string.Format("请提供参数{0}一个有效的名称{1}.", num, dbParameter.ParameterName));
                     }
-                    if (dataRow.Table.Columns.IndexOf(dbParameter.ParameterName.Substring(1)) != -1)
+                    if (dataRow.Table.Columns.IndexOf(dbParameter.ParameterName[1..]) != -1)
                     {
-                        dbParameter.Value = dataRow[dbParameter.ParameterName.Substring(1)];
+                        dbParameter.Value = dataRow[dbParameter.ParameterName[1..]];
                     }
                     num++;
                 }

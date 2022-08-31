@@ -177,7 +177,7 @@ namespace Tool.Web.Routing
                         IHttpAsynApi handler;
                         try
                         {
-                            handler = extension.NewClassAshx(AshxBuilder.Application.ApplicationServices);//handler = Activator.CreateInstance(extension.AshxType) as IHttpAsynApi;
+                            handler = extension.NewClassAshx(AshxBuilder.Application.ApplicationServices);
                         }
                         catch (Exception e)
                         {

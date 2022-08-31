@@ -133,34 +133,6 @@ namespace Tool.Web
         public static M GetToMode<M>(this HttpRequest reques, bool istype = true) where M : new()
         {
             return GetToMode(reques, typeof(M), istype).ToVar<M>();
-            //M m = (default(M) == null) ? Activator.CreateInstance<M>() : default(M);
-            //try
-            //{
-            //    Type type = m.GetType();
-            //    PropertyInfo[] properties = type.GetProperties();
-            //    foreach (PropertyInfo property in properties)
-            //    {
-            //        string name = property.Name;
-            //        string value = reques.Query[name];
-            //        if (property.PropertyType != typeof(string))
-            //        {
-            //            if (!string.IsNullOrEmpty(value))
-            //            {
-            //                type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
-            //            }
-            //        }
-            //        else
-            //        {
-            //            type.GetProperty(name).SetValue(m, value);
-            //        }
-            //    }
-
-            //    return m;
-            //}
-            //catch (Exception)
-            //{
-            //    return m;
-            //}
         }
 
         /// <summary>
@@ -173,33 +145,6 @@ namespace Tool.Web
         public static M PostToMode<M>(this HttpRequest reques, bool istype = true) where M : new()
         {
             return PostToMode(reques, typeof(M), istype).ToVar<M>();
-            //M m = (default(M) == null) ? Activator.CreateInstance<M>() : default(M);
-            //try
-            //{
-            //    Type type = m.GetType();
-            //    PropertyInfo[] properties = type.GetProperties();
-            //    foreach (PropertyInfo property in properties)
-            //    {
-            //        string name = property.Name;
-            //        string value = reques.Form[name];
-            //        if (property.PropertyType != typeof(string))
-            //        {
-            //            if (!string.IsNullOrEmpty(value))
-            //            {
-            //                type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
-            //            }
-            //        }
-            //        else
-            //        {
-            //            type.GetProperty(name).SetValue(m, value);
-            //        }
-            //    }
-            //    return m;
-            //}
-            //catch (Exception)
-            //{
-            //    return m;
-            //}
         }
 
         /// <summary>
@@ -212,40 +157,6 @@ namespace Tool.Web
         public static M ALLToMode<M>(this HttpRequest reques, bool istype = true) where M : new()
         {
             return ALLToMode(reques, typeof(M), istype).ToVar<M>();
-
-            //M m = (default(M) == null) ? Activator.CreateInstance<M>() : default(M);
-            //try
-            //{
-            //    Type type = m.GetType();
-            //    PropertyInfo[] properties = type.GetProperties();
-            //    foreach (PropertyInfo property in properties)
-            //    {
-            //        string name = property.Name;
-            //        string value = reques.Form[name];
-
-            //        if (property.PropertyType != typeof(string))
-            //        {
-            //            if (string.IsNullOrEmpty(value))
-            //            {
-            //                value = reques.Query[name];
-            //            }
-            //            if (!string.IsNullOrEmpty(value))
-            //            {
-            //                //type.GetProperty(name).SetValue(f, Sharing.ToValueByType(propertyInfo.PropertyType.Name, value), null);
-            //                type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
-            //            }
-            //        }
-            //        else
-            //        {
-            //            type.GetProperty(name).SetValue(m, value);
-            //        }
-            //    }
-            //    return m;
-            //}
-            //catch (Exception)
-            //{
-            //    return m;
-            //}
         }
 
         /// <summary>
@@ -260,7 +171,7 @@ namespace Tool.Web
             try
             {
                 var modeBuild = EntityBuilder.GetEntity(type);
-                object m = modeBuild.New;//object m = Activator.CreateInstance(type);
+                object m = modeBuild.New;
                 PropertyInfo[] properties = modeBuild.Parameters;// type.GetProperties();
                 IDictionary<string, object> keys = new Dictionary<string, object>();
                 foreach (PropertyInfo property in properties)
@@ -306,7 +217,7 @@ namespace Tool.Web
             try
             {
                 var modeBuild = EntityBuilder.GetEntity(type);
-                object m = modeBuild.New;//object m = Activator.CreateInstance(type);
+                object m = modeBuild.New;
                 if (!reques.HasFormContentType) return m;
                 PropertyInfo[] properties = modeBuild.Parameters;// type.GetProperties();
                 IDictionary<string, object> keys = new Dictionary<string, object>();
@@ -353,7 +264,7 @@ namespace Tool.Web
             try
             {
                 var modeBuild = EntityBuilder.GetEntity(type);
-                object m = modeBuild.New;//object m = Activator.CreateInstance(type);
+                object m = modeBuild.New;
                 PropertyInfo[] properties = modeBuild.Parameters;// type.GetProperties();
                 IDictionary<string, object> keys = new Dictionary<string, object>();
                 foreach (PropertyInfo property in properties)

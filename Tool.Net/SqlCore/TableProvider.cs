@@ -14,6 +14,8 @@ namespace Tool.SqlCore
     /// <remarks>代码由逆血提供支持</remarks>
     public class TableProvider : ITableProvider
     {
+        private readonly ArgumentException NullException;
+
         /// <summary>
         /// 核心数据对象
         /// </summary>
@@ -29,6 +31,7 @@ namespace Tool.SqlCore
         /// </summary>
         public TableProvider()
         {
+            NullException = new("在准备修改表的时候发生异常，键值对集合为空！", "错误提示：");
         }
 
         /// <summary>
@@ -36,7 +39,7 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="database">数据源对象</param>
         /// <param name="tableName">表名</param>
-        public TableProvider(DbHelper database, string tableName)
+        public TableProvider(DbHelper database, string tableName): this()
         {
             this.Database = database;
             this.TableName = tableName;
@@ -303,7 +306,7 @@ namespace Tool.SqlCore
 
             if (keyValues == null || keyValues.Count == 0)
             {
-                throw new ArgumentException("在准备修改表的时候发生异常，键值对集合为空！", "错误提示：");
+                throw NullException;
             }
 
             //StringBuilder stringBuilder = new StringBuilder();
@@ -338,7 +341,7 @@ namespace Tool.SqlCore
 
             if (keyValues == null || keyValues.Count == 0)
             {
-                throw new ArgumentException("在准备修改表的时候发生异常，键值对集合为空！", "错误提示：");
+                throw NullException;
             }
 
             //StringBuilder stringBuilder = new StringBuilder();
@@ -376,7 +379,7 @@ namespace Tool.SqlCore
         {
             if (keyValues == null || keyValues.Count == 0)
             {
-                throw new ArgumentException("在准备修改表的时候发生异常，键值对集合为空！", "错误提示：");
+                throw NullException;
             }
 
             //StringBuilder stringBuilder = new StringBuilder();
@@ -443,9 +446,9 @@ namespace Tool.SqlCore
         {
             if (fields == null || fields.Length == 0)
             {
-                throw new ArgumentException("在准备修改表的时候发生异常，键值对集合为空！", "错误提示：");
+                throw NullException;
             }
-            StringBuilder key = new StringBuilder();
+            StringBuilder key = new();
 
             foreach (string field in fields)
             {
@@ -473,9 +476,9 @@ namespace Tool.SqlCore
         {
             if (fields == null || fields.Length == 0)
             {
-                throw new ArgumentException("在准备修改表的时候发生异常，键值对集合为空！", "错误提示：");
+                throw NullException;
             }
-            StringBuilder key = new StringBuilder();
+            StringBuilder key = new();
 
             foreach (string field in fields)
             {

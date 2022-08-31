@@ -102,7 +102,7 @@ namespace Tool.Utils.Data
         /// <returns>返回dynamic[]</returns>
         public static dynamic[] ToObject(this DataTable dataTable)
         {
-            return dataTable.Select().ToObject();
+            return dataTable.Rows.ToObject();
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace Tool.Utils.Data
             {
                 return DataHelper.ConvertRowToObject<T>(table.Rows[0]);
             }
-            return default(T);
+            return default;
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace Tool.Utils.Data
             {
                 return DataHelper.ConvertDataTableToObjects<T>(table);
             }
-            return default(IList<T>);
+            return default;
         }
 
         /// <summary>
@@ -234,52 +234,57 @@ namespace Tool.Utils.Data
             {
                 try
                 {
-                    Type type = typeof(T);
-                    List<PropertyInfo> _properties = new(type.GetProperties());
+                    var modeBuild = EntityBuilder.GetEntity(typeof(T));
+                    var tableProperties = DataHelper.GetTablePropertys(modeBuild.Parameters, dataTable.Columns);
 
-                    Dictionary<PropertyInfo, DataColumn> keys = new();
-                    foreach (DataColumn dataColumn in dataTable.Columns)
-                    {
-                        foreach (PropertyInfo property in _properties)
-                        {
-                            if (property.Name.Equals(dataColumn.ColumnName, StringComparison.OrdinalIgnoreCase))
-                            {
-                                keys.Add(property, dataColumn);
-                                _properties.Remove(property);
-                                break;
-                            }
-                        }
-                    }
+                    T m = DataRowExtension.ToEntity<T>(modeBuild, tableProperties, dataTable.Rows[index]);
 
-                    DataRow dataRow = dataTable.Rows[index];
+                    //Type type = typeof(T);
+                    //List<PropertyInfo> _properties = new(type.GetProperties());
 
-                    T m = Activator.CreateInstance<T>();
+                    //Dictionary<PropertyInfo, DataColumn> keys = new();
+                    //foreach (DataColumn dataColumn in dataTable.Columns)
+                    //{
+                    //    foreach (PropertyInfo property in _properties)
+                    //    {
+                    //        if (property.Name.Equals(dataColumn.ColumnName, StringComparison.OrdinalIgnoreCase))
+                    //        {
+                    //            keys.Add(property, dataColumn);
+                    //            _properties.Remove(property);
+                    //            break;
+                    //        }
+                    //    }
+                    //}
 
-                    foreach (KeyValuePair<PropertyInfo, DataColumn> _keyValue in keys)
-                    {
-                        object value = dataRow[_keyValue.Value];
+                    //DataRow dataRow = dataTable.Rows[index];
 
-                        if (DBNull.Value != value)
-                        {
-                            if (_keyValue.Key.PropertyType != typeof(string))
-                            {
-                                _keyValue.Key.SetValue(m, value.ToVar(_keyValue.Key.PropertyType, false));
-                            }
-                            else
-                            {
-                                _keyValue.Key.SetValue(m, value);
-                            }
-                        }
-                    }
+                    //T m = Activator.CreateInstance<T>();
+
+                    //foreach (KeyValuePair<PropertyInfo, DataColumn> _keyValue in keys)
+                    //{
+                    //    object value = dataRow[_keyValue.Value];
+
+                    //    if (DBNull.Value != value)
+                    //    {
+                    //        if (_keyValue.Key.PropertyType != typeof(string))
+                    //        {
+                    //            _keyValue.Key.SetValue(m, value.ToVar(_keyValue.Key.PropertyType, false));
+                    //        }
+                    //        else
+                    //        {
+                    //            _keyValue.Key.SetValue(m, value);
+                    //        }
+                    //    }
+                    //}
 
                     return m;
                 }
                 catch (Exception)
                 {
-                    return default(T);
+                    return default;
                 }
             }
-            return default(T);
+            return default;
         }
 
         /// <summary>
@@ -407,7 +412,9 @@ namespace Tool.Utils.Data
                     //    }
                     //}
 
-                    Dictionary<PropertyInfo, DataColumn> keys = DataRowExtension.GetDataPropertys<T>(dataTable.Columns);
+                    var modeBuild = EntityBuilder.GetEntity(typeof(T));
+                    IList<DataTableProperty> tableProperties = null;
+                    //Dictionary<PropertyInfo, DataColumn> keys = DataRowExtension.GetDataPropertys<T>(dataTable.Columns);
 
                     DataRow[] dataRows; 
                     if (indexs != null)
@@ -428,7 +435,8 @@ namespace Tool.Utils.Data
 
                     foreach (DataRow dataRow in dataRows)
                     {
-                        T m = DataRowExtension.ToEntity<T>(keys, dataRow);
+                        tableProperties ??= DataHelper.GetTablePropertys(modeBuild.Parameters, dataRow.Table.Columns);
+                        T m = DataRowExtension.ToEntity<T>(modeBuild, tableProperties, dataRow);
 
                         //T m = Activator.CreateInstance<T>();
 

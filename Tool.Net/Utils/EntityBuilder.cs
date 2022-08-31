@@ -78,7 +78,7 @@ namespace Tool.Utils
         /// 赋值对象
         /// </summary>
         /// <param name="_class">对象原型</param>
-        /// <param name="parameters">字典</param>
+        /// <param name="parameters">字典(字典如标记忽略大小写赋值，就能实现特定行为)</param>
         public void Set(object _class, IDictionary<string, object> parameters) => classfieldDispatcher.Set(_class, parameters);
 
         /// <summary>

@@ -20,7 +20,7 @@ namespace Tool.Utils
 		{
 			try
 			{
-				DirectoryInfo dInfo = new DirectoryInfo(srcDir);
+				DirectoryInfo dInfo = new(srcDir);
 				FileManager.CopyDirectoryInfo(dInfo, srcDir, desDir);
 			}
 			catch (Exception ex)
@@ -85,10 +85,10 @@ namespace Tool.Utils
 			bool result;
 			try
 			{
-				FileStream fileStream = new FileStream(srcFile, FileMode.Open, FileAccess.Read);
-				FileStream fileStream2 = new FileStream(desFile, FileMode.Create, FileAccess.Write);
-				BinaryReader binaryReader = new BinaryReader(fileStream);
-				BinaryWriter binaryWriter = new BinaryWriter(fileStream2);
+				FileStream fileStream = new(srcFile, FileMode.Open, FileAccess.Read);
+				FileStream fileStream2 = new(desFile, FileMode.Create, FileAccess.Write);
+				BinaryReader binaryReader = new(fileStream);
+				BinaryWriter binaryWriter = new(fileStream2);
 				binaryReader.BaseStream.Seek(0L, SeekOrigin.Begin);
 				binaryReader.BaseStream.Seek(0L, SeekOrigin.End);
 				while (binaryReader.BaseStream.Position < binaryReader.BaseStream.Length)
@@ -236,7 +236,7 @@ namespace Tool.Utils
 		/// <returns></returns>
 		public static DataTable GetDirectoryFilesList(string directory, FsoMethod method)
 		{
-			DataTable dataTable = new DataTable();
+			DataTable dataTable = new();
 			dataTable.Columns.Add("Name");
 			dataTable.Columns.Add("FullName");
 			dataTable.Columns.Add("ContentType");
@@ -249,7 +249,7 @@ namespace Tool.Utils
 				for (int i = 0; i < FileManager.GetDirectories(directory).Length; i++)
 				{
 					DataRow dataRow = dataTable.NewRow();
-					DirectoryInfo directoryInfo = new DirectoryInfo(FileManager.GetDirectories(directory)[i]);
+					DirectoryInfo directoryInfo = new(FileManager.GetDirectories(directory)[i]);
 					dataRow[0] = directoryInfo.Name;
 					dataRow[1] = directoryInfo.FullName;
 					dataRow[2] = "";
@@ -265,7 +265,7 @@ namespace Tool.Utils
 				for (int i = 0; i < FileManager.GetFiles(directory).Length; i++)
 				{
 					DataRow dataRow = dataTable.NewRow();
-					FileInfo fileInfo = new FileInfo(FileManager.GetFiles(directory)[i]);
+					FileInfo fileInfo = new(FileManager.GetFiles(directory)[i]);
 					dataRow[0] = fileInfo.Name;
 					dataRow[1] = fileInfo.FullName;
 					dataRow[2] = fileInfo.Extension.Replace(".", "");
@@ -308,13 +308,13 @@ namespace Tool.Utils
 		/// <returns></returns>
 		public static long[] GetDirectoryInfo(string directory)
 		{
-			DirectoryInfo directory2 = new DirectoryInfo(directory);
+			DirectoryInfo directory2 = new(directory);
 			return FileManager.DirInfo(directory2);
 		}
 
 		private static DataTable GetDirectoryList(DirectoryInfo directoryInfo, FsoMethod method)
 		{
-			DataTable dataTable = new DataTable();
+			DataTable dataTable = new();
 			dataTable.Columns.Add("Name");
 			dataTable.Columns.Add("FullName");
 			dataTable.Columns.Add("ContentType");
@@ -377,7 +377,7 @@ namespace Tool.Utils
 			DataTable directoryList;
 			try
 			{
-				DirectoryInfo directoryInfo = new DirectoryInfo(directory);
+				DirectoryInfo directoryInfo = new(directory);
 				directoryList = FileManager.GetDirectoryList(directoryInfo, method);
 			}
 			catch (Exception ex)
@@ -443,8 +443,7 @@ namespace Tool.Utils
 		/// <returns></returns>
 		public static string ReadFile(string file)
 		{
-			UTF8Encoding encoding = new UTF8Encoding();
-			return FileManager.ReadFile(file, encoding);
+			return FileManager.ReadFile(file, Encoding.UTF8);
 		}
 
 		/// <summary>
@@ -456,8 +455,8 @@ namespace Tool.Utils
 		public static string ReadFile(string file, Encoding encoding)
 		{
 			string result = "";
-			FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read);
-			StreamReader streamReader = new StreamReader(fileStream, encoding);
+			FileStream fileStream = new(file, FileMode.Open, FileAccess.Read);
+			StreamReader streamReader = new(fileStream, encoding);
 			try
 			{
 				result = streamReader.ReadToEnd();
@@ -485,8 +484,8 @@ namespace Tool.Utils
 			{
 				return null;
 			}
-			FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-			BinaryReader binaryReader = new BinaryReader(fileStream);
+			FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+			BinaryReader binaryReader = new(fileStream);
 			byte[] result = binaryReader.ReadBytes((int)fileStream.Length);
 			fileStream.Flush();
 			fileStream.Close();
@@ -518,8 +517,8 @@ namespace Tool.Utils
 			{
 				Directory.CreateDirectory(directoryName);
 			}
-			FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-			BinaryWriter binaryWriter = new BinaryWriter(fileStream);
+			FileStream fileStream = new(filePath, FileMode.Create, FileAccess.Write);
+			BinaryWriter binaryWriter = new(fileStream);
 			binaryWriter.Write(buff, offset, len);
 			binaryWriter.Flush();
 			binaryWriter.Close();
@@ -533,8 +532,7 @@ namespace Tool.Utils
 		/// <param name="fileContent">内容</param>
 		public static void WriteFile(string file, string fileContent)
 		{
-			UTF8Encoding encoding = new UTF8Encoding();
-			FileManager.WriteFile(file, fileContent, encoding);
+			FileManager.WriteFile(file, fileContent, Encoding.UTF8);
 		}
 
 		/// <summary>
@@ -550,8 +548,8 @@ namespace Tool.Utils
 			{
 				Directory.CreateDirectory(fileInfo.DirectoryName);
 			}
-			FileStream fileStream = new FileStream(file, FileMode.Create, FileAccess.Write);
-			StreamWriter streamWriter = new StreamWriter(fileStream, encoding);
+			FileStream fileStream = new(file, FileMode.Create, FileAccess.Write);
+			StreamWriter streamWriter = new(fileStream, encoding);
 			try
 			{
 				streamWriter.Write(fileContent);
@@ -577,8 +575,7 @@ namespace Tool.Utils
 		/// <param name="append">是否追加内容</param>
 		public static void WriteFile(string file, string fileContent, bool append)
 		{
-			UTF8Encoding encoding = new UTF8Encoding();
-			FileManager.WriteFile(file, fileContent, append, encoding);
+			FileManager.WriteFile(file, fileContent, append, Encoding.UTF8);
 		}
 
 		/// <summary>

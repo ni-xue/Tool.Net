@@ -530,7 +530,7 @@ namespace Tool.Sockets.TcpFrame
                 {
                     if (DataTcp.DicDataTcps.TryGetValue(data.packet.ActionKey, out DataTcp dataTcp))
                     {
-                        DataBase handler = dataTcp.NewClass.Invoke();// Activator.CreateInstance(dataTcp.Action.Method.DeclaringType) as DataBase;
+                        DataBase handler = dataTcp.NewClass.Invoke();
                         using (handler)
                         {
                             DataPacket dataPacket = handler.Request(data.packet, data.tcp.Key, dataTcp);

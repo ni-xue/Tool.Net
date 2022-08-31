@@ -245,19 +245,7 @@ namespace Tool
         /// <returns>返回被指定强转的类型。（异常：存在于强转无效）</returns>
         public static T ToVar<T>(this object obj)// where T : new()
         {
-            //if (obj == null)
-            //{
-            //    throw new System.SystemException("该object为空！");
-            //}
-            //T t = (default(T) == null) ? Activator.CreateInstance<T>() : 
-
-            //t = (T)Convert.ChangeType(obj, t.GetType());
-
-            //__reftype(T) typeof(T);
-
-            //var obje = default(T);
-
-            //__arglist("sb",1024);
+            //__reftype(T);__makeref();__refvalue();__arglist("sb",1024);TypedReference
 
             Type objtype = typeof(T);
 

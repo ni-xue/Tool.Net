@@ -159,7 +159,7 @@ namespace Tool.Web.Session
         private void AddAsSession(out DiySession session, string value, HttpContext context) 
         {
             //InsideInitialize
-            session = this.NewDiySession.Invoke(); // Activator.CreateInstance(this.TypeDiySession) as DiySession;  //this.SessionOptions.OnGetSession(value);//new DiySession(value);
+            session = this.NewDiySession.Invoke(); //this.SessionOptions.OnGetSession(value);//new DiySession(value);
             session.InsideInitialize(value, context, this.Logger);
             //AsSessionList.TryAdd(value, session);
 

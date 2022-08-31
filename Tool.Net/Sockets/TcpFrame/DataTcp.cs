@@ -184,7 +184,6 @@ namespace Tool.Sockets.TcpFrame
                     {
                         throw new Exception(string.Format("类：{0}，继承了【DataBase】类，并未在构造函数上申明【DataTcp】类，无法创建消息体。", type.FullName));
                     }
-                    //DataBase handler = Activator.CreateInstance(type) as DataBase;
                 }
             }
 

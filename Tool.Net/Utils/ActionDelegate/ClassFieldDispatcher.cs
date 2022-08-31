@@ -88,7 +88,7 @@ namespace Tool.Utils.ActionDelegate
         /// 向类传入修改集合
         /// </summary>
         /// <param name="_class">类对象</param>
-        /// <param name="parameters">值集合</param>
+        /// <param name="parameters">值集合(字典如标记忽略大小写赋值，就能实现特定行为)</param>
         public void Set(object _class, IDictionary<string, object> parameters)
         {
             _setClassField?.Invoke(_class, parameters);

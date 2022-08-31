@@ -2651,11 +2651,12 @@
             <param name="parameter">匿名对象</param>
             <returns><see cref="T:System.Data.Common.DbParameter"/>[]对象集合</returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.SetParameterList(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Tool.SqlCore.DbHelper.SetParameterList(System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
             <summary>
             将匿名对象转换成<see cref="T:System.Data.Common.DbParameter"/>[]对象集合
             </summary>
-            <param name="parameter"><see cref="T:System.Collections.Generic.Dictionary`2"/>对象</param>
+            <param name="parameter"><see cref="T:System.Collections.Generic.IDictionary`2"/>对象</param>]
+            <param name="isnull">是否允许为空</param>
             <returns><see cref="T:System.Data.Common.DbParameter"/>[]对象集合</returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.SetDictionaryParam(System.Object)">
@@ -2663,6 +2664,14 @@
             将匿名对象转换成<see cref="T:System.Collections.Generic.Dictionary`2"/>对象集合
             </summary>
             <param name="parameter">匿名对象</param>
+            <returns><see cref="T:System.Collections.Generic.Dictionary`2"/>对象集合</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.SetDictionaryParam(System.Object,System.Boolean@)">
+            <summary>
+            将匿名对象转换成<see cref="T:System.Collections.Generic.Dictionary`2"/>对象集合
+            </summary>
+            <param name="parameter">匿名对象</param>
+            <param name="isnull">解析对象是否是字典，字典将保留空字典值</param>
             <returns><see cref="T:System.Collections.Generic.Dictionary`2"/>对象集合</returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.SetParameters(System.Object)">
@@ -4046,7 +4055,7 @@
             <param name="where"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelperExensions.GetInsertParams(Tool.SqlCore.DbHelper,System.Collections.Generic.Dictionary{System.String,System.Object},System.String@,System.String@)">
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetInsertParams(Tool.SqlCore.DbHelper,System.Collections.Generic.IDictionary{System.String,System.Object},System.String@,System.String@)">
             <summary>
             根据键值对生成 Insert 部分语法，和值添加对象
             </summary>
@@ -4056,7 +4065,7 @@
             <param name="value">返回生成的部分SQL语句</param>
             <returns><see cref="T:System.Collections.Generic.List`1"/></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelperExensions.GetUpdateParams(Tool.SqlCore.DbHelper,System.Collections.Generic.Dictionary{System.String,System.Object},System.String@)">
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetUpdateParams(Tool.SqlCore.DbHelper,System.Collections.Generic.IDictionary{System.String,System.Object},System.String@)">
             <summary>
             根据键值对生成 Update 部分语法，和值添加对象
             </summary>
@@ -8273,6 +8282,20 @@
             <param name="source">对象</param>
             <returns><see cref="T:System.Collections.Generic.IDictionary`2"/></returns>
         </member>
+        <member name="M:Tool.Utils.Data.DictionaryExtension.GetDictionary(System.Object)">
+            <summary>
+            获取对象结果集<see cref="T:System.Collections.Generic.IDictionary`2"/>
+            </summary>
+            <param name="source">对象</param>
+            <returns><see cref="T:System.Collections.Generic.IDictionary`2"/>对象结果集</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.DictionaryExtension.SetDictionary(System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            给对象赋值，使用字典赋值
+            </summary>
+            <param name="source">对象</param>
+            <param name="parameters">赋值键值对</param>
+        </member>
         <member name="M:Tool.Utils.Data.DictionaryExtension.Remove``2(System.Collections.Generic.IDictionary{``0,``1},``0[])">
             <summary>
             批量删除 <see cref="T:System.Collections.Generic.IDictionary`2"/>对象 出现不包含的会返回 false
@@ -8513,31 +8536,31 @@
             </summary>
             <remarks>代码由逆血提供支持</remarks>
         </member>
-        <member name="M:Tool.Utils.Data.ListExtension.EntitysToJson(System.Object)">
+        <member name="M:Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList)">
             <summary>
             将实体转换为JSON格式字符串 （再三强调，要是实体，而且是实集合必须是<see cref="T:System.Collections.Generic.List`1"/>。）
             </summary>
-            <param name="obj">实体</param>
+            <param name="list">实体</param>
             <returns>返回JSON字符串</returns>
         </member>
-        <member name="M:Tool.Utils.Data.ListExtension.EntitysToJson(System.Object,System.Boolean)">
+        <member name="M:Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList,System.Boolean)">
             <summary>
             将实体转换为JSON格式字符串 （再三强调，要是实体，而且是实集合必须是<see cref="T:System.Collections.Generic.List`1"/>。）
             </summary>
-            <param name="obj">实体</param>
+            <param name="list">实体</param>
             <param name="IsDate">ToJson格式时间，启用转字符串</param>
             <returns>返回JSON字符串</returns>
         </member>
-        <member name="M:Tool.Utils.Data.ListExtension.EntitysToJson(System.Object,System.Boolean,System.String)">
+        <member name="M:Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList,System.Boolean,System.String)">
             <summary>
             将实体转换为JSON格式字符串 （再三强调，要是实体，而且是实集合必须是<see cref="T:System.Collections.Generic.List`1"/>。）
             </summary>
-            <param name="obj">实体</param>
+            <param name="list">实体</param>
             <param name="IsDate">ToJson格式时间，启用转字符串</param>
             <param name="ToDateString">Date.ToString()的写法。</param>
             <returns>返回JSON字符串</returns>
         </member>
-        <member name="M:Tool.Utils.Data.ListExtension.TrueForAll``1(System.Collections.Generic.List{``0},System.Predicate{``0})">
+        <member name="M:Tool.Utils.Data.ListExtension.TrueForAll``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
             <summary>
             确定是否 <see cref="T:System.Collections.Generic.List`1" /> 中的每个元素都与指定的谓词所定义的条件相匹配。
             </summary>
@@ -8553,7 +8576,7 @@
             <param name="list">List</param>
             <returns>返回重新排序好的结果</returns>
         </member>
-        <member name="M:Tool.Utils.Data.ListExtension.GetArrayIndex``1(System.Collections.Generic.List{``0},System.Int32,System.Int32)">
+        <member name="M:Tool.Utils.Data.ListExtension.GetArrayIndex``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32)">
             <summary>
             同于获取指定部分的内容
             </summary>
@@ -8776,6 +8799,65 @@
             <summary>
             弱的加密
             </summary>
+        </member>
+        <member name="T:Tool.Utils.EntityBuilder">
+            <summary>
+            用于提高，对象构造（只支持无参构造），对象取值，对象赋值。
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.EntityBuilder.Parameters">
+            <summary>
+            对象下公开的字段
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.EntityBuilder.IsNew">
+            <summary>
+            是否可以构造
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.EntityBuilder.ClassType">
+            <summary>
+            对象原型
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.EntityBuilder.#ctor(System.Type)">
+            <summary>
+            创建构造模型对象
+            </summary>
+            <param name="classtype"></param>
+        </member>
+        <member name="P:Tool.Utils.EntityBuilder.New">
+            <summary>
+            获取对象
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.EntityBuilder.Get(System.Object)">
+            <summary>
+            获取对象的字典数据
+            </summary>
+            <param name="_class">对象原型</param>
+            <returns>字典</returns>
+        </member>
+        <member name="M:Tool.Utils.EntityBuilder.Set(System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            赋值对象
+            </summary>
+            <param name="_class">对象原型</param>
+            <param name="parameters">字典</param>
+        </member>
+        <member name="M:Tool.Utils.EntityBuilder.GetEntity(System.Type)">
+            <summary>
+            获取 对象 模型
+            </summary>
+            <param name="type">对象类型</param>
+            <returns>实体模型</returns>
+        </member>
+        <member name="M:Tool.Utils.EntityBuilder.GetEntity(System.Object)">
+            <summary>
+            获取 对象 模型
+            </summary>
+            <param name="_class">对象</param>
+            <returns>实体模型</returns>
         </member>
         <member name="T:Tool.Utils.FileManager">
             <summary>
@@ -15166,18 +15248,6 @@
             <summary>
             停止发送数据的位置。
             </summary>
-        </member>
-        <member name="P:Tool.Web.WebModeBuild.Get">
-            <summary>
-            获取对象
-            </summary>
-        </member>
-        <member name="M:Tool.Web.WebModeBuild.Set(System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            赋值对象
-            </summary>
-            <param name="_class"></param>
-            <param name="parameters"></param>
         </member>
         <member name="T:Tool.Web.HttpResponseExtension">
             <summary>

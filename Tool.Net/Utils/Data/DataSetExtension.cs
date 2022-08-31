@@ -47,10 +47,10 @@ namespace Tool.Utils.Data
         public static List<List<Dictionary<string, object>>> ToDictionary(this DataSet data)
         {
             if (data.IsEmpty()) return default;
-            List<List<Dictionary<string, object>>> Jsons = new List<List<Dictionary<string, object>>>();
+            List<List<Dictionary<string, object>>> Jsons = new();
             foreach (DataTable Data in data.Tables)
             {
-                List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
+                List<Dictionary<string, object>> parentRow = new();
                 Dictionary<string, object> childRow;
                 foreach (DataRow row in Data.Rows)
                 {
@@ -97,10 +97,10 @@ namespace Tool.Utils.Data
         public static string[] ToJSON(this DataSet data, bool IsDate, string ToDateString)
         {
             if (data.IsEmpty()) return default;
-            List<string> Jsons = new List<string>();
+            List<string> Jsons = new();
             foreach (DataTable Data in data.Tables)
             {
-                List<Dictionary<string, object>> parentRow = new List<Dictionary<string, object>>();
+                List<Dictionary<string, object>> parentRow = new();
                 Dictionary<string, object> childRow;
                 foreach (DataRow row in Data.Rows)
                 {
