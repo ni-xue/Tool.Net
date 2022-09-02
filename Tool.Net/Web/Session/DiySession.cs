@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tool.Utils.Data;
+using Tool.Web.Api;
 
 namespace Tool.Web.Session
 {
@@ -15,8 +16,14 @@ namespace Tool.Web.Session
     /// <remarks>代码由逆血提供支持</remarks>
     public abstract class DiySession : ISession
     {
+        /// <summary>
+        /// IsAvailable为true时，特点的标志
+        /// </summary>
+        public const string IsSign = ".1";
+
         //private readonly LazyConcurrentDictionary<string, byte[]> _AsSession;
 
+        private string _sessionName;
         private string _id;
         private bool _isAvailable;
 
@@ -30,19 +37,30 @@ namespace Tool.Web.Session
         /// </summary>
         public HttpContext Context { get; private set; }
 
-        internal void InsideInitialize(string id, HttpContext context, ILogger logger)
+        internal async Task InsideInitialize(string sessionName, string id, HttpContext context, ILogger logger)
         {
-            this._id = id;
+            this._sessionName = sessionName;
+            if (id.EndsWith(IsSign))
+            {
+                this._id = id[..(id.Length-2)];
+                this._isAvailable = true;
+            }
+            else
+            {
+                this._id = id;
+                this._isAvailable = false;
+            }
             this.Context = context;
             this.Logger = logger;
             try
             {
                 this.Initialize();
-                this._isAvailable = true;
+                await Task.CompletedTask;
+                //this._isAvailable = true;
             }
             catch (Exception ex)
             {
-                this._isAvailable = false;
+                //this._isAvailable = false;
                 if (Logger.IsEnabled(LogLevel.Error))
                 {
                     Logger.LogError(ex, "在完成DiySession初始化的时候发生了异常！");
@@ -55,15 +73,30 @@ namespace Tool.Web.Session
         /// </summary>
         public abstract void Initialize();
 
+        private void Available(bool _isAvailable)
+        {
+            if (_isAvailable != this._isAvailable)
+            {
+                string newid = _isAvailable ? $"{_id}{IsSign}" : _id;
+                Context.Response.Cookies.Append(_sessionName, newid, new CookieOptions()
+                {
+                    HttpOnly = true,
+                    IsEssential = true,
+                    SameSite = SameSiteMode.Unspecified
+                });
+                this._isAvailable = _isAvailable;
+            }
+        } 
+
         /// <summary>
         /// SessionId
         /// </summary>
         public string Id { get { return _id; } }
 
         /// <summary>
-        /// Session 是否可以
+        /// Session 是否可用（可用时将自动标记，可用标志）
         /// </summary>
-        public bool IsAvailable { get { return _isAvailable; } }
+        public bool IsAvailable { get { return _isAvailable; } set=> Available(value); }
 
         /// <summary>
         /// 提供 Session 的全部键

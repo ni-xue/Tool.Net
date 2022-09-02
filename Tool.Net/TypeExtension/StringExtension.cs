@@ -410,7 +410,7 @@ namespace Tool //万能属性公有父类
             
             using StringReader sr = new(txt);
             XmlSerializer serializer = new(typeof(T));
-            return serializer.Deserialize(sr) as T;
+            return (T)serializer.Deserialize(sr);
         }
 
         #endregion

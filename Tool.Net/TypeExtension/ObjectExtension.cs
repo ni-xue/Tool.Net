@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using Tool.Utils.ActionDelegate;
 using Tool.Utils.Data;
 
@@ -484,7 +485,7 @@ namespace Tool
         public static object MapTo(object obj_T, string Methods, params object[] parameter)
         {
             //using
-            TypeInvoke asyncInvoke = new TypeInvoke(obj_T.GetType(), obj_T);
+            TypeInvoke asyncInvoke = new(obj_T.GetType(), obj_T);
             if (!asyncInvoke.IsMethod(Methods, true))
             {
                 throw new System.SystemException(string.Format("该类：（{0}）下面不包含这个方法名：（{1}）。", asyncInvoke.ToString(), Methods));
@@ -526,10 +527,10 @@ namespace Tool
         /// <returns>Xml字符串</returns>
         public static string ToXml(this object obj)
         {
-            using System.IO.StringWriter sw = new();//Type t = obj.GetType();
+            StringBuilder sw = new();//Type t = obj.GetType();
+            using var xmlWriter = XmlWriter.Create(sw, new XmlWriterSettings { Encoding = Encoding.UTF8 });
             System.Xml.Serialization.XmlSerializer serializer = new(obj.GetType());
-            serializer.Serialize(sw, obj);
-            sw.Close();
+            serializer.Serialize(xmlWriter, obj);
             return sw.ToString();
         }
 
@@ -670,7 +671,7 @@ namespace Tool
             {
                 throw new System.SystemException("该object为空！");
             }
-            using System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            using System.IO.MemoryStream ms = new();
             IFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
             formatter.Serialize(ms, obj);
             return ms.GetBuffer();
@@ -682,12 +683,13 @@ namespace Tool
         /// <param name="obj">能序列化的对象</param>
         /// <param name="type">转换为原来类的Type</param>
         /// <returns>返回一个byte[]</returns>
-        public static byte[] ToBytes(this object obj, Type type)
+        public static byte[] ToBytes(this object obj, out Type type)
         {
             if (obj == null)
             {
                 throw new System.SystemException("该object为空！");
             }
+            type = obj.GetType();
             byte[] buff = new byte[Marshal.SizeOf(obj)];
             IntPtr ptr = Marshal.UnsafeAddrOfPinnedArrayElement(buff, 0);
             Marshal.StructureToPtr(obj, ptr, true);
@@ -716,7 +718,7 @@ namespace Tool
         /// <returns>返回类型对象</returns>
         public static T Read<T>(int address)
         {
-            IntPtr Address = new IntPtr(address);
+            IntPtr Address = new(address);
             var obj = default(T);
             var tr = __makeref(obj);
             unsafe { *(IntPtr*)(&tr) = Address; }
@@ -924,7 +926,7 @@ namespace Tool
             {
                 throw new System.SystemException("count超出了数组，数组越界！");
             }
-            List<object> obj1 = new List<object>();
+            List<object> obj1 = new();
 
             for (int i = index; i < count; i++)
             {

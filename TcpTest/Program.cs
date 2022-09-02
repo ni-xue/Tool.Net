@@ -16,46 +16,31 @@ using Tool.Utils.Data;
 
 namespace TcpTest
 {
+    public class abc
+    {
+        public int a { get; init; }
+        public string b { get; set; }
+        public DateTime c { get; init; }
+        public long d { get; set; }
+        public byte e { get; init; }
+        public double f { get; set; }
+        public decimal g { get; init; }
+    }
+
     internal class Program
     {
-
-        public class abc 
-        {
-            public string A;
-            public  int a { get; init; }
-
-            public string b { get; set; } = string.Empty;
-
-            public DateTime c { get; init; }
-
-            public bool d { get; set; }
-
-            public byte e { get; set; }
-
-            public byte f { get; }
-
-            public string g { get; }
-        }
-
         static void Main(string[] args)
         {
-            DataTable dataTable = new();
+            //abc abc1 = new();
+            //var q1 = abc1.ToXml();
+            //var q2 = q1.Xml<abc>();
 
-            DataColumn dc = new();
+            //var aa = new { a = 66, b = "ok" };
 
-            dataTable.Columns.Add("column0", typeof(string));
+            //__reftype(T);__makeref();__refvalue();__arglist("sb",1024);TypedReference
 
-            DataRow dr = dataTable.NewRow();
-
-            dr[0] = "张三";
-
-            dataTable.Rows.Add(dr);
-
-            //dataTable.Rows[0]
-
-            dataTable.Rows[0][0] = "张三"; //通过索引赋值
-
-            dataTable.Rows[0]["COLumn0"] = "66666666666666666666666666666666666666666666666666666";
+            //var bb = __makeref(aa);
+            //var cc = __refvalue(bb, int);
 
             //abc abc = new();
 
@@ -80,7 +65,40 @@ namespace TcpTest
 
             var type = typeof(abc);
 
-             //new ClassFieldDispatcher(type);
+            DataTable dataTable = new();
+
+            dataTable.Columns.Add("a", typeof(int));
+            dataTable.Columns.Add("B", typeof(string));
+            dataTable.Columns.Add("c", typeof(DateTime));
+            dataTable.Columns.Add("D", typeof(long));
+            dataTable.Columns.Add("e", typeof(byte));
+            dataTable.Columns.Add("F", typeof(double));
+            dataTable.Columns.Add("g", typeof(decimal));
+            byte e1 = 0;
+            for (int q = 0; q < 1000000; q++)
+            {
+                DataRow dr = dataTable.NewRow();
+
+                dr[0] = q;
+                dr[1] = q.ToString();
+                dr[2] = DateTime.Now.AddMinutes(q);
+                dr[3] = q.IsWhether(2) ? q : DBNull.Value;
+                dr[4] = unchecked(e1++);
+                dr[5] = q / 10.0;
+                dr[6] = q / 100m;
+
+                dataTable.Rows.Add(dr);
+            }
+
+            var 啊1111111 = dataTable.ToEntity<abc>(5);
+
+            var 啊11111111 = dataTable.ToEntityList<abc>(5);
+
+            var aaaaaa = dataTable.ToEntityList<abc>();
+
+            var aaaaaa1 = DataHelper.ConvertDataTableToObjects<abc>(dataTable);
+
+            //new ClassFieldDispatcher(type);
 
 
             //abc.c = DateTime.Now;

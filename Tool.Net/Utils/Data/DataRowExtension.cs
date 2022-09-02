@@ -82,7 +82,7 @@ namespace Tool.Utils.Data
                     var modeBuild = EntityBuilder.GetEntity(typeof(T));
                     var tableProperties = DataHelper.GetTablePropertys(modeBuild.Parameters, dataRow.Table.Columns);
 
-                    T m = DataRowExtension.ToEntity<T>(modeBuild, tableProperties, dataRow);
+                    T m = (T)DataRowExtension.ToEntity(modeBuild, tableProperties, dataRow.ItemArray);
 
                     return m;
 
@@ -151,7 +151,7 @@ namespace Tool.Utils.Data
 
                         //T m = DataRowExtension.ToEntity<T>(keys, dataRow);
 
-                        T m = DataRowExtension.ToEntity<T>(modeBuild, tableProperties, dataRow);
+                        T m = (T)DataRowExtension.ToEntity(modeBuild, tableProperties, dataRow.ItemArray);
 
                         ts[i] = m;
                     }
@@ -221,29 +221,29 @@ namespace Tool.Utils.Data
         //    return keys;
         //}
 
-        internal static T ToEntity<T>(EntityBuilder builder, IList<DataTableProperty> tableProperties, DataRow row) where T : new()
+        internal static object ToEntity(EntityBuilder builder, IList<DataTableProperty> tableProperties, object[] itemArray, Dictionary<string, object> pairs = null)
         {
             object obj = builder.New;
-            var pairs = new Dictionary<string, object>();
+            pairs ??= new Dictionary<string, object>(tableProperties.Count);
             foreach (var property in tableProperties)
             {
-                object value = row[property.Index];
+                object value = itemArray[property.Index];
+
+                object obj2;
                 if (DBNull.Value != value)
                 {
-                    object obj2;
-                    if (property.Property.PropertyType != value.GetType() || property.Property.PropertyType != typeof(string))
+                    if (property.PropertyType != property.DataType)//|| property.Property.PropertyType != typeof(string)
                     {
-                        obj2 = value.ToVar(property.Property.PropertyType, false);
+                        obj2 = value.ToVar(property.PropertyType, false);
                     }
                     else
                     {
                         obj2 = value;
                     }
-                    pairs.Add(property.Property.Name, obj2);
+                    if (obj2 is not null) pairs.Add(property.Name, obj2);
                 }
             }
             if (pairs.Count > 0) builder.Set(obj, pairs);
-
 
             //T m = Activator.CreateInstance<T>();
 
@@ -268,7 +268,7 @@ namespace Tool.Utils.Data
             //    }
             //}
 
-            return (T)obj;
+            return obj;
         }
 
 

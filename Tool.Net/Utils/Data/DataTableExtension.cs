@@ -237,7 +237,7 @@ namespace Tool.Utils.Data
                     var modeBuild = EntityBuilder.GetEntity(typeof(T));
                     var tableProperties = DataHelper.GetTablePropertys(modeBuild.Parameters, dataTable.Columns);
 
-                    T m = DataRowExtension.ToEntity<T>(modeBuild, tableProperties, dataTable.Rows[index]);
+                    T m = (T)DataRowExtension.ToEntity(modeBuild, tableProperties, dataTable.Rows[index].ItemArray);
 
                     //Type type = typeof(T);
                     //List<PropertyInfo> _properties = new(type.GetProperties());
@@ -413,31 +413,37 @@ namespace Tool.Utils.Data
                     //}
 
                     var modeBuild = EntityBuilder.GetEntity(typeof(T));
-                    IList<DataTableProperty> tableProperties = null;
+                    IList<DataTableProperty> tableProperties = DataHelper.GetTablePropertys(modeBuild.Parameters, dataTable.Columns);
                     //Dictionary<PropertyInfo, DataColumn> keys = DataRowExtension.GetDataPropertys<T>(dataTable.Columns);
 
-                    DataRow[] dataRows; 
+                    DataRowCollection dataRows; 
                     if (indexs != null)
                     {
-                        dataRows = new DataRow[indexs.Length];
-                        for (int i = 0; i < dataRows.Length; i++)
+                        var _clone = dataTable.Clone();
+                        for (int i = 0; i < indexs.Length; i++)
                         {
-                            dataRows[i] = dataTable.Rows[indexs[i]];
+                            _clone.Rows.Add(dataTable.Rows[indexs[i]].ItemArray);
                         }
+                        dataRows = _clone.Rows;
+                        //dataRows = new DataRow[indexs.Length];
+                        //for (int i = 0; i < dataRows.Length; i++)
+                        //{
+                        //    dataRows[i] = dataTable.Rows[indexs[i]];
+                        //}
                     }
                     else
                     {
-                        dataRows = new DataRow[dataTable.Rows.Count];
-                        dataTable.Rows.CopyTo(dataRows, 0);
+                        dataRows = dataTable.Rows;
+                        //dataRows = new DataRow[dataTable.Rows.Count];
+                        //dataTable.Rows.CopyTo(dataRows, 0);
                     }
 
                     IList<T> ts = new List<T>();
-
+                    Dictionary<string, object> dic = new(tableProperties.Count);
                     foreach (DataRow dataRow in dataRows)
                     {
-                        tableProperties ??= DataHelper.GetTablePropertys(modeBuild.Parameters, dataRow.Table.Columns);
-                        T m = DataRowExtension.ToEntity<T>(modeBuild, tableProperties, dataRow);
-
+                        T m = (T)DataRowExtension.ToEntity(modeBuild, tableProperties, dataRow.ItemArray, dic);
+                        dic.Clear();
                         //T m = Activator.CreateInstance<T>();
 
                         //foreach (KeyValuePair<PropertyInfo, DataColumn> _keyValue in keys)

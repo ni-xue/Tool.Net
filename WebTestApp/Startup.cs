@@ -67,7 +67,7 @@ namespace WebTestApp
             //WebServer webServer = new();
             //webServer.StartAsync("127.0.0.1", 9999, false);
 
-            ClientFrame client = new();
+            ClientFrame client = new(TcpBufferSize.Default, 108, true);
             client.SetCompleted((a, b, c) =>
             {
                 Console.WriteLine("\nIP:{0} \t{1} \t{2}", a, b, c.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
@@ -265,29 +265,39 @@ namespace WebTestApp
                 Console.WriteLine("情况：{0}，{1}，{2}, 成功 {3},超时 {4},其他 {5},http计数：{6}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount, a, b, c, d);
             });
 
+            app.UseDiySession();
+
             app.UseRouting();
 
             app.UseEndpoints(e =>
             {
-                e.MapGet("/", async () =>
+                e.MapGet("/", async (context) =>
                 {
+                    context.Session.SetAvailable(true);
+
                     Interlocked.Increment(ref d);
                     ApiPacket packet = new(1, 250, 10000);
                     packet.Set("a", StringExtension.GetGuid());
                     var s = await client.SendAsync(packet);
 
+                    string msg;
                     switch (s.OnTcpFrame)
                     {
                         case TcpFrameState.Success:
                             Interlocked.Increment(ref a);
-                            return "OK";
+                            msg = "OK";
+                            break;
                         case TcpFrameState.Timeout:
                             Interlocked.Increment(ref b);
-                            return "NO";
+                            msg = "NO";
+                            break;
                         default:
                             Interlocked.Increment(ref c);
-                            return "SB";
+                            msg = "SB";
+                            break;
                     }
+
+                    await context.Response.WriteAsync(msg);
                 });
             });
 
@@ -357,8 +367,6 @@ namespace WebTestApp
             app.UseIgnoreUrl("Views/Cs", "Views", "cs.html");
 
             app.UseStaticFiles(); //"/Raa"
-
-            app.UseDiySession();
 
             //app.UseStaticFiles(new StaticFileOptions
             //{

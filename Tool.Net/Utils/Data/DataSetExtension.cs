@@ -12,7 +12,7 @@ namespace Tool.Utils.Data
     public static class DataSetExtension
     {
         /// <summary>
-        /// 判断<see cref="DataSet"/>对象中的是否为空，行为空，对象为空
+        /// 判断<see cref="DataSet"/>对象中的是否为空，行为空，对象为空（验证每张表，只要其中包含一张表有值，都成立。）
         /// </summary>
         /// <param name="data"><see cref="DataSet"/>对象</param>
         /// <returns>返回<see cref="bool"/>类型</returns>
@@ -30,11 +30,16 @@ namespace Tool.Utils.Data
             {
                 return true;
             }
-            if (data.Tables[0].IsEmpty())
+            bool result = true;
+            foreach (DataTable table in data.Tables)
             {
-                return true;
+                if (!table.IsEmpty())
+                {
+                    result = false;
+                    break;
+                }
             }
-            return false;
+            return result;
             //return object.Equals(data, null) && object.Equals(data.Tables,null) && data.Tables.Count == 0 && data.Tables[0].IsEmpty();//.Equals(null) && data.Tables[0].Rows.Count == 0
             //return data != null && data.Tables != null && (data.Tables == null || (data.Tables.Count != 0 && data.Tables[0] != null && data.Tables[0].Rows.Count != 0));
         }

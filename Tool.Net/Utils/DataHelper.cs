@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Reflection;
 using System.Text;
+using Tool.Utils.ActionDelegate;
 
 namespace Tool.Utils
 {
@@ -16,10 +18,11 @@ namespace Tool.Utils
             IList<DataTableProperty> result = new List<DataTableProperty>();
             foreach (var property in properties)
             {
+                if (!property.CanWrite) continue;
                 int index = columns.IndexOf(property.Name);
                 if (index != -1)
                 {
-                    result.Add(new() { Index = index, Property = property });
+                    result.Add(new() { Index = index, Property = property, DataType = columns[index].DataType });
                 }
             }
             return result;
@@ -139,7 +142,7 @@ namespace Tool.Utils
         private static object ConvertRowToObject(EntityBuilder builder, IList<DataTableProperty> tableProperties, DataRow row)
         {
             object obj = builder.New;
-            var pairs = new Dictionary<string, object>();
+            var pairs = new Dictionary<string, object>(tableProperties.Count);
             foreach (var property in tableProperties)
             {
                 try
@@ -147,8 +150,8 @@ namespace Tool.Utils
                     object value = row[property.Index];
                     if (DBNull.Value != value)
                     {
-                        object obj2 = TypeHelper.ChangeType(property.Property.PropertyType, value);
-                        pairs.Add(property.Property.Name, obj2);
+                        object obj2 = TypeHelper.ChangeType(property.PropertyType, value);
+                        if(obj2 is not null) pairs.Add(property.Name, obj2);
                     }
                 }
                 catch
@@ -373,6 +376,21 @@ namespace Tool.Utils
         /// 表下标
         /// </summary>
         public int Index { get; init; }
+
+        /// <summary>
+        /// 对应的值类型
+        /// </summary>
+        public Type DataType { get; init; }
+
+        /// <summary>
+        /// 类字段类型
+        /// </summary>
+        public Type PropertyType => Property.PropertyType;
+
+        /// <summary>
+        /// 字段名称
+        /// </summary>
+        public string Name => Property.Name;
 
         /// <summary>
         /// 字段信息

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.Text;
+using Tool.Web.Session;
 
 namespace Tool.Web
 {
@@ -549,6 +550,19 @@ namespace Tool.Web
                 value = default;
             }
             return iskey;
+        }
+
+        /// <summary>
+        /// 仅对DiySession设置有效，设置为true后会为其名称，增加有效用户类似标志
+        /// </summary>
+        /// <param name="session">对象</param>
+        /// <param name="isAvailable">可用性状态</param>
+        public static void SetAvailable(this ISession session, bool isAvailable)
+        {
+            if (session is DiySession diySession)
+            {
+                diySession.IsAvailable = isAvailable;
+            }
         }
     }
 }

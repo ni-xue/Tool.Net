@@ -6353,7 +6353,7 @@
             <param name="obj">能序列化的对象</param>
             <returns>返回一个byte[]</returns>
         </member>
-        <member name="M:Tool.ObjectExtension.ToBytes(System.Object,System.Type)">
+        <member name="M:Tool.ObjectExtension.ToBytes(System.Object,System.Type@)">
             <summary>
              将一个object对象序列化，返回一个byte[] （升级版，有效降低内存消耗）（重要说明：被序列化的对象必须实现 struct 标记）示例：public struct 类名称
             </summary>
@@ -7370,7 +7370,7 @@
             向类传入修改集合
             </summary>
             <param name="_class">类对象</param>
-            <param name="parameters">值集合</param>
+            <param name="parameters">值集合(字典如标记忽略大小写赋值，就能实现特定行为)</param>
         </member>
         <member name="M:Tool.Utils.ActionDelegate.ClassFieldDispatcher.Get(System.Object)">
             <summary>
@@ -7910,26 +7910,35 @@
             <param name="row"></param>
             <param name="refreshFields"></param>
         </member>
-        <member name="T:Tool.Utils.DataHelper.PropertyNotFoundException">
+        <member name="T:Tool.Utils.DataTableProperty">
             <summary>
-            自定义错误信息输出类
+            表示一个 实体字段对应的表下标
             </summary>
         </member>
-        <member name="P:Tool.Utils.DataHelper.PropertyNotFoundException.TargetPropertyName">
+        <member name="P:Tool.Utils.DataTableProperty.Index">
             <summary>
-            自定义错误信息输出结果
+            表下标
             </summary>
         </member>
-        <member name="M:Tool.Utils.DataHelper.PropertyNotFoundException.#ctor">
+        <member name="P:Tool.Utils.DataTableProperty.DataType">
             <summary>
-            无参构造
+            对应的值类型
             </summary>
         </member>
-        <member name="M:Tool.Utils.DataHelper.PropertyNotFoundException.#ctor(System.String)">
+        <member name="P:Tool.Utils.DataTableProperty.PropertyType">
             <summary>
-            自定义错误信息输出
+            类字段类型
             </summary>
-            <param name="propertyName"></param>
+        </member>
+        <member name="P:Tool.Utils.DataTableProperty.Name">
+            <summary>
+            字段名称
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.DataTableProperty.Property">
+            <summary>
+            字段信息
+            </summary>
         </member>
         <member name="T:Tool.Utils.Data.ArrayExtension">
             <summary>
@@ -8048,9 +8057,9 @@
             <param name="dataRow">数据源</param>
             <returns>返回实体对象</returns>
         </member>
-        <member name="M:Tool.Utils.Data.DataRowExtension.ToEntityList``1(System.Data.DataRow[])">
+        <member name="M:Tool.Utils.Data.DataRowExtension.ToEntityList``1(System.Data.DataRowCollection)">
             <summary>
-            将<see cref="T:System.Data.DataRow"/>[] 对象 转换为 实体对象数组 (优化版)
+            将<see cref="T:System.Data.DataRowCollection"/> 对象 转换为 实体对象数组 (优化版)
             </summary>
             <typeparam name="T">实体对象</typeparam>
             <param name="dataRows">数据源</param>
@@ -8065,23 +8074,23 @@
         </member>
         <member name="M:Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRow)">
             <summary>
-            （DataRow[]）转换 <see cref="T:System.Object"/> 对象
+            （DataRow）转换 <see cref="T:System.Object"/> 对象
             </summary>
-            <param name="dataRows">DataRow[]</param>
+            <param name="dataRows">DataRow</param>
             <returns>返回dynamic</returns>
         </member>
-        <member name="M:Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRow[])">
+        <member name="M:Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection)">
             <summary>
-            （DataRow[]）转换 <see cref="T:System.Object"/> 集合
+            （DataRowCollection）转换 <see cref="T:System.Object"/> 集合
             </summary>
-            <param name="dataRows">DataRow[]</param>
+            <param name="dataRows">DataRowCollection</param>
             <returns>返回dynamic[]</returns>
         </member>
-        <member name="M:Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRow[],System.Int32)">
+        <member name="M:Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection,System.Int32)">
             <summary>
-            （DataRow[]）转换 <see cref="T:System.Object"/> 
+            （DataRowCollection）转换 <see cref="T:System.Object"/> 
             </summary>
-            <param name="dataRows">DataRow[]</param>
+            <param name="dataRows">DataRowCollection</param>
             <param name="index">要读取的那一条数组的下标</param>
             <returns>返回dynamic</returns>
         </member>
@@ -8093,7 +8102,7 @@
         </member>
         <member name="M:Tool.Utils.Data.DataSetExtension.IsEmpty(System.Data.DataSet)">
             <summary>
-            判断<see cref="T:System.Data.DataSet"/>对象中的是否为空，行为空，对象为空
+            判断<see cref="T:System.Data.DataSet"/>对象中的是否为空，行为空，对象为空（验证每张表，只要其中包含一张表有值，都成立。）
             </summary>
             <param name="data"><see cref="T:System.Data.DataSet"/>对象</param>
             <returns>返回<see cref="T:System.Boolean"/>类型</returns>
@@ -8326,7 +8335,7 @@
             <param name="keys">原本键值对</param>
             <returns>只读键值对</returns>
         </member>
-        <member name="M:Tool.Utils.Data.DictionaryExtension.GetParamASCII``2(System.Collections.Generic.Dictionary{``0,``1})">
+        <member name="M:Tool.Utils.Data.DictionaryExtension.GetParamAscii``2(System.Collections.Generic.Dictionary{``0,``1})">
             <summary>
             按照ASCII码从小到大排序（示例： 1, 2, A, B, a, b 这是格式循序）
             </summary>
@@ -8843,7 +8852,7 @@
             赋值对象
             </summary>
             <param name="_class">对象原型</param>
-            <param name="parameters">字典</param>
+            <param name="parameters">字典(字典如标记忽略大小写赋值，就能实现特定行为)</param>
         </member>
         <member name="M:Tool.Utils.EntityBuilder.GetEntity(System.Type)">
             <summary>
