@@ -458,5 +458,39 @@ namespace Tool.SqlCore
             }
             return (Func<DbDataReader, T>)resDelegate;
         }
+
+        /// <summary>
+        /// 将<see cref="DbDataReader"/>对象，中数据转换为集合字典
+        /// </summary>
+        /// <param name="dataReader">原数据对象</param>
+        /// <param name="isnull">是否处理Null值，true时将不包含在字典中</param>
+        /// <returns>返回可读集合字典</returns>
+        public static IList<IDictionary<string, object>> GetReader(this DbDataReader dataReader, bool isnull = false)
+        {
+            //if (dataReader.IsClosed)
+            {
+                IList<IDictionary<string, object>> keys = new List<IDictionary<string, object>>();
+                while (dataReader.Read())
+                {
+                    Dictionary<string, object> pairs = new(dataReader.FieldCount, StringComparer.OrdinalIgnoreCase);
+                    for (int i = 0; i < dataReader.FieldCount; i++)
+                    {
+                        bool isNull = dataReader.IsDBNull(i);
+
+                        if (isNull && !isnull)
+                        {
+                            pairs.Add(dataReader.GetName(i), null);
+                        }
+                        else
+                        {
+                            pairs.Add(dataReader.GetName(i), dataReader.GetValue(i));
+                        }
+                    }
+                    keys.Add(pairs);
+                }
+
+                return keys;
+            }
+        }
     }
 }

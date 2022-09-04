@@ -75,7 +75,7 @@ namespace TcpTest
             dataTable.Columns.Add("F", typeof(double));
             dataTable.Columns.Add("g", typeof(decimal));
             byte e1 = 0;
-            for (int q = 0; q < 1000000; q++)
+            for (int q = 0; q < 100000; q++)
             {
                 DataRow dr = dataTable.NewRow();
 

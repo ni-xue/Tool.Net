@@ -18,11 +18,11 @@ namespace Tool.Utils
         public static object ChangeType(Type targetType, object val)
         {
             if (val is null) return null;
-            if (targetType == val.GetType()) return val;// || targetType.IsGenericType
-            if (targetType.IsGenericType)// && string.Empty.Equals(val)
-            {
-                return val;
-            }
+            if (targetType == val.GetType() || targetType.IsGenericType) return val;
+            //if (targetType.IsGenericType)// && string.Empty.Equals(val)
+            //{
+            //    return val;
+            //}
             if (targetType == typeof(bool))
             {
                 string strval = val.ToString();
