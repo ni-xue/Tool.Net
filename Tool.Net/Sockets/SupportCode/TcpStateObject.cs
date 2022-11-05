@@ -16,7 +16,7 @@ namespace Tool.Sockets.SupportCode
         /// 构造包信息
         /// </summary>
         /// <param name="Client">对象</param>
-        public TcpStateObject(TcpClient Client) : this(Client, 2048)
+        public TcpStateObject(Socket Client) : this(Client, 2048)
         {
         }
 
@@ -25,7 +25,7 @@ namespace Tool.Sockets.SupportCode
         /// </summary>
         /// <param name="Client">对象</param>
         /// <param name="DataLength">包的大小</param>
-        public TcpStateObject(TcpClient Client, int DataLength)
+        public TcpStateObject(Socket Client, int DataLength)
         {
             this.ListData = new byte[DataLength];
             this.Client = Client;
@@ -67,19 +67,19 @@ namespace Tool.Sockets.SupportCode
         /// </summary>
         /// <param name="Client"></param>
         /// <returns></returns>
-        public static string GetIpPort(TcpClient Client)
+        public static string GetIpPort(Socket Client)
         {
             try
             {
-                if (Client.Client == null)
+                if (Client == null)
                 {
                     return "0.0.0.0:0";
                 }
-                else if (Client.Client.RemoteEndPoint == null)
+                else if (Client.RemoteEndPoint == null)
                 {
                     return "0.0.0.0:0";
                 }
-                IPEndPoint iep = Client.Client.RemoteEndPoint as IPEndPoint;
+                IPEndPoint iep = Client.RemoteEndPoint as IPEndPoint;
                 if (iep.AddressFamily != AddressFamily.InterNetwork)
                 {
                     return string.Concat(iep.Address.MapToIPv4(), ':', iep.Port);
@@ -104,37 +104,126 @@ namespace Tool.Sockets.SupportCode
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace(IpPort))
+                if (IpPort != null) //!string.IsNullOrEmpty(IpPort)
                 {
-                    if (IpPort.Contains(':'))
+                    ReadOnlySpan<char> chars = IpPort.AsSpan();
+                    int ipportLength = chars.Length, position = 0;//, ip0 = -1, ip1 = -1, ip2 = -1, lastport = -1; //chars.LastIndexOf(':'); 21
+                    int[] ints = new int[4];
+
+                    for (int i = 0; i < ipportLength; i++)
                     {
-                        string[] vs = IpPort.Split(':');
-                        if (vs.Length == 2)
+                        if (position != 3)
                         {
-                            if (ushort.TryParse(vs[1], out ushort portNum))
+                            if (chars[i].Equals('.'))
                             {
-                                if (portNum >= 0 && portNum <= 65535)
-                                {
-                                    if (IPAddress.TryParse(vs[0], out _))
-                                    {
-                                        return true;
-                                    }
-                                }
+                                ints[position] = i;
+                                int i0 = position == 0 ? 0 : ints[position-1] + 1;
+                                if (!byte.TryParse(chars[i0..ints[position]], out _)) return false;
+                                position++;
                             }
                         }
+                        else
+                        {
+                            if (chars[i].Equals(':'))
+                            {
+                                int i0 = i + 1;
+                                if (ushort.TryParse(chars[i0..], out _)) return true;
+                            }
+                        }
+
+                        //switch (position)
+                        //{
+                        //    case 0:
+                        //        if (chars[i].Equals('.')) 
+                        //        {
+                        //            ip0 = i;
+                        //            if (!byte.TryParse(chars[..ip0++], out _))return false;
+                        //            position++;
+                        //        }
+                        //        break;
+                        //    case 1:
+                        //        if (chars[i].Equals('.'))
+                        //        {
+                        //            ip1 = i;
+                        //            if (!byte.TryParse(chars[ip0..ip1++], out _)) return false;
+                        //            position++;
+                        //        }
+                        //        break;
+                        //    case 2:
+                        //        if (chars[i].Equals('.'))
+                        //        {
+                        //            ip2 = i;
+                        //            if (!byte.TryParse(chars[ip1..ip2++], out _)) return false;
+                        //            position++;
+                        //        }
+                        //        break;
+                        //    case 3:
+                        //        if (chars[i].Equals(':'))
+                        //        {
+                        //            lastport = i + 1;
+                        //            if (ushort.TryParse(chars[lastport..], out _)) return true;
+                        //        }
+                        //        break;
+                        //}
                     }
+
+
+                    //if (lastport > 0 && ipportLength > lastport)
+                    //{
+                    //    if (!ushort.TryParse(chars[(lastport + 1)..], out _)) return false;
+
+                    //    int type0 = chars.IndexOf('.');
+                    //    if (type0 != -1 && byte.TryParse(chars[..type0++], out _))
+                    //    {
+                    //        int type1 = chars[type0..].IndexOf('.');
+                    //        if (type1 != -1 && byte.TryParse(chars[type0..(type0 + type1++)], out _))
+                    //        {
+                    //            int type2 = chars[(type0 + type1)..].IndexOf('.');
+                    //            if (type2 != -1 && byte.TryParse(chars[(type0 + type1)..(type0 + type1 + type2++)], out _))
+                    //            {
+                    //                if (byte.TryParse(chars[(type0 + type1 + type2)..lastport], out _))
+                    //                {
+                    //                    return true;
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+
+                        //if (type0 != -1 && type1 != -1 && type2 != -1)
+                        //{
+                        //    if (!byte.TryParse(chars[..type0++], out _)) return false;
+                        //    if (!byte.TryParse(chars[type0..(type0 + type1++)], out _)) return false;
+                        //    if (!byte.TryParse(chars[(type0 + type1)..(type0 + type1 + type2++)], out _)) return false;
+                        //    if (!byte.TryParse(chars[(type0 + type1 + type2)..lastport], out _)) return false;
+                        //    return true;
+                        //}
+                        //return false;
+                        //string[] vs = IpPort.Split(':');
+                        //if (vs.Length == 2)
+                        //{
+                        //    if (ushort.TryParse(vs[1], out ushort portNum))
+                        //    {
+                        //        if (portNum >= 0 && portNum <= 65535)
+                        //        {
+                        //            if (IPAddress.TryParse(vs[0], out _))
+                        //            {
+                        //                return true;
+                        //            }
+                        //        }
+                        //    }
+                        //}
+                    //}
                     //if (ip.Length >= 8 && ip.Length <= 20)//0.0.0.0:0,000.000.000.000:00000
                     //{
 
                     //}
                 }
-
-                return false;
             }
             catch (Exception)
             {
-                return false;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -142,10 +231,10 @@ namespace Tool.Sockets.SupportCode
         /// </summary>
         /// <param name="Client"></param>
         /// <returns></returns>
-        public static bool IsConnected(TcpClient Client)
+        public static bool IsConnected(Socket Client)
         {
             if (Client is null) return false;
-            if (Client.Client is null) return false;
+            //if (Client is null) return false;
             if (!Client.Connected) return false;
             return true;
         }
@@ -252,7 +341,7 @@ namespace Tool.Sockets.SupportCode
             }
         }
 
-        internal static void OnReceived(bool IsThreadPool, string ipPort, TcpClient client, IMemoryOwner<byte> listData, int length, Action<TcpBytes> Received)
+        internal static void OnReceived(bool IsThreadPool, string ipPort, Socket client, IMemoryOwner<byte> listData, int length, Action<TcpBytes> Received)
         {
             try
             {
@@ -281,9 +370,9 @@ namespace Tool.Sockets.SupportCode
         /// <summary>
         /// 为 TCP 网络服务提供客户端连接。
         /// </summary>
-        public TcpClient Client { get; set; }
+        public Socket Client { get; set; }
 
-        internal Socket SocketClient { get { return Client.Client; } }
+        //internal Socket SocketClient { get { return Client.Client; } }
 
         /// <summary>
         /// 用于控制异步接收消息
@@ -349,7 +438,7 @@ namespace Tool.Sockets.SupportCode
                     {
                         // 累计值
                         int manytophead = 0, toplength;
-                    Verify:
+                        Verify:
                         //byte[] headby = new byte[6];
                         //Array.Copy(obj.ListData, 0, headby, 0, 6);
                         toplength = manytophead + HeadSize;
@@ -467,7 +556,7 @@ namespace Tool.Sockets.SupportCode
     /// <summary>
     /// Tcp 通讯资源 对象（必须回收，丢失风险大）
     /// </summary>
-    public readonly struct TcpBytes//: IDisposable
+    public readonly struct TcpBytes : IDisposable
     {
         private readonly IMemoryOwner<byte> _dataOwner;
 
@@ -483,12 +572,12 @@ namespace Tool.Sockets.SupportCode
         /// <param name="client">连接对象</param>
         /// <param name="dataOwner">可回收数据对象</param>
         /// <param name="length">包含长度</param>
-        public TcpBytes(string key, TcpClient client, IMemoryOwner<byte> dataOwner, int length) : this()
+        public TcpBytes(string key, Socket client, IMemoryOwner<byte> dataOwner, int length) : this()
         {
             Key = key;
             Client = client;
             _dataOwner = dataOwner;
-            Length = length;   
+            Length = length;
             //Data = _dataOwner.Memory[..length];
         }
 
@@ -500,12 +589,46 @@ namespace Tool.Sockets.SupportCode
         /// <summary>
         /// 连接对象
         /// </summary>
-        public TcpClient Client { get; }
+        public Socket Client { get; }
 
         /// <summary>
         /// 返回数据
         /// </summary>
-        public Memory<byte> Data => _dataOwner.Memory[..Length];//{ get; }
+        public Memory<byte> Memory => _dataOwner.Memory[..Length];//{ get; }
+
+        /// <summary>
+        /// 使用完后及时回收
+        /// </summary>
+        public void Dispose() => _dataOwner.Dispose();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public readonly struct SendBytes : IDisposable
+    {
+        private readonly IMemoryOwner<byte> _dataOwner;
+
+        /// <summary>
+        /// 流长度
+        /// </summary>
+        public readonly int Length;
+
+        /// <summary>
+        /// 资源对象
+        /// </summary>
+        /// <param name="dataOwner">可回收数据对象</param>
+        /// <param name="length">包含长度</param>
+        public SendBytes(IMemoryOwner<byte> dataOwner, int length) : this()
+        {
+            _dataOwner = dataOwner;
+            Length = length;
+        }
+
+        /// <summary>
+        /// 返回数据
+        /// </summary>
+        public Memory<byte> Memory => _dataOwner.Memory[..Length];//{ get; }
 
         /// <summary>
         /// 使用完后及时回收

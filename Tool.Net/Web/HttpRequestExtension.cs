@@ -172,31 +172,35 @@ namespace Tool.Web
             {
                 var modeBuild = EntityBuilder.GetEntity(type);
                 object m = modeBuild.New;
-                PropertyInfo[] properties = modeBuild.Parameters;// type.GetProperties();
-                IDictionary<string, object> keys = new Dictionary<string, object>();
-                foreach (PropertyInfo property in properties)
+                try
                 {
-                    if (reques.Query.TryGetValue(property.Name, out var value))
+                    PropertyInfo[] properties = modeBuild.Parameters;// type.GetProperties();
+                    IDictionary<string, object> keys = new Dictionary<string, object>();
+                    foreach (PropertyInfo property in properties)
                     {
-                        AddValue(keys, value, property.PropertyType, property.Name, istype);
+                        if (reques.Query.TryGetValue(property.Name, out var value))
+                        {
+                            AddValue(keys, value, property.PropertyType, property.Name, istype);
+                        }
+
+                        //string name = property.Name;
+                        //string value = reques.Query[name];
+                        //if (property.PropertyType != typeof(string))
+                        //{
+                        //    if (!string.IsNullOrEmpty(value))
+                        //    {
+                        //        type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    type.GetProperty(name).SetValue(m, value);
+                        //}
                     }
-
-                    //string name = property.Name;
-                    //string value = reques.Query[name];
-                    //if (property.PropertyType != typeof(string))
-                    //{
-                    //    if (!string.IsNullOrEmpty(value))
-                    //    {
-                    //        type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    type.GetProperty(name).SetValue(m, value);
-                    //}
+                    if (keys.Count > 0) modeBuild.Set(m, keys);
                 }
-                if (keys.Count > 0) modeBuild.Set(m, keys);
-
+                catch (Exception){}
+                
                 return m;
             }
             catch (Exception)
@@ -219,31 +223,35 @@ namespace Tool.Web
                 var modeBuild = EntityBuilder.GetEntity(type);
                 object m = modeBuild.New;
                 if (!reques.HasFormContentType) return m;
-                PropertyInfo[] properties = modeBuild.Parameters;// type.GetProperties();
-                IDictionary<string, object> keys = new Dictionary<string, object>();
-                foreach (PropertyInfo property in properties)
+                try
                 {
-                    if (reques.Form.TryGetValue(property.Name, out var value))
+                    PropertyInfo[] properties = modeBuild.Parameters;// type.GetProperties();
+                    IDictionary<string, object> keys = new Dictionary<string, object>();
+                    foreach (PropertyInfo property in properties)
                     {
-                        AddValue(keys, value, property.PropertyType, property.Name, istype);
+                        if (reques.Form.TryGetValue(property.Name, out var value))
+                        {
+                            AddValue(keys, value, property.PropertyType, property.Name, istype);
+                        }
+
+                        //string name = property.Name;
+                        //string value = reques.Form[name];
+                        //if (property.PropertyType != typeof(string))
+                        //{
+                        //    if (!string.IsNullOrEmpty(value))
+                        //    {
+                        //        type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    type.GetProperty(name).SetValue(m, value);
+                        //}
                     }
-
-                    //string name = property.Name;
-                    //string value = reques.Form[name];
-                    //if (property.PropertyType != typeof(string))
-                    //{
-                    //    if (!string.IsNullOrEmpty(value))
-                    //    {
-                    //        type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    type.GetProperty(name).SetValue(m, value);
-                    //}
+                    if (keys.Count > 0) modeBuild.Set(m, keys);
                 }
-                if (keys.Count > 0) modeBuild.Set(m, keys);
-
+                catch (Exception){}
+                
                 return m;
             }
             catch (Exception)
@@ -265,36 +273,40 @@ namespace Tool.Web
             {
                 var modeBuild = EntityBuilder.GetEntity(type);
                 object m = modeBuild.New;
-                PropertyInfo[] properties = modeBuild.Parameters;// type.GetProperties();
-                IDictionary<string, object> keys = new Dictionary<string, object>();
-                foreach (PropertyInfo property in properties)
+                try
                 {
-                    if (reques.Query.TryGetValue(property.Name, out var value) || (reques.HasFormContentType && reques.Form.TryGetValue(property.Name, out value)))
+                    PropertyInfo[] properties = modeBuild.Parameters;// type.GetProperties();
+                    IDictionary<string, object> keys = new Dictionary<string, object>();
+                    foreach (PropertyInfo property in properties)
                     {
-                        AddValue(keys, value, property.PropertyType, property.Name, istype);
+                        if (reques.Query.TryGetValue(property.Name, out var value) || (reques.HasFormContentType && reques.Form.TryGetValue(property.Name, out value)))
+                        {
+                            AddValue(keys, value, property.PropertyType, property.Name, istype);
+                        }
+
+                        //string name = property.Name;
+                        //string value = reques.Query[name];
+                        //if (string.IsNullOrEmpty(value) && reques.HasFormContentType)
+                        //{
+                        //    value = reques.Form[name];
+                        //}
+
+                        //if (!string.IsNullOrEmpty(value))
+                        //{
+                        //    if (property.PropertyType != typeof(string))
+                        //    {
+                        //        type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
+                        //    }
+                        //    else
+                        //    {
+                        //        type.GetProperty(name).SetValue(m, value);
+                        //    }
+                        //}
                     }
-
-                    //string name = property.Name;
-                    //string value = reques.Query[name];
-                    //if (string.IsNullOrEmpty(value) && reques.HasFormContentType)
-                    //{
-                    //    value = reques.Form[name];
-                    //}
-
-                    //if (!string.IsNullOrEmpty(value))
-                    //{
-                    //    if (property.PropertyType != typeof(string))
-                    //    {
-                    //        type.GetProperty(name).SetValue(m, value.ToVar(property.PropertyType, istype));
-                    //    }
-                    //    else
-                    //    {
-                    //        type.GetProperty(name).SetValue(m, value);
-                    //    }
-                    //}
+                    if (keys.Count > 0) modeBuild.Set(m, keys);
                 }
-                if (keys.Count > 0) modeBuild.Set(m, keys);
-
+                catch (Exception){}
+                
                 return m;
             }
             catch (Exception)

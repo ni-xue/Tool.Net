@@ -13,6 +13,7 @@ namespace Tool.Sockets.UdpHelper
     /// <summary>
     /// 封装一个底层异步Udp对象（服务端）
     /// </summary>
+    [Obsolete("UDP方案，存在问题，升级改动中", true)]
     public class UdpServerAsync
     {
         private UdpClient listener = null;
@@ -70,7 +71,7 @@ namespace Tool.Sockets.UdpHelper
             //listener = new TcpListener(new IPEndPoint(ipAddress, port));
             //listener.Start();
             IPEndPoint localIpep = new(ipAddress, port); // 本机IP，指定的端口号
-
+            
             listener = new UdpClient(localIpep);
             ThreadPool.QueueUserWorkItem(x =>
             {

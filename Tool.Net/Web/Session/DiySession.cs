@@ -16,14 +16,9 @@ namespace Tool.Web.Session
     /// <remarks>代码由逆血提供支持</remarks>
     public abstract class DiySession : ISession
     {
-        /// <summary>
-        /// IsAvailable为true时，特点的标志
-        /// </summary>
-        public const string IsSign = ".1";
-
         //private readonly LazyConcurrentDictionary<string, byte[]> _AsSession;
 
-        private string _sessionName;
+        private DiySessionOptions diyOptions;
         private string _id;
         private bool _isAvailable;
 
@@ -37,12 +32,13 @@ namespace Tool.Web.Session
         /// </summary>
         public HttpContext Context { get; private set; }
 
-        internal async Task InsideInitialize(string sessionName, string id, HttpContext context, ILogger logger)
+        internal async Task InsideInitialize(DiySessionOptions diyOptions, string id, HttpContext context, ILogger logger)
         {
-            this._sessionName = sessionName;
-            if (id.EndsWith(IsSign))
+            this.diyOptions = diyOptions;
+            string sign = diyOptions.Sign;
+            if (id.EndsWith(sign))
             {
-                this._id = id[..(id.Length-2)];
+                this._id = id[..(id.Length - sign.Length)];
                 this._isAvailable = true;
             }
             else
@@ -54,8 +50,8 @@ namespace Tool.Web.Session
             this.Logger = logger;
             try
             {
-                this.Initialize();
-                await Task.CompletedTask;
+                await this.Initialize();
+                //await Task.CompletedTask;
                 //this._isAvailable = true;
             }
             catch (Exception ex)
@@ -69,24 +65,19 @@ namespace Tool.Web.Session
         }
 
         /// <summary>
-        /// 创建Session对象的必要流程
+        /// 创建Session对象的认证流程
         /// </summary>
-        public abstract void Initialize();
+        public virtual Task Initialize() => Task.CompletedTask;
 
         private void Available(bool _isAvailable)
         {
             if (_isAvailable != this._isAvailable)
             {
-                string newid = _isAvailable ? $"{_id}{IsSign}" : _id;
-                Context.Response.Cookies.Append(_sessionName, newid, new CookieOptions()
-                {
-                    HttpOnly = true,
-                    IsEssential = true,
-                    SameSite = SameSiteMode.Unspecified
-                });
+                string newid = _isAvailable ? $"{_id}{diyOptions.Sign}" : _id;
+                diyOptions.SetSessionId(Context, newid);
                 this._isAvailable = _isAvailable;
             }
-        } 
+        }
 
         /// <summary>
         /// SessionId
@@ -96,7 +87,7 @@ namespace Tool.Web.Session
         /// <summary>
         /// Session 是否可用（可用时将自动标记，可用标志）
         /// </summary>
-        public bool IsAvailable { get { return _isAvailable; } set=> Available(value); }
+        public bool IsAvailable { get { return _isAvailable; } set => Available(value); }
 
         /// <summary>
         /// 提供 Session 的全部键

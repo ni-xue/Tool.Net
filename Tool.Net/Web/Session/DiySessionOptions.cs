@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,11 +12,32 @@ namespace Tool.Web.Session
     public class DiySessionOptions
     {
         /// <summary>
+        /// IsAvailable为true时，特点的标志
+        /// </summary>
+        public const string IsSign = ".1";
+
+        private string _sign;
+
+        /// <summary>
         /// 初始化对象
         /// </summary>
         public DiySessionOptions()
         {
+            Cookie = new CookieOptions
+            {
+                HttpOnly = true,
+                IsEssential = true,
+                SameSite = SameSiteMode.Unspecified
+            };
+            _sign = IsSign;
+        }
 
+        /// <summary>
+        /// 标记值（可以设置为特定值，默认：IsSign值）
+        /// </summary>
+        public string Sign
+        {
+            get => _sign; set => _sign = string.IsNullOrWhiteSpace(value) ? IsSign : value;
         }
 
         /// <summary>
@@ -33,11 +55,27 @@ namespace Tool.Web.Session
         }
 
         /// <summary>
-        /// 注册一个可以自由控制的开关，以及自由规则的键值。 （key：返回生效的键值，isSession：是否创建Session对象）
-        /// <para>不注册，系统使用默认的方式。</para>
-        /// <para>key 为空，走默认值。</para>
+        /// 设置SessionId
         /// </summary>
-        public Func<Microsoft.AspNetCore.Http.HttpContext, Task<(string key,bool isSession)>> GetKey { get; set; }
+        /// <param name="context">请求对象</param>
+        /// <param name="sessionId">id</param>
+        internal void SetSessionId(HttpContext context, string sessionId)
+        {
+            context.Response.Cookies.Append(SessionName, sessionId, Cookie);
+        }
+
+        //（key：返回生效的键值，isSession：是否创建Session对象）
+        /// <summary>
+        /// 注册一个可以自由控制的开关，以及自由规则的键值。 
+        /// 默认提供SessionId值
+        /// <para>返回值 为空，时取消设置SessionId行为。</para>
+        /// </summary>
+        public Func<HttpContext, string, Task<string>> GetKey { get; set; }
+
+        /// <summary>
+        /// 获取或设置用户（所有用户共用配置）
+        /// </summary>
+        public CookieOptions Cookie { get; }
 
         internal Type TypeDiySession { get; set; }
     }

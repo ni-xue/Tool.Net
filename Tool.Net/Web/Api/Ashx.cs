@@ -162,8 +162,6 @@ namespace Tool.Web.Api
                 this.IsTask = Method.ReturnType == typeof(Task) || Method.ReturnType == typeof(OnAshxEvent);//(Method.ReturnType == typeof(Task) || Method.ReturnType == typeof(OnAshxEvent) ? true : false);
             }
 
-
-
             this.IsOnAshxEvent = Method.ReturnType == typeof(OnAshxEvent); //(Method.ReturnType == typeof(OnAshxEvent) ? true : false);
 
             //lock (this)

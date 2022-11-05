@@ -46,7 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection //Tool.Web.Session
             {
                 throw new ArgumentNullException(nameof(app));
             }
-            var options = app.ApplicationServices.GetRequiredService<Microsoft.Extensions.Options.IOptions<DiySessionOptions>>();
+            var options = app.ApplicationServices.GetRequiredService<Options.IOptions<DiySessionOptions>>();
 
             DiySessionOptions sessionOptions = options.Value;
 

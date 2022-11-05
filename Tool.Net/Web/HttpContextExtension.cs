@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.IO.Compression;
+using System.Net;
 using System.Text;
 using Tool.Web.Session;
 
@@ -47,18 +48,20 @@ namespace Tool.Web
 
         /// <summary>
         /// 获取客户端请求的IP地址（支持代理模式信息获取）
+        /// <para>有验证IP是否合法合规</para>
         /// </summary>
         /// <param name="context">HttpContext</param>
         /// <returns>返回IP地址</returns>
         public static string GetUserIp(this HttpContext context)
         {
-            if (context.Request.Headers.TryGetValue("X-Forwarded-For", out var ips))
+            if (context.Request.Headers.TryGetValue("X-Real-IP", out var ip) && IPAddress.TryParse(ip, out var iP))
             {
-                return ips;
+                return iP.ToString();
             }
             else
             {
-                return context.Connection.RemoteIpAddress.ToString();
+                return GetUserIps(context).Split(", ")[0];
+                //return context.Connection.RemoteIpAddress.ToString();
             }
 
             //string text = string.Empty;
@@ -95,6 +98,30 @@ namespace Tool.Web
             //    return "0.0.0.0";
             //}
             //return text;
+        }
+
+        /// <summary>
+        /// 获取客户端请求的IP地址（支持代理模式信息获取）
+        /// <para>有验证IP是否合法合规</para>
+        /// </summary>
+        /// <param name="context">HttpContext</param>
+        /// <returns>返回IP地址或多个地址', '隔开</returns>
+        public static string GetUserIps(this HttpContext context) 
+        {
+            if (context.Request.Headers.TryGetValue("X-Forwarded-For", out var ips))
+            {
+                var _ips = ips.ToString().Split(", ");
+                StringBuilder stringBuilder = new();
+                foreach (var ip in _ips)
+                {
+                    if (IPAddress.TryParse(ip, out var iP)) { stringBuilder.AppendFormat("{0}, ", iP.ToString()); }
+                }
+                return stringBuilder.Length > 2 ? stringBuilder.ToString(0, stringBuilder.Length - 2) : "0.0.0.0";
+            }
+            else
+            {
+                return context.Connection.RemoteIpAddress.ToString();
+            }
         }
 
         /// <summary>

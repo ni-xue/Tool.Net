@@ -544,7 +544,7 @@ namespace Tool.Web.Api
             }
             catch (Exception ex)
             {
-                AshxException exception = new(ashx, ex, _objs) { ExceptionHandled = true };
+                AshxException exception = new(ashx, ex, _objs, routeData.JsonOptions) { ExceptionHandled = true };
                 AshxException(exception);
                 IsException(exception);
             }
@@ -587,7 +587,7 @@ namespace Tool.Web.Api
             //}
             catch (Exception ex)
             {
-                AshxException exception = new(ashx, ex, _objs) { ExceptionHandled = true };
+                AshxException exception = new(ashx, ex, _objs, routeData.JsonOptions) { ExceptionHandled = true };
                 AshxException(exception);
                 await IsTaskException(exception);
             }

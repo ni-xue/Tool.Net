@@ -17,7 +17,7 @@ namespace Tool.Sockets.TcpHelper
     {
         private readonly int DataLength = 1024 * 8;
 
-        private TcpClient client;
+        private Socket client;
 
         /**
          * 客户端连接完成、发送完成、连接异常或者服务端关闭触发的事件
@@ -71,7 +71,7 @@ namespace Tool.Sockets.TcpHelper
             {
                 if (TcpStateObject.IsConnected(client))
                 {
-                    return Client.Client.LocalEndPoint.ToString();
+                    return Client.LocalEndPoint.ToString();
                 }
                 else
                 {
@@ -83,7 +83,7 @@ namespace Tool.Sockets.TcpHelper
         /// <summary>
         /// TCP 服务对象
         /// </summary>
-        public TcpClient Client { get { return client; } }
+        public Socket Client { get { return client; } }
 
         /// <summary>
         /// 标识客户端是否关闭，改状态为调用关闭方法后的状态。
@@ -118,8 +118,7 @@ namespace Tool.Sockets.TcpHelper
         /// <param name="Completed"></param>
         public void SetCompleted(Action<string, EnSocketAction> Completed)
         {
-            if (this.Completed == null)
-                this.Completed = Completed;
+            this.Completed ??= Completed;
         }
 
         /// <summary>
@@ -128,8 +127,7 @@ namespace Tool.Sockets.TcpHelper
         /// <param name="Received"></param>
         public void SetReceived(Action<TcpBytes> Received)
         {
-            if (this.Received == null)
-                this.Received = Received;
+            this.Received ??= Received;
         }
 
         /// <summary>
@@ -194,11 +192,11 @@ namespace Tool.Sockets.TcpHelper
             this.BufferSize = bufferSize;
             if (TcpBufferSize.Default == this.BufferSize)
             {
-                client = new TcpClient(AddressFamily.InterNetwork);
+                client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             }
             else
             {
-                client = new TcpClient(AddressFamily.InterNetwork) { ReceiveBufferSize = (int)this.BufferSize, SendBufferSize = (int)this.BufferSize };
+                client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { ReceiveBufferSize = (int)this.BufferSize, SendBufferSize = (int)this.BufferSize };
             }
             this.DataLength = DataLength;
             this.OnlyData = OnlyData;
@@ -222,11 +220,11 @@ namespace Tool.Sockets.TcpHelper
                         client.Close();
                         if (TcpBufferSize.Default == this.BufferSize)
                         {
-                            client = new TcpClient();
+                            client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                         }
                         else
                         {
-                            client = new TcpClient() { ReceiveBufferSize = (int)this.BufferSize, SendBufferSize = (int)this.BufferSize };
+                            client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { ReceiveBufferSize = (int)this.BufferSize, SendBufferSize = (int)this.BufferSize };
                         }
                         client.Connect(ip, port);
                         if (TcpStateObject.IsConnected(client))
@@ -344,7 +342,7 @@ namespace Tool.Sockets.TcpHelper
 
             IList<ArraySegment<byte>> buffers = TcpStateObject.GetBuffers(this.OnlyData, DataLength, listData);
 
-            client.Client.BeginSend(buffers, SocketFlags.None, SendCallBack, client);
+            client.BeginSend(buffers, SocketFlags.None, SendCallBack, client); 
 
             //if (this.OnlyData)
             //{
@@ -391,7 +389,7 @@ namespace Tool.Sockets.TcpHelper
 
             try
             {
-                int count = client.Client.Send(buffers, SocketFlags.None);
+                int count = client.Send(buffers, SocketFlags.None);
                 //string key = StateObject.GetIpPort(client);
                 OnComplete(server, EnSocketAction.SendMsg);
             }
@@ -417,7 +415,7 @@ namespace Tool.Sockets.TcpHelper
                 {
                     //obj.SocketClient.BeginReceive(obj.vs, SocketFlags.None, ReceiveCallBack, obj);
 
-                    obj.SocketClient.BeginReceive(obj.ListData, obj.WriteIndex, obj.SpareSize, SocketFlags.None, ReceiveCallBack, obj);
+                    obj.Client.BeginReceive(obj.ListData, obj.WriteIndex, obj.SpareSize, SocketFlags.None, ReceiveCallBack, obj);
                     obj.doReceive.WaitOne();
                 }
                 catch (Exception)
@@ -432,7 +430,7 @@ namespace Tool.Sockets.TcpHelper
          */
         private void ConnectCallBack(IAsyncResult ar)
         {
-            TcpClient client = ar.AsyncState as TcpClient;
+            Socket client = ar.AsyncState as Socket;
             try
             {
                 ActionConnect(client);
@@ -452,7 +450,7 @@ namespace Tool.Sockets.TcpHelper
         /**
          * 连接的公共回调函数
          */
-        private void ActionConnect(TcpClient client)
+        private void ActionConnect(Socket client)
         {
             if (TcpStateObject.IsConnected(client))
             {
@@ -477,7 +475,7 @@ namespace Tool.Sockets.TcpHelper
         /**
          * 启动新线程，用于专门接收消息
          */
-        private void StartReceive(string key, TcpClient client)
+        private void StartReceive(string key, Socket client)
         {
             Task.Factory.StartNew(() =>
             {
@@ -557,7 +555,7 @@ namespace Tool.Sockets.TcpHelper
             try
             {
                 if (TcpStateObject.IsConnected(obj.Client))
-                    obj.Count = obj.SocketClient.EndReceive(ar);
+                    obj.Count = obj.Client.EndReceive(ar);
 
                 //if (obj.Count == 0)
                 //{
@@ -673,11 +671,11 @@ namespace Tool.Sockets.TcpHelper
 
         private void SendCallBack(IAsyncResult ar)
         {
-            TcpClient client = ar.AsyncState as TcpClient;
+            Socket client = ar.AsyncState as Socket;
 
             try
             {
-                int count = client.Client.EndSend(ar);
+                int count = client.EndSend(ar);
                 //string key = StateObject.GetIpPort(client);
                 OnComplete(server, EnSocketAction.SendMsg);
             }
@@ -688,7 +686,6 @@ namespace Tool.Sockets.TcpHelper
                 //string key = StateObject.GetIpPort(client);
                 OnComplete(server, EnSocketAction.Close);
             }
-
         }
 
         /// <summary>

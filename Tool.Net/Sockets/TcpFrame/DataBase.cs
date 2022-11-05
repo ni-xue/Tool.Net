@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 using Tool.Utils;
 using Tool.Utils.ActionDelegate;
 using Tool.Utils.Data;
@@ -119,79 +120,96 @@ namespace Tool.Sockets.TcpFrame
             {
                 if (this.Initialize(dataTcp))
                 {
-                    if (dataTcp.Action.Execute(this, paras) is IGoOut obj)
+                    var dataObj = dataTcp.Action.Execute(this, paras);
+
+                    IGoOut goobj;
+
+                    if (dataTcp.IsTask && dataObj is Task<IGoOut> taskobj)
                     {
-                        dataPacket.Bytes = obj.Bytes;
-                        dataPacket.Text = obj.Text;
-                        //switch (dataTcp.ObjType)
-                        //{
-                        //    case DataTcpState.Byte:
-                        //        if (obj is byte[])
-                        //        {
-                        //            dataPacket.Bytes = obj.ToVar<byte[]>();
-                        //        }
-                        //        break;
-                        //    case DataTcpState.Json:
-                        //        if (obj is string)
-                        //        {
-                        //            dataPacket.Obj = obj.ToString();
-                        //        }
-                        //        else
-                        //        {
-                        //            dataPacket.Obj = obj.ToJson();
-                        //        }
-                        //        break;
-                        //    case DataTcpState.String:
-                        //        dataPacket.Obj = obj.ToString();
-                        //        break;
-                        //}
-
-                        //Type type = obj.GetType();
-                        //string strobj;
-                        //if (type.IsType())
-                        //{
-                        //    strobj = obj.ToString();
-                        //}
-                        //else
-                        //{
-                        //    strobj = obj.ToJson();
-                        //}
-
-                        //byte[] strbytes = Encoding.UTF8.GetBytes(strobj);
-
-                        //string sd = Convert.ToString(strbytes[11], 16);
-
-                        //string as1 = DataPacket.StringHex(strobj);
-                        //hex.Length
-
-                        //byte by = Convert.ToByte("73", 16);
-                        //if (strobj.Contains("}{"))
-                        //{
-                        //    strobj = strobj.Replace("}{", "} {");
-                        //}
-                        //if (strobj.Contains("\""))
-                        //{
-                        //    strobj = strobj.Replace("\"", "\\\"");//解析
-                        //}
-
-                        //int listData = Encoding.UTF8.GetByteCount(strobj);//给定空包为200
-
-                        //if (listData > BufferSize)
-                        //{
-                        //    double count = (double)listData / BufferSize;
-                        //    if (count > (int)count)
-                        //    {
-                        //        count++;
-                        //    }
-
-                        //    dataPacket.Many = string.Concat("0/", (byte)count); //$"0/{(int)(count)}";
-                        //}
-
-                        //dataPacket.SetMany(listData, BufferSize);
-                        //dataPacket.Obj = strobj;
+                        goobj = taskobj.GetAwaiter().GetResult();
+                        //goobj = taskobj.Result;
                     }
-                    //dataPacket.Obj = strobj;
+                    else
+                    {
+                        goobj = dataObj as IGoOut;
+                    }
+
+                    dataPacket.Bytes = goobj.Bytes;
+                    dataPacket.Text = goobj.Text;
                     dataPacket.IsErr = false;
+
+                    //if (dataObj is IGoOut taskobj)
+                    //{
+                    //    dataPacket.Bytes = obj.Bytes;
+                    //    dataPacket.Text = obj.Text;
+                    //switch (dataTcp.ObjType)
+                    //{
+                    //    case DataTcpState.Byte:
+                    //        if (obj is byte[])
+                    //        {
+                    //            dataPacket.Bytes = obj.ToVar<byte[]>();
+                    //        }
+                    //        break;
+                    //    case DataTcpState.Json:
+                    //        if (obj is string)
+                    //        {
+                    //            dataPacket.Obj = obj.ToString();
+                    //        }
+                    //        else
+                    //        {
+                    //            dataPacket.Obj = obj.ToJson();
+                    //        }
+                    //        break;
+                    //    case DataTcpState.String:
+                    //        dataPacket.Obj = obj.ToString();
+                    //        break;
+                    //}
+
+                    //Type type = obj.GetType();
+                    //string strobj;
+                    //if (type.IsType())
+                    //{
+                    //    strobj = obj.ToString();
+                    //}
+                    //else
+                    //{
+                    //    strobj = obj.ToJson();
+                    //}
+
+                    //byte[] strbytes = Encoding.UTF8.GetBytes(strobj);
+
+                    //string sd = Convert.ToString(strbytes[11], 16);
+
+                    //string as1 = DataPacket.StringHex(strobj);
+                    //hex.Length
+
+                    //byte by = Convert.ToByte("73", 16);
+                    //if (strobj.Contains("}{"))
+                    //{
+                    //    strobj = strobj.Replace("}{", "} {");
+                    //}
+                    //if (strobj.Contains("\""))
+                    //{
+                    //    strobj = strobj.Replace("\"", "\\\"");//解析
+                    //}
+
+                    //int listData = Encoding.UTF8.GetByteCount(strobj);//给定空包为200
+
+                    //if (listData > BufferSize)
+                    //{
+                    //    double count = (double)listData / BufferSize;
+                    //    if (count > (int)count)
+                    //    {
+                    //        count++;
+                    //    }
+
+                    //    dataPacket.Many = string.Concat("0/", (byte)count); //$"0/{(int)(count)}";
+                    //}
+
+                    //dataPacket.SetMany(listData, BufferSize);
+                    //dataPacket.Obj = strobj;
+                    //}
+                    //dataPacket.Obj = strobj;
                 }
             }
             catch (Exception ex)
@@ -245,11 +263,13 @@ namespace Tool.Sockets.TcpFrame
             return true;
         }
 
+        #region 同步返回模块
+
         /// <summary>
         /// 默认完成结果
         /// </summary>
         /// <returns></returns>
-        public IGoOut Ok() 
+        public IGoOut Ok()
         {
             return new GoOut();
         }
@@ -308,6 +328,76 @@ namespace Tool.Sockets.TcpFrame
             }
             return new GoOut(_json);
         }
+
+        #endregion
+
+        #region 异步返回模块
+
+        /// <summary>
+        /// 默认完成结果
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IGoOut> OkAsync()
+        {
+            return await Task.FromResult(new GoOut());
+        }
+
+        /// <summary>
+        /// 完成结果,并输出类容
+        /// </summary>
+        /// <param name="text">文本类容</param>
+        /// <param name="bytes">字节流类容</param>
+        /// <returns></returns>
+        public async Task<IGoOut> OkAsync(string text, byte[] bytes)
+        {
+            if (text == null) throw new ArgumentException("参数为空！", nameof(text));
+            if (bytes == null) throw new ArgumentException("参数为空！", nameof(bytes));
+            return await Task.FromResult(new GoOut(bytes, text));
+        }
+
+        /// <summary>
+        /// 完成结果,并输出文本类容
+        /// </summary>
+        /// <param name="text">文本类容</param>
+        /// <returns></returns>
+        public async Task<IGoOut> WriteAsync(string text)
+        {
+            if (text == null) throw new ArgumentException("参数为空！", nameof(text));
+            return await Task.FromResult(new GoOut(text));
+        }
+
+        /// <summary>
+        /// 完成结果,并输出字节流类容
+        /// </summary>
+        /// <param name="bytes">字节流类容</param>
+        /// <returns></returns>
+        public async Task<IGoOut> WriteAsync(byte[] bytes)
+        {
+            if (bytes == null) throw new ArgumentException("参数为空！", nameof(bytes));
+            return await Task.FromResult(new GoOut(bytes));
+        }
+
+        /// <summary>
+        /// 完成结果,返回Json格式数据
+        /// </summary>
+        /// <param name="json">Json格式数据</param>
+        /// <returns></returns>
+        public async Task<IGoOut> JsonAsync(object json)
+        {
+            if (json == null) throw new ArgumentException("参数为空！", nameof(json));
+            string _json;
+            if (json is string)
+            {
+                _json = json.ToString();
+            }
+            else
+            {
+                _json = json.ToJson();
+            }
+            return await Task.FromResult(new GoOut(_json));
+        }
+
+        #endregion
 
         /// <summary>
         /// 当前API消息发生异常时触发

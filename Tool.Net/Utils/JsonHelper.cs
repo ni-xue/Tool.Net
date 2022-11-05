@@ -257,6 +257,15 @@ namespace Tool.Utils
         }
 
         /// <summary>
+        /// 获取当前对象的Json字符串
+        /// </summary>
+        /// <returns></returns>
+        public string GetJson() 
+        {
+            return Data.ToJson();
+        }
+
+        /// <summary>
         /// <see cref="Dictionary{String, Object}"/>
         /// </summary>
         /// <param name="value"></param>

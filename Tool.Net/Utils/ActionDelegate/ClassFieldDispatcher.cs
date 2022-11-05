@@ -68,20 +68,32 @@ namespace Tool.Utils.ActionDelegate
         /// </summary>
         /// <param name="classtype">类对象类型</param>
         /// <param name="classField">默认读取所有行为</param>
-        public ClassFieldDispatcher(Type classtype, ClassField classField = ClassField.All)
+        public ClassFieldDispatcher(Type classtype, ClassField classField = ClassField.All): this(classtype, classField, null)
         {
-            if (classtype == null) throw new ArgumentNullException(nameof(classtype), "参数为空！");
-            this.Parameters = classtype.GetProperties();
-            this.Type = classtype;
+            
+        }
+
+        /// <summary>
+        /// 根据类，创建对象委托
+        /// </summary>
+        /// <param name="classtype">类对象类型</param>
+        /// <param name="classField">默认读取所有行为</param>
+        /// <param name="properties">类的指定参数</param>
+        public ClassFieldDispatcher(Type classtype, ClassField classField, PropertyInfo[] properties)
+        {
+            //this.Parameters = classtype.GetProperties();
+            this.Type = classtype ?? throw new ArgumentNullException(nameof(classtype), "参数为空！");
             this.Field = classField;
+
             if (classField == ClassField.All || classField == ClassField.Set)
             {
-                _setClassField = SetClassFields(classtype);
+                _setClassField = SetClassFields(classtype, ref properties);
             }
-            if (classField == ClassField.All || classField == ClassField.Get) 
+            if (classField == ClassField.All || classField == ClassField.Get)
             {
-                _getClassField = GetClassFields(classtype);
+                _getClassField = GetClassFields(classtype, ref properties);
             }
+            this.Parameters = properties;
         }
 
         /// <summary>
@@ -158,12 +170,13 @@ namespace Tool.Utils.ActionDelegate
         /// 通过构造器，直接获取相关赋值委托
         /// </summary>
         /// <param name="classtype">类</param>
+        /// <param name="propertyInfos">类参数</param>
         /// <returns>赋值委托或无法委托因为都是只读</returns>
-        public static SetClassField SetClassFields(Type classtype)
+        public static SetClassField SetClassFields(Type classtype, ref PropertyInfo[] propertyInfos)
         {
             if (classtype == null) throw new ArgumentNullException(nameof(classtype), "参数为空！");
 
-            var propertyInfos = classtype.GetProperties();
+            propertyInfos ??= classtype.GetProperties();
             var hashtype = typeof(IDictionary<string, object>);
 
             var as0 = Expression.Parameter(typeof(object), "callclass");
@@ -203,12 +216,13 @@ namespace Tool.Utils.ActionDelegate
         /// 通过构造器，直接获取相关取值委托
         /// </summary>
         /// <param name="classtype">类</param>
+        /// <param name="propertyInfos">类参数</param>
         /// <returns>取值委托或无法委托因为不可读</returns>
-        public static GetClassField GetClassFields(Type classtype)
+        public static GetClassField GetClassFields(Type classtype, ref PropertyInfo[] propertyInfos)
         {
             if (classtype == null) throw new ArgumentNullException(nameof(classtype), "参数为空！");
 
-            var propertyInfos = classtype.GetProperties();
+            propertyInfos ??= classtype.GetProperties();
             var hashtype = typeof(IDictionary<string, object>);
 
             var as0 = Expression.Parameter(typeof(object), "callclass");

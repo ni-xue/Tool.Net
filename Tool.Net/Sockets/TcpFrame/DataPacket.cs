@@ -79,7 +79,7 @@ namespace Tool.Sockets.TcpFrame
         public string Text
         {
             get => TextBytes.Count is 0 ? null : Encoding.UTF8.GetString(TextBytes);
-            set => TextBytes = value is null ? ArraySegment<byte>.Empty : Encoding.UTF8.GetBytes(value);
+            set => TextBytes = value is null ? null : Encoding.UTF8.GetBytes(value);// ArraySegment<byte>.Empty 
         }
 
         /**
@@ -927,7 +927,7 @@ namespace Tool.Sockets.TcpFrame
                 //this.OnlyId = Guid.Empty;
                 this.Many = Range.All;
                 this.IpPort = null;
-                this.Text = null;
+                this.TextBytes = null;
                 this.Bytes = null;
                 this.BufferSize = 0;
                 //GC.SuppressFinalize(this);

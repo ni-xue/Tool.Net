@@ -3,8 +3,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using Tool.Utils.ActionDelegate;
 using Tool.Utils.Data;
+using Tool.Web.Api;
 
 namespace Tool.Sockets.TcpFrame
 {
@@ -66,6 +68,11 @@ namespace Tool.Sockets.TcpFrame
          * 当前主消息的类委托,目前只支持 <see cref="DataBase"/> 对象
          */
         internal ClassDispatcher<DataBase> NewClass { get; set; } = null;
+
+        /// <summary>
+        /// 当前是函数是否支持异步
+        /// </summary>
+        public bool IsTask { get; internal set; }
 
         /**
          * 当前请求方法
@@ -136,7 +143,19 @@ namespace Tool.Sockets.TcpFrame
             }
         }
 
-        private static IReadOnlyDictionary<string, DataTcp> GetDicDataTcps(Assembly assembly) 
+        internal static bool IsTaskGoOut(Type ReturnType)
+        {
+            if (!object.Equals(ReturnType.BaseType, null) && object.Equals(ReturnType.BaseType, typeof(Task)))
+            {
+                if (ReturnType.GenericTypeArguments.Length > 0)
+                {
+                    return typeof(IGoOut).IsAssignableFrom(ReturnType.GenericTypeArguments[0]);
+                }
+            }
+            return false;
+        }
+
+        private static IReadOnlyDictionary<string, DataTcp> GetDicDataTcps(Assembly assembly)
         {
             Dictionary<string, DataTcp> _dicDataTcps = new();
 
@@ -164,7 +183,9 @@ namespace Tool.Sockets.TcpFrame
                         {
                             if (Attribute.GetCustomAttribute(info.Action.Method, typeof(DataTcp)) is DataTcp hobbyAttr)
                             {
-                                if (info.Action.ReturnType != typeof(IGoOut))
+                                bool igo = typeof(IGoOut).IsAssignableFrom(info.Action.ReturnType), itask = IsTaskGoOut(info.Action.ReturnType);
+
+                                if (!igo && !itask)
                                 {
                                     throw new Exception(string.Format("类：{0}，[{1}]方法消息ID：{2}，返回值必须是【IGoOut】类型！", type.FullName, info.Name, hobbyAttr.ActionID));
                                 }
@@ -172,8 +193,9 @@ namespace Tool.Sockets.TcpFrame
                                 hobbyAttr.ClassID = constructorId.ActionID;
                                 hobbyAttr.Action = info.Action;
                                 hobbyAttr.NewClass = _class;
+                                hobbyAttr.IsTask = itask;
                                 hobbyAttr.Pethod = TypeInvoke.GetMethod(info.Action.Method);
-                                if (!_dicDataTcps.TryAdd($"{hobbyAttr.ClassID}.{hobbyAttr.ActionID}", hobbyAttr)) 
+                                if (!_dicDataTcps.TryAdd($"{hobbyAttr.ClassID}.{hobbyAttr.ActionID}", hobbyAttr))
                                 {
                                     throw new Exception(string.Format("类：{0}，[{1}]方法消息ID：{2}，出现了重复！", type.FullName, info.Name, hobbyAttr.ActionID));
                                 }
@@ -195,7 +217,7 @@ namespace Tool.Sockets.TcpFrame
         /// </summary>
         /// <param name="assembly">需要验证接口的程序集</param>
         /// <returns>程序集中存在接口，为[true/false]</returns>
-        public static bool AddDataTcps(Assembly assembly) 
+        public static bool AddDataTcps(Assembly assembly)
         {
             Dictionary<string, DataTcp> _dicDataTcps = DataTcp.DicDataTcps != null ? new(DataTcp.DicDataTcps) : new();
 

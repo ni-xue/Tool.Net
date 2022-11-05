@@ -220,7 +220,7 @@ namespace Tool.Sockets.TcpFrame
             //string msg = api.FormatData();
             //string clmidmt = TcpResponse.GetOnlyID(api.ClassID, api.ActionID);
 
-            DataPacket dataPacket = TcpResponse.GetDataPacket(api, IpPort, false, false);
+            DataPacket dataPacket = FrameCommon.GetDataPacket(api, IpPort, false, false);
 
             return OnSendWaitOne(dataPacket, api.Millisecond);
             //string clmidmt = dataPacket.OnlyID;
@@ -408,7 +408,7 @@ namespace Tool.Sockets.TcpFrame
             //string msg = api.FormatData();
             //string clmidmt = TcpResponse.GetOnlyID(api.ClassID, api.ActionID);
 
-            DataPacket dataPacket = TcpResponse.GetDataPacket(api, IpPort, false, true);
+            DataPacket dataPacket = FrameCommon.GetDataPacket(api, IpPort, false, true);
 
             return await Task.Run(() => OnSendWaitOne(dataPacket, api.Millisecond));
 
@@ -499,7 +499,7 @@ namespace Tool.Sockets.TcpFrame
             if (_DataPacketThreads.TryRemove(clmidmt, out ThreadObj _threadObj))
             {
                 _threadObj.Response.OnTcpFrame = TcpFrameState.OnlyID;
-                _threadObj.AutoReset.Set();
+                _threadObj.Set();
             }
 
             _DataPacketThreads.TryAdd(clmidmt, _threadObj = new ThreadObj(clmidmt));
@@ -529,7 +529,7 @@ namespace Tool.Sockets.TcpFrame
             try
             {
                 SendOrAsync(dataPacket);
-                if (!_threadObj.AutoReset.WaitOne(Millisecond, true))
+                if (!_threadObj.WaitOne(Millisecond))
                 {
                     _threadObj.Response.OnTcpFrame = TcpFrameState.Timeout;
                     _DataPacketThreads.TryRemove(clmidmt, out _);
@@ -563,7 +563,7 @@ namespace Tool.Sockets.TcpFrame
                         {
                             try
                             {
-                                clientAsync.Send(TcpResponse.KeepAlive);
+                                clientAsync.Send(FrameCommon.KeepAlive);
                             }
                             catch (Exception)
                             {
@@ -583,7 +583,7 @@ namespace Tool.Sockets.TcpFrame
         private void Client_Received(TcpBytes bytes)
         {
             Keep?.ResetTime();
-            if (TcpResponse.Receiveds(bytes, out var dataPacket))
+            if (FrameCommon.Receiveds(bytes, out var dataPacket))
             {
                 Client_Received(bytes, dataPacket);
             }
@@ -603,7 +603,7 @@ namespace Tool.Sockets.TcpFrame
             {
                 //if (!json.IsServer) return;
 
-                if (!TcpResponse.IsComplete(false , ref json)) return;
+                if (!FrameCommon.IsComplete(false , ref json)) return;
 
                 OnComplete(tcpBytes.Key, EnClient.Receive);
                 if (json.IsSend) //表示服务器发包
@@ -628,7 +628,7 @@ namespace Tool.Sockets.TcpFrame
                         //}
                         //Threads.Response.IsAsync = json.IsAsync;//是异步的？
                         Threads.Response.Complete(ref json);
-                        Threads.AutoReset.Set();
+                        Threads.Set();
                     }
                     json.Dispose();
                     //}

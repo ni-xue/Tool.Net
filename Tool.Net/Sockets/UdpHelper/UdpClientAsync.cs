@@ -36,14 +36,15 @@ namespace Tool.Sockets.UdpHelper
         {
             client = new UdpClient();
         }
+
         /// <summary>
-        /// 异步连接
+        /// 发送数据目标
         /// </summary>
         /// <param name="ip">要连接的服务器的ip地址</param>
         /// <param name="port">要连接的服务器的端口</param>
-        public void ConnectAsync(string ip, int port)
+        public void Connect(string ip, int port)
         {
-            IPAddress ipAddress = null;
+            IPAddress ipAddress;
             try
             {
                 ipAddress = IPAddress.Parse(ip);
@@ -52,16 +53,19 @@ namespace Tool.Sockets.UdpHelper
             {
                 throw new Exception("ip地址格式不正确，请使用正确的ip地址！");
             }
-            client.Client.BeginConnect(ipAddress, port, ConnectCallBack, client);
+            client.Connect(ipAddress, port);
+            OnComplete(client, EnSocketAction.Connect);
         }
+
         /// <summary>
-        /// 异步连接，连接ip地址为127.0.0.1
+        /// 发送数据目标，指定ip地址为127.0.0.1
         /// </summary>
         /// <param name="port">要连接服务端的端口</param>
-        public void ConnectAsync(int port)
+        public void Connect(int port)
         {
-            ConnectAsync("127.0.0.1", port);
+            Connect("127.0.0.1", port);
         }
+
         /// <summary>
         /// 异步接收消息
         /// </summary>
@@ -73,9 +77,10 @@ namespace Tool.Sockets.UdpHelper
                 Client = client
             };
 
-            client.Client.BeginReceive(obj.ListData, 0, obj.ListData.Length, SocketFlags.None, ReceiveCallBack, obj);
+            client.BeginReceive(ReceiveCallBack, obj);
             doReceive.WaitOne();
         }
+
         /// <summary>
         /// 异步发送消息
         /// </summary>
@@ -83,18 +88,20 @@ namespace Tool.Sockets.UdpHelper
         public void SendAsync(string msg)
         {
             byte[] listData = Encoding.UTF8.GetBytes(msg);
-            client.Client.BeginSend(listData, 0, listData.Length, SocketFlags.None, SendCallBack, client);
+            client.BeginSend(listData, listData.Length, SendCallBack, client);
         }
-        /// <summary>
-        /// 异步连接的回调函数
-        /// </summary>
-        /// <param name="ar"></param>
-        private void ConnectCallBack(IAsyncResult ar)
-        {
-            UdpClient client = ar.AsyncState as UdpClient;
-            client.Client.EndConnect(ar);
-            OnComplete(client, EnSocketAction.Connect);
-        }
+
+        ///// <summary>
+        ///// 异步连接的回调函数
+        ///// </summary>
+        ///// <param name="ar"></param>
+        //private void ConnectCallBack(IAsyncResult ar)
+        //{
+        //    UdpClient client = ar.AsyncState as UdpClient;
+        //    client.Client.EndConnect(ar);
+        //    OnComplete(client, EnSocketAction.Connect);
+        //}
+
         /// <summary>
         /// 异步接收消息的回调函数
         /// </summary>
@@ -102,10 +109,12 @@ namespace Tool.Sockets.UdpHelper
         private void ReceiveCallBack(IAsyncResult ar)
         {
             UdpStateObject obj = ar.AsyncState as UdpStateObject;
+            IPEndPoint iep = obj.Client.Client.RemoteEndPoint as IPEndPoint;
             int count = -1;
             try
             {
-                count = obj.Client.Client.EndReceive(ar);
+                obj.ListData = obj.Client.EndReceive(ar, ref iep);
+                count = obj.ListData.Length;
                 doReceive.Set();
             }
             catch (Exception)
@@ -121,7 +130,6 @@ namespace Tool.Sockets.UdpHelper
                 {
                     if (Received != null)
                     {
-                        IPEndPoint iep = obj.Client.Client.RemoteEndPoint as IPEndPoint;
                         string key = string.Format("{0}:{1}", iep.Address, iep.Port);
                         Received(key, msg);
                     }
@@ -133,7 +141,7 @@ namespace Tool.Sockets.UdpHelper
             UdpClient client = ar.AsyncState as UdpClient;
             try
             {
-                client.Client.EndSend(ar);
+                client.EndSend(ar);
                 OnComplete(client, EnSocketAction.SendMsg);
             }
             catch (Exception)
@@ -151,8 +159,7 @@ namespace Tool.Sockets.UdpHelper
         /// <param name="enAction">消息类型</param>
         public virtual void OnComplete(UdpClient client, EnSocketAction enAction)
         {
-            if (Completed != null)
-                Completed(client, enAction);
+            Completed?.Invoke(client, enAction);
             if (enAction == EnSocketAction.Connect)//建立连接后，开始接收数据
             {
                 ThreadPool.QueueUserWorkItem(x =>

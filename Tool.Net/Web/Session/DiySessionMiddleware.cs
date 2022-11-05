@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Tool;
 using Tool.Utils.ActionDelegate;
 using Tool.Utils.Data;
+using Tool.Web.Api;
 
 namespace Tool.Web.Session
 {
@@ -20,20 +21,18 @@ namespace Tool.Web.Session
     {
         //private LazyConcurrentDictionary<string, DiySession> AsSessionList { get; }
 
+        private readonly DiySessionOptions diyOptions;
+
         private readonly RequestDelegate Next;
 
         private readonly ILogger Logger;
 
-        private readonly Type TypeDiySession;
-
         private readonly ClassDispatcher<DiySession> NewDiySession;
-
-        private readonly Func<HttpContext, Task<(string key, bool isSession)>> GetKey;
 
         /// <summary>
         /// 表明Session存储名称
         /// </summary>
-        public readonly string SessionName;
+        public string SessionName => diyOptions.SessionName;
 
         /// <summary>
         /// 创建AsSession协议
@@ -45,10 +44,8 @@ namespace Tool.Web.Session
         {
             Next = next;
             Logger = loggerFactory.CreateLogger("DiySession");
-            this.NewDiySession = new(sessionOptions.TypeDiySession);
-            this.TypeDiySession = sessionOptions.TypeDiySession;
-            this.SessionName = sessionOptions.SessionName;
-            this.GetKey = sessionOptions.GetKey;
+            diyOptions = sessionOptions;
+            this.NewDiySession = new(diyOptions.TypeDiySession);
             //AsSessionList = new LazyConcurrentDictionary<string, DiySession>();
         }
 
@@ -121,34 +118,20 @@ namespace Tool.Web.Session
 
             if (!context.Request.Cookies.TryGetValue(SessionName, out string value))
             {
-                if (GetKey != null)
+                value = StringExtension.GetGuid();
+
+                if (diyOptions.GetKey != null)
                 {
-                    var (key, isSession) = await GetKey?.Invoke(context);
-                    if (isSession)
-                    {
-                        if (string.IsNullOrWhiteSpace(key))
-                        {
-                            key = StringExtension.GetGuid();
-                        }
-                        value = key;
-                    }
-                    else
+                    var key = await diyOptions.GetKey(context, value);
+                    if (string.IsNullOrWhiteSpace(key))
                     {
                         await Next?.Invoke(context);
                         return;
                     }
+                    value = key;
                 }
-                else
-                {
-                    value = StringExtension.GetGuid();
-                }
-              
-                context.Response.Cookies.Append(SessionName, value, new CookieOptions()
-                {
-                    HttpOnly = true,
-                    IsEssential = true,
-                    SameSite = SameSiteMode.Unspecified
-                });
+
+                diyOptions.SetSessionId(context, value);
             }
 
             DiySession session = this.NewDiySession.Invoke(); //this.SessionOptions.OnGetSession(value);//new DiySession(value);
@@ -160,7 +143,7 @@ namespace Tool.Web.Session
         private async Task AddAsSession(DiySession session, string value, HttpContext context) 
         {
             //InsideInitialize
-            await session.InsideInitialize(SessionName, value, context, this.Logger);
+            await session.InsideInitialize(diyOptions, value, context, this.Logger);
 
             if (session.IsAvailable)
             {

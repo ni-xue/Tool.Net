@@ -24,7 +24,7 @@ namespace Tool.Sockets.TcpHelper
         //private readonly ManualResetEvent doReceive = new ManualResetEvent(false);
         //标识服务端连接是否关闭
         private bool isClose = false;
-        private ConcurrentDictionary<string, TcpClient> listClient = new();
+        private ConcurrentDictionary<string, Socket> listClient = new();
 
         /// <summary>
         /// 是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
@@ -47,7 +47,7 @@ namespace Tool.Sockets.TcpHelper
         /// key:ip:port
         /// value:TcpClient
         /// </summary>
-        public ConcurrentDictionary<string, TcpClient> ListClient
+        public ConcurrentDictionary<string, Socket> ListClient
         {
             get { return listClient; }
             private set { listClient = value; }
@@ -188,7 +188,7 @@ namespace Tool.Sockets.TcpHelper
                 while (!isClose)
                 {
                     doConnect.Reset();
-                    listener.BeginAcceptTcpClient(AcceptCallBack, listener);
+                    listener.BeginAcceptSocket(AcceptCallBack, listener);
                     doConnect.WaitOne();
                 }
             }, TaskCreationOptions.LongRunning).ContinueWith((i) => i.Dispose());
@@ -214,13 +214,24 @@ namespace Tool.Sockets.TcpHelper
         }
 
         /// <summary>
+        /// 根据IP:Port获取对应的连接对象
+        /// </summary>
+        /// <param name="key">IP:Port</param>
+        /// <param name="client">连接对象</param>
+        /// <returns>返回成功状态</returns>
+        public bool TrySocket(string key, out Socket client)
+        {
+            return ListClient.TryGetValue(key, out client);
+        }
+
+        /// <summary>
         /// 开始异步发送数据
         /// </summary>
         /// <param name="key">客户端的ip地址和端口号</param>
         /// <param name="msg">要发送的内容</param>
         public void SendAsync(string key, string msg)
         {
-            if (ListClient.TryGetValue(key, out TcpClient client))
+            if (ListClient.TryGetValue(key, out Socket client))
             {
                 SendAsync(client, msg);
             }
@@ -237,7 +248,7 @@ namespace Tool.Sockets.TcpHelper
          */
         internal void SendAsync(string key, params ArraySegment<byte>[] Data)
         {
-            if (ListClient.TryGetValue(key, out TcpClient client))
+            if (ListClient.TryGetValue(key, out Socket client))
             {
                 SendAsync(client, Data);
             }
@@ -252,7 +263,7 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         /// <param name="client">客户端的ip地址和端口号</param>
         /// <param name="msg">要发送的内容</param>
-        public void SendAsync(TcpClient client, string msg)
+        public void SendAsync(Socket client, string msg)
         {
             byte[] listData = Encoding.UTF8.GetBytes(msg);
             SendAsync(client, listData);
@@ -263,7 +274,7 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         /// <param name="client">客户端的ip地址和端口号</param>
         /// <param name="listData">要发送的内容，允许多个包</param>
-        public void SendAsync(TcpClient client, params ArraySegment<byte>[] listData)// byte[] listData
+        public void SendAsync(Socket client, params ArraySegment<byte>[] listData)// byte[] listData
         {
             if (client is null)
             {
@@ -276,7 +287,7 @@ namespace Tool.Sockets.TcpHelper
 
             IList<ArraySegment<byte>> buffers = TcpStateObject.GetBuffers(this.OnlyData, DataLength, listData);
 
-            client.Client.BeginSend(buffers, SocketFlags.None, SendCallBack, client);
+            client.BeginSend(buffers, SocketFlags.None, SendCallBack, client);
 
             //if (this.OnlyData)
             //{
@@ -313,7 +324,7 @@ namespace Tool.Sockets.TcpHelper
         /// <param name="msg">要发送的内容</param>
         public void Send(string key, string msg)
         {
-            if (ListClient.TryGetValue(key, out TcpClient client))
+            if (ListClient.TryGetValue(key, out Socket client))
             {
                 Send(client, msg);
             }
@@ -330,7 +341,7 @@ namespace Tool.Sockets.TcpHelper
          */
         internal void Send(string key, params ArraySegment<byte>[] Data)
         {
-            if (ListClient.TryGetValue(key, out TcpClient client))
+            if (ListClient.TryGetValue(key, out Socket client))
             {
                 Send(client, Data);
             }
@@ -345,7 +356,7 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         /// <param name="client">客户端的ip地址和端口号</param>
         /// <param name="msg">要发送的内容</param>
-        public void Send(TcpClient client, string msg)
+        public void Send(Socket client, string msg)
         {
             byte[] listData = Encoding.UTF8.GetBytes(msg);
             Send(client, listData);
@@ -356,7 +367,7 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         /// <param name="client">客户端的ip地址和端口号</param>
         /// <param name="listData">要发送的内容，允许多个包</param>
-        public void Send(TcpClient client, params ArraySegment<byte>[] listData)// byte[] listData
+        public void Send(Socket client, params ArraySegment<byte>[] listData)// byte[] listData
         {
             if (client == null)
             {
@@ -371,7 +382,7 @@ namespace Tool.Sockets.TcpHelper
 
             try
             {
-                int count = client.Client.Send(buffers, SocketFlags.None);
+                int count = client.Send(buffers, SocketFlags.None);
                 string key = TcpStateObject.GetIpPort(client);
                 OnComplete(key, EnSocketAction.SendMsg);
             }
@@ -393,7 +404,7 @@ namespace Tool.Sockets.TcpHelper
             {
                 try
                 {
-                    obj.SocketClient.BeginReceive(obj.ListData, obj.WriteIndex, obj.SpareSize, SocketFlags.None, ReceiveCallBack, obj);
+                    obj.Client.BeginReceive(obj.ListData, obj.WriteIndex, obj.SpareSize, SocketFlags.None, ReceiveCallBack, obj);
                 }
                 catch (Exception)
                 {
@@ -423,7 +434,7 @@ namespace Tool.Sockets.TcpHelper
                 return;
             }
 
-            TcpClient client = l.EndAcceptTcpClient(ar);
+            Socket client = l.EndAcceptSocket(ar);
             doConnect.Set();
 
             string key = TcpStateObject.GetIpPort(client);
@@ -437,7 +448,7 @@ namespace Tool.Sockets.TcpHelper
         /**
          * 启动新线程，用于专门接收消息
          */
-        private void StartReceive(string key, TcpClient client)
+        private void StartReceive(string key, Socket client)
         {
             Task.Factory.StartNew(() =>
             {
@@ -497,11 +508,11 @@ namespace Tool.Sockets.TcpHelper
          */
         private void SendCallBack(IAsyncResult ar)
         {
-            TcpClient client = ar.AsyncState as TcpClient;
+            Socket client = ar.AsyncState as Socket;
             string key = TcpStateObject.GetIpPort(client);
             try
             {
-                int count = client.Client.EndSend(ar);
+                int count = client.EndSend(ar);
                 OnComplete(key, EnSocketAction.SendMsg);
             }
             catch (Exception)
@@ -520,7 +531,7 @@ namespace Tool.Sockets.TcpHelper
             try
             {
                 if (TcpStateObject.IsConnected(obj.Client))
-                    obj.Count = obj.SocketClient.EndReceive(ar);
+                    obj.Count = obj.Client.EndReceive(ar);
 
                 //byte[] ListData;
                 //if (this.OnlyData)
@@ -619,7 +630,7 @@ namespace Tool.Sockets.TcpHelper
             {
                 obj.Client.Close();
             }
-            finally 
+            finally
             {
                 obj.doReceive.Set();
             }

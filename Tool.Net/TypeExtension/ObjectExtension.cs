@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -11,6 +12,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using Tool.Utils;
 using Tool.Utils.ActionDelegate;
 using Tool.Utils.Data;
 
@@ -780,6 +782,54 @@ namespace Tool
             //        hander.Free();
             //    }
             //}
+        }
+
+        /// <summary>
+        /// 将对象拷贝，值类型拷贝，引用类型赋值。
+        /// </summary>
+        /// <param name="obj">对象</param>
+        /// <param name="origobj">拷贝对象</param>
+        /// <param name="keys">拷贝参数，空，为全拷贝 支持赋值语法 ?=? 注意不支持'空格'</param>
+        /// <returns></returns>
+        public static bool CopyEntity(this object obj, object origobj, params string[] keys) 
+        {
+            var entity0 = EntityBuilder.GetEntity(obj);
+            var oriobj = origobj.GetDictionary();
+
+            if (entity0.Parameters.Length == 0 || oriobj.Count == 0) return false;
+
+            keys ??= oriobj.Keys.ToArray();
+
+            Dictionary<string, object> pairs = new(keys.Length); //List<string> keysList = keys == null ? oriobj.Keys.ToList() : keys.ToList();
+
+            foreach (var key in keys)
+            {
+                if (!string.IsNullOrEmpty(key))
+                {
+                    //ReadOnlySpan<char> chars = key.AsSpan();
+                    int i = key.IndexOf('=');//chars.IndexOf('=');
+                    string key0, key1;
+                    if (i == -1)
+                    {
+                        key0 = key1 = key;
+                    }
+                    else
+                    {
+                        key0 = key[0..i++];
+                        key1 = key[i..];
+                    }
+                    //var args = key.Split('=');//.Replace(" ", "")
+                    //string key0 = args[0], key1 = args.Length == 1 ? key0 : args[1];
+                    //Type type = entity0.GetParameterType(key0);
+                    if (entity0.GetParameterType(key0, out Type type) && oriobj.TryGetValue(key1, out object _val))
+                    {
+                        pairs.TryAdd(key0, _val.ToVar(type, false));
+                    }
+                }
+            }
+            if(pairs.Count > 0) obj.SetDictionary(pairs);
+
+            return true;
         }
 
         #region Object[] 封装方法

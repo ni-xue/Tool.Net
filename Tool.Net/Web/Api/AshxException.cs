@@ -26,6 +26,11 @@ namespace Tool.Web.Api
         public AshxState State { get; }
 
         /// <summary>
+        /// Json配置对象
+        /// </summary>
+        public System.Text.Json.JsonSerializerOptions JsonOptions { get; }
+
+        /// <summary>
         /// 表示该方法的名称
         /// </summary>
         public string Methods { get; set; }
@@ -51,7 +56,8 @@ namespace Tool.Web.Api
         /// <param name="ashx"></param>
         /// <param name="exception"></param>
         /// <param name="objs"></param>
-        internal AshxException(Ashx ashx, Exception exception, object[] objs) : base($"Api异常（{ashx.Method.DeclaringType}.{ashx.Methods}）", exception) //("API异常", exception.InnerException)
+        /// <param name="JsonOptions"></param>
+        internal AshxException(Ashx ashx, Exception exception, object[] objs, System.Text.Json.JsonSerializerOptions JsonOptions) : base($"Api异常（{ashx.Method.DeclaringType}.{ashx.Methods}）", exception) //("API异常", exception.InnerException)
         {
             if (objs != null && objs.Any())
             {
@@ -63,6 +69,7 @@ namespace Tool.Web.Api
                 Parameters = pairs.AsReadOnly();
             }
 
+            this.JsonOptions = JsonOptions;
             this.ID = ashx.ID;
             this.State = ashx.State;
             this.Methods = ashx.Methods;
@@ -97,7 +104,7 @@ namespace Tool.Web.Api
                     case Val.AllMode:
                     case Val.QueryMode:
                     case Val.FormMode:
-                        txt = pair.Value.obj?.ToJson();
+                        txt = pair.Value.obj?.ToJson(JsonOptions);
                         break;
                 }
                 txt ??= "Null";

@@ -2,6 +2,7 @@
 using System.Reflection;
 using System;
 using Tool.Utils.ActionDelegate;
+using System.Linq;
 
 namespace Tool.Utils
 {
@@ -17,7 +18,12 @@ namespace Tool.Utils
         /// <summary>
         /// 对象下公开的字段
         /// </summary>
-        public PropertyInfo[] Parameters { get; set; }
+        public PropertyInfo[] Parameters { get; }
+
+        /// <summary>
+        /// 获取当前类所有字段字典
+        /// </summary>
+        public IDictionary<string, PropertyInfo> KeyParameters { get; }
 
         /// <summary>
         /// 是否可以构造
@@ -60,6 +66,7 @@ namespace Tool.Utils
             
             classfieldDispatcher = new ClassFieldDispatcher(classtype, ClassField.All);
             Parameters = classfieldDispatcher.Parameters;
+            KeyParameters = Parameters.ToDictionary(p => p.Name, p => p);
         }
 
         /// <summary>
@@ -80,6 +87,32 @@ namespace Tool.Utils
         /// <param name="_class">对象原型</param>
         /// <param name="parameters">字典(字典如标记忽略大小写赋值，就能实现特定行为)</param>
         public void Set(object _class, IDictionary<string, object> parameters) => classfieldDispatcher.Set(_class, parameters);
+
+        /// <summary>
+        /// 根据字段名获取字段类型
+        /// </summary>
+        /// <param name="name">字段名</param>
+        /// <param name="type">字段类型</param>
+        /// <returns>是否查找到</returns>
+        public bool GetParameterType(string name, out Type type) 
+        {
+            if (KeyParameters.TryGetValue(name, out var property))
+            {
+                type = property.PropertyType;
+                return true;
+            }
+            type = null;
+            return false;
+
+            //foreach (var info in Parameters)
+            //{
+            //    if (info.Name == name)
+            //    {
+            //        return info.PropertyType;
+            //    }
+            //}
+            //return null;
+        }
 
         /// <summary>
         /// 获取 对象 模型

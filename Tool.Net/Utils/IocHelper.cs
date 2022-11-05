@@ -90,7 +90,11 @@ namespace Tool.Utils
         /// <returns></returns>
         public ValueTask DisposeAsync()
         {
-            return _provider.DisposeAsync();
+            if (_provider != null)
+            {   GC.SuppressFinalize(this);
+                return _provider.DisposeAsync();
+            }
+            return ValueTask.CompletedTask;
         }
 
         /// <summary>
@@ -100,6 +104,7 @@ namespace Tool.Utils
         {
             if (_provider != null)
             {
+                GC.SuppressFinalize(this);
                 _provider.Dispose();
             }
         }

@@ -126,7 +126,7 @@ namespace Tool.Web.Api
             }
             catch (Exception ex)
             {
-                AshxException exception = new(ashx, ex, _objs) { ExceptionHandled = true };
+                AshxException exception = new(ashx, ex, _objs, ashxRoute.JsonOptions) { ExceptionHandled = true };
                 IApiOut aipOut = AshxException(exception);
                 IsException(exception, ashxRoute, aipOut);
             }
@@ -201,7 +201,7 @@ namespace Tool.Web.Api
             catch (Exception ex)
             {
                 //AshxException(new AshxException(ashx, ex) { ExceptionHandled = true });
-                AshxException exception = new(ashx, ex, _objs) { ExceptionHandled = true };
+                AshxException exception = new(ashx, ex, _objs, ashxRoute.JsonOptions) { ExceptionHandled = true };
                 IApiOut aipOut = AshxException(exception);
                 await IsTaskException(exception, ashxRoute, aipOut);
             }

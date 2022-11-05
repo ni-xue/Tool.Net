@@ -4,17 +4,17 @@
 	<!--<TargetFramework>net6.0</TargetFramework>-->
     <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <RootNamespace>Tool</RootNamespace>
-    <Version>3.9.9</Version>
+    <Version>4.0.0</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Copyright>Copyright © Microsoft 2022-07-16 21:30:00</Copyright>
+    <Copyright>Copyright © Microsoft 2022-09-04 22:30:00</Copyright>
     <Company>NiXue</Company>
     <Authors>NiXue</Authors>
     <PackageProjectUrl>https://github.com/nixue-xin/UniversalFrame</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ni-xue/Tool.Net</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <RepositoryType>C#</RepositoryType>
-    <PackageTags>Sql Socket Web Tools</PackageTags>
+    <PackageTags>Sql Socket Web Tools Delegate</PackageTags>
 	<IsPackable>true</IsPackable>
 	<NeutralLanguage>zh-CN</NeutralLanguage>
     <PackageReleaseNotes>当前版本为正式包，用于进行实际线上项目开发。
