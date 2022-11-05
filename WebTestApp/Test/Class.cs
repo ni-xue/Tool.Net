@@ -8,10 +8,16 @@ namespace WebTestApp.Test
 {
     public class Class : DiySession
     {
-        public override void Initialize()
+        //public override void Initialize()
+        //{
+        //    //throw new NotImplementedException();
+        //}
+
+        public override async Task Initialize()
         {
-            //throw new NotImplementedException();
+            await base.Initialize();
         }
+
 
         public override void Clear()
         {

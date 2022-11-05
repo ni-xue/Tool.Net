@@ -101,14 +101,20 @@ namespace WebTestApp
             services.AddDiySession(d =>
             {
                 d.GetDiySession<Test.Class>();
-                //d.GetKey = async (s) =>
-                //{
-                //    return await Task.FromResult<(string, bool)>((null, true));
-                //};
+                d.Cookie.Path = "/";
+                //d.Cookie.SameSite = SameSiteMode.None;
+                //d.Cookie.Secure = true;
+                d.GetKey = async (s, v) =>
+                {
+                    return await Task.FromResult(v);
+                };
+                d.Sign = "666";
             });
 
             Test.Class1 class1 = new();
             class1.sd();
+
+            //client.CopyEntity(class1,"b=>a1","");
 
             var str = "{ \"result\": {\"code\":0, \"hehe\": [0,5,10] } }";
 
@@ -273,7 +279,7 @@ namespace WebTestApp
             {
                 e.MapGet("/", async (context) =>
                 {
-                    context.Session.SetAvailable(true);
+                    context.Session.SetAvailable(!context.Session.IsAvailable);
 
                     Interlocked.Increment(ref d);
                     ApiPacket packet = new(1, 250, 10000);

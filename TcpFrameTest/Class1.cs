@@ -40,18 +40,24 @@ namespace TcpFrameTest
         }
 
         [DataTcp(102)]
-        public IGoOut C(string path)
+        public async Task<IGoOut> C(string path)
         {
             Interlocked.Increment(ref c);
-            if (!File.Exists(path)) File.WriteAllBytes(path, Bytes.Array ?? throw new());
+            //if (!File.Exists(path)) File.WriteAllBytes(path, Bytes.Array ?? throw new());
             Interlocked.Increment(ref d);
-            return Write("Ok"); 
+            return await WriteAsync("Ok"); 
         }
 
         [DataTcp(103)]
         public IGoOut D(string path)
         {
             return Write("保存成功！");
+        }
+
+        [DataTcp(104)]
+        public async Task<IGoOut> E() 
+        {
+            return await WriteAsync("测试结果！");
         }
 
         public static ulong c;

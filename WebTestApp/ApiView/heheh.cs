@@ -83,5 +83,9 @@ namespace WebTestApp.ApiView
             return await ApiOut.JsonAsync(new { mag = "保存成功！" });
         }
 
+        public async ValueTask<IApiOut> Value() 
+        {
+            return await ApiOut.JsonAsync(new { mag = "保存成功！" });
+        }
     }
 }

@@ -12,6 +12,9 @@ using Tool.Utils.ThreadQueue;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using System.Collections;
+using System.Linq;
+using System.Net.Http;
+using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
 
 namespace TcpFrameTest
 {
@@ -19,23 +22,42 @@ namespace TcpFrameTest
     {
         //static byte[] listData;
 
+        static int i = 0;
+
         [Benchmark]
         public string abc()
         {
-            byte[] listData = new byte[50000];
+            Console.WriteLine(i++);
+            //byte[] listData = new byte[50000];
 
-            byte[] headby = BitConverter.GetBytes(listData.Length);
+            //byte[] headby = BitConverter.GetBytes(listData.Length);
 
-            byte[] Data = new byte[6 + listData.Length];
+            //byte[] Data = new byte[6 + listData.Length];
 
-            Data[0] = 40;
-            Data[1] = headby[0];
-            Data[2] = headby[1];
-            Data[3] = headby[2];
-            Data[4] = headby[3];
-            Data[5] = 41;
+            //Data[0] = 40;
+            //Data[1] = headby[0];
+            //Data[2] = headby[1];
+            //Data[3] = headby[2];
+            //Data[4] = headby[3];
+            //Data[5] = 41;
 
-            listData.CopyTo(Data, 6);
+            //listData.CopyTo(Data, 6);
+
+            //for (int i = 0; i < 5000000; i++)
+            //{
+            //    if (!TcpStateObject.IsIpPort("192.168.1.166:6514"))
+            //    {
+
+            //    }
+            //}
+
+            for (int i = 0; i < 500000; i++)
+            {
+                System system = new() { Id = 0, Key_cn = null, Key_en = null, Value = 0 };
+                Abc abc = new() { Aid = 666, Bkey_en = "", Ckey_cn = "", Dvalue = "6666666666" };
+
+                system.CopyEntity(abc, "Id=Aid", "Key_cn=Ckey_cn", "Value=Dvalue");
+            }
 
             return "";
         }
@@ -43,26 +65,74 @@ namespace TcpFrameTest
         [Benchmark]
         public string abc1()
         {
-            Span<byte> listData = new byte[50000];
+            for (int i = 0; i < 500000; i++)
+            {
+                System system = new() { Id = 0, Key_cn = null, Key_en = null, Value = 0 };
+                Abc abc = new() { Aid = 666, Bkey_en = "", Ckey_cn = "", Dvalue = "6666666666" };
 
-            byte[] headby = BitConverter.GetBytes(listData.Length);
+                system.Id = abc.Aid.ToVar<int>();
+                system.Key_en = abc.Ckey_cn.ToVar<string>();
+                system.Value = abc.Dvalue.ToVar<long>();
+            }
 
-            Span<byte> bytes = new byte[6 + listData.Length];
+            //Span<byte> listData = new byte[50000];
 
-            bytes[0] = 40;
-            bytes[1] = headby[0];
-            bytes[2] = headby[1];
-            bytes[3] = headby[2];
-            bytes[4] = headby[3];
-            bytes[5] = 41;
+            //byte[] headby = BitConverter.GetBytes(listData.Length);
 
-            listData.CopyTo(bytes[6..]);
+            //Span<byte> bytes = new byte[6 + listData.Length];
+
+            //bytes[0] = 40;
+            //bytes[1] = headby[0];
+            //bytes[2] = headby[1];
+            //bytes[3] = headby[2];
+            //bytes[4] = headby[3];
+            //bytes[5] = 41;
+
+            //listData.CopyTo(bytes[6..]);
+
+            //for (int i = 0; i < 500000; i++)
+            //{
+            //    if (!global::System.Net.IPEndPoint.TryParse("192.168.1.166:6514", out _))
+            //    {
+
+            //    }
+            //}
 
             return "";
         }
 
         public static void Main(string[] args)
         {
+            System system = new() { Id = 0, Key_cn = null, Key_en = null, Value = 0 };
+            Abc abc = new() { Aid = 666, Bkey_en = "", Ckey_cn = "", Dvalue = "6666666666" };
+
+            system.CopyEntity(abc, "Id=Aid", "Key_cn=Ckey_cn", "Value=Dvalue");
+
+            var summary = BenchmarkRunner.Run<Program>();
+            return;
+
+            //Console.WriteLine(0);
+
+            //for (int i = 0; i < 500000; i++)
+            //{
+            //    if (!TcpStateObject.IsIpPort("192.168.1.166:6514"))
+            //    {
+
+            //    }
+            //}
+
+            //Console.WriteLine(1);
+
+            //for (int i = 0; i < 500000; i++)
+            //{
+            //    if (!System.Net.IPEndPoint.TryParse("192.168.1.166:6514", out _))
+            //    {
+
+            //    }
+            //}
+
+            //Console.WriteLine();
+
             //AppSettings.GetReloadToken();
 
             //Tool.SqlCore.PagerManager.GetFieldString(new string[] { "a", "b", "c" }, new string[] { "a1", "b1", "c1" });
@@ -324,6 +394,9 @@ namespace TcpFrameTest
             TcpEventQueue.OnInterceptor(EnServer.SendMsg, true);
             TcpEventQueue.OnInterceptor(EnServer.Receive, true);
 
+            TcpEventQueue.OnInterceptor(EnClient.SendMsg, true);
+            TcpEventQueue.OnInterceptor(EnClient.Receive, true);
+
             KeepAlive keep = new(1, () =>
             {
                 Console.Clear();
@@ -336,18 +409,18 @@ namespace TcpFrameTest
                 }
             });
 
-            ServerFrame server = new(108);
+#if DEBUG
+            args = new string[] { "1" };
+#endif
 
-            server.SetCompleted((a, b, c) =>
+            if (args.Length == 0)
             {
-                Console.WriteLine("IP:{0} \t{1} \t{2}", a, b, c.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
-            });
-
-            server.StartAsync("127.0.0.1", 444);
-
-            Console.ReadLine();
-
-
+                Server();
+            }
+            else
+            {
+                Client();
+            }
 
             //System.Diagnostics.Stopwatch stopwatch = System.Diagnostics.Stopwatch.StartNew();
             //long cot = 0;
@@ -373,6 +446,56 @@ namespace TcpFrameTest
             //}
 
             Console.ReadLine();
+        }
+
+        private static void Server()
+        {
+            ServerFrame server = new(108);
+
+            server.SetIpParser(key =>
+            {
+                return server.ListClient.Keys.OrderBy(a => Guid.NewGuid()).First();
+                //return key;
+            });
+
+            server.SetCompleted((a, b, c) =>
+            {
+                Console.WriteLine("IP:{0} \t{1} \t{2}", a, b, c.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
+            });
+
+            server.StartAsync("127.0.0.1", 444);
+
+            Console.ReadLine();
+        }
+
+        private static void Client()
+        {
+            ClientFrame client = new(TcpBufferSize.Default, 108, true);
+
+            client.SetCompleted((a1, b1, c1) =>
+            {
+                Console.WriteLine("IP:{0} \t{1} \t{2}", a1, b1, c1.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
+            });
+
+            client.ConnectAsync("127.0.0.1", 444);//120.79.58.17 
+            client.AddKeepAlive(5);
+
+            ApiPacket packet = new(1, 102, 10000);
+
+            packet.Set("path", "3cd107e4ec103f614b6f7f1eca9e18e6.jpeg");
+            packet.Bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            while (true)
+            {
+                var response = client.SendIpIdea("1.0.0.1:1", packet);
+
+                switch (response.OnTcpFrame)
+                {
+                    case not TcpFrameState.Success:
+                        Console.WriteLine("访问状态：{0}，{1}", response.OnTcpFrame, response.Exception?.Message);
+                        break;
+                }
+            }
         }
     }
 }
