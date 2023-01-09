@@ -40,7 +40,7 @@ namespace Tool.Sockets.TcpFrame
         /**
          * Ip:Port解释器
          */
-        private Func<string, string> IpParser = null;
+        private Func<string, string, string> IpParser = null;
 
         //**
         // * 信号
@@ -111,9 +111,10 @@ namespace Tool.Sockets.TcpFrame
 
         /// <summary>
         /// 实现IP:Port解释器 （返回有效的IP:Port,返回空使用原值）
+        /// 参数1：发起方信息空表示无发起方，参数2：接收方信息
         /// </summary>
         /// <param name="IpParser"></param>
-        public void SetIpParser(Func<string, string> IpParser)
+        public void SetIpParser(Func<string, string, string> IpParser)
         {
             this.IpParser ??= IpParser;
         }
@@ -185,13 +186,13 @@ namespace Tool.Sockets.TcpFrame
          * key 发送人的IP
          * dataPacket 数据包
          */
-        private void AgentSendAsync(DataPacket dataPacket, Socket client, string key)
+        private void AgentSendAsync(DataPacket dataPacket, Socket client, string key, string SponsorIp = null)
         {
             dataPacket.SetMany(DataLength);//分包算法
             ArraySegment<byte> listData = dataPacket.ByteData();
             if (client is null)
             {
-                if (!OnIpParser(key, out client)) throw new("接收方不存在！");
+                if (!OnIpParser(key, out client, SponsorIp)) throw new("接收方不存在！");
             }
             SendIsAsync(client, dataPacket.IsAsync, listData);
             dataPacket.Dispose();
@@ -433,7 +434,7 @@ namespace Tool.Sockets.TcpFrame
                         {
                             string _IpPort = json.IpPort;
                             json.IpPort = tcpBytes.Key;
-                            AgentSendAsync(json, default, _IpPort);
+                            AgentSendAsync(json, default, _IpPort, tcpBytes.Key);
                         }
                         catch (Exception e)
                         {
@@ -613,9 +614,9 @@ namespace Tool.Sockets.TcpFrame
             //}
         }
 
-        private bool OnIpParser(string key, out Socket client)
+        private bool OnIpParser(string key, out Socket client, string SponsorIp = null)
         {
-            string strip = IpParser?.Invoke(key) ?? key;
+            string strip = IpParser?.Invoke(SponsorIp, key) ?? key;
             return serverAsync.TrySocket(strip, out client);
         }
 

@@ -488,6 +488,15 @@ a.CopyEntity(b, "b1=a1", "b2"); //可拷贝 b->b1, b->b2
 
 11. 其他优化。
 
+------------2023/01/09------------
+V4.1.5 - 正式版
+1. 新增支持 .net7 版本
+2. 修复 JosnVar 对象在 json 字符串 中存在 \u007F 时出错问题修复
+3. Tool.Sockets.TcpFrame.IpParser 回调事件，提供了访问者IP信息。
+4. DiySession 新增 SetId 方法 可以指定 SessionId。
+5. 优化了 GetUserIp GetUserIps 在验证IP有效性时，效率的提升。
+
+
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。
 1. Microsoft.AspNetCore.Diagnostics

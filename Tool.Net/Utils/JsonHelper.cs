@@ -59,9 +59,9 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="element">原型对象</param>
         /// <returns>必然是数组结果</returns>
-        public static System.Collections.ArrayList GetArray(JsonElement.ArrayEnumerator element)
+        public static ArrayList GetArray(JsonElement.ArrayEnumerator element)
         {
-            System.Collections.ArrayList array = new();
+            ArrayList array = new();
 
             using (element)
             {
@@ -81,18 +81,28 @@ namespace Tool.Utils
         /// <returns>必然是字符串或时间类型的结果</returns>
         private static object GetString(JsonElement element)
         {
-            if (element.TryGetDateTime(out DateTime dateTime))
+            object _obj;
+            try
             {
-                return dateTime;
+                if (element.TryGetDateTime(out DateTime dateTime))
+                {
+                    _obj = dateTime;
+                }
+                else if (element.TryGetDateTimeOffset(out DateTimeOffset dateTimeOffset))
+                {
+                    _obj = dateTimeOffset;
+                }
+                else
+                {
+                    _obj = element.GetString();
+                }
             }
-            else if (element.TryGetDateTimeOffset(out DateTimeOffset dateTimeOffset))
+            catch (Exception)
             {
-                return dateTimeOffset;
+                _obj = element.GetString();
             }
-            else
-            {
-                return element.GetString();
-            }
+
+            return _obj;
         }
 
         /// <summary>
@@ -103,51 +113,58 @@ namespace Tool.Utils
         private static object GetNumber(JsonElement element)
         {
             object _obj;
-            if (element.TryGetDecimal(out decimal val))
+            try
             {
-                if (val % 1 == 0)//(decimal.Truncate(val) == val)
+                if (element.TryGetDecimal(out decimal val))
                 {
-                    if (val >= decimal.Zero)
+                    if (val % 1 == 0)//(decimal.Truncate(val) == val)
                     {
-                        if (val <= int.MaxValue)
+                        if (val >= decimal.Zero)
                         {
-                            _obj = decimal.ToInt32(val);
-                        }
-                        else if (val <= long.MaxValue)
-                        {
-                            _obj = decimal.ToInt64(val);
+                            if (val <= int.MaxValue)
+                            {
+                                _obj = decimal.ToInt32(val);
+                            }
+                            else if (val <= long.MaxValue)
+                            {
+                                _obj = decimal.ToInt64(val);
+                            }
+                            else
+                            {
+                                _obj = val;
+                            }
                         }
                         else
                         {
-                            _obj = val;
+                            if (val >= int.MinValue)
+                            {
+                                _obj = decimal.ToInt32(val);
+                            }
+                            else if (val >= long.MinValue)
+                            {
+                                _obj = decimal.ToInt64(val);
+                            }
+                            else
+                            {
+                                _obj = val;
+                            }
                         }
                     }
                     else
                     {
-                        if (val >= int.MinValue)
-                        {
-                            _obj = decimal.ToInt32(val);
-                        }
-                        else if (val >= long.MinValue)
-                        {
-                            _obj = decimal.ToInt64(val);
-                        }
-                        else
-                        {
-                            _obj = val;
-                        }
+                        _obj = val;
                     }
                 }
                 else
                 {
-                    _obj = val;
+                    _obj = element.GetDouble();
                 }
             }
-            else
+            catch (Exception)
             {
-                _obj = element.GetDouble();
+                _obj = element.GetDecimal();
             }
-
+            
             return _obj;
         }
     }
@@ -183,7 +200,7 @@ namespace Tool.Utils
             {
                 ValueKind = JsonValueKind.Null;
             }
-            else if(data.GetType() == typeof(Dictionary<string, object>))
+            else if (data.GetType() == typeof(Dictionary<string, object>))
             {
                 ValueKind = JsonValueKind.Object;
                 count = (data as Dictionary<string, object>).Count;
@@ -203,7 +220,7 @@ namespace Tool.Utils
             }
 
             this.Data = data;
-            this.Count =count;
+            this.Count = count;
         }
 
         /// <summary>
@@ -237,7 +254,7 @@ namespace Tool.Utils
             {
                 if (ValueKind == JsonValueKind.Array)
                 {
-                    var _data = Data.ToVar<System.Collections.ArrayList>();
+                    var _data = Data.ToVar<ArrayList>();
 
                     return new JsonVar(_data[i]);
                 }
@@ -260,7 +277,7 @@ namespace Tool.Utils
         /// 获取当前对象的Json字符串
         /// </summary>
         /// <returns></returns>
-        public string GetJson() 
+        public string GetJson()
         {
             return Data.ToJson();
         }

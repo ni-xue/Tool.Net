@@ -32,10 +32,13 @@ namespace Tool.Web.Session
         /// </summary>
         public HttpContext Context { get; private set; }
 
-        internal async Task InsideInitialize(DiySessionOptions diyOptions, string id, HttpContext context, ILogger logger)
+        /// <summary>
+        /// 设置Id值
+        /// </summary>
+        /// <param name="id">SessionId</param>
+        protected void SetId(string id) 
         {
-            this.diyOptions = diyOptions;
-            string sign = diyOptions.Sign;
+            string sign = diyOptions?.Sign ?? string.Empty;
             if (id.EndsWith(sign))
             {
                 this._id = id[..(id.Length - sign.Length)];
@@ -46,6 +49,12 @@ namespace Tool.Web.Session
                 this._id = id;
                 this._isAvailable = false;
             }
+        }
+
+        internal async Task InsideInitialize(DiySessionOptions diyOptions, string id, HttpContext context, ILogger logger)
+        {
+            this.diyOptions = diyOptions;
+            SetId(id);
             this.Context = context;
             this.Logger = logger;
             try
@@ -71,6 +80,7 @@ namespace Tool.Web.Session
 
         private void Available(bool _isAvailable)
         {
+            if (diyOptions is null) throw new Exception("当前对象信息不完整，无法修改IsAvailable属性！");
             if (_isAvailable != this._isAvailable)
             {
                 string newid = _isAvailable ? $"{_id}{diyOptions.Sign}" : _id;

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO.Compression;
 using System.Net;
 using System.Text;
@@ -54,14 +55,17 @@ namespace Tool.Web
         /// <returns>返回IP地址</returns>
         public static string GetUserIp(this HttpContext context)
         {
-            if (context.Request.Headers.TryGetValue("X-Real-IP", out var ip) && IPAddress.TryParse(ip, out var iP))
+            if (context.Request.Headers.TryGetValue("X-Real-IP", out var isip) && IPAddress.TryParse(isip, out var ip))
             {
-                return iP.ToString();
+                return ip.ToString();
+            }
+            else if (context.Request.Headers.TryGetValue("X-Forwarded-For", out var ips))
+            {
+                return IsIps(ips, true);
             }
             else
             {
-                return GetUserIps(context).Split(", ")[0];
-                //return context.Connection.RemoteIpAddress.ToString();
+                return context.Connection.RemoteIpAddress.ToString();
             }
 
             //string text = string.Empty;
@@ -106,22 +110,49 @@ namespace Tool.Web
         /// </summary>
         /// <param name="context">HttpContext</param>
         /// <returns>返回IP地址或多个地址', '隔开</returns>
-        public static string GetUserIps(this HttpContext context) 
+        public static string GetUserIps(this HttpContext context)
         {
             if (context.Request.Headers.TryGetValue("X-Forwarded-For", out var ips))
             {
-                var _ips = ips.ToString().Split(", ");
-                StringBuilder stringBuilder = new();
-                foreach (var ip in _ips)
-                {
-                    if (IPAddress.TryParse(ip, out var iP)) { stringBuilder.AppendFormat("{0}, ", iP.ToString()); }
-                }
-                return stringBuilder.Length > 2 ? stringBuilder.ToString(0, stringBuilder.Length - 2) : "0.0.0.0";
+                return IsIps(ips, false);
             }
             else
             {
                 return context.Connection.RemoteIpAddress.ToString();
             }
+        }
+
+        private static string IsIps(string ips, bool single)
+        {
+            try
+            {
+                if (ips != null)
+                {
+                    ReadOnlySpan<char> chars = ips.AsSpan();
+                    int ipportLength = chars.Length, position = 0, newposition = 0;
+                    StringBuilder stringBuilder = new();
+                    ReadOnlySpan<char> split = ", ";
+
+                    while (true)
+                    {
+                        if (position >= ipportLength) break;
+                        newposition = chars[position..].IndexOf(split);
+                        if (newposition == -1) newposition = ipportLength;
+                        if (IPAddress.TryParse(chars[position..newposition], out var ip))
+                        {
+                            if (single) return ip.ToString();
+                            stringBuilder.AppendFormat("{0}, ", ip.ToString());
+                        }
+                        position = newposition + split.Length;
+                    }
+
+                    return stringBuilder.Length > split.Length ? stringBuilder.ToString(0, stringBuilder.Length - split.Length) : "0.0.0.0";
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return "0.0.0.0";
         }
 
         /// <summary>
@@ -395,7 +426,7 @@ namespace Tool.Web
         /// <param name="WriteStream">更新文件流</param>
         /// <param name="minlen">最小资源大小</param>
         /// <returns></returns>
-        public static async System.Threading.Tasks.Task StreamMove(System.IO.Stream ReadStream, System.IO.Stream WriteStream, int minlen) 
+        public static async System.Threading.Tasks.Task StreamMove(System.IO.Stream ReadStream, System.IO.Stream WriteStream, int minlen)
         {
             long length = ReadStream.Length;
             long len = (minlen) > length ? length : (minlen);
@@ -465,7 +496,7 @@ namespace Tool.Web
         /// <param name="session">ISession</param>
         /// <param name="key">键值名称</param>
         /// <returns>返回一个值</returns>
-        public static string Get(this ISession session, string key) 
+        public static string Get(this ISession session, string key)
         {
             if (string.IsNullOrWhiteSpace(key))
             {

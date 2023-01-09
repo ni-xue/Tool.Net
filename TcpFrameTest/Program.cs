@@ -103,13 +103,19 @@ namespace TcpFrameTest
 
         public static void Main(string[] args)
         {
+            //Tool.Web.HttpContextExtension.IsIps("192.1.1.1, 2001:db8:cafe::17");
+
+            string st = Console.ReadLine();
+            string val = "{ \"ok\":\""+ st +"\" }";
+            var json = val.JsonVar();
+
             System system = new() { Id = 0, Key_cn = null, Key_en = null, Value = 0 };
             Abc abc = new() { Aid = 666, Bkey_en = "", Ckey_cn = "", Dvalue = "6666666666" };
 
             system.CopyEntity(abc, "Id=Aid", "Key_cn=Ckey_cn", "Value=Dvalue");
 
-            var summary = BenchmarkRunner.Run<Program>();
-            return;
+            //var summary = BenchmarkRunner.Run<Program>();
+            //return;
 
             //Console.WriteLine(0);
 
@@ -452,7 +458,7 @@ namespace TcpFrameTest
         {
             ServerFrame server = new(108);
 
-            server.SetIpParser(key =>
+            server.SetIpParser((s,key) =>
             {
                 return server.ListClient.Keys.OrderBy(a => Guid.NewGuid()).First();
                 //return key;

@@ -8462,15 +8462,6 @@
             <returns><see cref="T:System.Collections.Generic.Dictionary`2"/></returns>
             /// <param name="key">需要删除的键值集合</param>
         </member>
-        <member name="M:Tool.Utils.Data.DictionaryExtension.AsReadOnly``2(System.Collections.Generic.IDictionary{``0,``1})">
-            <summary>
-            将键值对转换成只读类型键值对
-            </summary>
-            <typeparam name="TKey">键</typeparam>
-            <typeparam name="TValue">值</typeparam>
-            <param name="keys">原本键值对</param>
-            <returns>只读键值对</returns>
-        </member>
         <member name="M:Tool.Utils.Data.DictionaryExtension.GetParamAscii``2(System.Collections.Generic.Dictionary{``0,``1})">
             <summary>
             按照ASCII码从小到大排序（示例： 1, 2, A, B, a, b 这是格式循序）
@@ -16189,6 +16180,17 @@
             <param name="services"></param>
             <param name="action">必须实现的条件</param>
             <returns>IServiceCollection</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.UseDiySession(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            注册AsSession
+            </summary>
+            <param name="app">IApplicationBuilder框架对象</param>
+            <returns>IApplicationBuilder</returns>
+        </member>
+    </members>
+</doc>
+ <returns>IServiceCollection</returns>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.UseDiySession(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>

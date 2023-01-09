@@ -186,6 +186,8 @@ namespace Tool.Utils.Data
             return type;
         }
 
+#if  NET5_0 || NET6_0
+
         /// <summary>
         /// 将键值对转换成只读类型键值对
         /// </summary>
@@ -197,6 +199,8 @@ namespace Tool.Utils.Data
         {
             return keys is not null ? new System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>(keys) : null;
         }
+
+#endif
 
         /// <summary>
         /// 按照ASCII码从小到大排序（示例： 1, 2, A, B, a, b 这是格式循序）

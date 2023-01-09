@@ -240,7 +240,7 @@ namespace Tool.Sockets.TcpHelper
                         Thread.Sleep(1);
                     }
                 }
-                catch (Exception ex)
+                catch //(Exception ex)
                 {
 
                 }

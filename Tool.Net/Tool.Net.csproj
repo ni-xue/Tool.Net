@@ -2,12 +2,12 @@
 
   <PropertyGroup>
 	<!--<TargetFramework>net6.0</TargetFramework>-->
-    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
     <RootNamespace>Tool</RootNamespace>
-    <Version>4.0.0</Version>
+    <Version>4.1.2</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Copyright>Copyright © Microsoft 2022-09-04 22:30:00</Copyright>
+    <Copyright>Copyright © Microsoft 2022-11-11 15:00:00</Copyright>
     <Company>NiXue</Company>
     <Authors>NiXue</Authors>
     <PackageProjectUrl>https://github.com/nixue-xin/UniversalFrame</PackageProjectUrl>
@@ -34,6 +34,7 @@ Url:nixue.top</Description>
 	<OutputType>Library</OutputType>
 	<Nullable>disable</Nullable>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -61,7 +62,6 @@ Url:nixue.top</Description>
   <ItemGroup>
     <None Remove="Icon.png1" />
     <None Remove="nixue.Tool.pfx" />
-    <None Remove="Sockets\SupportCode\TcpStateObject.cs~RF27598bc2.TMP" />
     <None Remove="Tool.Net.dll" />
     <None Remove="Tool.Net.pdb" />
     <None Remove="Tool.Net.xml" />
@@ -80,6 +80,10 @@ Url:nixue.top</Description>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
   	<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net7.0'">
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
