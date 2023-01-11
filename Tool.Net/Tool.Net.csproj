@@ -4,7 +4,7 @@
 	<!--<TargetFramework>net6.0</TargetFramework>-->
     <TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
     <RootNamespace>Tool</RootNamespace>
-    <Version>4.1.2</Version>
+    <Version>4.1.6</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Copyright>Copyright © Microsoft 2022-11-11 15:00:00</Copyright>

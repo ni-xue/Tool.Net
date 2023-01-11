@@ -101,9 +101,21 @@ namespace TcpFrameTest
             return "";
         }
 
-        public static void Main(string[] args)
+        public static void Main(string[] args) //http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1
         {
-            //Tool.Web.HttpContextExtension.IsIps("192.1.1.1, 2001:db8:cafe::17");
+            //Tool.Web.HttpContextExtension.IsIps("weqguyafyg", true);
+
+            TcpStateObject.IsIpPort("");
+
+            var ss = HttpHelpers.GetString("https://www.baidu.com", headers => headers.UserAgent.TryParseAdd("Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Mobile Safari/537.36 Edg/108.0.1462.76"));
+
+            var ss1 = HttpHelpers.GetStringAsync("https://www.baidu.com", headers => headers.UserAgent.TryParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.76")).Result;
+
+            var ss2 = HttpHelpers.PostString("http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1");
+
+            var ss3 = HttpHelpers.PostStringAsync("http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1").Result;
+
+            Console.WriteLine("{0}\n\t{1}\n\t{2}\n\t{3}", ss, ss1, ss2, ss3);
 
             string st = Console.ReadLine();
             string val = "{ \"ok\":\""+ st +"\" }";

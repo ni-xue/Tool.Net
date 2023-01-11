@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,37 +52,19 @@ namespace Tool.Utils
         /// GET 方式获取响应流
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static Stream Get(string url, string cookies = null, Uri refer = null)
+        public static Stream Get(string url, Action<HttpRequestHeaders> onheaders = null)
         {
             try
             {
                 using var requestMessage = CreateHttpRequestMessage(HttpMethod.Get, url);
 
-                requestMessage.Headers.Referrer = refer;
+                onheaders?.Invoke(requestMessage.Headers);
 
-                if (!string.IsNullOrWhiteSpace(cookies)) requestMessage.Headers.TryAddWithoutValidation("Cookie", cookies);
+                using var http = Send(requestMessage);
 
-                using var http = _HttpClient.Send(requestMessage);
-
-                //http.EnsureSuccessStatusCode();
-
-                MemoryStream memoryStream = new();
-                http.Content.CopyTo(memoryStream, null, CancellationToken.None);
-                memoryStream.Position = 0;
-                return memoryStream;
-
-                //var stream = http.Content.ReadAsStream();
-
-                //byte[] buffer = new byte[stream.Length];
-
-                //stream.Read(buffer);
-
-                //MemoryStream memoryStream = new(buffer);
-
-                //return memoryStream;
+                return GetMemory(http.Content);
             }
             catch (Exception ex)
             {
@@ -94,37 +77,19 @@ namespace Tool.Utils
         /// GET 方式获取响应流(异步获取)
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static async Task<Stream> GetAsync(string url, string cookies = null, Uri refer = null)
+        public static async Task<Stream> GetAsync(string url, Action<HttpRequestHeaders> onheaders = null)
         {
             try
             {
                 using var requestMessage = CreateHttpRequestMessage(HttpMethod.Get, url);
 
-                requestMessage.Headers.Referrer = refer;
+                onheaders?.Invoke(requestMessage.Headers);
 
-                if (!string.IsNullOrWhiteSpace(cookies)) requestMessage.Headers.TryAddWithoutValidation("Cookie", cookies);
+                using var http = await SendAsync(requestMessage);
 
-                using var http = await _HttpClient.SendAsync(requestMessage);
-
-                //http.EnsureSuccessStatusCode();
-
-                MemoryStream memoryStream = new();
-                await http.Content.CopyToAsync(memoryStream, null, CancellationToken.None);
-                memoryStream.Position = 0;
-                return memoryStream;
-
-                //var stream = await http.Content.ReadAsStreamAsync();
-
-                //byte[] buffer = new byte[stream.Length];
-
-                //await stream.ReadAsync(buffer);
-
-                //MemoryStream memoryStream = new(buffer);
-
-                //return memoryStream;
+                return await GetMemoryAsync(http.Content);
             }
             catch (Exception ex)
             {
@@ -138,14 +103,13 @@ namespace Tool.Utils
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static T GetJson<T>(string url, string cookies = null, Uri refer = null)
+        public static T GetJson<T>(string url, Action<HttpRequestHeaders> onheaders = null)
         {
             try
             {
-                var _json = GetString(url, cookies, refer);
+                var _json = GetString(url, onheaders);
                 return _json.Json<T>();
             }
             catch
@@ -159,14 +123,13 @@ namespace Tool.Utils
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static async Task<T> GetJsonAsync<T>(string url, string cookies = null, Uri refer = null)
+        public static async Task<T> GetJsonAsync<T>(string url, Action<HttpRequestHeaders> onheaders = null)
         {
             try
             {
-                var _json = await GetStringAsync(url, cookies, refer);
+                var _json = await GetStringAsync(url, onheaders);
                 return _json.Json<T>();
             }
             catch
@@ -179,12 +142,11 @@ namespace Tool.Utils
         /// GET 方式获取响应流 返回字符串
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static string GetString(string url, string cookies = null, Uri refer = null)
+        public static string GetString(string url, Action<HttpRequestHeaders> onheaders = null)
         {
-            var result = Get(url, cookies, refer);
+            var result = Get(url, onheaders);
 
             if (result == null)
             {
@@ -199,12 +161,11 @@ namespace Tool.Utils
         /// GET 方式获取响应流 返回字符串 (异步获取)
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static async Task<string> GetStringAsync(string url, string cookies = null, Uri refer = null)
+        public static async Task<string> GetStringAsync(string url, Action<HttpRequestHeaders> onheaders = null)
         {
-            var result = await GetAsync(url, cookies, refer);
+            var result = await GetAsync(url, onheaders);
 
             if (result == null)
             {
@@ -220,39 +181,21 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="url"></param>
         /// <param name="data"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static Stream Post(string url, IEnumerable<KeyValuePair<string, string>> data, string cookies = null, Uri refer = null)
+        public static Stream Post(string url, IEnumerable<KeyValuePair<string, string>> data, Action<HttpRequestHeaders> onheaders = null)
         {
             try
             {
                 using var requestMessage = CreateHttpRequestMessage(HttpMethod.Post, url);
 
-                requestMessage.Headers.Referrer = refer;
-
-                if (!string.IsNullOrWhiteSpace(cookies)) requestMessage.Headers.TryAddWithoutValidation("Cookie", cookies);
+                onheaders?.Invoke(requestMessage.Headers);
 
                 if (data != null) requestMessage.Content = new FormUrlEncodedContent(data);
 
-                using var http = _HttpClient.Send(requestMessage);
+                using var http = Send(requestMessage);
 
-                //http.EnsureSuccessStatusCode();
-
-                MemoryStream memoryStream = new();
-                http.Content.CopyTo(memoryStream, null, CancellationToken.None);
-                memoryStream.Position = 0;
-                return memoryStream;
-
-                //var stream = http.Content.ReadAsStream();
-
-                //byte[] buffer = new byte[stream.Length];
-
-                //stream.Read(buffer);
-
-                //MemoryStream memoryStream = new(buffer);
-
-                //return memoryStream;
+                return GetMemory(http.Content);
             }
             catch (Exception ex)
             {
@@ -266,39 +209,22 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="url"></param>
         /// <param name="data"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static async Task<Stream> PostAsync(string url, IEnumerable<KeyValuePair<string, string>> data, string cookies = null, Uri refer = null)
+        public static async Task<Stream> PostAsync(string url, IEnumerable<KeyValuePair<string, string>> data, Action<HttpRequestHeaders> onheaders = null)
         {
             try
             {
                 using var requestMessage = CreateHttpRequestMessage(HttpMethod.Post, url);
 
-                requestMessage.Headers.Referrer = refer;
-
-                if (!string.IsNullOrWhiteSpace(cookies)) requestMessage.Headers.TryAddWithoutValidation("Cookie", cookies);
+                onheaders?.Invoke(requestMessage.Headers);
 
                 if (data != null) requestMessage.Content = new FormUrlEncodedContent(data);
 
-                using var http = await _HttpClient.SendAsync(requestMessage);
+                using var http = await SendAsync(requestMessage);
 
-                //http.EnsureSuccessStatusCode();
+                return await GetMemoryAsync(http.Content);
 
-                MemoryStream memoryStream = new();
-                await http.Content.CopyToAsync(memoryStream, null, CancellationToken.None);
-                memoryStream.Position = 0;
-                return memoryStream;
-
-                //var stream = await http.Content.ReadAsStreamAsync();
-
-                //byte[] buffer = new byte[stream.Length];
-
-                //await stream.ReadAsync(buffer);
-
-                //MemoryStream memoryStream = new(buffer);
-
-                //return memoryStream;
             }
             catch (Exception ex)
             {
@@ -312,11 +238,11 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="url"></param>
         /// <param name="data"></param>
-        /// <param name="cookies"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static Stream Post(string url, IDictionary<string, string> data = null, string cookies = null)
+        public static Stream Post(string url, IDictionary<string, string> data = null, Action<HttpRequestHeaders> onheaders = null)
         {
-            return Post(url, data, cookies, null);
+            return Post(url, data as IEnumerable<KeyValuePair<string, string>>, onheaders);
         }
 
         /// <summary>
@@ -324,11 +250,11 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="url"></param>
         /// <param name="data"></param>
-        /// <param name="cookies"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static async Task<Stream> PostAsync(string url, IDictionary<string, string> data = null, string cookies = null)
+        public static async Task<Stream> PostAsync(string url, IDictionary<string, string> data = null, Action<HttpRequestHeaders> onheaders = null)
         {
-            return await PostAsync(url, data, cookies, null);
+            return await PostAsync(url, data as IEnumerable<KeyValuePair<string, string>>, onheaders);
         }
 
         /// <summary>
@@ -336,15 +262,14 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="url"></param>
         /// <param name="data">字符串拼接的数据</param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static string PostString(string url, string data = null, string cookies = null, Uri refer = null)
+        public static string PostString(string url, string data = null, Action<HttpRequestHeaders> onheaders = null)
         {
             try
             {
                 var s = FormatData(data);
-                return PostString(url, s, cookies, refer);
+                return PostString(url, s, onheaders);
             }
             catch
             {
@@ -357,15 +282,14 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="url"></param>
         /// <param name="data"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static async Task<string> PostStringAsync(string url, string data = null, string cookies = null, Uri refer = null)
+        public static async Task<string> PostStringAsync(string url, string data = null, Action<HttpRequestHeaders> onheaders = null)
         {
             try
             {
                 var s = FormatData(data);
-                return await PostStringAsync(url, s, cookies, refer);
+                return await PostStringAsync(url, s, onheaders);
             }
             catch
             {
@@ -378,12 +302,11 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="url"></param>
         /// <param name="data"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static string PostString(string url, IDictionary<string, string> data, string cookies = null, Uri refer = null)
+        public static string PostString(string url, IDictionary<string, string> data, Action<HttpRequestHeaders> onheaders = null)
         {
-            var result = Post(url, data, cookies, refer);
+            var result = Post(url, data, onheaders);
 
             if (result == null)
             {
@@ -398,12 +321,11 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="url"></param>
         /// <param name="data"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static async Task<string> PostStringAsync(string url, IDictionary<string, string> data, string cookies = null, Uri refer = null)
+        public static async Task<string> PostStringAsync(string url, IDictionary<string, string> data, Action<HttpRequestHeaders> onheaders = null)
         {
-            var result = await PostAsync(url, data, cookies, refer);
+            var result = await PostAsync(url, data, onheaders);
 
             if (result == null)
             {
@@ -419,14 +341,13 @@ namespace Tool.Utils
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
         /// <param name="data"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static T PostJson<T>(string url, string data = null, string cookies = null, Uri refer = null)
+        public static T PostJson<T>(string url, string data = null, Action<HttpRequestHeaders> onheaders = null)
         {
             try
             {
-                var _json = PostString(url, data, cookies, refer);
+                var _json = PostString(url, data, onheaders);
                 return _json.Json<T>();
             }
             catch
@@ -441,14 +362,13 @@ namespace Tool.Utils
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
         /// <param name="data"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static async Task<T> PostJsonAsync<T>(string url, string data = null, string cookies = null, Uri refer = null)
+        public static async Task<T> PostJsonAsync<T>(string url, string data = null, Action<HttpRequestHeaders> onheaders = null)
         {
             try
             {
-                var _json = await PostStringAsync(url, data, cookies, refer);
+                var _json = await PostStringAsync(url, data, onheaders);
                 return _json.Json<T>();
             }
             catch
@@ -463,12 +383,11 @@ namespace Tool.Utils
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
         /// <param name="data"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static T PostJson<T>(string url, IDictionary<string, string> data = null, string cookies = null, Uri refer = null)
+        public static T PostJson<T>(string url, IDictionary<string, string> data = null, Action<HttpRequestHeaders> onheaders = null)
         {
-            return PostString(url, data, cookies, refer).Json<T>();
+            return PostString(url, data, onheaders).Json<T>();
         }
 
         /// <summary>
@@ -477,12 +396,11 @@ namespace Tool.Utils
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
         /// <param name="data"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static async Task<T> PostJsonAsync<T>(string url, IDictionary<string, string> data = null, string cookies = null, Uri refer = null)
+        public static async Task<T> PostJsonAsync<T>(string url, IDictionary<string, string> data = null, Action<HttpRequestHeaders> onheaders = null)
         {
-            var _str = await PostStringAsync(url, data, cookies, refer);
+            var _str = await PostStringAsync(url, data, onheaders);
             return _str.Json<T>();
         }
 
@@ -490,21 +408,17 @@ namespace Tool.Utils
         /// HEAD 方式获取响应的状态
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="cookies"></param>
-        /// <param name="refer"></param>
+        /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static HttpStatusCode HeadHttpCode(string url, /*string data = null,*/// <param name="data"></param>
-            string cookies = null, Uri refer = null)
+        public static HttpStatusCode HeadHttpCode(string url, Action<HttpRequestHeaders> onheaders = null)
         {
             try
             {
                 using var requestMessage = CreateHttpRequestMessage(HttpMethod.Head, url);
 
-                requestMessage.Headers.Referrer = refer;
+                onheaders?.Invoke(requestMessage.Headers);
 
-                if (!string.IsNullOrWhiteSpace(cookies)) requestMessage.Headers.TryAddWithoutValidation("Cookie", cookies);
-
-                using var http = _HttpClient.Send(requestMessage);
+                using var http = Send(requestMessage);
 
                 return http.StatusCode;
             }
@@ -529,9 +443,62 @@ namespace Tool.Utils
         //    return r;
         //}
 
-        private static HttpRequestMessage CreateHttpRequestMessage(HttpMethod method, string url)
+        //requestMessage.Headers.Referrer = refer;
+        //if (!string.IsNullOrWhiteSpace(cookies)) requestMessage.Headers.TryAddWithoutValidation("Cookie", cookies);
+
+        //var stream = await http.Content.ReadAsStreamAsync();
+        //byte[] buffer = new byte[stream.Length];
+        //await stream.ReadAsync(buffer);
+        //MemoryStream memoryStream = new(buffer);
+        //return memoryStream;
+
+        //http.EnsureSuccessStatusCode();
+
+        /// <summary>
+        /// 获取可用的连接
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static HttpRequestMessage CreateHttpRequestMessage(HttpMethod method, string url)
         {
             return new(method, url);
+        }
+
+        /// <summary>
+        /// 异步获取请求结果
+        /// </summary>
+        /// <param name="requestMessage">请求信息</param>
+        /// <returns></returns>
+        public static async Task<HttpResponseMessage> SendAsync(HttpRequestMessage requestMessage) 
+        {
+            return await _HttpClient.SendAsync(requestMessage);
+        }
+
+        /// <summary>
+        /// 获取请求结果
+        /// </summary>
+        /// <param name="requestMessage">请求信息</param>
+        /// <returns></returns>
+        public static HttpResponseMessage Send(HttpRequestMessage requestMessage)
+        {
+            return _HttpClient.Send(requestMessage);
+        }
+
+        private static async Task<Stream> GetMemoryAsync(HttpContent content) 
+        {
+            MemoryStream memoryStream = new();
+            using (content) await content.CopyToAsync(memoryStream, null, CancellationToken.None);
+            memoryStream.Position = 0;
+            return memoryStream;
+        }
+
+        private static Stream GetMemory(HttpContent content)
+        {
+            MemoryStream memoryStream = new();
+            using (content) content.CopyTo(memoryStream, null, CancellationToken.None);
+            memoryStream.Position = 0;
+            return memoryStream;
         }
 
         ///// <summary>
