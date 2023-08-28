@@ -19,10 +19,7 @@ namespace WebTestApp.Controllers
 
         private readonly DbHelper dbHelper;
 
-        static TaskOueue<string, string> taskOueue = new(func: (a) =>
-        {
-            return a;
-        });
+
 
         private readonly ITableProvider aideIConfigInfo;
         //[FromBody]
@@ -32,6 +29,21 @@ namespace WebTestApp.Controllers
 
             aideIConfigInfo = new TableProvider(dbHelper, "ConfigInfo");
             //this.httpClient = httpClient;
+        }
+
+        static TaskOueue<string, string> taskOueue = new(func: (a) =>
+        {
+            if (taskOueue.IsContinueWith)
+            {
+                taskOueue.ContinueWith += TaskOueue_ContinueWith;
+            }
+
+            return a;
+        });
+
+        private static void TaskOueue_ContinueWith(string arg1, string arg2, Exception arg3)
+        {
+            
         }
 
         public IActionResult Cc()
@@ -127,9 +139,5 @@ namespace WebTestApp.Controllers
             return Json(data);
         }
 
-        private void TaskOueue_ContinueWith(string arg1, string arg2, Exception arg3)
-        {
-
-        }
     }
 }

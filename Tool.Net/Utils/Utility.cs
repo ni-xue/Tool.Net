@@ -194,7 +194,7 @@ namespace Tool.Utils
 		/// <returns>JOSN 字符串</returns>
 		public static StringBuilder DataTableToJson(DataTable dt, bool dtDispose)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			StringBuilder stringBuilder = new();
 			stringBuilder.Append("[\r\n");
 			string[] array = new string[dt.Columns.Count];
 			int num = 0;
