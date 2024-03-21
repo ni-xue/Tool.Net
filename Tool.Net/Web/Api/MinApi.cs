@@ -850,8 +850,10 @@ namespace Tool.Web.Api
         /// <returns>返回任务</returns>
         public override async Task ExecuteOutAsync(AshxRouteData ashxRoute)
         {
-            ashxRoute.HttpContext.Response.Headers.Add("Connection", "Keep-Alive");
-            ashxRoute.HttpContext.Response.Headers.Add("Content-Length", FileStream.Length.ToString());
+            ashxRoute.HttpContext.Response.GetTypedHeaders();
+
+            ashxRoute.HttpContext.Response.Headers.TryAdd("Connection", "Keep-Alive");
+            ashxRoute.HttpContext.Response.Headers.TryAdd("Content-Length", FileStream.Length.ToString());
             ashxRoute.HttpContext.Response.AppendHeader("Content-Disposition", "attachment;filename=" + Name);
 
             //await ashxRoute.HttpContext.Response.Body.WriteAsync(Body.AsMemory(0, Body.Length));

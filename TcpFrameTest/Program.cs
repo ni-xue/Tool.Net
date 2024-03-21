@@ -105,26 +105,26 @@ namespace TcpFrameTest
         {
             //Tool.Web.HttpContextExtension.IsIps("weqguyafyg", true);
 
-            TcpStateObject.IsIpPort("");
+            //TcpStateObject.IsIpPort("");
 
-            var ss = HttpHelpers.GetString("https://www.baidu.com", headers => headers.UserAgent.TryParseAdd("Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Mobile Safari/537.36 Edg/108.0.1462.76"));
+            //var ss = HttpHelpers.GetString("https://www.baidu.com", headers => headers.UserAgent.TryParseAdd("Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Mobile Safari/537.36 Edg/108.0.1462.76"));
 
-            var ss1 = HttpHelpers.GetStringAsync("https://www.baidu.com", headers => headers.UserAgent.TryParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.76")).Result;
+            //var ss1 = HttpHelpers.GetStringAsync("https://www.baidu.com", headers => headers.UserAgent.TryParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.76")).Result;
 
-            var ss2 = HttpHelpers.PostString("http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1");
+            //var ss2 = HttpHelpers.PostString("http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1");
 
-            var ss3 = HttpHelpers.PostStringAsync("http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1").Result;
+            //var ss3 = HttpHelpers.PostStringAsync("http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1").Result;
 
-            Console.WriteLine("{0}\n\t{1}\n\t{2}\n\t{3}", ss, ss1, ss2, ss3);
+            //Console.WriteLine("{0}\n\t{1}\n\t{2}\n\t{3}", ss, ss1, ss2, ss3);
 
-            string st = Console.ReadLine();
-            string val = "{ \"ok\":\""+ st +"\" }";
-            var json = val.JsonVar();
+            //string st = Console.ReadLine();
+            //string val = "{ \"ok\":\""+ st +"\" }";
+            //var json = val.JsonVar();
 
-            System system = new() { Id = 0, Key_cn = null, Key_en = null, Value = 0 };
-            Abc abc = new() { Aid = 666, Bkey_en = "", Ckey_cn = "", Dvalue = "6666666666" };
+            //System system = new() { Id = 0, Key_cn = null, Key_en = null, Value = 0 };
+            //Abc abc = new() { Aid = 666, Bkey_en = "", Ckey_cn = "", Dvalue = "6666666666" };
 
-            system.CopyEntity(abc, "Id=Aid", "Key_cn=Ckey_cn", "Value=Dvalue");
+            //system.CopyEntity(abc, "Id=Aid", "Key_cn=Ckey_cn", "Value=Dvalue");
 
             //var summary = BenchmarkRunner.Run<Program>();
             //return;
@@ -415,28 +415,34 @@ namespace TcpFrameTest
             TcpEventQueue.OnInterceptor(EnClient.SendMsg, true);
             TcpEventQueue.OnInterceptor(EnClient.Receive, true);
 
+#if DEBUG
+            if (args is null || args.Length > 0)
+            {
+                args = new string[] { "1" };
+            }
+#endif
+
+            string name = null;
             KeepAlive keep = new(1, () =>
             {
                 Console.Clear();
-                Console.WriteLine("情况：{0}，{1}，{2}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount);
+                Console.WriteLine("情况：{0}，{1}，{2} · {3}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount, name);
 
                 for (int i = 0; i < 20; i++)
                 {
                     Thread.Sleep(i);
-                    Console.WriteLine("接收：总收 {0}，总发 {1}", Class1.c, Class1.d);
+                    Console.WriteLine("接收：总收 {0}，总发 {1}，总转 {2}", Class1.c, Class1.d, Class1.e);
                 }
             });
 
-#if DEBUG
-            args = new string[] { "1" };
-#endif
-
             if (args.Length == 0)
             {
+                name = "Server";
                 Server();
             }
             else
             {
+                name = "Client";
                 Client();
             }
 
@@ -472,9 +478,10 @@ namespace TcpFrameTest
 
             server.SetIpParser((s,key) =>
             {
+                Class1.e++;//统计总转发计数
                 return server.ListClient.Keys.OrderBy(a => Guid.NewGuid()).First();
                 //return key;
-            });
+            }); 
 
             server.SetCompleted((a, b, c) =>
             {
@@ -506,6 +513,8 @@ namespace TcpFrameTest
             while (true)
             {
                 var response = client.SendIpIdea("1.0.0.1:1", packet);
+
+                //Class1.d++;//模拟发送计数
 
                 switch (response.OnTcpFrame)
                 {

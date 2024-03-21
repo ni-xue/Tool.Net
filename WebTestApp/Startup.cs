@@ -116,7 +116,7 @@ namespace WebTestApp
 
             //client.CopyEntity(class1,"b=>a1","");
 
-            var str = "{ \"result\": {\"code\":0, \"hehe\": [0,5,10] } }";
+            var str = """{ "result": { "code":0, "hehe": [0,5,10] } }""";
 
             var json = str.JsonVar();
 

@@ -16202,14 +16202,3 @@
         </member>
     </members>
 </doc>
- <returns>IServiceCollection</returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.UseDiySession(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-            注册AsSession
-            </summary>
-            <param name="app">IApplicationBuilder框架对象</param>
-            <returns>IApplicationBuilder</returns>
-        </member>
-    </members>
-</doc>

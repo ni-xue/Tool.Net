@@ -19,7 +19,7 @@ using Tool.Utils.Data;
 
 namespace TcpTest
 {
-    public class abc
+    public class Abc
     {
         public int? a { get; init; }
         public string? b { get; set; }
@@ -125,7 +125,7 @@ namespace TcpTest
 
             //var ass = null as object;
 
-            var type = typeof(abc);
+            var type = typeof(Abc);
 
             //DataTable dataTable = new();
 

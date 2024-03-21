@@ -473,6 +473,11 @@ namespace Tool.Web.Api.ApiCore
             }
         }
 
+        const string AllowOrigin = "Access-Control-Allow-Origin";
+        const string AllowCredentials = "Access-Control-Allow-Credentials";
+        const string AllowMethods = "Access-Control-Allow-Methods";
+        const string AllowHeaders = "Access-Control-Allow-Headers";
+
         /// <summary>
         /// 根据信息设置是否跨域请求
         /// </summary>
@@ -498,21 +503,21 @@ namespace Tool.Web.Api.ApiCore
             {
                 void crossdomain()
                 {
-                    if (!response.Headers.ContainsKey("Access-Control-Allow-Origin"))
+                    if (!response.Headers.ContainsKey(AllowOrigin))
                     {
-                        response.AppendHeader("Access-Control-Allow-Origin", crossDomain.Origin ?? "*");
+                        response.AppendHeader(AllowOrigin, crossDomain.Origin ?? "*");
                     }
-                    if (!response.Headers.ContainsKey("Access-Control-Allow-Credentials") && crossDomain.Credentials == true)
+                    if (!response.Headers.ContainsKey(AllowCredentials) && crossDomain.Credentials == true)
                     {
-                        response.AppendHeader("Access-Control-Allow-Credentials", "true");
+                        response.AppendHeader(AllowCredentials, "true");
                     }
-                    if (!string.IsNullOrWhiteSpace(crossDomain.Methods) && !response.Headers.ContainsKey("Access-Control-Allow-Methods"))
+                    if (!string.IsNullOrWhiteSpace(crossDomain.Methods) && !response.Headers.ContainsKey(AllowMethods))
                     {
-                        response.AppendHeader("Access-Control-Allow-Methods", crossDomain.Methods);
+                        response.AppendHeader(AllowMethods, crossDomain.Methods);
                     }
-                    if (!string.IsNullOrWhiteSpace(crossDomain.Headers) && !response.Headers.ContainsKey("Access-Control-Allow-Headers"))
+                    if (!string.IsNullOrWhiteSpace(crossDomain.Headers) && !response.Headers.ContainsKey(AllowHeaders))
                     {
-                        response.AppendHeader("Access-Control-Allow-Headers", crossDomain.Headers);
+                        response.AppendHeader(AllowHeaders, crossDomain.Headers);
                     }
                     //if (crossDomain.MaxAge > 0 && !response.Headers.ContainsKey("Access-Control-Max-Age"))
                     //{
@@ -693,7 +698,7 @@ namespace Tool.Web.Api.ApiCore
             {
                 return null;
             }
-            Dictionary<string, Ashx> keyValues = new Dictionary<string, Ashx>(StringComparer.OrdinalIgnoreCase);
+            Dictionary<string, Ashx> keyValues = new(StringComparer.OrdinalIgnoreCase);
 
             for (int i = 0; i < method.Length; i++)
             {

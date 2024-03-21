@@ -62,6 +62,7 @@ namespace TcpFrameTest
 
         public static ulong c;
         public static ulong d;
+        public static ulong e;
 
         [DataTcp(250)]
         public IGoOut A(string a)

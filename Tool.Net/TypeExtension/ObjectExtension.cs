@@ -708,7 +708,8 @@ namespace Tool
         {
             var obj = default(T);
             var tr = __makeref(obj);
-            unsafe { *(IntPtr*)(&tr) = address; }
+            ReadSetVal(tr, address);
+
             return __refvalue(tr, T);
         }
 
@@ -723,9 +724,14 @@ namespace Tool
             IntPtr Address = new(address);
             var obj = default(T);
             var tr = __makeref(obj);
-            unsafe { *(IntPtr*)(&tr) = Address; }
+            ReadSetVal(tr, Address);
+
             return __refvalue(tr, T);
         }
+
+#pragma warning disable CS8500 // 这会获取托管类型的地址、获取其大小或声明指向它的指针
+        private unsafe static void ReadSetVal(TypedReference tr, IntPtr Address) => *(IntPtr*)&tr = Address;
+#pragma warning restore CS8500 // 这会获取托管类型的地址、获取其大小或声明指向它的指针
 
         /// <summary>
         /// 获取当前对象的内存空间

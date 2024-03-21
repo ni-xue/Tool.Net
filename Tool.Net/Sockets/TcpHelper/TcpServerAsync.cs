@@ -93,21 +93,13 @@ namespace Tool.Sockets.TcpHelper
         /// 连接、发送、关闭事件
         /// </summary>
         /// <param name="Completed"></param>
-        public void SetCompleted(Action<string, EnSocketAction> Completed)
-        {
-            if (this.Completed == null)
-                this.Completed = Completed;
-        }
+        public void SetCompleted(Action<string, EnSocketAction> Completed) => this.Completed ??= Completed;
 
         /// <summary>
         /// 接收到数据事件
         /// </summary>
         /// <param name="Received"></param>
-        public void SetReceived(Action<TcpBytes> Received)
-        {
-            if (this.Received == null)
-                this.Received = Received;
-        }
+        public void SetReceived(Action<TcpBytes> Received) => this.Received ??= Received;
 
         /// <summary>
         /// 创建一个TCP服务器类
@@ -189,7 +181,7 @@ namespace Tool.Sockets.TcpHelper
                 {
                     doConnect.Reset();
                     listener.BeginAcceptSocket(AcceptCallBack, listener);
-                    doConnect.WaitOne();
+                    doConnect.WaitOne(); //System.Net.Sockets.Socket
                 }
             }, TaskCreationOptions.LongRunning).ContinueWith((i) => i.Dispose());
 
