@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using Tool.Sockets.SupportCode;
+using Tool.Sockets.Kernels;
 
 namespace Tool.Sockets.TcpHelper
 {
@@ -91,13 +91,13 @@ namespace Tool.Sockets.TcpHelper
 
             Task.Run(Initialize);
 
-            KeepAlive keep = new(1, () =>
+            KeepAlive keep = new(1, async () =>
             {
                 Console.Clear();
                 Console.WriteLine("情况：{0}，{1}，{2}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount);
                 for (int i = 0; i < 20; i++)
                 {
-                    Thread.Sleep(i);
+                    await Task.Delay(i);
                     Console.WriteLine("计数：{0}", a);
                 }
             });

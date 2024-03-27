@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Tool;
-using Tool.Sockets.TcpFrame;
+using Tool.Sockets.NetFrame;
 
 namespace WebTestApp.Test
 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
@@ -6,7 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Tool.Sockets.SupportCode;
+using Tool.Sockets.Kernels;
 using Tool.Utils;
 
 namespace Tool.Sockets.TcpHelper
@@ -14,7 +15,7 @@ namespace Tool.Sockets.TcpHelper
     /// <summary>
     /// 封装一个底层异步TCP对象（服务端）
     /// </summary>
-    public class TcpServerAsync : IDisposable
+    public class TcpServerAsync : INetworkListener<Socket>, IDisposable
     {
         private readonly int DataLength = 1024 * 8;
         private TcpListener listener;
@@ -24,7 +25,7 @@ namespace Tool.Sockets.TcpHelper
         //private readonly ManualResetEvent doReceive = new ManualResetEvent(false);
         //标识服务端连接是否关闭
         private bool isClose = false;
-        private ConcurrentDictionary<string, Socket> listClient = new();
+        private readonly ConcurrentDictionary<string, Socket> listClient = new();
 
         /// <summary>
         /// 是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
@@ -43,14 +44,19 @@ namespace Tool.Sockets.TcpHelper
         public bool IsThreadPool { get; init; } = true;
 
         /// <summary>
+        /// 禁用掉Receive通知事件，方便上层封装
+        /// </summary>
+        public bool DisabledReceive { get; init; } = false;
+
+        /// <summary>
         /// 已建立连接的集合
         /// key:ip:port
         /// value:TcpClient
         /// </summary>
-        public ConcurrentDictionary<string, Socket> ListClient
+        public IReadOnlyDictionary<string, Socket> ListClient
         {
             get { return listClient; }
-            private set { listClient = value; }
+            //private set { listClient = value; }
         }
 
         //服务端IP
@@ -82,24 +88,24 @@ namespace Tool.Sockets.TcpHelper
         /**
          * 连接、发送、关闭事件
          */
-        private Action<string, EnSocketAction> Completed; //event
+        private Func<string, EnServer, DateTime, Task> Completed; //event
 
         /**
          * 接收到数据事件
          */
-        private Action<TcpBytes> Received; //event
+        private Func<ReceiveBytes<Socket>, Task> Received; //event
 
         /// <summary>
         /// 连接、发送、关闭事件
         /// </summary>
         /// <param name="Completed"></param>
-        public void SetCompleted(Action<string, EnSocketAction> Completed) => this.Completed ??= Completed;
+        public void SetCompleted(Func<string, EnServer, DateTime, Task> Completed) => this.Completed ??= Completed;
 
         /// <summary>
         /// 接收到数据事件
         /// </summary>
         /// <param name="Received"></param>
-        public void SetReceived(Action<TcpBytes> Received) => this.Received ??= Received;
+        public void SetReceived(Func<ReceiveBytes<Socket>, Task> Received) => this.Received ??= Received;
 
         /// <summary>
         /// 创建一个TCP服务器类
@@ -152,25 +158,30 @@ namespace Tool.Sockets.TcpHelper
         /// <param name="port"></param>
         public void StartAsync(string ip, int port)
         {
-            IPAddress ipAddress = null;
-            try
+            //IPAddress ipAddress = null;
+            //try
+            //{
+            //    ipAddress = IPAddress.Parse(ip);
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
+
+            if (!IPAddress.TryParse(ip, out IPAddress ipAddress))
             {
-                ipAddress = IPAddress.Parse(ip);
-            }
-            catch (Exception)
-            {
-                throw;
+                throw new FormatException("ip 无法被 IPAddress 对象识别！");
             }
             listener = new TcpListener(new IPEndPoint(ipAddress, port));
             server = $"{ip}:{port}";
             try
             {
                 listener.Start();
-                OnComplete(server, EnSocketAction.Create);
+                OnComplete(server, EnServer.Create);
             }
             catch (Exception e)
             {
-                OnComplete(server, EnSocketAction.Fail);
+                OnComplete(server, EnServer.Fail);
                 throw new Exception("连接服务器时发生异常！", e);
             }
 
@@ -202,7 +213,7 @@ namespace Tool.Sockets.TcpHelper
         /// <param name="port"></param>
         public void StartAsync(int port)
         {
-            StartAsync("127.0.0.1", port);
+            StartAsync(StaticData.LocalIp, port);
         }
 
         /// <summary>
@@ -376,12 +387,12 @@ namespace Tool.Sockets.TcpHelper
             {
                 int count = client.Send(buffers, SocketFlags.None);
                 string key = TcpStateObject.GetIpPort(client);
-                OnComplete(key, EnSocketAction.SendMsg);
+                OnComplete(key, EnServer.SendMsg);
             }
             catch (Exception)
             {
                 client.Close();
-                OnComplete(server, EnSocketAction.MonitorClose);
+                OnComplete(server, EnServer.Close);
             }
         }
 
@@ -419,10 +430,10 @@ namespace Tool.Sockets.TcpHelper
                 {
                     string IpPort = TcpStateObject.GetIpPort(_client.Value);
                     _client.Value.Close();
-                    OnComplete(IpPort, EnSocketAction.Close);
+                    OnComplete(IpPort, EnServer.ClientClose);
                 }
                 listClient.Clear();
-                OnComplete(server, EnSocketAction.MonitorClose);
+                OnComplete(server, EnServer.Close);
                 return;
             }
 
@@ -430,10 +441,10 @@ namespace Tool.Sockets.TcpHelper
             doConnect.Set();
 
             string key = TcpStateObject.GetIpPort(client);
-            if (ListClient.TryAdd(key, client))
+            if (listClient.TryAdd(key, client))
             {
                 StartReceive(key, client);
-                OnComplete(key, EnSocketAction.Connect);
+                OnComplete(key, EnServer.Connect);
             }
         }
 
@@ -446,26 +457,39 @@ namespace Tool.Sockets.TcpHelper
             {
                 Thread.CurrentThread.Name ??= "Tcp服务端-业务";
                 TcpStateObject obj = new(client, this.DataLength);
-                while (ListClient.TryGetValue(key, out client) && !isClose)
+                while (!isClose)//ListClient.TryGetValue(key, out client) && 
                 {
                     if (TcpStateObject.IsConnected(client))
                     {
                         Thread.Sleep(Millisecond);
                         ReceiveAsync(obj);
-                        obj.OnReceiveTask(OnlyData, IsThreadPool, ref Received);//尝试使用，原线程处理包解析，验证效率
+                        obj.OnReceiveTask(OnlyData, OnReceived);//尝试使用，原线程处理包解析，验证效率
                         Thread.Sleep(Millisecond);
                     }
                     else
                     {
-                        if (ListClient.TryRemove(key, out client))
+                        if (listClient.TryRemove(key, out client))
                         {
                             client.Close();
-                            OnComplete(key, EnSocketAction.Close);
+                            OnComplete(key, EnServer.ClientClose);
                         }
                         break;
                     }
                 }
                 obj.Close();
+
+                void OnReceived(Memory<byte> listData)
+                {
+                    if (obj.IsKeepAlive(listData.Span))
+                    {
+                        OnComplete(obj.IpPort, EnServer.HeartBeat);
+                    }
+                    else
+                    {   
+                        if(!DisabledReceive) OnComplete(obj.IpPort, EnServer.Receive);
+                        if(Received is not null) obj.OnReceive(IsThreadPool, listData, Received);
+                    }
+                }
             }, TaskCreationOptions.LongRunning).ContinueWith((i) => i.Dispose());
 
             //ThreadPool.QueueUserWorkItem(x =>
@@ -505,12 +529,12 @@ namespace Tool.Sockets.TcpHelper
             try
             {
                 int count = client.EndSend(ar);
-                OnComplete(key, EnSocketAction.SendMsg);
+                OnComplete(key, EnServer.SendMsg);
             }
             catch (Exception)
             {
                 client.Close();
-                OnComplete(server, EnSocketAction.MonitorClose);
+                OnComplete(server, EnServer.ClientClose);
             }
         }
 
@@ -633,9 +657,14 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         /// <param name="key">指定发送对象</param>
         /// <param name="enAction">消息类型</param>
-        public virtual void OnComplete(string key, EnSocketAction enAction)
+        public virtual void OnComplete(string key, EnServer enAction)
         {
-            Completed?.Invoke(key, enAction);
+            if (Completed is null) return;
+            EnumEventQueue.OnComplete(key, enAction, completed);
+            void completed(string age0, Enum age1, DateTime age2)
+            {
+                Completed(age0, (EnServer)age1, age2).Wait();
+            }
         }
 
         /// <summary>
@@ -656,7 +685,7 @@ namespace Tool.Sockets.TcpHelper
 
             listClient.Clear();
 
-            listClient = null;
+            //listClient = null;
             //listener.Server.Dispose();
             //((IDisposable)listener.Server).Dispose();
             doConnect.Close();

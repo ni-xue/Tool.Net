@@ -19,10 +19,10 @@ using Microsoft.Extensions.Logging;
 using Tool;
 using System.Diagnostics;
 using Tool.Utils.ActionDelegate;
-using Tool.Sockets.WebTcp;
+using Tool.Sockets.WebHelper;
 using Microsoft.AspNetCore.Routing;
-using Tool.Sockets.TcpFrame;
-using Tool.Sockets.SupportCode;
+using Tool.Sockets.NetFrame;
+using Tool.Sockets.Kernels;
 using System.Threading;
 using System.Buffers;
 
@@ -71,6 +71,7 @@ namespace WebTestApp
             client.SetCompleted((a, b, c) =>
             {
                 Console.WriteLine("\nIP:{0} \t{1} \t{2}", a, b, c.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
+                return Task.CompletedTask;
             });
 
             client.ConnectAsync("127.0.0.1", 444);//120.79.58.17 
@@ -248,8 +249,8 @@ namespace WebTestApp
 
             //var s = ActionHelper<ApplicationBuilder>.GetActionMethodHelper(MethodFlags.Private);
 
-            TcpEventQueue.OnInterceptor(EnClient.SendMsg, true);
-            TcpEventQueue.OnInterceptor(EnClient.Receive, true);
+            EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
+            EnumEventQueue.OnInterceptor(EnClient.Receive, true);
 
             DbHelper dbHelper = app.GetObject<DbHelper>();
             dbHelper.SetLogger(loggerFactory.CreateLogger("sql"));
@@ -265,10 +266,10 @@ namespace WebTestApp
 
             int a = 0, b = 0, c = 0, d = 0;
 
-            KeepAlive keep = new(1, () =>
+            KeepAlive keep = new(1, async () =>
             {
                 Console.Clear();
-                Console.WriteLine("情况：{0}，{1}，{2}, 成功 {3},超时 {4},其他 {5},http计数：{6}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount, a, b, c, d);
+                await Console.Out.WriteLineAsync(string.Format("情况：{0}，{1}，{2}, 成功 {3},超时 {4},其他 {5},http计数：{6}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount, a, b, c, d));
             });
 
             app.UseDiySession();
@@ -287,13 +288,13 @@ namespace WebTestApp
                     var s = await client.SendAsync(packet);
 
                     string msg;
-                    switch (s.OnTcpFrame)
+                    switch (s.OnNetFrame)
                     {
-                        case TcpFrameState.Success:
+                        case NetFrameState.Success:
                             Interlocked.Increment(ref a);
                             msg = "OK";
                             break;
-                        case TcpFrameState.Timeout:
+                        case NetFrameState.Timeout:
                             Interlocked.Increment(ref b);
                             msg = "NO";
                             break;

@@ -9,10 +9,12 @@ using System.Linq.Expressions;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using Tool;
-using Tool.Sockets.SupportCode;
-using Tool.Sockets.TcpFrame;
+using Tool.Sockets.Kernels;
+using Tool.Sockets.NetFrame;
 using Tool.Utils;
 using Tool.Utils.ActionDelegate;
 using Tool.Utils.Data;
@@ -40,13 +42,197 @@ namespace TcpTest
         //    Console.WriteLine("嘿嘿{0}", ObjectExtension.Thread.ManagedThreadId);
         //}
 
-        static void Main(string[] args)
+        static void Task4()
         {
+            const string filePath = "D:\\NixueStudio\\Tool.Net\\TcpFrameTest\\bin\\Debug\\net7.0\\TcpFrameTest.exe";
+
+            var task = Task.FromResult(File.ReadAllText(filePath)); // 只是方便举例，更好的代码应该是：File.ReadAllTextAsync(filePath); 
+
+            Console.WriteLine("读取文件内容...");
+
+            // 等待任务完成
+            task.Wait();
+
+            Console.WriteLine("文件内容: {0}", task.Result);
+            Console.ReadKey();
+        }
+
+        public static async void SendTo4()
+        {
+            //IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 11000);
+
+            Socket s = new Socket(endPoint.Address.AddressFamily,
+                SocketType.Dgram,
+                ProtocolType.Udp);
+
+            Memory<byte> msg = Encoding.UTF8.GetBytes($"主动推送");
+            //Console.WriteLine("Sending data.");
+            // This call blocks.
+            await s.SendToAsync(msg, SocketFlags.None, endPoint);
+
+            //int c = 0;
+            while (true)
+            {
+                Memory<byte> msg1 = new byte[256];
+                IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
+                EndPoint senderRemote = (EndPoint)sender;
+                var i = await s.ReceiveFromAsync(msg1, SocketFlags.None, senderRemote);
+                if (i.ReceivedBytes > 0)
+                {
+                    Console.WriteLine(Encoding.UTF8.GetString(msg1.ToArray(), 0, i.ReceivedBytes));
+                }
+                //c++;
+            }
+
+            s.Close();
+        }
+
+        public static async void ReceiveFrom3()
+        {
+            //IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 11000);
+
+            Socket s = new Socket(endPoint.Address.AddressFamily,
+                SocketType.Dgram,
+                ProtocolType.Udp);
+
+            // Creates an IPEndPoint to capture the identity of the sending host.
+
+            // Binding is required with ReceiveFrom calls.
+            s.Bind(endPoint);
+
+            IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
+            EndPoint senderRemote = (EndPoint)sender;
+            Memory<byte> msg = new byte[256];
+            //Console.WriteLine("Waiting to receive datagrams from client...");
+            // This call blocks.
+            var i = await s.ReceiveFromAsync(msg, SocketFlags.None, senderRemote, default);
+            if (i.ReceivedBytes > 0)
+            {
+                senderRemote = i.RemoteEndPoint;
+                Console.WriteLine(Encoding.UTF8.GetString(msg.ToArray(), 0, i.ReceivedBytes));
+            }
+
+            int c = 0;
+            while (true)
+            {
+                Memory<byte> msg1 = Encoding.UTF8.GetBytes($"回复：{c}");
+                //Console.WriteLine("Sending data.");
+                // This call blocks.
+                await s.SendToAsync(msg1, SocketFlags.None, senderRemote);
+                c++;
+            }
+
+            s.Close();
+        }
+
+        static int a1, b1, c1 = 0;
+
+        static async Task Main(string[] args)
+        {
+            //Task4();
+
+            Tool.Sockets.WebHelper.WebServer webServer = new() { Millisecond = 0, IsSSL = false };
+            webServer.StartAsync("127.0.0.1", 9999);
+
+            webServer.SetReceived(async (a) =>
+            {
+                try
+                {
+                    using (a)
+                    {
+                        await Console.Out.WriteLineAsync($"ip:{a.Key},{Encoding.UTF8.GetString(a.Memory.Span)},{DateTime.Now}");
+                        await Task.Delay(10);
+                        await webServer.SendAsync(a.Client, $"Server:已回应{Interlocked.Increment(ref a1)} {DateTime.Now}");
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            });
+
+            //Console.WriteLine($"已启动服务器！");
+            //Console.ReadKey();
+            //return;
+
+            Tool.Sockets.WebHelper.WebClient webClient = new(true) { Millisecond = 0, IsSSL = false };
+            webClient.ConnectAsync("127.0.0.1", 9999);
+
+            webClient.SetReceived(async (a) =>
+            {
+                try
+                {
+                    using (a)
+                    {
+                        await Console.Out.WriteLineAsync($"ip:{a.Key},{Encoding.UTF8.GetString(a.Memory.Span)},{DateTime.Now}");
+                        await Task.Delay(10);
+                        await webClient.SendAsync($"Client:已回应{Interlocked.Increment(ref b1)} {DateTime.Now}");
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            });
+
+            webClient.SetCompleted(async (a, b, c) =>
+            {
+                switch (b)
+                {
+                    case EnClient.Connect:
+                        await webClient.SendAsync($"打招呼{Interlocked.Increment(ref c1)} {DateTime.Now}");
+                        break;
+                    case EnClient.Fail:
+                        Console.Clear();
+                        break;
+                    case EnClient.SendMsg:
+                        break;
+                    case EnClient.Receive:
+                        break;
+                    case EnClient.Close:
+                        Console.Clear();
+                        break;
+                    case EnClient.HeartBeat:
+                        break;
+                }
+            });
+
+            await Task.Delay(3000);
+
+            //try
+            //{
+            //    await webClient.SendAsync($"打招呼{DateTime.Now}");
+            //}
+            //catch (Exception)
+            //{
+
+            //}
+
+            Console.ReadKey();
+            return;
+
+            //Memory<byte> obj = new byte[] { 1, 2, 3, 4, 5, 0, 0, 0, 0, 0 };
+
+            //var ListData0 = obj[..5];
+            //byte[] ListData1 = ListData0.ToArray();
+
+            //ListData1[0] = 6;
+
+            //obj.Span[0] = 0;
+
+            ReceiveFrom3();
+            Thread.Sleep(1000);
+            SendTo4();
+
+            Console.ReadKey();
+
             //var @event = new ManualResetEvent(false);CountdownEvent
             //CountdownEvent
             //_ = TaskAsync(@event);
 
-            Tool.Utils.ThreadQueue.AtomCountLock atomCountLock = new(5);
+            //Tool.Utils.ThreadQueue.AtomCountLock atomCountLock = new(5);
 
             //KeepAlive keep66 = new(1, () =>
             //{
@@ -78,14 +264,15 @@ namespace TcpTest
             //    tcpClient.SendAsync(new TcpBytes("", socket, memoryOwner, data.Length));
             //    Thread.Sleep(Random.Shared.Next(0, 2));
             //}
-            int lre = int.Parse("100000"); 
-            KeepAlive keep = new(1, () =>
+            int lre = int.Parse("100000");
+            KeepAlive keep = new(1, async () =>
             {
                 for (int i = 0; i < lre; i++)
                 {
                     var memoryOwner = MemoryPool<byte>.Shared.Rent(data.Length);
                     data.CopyTo(memoryOwner.Memory);
                     tcpClient.SendAsync(new SendBytes(memoryOwner, data.Length));
+                    await Task.Delay(i);
                     //Thread.Sleep(Random.Shared.Next(0, 2));
                 }
                 //Thread.Sleep(100000);
@@ -338,13 +525,13 @@ namespace TcpTest
 
             Console.WriteLine("Hello, World!");
 
-            KeepAlive keepok = new(1, () =>
+            KeepAlive keepok = new(1,async () =>
             {
                 Console.Clear();
                 Console.WriteLine("情况：{0}，{1}，{2}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount);
                 for (int i = 0; i < 20; i++)
                 {
-                    Thread.Sleep(i);
+                    await Task.Delay(i);
                     Console.WriteLine("发起：总 {0},ok {1},断 {2},时 {3},错 {4},无 {5},Id {6},对 {7}", a, d, e, f, g, b, c, s);
                 }
             });
@@ -357,11 +544,12 @@ namespace TcpTest
 
             client.SetCompleted((a1, b1, c1) =>
             {
-                if (b1 == EnClient.Connect)
+                if ((EnClient)b1 == EnClient.Connect)
                 {
                     a = d = e = f = g = b = c = s = 0;
                 }
                 Console.WriteLine("\nIP:{0} \t{1} \t{2}", a1, b1, c1.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
+                return Task.CompletedTask;
             });
 
             client.ConnectAsync("127.0.0.1", 444);//120.79.58.17 
@@ -372,8 +560,8 @@ namespace TcpTest
 
             //clientFrameList.Completed += ClientFrameList_Completed;
 
-            TcpEventQueue.OnInterceptor(EnClient.SendMsg, true);
-            TcpEventQueue.OnInterceptor(EnClient.Receive, true);
+            EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
+            EnumEventQueue.OnInterceptor(EnClient.Receive, true);
 
             //Task.Run(() =>
             //{
@@ -421,33 +609,33 @@ namespace TcpTest
 
                             var mag = client.Send(packet);
 
-                            switch (mag.OnTcpFrame)
+                            switch (mag.OnNetFrame)
                             {
-                                case TcpFrameState.Default:
+                                case NetFrameState.Default:
                                     Interlocked.Increment(ref b);
                                     break;
-                                case TcpFrameState.OnlyID:
+                                case NetFrameState.OnlyID:
                                     Interlocked.Increment(ref c);
                                     break;
-                                case TcpFrameState.Success:
+                                case NetFrameState.Success:
                                     Interlocked.Increment(ref d);
                                     try
                                     {
                                         //if (!File.Exists(url)) File.WriteAllBytes(url, mag.Bytes.Array ?? throw new());
-                                        if(mag.Text == "Ok")
-                                        Interlocked.Increment(ref s);
+                                        if (mag.Text == "Ok")
+                                            Interlocked.Increment(ref s);
                                     }
                                     catch (Exception)
                                     {
                                     }
                                     break;
-                                case TcpFrameState.SendFail:
+                                case NetFrameState.SendFail:
                                     Interlocked.Increment(ref e);
                                     break;
-                                case TcpFrameState.Timeout:
+                                case NetFrameState.Timeout:
                                     Interlocked.Increment(ref f);
                                     break;
-                                case TcpFrameState.Exception:
+                                case NetFrameState.Exception:
                                     Interlocked.Increment(ref g);
                                     break;
                                 default:
@@ -549,28 +737,28 @@ namespace TcpTest
                 //    Console.WriteLine("失败->{0}", s.OnTcpFrame.ToString());
                 //}
 
-                switch (response.OnTcpFrame)
+                switch (response.OnNetFrame)
                 {
-                    case TcpFrameState.Default:
+                    case NetFrameState.Default:
                         Interlocked.Increment(ref b);
                         break;
-                    case TcpFrameState.OnlyID:
+                    case NetFrameState.OnlyID:
                         Interlocked.Increment(ref c);
                         break;
-                    case TcpFrameState.Success:
+                    case NetFrameState.Success:
                         Interlocked.Increment(ref d);
                         if (guid == response.Text)
                         {
                             Interlocked.Increment(ref s);
                         }
                         break;
-                    case TcpFrameState.SendFail:
+                    case NetFrameState.SendFail:
                         Interlocked.Increment(ref e);
                         break;
-                    case TcpFrameState.Timeout:
+                    case NetFrameState.Timeout:
                         Interlocked.Increment(ref f);
                         break;
-                    case TcpFrameState.Exception:
+                    case NetFrameState.Exception:
                         Interlocked.Increment(ref g);
                         break;
                     default:

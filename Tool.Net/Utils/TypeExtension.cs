@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Tool.Utils
 {
@@ -11,6 +13,234 @@ namespace Tool.Utils
     /// <remarks>代码由逆血提供支持</remarks>
     public static class TypeExtension
     {
+        #region Action委托集合
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task InvokeAsync(this Action @delegate)
+        {
+            void result() => @delegate();
+            await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task InvokeAsync<T1>(this Action<T1> @delegate, T1 arg1)
+        {
+            void result() => @delegate(arg1);
+            await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task InvokeAsync<T1, T2>(this Action<T1, T2> @delegate, T1 arg1, T2 arg2)
+        {
+            void result() => @delegate(arg1, arg2);
+            await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task InvokeAsync<T1, T2, T3>(this Action<T1, T2, T3> @delegate, T1 arg1, T2 arg2, T3 arg3)
+        {
+            void result() => @delegate(arg1, arg2, arg3);
+            await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task InvokeAsync<T1, T2, T3, T4>(this Action<T1, T2, T3, T4> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        {
+            void result() => @delegate(arg1, arg2, arg3, arg4);
+            await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task InvokeAsync<T1, T2, T3, T4, T5>(this Action<T1, T2, T3, T4, T5> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        {
+            void result() => @delegate(arg1, arg2, arg3, arg4, arg5);
+            await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task InvokeAsync<T1, T2, T3, T4, T5, T6>(this Action<T1, T2, T3, T4, T5, T6> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        {
+            void result() => @delegate(arg1, arg2, arg3, arg4, arg5, arg6);
+            await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task InvokeAsync<T1, T2, T3, T4, T5, T6, T7>(this Action<T1, T2, T3, T4, T5, T6, T7> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        {
+            void result() => @delegate(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this Action<T1, T2, T3, T4, T5, T6, T7, T8> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        {
+            void result() => @delegate(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        {
+            void result() => @delegate(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            await Task.Run(result);
+        }
+
+        #endregion
+
+        #region Func委托集合
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task<TResult> InvokeAsync<TResult>(this Func<TResult> @delegate)
+        {
+            TResult result() => @delegate();
+            return await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task<TResult> InvokeAsync<T1, TResult>(this Func<T1, TResult> @delegate, T1 arg1)
+        {
+            TResult result() => @delegate(arg1);
+            return await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task<TResult> InvokeAsync<T1, T2, TResult>(this Func<T1, T2, TResult> @delegate, T1 arg1, T2 arg2)
+        {
+            TResult result() => @delegate(arg1, arg2);
+            return await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task<TResult> InvokeAsync<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3)
+        {
+            TResult result() => @delegate(arg1, arg2, arg3);
+            return await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task<TResult> InvokeAsync<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        {
+            TResult result() => @delegate(arg1, arg2, arg3, arg4);
+            return await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, TResult>(this Func<T1, T2, T3, T4, T5, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+        {
+            TResult result() => @delegate(arg1, arg2, arg3, arg4, arg5);
+            return await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, T6, TResult>(this Func<T1, T2, T3, T4, T5, T6, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        {
+            TResult result() => @delegate(arg1, arg2, arg3, arg4, arg5, arg6);
+            return await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, T6, T7, TResult>(this Func<T1, T2, T3, T4, T5, T6, T7, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        {
+            TResult result() => @delegate(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            return await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(this Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        {
+            TResult result() => @delegate(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            return await Task.Run(result);
+        }
+
+        /// <summary>
+        /// 创建异步返回模式
+        /// </summary>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
+        public static async Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        {
+            TResult result() => @delegate(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+            return await Task.Run(result);
+        }
+
+        #endregion
+
         /// <summary>
         /// 获取当前类型的默认值
         /// </summary>

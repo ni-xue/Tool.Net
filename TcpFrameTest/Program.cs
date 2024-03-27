@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tool;
-using Tool.Sockets.SupportCode;
-using Tool.Sockets.TcpFrame;
+using Tool.Sockets.Kernels;
+using Tool.Sockets.NetFrame;
 using Tool.Utils;
 using Tool.Utils.ThreadQueue;
 using BenchmarkDotNet.Attributes;
@@ -409,11 +409,11 @@ namespace TcpFrameTest
             //    });
             //}
 
-            TcpEventQueue.OnInterceptor(EnServer.SendMsg, true);
-            TcpEventQueue.OnInterceptor(EnServer.Receive, true);
+            EnumEventQueue.OnInterceptor(EnServer.SendMsg, true);
+            EnumEventQueue.OnInterceptor(EnServer.Receive, true);
 
-            TcpEventQueue.OnInterceptor(EnClient.SendMsg, true);
-            TcpEventQueue.OnInterceptor(EnClient.Receive, true);
+            EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
+            EnumEventQueue.OnInterceptor(EnClient.Receive, true);
 
 #if DEBUG
             if (args is null || args.Length > 0)
@@ -423,14 +423,14 @@ namespace TcpFrameTest
 #endif
 
             string name = null;
-            KeepAlive keep = new(1, () =>
+            KeepAlive keep = new(1, async () =>
             {
                 Console.Clear();
                 Console.WriteLine("情况：{0}，{1}，{2} · {3}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount, name);
 
                 for (int i = 0; i < 20; i++)
                 {
-                    Thread.Sleep(i);
+                    await Task.Delay(i);
                     Console.WriteLine("接收：总收 {0}，总发 {1}，总转 {2}", Class1.c, Class1.d, Class1.e);
                 }
             });
@@ -486,6 +486,7 @@ namespace TcpFrameTest
             server.SetCompleted((a, b, c) =>
             {
                 Console.WriteLine("IP:{0} \t{1} \t{2}", a, b, c.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
+                return Task.CompletedTask;
             });
 
             server.StartAsync("127.0.0.1", 444);
@@ -500,6 +501,7 @@ namespace TcpFrameTest
             client.SetCompleted((a1, b1, c1) =>
             {
                 Console.WriteLine("IP:{0} \t{1} \t{2}", a1, b1, c1.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
+                return Task.CompletedTask;
             });
 
             client.ConnectAsync("127.0.0.1", 444);//120.79.58.17 
@@ -516,10 +518,10 @@ namespace TcpFrameTest
 
                 //Class1.d++;//模拟发送计数
 
-                switch (response.OnTcpFrame)
+                switch (response.OnNetFrame)
                 {
-                    case not TcpFrameState.Success:
-                        Console.WriteLine("访问状态：{0}，{1}", response.OnTcpFrame, response.Exception?.Message);
+                    case not NetFrameState.Success:
+                        Console.WriteLine("访问状态：{0}，{1}", response.OnNetFrame, response.Exception?.Message);
                         break;
                 }
             }

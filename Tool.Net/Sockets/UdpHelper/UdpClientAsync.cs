@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using Tool.Sockets.SupportCode;
+using Tool.Sockets.Kernels;
 
 namespace Tool.Sockets.UdpHelper
 {
@@ -63,7 +63,7 @@ namespace Tool.Sockets.UdpHelper
         /// <param name="port">要连接服务端的端口</param>
         public void Connect(int port)
         {
-            Connect("127.0.0.1", port);
+            Connect(StaticData.LocalIp, port);
         }
 
         /// <summary>

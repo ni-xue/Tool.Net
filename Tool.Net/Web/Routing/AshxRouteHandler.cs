@@ -45,7 +45,7 @@ namespace Tool.Web.Routing
 
             if (AshxBuilder.Options.IsAsync)
             {
-                await Task.Run(() => IHttpHandlerAshxExecute(_routeData));
+                await Task.Run(async () => await IHttpHandlerAshxExecute(_routeData));
             }
             else
             {

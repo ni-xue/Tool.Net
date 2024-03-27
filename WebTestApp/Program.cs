@@ -13,31 +13,31 @@ using Tool.Utils;
 
 namespace WebTestApp
 {
-    public class Class1 : Tool.Sockets.TcpFrame.DataBase
+    public class Class1 : Tool.Sockets.NetFrame.DataBase
     {
-        [Tool.Sockets.TcpFrame.DataTcp(1)]
+        [Tool.Sockets.NetFrame.DataTcp(1)]
         public Class1()
         {
 
         }
 
-        [Tool.Sockets.TcpFrame.DataTcp(100)]
-        public Tool.Sockets.TcpFrame.IGoOut A(int a)
+        [Tool.Sockets.NetFrame.DataTcp(100)]
+        public Tool.Sockets.NetFrame.IGoOut A(int a)
         {
             //this.Bytes
             return Json(new { a });
         }
 
-        [Tool.Sockets.TcpFrame.DataTcp(101)]
-        public Tool.Sockets.TcpFrame.IGoOut B(string path)
+        [Tool.Sockets.NetFrame.DataTcp(101)]
+        public Tool.Sockets.NetFrame.IGoOut B(string path)
         {
             byte[] s = System.IO.File.ReadAllBytes(path);
 
             return Write(s);//new byte[1024 * 100];
         }
 
-        [Tool.Sockets.TcpFrame.DataTcp(102)]
-        public Tool.Sockets.TcpFrame.IGoOut C(string path)
+        [Tool.Sockets.NetFrame.DataTcp(102)]
+        public Tool.Sockets.NetFrame.IGoOut C(string path)
         {
             //System.IO.File.WriteAllBytes(path, Bytes);//23797
 

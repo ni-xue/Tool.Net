@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Tool.Sockets.SupportCode;
+using Tool.Sockets.Kernels;
 using Tool.Utils;
 
 namespace Tool.Sockets.TcpHelper
@@ -13,8 +14,16 @@ namespace Tool.Sockets.TcpHelper
     /// <summary>
     /// 封装一个底层异步TCP对象（客户端）
     /// </summary>
-    public class TcpClientAsync
+    public class TcpClientAsync : INetworkConnect<Socket>, IDisposable
     {
+        /*** 锁 */
+        private static readonly object Lock = new();
+
+        /// <summary>
+        /// 获取当前心跳信息
+        /// </summary>
+        public KeepAlive Keep { get; private set; }
+
         private readonly int DataLength = 1024 * 8;
 
         private Socket client;
@@ -22,12 +31,12 @@ namespace Tool.Sockets.TcpHelper
         /**
          * 客户端连接完成、发送完成、连接异常或者服务端关闭触发的事件
          */
-        private Action<string, EnSocketAction> Completed; //event
+        private Func<string, EnClient, DateTime, Task> Completed; //event
 
         /**
          * 客户端接收消息触发的事件
          */
-        private Action<TcpBytes> Received; //event Span<byte>
+        private Func<ReceiveBytes<Socket>, Task> Received; //event Span<byte>
 
         //标识客户端是否关闭
         private bool isClose = false;
@@ -51,6 +60,11 @@ namespace Tool.Sockets.TcpHelper
         /// 默认 true 开启
         /// </summary>
         public bool IsThreadPool { get; init; } = true;
+
+        /// <summary>
+        /// 禁用掉Receive通知事件，方便上层封装
+        /// </summary>
+        public bool DisabledReceive { get; init; } = false;
 
         /// <summary>
         /// 是否在与服务器断开后主动重连？ 
@@ -116,7 +130,7 @@ namespace Tool.Sockets.TcpHelper
         /// 连接、发送、关闭事件
         /// </summary>
         /// <param name="Completed"></param>
-        public void SetCompleted(Action<string, EnSocketAction> Completed)
+        public void SetCompleted(Func<string, EnClient, DateTime, Task> Completed)
         {
             this.Completed ??= Completed;
         }
@@ -125,7 +139,7 @@ namespace Tool.Sockets.TcpHelper
         /// 接收到数据事件
         /// </summary>
         /// <param name="Received"></param>
-        public void SetReceived(Action<TcpBytes> Received)
+        public void SetReceived(Func<ReceiveBytes<Socket>, Task> Received)
         {
             this.Received ??= Received;
         }
@@ -206,7 +220,7 @@ namespace Tool.Sockets.TcpHelper
         /// <summary>
         /// 重连，返回是否重连，如果没有断开是不会重连的
         /// </summary>
-        public bool Reconnection()
+        public async Task<bool> Reconnection()
         {
             try
             {
@@ -226,16 +240,16 @@ namespace Tool.Sockets.TcpHelper
                         {
                             client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { ReceiveBufferSize = (int)this.BufferSize, SendBufferSize = (int)this.BufferSize };
                         }
-                        client.Connect(ip, port);
+                        await client.ConnectAsync(ip, port);
                         if (TcpStateObject.IsConnected(client))
                         {
                             StartReceive(server, client);
-                            OnComplete(server, EnSocketAction.Connect);
+                            OnComplete(server, EnClient.Connect);
                         }
                         else
                         {
                             InsideClose();
-                            OnComplete(server, EnSocketAction.Fail);
+                            OnComplete(server, EnClient.Fail);
                         }
                     }
                 }
@@ -286,7 +300,7 @@ namespace Tool.Sockets.TcpHelper
         /// <param name="port">要连接服务端的端口</param>
         public void Connect(int port)
         {
-            Connect("127.0.0.1", port);
+            Connect(StaticData.LocalIp, port);
         }
 
         /// <summary>
@@ -315,7 +329,7 @@ namespace Tool.Sockets.TcpHelper
         /// <param name="port">要连接服务端的端口</param>
         public void ConnectAsync(int port)
         {
-            ConnectAsync("127.0.0.1", port);
+            ConnectAsync(StaticData.LocalIp, port);
         }
 
         /// <summary>
@@ -342,7 +356,7 @@ namespace Tool.Sockets.TcpHelper
 
             IList<ArraySegment<byte>> buffers = TcpStateObject.GetBuffers(this.OnlyData, DataLength, listData);
 
-            client.BeginSend(buffers, SocketFlags.None, SendCallBack, client); 
+            client.BeginSend(buffers, SocketFlags.None, SendCallBack, client);
 
             //if (this.OnlyData)
             //{
@@ -362,6 +376,8 @@ namespace Tool.Sockets.TcpHelper
             //    }
             //    client.Client.BeginSend(listData, 0, listData.Length, SocketFlags.None, SendCallBack, client);
             //}
+
+            Keep?.ResetTime();
         }
 
         /// <summary>
@@ -391,16 +407,17 @@ namespace Tool.Sockets.TcpHelper
             {
                 int count = client.Send(buffers, SocketFlags.None);
                 //string key = StateObject.GetIpPort(client);
-                OnComplete(server, EnSocketAction.SendMsg);
+                OnComplete(server, EnClient.SendMsg);
             }
             catch (Exception)
             {
                 //如果发生异常，说明客户端失去连接，触发关闭事件
                 InsideClose();
                 //string key = StateObject.GetIpPort(client);
-                OnComplete(server, EnSocketAction.Close);
+                OnComplete(server, EnClient.Close);
             }
 
+            Keep?.ResetTime();
         }
 
         /**
@@ -438,7 +455,7 @@ namespace Tool.Sockets.TcpHelper
             catch (Exception)
             {
                 InsideClose();
-                OnComplete(server, EnSocketAction.Fail);
+                OnComplete(server, EnClient.Fail);
             }
             finally
             {
@@ -458,12 +475,12 @@ namespace Tool.Sockets.TcpHelper
                 string key = server; //StateObject.GetIpPort(client);
                                      //client.NoDelay = true;
                 StartReceive(key, client);
-                OnComplete(key, EnSocketAction.Connect);
+                OnComplete(key, EnClient.Connect);
             }
             else
             {
                 InsideClose();
-                OnComplete(server, EnSocketAction.Fail);
+                OnComplete(server, EnClient.Fail);
 
                 if (this.IsReconnect)
                 {
@@ -488,19 +505,26 @@ namespace Tool.Sockets.TcpHelper
                     {
                         Thread.Sleep(Millisecond);
                         ReceiveAsync(obj);
-                        obj.OnReceiveTask(OnlyData, IsThreadPool, ref Received);//尝试使用，原线程处理包解析，验证效率
+                        obj.OnReceiveTask(OnlyData, OnReceived);//尝试使用，原线程处理包解析，验证效率
                         Thread.Sleep(Millisecond);
                     }
                     else
                     {
                         //如果发生异常，说明客户端失去连接，触发关闭事件
                         InsideClose();
-                        OnComplete(obj.IpPort, EnSocketAction.Close);
+                        OnComplete(obj.IpPort, EnClient.Close);
                         if (this.IsReconnect) WhileReconnect();
                         break;
                     }
                 }
                 obj.Close();
+
+                void OnReceived(Memory<byte> listData)
+                {
+                    if (!DisabledReceive) OnComplete(obj.IpPort, EnClient.Receive);
+                    Keep?.ResetTime();
+                    obj.OnReceive(IsThreadPool, listData, Received);
+                }
             }, TaskCreationOptions.LongRunning).ContinueWith((i) => i.Dispose());
 
             //ThreadPool.QueueUserWorkItem(x =>
@@ -530,13 +554,13 @@ namespace Tool.Sockets.TcpHelper
 
         private void WhileReconnect()
         {
-            Task.Factory.StartNew(() =>
+            Task.Factory.StartNew(async () =>
             {
                 Thread.CurrentThread.Name ??= "Tcp客户端-重连";
                 bool _reconnect = true;
                 while (_reconnect && IsReconnect)
                 {
-                    if (Reconnection())
+                    if (await Reconnection())
                     {
                         _reconnect = false;
                         break;
@@ -544,6 +568,27 @@ namespace Tool.Sockets.TcpHelper
                     Thread.Sleep(20);
                 }
             }, TaskCreationOptions.LongRunning);
+        }
+
+        /// <summary>
+        /// 添加持久化消息（心跳），防止特殊情况下的断开连接
+        /// </summary>
+        public void AddKeepAlive(byte TimeInterval)
+        {
+            lock (Lock)
+            {
+                if (Keep == null)
+                {
+                    Keep = new KeepAlive(TimeInterval, async () =>
+                    {
+                        SendAsync(KeepAlive.KeepAliveObj);
+                        await Task.CompletedTask;
+                        OnComplete(server, EnClient.HeartBeat);
+                    });
+                    return;
+                }
+            }
+            throw new Exception("心跳已经开启啦，请勿重复操作！");
         }
 
         /**
@@ -677,14 +722,14 @@ namespace Tool.Sockets.TcpHelper
             {
                 int count = client.EndSend(ar);
                 //string key = StateObject.GetIpPort(client);
-                OnComplete(server, EnSocketAction.SendMsg);
+                OnComplete(server, EnClient.SendMsg);
             }
             catch (Exception)
             {
                 //如果发生异常，说明客户端失去连接，触发关闭事件
                 InsideClose();
                 //string key = StateObject.GetIpPort(client);
-                OnComplete(server, EnSocketAction.Close);
+                OnComplete(server, EnClient.Close);
             }
         }
 
@@ -693,9 +738,14 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         /// <param name="IpPort">IP：端口</param>
         /// <param name="enAction">消息类型</param>
-        public virtual void OnComplete(string IpPort, EnSocketAction enAction)
+        public virtual void OnComplete(string IpPort, EnClient enAction)
         {
-            Completed?.Invoke(IpPort, enAction);
+            if (Completed is null) return;
+            EnumEventQueue.OnComplete(IpPort, enAction, completed);
+            void completed(string age0, Enum age1, DateTime age2)
+            {
+                Completed(age0, (EnClient)age1, age2).Wait();
+            }
         }
 
         /// <summary>
@@ -717,6 +767,15 @@ namespace Tool.Sockets.TcpHelper
             IsReconnect = false;
             isClose = true;
             InsideClose();
+        }
+
+        /// <summary>
+        /// 关闭连接，回收相关资源
+        /// </summary>
+        public void Dispose()
+        {
+            Close();
+            GC.SuppressFinalize(this);
         }
     }
 }

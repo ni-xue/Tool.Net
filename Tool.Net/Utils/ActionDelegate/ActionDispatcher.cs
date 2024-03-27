@@ -222,12 +222,9 @@ namespace Tool.Utils.ActionDelegate
         /// <returns>返回方法的返回值</returns>
         public object Execute(T CallClass, params object[] parameters)
         {
-            if (_parameters.Length > 0)
+            if (_parameters.Length > 0 && parameters.Length != _parameters.Length)
             {
-                if (parameters.Length != _parameters.Length)
-                {
-                    throw new Exception("所传参数，与实际方法参数不一致。");
-                }
+                throw new Exception("所传参数，与实际方法参数不一致。");
             }
             return _executor(CallClass, parameters);
         }
@@ -239,12 +236,9 @@ namespace Tool.Utils.ActionDelegate
         /// <param name="parameters">参数</param>
         public void VoidExecute(T CallClass, params object[] parameters)
         {
-            if (_parameters.Length > 0)
+            if (_parameters.Length > 0 && parameters.Length != _parameters.Length)
             {
-                if (parameters.Length != _parameters.Length)
-                {
-                    throw new Exception("所传参数，与实际方法参数不一致。");
-                }
+                throw new Exception("所传参数，与实际方法参数不一致。");
             }
             _executorVoid(CallClass, parameters);
         }
@@ -485,7 +479,7 @@ namespace Tool.Utils.ActionDelegate
                 {
                     try
                     {
-                        string fullName = $"{ paramInfo.ParameterType.FullName[0..^1] }, {paramInfo.ParameterType.Assembly}";
+                        string fullName = $"{paramInfo.ParameterType.FullName[0..^1]}, {paramInfo.ParameterType.Assembly}";
                         Type type = Type.GetType(fullName);
                         valueCast = Expression.Convert(valueObj, type);
                     }

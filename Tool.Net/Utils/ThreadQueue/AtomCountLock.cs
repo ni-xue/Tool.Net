@@ -27,14 +27,13 @@ namespace Tool.Utils.ThreadQueue
         //private readonly ManualResetEventSlim _event;  
 
         /// <summary>
-        /// 
+        /// 初始化一个原子锁
         /// </summary>
-        /// <param name="initialCount"></param>
+        /// <param name="initialCount">指定最大可用数量</param>
         public AtomCountLock(uint initialCount)
         {
             _event = new ManualResetEvent(false);
             InitialCount = initialCount;
-
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace Tool.Utils.ThreadQueue
         }
 
         /// <summary>
-        /// 
+        /// 没调用一次可获得一次调用计数
         /// </summary>
         /// <returns></returns>
         public bool Set()
@@ -74,7 +73,7 @@ namespace Tool.Utils.ThreadQueue
         }
 
         /// <summary>
-        /// 将所有计数清空
+        /// 将所有计数清空，将重新获得调用计数
         /// </summary>
         /// <returns></returns>
         public bool Reset()

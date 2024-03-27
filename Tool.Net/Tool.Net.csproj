@@ -54,7 +54,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="Sockets\TcpFrame\CoreCode.cs" />
+		<Compile Remove="Sockets\NetFrame\CoreCode.cs" />
 		<Compile Remove="SqlCore\SqlServerProvider.cs" />
 		<Compile Remove="Utils\ManagedThreadPool.cs" />
 		<Compile Remove="Utils\Other\SystemInformation.cs" />

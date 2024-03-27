@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tool.Sockets.TcpFrame;
+using Tool.Sockets.NetFrame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tool.Sockets.TcpFrame.Tests
+namespace Tool.Sockets.NetFrame.Tests
 {
     [TestClass()]
     public class DataPacketTests

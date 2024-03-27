@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using Tool.Sockets.SupportCode;
+using Tool.Sockets.Kernels;
 using Tool.Utils.Data;
 
 namespace Tool.Sockets.UdpHelper
@@ -90,7 +90,7 @@ namespace Tool.Sockets.UdpHelper
         /// <param name="port"></param>
         public void StartAsync(int port)
         {
-            StartAsync("127.0.0.1", port);
+            StartAsync(StaticData.LocalIp, port);
         }
 
         /// <summary>

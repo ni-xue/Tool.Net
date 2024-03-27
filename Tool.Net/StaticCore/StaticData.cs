@@ -11,9 +11,11 @@ namespace Tool
     /// </summary>
     internal class StaticData
     {
+        internal readonly static string LocalIp = "127.0.0.1";
+
         internal readonly static ConcurrentDictionary<string, Web.Api.OnAshxEvent> AshxEvents = new();
 
-        internal readonly static ConcurrentDictionary<string, Sockets.TcpFrame.TcpByteObjs> TcpByteObjs = new();
+        internal readonly static ConcurrentDictionary<string, Sockets.NetFrame.Internal.NetByteObjs> TcpByteObjs = new();
 
         internal readonly static ConcurrentDictionary<Type, Utils.EntityBuilder> EntityObjs = new();
 

@@ -569,7 +569,7 @@ namespace Tool.Web.Api
                     //Func<Task> func = () => { return ashx.Action.Execute(this, _objs) as Task; };
 
                     async Task func() => await (ashx.Action.Execute(this, _objs) as Task); //ThreadLocal AsyncLocal
-
+                    
                     await func(); //AshxExtension.Invoke(ashx.Method, this, _objs as object[]) as Task; //
                 }
 
