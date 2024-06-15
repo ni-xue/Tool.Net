@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +13,20 @@ namespace Tool.Sockets.Kernels
     public class KeepAlive
     {
         /// <summary>
+        /// 获取完整心跳协议（Tcp）
+        /// </summary>
+        public static Memory<byte> TcpKeepObj { get; } = new byte[] { 40, 7, 0, 0, 0, 41, 123, 1, 2, 3, 2, 1, 123 };
+
+        /// <summary>
+        /// 获取完整心跳协议（Udp）
+        /// </summary>
+        public static Memory<byte> UdpKeepObj => new byte[] { 40, 0, 0, 0, 0, 41, 123, 1, 2, 3, 2, 1, 123 };
+
+        /// <summary>
         /// 获取持久连接协议
         /// </summary>
         /// <returns></returns>
-        public static byte[] KeepAliveObj => new byte[] { 123, 1, 2, 3, 2, 1, 123 };
+        public static Memory<byte> KeepAliveObj => TcpKeepObj[6..];
 
         /// <summary>
         /// 创建心跳对象
@@ -29,10 +40,12 @@ namespace Tool.Sockets.Kernels
                 throw new ArgumentException("TimeInterval 值必须>0！", nameof(TimeInterval));
             }
 
-            StopTime = new System.Diagnostics.Stopwatch();
+            ElapsedTicks = DateTime.Now.Ticks / 10000;
             this.TimeInterval = TimeInterval * 1000;
             this.OnStart = OnStart ?? throw new ArgumentNullException(nameof(OnStart), "OnStart 不能为空！");
-            HeartBeatStart();//Timer
+            //Task.Factory.StartNew(HeartBeatStart, TaskCreationOptions.LongRunning);//Timer
+            ObjectExtension.RunTask(HeartBeatStart, TaskCreationOptions.LongRunning);
+            //HeartBeatStart().
         }
 
         /// <summary>
@@ -43,37 +56,55 @@ namespace Tool.Sockets.Kernels
         /// <summary>
         /// 间隔时间，不能小于1秒
         /// </summary>
-        public int TimeInterval { get; }
+        public long TimeInterval { get; }
+
+        private long MaxDelay => TimeInterval + TimeDelay;
 
         /// <summary>
-        /// 用于记录心跳间隔
+        /// 检查率
         /// </summary>
-        private readonly System.Diagnostics.Stopwatch StopTime;
-
-        private readonly CancellationTokenRegistration cancellationTokenRegistration;
+        public const int TimeDelay = 100;
 
         private bool OnClose = false;
 
-        private async void HeartBeatStart()
+        /// <summary>
+        /// 逝去的时间
+        /// </summary>
+        private long ElapsedTicks;
+
+        /// <summary>
+        /// 时间差
+        /// </summary>
+        private long TimeDifference => DateTime.Now.Ticks / 10000 - ElapsedTicks;
+
+        /// <summary>
+        /// 判断是否满足心跳事件
+        /// </summary>
+        private bool IsTimeInterval => TimeDifference >= TimeInterval;
+
+        private async Task HeartBeatStart()
         {
             //Task.Factory.StartNew(() =>
             //{
             //Thread.CurrentThread.Name ??= "心跳线程";
             while (!OnClose)
             {
-                ResetTime();
-                //System.Threading.Thread.Sleep(TimeInterval);
-                await Task.Delay(TimeInterval, CancellationToken.None); //CancellationTokenSource
-
-                if (StopTime.ElapsedMilliseconds >= TimeInterval)
+                //Debug.WriteLine("{0} - {1}", ObjectExtension.Thread.Name, ObjectExtension.Thread.ManagedThreadId);
+                await Task.Delay(TimeDelay);//固定异步切片100毫秒一次
+                //Debug.WriteLine("{0} - {1}", ObjectExtension.Thread.Name, ObjectExtension.Thread.ManagedThreadId);
+                if (IsTimeInterval)
                 {
                     try
                     {
                         await OnStart();
                     }
-                    catch (Exception)
+                    catch
                     {
 
+                    }
+                    finally
+                    {
+                        ResetTime();
                     }
                 }
             }
@@ -87,8 +118,10 @@ namespace Tool.Sockets.Kernels
         /// </summary>
         public void ResetTime()
         {
-            cancellationTokenRegistration.Unregister();
-            StopTime.Restart();
+            var diff = TimeDifference;
+            if (diff > MaxDelay) diff -= TimeDelay;
+            //long obj = diff, obj1 = diff - MaxDelay; Debug.WriteLine($"时差：{obj} {obj1} {diff}");
+            Interlocked.Add(ref ElapsedTicks, diff);
         }
 
         /// <summary>

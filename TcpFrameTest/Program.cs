@@ -1,30 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+//using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
+//using static System.Net.Mime.MediaTypeNames;
+using System.IO;
+//using BenchmarkDotNet.Attributes;
+//using BenchmarkDotNet.Running;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tool;
 using Tool.Sockets.Kernels;
 using Tool.Sockets.NetFrame;
-using Tool.Utils;
-using Tool.Utils.ThreadQueue;
-using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
-using System.Collections;
-using System.Linq;
-using System.Net.Http;
-using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
 
 namespace TcpFrameTest
 {
     public class Program
     {
-        //static byte[] listData;
+        static string ip = "127.0.0.1";
 
         static int i = 0;
 
-        [Benchmark]
+        //BenchmarkDotNet
+        //[Benchmark]
         public string abc()
         {
             Console.WriteLine(i++);
@@ -53,7 +51,7 @@ namespace TcpFrameTest
 
             for (int i = 0; i < 500000; i++)
             {
-                System system = new() { Id = 0, Key_cn = null, Key_en = null, Value = 0 };
+                TestSystem system = new() { Id = 0, Key_cn = null, Key_en = null, Value = 0 };
                 Abc abc = new() { Aid = 666, Bkey_en = "", Ckey_cn = "", Dvalue = "6666666666" };
 
                 system.CopyEntity(abc, "Id=Aid", "Key_cn=Ckey_cn", "Value=Dvalue");
@@ -62,12 +60,12 @@ namespace TcpFrameTest
             return "";
         }
 
-        [Benchmark]
+        //[Benchmark]
         public string abc1()
         {
             for (int i = 0; i < 500000; i++)
             {
-                System system = new() { Id = 0, Key_cn = null, Key_en = null, Value = 0 };
+                TestSystem system = new() { Id = 0, Key_cn = null, Key_en = null, Value = 0 };
                 Abc abc = new() { Aid = 666, Bkey_en = "", Ckey_cn = "", Dvalue = "6666666666" };
 
                 system.Id = abc.Aid.ToVar<int>();
@@ -101,8 +99,32 @@ namespace TcpFrameTest
             return "";
         }
 
-        public static void Main(string[] args) //http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1
+        public static async Task Main(string[] args) //http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1
         {
+#if !DEBUG
+            var ipadrs = await Tool.Utils.Utility.GetIPAddressAsync("nixue.top", System.Net.Sockets.AddressFamily.InterNetwork);
+            if (ipadrs is not null) ip = ipadrs.ToString();
+#endif
+
+            await Console.Out.WriteLineAsync($"IP:{ip}");
+
+            args = args.Length != 0 ? args : ["1"];
+            //Dictionary<ushort, string> dict = new Dictionary<ushort, string>();
+            //for (byte ClassID = 0; ClassID <= 255; ClassID++)
+            //{
+            //    for (byte ActionID = 0; ActionID <= 255; ActionID++)
+            //    {
+            //        var zhi = BitConverter.ToUInt16(new byte[] { ClassID, ActionID });
+            //        var str = $"{ClassID}.{ActionID}";
+            //        await Console.Out.WriteLineAsync($"有效数字：{zhi} {str}");
+            //        dict.Add(zhi, str);
+            //        if(ActionID == 255) break;
+            //    }
+            //    if (ClassID == 255) break;
+            //}
+
+            //Console.ReadKey();
+
             //Tool.Web.HttpContextExtension.IsIps("weqguyafyg", true);
 
             //TcpStateObject.IsIpPort("");
@@ -409,24 +431,62 @@ namespace TcpFrameTest
             //    });
             //}
 
+            //var segment1 = new BufferSegment<int>([7, 8, 9]);
+            //var segment2 = new BufferSegment<int>([4, 5, 6], segment1);
+            //var segment3 = new BufferSegment<int>([1, 2, 3], segment2);
+            //var index = 1;
+            //foreach (var memory in new ReadOnlySequence<int>(segment3, 0, segment1, 3))
+            //{
+            //    var length = memory.Span.Length;
+            //    for (var i = 0; i < length; i++)
+            //    {
+            //        Debug.Assert(memory.Span[i] == index++);
+            //    }
+            //}
+
+            //MemoryWriteHeap memoryWrite = new(1024 * 1024 * 100);
+            //memoryWrite.Dispose();
+
+            //while (true)
+            //{
+            //    await Task.Delay(1000);
+            //}
+
             EnumEventQueue.OnInterceptor(EnServer.SendMsg, true);
-            EnumEventQueue.OnInterceptor(EnServer.Receive, true);
+            //EnumEventQueue.OnInterceptor(EnServer.Receive, true);
 
             EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
-            EnumEventQueue.OnInterceptor(EnClient.Receive, true);
+            //EnumEventQueue.OnInterceptor(EnClient.Receive, true);
 
-#if DEBUG
-            if (args is null || args.Length > 0)
+            bool isServer = true;
+            //#if DEBUG
+            if (Environment.CommandLine.EndsWith("TcpFrameTest.dll"))
             {
-                args = new string[] { "1" };
+                await Console.Out.WriteLineAsync("请输入：0（Server）或1（Client）：");
+                args[0] = Console.ReadKey(true).KeyChar.ToString();
             }
-#endif
+            //#endif
+            if (string.Equals(args[0], "0"))
+            {
+                isServer = true;
+            }
+            else if (string.Equals(args[0], "1"))
+            {
+                isServer = false;
+            }
+            else
+            {
+                await Console.Out.WriteLineAsync("配置错误！");
+                Console.ReadKey();
+                return;
+            }
 
-            string name = null;
+            string? name = null;
             KeepAlive keep = new(1, async () =>
             {
-                Console.Clear();
-                Console.WriteLine("情况：{0}，{1}，{2} · {3}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount, name);
+
+                Console.Clear();//Process.GetProcesses
+                Console.WriteLine("情况：{0}，{1}，{2} · {3}-{4}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount, name, Environment.ProcessId);
 
                 for (int i = 0; i < 20; i++)
                 {
@@ -435,15 +495,40 @@ namespace TcpFrameTest
                 }
             });
 
-            if (args.Length == 0)
+            //Debug.WriteLine($"Thread:{Environment.CurrentManagedThreadId}");
+            //"ss".GetHashCode();
+            //Guid.NewGuid().GetHashCode();
+            //var guid0 = new Guid(1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8);
+            //var guid1 = new Guid(1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8);
+            //if (guid0.GetHashCode() == guid1.GetHashCode())
+            //{
+
+            //}
+            //var guid2 = new Guid(1, 1, 1, 8, 7, 6, 5, 4, 3, 2, 1);
+            //if (guid0.GetHashCode() == guid2.GetHashCode())
+            //{
+
+            //}
+            ////IEqualityComparer<>
+            //global::System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(guid2);
+            //ThreadPool.GetMaxThreads(out var workerThreads, out var maxThreads);
+            //ThreadPool.GetMinThreads(out workerThreads, out var minThreads);
+            //ThreadPool.GetAvailableThreads(out workerThreads, out var availableThreads);
+            if (isServer)
             {
                 name = "Server";
-                Server();
+                await Server();
             }
             else
             {
+                Task[] tasks = new Task[8];
                 name = "Client";
-                Client();
+                for (int i = 0; i < tasks.Length; i++)
+                {
+                    tasks[i] = ObjectExtension.RunTask(Client); //Task.Factory.StartNew(Client);
+                }
+
+                Task.WaitAll(tasks);
             }
 
             //System.Diagnostics.Stopwatch stopwatch = System.Diagnostics.Stopwatch.StartNew();
@@ -472,57 +557,97 @@ namespace TcpFrameTest
             Console.ReadLine();
         }
 
-        private static void Server()
-        {
-            ServerFrame server = new(108);
+        static int a1 = -1;
 
-            server.SetIpParser((s,key) =>
-            {
-                Class1.e++;//统计总转发计数
-                return server.ListClient.Keys.OrderBy(a => Guid.NewGuid()).First();
-                //return key;
-            }); 
+        private static async Task Server()
+        {
+            ServerFrame server = new(NetBufferSize.Size512K);
+
+            server.SetIpParser(GetKey);
 
             server.SetCompleted((a, b, c) =>
             {
                 Console.WriteLine("IP:{0} \t{1} \t{2}", a, b, c.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
-                return Task.CompletedTask;
+                return ValueTask.CompletedTask;
             });
 
-            server.StartAsync("127.0.0.1", 444);
+            await server.StartAsync(ip, 444);
 
             Console.ReadLine();
+
+            Ipv4Port GetKey(in Ipv4Port age0, in Ipv4Port age1)
+            {
+                IEnumerable<UserKey> strings = server.ListClient.Keys;
+                Interlocked.Increment(ref Class1.e); //统计总转发计数
+
+                int Count = strings.Count();
+                if (Count == 1) return age0;
+
+                int i = Interlocked.Increment(ref a1), j = 0;
+                foreach (UserKey s in strings)
+                {
+                    if (s == (UserKey)age0) continue;
+                    if (j == i) return age0;
+                    j++;
+                }
+                Interlocked.Exchange(ref a1, -1);
+                return age0;
+            }
         }
 
-        private static void Client()
+        private static async Task Client()
         {
-            ClientFrame client = new(TcpBufferSize.Default, 108, true);
+            ClientFrame client = new(NetBufferSize.Size512K, true) { IsThreadPool = false };
 
             client.SetCompleted((a1, b1, c1) =>
             {
                 Console.WriteLine("IP:{0} \t{1} \t{2}", a1, b1, c1.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
-                return Task.CompletedTask;
+                return ValueTask.CompletedTask;
             });
 
-            client.ConnectAsync("127.0.0.1", 444);//120.79.58.17 
+            await client.ConnectAsync(ip, 444);//120.79.58.17 
             client.AddKeepAlive(5);
 
-            ApiPacket packet = new(1, 102, 10000);
+            //await Parallel.ForAsync(1, 6, task);
+            await task(1, default);
 
-            packet.Set("path", "3cd107e4ec103f614b6f7f1eca9e18e6.jpeg");
-            packet.Bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-
-            while (true)
+            async Task task(int i, CancellationToken token)
             {
-                var response = client.SendIpIdea("1.0.0.1:1", packet);
-
-                //Class1.d++;//模拟发送计数
-
-                switch (response.OnNetFrame)
+                ApiPacket packet;
+                switch (i)
                 {
-                    case not NetFrameState.Success:
-                        Console.WriteLine("访问状态：{0}，{1}", response.OnNetFrame, response.Exception?.Message);
+                    case 0:
+                        packet = new(1, 103, 10000, false);
+                        packet.Set("path", "cs.png");
+                        packet.Bytes = File.ReadAllBytes("D:\\NixueStudio\\Tool.Net\\TcpFrameTest\\Download\\cs.png");
                         break;
+                    default:
+                        packet = new(1, 102, 60000, true);
+                        packet.Set("path", "cs.zip");
+                        packet.Bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+                        break;
+                }
+
+                //await Console.Out.WriteLineAsync($"计数{i}");
+                while (true)
+                {
+                    //Debug.WriteLine($"Thread:{Environment.CurrentManagedThreadId}");
+
+#if true
+                    using var response = await client.SendAsync(packet);
+                    Interlocked.Increment(ref Class1.d);//模拟发送计数
+#else
+                    using var response = await client.SendIpIdeaAsync("1.0.0.1:1", packet);
+#endif
+                    //Debug.WriteLine($"Thread:{Environment.CurrentManagedThreadId}");
+
+                    switch (response.OnNetFrame)
+                    {
+                        case not NetFrameState.Success:
+                            Console.WriteLine("访问状态：{0}，{1}", response.OnNetFrame, response.Error?.Message);
+                            await Task.Delay(1000, token);
+                            break;
+                    }
                 }
             }
         }

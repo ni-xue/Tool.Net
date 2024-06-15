@@ -80,7 +80,7 @@ namespace Microsoft.AspNetCore.Builder
             {
                 defaults = new { controller, action };
             }
-            else if(controller != null)
+            else if (controller != null)
             {
                 defaults = new { controller };
             }
@@ -134,13 +134,14 @@ namespace Microsoft.AspNetCore.Builder
 
             //AshxEndpointDataSource
 
-            if (endpointData is not AshxEndpointDataSource)
+            if (endpointData is AshxEndpointDataSource dataSource)
+            {
+                dataSource.MapRoute(template, areaName, defaultsDictionary, constraintsDictionary, dataTokens);
+            }
+            else
             {
                 throw new Exception("EndpointDataSource 对象 必须实现至 AshxEndpointDataSource 类，无权调用！");
             }
-
-            ((AshxEndpointDataSource)endpointData).MapRoute(template, areaName, defaultsDictionary, constraintsDictionary, dataTokens);
-
             return endpointData;
         }
     }

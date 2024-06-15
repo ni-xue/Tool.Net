@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tool
@@ -25,6 +27,20 @@ namespace Tool
             //}
             return BitConverter.GetBytes(txt);
         }
+
+        /// <summary>
+        /// 原子方式+1
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        public static ulong Increment(this ref ulong value) => Interlocked.Increment(ref value);
+
+        /// <summary>
+        /// 原子方式-1
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        public static ulong Decrement(this ref ulong value) => Interlocked.Decrement(ref value);
 
         #region Ulong[] 封装方法
 

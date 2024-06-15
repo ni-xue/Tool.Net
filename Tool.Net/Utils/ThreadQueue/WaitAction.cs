@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Threading.Tasks;
 using System.Threading;
-using System.Threading.Tasks;
+using System;
 
 namespace Tool.Utils.ThreadQueue
 {
+
     /// <summary>
     /// 创建任务执行对象
     /// </summary>
     /// <remarks>代码由逆血提供支持</remarks>
-    public class WaitAction : IDisposable
+    public class WaitAction<T, TResult> : IDisposable
     {
         /// <summary>
         /// Wait函数最大等待时长 -1 无限制等待
@@ -40,11 +39,16 @@ namespace Tool.Utils.ThreadQueue
         /// <summary>
         /// 任务完成后的结果
         /// </summary>
-        public object TResult { get; private set; }
+        public TResult Result { get; private set; }
 
-        private WaitAction(object state)
+        /// <summary>
+        /// 需要的参数
+        /// </summary>
+        public T State { get; }
+
+        private WaitAction(T state)
         {
-            this.WaitHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
+            this.WaitHandle = new(false, 100);
             this.State = state;
         }
 
@@ -53,7 +57,7 @@ namespace Tool.Utils.ThreadQueue
         /// </summary>
         /// <param name="func">任务</param>
         /// <param name="state">参数</param>
-        public WaitAction(Func<object, object> func, object state) : this(state)
+        public WaitAction(Func<T, ValueTask<TResult>> func, T state) : this(state)
         {
             this.Func = func;
         }
@@ -63,10 +67,10 @@ namespace Tool.Utils.ThreadQueue
         /// </summary>
         /// <param name="action">任务</param>
         /// <param name="state">参数</param>
-        public WaitAction(Action<object> action, object state) : this(delegate (object obj)
+        public WaitAction(Action<T> action, T state) : this(delegate (T obj)
         {
             action(obj);
-            return null;
+            return default;
         }, state)
         {
         }
@@ -74,46 +78,32 @@ namespace Tool.Utils.ThreadQueue
         /// <summary>
         /// 其他线程中可用等待获取的任务结果
         /// </summary>
-        /// <param name="waitAction">结果</param>
         /// <returns>返回成功失败</returns>
-        public bool Wait(out WaitAction waitAction)
+        public bool Wait()
         {
-            if (this.IsCompleted)
-            {
-                waitAction = this;
-                return true;
-            }
-            if (this.IsWait)
-            {
-                throw new Exception("当前任务已经处于等待状态！");
-            }
+            if (this.IsCompleted) return true;
+            if (this.IsWait) throw new Exception("当前任务已经处于等待状态！");
             this.IsWait = true;
-            if (this.WaitHandle.WaitOne(this.WaitTimeout))
-            {
-                waitAction = this;
-                return true;
-            }
+            if (this.WaitHandle.Wait(this.WaitTimeout)) return true;
             else
             {
                 this.Exception = new Exception("当前等待超时，稍后依然会完成！");
                 this.IsException = true;
             }
-            this.IsWait = false;
-            waitAction = this;
-            return false;
+            return this.IsWait = false;
         }
 
         /// <summary>
         /// 启动已就绪的任务
         /// </summary>
-        public void Run()
+        public async ValueTask Run()
         {
             if (IsCompleted) return;
             if (this.Func != null)
             {
                 try
                 {
-                    this.TResult = this.Func(this.State);
+                    this.Result = await this.Func(this.State);
                     this.Exception = null;
                     this.IsException = false;
                 }
@@ -124,10 +114,7 @@ namespace Tool.Utils.ThreadQueue
                 }
             }
             this.IsCompleted = true;
-            if (this.IsWait)
-            {
-                this.WaitHandle.Set();
-            }
+            if (this.IsWait) this.WaitHandle.Set();
         }
 
         /// <summary>
@@ -136,7 +123,7 @@ namespace Tool.Utils.ThreadQueue
         public void Dispose()
         {
             this.WaitHandle.Dispose();
-            this.TResult = null;
+            this.Result = default;
             GC.SuppressFinalize(this);
         }
 
@@ -151,16 +138,11 @@ namespace Tool.Utils.ThreadQueue
         /// <summary>
         /// 执行的任务
         /// </summary>
-        private Func<object, object> Func { get; }
-
-        /// <summary>
-        /// 需要的参数
-        /// </summary>
-        private object State { get; }
+        private Func<T, ValueTask<TResult>> Func { get; }
 
         /// <summary>
         /// 任务的事件
         /// </summary>
-        private EventWaitHandle WaitHandle { get; }
+        private ManualResetEventSlim WaitHandle { get; }
     }
 }

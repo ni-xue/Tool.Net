@@ -171,18 +171,14 @@ namespace Tool.Utils
         /// <returns></returns>
         public static IList<string> DistillCommandParameter(string sqlStatement, string paraPrefix)
         {
-            sqlStatement += " ";
-            IList<string> list = new List<string>();
-            DataHelper.DoDistill(sqlStatement, list, paraPrefix);
+            List<string> list = new();
+            DataHelper.DoDistill(sqlStatement + " ", list, paraPrefix);
             if (list.Count > 0)
             {
-                string text = list[list.Count - 1].Trim();
-                if (text.EndsWith("\""))
+                string text = list[^1].Trim();
+                if (text.EndsWith('\"'))
                 {
-                    text.TrimEnd(new char[]
-                    {
-                        '"'
-                    });
+                    text = text.TrimEnd('"');
                     list.RemoveAt(list.Count - 1);
                     list.Add(text);
                 }
@@ -223,10 +219,7 @@ namespace Tool.Utils
             foreach (IDbDataParameter dbDataParameter in command.Parameters)
             {
                 dbDataParameter.Value = DataHelper.GetColumnValue(entityOrRow, dbDataParameter.SourceColumn);
-                if (dbDataParameter.Value == null)
-                {
-                    dbDataParameter.Value = DBNull.Value;
-                }
+                dbDataParameter.Value ??= DBNull.Value;
             }
         }
 
@@ -267,7 +260,7 @@ namespace Tool.Utils
         public static void RefreshEntityFields(object entity, DataRow row)
         {
             DataTable table = row.Table;
-            IList<string> list = new List<string>();
+            List<string> list = new List<string>();
             foreach (DataColumn dataColumn in table.Columns)
             {
                 list.Add(dataColumn.ColumnName);

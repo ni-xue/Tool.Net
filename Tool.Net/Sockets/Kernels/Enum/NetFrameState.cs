@@ -5,7 +5,7 @@ using System.Text;
 namespace Tool.Sockets.Kernels
 {
     /// <summary>
-    /// 对TcpFrame响应的状态
+    /// 对NetFrame响应的状态
     /// </summary>
     public enum NetFrameState
     {

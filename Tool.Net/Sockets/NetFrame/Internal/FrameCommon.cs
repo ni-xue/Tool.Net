@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Net.Sockets;
+using System.Text;
 using Tool.Sockets.Kernels;
 using Tool.Utils;
 
@@ -20,27 +22,25 @@ namespace Tool.Sockets.NetFrame.Internal
         //    return clmidmt;
         //}
 
-        internal static DataPacket GetDataPacket(ApiPacket api, string ipPort, bool isServer, bool isAsync) //bool isSend, bool isErr, 
+        internal static void SetApiPacket(ApiPacket api, bool isServer, Ipv4Port ipPort = default) //bool isSend, bool isErr, 
         {
             if (api == null) throw new ArgumentException(" ApiPacket 对象不能为空！", nameof(api));
+            api.isServer = isServer;
+            api.ipPort = ipPort;
+        }
 
-            string msg = api.FormatData();
-            DataPacket dataPacket = new()
+        internal static IDataPacket GetDataPacket(ApiPacket api, in Guid clmidmt)
+        {
+            SendDataPacket dataPacket = new(api.ClassID, api.ActionID, clmidmt)
             {
-                ClassID = api.ClassID,
-                ActionID = api.ActionID,
-                OnlyId = Guid.NewGuid(),
-                //OnlyID = clmidmt,
-                Bytes = api.Bytes,
                 IsSend = true,
                 IsErr = false,
-                IsServer = isServer,
-                IsAsync = isAsync,
-                //IsIpIdea = isIpPort,
-                IpPort = ipPort,
-                Text = msg,
+                IsServer = api.isServer,
+                IsReply = api.IsReply,
+                IpPort = api.ipPort,
+                Text = api.FormatData(),
             };
-
+            dataPacket.SetBuffer(api.Bytes);
             return dataPacket;
         }
 
@@ -64,7 +64,7 @@ namespace Tool.Sockets.NetFrame.Internal
             }
             else
             {
-                string OnlyID = packet.OnlyID;
+                Guid OnlyID = packet.OnlyId;
                 int objcount = packet.Many.End.Value;
 
                 //if (packet.IsSend)
@@ -97,13 +97,13 @@ namespace Tool.Sockets.NetFrame.Internal
                         _byteObjs.OjbCount[i].CopyTo(bytes[count..]);
                     }
 
-                    int length = TcpStateObject.GetDataHead(bytes);//(bytes[0..TcpStateObject.HeadSize]);
+                    int length = StateObject.GetDataHeadTcp(bytes);//(bytes[0..TcpStateObject.HeadSize]);
 
                     if (length > 0)//这里为处理问题
                     {
                         //packet.Text = Encoding.UTF8.GetString(bytes, 6, length);
-                        packet.TextBytes = bytes.Slice(TcpStateObject.HeadSize, length).ToArray();
-                        int bytelength = TcpStateObject.HeadSize + length;
+                        packet.TextBytes = bytes.Slice(StateObject.HeadSize, length).ToArray();
+                        int bytelength = StateObject.HeadSize + length;
                         if (bytes.Count > bytelength) packet.Bytes = bytes[bytelength..].ToArray();//完全拷贝
                     }
                     else
@@ -129,190 +129,56 @@ namespace Tool.Sockets.NetFrame.Internal
         /**
          * 根据一次性回复数据包解析成一个或多个包
          */
-        internal static bool Receiveds(ReceiveBytes<Socket> tcpBytes, out DataPacket dataPacket)
+        internal static bool Receiveds(in ReceiveBytes<Socket> tcpBytes, out IDataPacket dataPacket)
         {
             try
             {
-                var spans = tcpBytes.Memory.Span;
-                if (spans[0] == KeepAlive.KeepAliveObj[0])
-                {
-                    dataPacket = DataPacket.DataByte(spans);
-                    return true;
-                }
-                dataPacket = default;
-                return false;
+                dataPacket = new ReceiveDataPacket(tcpBytes);
+                return true;
+
+                //var spans = tcpBytes.Memory.Span;
+                //if (spans[0] == KeepAlive.KeepAliveObj[0])
+                //{
+                //    dataPacket = DataPacket.DataByte(spans);
+                //    return true;
+                //}
+                //dataPacket = default;
+                //return false;
             }
             catch (Exception ex)
             {
-                Log.Error("消息解包异常", ex, "Log/TcpFrame");
+                Log.Error("消息解包异常", ex, "Log/NetFrame");
                 dataPacket = default;
                 return false;
             }
-            finally
-            {
-                tcpBytes.Dispose();
-            }
         }
 
-        //**
-        // * 根据一次性回复数据包解析成一个或多个包
-        // */
-        //internal static void Receiveds(string key, string jsonstr, Action<string, DataPacket> action)
-        //{
-        //    //string data1 = "0";
-        //    //if (jsonstr[0] == '{')
-        //    //{
-        //    //    for (int i = 1; i < 10; i++)
-        //    //    {
-        //    //        if (jsonstr[i] == '}' && jsonstr[i + 1] == '[' && jsonstr[i + 2] == '#')
-        //    //        {
-        //    //            data1 = jsonstr.Substring(1, i - 1);
-        //    //            break;
-        //    //        }
-        //    //    }
-        //    //    int length1 = data1.ToInt();
+        internal static ThreadObj TryThreadObj(ConcurrentDictionary<Guid, ThreadObj> pairs, in Guid clmidmt, bool isreply)
+        {
+            return isreply ? pairs.AddOrUpdate(clmidmt, AddThreadObj, UpdateThreadObj) : AddThreadObj(clmidmt);
 
-        //    //    string data2 = jsonstr.Substring(2 + data1.Length, length1 - 2);
+            //if (pairs.TryRemove(clmidmt, out ThreadObj _threadObj))
+            //{
+            //    _threadObj.Response.OnNetFrame = NetFrameState.OnlyID;
+            //    _threadObj.Set();
+            //}
 
-        //    //    char random1 = data2[2];
-        //    //    int length2 = data2.Length;
-        //    //    if (data2[length2 - 3] == random1 && data2[length2 - 2] == '#' && data2[length2 - 1] == ']')
-        //    //    {
-        //    //        DataPacket json = DataPacket.DataString(data2);
-        //    //        action(key, json);
-        //    //    }
-        //    //    return;
-        //    //}
-        //    if (jsonstr[0] != '[' && jsonstr[1] != '#') return;
+            //pairs.TryAdd(clmidmt, _threadObj = new ThreadObj(clmidmt));
 
-        //    char random = jsonstr[2];
-        //    int length = jsonstr.Length;
-        //    if (jsonstr[length - 3] == random && jsonstr[length - 2] == '#' && jsonstr[length - 1] == ']')
-        //    {
-        //        try
-        //        {
-        //            DataPacket json = DataPacket.DataString(jsonstr);
-        //            action(key, json);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Log.Error("消息解包异常", ex, "Log/TcpFrame");
-        //        }
-        //    }
-        //    else //进入该方法表明当前包多收了
-        //    {
-        //        //Builder.Append(jsonstr);
-        //        //return;
+            //return _threadObj;
 
-        //        //string toptail = "#][#";
-        //        //int le = 0;
-        //        //while (le < length)
-        //        //{
-        //        //    int let = jsonstr.IndexOf(toptail, le);//空包必须大于50个字符, length-1
+            ThreadObj AddThreadObj(Guid clmidmt)
+            {
+                var threadObj = new ThreadObj(isreply);//ThreadObjExtension.ObjPool.Get();
+                //threadObj.Reset();
+                return threadObj;
+            }
 
-        //        //    string data;
-        //        //    if (let == -1)
-        //        //    {
-        //        //        le = length;
-        //        //        data = jsonstr.Substring(le);
-        //        //        Builder.Append(data);
-        //        //        break;
-        //        //    }
-        //        //    else
-        //        //    {
-        //        //        le = let;
-        //        //        data = jsonstr.Substring(0, le + 2);
-        //        //    }
-
-        //        //    try
-        //        //    {
-        //        //        ThreadPool.QueueUserWorkItem(x =>
-        //        //        {
-        //        //            Receiveds(key, data, action, Builder);
-        //        //        });
-        //        //    }
-        //        //    catch (Exception ex)
-        //        //    {
-        //        //        Log.Error("多包线程池异常", ex, "Log/TcpFrame");
-        //        //    }
-        //        //}
-
-        //        //jsonstr.LastIndexOf
-
-        //        //string[] packages = jsonstr.Split("#][#");
-        //        //foreach (string paka in packages)
-        //        //{
-        //        //    StringBuilder @string = new StringBuilder(paka);
-        //        //    if (@string[0] != '[' && @string[1] != '#')
-        //        //    {
-        //        //        @string.Insert(0, "[#");
-        //        //    }
-        //        //    if (@string[@string.Length - 2] != '#' && @string[@string.Length - 1] != ']')
-        //        //    {
-        //        //        @string.Append("#]");
-        //        //    }
-        //        //    try
-        //        //    {
-        //        //        string strdata = @string.ToString();
-        //        //        ThreadPool.QueueUserWorkItem(x =>
-        //        //        {
-        //        //            try
-        //        //            {
-        //        //                DataPacket json = DataPacket.DataString(strdata); //.Json<DataPacket>();
-        //        //                action(key, json);
-        //        //            }
-        //        //            catch (Exception ex)
-        //        //            {
-        //        //                Log.Error("消息解包异常", ex, "Log/TcpFrame");
-        //        //            }
-        //        //        });
-        //        //    }
-        //        //    catch (Exception ex)
-        //        //    {
-        //        //        Log.Error("多包线程池异常", ex, "Log/TcpFrame");
-        //        //    }
-        //        //    @string.Clear();
-        //        //}
-        //    }
-
-        //    //if (jsonstr.Contains("#][#"))//进入该方法表明当前包多收了
-        //    //{
-        //    //    string[] packages = jsonstr.Split("#][#");
-        //    //    foreach (string paka in packages)
-        //    //    {
-        //    //        StringBuilder @string = new StringBuilder(paka);
-        //    //        if (@string[0] != '{')
-        //    //        {
-        //    //            @string.Insert(0, "[#");
-        //    //        }
-        //    //        if (@string[@string.Length - 1] != '}')
-        //    //        {
-        //    //            @string.Append("#]");
-        //    //        }
-        //    //        try
-        //    //        {
-        //    //            DataPacket json = @string.ToString().Json<DataPacket>();
-        //    //            action(key, json);
-        //    //        }
-        //    //        catch (Exception ex)
-        //    //        {
-        //    //            Log.Error("消息解包异常", ex, "Log/TcpFrame");
-        //    //        }
-        //    //        @string.Clear();
-        //    //    }
-        //    //}
-        //    //else
-        //    //{
-        //    //    try
-        //    //    {
-        //    //        DataPacket json = jsonstr.Json<DataPacket>();
-        //    //        action(key, json);
-        //    //    }
-        //    //    catch (Exception ex)
-        //    //    {
-        //    //        Log.Error("消息解包异常", ex, "Log/TcpFrame");
-        //    //    }
-        //    //}
-        //}
+            ThreadObj UpdateThreadObj(Guid clmidmt, ThreadObj removeThreadObj)
+            {
+                removeThreadObj.Set(NetFrameState.OnlyID);
+                return AddThreadObj(clmidmt);
+            }
+        }
     }
 }

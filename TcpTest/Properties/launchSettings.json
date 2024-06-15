@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "TcpTest": {
+      "commandName": "Project",
+      "commandLineArgs": "2",
+      "remoteDebugEnabled": false,
+      "authenticationMode": "Windows",
+      "remoteDebugMachine": "nixue.top:5000"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    }
+  }
+}

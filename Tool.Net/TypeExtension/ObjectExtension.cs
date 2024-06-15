@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -24,7 +25,7 @@ namespace Tool
     /// <remarks>代码由逆血提供支持</remarks>
     public static class ObjectExtension
     {
-        static ObjectExtension() 
+        static ObjectExtension()
         {
             Static = new(5);
         }
@@ -650,7 +651,6 @@ namespace Tool
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        [Obsolete("BinaryFormatter serialization is obsolete and should not be used. See https://aka.ms/binaryformatter for more information.", DiagnosticId = "SYSLIB0011", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
         public static string ToBase64String(this object obj)
         {
             if (obj == null)
@@ -658,7 +658,7 @@ namespace Tool
                 throw new System.SystemException("该object为空！");
             }
             //byte[] bytes = Encoding.UTF8.GetBytes(value);
-            return Convert.ToBase64String(obj.ToBytes());
+            return Convert.ToBase64String(ToBytes(obj, out _));
         }
 
         /// <summary>
@@ -729,6 +729,22 @@ namespace Tool
             return __refvalue(tr, T);
         }
 
+        ///// <summary>
+        ///// 将指定的内存空间内容转换成类型
+        ///// </summary>
+        ///// <typeparam name="T">类型对象</typeparam>
+        ///// <param name="address">内存空间值</param>
+        ///// <returns>返回类型对象</returns>
+        //public static unsafe T MemoryRead<T>(void* address, int length)
+        //{
+        //    IntPtr Address = new(address);
+        //    var obj = default(T);
+        //    var tr = __makeref(obj);
+        //    ReadSetVal(tr, Address);
+
+        //    return __refvalue(tr, T);
+        //}
+
 #pragma warning disable CS8500 // 这会获取托管类型的地址、获取其大小或声明指向它的指针
         private unsafe static void ReadSetVal(TypedReference tr, IntPtr Address) => *(IntPtr*)&tr = Address;
 #pragma warning restore CS8500 // 这会获取托管类型的地址、获取其大小或声明指向它的指针
@@ -797,7 +813,7 @@ namespace Tool
         /// <param name="origobj">拷贝对象</param>
         /// <param name="keys">拷贝参数，空，为全拷贝 支持赋值语法 ?=? 注意不支持'空格'</param>
         /// <returns></returns>
-        public static bool CopyEntity(this object obj, object origobj, params string[] keys) 
+        public static bool CopyEntity(this object obj, object origobj, params string[] keys)
         {
             var entity0 = EntityBuilder.GetEntity(obj);
             var oriobj = origobj.GetDictionary();
@@ -833,7 +849,7 @@ namespace Tool
                     }
                 }
             }
-            if(pairs.Count > 0) obj.SetDictionary(pairs);
+            if (pairs.Count > 0) obj.SetDictionary(pairs);
 
             return true;
         }
@@ -863,7 +879,7 @@ namespace Tool
         /// <param name="_obj">新数组（为空，但是必须大于原数组一个下标以上）</param>
         /// <param name="T_obj">加入的新值</param>
         /// <returns></returns>
-        public static void Add<T>(this object obj, [In] [Out] object _obj, object T_obj)// where T : new()
+        public static void Add<T>(this object obj, [In][Out] object _obj, object T_obj)// where T : new()
         {
             var obj_1 = obj.ToVar<T>();
 
@@ -900,7 +916,7 @@ namespace Tool
         /// <param name="sourceIndex">源数据开始读取的位置</param>
         /// <param name="length">从源数组取多少？(是指从读取位置开始往后读的数量)</param>
         /// <returns>返回当前新的数组中复制了多少个下标的值</returns>
-        public static int Read<T>(this object sourceArray, [In] [Out] object destinationArray, int sourceIndex, int length)
+        public static int Read<T>(this object sourceArray, [In][Out] object destinationArray, int sourceIndex, int length)
         {
             return Read<T>(sourceArray, sourceIndex, destinationArray, 0, length);
         }
@@ -914,7 +930,7 @@ namespace Tool
         /// <param name="destinationIndex">开始存储的位置</param>
         /// <param name="length">从源数组取多少？(是指从读取位置开始往后读的数量)</param>
         /// <returns>返回当前新的数组中复制了多少个下标的值</returns>
-        public static int Read<T>(this object sourceArray, int sourceIndex, [In] [Out] object destinationArray, int destinationIndex, int length)
+        public static int Read<T>(this object sourceArray, int sourceIndex, [In][Out] object destinationArray, int destinationIndex, int length)
         {
             var sourceArray_1 = sourceArray.ToVar<T>();
 
@@ -990,6 +1006,59 @@ namespace Tool
             }
             return obj1.ToArray();
         }
+        #endregion
+
+        #region TaskFactory 异步模型封装
+
+        /// <summary>
+        /// 原 StartNew 方法的封装·支持对异步模型的线程创建
+        /// </summary>
+        /// <returns></returns>
+        public static Task RunTask(this Func<Task> task, TaskCreationOptions creationOptions = TaskCreationOptions.None, CancellationToken token = default)
+        {
+            return Task.Factory.StartNew(gettask, token, creationOptions, TaskScheduler.Default);
+            void gettask() => task().Wait(token);
+        }
+
+        /// <summary>
+        /// 原 StartNew 方法的封装·支持对异步模型的线程创建
+        /// </summary>
+        /// <returns></returns>
+        public static ValueTask RunTask(this Func<ValueTask> task, TaskCreationOptions creationOptions = TaskCreationOptions.None, CancellationToken token = default)
+        {
+            return new ValueTask(Task.Factory.StartNew(gettask, token, creationOptions, TaskScheduler.Default));
+            void gettask() => task().Preserve();
+        }
+
+        #endregion
+
+        #region TaskFactory<T> 异步模型封装
+
+        /// <summary>
+        /// 原 StartNew 方法的封装·支持对异步模型的线程创建
+        /// </summary>
+        /// <returns>返回结果</returns>
+        public static Task<T> RunTask<T>(this Func<Task<T>> task, TaskCreationOptions creationOptions = TaskCreationOptions.None, CancellationToken token = default)
+        {
+            return Task.Factory.StartNew(gettask, token, creationOptions, TaskScheduler.Default);
+            T gettask()
+            {
+                var _t = task();
+                _t.Wait(token);
+                return _t.Result;
+            }
+        }
+
+        /// <summary>
+        /// 原 StartNew 方法的封装·支持对异步模型的线程创建
+        /// </summary>
+        /// <returns>返回结果</returns>
+        public static ValueTask<T> RunTask<T>(this Func<ValueTask<T>> task, TaskCreationOptions creationOptions = TaskCreationOptions.None, CancellationToken token = default)
+        {
+            return new ValueTask<T>(Task.Factory.StartNew(gettask, token, creationOptions, TaskScheduler.Default));
+            T gettask() => task().Preserve().Result;
+        }
+
         #endregion
     }
 }

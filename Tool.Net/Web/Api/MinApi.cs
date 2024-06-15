@@ -7,6 +7,8 @@ using Tool.Web.Api.ApiCore;
 using Tool.Web.Routing;
 using System.Threading;
 using Tool.Utils;
+using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Tool.Web.Api
 {
@@ -110,7 +112,7 @@ namespace Tool.Web.Api
             Ashx ashx = ashxRoute.GetAshx;
             try
             {
-                IApiOut func() => ashx.Action.Execute(this, _objs) as IApiOut;  //AshxExtension.Invoke(ashx.Method, this);
+                IApiOut func() => ashx.AsAction<IApiOut>().Execute(this, _objs);  //AshxExtension.Invoke(ashx.Method, this);
 
                 IApiOut aipOut = func();
 
@@ -147,41 +149,7 @@ namespace Tool.Web.Api
                 //Type type = task.GetType();
                 //var field = type.GetType().GetField("Result", System.Reflection.BindingFlags.Public);
 
-                async Task<IApiOut> func() => await (Task<IApiOut>)ashx.Action.Execute(this, _objs);
-                //{
-                //    return await (Task<IApiOut>)ashx.Action.Execute(this, _objs);
-
-                //    //Task <IApiOut> task = ashx.Action.Execute(this, _objs) as Task<IApiOut>;
-                //    //return await task;
-                //} //Task
-
-                //object _task = func();// dynamic，Task
-
-                //Task.WaitAll<object>((func() as Task<object>));
-
-                //for (int i = 0; i < 1000000; i++)
-                //{
-                //    IApiOut aipOut1 = _task.GetValue("Result") as IApiOut; //aipOut1.Result as IApiOut;
-                //}
-
-                //var _r = _task.GetPropertieFind("Result");
-                //for (int i = 0; i < 1000000; i++)
-                //{
-                //    IApiOut aipOut1 = _task.GetValue(_r) as IApiOut; //aipOut1.Result as IApiOut;
-                //}
-
-                //Task<object> s = Task.FromResult<object>(100);
-
-                //for (int i = 0; i < 100000000; i++)
-                //{
-                //    object aipOut1 = s.Result; //aipOut1.Result as IApiOut;
-                //}
-
-                //dynamic d = _task;
-                //for (int i = 0; i < 100000000; i++)
-                //{
-                //    IApiOut aipOut1 = d.Result; //aipOut1.Result as IApiOut;
-                //}
+                Task<IApiOut> func() => ashx.AsAction<IApiOut>().ExecuteAsync(this, _objs);
 
                 IApiOut aipOut = await func();//_task.GetValue("Result") as IApiOut; //aipOut1.Result as IApiOut;
                 await aipOut?.HttpOutput(ashxRoute);
@@ -444,7 +412,7 @@ namespace Tool.Web.Api
         /// </summary>
         /// <param name="pathName">源数据(是wwwroot文件夹下面的相对路径)，不支持绝对路径 的文件夹名称 支持多重文件 不能包含文件</param>
         /// <returns>输出对象</returns>
-        public static ViewOut PathView(string pathName) 
+        public static ViewOut PathView(string pathName)
         {
             return new ViewOut(true, pathName);
         }

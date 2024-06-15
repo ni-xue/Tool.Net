@@ -16,7 +16,7 @@ namespace Tool.Web.Api.ApiCore
         /// <summary>
         /// 当前Ashx版本号
         /// </summary>
-        public const string AshxVersion = "3.0.0"; // static readonly 
+        public const string AshxVersion = "3.9.0"; // static readonly 
 
         /// <summary>
         /// Ashx路由模式的表头 同步
@@ -43,13 +43,21 @@ namespace Tool.Web.Api.ApiCore
         /// </summary>
         /// <param name="httpHandler"></param>
         /// <param name="RouteData"></param>
+        /// <param name="_objs"></param>
+        /// <param name="error"></param>
         /// <returns></returns>
-        internal static bool Initialize(IHttpApi httpHandler, AshxRouteData RouteData)
+        internal static bool Initialize(IHttpApi httpHandler, AshxRouteData RouteData, out object[] _objs, out Exception error)
         {
             httpHandler.SetRouteData(RouteData);
             RouteData.HttpContext.Response.AppendHeader(RouteData.GetAshx.IsTask ? AshxVersionHeaderAsyncName : AshxVersionHeaderName, AshxVersion);
-            //AshxExtension.CrossDomain(RouteData.HttpContext.Response, RouteData.GetAshx);
-            return httpHandler.Initialize(RouteData.GetAshx);
+            if (httpHandler.Initialize(RouteData.GetAshx))
+            {
+                error = GetApiObj(RouteData, out _objs);
+                return true;
+            }
+            _objs = null;
+            error = null;
+            return false;
         }
 
         /// <summary>
@@ -57,66 +65,74 @@ namespace Tool.Web.Api.ApiCore
         /// </summary>
         /// <param name="httpHandler"></param>
         /// <param name="RouteData"></param>
+        /// <param name="_objs"></param>
+        /// <param name="error"></param>
         /// <returns></returns>
-        internal static bool MinInitialize(IMinHttpApi httpHandler, AshxRouteData RouteData)
+        internal static bool MinInitialize(IMinHttpApi httpHandler, AshxRouteData RouteData, out object[] _objs, out Exception error)
         {
             RouteData.HttpContext.Response.AppendHeader(RouteData.GetAshx.IsTask ? MinAshxVersionHeaderAsyncName : MinAshxVersionHeaderName, AshxVersion);
-            //AshxExtension.CrossDomain(RouteData.HttpContext.Response, RouteData.GetAshx);
-            return httpHandler.Initialize(RouteData);
-        }
-
-        /// <summary>
-        /// 获取参数
-        /// </summary>
-        /// <param name="RouteData"></param>
-        /// <param name="_objs"></param>
-        /// <returns></returns>
-        internal static bool GetObj(AshxRouteData RouteData, out object[] _objs)
-        {
-            Ashx ashx = RouteData.GetAshx;
-            if (ashx.Parameters.Length > 0)
+            if (httpHandler.Initialize(RouteData))
             {
-                bool obj(out object[] _objs)
-                {
-                    int length = ashx.Parameters.Length;
-                    _objs = new object[length];
-                    _objs = AshxExtension.GetParameterObjs(ashx, RouteData.HttpContext.Request, 0, length, _objs, out bool isException);
-                    return isException;
-                }
-                return obj(out _objs);
+                error = GetApiObj(RouteData, out _objs);
+                return true;
             }
-            _objs = default;
+            _objs = null;
+            error = null;
             return false;
         }
 
+        ///// <summary>
+        ///// 获取参数
+        ///// </summary>
+        ///// <param name="RouteData"></param>
+        ///// <param name="_objs"></param>
+        ///// <returns></returns>
+        //internal static bool GetObj(AshxRouteData RouteData, out object[] _objs)
+        //{
+        //    Ashx ashx = RouteData.GetAshx;
+        //    if (ashx.Parameters.Length > 0)
+        //    {
+        //        bool obj(out object[] _objs)
+        //        {
+        //            int length = ashx.Parameters.Length;
+        //            _objs = new object[length];
+        //            _objs = AshxExtension.GetParameterObjs(ashx, RouteData.HttpContext.Request, 0, length, _objs, out bool isException);
+        //            return isException;
+        //        }
+        //        return obj(out _objs);
+        //    }
+        //    _objs = default;
+        //    return false;
+        //}
+
         /// <summary>
         /// 获取参数
         /// </summary>
         /// <param name="RouteData"></param>
         /// <param name="_objs"></param>
         /// <returns></returns>
-        internal static bool GetMinObj(AshxRouteData RouteData, out object[] _objs)
+        internal static Exception GetApiObj(AshxRouteData RouteData, out object[] _objs)
         {
             Ashx ashx = RouteData.GetAshx;
-            if (ashx.Parameters.Length > 0)
+            int length = ashx.Parameters.Length;
+            if (length > 0)
             {
-                bool minObj(out object[] _objs)
+                Exception Obj(out object[] _objs)
                 {
                     int index = 0;
-                    int length = ashx.Parameters.Length;
                     _objs = new object[length];
-                    if (ashx.Parameters[index].ParameterType == typeof(HttpContext))
+                    if (ashx.IsMinApi && ashx.Parameters[index].ParameterType == typeof(HttpContext))
                     {
                         _objs[0] = RouteData.HttpContext;
                         index++;
                     }
-                    _objs = AshxExtension.GetParameterObjs(ashx, RouteData.HttpContext.Request, index, length, _objs, out bool isException);
-                    return isException;
+                    _objs = AshxExtension.GetParameterObjs(ashx, RouteData.HttpContext.Request, index, length, _objs, out Exception error);
+                    return error;
                 }
-                return minObj(out _objs);
+                return Obj(out _objs);
             }
             _objs = default;
-            return false;
+            return null;
         }
 
         /// <summary>
@@ -141,11 +157,15 @@ namespace Tool.Web.Api.ApiCore
         /// <param name="objs">数据</param>
         internal static async Task StartMinAsyncAshx(IMinHttpAsynApi httpHandler, AshxRouteData ashxRoute, object[] objs)
         {
-            await httpHandler.TaskRequest(ashxRoute, objs)
-                .ContinueWith((task) =>
-                {
-                    httpHandler.ContinueWith(task, ashxRoute);
-                });
+            var task = httpHandler.TaskRequest(ashxRoute, objs);
+            await task;
+            httpHandler.ContinueWith(task, ashxRoute);
+
+            //await httpHandler.TaskRequest(ashxRoute, objs)
+            //    .ContinueWith((task) =>
+            //    {
+            //        httpHandler.ContinueWith(task, ashxRoute);
+            //    });
             //    Task.Run(() =>
             //{
             //        //httpHandler.SetRouteData(RouteData);
@@ -190,14 +210,21 @@ namespace Tool.Web.Api.ApiCore
         /// <param name="objs">数据</param>
         internal static async Task StartAsyncAshx(IHttpAsynApi httpHandler, object[] objs)
         {
-            await httpHandler.TaskRequest(objs)
-                .ContinueWith((task) =>
-                {
-                    using (httpHandler)
-                    {
-                        httpHandler.ContinueWith(task);
-                    }
-                });
+            using (httpHandler)
+            {
+                var task = httpHandler.TaskRequest(objs);
+                await task;
+                httpHandler.ContinueWith(task);
+            }
+
+            //await httpHandler.TaskRequest(objs)
+            //    .ContinueWith((task) =>
+            //    {
+            //        using (httpHandler)
+            //        {
+            //            httpHandler.ContinueWith(task);
+            //        }
+            //    });
             //    Task.Run(() =>
             //{
             //        //httpHandler.SetRouteData(RouteData);

@@ -25,6 +25,8 @@ using Tool.Sockets.NetFrame;
 using Tool.Sockets.Kernels;
 using System.Threading;
 using System.Buffers;
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebTestApp
 {
@@ -48,6 +50,15 @@ namespace WebTestApp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            AppSettings.GetSection("Test:a:b").Value = new string[] { "1", "2", "3", "7", "8", "9" }.ToJson();
+
+            AppSettings.GetSection("Test:name").Value = new { a = 1, b = 2, c = "666666" }.ToJson();
+            AppSettings.GetSection("Test:name").Value = new { a = 1, b = 2, c = "666666" }.ToJson();
+
+            AppSettings.GetSection("Test:int").Value = "我和你";
+            AppSettings.GetSection("Test:list:2:name").Value = "我";
+            AppSettings.GetSection("Test:list:1:0").Value = "我";
+
             //services.AddSession();
 
             //var s = HttpHelpers.Timeout;
@@ -67,14 +78,14 @@ namespace WebTestApp
             //WebServer webServer = new();
             //webServer.StartAsync("127.0.0.1", 9999, false);
 
-            ClientFrame client = new(TcpBufferSize.Default, 108, true);
+            ClientFrame client = new(NetBufferSize.Default, true);
             client.SetCompleted((a, b, c) =>
             {
                 Console.WriteLine("\nIP:{0} \t{1} \t{2}", a, b, c.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
-                return Task.CompletedTask;
+                return ValueTask.CompletedTask;
             });
 
-            client.ConnectAsync("127.0.0.1", 444);//120.79.58.17 
+            client.ConnectAsync("127.0.0.1", 444).Wait();//120.79.58.17 
             client.AddKeepAlive(5);
 
             services.AddObject(client);
@@ -86,17 +97,17 @@ namespace WebTestApp
 
             services.AddAshx(o =>
             {
-                //o.EnableEndpointRouting = true;
+                o.EnableEndpointRouting = true;
                 //o.IsAsync = true;
-                o.JsonOptions = new System.Text.Json.JsonSerializerOptions
-                {
-                    //IgnoreReadOnlyFields = true,
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),
-                };
+                //o.JsonOptions = new System.Text.Json.JsonSerializerOptions
+                //{
+                //    //IgnoreReadOnlyFields = true,
+                //    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),
+                //};
 
-                o.JsonOptions.Converters.Add(JsonConverterHelper.GetDateConverter());
+                //o.JsonOptions.Converters.Add(JsonConverterHelper.GetDateConverter());
 
-                o.JsonOptions.Converters.Add(JsonConverterHelper.GetDBNullConverter());
+                //o.JsonOptions.Converters.Add(JsonConverterHelper.GetDBNullConverter());
             }).AddHttpContext();
 
             services.AddDiySession(d =>
@@ -264,97 +275,86 @@ namespace WebTestApp
                 app.UseExceptionHandler(AllException);
             }
 
-            int a = 0, b = 0, c = 0, d = 0;
+            //int a = 0, b = 0, c = 0, d = 0;
 
-            KeepAlive keep = new(1, async () =>
-            {
-                Console.Clear();
-                await Console.Out.WriteLineAsync(string.Format("情况：{0}，{1}，{2}, 成功 {3},超时 {4},其他 {5},http计数：{6}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount, a, b, c, d));
-            });
+            //KeepAlive keep = new(1, async () =>
+            //{
+            //    Console.Clear();
+            //    await Console.Out.WriteLineAsync(string.Format("情况：{0}，{1}，{2}, 成功 {3},超时 {4},其他 {5},http计数：{6}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount, a, b, c, d));
+            //});
 
             app.UseDiySession();
+
+            app.UseIgnoreUrl("Views/Cs", "Views", "cs.html");
+
+            app.UseStaticFiles(); //"/Raa"
 
             app.UseRouting();
 
             app.UseEndpoints(e =>
             {
-                e.MapGet("/", async (context) =>
+                //e.MapGet("/", async (context) =>
+                //{
+                //    context.Session.SetAvailable(!context.Session.IsAvailable);
+
+                //    Interlocked.Increment(ref d);
+                //    ApiPacket packet = new(1, 250, 10000);
+                //    packet.Set("a", StringExtension.GetGuid());
+                //    var s = await client.SendAsync(packet);
+
+                //    string msg;
+                //    switch (s.OnNetFrame)
+                //    {
+                //        case NetFrameState.Success:
+                //            Interlocked.Increment(ref a);
+                //            msg = "OK";
+                //            break;
+                //        case NetFrameState.Timeout:
+                //            Interlocked.Increment(ref b);
+                //            msg = "NO";
+                //            break;
+                //        default:
+                //            Interlocked.Increment(ref c);
+                //            msg = "SB";
+                //            break;
+                //    }
+
+                //    await context.Response.WriteAsync(msg);
+                //});
+
+                e.MapAshxs(routes =>
                 {
-                    context.Session.SetAvailable(!context.Session.IsAvailable);
+                    routes.MapApiRoute(areaName: "WebTestApp.Api",
+                        template: "Api/{controller=GetMin}/{action=GetSql}/{id1?}");
 
-                    Interlocked.Increment(ref d);
-                    ApiPacket packet = new(1, 250, 10000);
-                    packet.Set("a", StringExtension.GetGuid());
-                    var s = await client.SendAsync(packet);
+                    routes.MapApiRoute(areaName: "WebTestApp.ApiView",
+                        //controller: "Heheh",
+                        //action: "Index",
+                        template: "{controller=Heheh}/{action=Index}/{id?}");
 
-                    string msg;
-                    switch (s.OnNetFrame)
-                    {
-                        case NetFrameState.Success:
-                            Interlocked.Increment(ref a);
-                            msg = "OK";
-                            break;
-                        case NetFrameState.Timeout:
-                            Interlocked.Increment(ref b);
-                            msg = "NO";
-                            break;
-                        default:
-                            Interlocked.Increment(ref c);
-                            msg = "SB";
-                            break;
-                    }
+                    routes.MapApiRoute(areaName: "WebTestApp.Api",
+                      controller: "GetMin",
+                      template: "Api0/{action=GetSql}/{id1?}");
 
-                    await context.Response.WriteAsync(msg);
+                    //routes.MapApiRoute(areaName: "WebTestApp.Api",
+                    //    controller: null,
+                    //    action: "GetSql",
+                    //    template: "Api0/{controller=GetMin}/{id1?}");
+
+                    routes.MapApiRoute(areaName: "WebTestApp.ApiView",
+                        controller: null,
+                        action: "As",
+                        template: "cs/{controller}/{id?}");
+
+                    routes.MapApiRoute(
+                        areaName: "WebTestApp.ApiView",
+                        controller: "Class",
+                        action: "As",
+                        template: "v2/{id?}");
+
+                    //routes.MapApiRoute(template: "{controller=Class}/{action=As}/{id?}");
                 });
             });
-
-            //app.UseRouting();
-
-            //var sc = app.ApplicationServices.GetRequiredService<IEnumerable<Microsoft.AspNetCore.Routing.EndpointDataSource>>().OfType<AshxEndpointDataSource>().First();
-
-            //var endpointRouteBuilder = new EndpointRouteBuilder(app);//EndpointRoutingMiddleware EndpointMiddleware
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapAshxs(routes =>
-            //    {
-            //        routes.MapApiRoute(areaName: "WebTestApp.Api",
-            //            template: "Api/{controller=GetMin}/{action=GetSql}/{id1?}");
-
-            //        routes.MapApiRoute(areaName: "WebTestApp.ApiView",
-            //            //controller: "Class",
-            //            //action: "As",
-            //            template: "{controller=Heheh}/{action=Index}/{id?}");
-
-            //        //routes.MapApiRoute(areaName: "WebTestApp.ApiView",
-            //        //    controller: null,
-            //        //    action: null,
-            //        //    template: "{controller=Class}/{action}/{id?}");
-
-
-
-            //        //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
-
-            //        //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
-
-            //        //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
-
-            //        //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
-
-            //        //routes.MapApiRoute(template: "{controller=Home}/{action}/{id?}");
-            //    }).Add(routes =>
-            //    {
-
-            //    });
-
-            //    //endpoints.MapDefaultControllerRoute().Add(routes =>
-            //    //{
-            //    //    if (routes.DisplayName == "Route: {controller=Home}/{action=Index}/{id?}")
-            //    //    {
-            //    //        routes.RequestDelegate = (a) => Task.CompletedTask;
-            //    //    }
-            //    //});
-            //});
 
             //SqlConnection sqlConnection = new SqlConnection();
 
@@ -371,44 +371,46 @@ namespace WebTestApp
             //Microsoft.AspNetCore.Session.SessionMiddleware;
             //Microsoft.AspNetCore.Session.DistributedSessionStore;
 
-            app.UseIgnoreUrl("Views/Cs", "Views", "cs.html");
-
-            app.UseStaticFiles(); //"/Raa"
-
             //app.UseStaticFiles(new StaticFileOptions
             //{
             //    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider("D:/Nixue工作室/WebUpload/wwwroot"),
             //    RequestPath = "/Raa"
             //});
 
-            app.UseAshx(routes =>
-            {
-                routes.MapApiRoute(
-                    name: "default",
-                    areaName: "WebTestApp.Api",
-                    template: "Api/{controller=GetMin}/{action=GetSql}/{id1?}");
+            //app.UseAshx(routes =>
+            //{
+            //    routes.MapApiRoute(
+            //        name: "default0",
+            //        areaName: "WebTestApp.Api",
+            //        template: "Api/{controller=GetMin}/{action=GetSql}/{id1?}");
 
-                routes.MapApiRoute(
-                    name: "default2",
-                    areaName: "WebTestApp.ApiView",
-                    controller: "Heheh",
-                    action: "Index",
-                    template: "v/{id?}");
+            //    routes.MapApiRoute(
+            //        name: "default1",
+            //        areaName: "WebTestApp.Api",
+            //        controller: "GetMin",
+            //        template: "Api/{action=GetSql}/{id1?}");
 
-                routes.MapApiRoute(
-                    name: "default3",
-                    areaName: null,
-                    controller: "Heheh",
-                    action: "Index",
-                    template: "v1/{id?}");
+            //    routes.MapApiRoute(
+            //        name: "default2",
+            //        areaName: "WebTestApp.ApiView",
+            //        controller: "Heheh",
+            //        action: "Index",
+            //        template: "v/{id?}");
 
-                routes.MapApiRoute(
-                    name: "default4",
-                    areaName: "WebTestApp.ApiView",
-                    controller: "Class",
-                    action: "As",
-                    template: "v2/{id?}");
-            });
+            //    routes.MapApiRoute(
+            //        name: "default3",
+            //        areaName: null,
+            //        controller: "Heheh",
+            //        action: "Index",
+            //        template: "v1/{id?}");
+
+            //    routes.MapApiRoute(
+            //        name: "default4",
+            //        areaName: "WebTestApp.ApiView",
+            //        controller: "Class",
+            //        action: "As",
+            //        template: "v2/{id?}");
+            //});
 
             //Microsoft.AspNetCore.Mvc.Routing.MvcRouteHandler//MvcBuilder//AttributeRouting.CreateAttributeMegaRoute(app.ApplicationServices)
 

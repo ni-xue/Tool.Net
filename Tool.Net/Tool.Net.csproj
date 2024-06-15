@@ -4,10 +4,11 @@
 		<!--<TargetFramework>net6.0</TargetFramework>-->
 		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
 		<RootNamespace>Tool</RootNamespace>
-		<Version>4.1.7</Version>
+		<!--<Version>5.0.6</Version>-->
+		<Version>5.1.0-pre</Version>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-		<Copyright>Copyright © Microsoft 2024-01-30 19:00:00</Copyright>
+		<Copyright>Copyright © Microsoft 2024-06-15 22:35:00</Copyright>
 		<Company>NiXue</Company>
 		<Authors>NiXue</Authors>
 		<PackageProjectUrl>https://github.com/nixue-xin/UniversalFrame</PackageProjectUrl>
@@ -17,19 +18,15 @@
 		<PackageTags>Sql Socket Web Tools Delegate</PackageTags>
 		<IsPackable>true</IsPackable>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
-		<PackageReleaseNotes>
-			当前版本为正式包，用于进行实际线上项目开发。
-			详细说明请下载后查看。
-			补充说明：接下来将重点新增SQL异步方法，以及修复其他特殊bug。
-			TcpFrame 模块将会持续关注。
-			更多更新，敬请期待，希望有伙伴加入帮我分担。
-		</PackageReleaseNotes>
-		<Description>
-			Tool.Net-逆血著作 (本产品完全免费)，
-			由逆血本人持有：联系方式-QQ群：857401501，
-			有任何优化建议，请联系作者，作者很愿意讨论和学习。
-			Url:nixue.top
-		</Description>
+		<PackageReleaseNotes>当前版本为正式包，用于进行实际线上项目开发。
+详细说明请下载后查看。
+补充说明：接下来将重点新增SQL异步方法，以及修复其他特殊bug。
+NetFrame 模块将会持续关注。
+更多更新，敬请期待，希望有伙伴加入帮我分担。		</PackageReleaseNotes>
+		<Description>Tool.Net-逆血著作 (本产品完全免费)，
+由逆血本人持有：联系方式-QQ群：857401501，
+有任何优化建议，请联系作者，作者很愿意讨论和学习。
+Url:nixue.top</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<AnalysisLevel>latest</AnalysisLevel>
 		<SignAssembly>true</SignAssembly>
@@ -38,23 +35,34 @@
 		<OutputType>Library</OutputType>
 		<Nullable>disable</Nullable>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<TargetFramework>net6.0</TargetFramework>
+		<DocumentationFile>Tool.Net.xml</DocumentationFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Title>Tool</Title>
+		<PackAsTool>False</PackAsTool>
 	</PropertyGroup>
-
+	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<DocumentationFile></DocumentationFile>
 		<WarningLevel>3</WarningLevel>
+		<DebugType>portable</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<DocumentationFile>Tool.Net.xml</DocumentationFile>
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		<Deterministic>true</Deterministic>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<DebugType>embedded</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Sockets\Kernels\AutoResetEventSlim.cs" />
 		<Compile Remove="Sockets\NetFrame\CoreCode.cs" />
+		<Compile Remove="Sockets\TcpHelper\TcpClient.cs" />
 		<Compile Remove="SqlCore\SqlServerProvider.cs" />
 		<Compile Remove="Utils\ManagedThreadPool.cs" />
 		<Compile Remove="Utils\Other\SystemInformation.cs" />
@@ -81,26 +89,14 @@
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
-		<PackageReference Include="System.Drawing.Common" Version="5.0.3" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
-		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)'=='net7.0'">
-		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)'=='net8.0'">
-		<PackageReference Include="System.Drawing.Common" Version="8.0.1" />
+		<None Include="readme.txt">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="Markdown.md">
+		<None Update="Icon.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>

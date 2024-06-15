@@ -8,6 +8,7 @@ namespace WebTestApp.Test
 {
     public class Class : DiySession
     {
+        public Class() { }
         //public override void Initialize()
         //{
         //    //throw new NotImplementedException();

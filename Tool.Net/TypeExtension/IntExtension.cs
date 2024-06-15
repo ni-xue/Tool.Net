@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Tool
 {
@@ -42,6 +44,20 @@ namespace Tool
         }
 
         #endregion
+
+        /// <summary>
+        /// 原子方式+1
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        public static int Increment(this ref int value) => Interlocked.Increment(ref value);
+
+        /// <summary>
+        /// 原子方式-1
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        public static int Decrement(this ref int value) => Interlocked.Decrement(ref value);
 
         #region Int[] 封装方法
 

@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 using Tool.Web.Api;
+using Tool.Web.Api.ApiCore;
 
 namespace Tool.Web.Routing
 {
@@ -42,13 +45,27 @@ namespace Tool.Web.Routing
         public virtual IServiceProvider Service { get { return HttpContext.RequestServices; } }
 
         /// <summary>
+        /// 日志信息
+        /// </summary>
+        public virtual ILogger Logger { get; }
+
+        /// <summary>
+        /// 是否采用异步线程池，处理每次请求路由的过程
+        /// </summary>
+        public virtual bool IsAsync { get; }
+
+        /// <summary>
         /// 使用指定路由和路由处理程序初始化 <see cref="AshxRouteData"/> 类的新实例。
         /// </summary>
         /// <param name="routeContext">封装与所定义路由匹配的 HTTP 请求的相关信息。</param>
         /// <param name="jsonOptions">json配置对象</param>
-        public AshxRouteData(RouteContext routeContext, System.Text.Json.JsonSerializerOptions jsonOptions)
+        /// <param name="Logger">日志模块</param>
+        /// <param name="IsAsync"></param>
+        public AshxRouteData(RouteContext routeContext, System.Text.Json.JsonSerializerOptions jsonOptions, ILogger Logger, bool IsAsync)
         {
             this.JsonOptions = jsonOptions;
+            this.Logger = Logger;
+            this.IsAsync = IsAsync;
 
             this.RouteContext = routeContext;
             this.GetRouteData = routeContext.RouteData;
@@ -67,6 +84,8 @@ namespace Tool.Web.Routing
             {
                 throw HttpContext.AddHttpException(404, string.Format(System.Globalization.CultureInfo.CurrentCulture, "找不到该路由的控制器,，URL: {0}", new object[] { this.HttpContext.Request.Path }));
             }
+
+            this.RouteContext.Handler = this.HandlerAsync;
         }
 
         /// <summary>
@@ -180,7 +199,7 @@ namespace Tool.Web.Routing
         /// 获取一个新的 JsonSerializerOptions 对象 原对象来源于 AddAshx 时注册值
         /// </summary>
         /// <returns>新的 JsonSerializerOptions 对象</returns>
-        public System.Text.Json.JsonSerializerOptions GetNewJsonOptions() 
+        public System.Text.Json.JsonSerializerOptions GetNewJsonOptions()
         {
             return new System.Text.Json.JsonSerializerOptions(JsonOptions ?? throw new ArgumentNullException(nameof(JsonOptions), "您未在 AddAshx 的时候注册 JsonSerializerOptions 对象！"));
         }
@@ -194,5 +213,164 @@ namespace Tool.Web.Routing
         //{
         //    return Service.GetService<T>();
         //}
+
+        #region 内部调用
+
+        private bool IsOptions()
+        {
+            if (AshxExtension.CrossDomain(HttpContext.Response, GetAshx) && HttpContext.Request.Method.EqualsNotCase("OPTIONS"))
+            {
+                Info();
+                return true;
+            }
+            return false;
+        }
+
+        private async Task<bool> TryMethod()
+        {
+            if (!AshxExtension.HttpMethod(HttpContext.Request.Method, GetAshx.State))
+            {
+                await AshxHandlerOrAsync.CustomOutput(HttpContext, "application/json", "请求类型错误！", 403);
+                return true;
+            }
+            return false;
+        }
+
+        private async Task<bool> IsNotError(Exception error)
+        {
+            if (error is not null)
+            {
+                var context = HttpContext;
+                if (Service.GetService(typeof(IHostEnvironment)) is IHostEnvironment env && env.IsDevelopment())
+                {
+                    throw context.AddHttpException(500, "调用Api异常，参数无法实现！，URL: {0}", error: error, new object[] { context.Request.Path });
+                }
+                else
+                {
+                    await AshxHandlerOrAsync.CustomOutput(context, "application/json", "接口调用失败，请查看日志文件！", 500);
+                }
+                return false;
+            }
+            else
+            {
+                Info();
+                return true;
+            }
+        }
+
+        private async Task HandlerAsync(HttpContext context)
+        {
+            SetKey();
+
+            if (IsOptions()) return;
+            if (await TryMethod()) return;
+
+            if (IsAshx)
+            {
+                Task task = IsAsync ? Task.Run(okApi) : okApi();
+                await task;
+            }
+
+            Task okApi()
+            {
+                var ashx = GetAshx;
+                if (ashx.IsMinApi)
+                {
+                    return Minapi(ashx);
+                }
+                else
+                {
+                    return Ashxapi(context, ashx);
+                }
+            }
+        }
+
+        private async Task Ashxapi(HttpContext context, Ashx ashx)
+        {
+            IHttpAsynApi handler;
+            try
+            {
+                handler = ashx.NewClassAshx(context.RequestServices);
+            }
+            catch (Exception e)
+            {
+                throw context.AddHttpException(404, "在创建时发生异常，应该是使用有参构造函数，URL: {0}", error: e, new object[] { context.Request.Path });
+            }
+
+            if (AshxHandlerOrAsync.Initialize(handler, this, out object[] _objs, out Exception error))//初始加载
+            {
+                if (await IsNotError(error))
+                {
+                    if (ashx.IsTask)
+                    {
+                        await AshxHandlerOrAsync.StartAsyncAshx(handler, _objs);
+                    }
+                    else
+                    {
+                        await AshxHandlerOrAsync.StartAshx(handler, _objs);
+                    }
+                }
+            }
+        }
+
+        private async Task Minapi(Ashx ashx)
+        {
+            IMinHttpAsynApi handler = ashx.ClassMinApi();
+
+            if (AshxHandlerOrAsync.MinInitialize(handler, this, out object[] _objs, out Exception error))
+            {
+                if (await IsNotError(error))
+                {
+                    if (ashx.IsTask)
+                    {
+                        await AshxHandlerOrAsync.StartMinAsyncAshx(handler, this, _objs);
+                    }
+                    else
+                    {
+                        await AshxHandlerOrAsync.StartMinAshx(handler, this, _objs);
+                    }
+                }
+            }
+        }
+
+        private void Info()
+        {
+            if (Logger.IsEnabled(LogLevel.Information))
+            {
+                void info()
+                {
+                    string ApiName;
+
+                    if (IsAshx && GetAshx.IsMinApi)
+                    {
+                        ApiName = "MinApi";
+                    }
+                    else
+                    {
+                        ApiName = "ApiAshx";
+                    }
+
+                    Logger.LogInformation("调用 {ApiName} 控制器操作所用内容\n\tHTTP 方法: {Method}\n\t路径: {Path}\n\t控制器: {Controller}\n\t操作: {Action}\n\t请求 ID: {Key}",
+                        ApiName,
+                        HttpContext.Request.Method,
+                        HttpContext.Request.Path,
+                        Controller,
+                        Action,
+                        Key
+                        );
+                }
+
+                info();
+
+                //Logger.LogInformation($@"调用 {ApiName} 控制器操作所用内容:
+                //HTTP 方法: {_routeData.HttpContext.Request.Method}
+                //路径: {_routeData.HttpContext.Request.Path}
+                //控制器: {_routeData.Controller}
+                //操作: {_routeData.Action}
+                //请求 ID: {_routeData.Key.Value} ", ApiName);
+            }
+        }
+
+        #endregion
     }
 }

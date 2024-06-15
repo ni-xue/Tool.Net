@@ -8,10 +8,11 @@ using Tool;
 using Tool.Utils;
 using Tool.Web.Api;
 using Tool.Web;
+using Tool.Utils.Data;
 
 namespace WebTestApp.Api
 {
-    public class GetCore: ApiAshx
+    public class GetCore : ApiAshx
     {
         //public HttpClient httpClient { get; set; }
 
@@ -49,7 +50,7 @@ namespace WebTestApp.Api
 
         protected override void OnResult(Ashx ashx)
         {
-            
+
         }
 
         //public (int A1, string A2) ED() 
@@ -57,24 +58,30 @@ namespace WebTestApp.Api
         //    return (1, "1");
         //}
 
+        public object System(object dataSet)
+        {
+            return (dataSet as System.Data.DataSet).ToJSON();
+        }
+
         [Ashx(State = AshxState.All), CrossDomain]
         public void Get(
             [ApiVal(Val.Query)] int Id
-            ,[ApiVal(Val.Form)] string Key
-            ,[ApiVal(Val.Service)] Tool.SqlCore.DbHelper dbHelper
-            ,[ApiVal(Val.File)] IFormFile file
+            , [ApiVal(Val.Form)] string Key
+            , [ApiVal(Val.Service)] Tool.SqlCore.DbHelper dbHelper
+            , [ApiVal(Val.File)] IFormFile file
+            , [ApiVal(Val.Files)] IFormFileCollection files
             //,[ApiVal(Val.Session)] int key10
             //,[ApiVal(Val.Session)] ps key11
-            ,[ApiVal(Val.RouteKey)] int id1
-            ,[ApiVal(Val.RouteKey)] string controller
-            ,[ApiVal(Val.RouteKey)] string action
+            , [ApiVal(Val.RouteKey)] int id1
+            , [ApiVal(Val.RouteKey)] string controller
+            , [ApiVal(Val.RouteKey)] string action
 
-            ,[ApiVal(Val.Service)] Microsoft.Extensions.Logging.ILoggerFactory factory
+            , [ApiVal(Val.Service)] Microsoft.Extensions.Logging.ILoggerFactory factory
 
-            ,[ApiVal(Val.Cookie)] int SessionId
-            ,[ApiVal(Val.Header)] string Cookie1
+            , [ApiVal(Val.Cookie)] int SessionId
+            , [ApiVal(Val.Header)] string Cookie1
 
-            ) 
+            )
         {
 
             //Session.TryGetValue("key", out string v);
@@ -84,7 +91,7 @@ namespace WebTestApp.Api
         }
 
         [CrossDomain]
-        public async Task Async([ApiVal(Val.Service)] IHttpContextAccessor context) 
+        public async Task Async([ApiVal(Val.Service)] IHttpContextAccessor context)
         {
             //"asd".ToInt();
 
@@ -98,6 +105,11 @@ namespace WebTestApp.Api
             //    Json(new { i = 10 });
             //});
         }
+        public async ValueTask Value()
+        {
+            await Task.Delay(1000);
+            await JsonAsync(new { mag = "保存成功！" });
+        }
 
         public Task Async1(int id = 5)
         {
@@ -108,17 +120,26 @@ namespace WebTestApp.Api
             return JsonAsync(new { msg = "暂无数据。", time = DateTime.Now, IsTask = false }); // Task.Run(() => { Json(new { msg = "暂无数据。", IsTask = false }); });
         }
 
+        public void Ok(int id = 5)
+        {
+            //"sda".ToInt();
+
+            //ps s = "{\"msg\":\"暂无数据。\",\"time\":\"2021-05-04 15:41:00.407\",\"isTask\":false}".Json<ps>(RouteData.GetNewJsonOptions());
+
+            Json(new { msg = "暂无数据。", time = DateTime.Now, IsTask = false }); // Task.Run(() => { Json(new { msg = "暂无数据。", IsTask = false }); });
+        }
+
         protected override void AshxException(AshxException ex)
         {
             ex.ExceptionHandled = true;
 
-            Log.Debug("测试",ex);
+            Log.Debug("测试", ex);
 
             Json(new { msg = "系统错误。" });
         }
     }
 
-    public class ps 
+    public class Ps
     {
         public string msg { set; get; }
 

@@ -16,7 +16,7 @@ namespace Tool.Sockets.NetFrame
         /// <summary>
         /// 绑定多服务器队列统一消息
         /// </summary>
-        public event Func<string, EnClient, DateTime, Task> Completed;
+        public event CompletedEvent<EnClient> Completed;
 
         /// <summary>
         /// 原子锁
@@ -107,10 +107,10 @@ namespace Tool.Sockets.NetFrame
             ClientFrames.Add(clientFrame);
         }
 
-        private Task SetCompleted(string arg1, EnClient arg2, DateTime arg3)
+        private ValueTask SetCompleted(UserKey arg1, EnClient arg2, DateTime arg3)
         {
-            Completed?.Invoke(arg1, arg2, arg3).Wait();
-            return Task.CompletedTask;
+            if (Completed is null) return ValueTask.CompletedTask;
+            return Completed.Invoke(arg1, arg2, arg3);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Tool.Sockets.NetFrame
         /// </summary>
         /// <param name="api">接口调用信息</param>
         /// <returns>返回数据包，以及下标</returns>
-        public async Task<(NetResponse, int i)> SendAsync(ApiPacket api)
+        public async ValueTask<(NetResponse, int i)> SendAsync(ApiPacket api)
         {
             int i = Interlocked.Increment(ref LockCount);
             if (ClientCount - 1 == i)
@@ -179,7 +179,7 @@ namespace Tool.Sockets.NetFrame
         /// <param name="IpPort">事件处理的服务器</param>
         /// <param name="api">接口调用信息</param>
         /// <returns>返回数据包，以及下标</returns>
-        public async Task<(NetResponse, int i)> SendIpIdeaAsync(string IpPort, ApiPacket api)
+        public async ValueTask<(NetResponse, int i)> SendIpIdeaAsync(string IpPort, ApiPacket api)
         {
             int i = Interlocked.Increment(ref LockCount);
             if (ClientCount - 1 == i)
@@ -230,7 +230,7 @@ namespace Tool.Sockets.NetFrame
         /// </summary>
         /// <param name="i">向那个服务器端口发包</param>
         /// <param name="api">接口调用信息</param>
-        public async Task<NetResponse> SendAsync(int i, ApiPacket api)
+        public async ValueTask<NetResponse> SendAsync(int i, ApiPacket api)
         {
             if (i >= ClientCount)
             {

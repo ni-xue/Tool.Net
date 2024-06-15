@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebTestApp.Test
 {
-    public class system
+    public class SystemTest
     {
         public int id { get; set; }
 

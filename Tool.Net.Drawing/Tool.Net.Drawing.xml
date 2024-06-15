@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tool.Net.Drawing</name>
+    </assembly>
+    <members>
+        <member name="T:Tool.ByteExtension">
+            <summary>
+            对Byte进行升级
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="M:Tool.ByteExtension.ToImage(System.Byte[])">
+            <summary>
+            将一个序列化后的byte[]数组还原为图片类型     
+            </summary>
+            <param name="Bytes">byte[]数组</param>
+            <returns>返回一个原图片对象</returns>
+        </member>
+        <member name="T:Tool.Utils.Data.ImageExtension">
+            <summary>
+            对<see cref="T:System.Drawing.Image"/>进行升级
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="M:Tool.Utils.Data.ImageExtension.ToImageBytes(System.Drawing.Image,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            将Image转化为byte数组,使用缓存文件中转
+            </summary>
+            <param name="image">图像</param>
+            <param name="imageFormat">格式（默认为（jpeg格式））</param>
+        </member>
+        <member name="T:Tool.Utils.ImageHelper">
+            <summary>
+            图片压缩帮助类
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.ImageHelper.GetEncoderInfo(System.String)">
+            <summary>
+            获取或设置包含编码解码器的多用途网际邮件扩充协议 (MIME) 类型的字符串。例如：image/jpeg
+            </summary>
+            <param name="mime_type">图片类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.ImageHelper.SaveJpg(System.Drawing.Image,System.String,System.Int32)">
+            <summary>
+            将图片写入磁盘（文件存在时覆盖原文件）
+            </summary>
+            <param name="image">图片资源</param>
+            <param name="file_name">保存路径</param>
+            <param name="level">图片等级</param>
+        </member>
+        <member name="M:Tool.Utils.ImageHelper.SaveJpgToStream(System.Drawing.Image,System.Int32)">
+            <summary>
+            将 图片 转换成 数据流
+            </summary>
+            <param name="image">图片资源</param>
+            <param name="level">图片等级</param>
+            <returns><see cref="T:System.IO.MemoryStream"/></returns>
+        </member>
+        <member name="M:Tool.Utils.ImageHelper.SaveJpgAtFileSize(System.Drawing.Image,System.String,System.Int64)">
+            <summary>
+            将图片写入磁盘（文件存在时覆盖原文件）并验证是否压缩到传入的最大大小以内
+            </summary>
+            <param name="image">图片资源</param>
+            <param name="file_name">保存路径</param>
+            <param name="max_size">保存最大长度限制</param>
+            <returns>压缩率</returns>
+        </member>
+        <member name="M:Tool.Utils.ImageHelper.ShrinkageImg(System.Drawing.Image,System.Int32,System.Int32)">
+            <summary>
+            收缩变形
+            </summary>
+            <param name="iSource">图片</param>
+            <param name="maxWidth">压缩宽</param>
+            <param name="maxHeight">压缩高</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.ImageHelper.LoadBitmap(System.String)">
+            <summary>
+            从路径中加载图片文件
+            </summary>
+            <param name="file_name">图片文件路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.ImageHelper.ImageToBytes(System.Drawing.Image)">
+            <summary>
+            图片转<see cref="T:System.Byte"/>[]
+            </summary>
+            <param name="image"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.ImageHelper.ImageToBytes(System.String)">
+            <summary>
+            从路径中加载图片文件
+            </summary>
+            <param name="FilePath">图片文件路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.ImageHelper.BytesToImage(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            将<see cref="T:System.Byte"/>[]转图片，并设置大小
+            </summary>
+            <param name="buffer"></param>
+            <param name="maxWidth">压缩宽</param>
+            <param name="maxHeight">压缩高</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.ImageHelper.BytesToBitmap(System.Byte[])">
+            <summary>
+            将<see cref="T:System.Byte"/>[]转<see cref="T:System.Drawing.Bitmap"/>对象
+            </summary>
+            <param name="Bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tool.Utils.VerificCodeHelper">
+            <summary>
+            验证码帮助类
+            </summary>
+        </member>
+        <member name="F:Tool.Utils.VerificCodeHelper.Width">
+            <summary>
+            验证码 宽
+            </summary>
+        </member>
+        <member name="F:Tool.Utils.VerificCodeHelper.Height">
+            <summary>
+            验证码 高
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.VerificCodeHelper.BrushNames">
+            <summary>
+            当前生效的噪点集合 Brushes 对象下有的才能用,加入对象名称
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.VerificCodeHelper.GetVCode(System.String)">
+            <summary>
+            生成验证码
+            </summary>
+            <param name="codeStr">要生成的验证码字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.VerificCodeHelper.Paint_Text(System.Drawing.Graphics,System.Drawing.Font,System.Drawing.Brush,System.String)">
+            <summary>
+            绘画文字
+            </summary>
+            <param name="g"></param>
+            <param name="brush"></param>
+            <param name="font"></param>
+            <param name="code"></param>
+        </member>
+        <member name="M:Tool.Utils.VerificCodeHelper.Paint_TextStain(System.Drawing.Bitmap,System.Drawing.Color)">
+            <summary>
+            绘画文字噪音点
+            </summary>
+            <param name="b"></param>
+            <param name="brushName"></param>
+        </member>
+        <member name="M:Tool.Utils.VerificCodeHelper.GetFont">
+            <summary>
+            随机取一个字体
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.VerificCodeHelper.GetBrush(System.Drawing.Color@)">
+            <summary>
+            随机取一个笔刷
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.VerificCodeHelper.GetFontStyle(System.Int32)">
+            <summary>
+            取一个字体的样式
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.VerificCodeHelper.GetRandomCode(System.Int32)">
+            <summary>
+            取得一个 4 位的随机码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.VerificCodeHelper.GetRandomCodeV2(System.Int32@)">
+            <summary>
+            取得一个 个位数的（+*）的随机算数
+            </summary>
+            <param name="val">算数结果</param>
+            <returns>算数例子</returns>
+        </member>
+    </members>
+</doc>

@@ -46,18 +46,18 @@ namespace WebTestApp.Api
 
             //return ApiOut.Json(new { msg = "系统错误。", count });
 
-            Tool.SqlCore.DbHelper dbHelper;
+            //Tool.SqlCore.DbHelper dbHelper;
 
             //System(1, null);
 
             //dbHelper.Select(System, 1);
 
-            Test.TSqlAttribute sqlAttribute = new Test.SelectAttribute("SELECT")
-            {
-                OnSqlAction = System
-            };
+            //Test.TSqlAttribute sqlAttribute = new Test.SelectAttribute("SELECT")
+            //{
+            //    OnSqlAction = System
+            //};
 
-            sqlAttribute.OnStart(dbHelper);
+            //sqlAttribute.OnStart(dbHelper);
         }
 
         //[Test.TSql]
@@ -66,7 +66,6 @@ namespace WebTestApp.Api
         {
             return (dataSet as System.Data.DataSet).ToJSON();
         }
-
 
         public JsonOut GetSql(
             HttpContext context
@@ -84,7 +83,7 @@ namespace WebTestApp.Api
 
             , [ApiVal(Val.Cookie)] int SessionId
             , [ApiVal(Val.Header)] string Cookie1
-            , [ApiVal(Val.QueryMode)] system whereSort)
+            , [ApiVal(Val.QueryMode)] SystemTest whereSort)
         {
             //System.Data.DataSet ds = dbHelper.Query("SELECT * FROM system WHERE Id=@a OrDER by id desc", new { a = 1, b = "2", c = true, d = DateTime.Now, e = new byte[] { 60, 254 } });
 
@@ -133,7 +132,7 @@ namespace WebTestApp.Api
             return ApiOut.Json(new { msg = $"暂无数据。 action:{controller}\\action:{action}\\action:{id1}", IsTask = false, count });
         }
 
-        public class system { public string SortKey { get; init; } = "Id"; }
+        public class SystemTest { public string SortKey { get; init; } = "Id"; }
 
         public async Task<IApiOut> GetTaskSql(HttpContext context, int id =5)
         {

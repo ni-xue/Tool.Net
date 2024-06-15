@@ -1,23 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Buffers;
-using System.Collections;
-using System.ComponentModel;
-using System.Data;
-using System.IO;
-using System.Linq.Expressions;
-using System.Net;
-using System.Net.Sockets;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Tool;
+﻿using System.Runtime.Versioning;
 using Tool.Sockets.Kernels;
 using Tool.Sockets.NetFrame;
-using Tool.Utils;
-using Tool.Utils.ActionDelegate;
-using Tool.Utils.Data;
+using Tool.Sockets.P2PHelpr;
+using Tool.Sockets.TcpHelper;
+using Tool.Sockets.UdpHelper;
 
 namespace TcpTest
 {
@@ -32,8 +18,12 @@ namespace TcpTest
         public decimal? g { get; init; }
     }
 
+    [SupportedOSPlatform("windows")]
+    [RequiresPreviewFeatures]
+    //CountdownEvent
     internal class Program
     {
+        #region 暂无用
         //private static async Task TaskAsync(ManualResetEvent @event) 
         //{
         //    Console.WriteLine("呜呜{0}", ObjectExtension.Thread.ManagedThreadId);
@@ -41,192 +31,112 @@ namespace TcpTest
         //    @event.WaitOne(5 * 1000, true);
         //    Console.WriteLine("嘿嘿{0}", ObjectExtension.Thread.ManagedThreadId);
         //}
+        #endregion
 
-        static void Task4()
+        static async ValueTask Completed(string key, UserKey a1, EnClient b1, DateTime c1)
         {
-            const string filePath = "D:\\NixueStudio\\Tool.Net\\TcpFrameTest\\bin\\Debug\\net7.0\\TcpFrameTest.exe";
-
-            var task = Task.FromResult(File.ReadAllText(filePath)); // 只是方便举例，更好的代码应该是：File.ReadAllTextAsync(filePath); 
-
-            Console.WriteLine("读取文件内容...");
-
-            // 等待任务完成
-            task.Wait();
-
-            Console.WriteLine("文件内容: {0}", task.Result);
-            Console.ReadKey();
+            await Console.Out.WriteLineAsync($"[{key}]IP:{a1} \t{b1} \t{c1:yyyy/MM/dd HH:mm:ss:fffffff}");
         }
-
-        public static async void SendTo4()
-        {
-            //IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 11000);
-
-            Socket s = new Socket(endPoint.Address.AddressFamily,
-                SocketType.Dgram,
-                ProtocolType.Udp);
-
-            Memory<byte> msg = Encoding.UTF8.GetBytes($"主动推送");
-            //Console.WriteLine("Sending data.");
-            // This call blocks.
-            await s.SendToAsync(msg, SocketFlags.None, endPoint);
-
-            //int c = 0;
-            while (true)
-            {
-                Memory<byte> msg1 = new byte[256];
-                IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-                EndPoint senderRemote = (EndPoint)sender;
-                var i = await s.ReceiveFromAsync(msg1, SocketFlags.None, senderRemote);
-                if (i.ReceivedBytes > 0)
-                {
-                    Console.WriteLine(Encoding.UTF8.GetString(msg1.ToArray(), 0, i.ReceivedBytes));
-                }
-                //c++;
-            }
-
-            s.Close();
-        }
-
-        public static async void ReceiveFrom3()
-        {
-            //IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 11000);
-
-            Socket s = new Socket(endPoint.Address.AddressFamily,
-                SocketType.Dgram,
-                ProtocolType.Udp);
-
-            // Creates an IPEndPoint to capture the identity of the sending host.
-
-            // Binding is required with ReceiveFrom calls.
-            s.Bind(endPoint);
-
-            IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-            EndPoint senderRemote = (EndPoint)sender;
-            Memory<byte> msg = new byte[256];
-            //Console.WriteLine("Waiting to receive datagrams from client...");
-            // This call blocks.
-            var i = await s.ReceiveFromAsync(msg, SocketFlags.None, senderRemote, default);
-            if (i.ReceivedBytes > 0)
-            {
-                senderRemote = i.RemoteEndPoint;
-                Console.WriteLine(Encoding.UTF8.GetString(msg.ToArray(), 0, i.ReceivedBytes));
-            }
-
-            int c = 0;
-            while (true)
-            {
-                Memory<byte> msg1 = Encoding.UTF8.GetBytes($"回复：{c}");
-                //Console.WriteLine("Sending data.");
-                // This call blocks.
-                await s.SendToAsync(msg1, SocketFlags.None, senderRemote);
-                c++;
-            }
-
-            s.Close();
-        }
-
-        static int a1, b1, c1 = 0;
 
         static async Task Main(string[] args)
         {
-            //Task4();
+            P2pClientAsync.TimedDelay = 60000;
 
-            Tool.Sockets.WebHelper.WebServer webServer = new() { Millisecond = 0, IsSSL = false };
-            webServer.StartAsync("127.0.0.1", 9999);
+            //TcpClientAsync p2PClientAsync = new(NetBufferSize.Default, true);
+            //p2PClientAsync.SetCompleted((age0, age1, age2) => Completed("TCP", age0, age1, age2));
+            //await p2PClientAsync.P2PConnectAsync("192.168.31.33:54235", "192.168.31.19:3333");
 
-            webServer.SetReceived(async (a) =>
-            {
-                try
-                {
-                    using (a)
-                    {
-                        await Console.Out.WriteLineAsync($"ip:{a.Key},{Encoding.UTF8.GetString(a.Memory.Span)},{DateTime.Now}");
-                        await Task.Delay(10);
-                        await webServer.SendAsync(a.Client, $"Server:已回应{Interlocked.Increment(ref a1)} {DateTime.Now}");
-                    }
-                }
-                catch (Exception)
-                {
+            //112.19.21.42:2980
+            //112.19.21.42:2981
+            //127.0.0.1 192.168.31.33  106.55.49.68:8080
+            //string server = "106.55.49.68";
+            //string server = "127.0.0.1";
 
-                }
-            });
+            await Console.Out.WriteLineAsync($"尝试P2P：{DateTime.Now:yyyy/MM/dd HH:mm:ss:fffffff}");
 
-            //Console.WriteLine($"已启动服务器！");
-            //Console.ReadKey();
-            //return;
+#if false
+            P2pServerAsync p2PServerAsync0 = await P2pServerAsync.GetFreeTcp();
+            P2pServerAsync p2PServerAsync1 = await P2pServerAsync.GetFreeTcp();
 
-            Tool.Sockets.WebHelper.WebClient webClient = new(true) { Millisecond = 0, IsSSL = false };
-            webClient.ConnectAsync("127.0.0.1", 9999);
+            TcpClientAsync p2PClientAsync0 = new(NetBufferSize.Default, true);
+            p2PClientAsync0.SetCompleted((age0, age1, age2) => Completed("TCP", age0, age1, age2));
+            var task0 = p2PServerAsync0.P2PConnectAsync(p2PClientAsync0, p2PServerAsync1.RemoteEP);
+            //var task0 = p2PClientAsync0.P2PConnectAsync(p2PServerAsync0.LocalEP, p2PServerAsync1.RemoteEP);
 
-            webClient.SetReceived(async (a) =>
-            {
-                try
-                {
-                    using (a)
-                    {
-                        await Console.Out.WriteLineAsync($"ip:{a.Key},{Encoding.UTF8.GetString(a.Memory.Span)},{DateTime.Now}");
-                        await Task.Delay(10);
-                        await webClient.SendAsync($"Client:已回应{Interlocked.Increment(ref b1)} {DateTime.Now}");
-                    }
-                }
-                catch (Exception)
-                {
+            await Task.Delay(5000);
 
-                }
-            });
+            TcpClientAsync p2PClientAsync1 = new(NetBufferSize.Default, true);
+            p2PClientAsync1.SetCompleted((age0, age1, age2) => Completed("TCP", age0, age1, age2));
+            var task1 = p2PServerAsync1.P2PConnectAsync(p2PClientAsync1, p2PServerAsync0.RemoteEP);
+            //var task1 = p2PClientAsync1.P2PConnectAsync(p2PServerAsync1.LocalEP, p2PServerAsync0.RemoteEP);
 
-            webClient.SetCompleted(async (a, b, c) =>
-            {
-                switch (b)
-                {
-                    case EnClient.Connect:
-                        await webClient.SendAsync($"打招呼{Interlocked.Increment(ref c1)} {DateTime.Now}");
-                        break;
-                    case EnClient.Fail:
-                        Console.Clear();
-                        break;
-                    case EnClient.SendMsg:
-                        break;
-                    case EnClient.Receive:
-                        break;
-                    case EnClient.Close:
-                        Console.Clear();
-                        break;
-                    case EnClient.HeartBeat:
-                        break;
-                }
-            });
+#else
+            P2pServerAsync p2PServerAsync0 = await P2pServerAsync.GetFreeUdp();
+            P2pServerAsync p2PServerAsync1 = await P2pServerAsync.GetFreeUdp();
 
-            await Task.Delay(3000);
+            UdpClientAsync p2PClientAsync0 = new(NetBufferSize.Default, true) { ReceiveTimeout = 5000 };
+            p2PClientAsync0.SetCompleted((age0, age1, age2) => Completed("UDP", age0, age1, age2));
+            var task0 = p2PServerAsync0.P2PConnectAsync(p2PClientAsync0, p2PServerAsync1.RemoteEP);
+            //var task0 = p2PClientAsync0.P2PConnectAsync(p2PServerAsync0.LocalEP, p2PServerAsync1.RemoteEP);
 
-            //try
-            //{
-            //    await webClient.SendAsync($"打招呼{DateTime.Now}");
-            //}
-            //catch (Exception)
-            //{
+            await Task.Delay(5000);
 
-            //}
+            UdpClientAsync p2PClientAsync1 = new(NetBufferSize.Default, true) { ReceiveTimeout = 5000 };
+            p2PClientAsync1.SetCompleted((age0, age1, age2) => Completed("UDP", age0, age1, age2));
+            var task1 = p2PServerAsync1.P2PConnectAsync(p2PClientAsync1, p2PServerAsync0.RemoteEP);
+            //var task1 = p2PClientAsync1.P2PConnectAsync(p2PServerAsync1.LocalEP, p2PServerAsync0.RemoteEP);
+#endif
+
+            Task.WaitAll(task0, task1);
+            await Console.Out.WriteLineAsync($"成功P2P：{DateTime.Now:yyyy/MM/dd HH:mm:ss:fffffff}");
+
+            p2PServerAsync0.Dispose();
+            p2PServerAsync1.Dispose();
+
+            p2PClientAsync0.AddKeepAlive(1);
+            p2PClientAsync1.AddKeepAlive(1);
 
             Console.ReadKey();
-            return;
+            p2PClientAsync0.Dispose();
+            p2PClientAsync1.Dispose();
 
-            //Memory<byte> obj = new byte[] { 1, 2, 3, 4, 5, 0, 0, 0, 0, 0 };
+            UserKey userKey = "1.1.1.1:65535";
 
-            //var ListData0 = obj[..5];
-            //byte[] ListData1 = ListData0.ToArray();
+            Ipv4Port ipv4Port = userKey;
 
-            //ListData1[0] = 6;
+            ipv4Port.GetHashCode();
 
-            //obj.Span[0] = 0;
+            StateObject.IsIpPort("120.255.1.1:1", out var ipnum);
 
-            ReceiveFrom3();
-            Thread.Sleep(1000);
-            SendTo4();
+            //Creates an IpEndPoint.
+            //IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+            //IPEndPoint ipLocalEndPoint = new IPEndPoint(ipAddress, 8000);
+            //BitConverter.GetBytes((ushort)8000);
+            ////Serializes the IPEndPoint.
+            //SocketAddress socketAddress = ipLocalEndPoint.Serialize();
 
-            Console.ReadKey();
+            ////Verifies that ipLocalEndPoint is now serialized by printing its contents.
+            //Console.WriteLine("Contents of the socketAddress are: " + socketAddress.ToString());
+            ////Checks the Family property.
+            //Console.WriteLine("The address family of the socketAddress is: " + socketAddress.Family.ToString());
+            ////Checks the underlying buffer size.
+            //Console.WriteLine("The size of the underlying buffer is: " + socketAddress.Size.ToString());
+
+            //byte[] data = { 0, 1, };
+
+            //var a0 = BinaryPrimitives.ReadUInt16BigEndian(data);
+            //var a1 = BinaryPrimitives.ReadUInt16LittleEndian(data);
+
+            //var a2 = BitConverter.ToUInt16(data);
+            //var a3 = BitConverter.ToUInt16(data.Reverse().ToArray());
+
+            //await NetWorship.OnMain(args);
+            //await TcpWorship.OnMain(args);
+            //await UdpWorship.OnMain(args);
+            //await WebWorship.OnMain(args);
+            await QuicWorship.OnMain(args);
+
+            #region 暂无用
 
             //var @event = new ManualResetEvent(false);CountdownEvent
             //CountdownEvent
@@ -244,41 +154,6 @@ namespace TcpTest
             //    atomCountLock.Wait();
             //    Console.WriteLine(ii);
             //}
-
-            Socket socket = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);//Socket socket0
-            //socket0.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 444));
-            //socket0.Listen();
-            //Socket socket = socket0.Accept();
-            socket.Connect("127.0.0.1", 444);
-            var _dataLength = 108 * 1024 - 6;
-            Tool.Sockets.TcpHelper.TcpClient tcpClient = new(socket, _dataLength);
-
-            Memory<byte> data = new byte[] { 40, 0, 0, 0, 0, 41, 123, 1, 2, 3, 2, 1, 123 };
-
-            BitConverter.TryWriteBytes(data[1..].Span, 7);
-
-            //while (true)
-            //{
-            //    var memoryOwner = MemoryPool<byte>.Shared.Rent(data.Length);
-            //    data.CopyTo(memoryOwner.Memory);
-            //    tcpClient.SendAsync(new TcpBytes("", socket, memoryOwner, data.Length));
-            //    Thread.Sleep(Random.Shared.Next(0, 2));
-            //}
-            int lre = int.Parse("100000");
-            KeepAlive keep = new(1, async () =>
-            {
-                for (int i = 0; i < lre; i++)
-                {
-                    var memoryOwner = MemoryPool<byte>.Shared.Rent(data.Length);
-                    data.CopyTo(memoryOwner.Memory);
-                    tcpClient.SendAsync(new SendBytes(memoryOwner, data.Length));
-                    await Task.Delay(i);
-                    //Thread.Sleep(Random.Shared.Next(0, 2));
-                }
-                //Thread.Sleep(100000);
-            });
-
-            Console.ReadKey();
 
             //abc abc1 = new();
             //var q1 = abc1.ToXml();
@@ -312,7 +187,7 @@ namespace TcpTest
 
             //var ass = null as object;
 
-            var type = typeof(Abc);
+            //var type = typeof(Abc);
 
             //DataTable dataTable = new();
 
@@ -364,28 +239,28 @@ namespace TcpTest
             ////hashtable["d"] = true;
             ////hashtable["e"] = (byte)100;
 
-            int i = 0, i1 = 0;
+            //int i = 0, i1 = 0;
 
-            var a2 = EntityBuilder.GetEntity(type);
+            //var a2 = EntityBuilder.GetEntity(type);
 
-            var abc = a2.New;
+            //var abc = a2.New;
 
-            for (; i < 1000000; i++)
-            {
-                IDictionary<string, object> hashtable = new Dictionary<string, object>(5, StringComparer.OrdinalIgnoreCase);
-                hashtable.Add("a", i);
-                hashtable.Add("B", i.ToString());
-                hashtable.Add("c", DateTime.Now);
-                hashtable.Add("D", i.IsWhether(2));
-                hashtable.Add("e", (byte)66);
+            //for (; i < 1000000; i++)
+            //{
+            //    IDictionary<string, object> hashtable = new Dictionary<string, object>(5, StringComparer.OrdinalIgnoreCase);
+            //    hashtable.Add("a", i);
+            //    hashtable.Add("B", i.ToString());
+            //    hashtable.Add("c", DateTime.Now);
+            //    hashtable.Add("D", i.IsWhether(2));
+            //    hashtable.Add("e", (byte)66);
 
-                //hashtable.TryGetValue("e", out object v);
+            //    //hashtable.TryGetValue("e", out object v);
 
-                a2.Set(abc, hashtable);
-                //s1(abc, hashtable);
-            }
+            //    a2.Set(abc, hashtable);
+            //    //s1(abc, hashtable);
+            //}
 
-            Console.WriteLine();
+            //Console.WriteLine();
 
             //for (; i1 < 1000000; i1++)
             //{
@@ -521,250 +396,7 @@ namespace TcpTest
             //int w = 1000, h = 1000;
             //ThreadPool.SetMaxThreads(w, h);
 
-            ulong a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, s = 0;
-
-            Console.WriteLine("Hello, World!");
-
-            KeepAlive keepok = new(1,async () =>
-            {
-                Console.Clear();
-                Console.WriteLine("情况：{0}，{1}，{2}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount);
-                for (int i = 0; i < 20; i++)
-                {
-                    await Task.Delay(i);
-                    Console.WriteLine("发起：总 {0},ok {1},断 {2},时 {3},错 {4},无 {5},Id {6},对 {7}", a, d, e, f, g, b, c, s);
-                }
-            });
-
-            //ClientFrameList clientFrameList = new(10);
-
-            //for (int i = 0; i < 10; i++)
-            //{
-            ClientFrame client = new(TcpBufferSize.Default, 108, true);
-
-            client.SetCompleted((a1, b1, c1) =>
-            {
-                if ((EnClient)b1 == EnClient.Connect)
-                {
-                    a = d = e = f = g = b = c = s = 0;
-                }
-                Console.WriteLine("\nIP:{0} \t{1} \t{2}", a1, b1, c1.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
-                return Task.CompletedTask;
-            });
-
-            client.ConnectAsync("127.0.0.1", 444);//120.79.58.17 
-            client.AddKeepAlive(5);
-
-            //    clientFrameList.AddClientFrame(client);
-            //}
-
-            //clientFrameList.Completed += ClientFrameList_Completed;
-
-            EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
-            EnumEventQueue.OnInterceptor(EnClient.Receive, true);
-
-            //Task.Run(() =>
-            //{
-            //    while (true)
-            //    {
-            //        var hh = Random.Shared.Next(1, 5);
-            //        Thread.Sleep(hh);
-
-            //        for (int i = 0; i < Random.Shared.Next(1, 20); i++)
-            //        {
-            //            Interlocked.Increment(ref a);
-            //            ThreadPool.UnsafeQueueUserWorkItem(get, default);
-            //        }
-            //        //if (a == 3)
-            //        //{
-            //        //    break;
-            //        //}
-            //    };
-            //});
-
-            Thread.Sleep(1000);
-
-            //ApiPacket packet = new(1, 101, 10000);
-            //packet.Set("path", "123456");
-            //var mag = client.SendIpIdea("192.168.1.22:9999", packet);
-
-            switch (Console.ReadKey(true).KeyChar)
-            {
-                case '0':
-                    Parallel.For(0, 2, cout =>
-                    {
-                        while (true)
-                        {
-                            Thread.Sleep(Random.Shared.Next(1, 5));
-
-                            string url = cout == 0 ? "3cd107e4ec103f614b6f7f1eca9e18e6.jpeg" : "1f94a936494a49b6b2fbcadecd4ca16c.jpeg";
-                            Interlocked.Increment(ref a);
-
-                            //ApiPacket packet = new(1, 101, 10000);
-                            //packet.Set("path", url);
-
-                            ApiPacket packet = new(1, 102, 10000);
-                            packet.Set("path", url);
-                            packet.Bytes = File.ReadAllBytes(url);
-
-                            var mag = client.Send(packet);
-
-                            switch (mag.OnNetFrame)
-                            {
-                                case NetFrameState.Default:
-                                    Interlocked.Increment(ref b);
-                                    break;
-                                case NetFrameState.OnlyID:
-                                    Interlocked.Increment(ref c);
-                                    break;
-                                case NetFrameState.Success:
-                                    Interlocked.Increment(ref d);
-                                    try
-                                    {
-                                        //if (!File.Exists(url)) File.WriteAllBytes(url, mag.Bytes.Array ?? throw new());
-                                        if (mag.Text == "Ok")
-                                            Interlocked.Increment(ref s);
-                                    }
-                                    catch (Exception)
-                                    {
-                                    }
-                                    break;
-                                case NetFrameState.SendFail:
-                                    Interlocked.Increment(ref e);
-                                    break;
-                                case NetFrameState.Timeout:
-                                    Interlocked.Increment(ref f);
-                                    break;
-                                case NetFrameState.Exception:
-                                    Interlocked.Increment(ref g);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    });
-                    break;
-                default:
-                    //for (int i = 0; i < 40; i++)
-                    //{
-                    //    Task.Run(() =>
-                    //    {
-                    //        while (true)
-                    //        {
-                    //            var hh = Random.Shared.Next(1, 5);
-                    //            Thread.Sleep(hh);
-
-                    //            for (int i = 0; i < Random.Shared.Next(1, 20); i++)
-                    //            {
-                    //                Interlocked.Increment(ref a);
-                    //                //ThreadPool.UnsafeQueueUserWorkItem(get, default);
-                    //                get(default);
-                    //            }
-                    //            //if (a == 3)
-                    //            //{
-                    //            //    break;
-                    //            //}
-                    //        };
-                    //    });
-                    //}
-
-                    Parallel.For(0, 40, cout =>
-                    {
-                        while (true)
-                        {
-                            var hh = Random.Shared.Next(1, 5);
-                            Thread.Sleep(hh);
-
-                            for (int i = 0; i < Random.Shared.Next(1, 20); i++)
-                            {
-                                Interlocked.Increment(ref a);
-                                //ThreadPool.UnsafeQueueUserWorkItem(get, default);
-                                get(default);
-                            }
-                            //if (a == 3)
-                            //{
-                            //    break;
-                            //}
-                        };
-                    });
-                    break;
-            }
-
-
-
-            //System.Diagnostics.Stopwatch stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            //while (true)
-            //{
-            //    int c2 = ++a;
-            //    stopwatch.Restart();
-            //    ApiPacket packet = new(1, 101, 10000);
-            //    packet.Set("path", "3cd107e4ec103f614b6f7f1eca9e18e6.jpeg");
-            //    //try
-            //    //{
-            //    //    data.Bytes = System.IO.File.ReadAllBytes("3cd107e4ec103f614b6f7f1eca9e18e6.jpeg");
-            //    //}
-            //    //catch (Exception)
-            //    //{
-            //    //    data.Bytes = new byte[] { 1, 0, 1 };
-            //    //}
-
-            //    var mag = client.Send(packet);
-
-            //    try
-            //    {
-            //        System.IO.File.WriteAllBytes("3cd107e4ec103f614b6f7f1eca9e18e6.jpeg", mag.Bytes);
-            //    }
-            //    catch (Exception)
-            //    {
-            //    }
-
-            //    Console.WriteLine("请求结果：{0},{1} \t{2}ms \t{3}", mag.Text, mag.OnTcpFrame, stopwatch.Elapsed.TotalMilliseconds, c2);
-            //    Thread.Sleep(1);
-            //}
-
-            void get(object? a)
-            {
-                var guid = StringExtension.GetGuid();
-                ApiPacket packet = new(1, 250, 10000);
-                packet.Set("a", guid);
-                packet.Set("b", null);
-                packet.Bytes = new byte[] { 1, 2, 3, 4 };
-                var response = client.Send(packet);// clientFrameList.Send(packet, out _);
-                //a.Response.StatusCode = 200;
-                //a.Response.Write(s.Text);
-                //if (s.OnTcpFrame != TcpFrameState.Success)
-                //{
-                //    Console.WriteLine("失败->{0}", s.OnTcpFrame.ToString());
-                //}
-
-                switch (response.OnNetFrame)
-                {
-                    case NetFrameState.Default:
-                        Interlocked.Increment(ref b);
-                        break;
-                    case NetFrameState.OnlyID:
-                        Interlocked.Increment(ref c);
-                        break;
-                    case NetFrameState.Success:
-                        Interlocked.Increment(ref d);
-                        if (guid == response.Text)
-                        {
-                            Interlocked.Increment(ref s);
-                        }
-                        break;
-                    case NetFrameState.SendFail:
-                        Interlocked.Increment(ref e);
-                        break;
-                    case NetFrameState.Timeout:
-                        Interlocked.Increment(ref f);
-                        break;
-                    case NetFrameState.Exception:
-                        Interlocked.Increment(ref g);
-                        break;
-                    default:
-                        break;
-                }
-            }
+            #endregion
 
             while (Console.ReadKey(true).KeyChar != '0') ;
         }

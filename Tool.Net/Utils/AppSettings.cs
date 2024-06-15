@@ -1,16 +1,22 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Primitives;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.IO.Pipes;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+using Tool.Utils.ThreadQueue;
 
 namespace Tool.Utils
 {
     /// <summary>
-    /// 获取配置文件数据
+    /// 获取配置文件数据 (允许修改原文件异步队列式更新)
     /// </summary>
-    public class AppSettings
+    public sealed class AppSettings
     {
         /// <summary>
         /// 主配置文件名
@@ -36,7 +42,7 @@ namespace Tool.Utils
         {
             try
             {
-                if (IsBuild(Environment.CurrentDirectory, out IConfigurationRoot configurationRoot)) 
+                if (IsBuild(Environment.CurrentDirectory, out IConfigurationRoot configurationRoot))
                 {
                     Configuration = configurationRoot;
                 }
@@ -44,7 +50,7 @@ namespace Tool.Utils
                 {
                     Configuration = configurationRoot;
                 }
-                
+
                 //var builder = new ConfigurationBuilder().AddJsonFile(fileName, false, true);
                 //directory = AppContext.BaseDirectory;//.Replace("\\", "/");
 
@@ -67,12 +73,12 @@ namespace Tool.Utils
                 string filePath = Path.Combine(directory, FileName);
                 if (File.Exists(filePath))
                 {
-                    var builder = new ConfigurationBuilder().AddJsonFile(filePath, false, true);
+                    var builder = new ConfigurationBuilder().Add(WritableJsonConfigurationSource.AddProvider(filePath));//.AddJsonFile(filePath, false, true);
 
                     filePath = Path.Combine(directory, FileNameDevelopment);
                     if (File.Exists(filePath))
                     {
-                        builder.AddJsonFile(filePath, false, true);
+                        builder.Add(WritableJsonConfigurationSource.AddProvider(filePath));//.AddJsonFile(filePath, false, true);
                     }
                     configurationRoot = builder.Build();
                     //Configuration = configurationRoot;
@@ -82,8 +88,6 @@ namespace Tool.Utils
                 return false;
             }
         }
-        
-
 
         /// <summary>
         /// 根据你提供的地址获取配置文件信息
@@ -182,6 +186,232 @@ namespace Tool.Utils
         public static IChangeToken GetReloadToken()
         {
             return Configuration?.GetReloadToken();
+        }
+
+        /// <summary>
+        /// 注册修改 IConfiguration 值的事件 （将取消默认实现的同步修改文件）
+        /// </summary>
+        public static event Action<string, string> SetEvent;
+
+        internal static bool IsSetEvent => SetEvent is not null;
+
+        internal static bool OnSet(string key, string value)
+        {
+            if (SetEvent is not null)
+            {
+                SetEvent(key, value);
+                return true;
+            }
+            return false;
+        }
+    }
+
+    internal class WritableJsonConfigurationProvider : JsonConfigurationProvider
+    {
+        private readonly TaskOueue<ValueTuple<string, string>> taskOueue;
+        private readonly string fileFullPath;
+
+        public WritableJsonConfigurationProvider(WritableJsonConfigurationSource source) : base(source)
+        {
+            fileFullPath = base.Source.FileProvider.GetFileInfo(base.Source.Path).PhysicalPath;
+            taskOueue = new(SetAsync);
+        }
+
+        public override void Set(string key, string value)
+        {
+            //base.Set(key, value);
+            taskOueue.Add((key, value));
+        }
+
+        private bool Exists(string key, string isvalue)
+        {
+            if (base.TryGet(key, out string val))
+            {
+                return string.Equals(val, isvalue, StringComparison.Ordinal);
+            }
+            else
+            {
+                //ArrayList arrayList = new();
+                //Dictionary<string, string> keys = new();
+                foreach (var _key in Data.Keys)
+                {
+                    if (_key.StartsWith(key, StringComparison.OrdinalIgnoreCase))// && base.TryGet(_key, out string _val))
+                    {
+                        //string sectionKey = ConfigurationPath.GetSectionKey(_key);
+                        //if (sectionKey)
+                        //{
+
+                        //}
+                        return true; //keys.Add(_key, _val);
+                    }
+                }
+            }
+            return false;
+        }
+
+        private async ValueTask SetAsync(ValueTuple<string, string> obj)
+        {
+            string key = obj.Item1, value = obj.Item2;
+
+            //var iskey = _configuration.GetSection(key);
+            //if (iskey.Exists() && !string.Equals(iskey.Value, value))
+            if (Exists(key, value))
+            {
+                if (AppSettings.OnSet(key, value)) return;
+                using FileStream fileStream = File.Open(fileFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                using JsonDocument jsonDocument = await JsonDocument.ParseAsync(fileStream, new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Skip });
+                if (JsonHelper.GetReturn(jsonDocument.RootElement) is Dictionary<string, object> keys)
+                {
+                    if (SetValue(keys, key, value))
+                    {
+                        fileStream.SetLength(0);
+                        await JsonSerializer.SerializeAsync(fileStream, keys, GetOptions());//using StreamWriter streamWriter = new(fileStream);//await streamWriter.WriteAsync(keys.ToJson(GetOptions()));
+                    }
+                }
+            }
+        }
+
+        private static JsonSerializerOptions GetOptions()
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),
+            };
+            options.Converters.Add(JsonConverterHelper.GetDateConverter());
+            options.Converters.Add(JsonConverterHelper.GetDBNullConverter());
+            return options;
+        }
+
+        private static object RestoreType(string value)
+        {
+            try
+            {
+                if (value.StartsWith('{') || value.StartsWith('['))
+                {
+                    using JsonDocument jsonDocument = JsonDocument.Parse(value);
+                    return JsonHelper.GetReturn(jsonDocument.RootElement);
+                }
+                else
+                {
+                    if (value.EqualsNotCase("true")) return true;
+                    if (value.EqualsNotCase("false")) return false;
+                    if (value.EqualsNotCase("null")) return null;
+                    if (long.TryParse(value, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var result0)) return result0;
+                    if (double.TryParse(value, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var result1)) return result1;
+                    return value;
+                }
+            }
+            catch (Exception)
+            {
+                return value;
+            }
+        }
+
+        private static bool IsEqualsValue(object val, string value)
+        {
+            if (val is Dictionary<string, object> or ArrayList)
+            {
+                return val.ToJson() != value;
+            }
+            return string.Concat(val) != value;
+        }
+
+        private static bool SetValue(Dictionary<string, object> keys, ReadOnlySpan<char> key, string value)
+        {
+            string name = key.ToString();
+            if (keys.TryGetValue(name, out object val))
+            {
+                if (IsEqualsValue(val, value))
+                {
+                    keys[name] = RestoreType(value);
+                    return true;
+                }
+            }
+            else
+            {
+                int i = key.IndexOf(':');
+                if (i != -1)
+                {
+                    if (keys.TryGetValue(key[..i].ToString(), out object _val))
+                    {
+                        if (_val is Dictionary<string, object> dic)
+                        {
+                            return SetValue(dic, key[(i + 1)..], value);
+                        }
+                        else if (_val is ArrayList list)
+                        {
+                            return SetValue(list, key[(i + 1)..], value);
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        private static bool SetValue(ArrayList keys, ReadOnlySpan<char> key, string value)
+        {
+            if (TryGetList(keys, key, out int i, out object obj))
+            {
+                if (IsEqualsValue(obj, value))
+                {
+                    keys[i] = RestoreType(value);
+                    return true;
+                }
+            }
+            else
+            {
+                i = key.IndexOf(':');
+                if (i != -1)
+                {
+                    if (TryGetList(keys, key[..i], out _, out object _val))
+                    {
+                        if (_val is Dictionary<string, object> dic)
+                        {
+                            return SetValue(dic, key[(i + 1)..], value);
+                        }
+                        else if (_val is ArrayList list)
+                        {
+                            return SetValue(list, key[(i + 1)..], value);
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        private static bool TryGetList(ArrayList keys, ReadOnlySpan<char> key, out int i, out object obj)
+        {
+            if (int.TryParse(key, out i) && i < keys.Count)
+            {
+                obj = keys[i];
+                return true;
+            }
+            i = -1;
+            obj = null;
+            return false;
+        }
+    }
+    internal class WritableJsonConfigurationSource : JsonConfigurationSource
+    {
+        public override IConfigurationProvider Build(IConfigurationBuilder builder)
+        {
+            this.EnsureDefaults(builder);
+            return new WritableJsonConfigurationProvider(this);
+        }
+
+        public static IConfigurationSource AddProvider(string path)
+        {
+            WritableJsonConfigurationSource source = new()
+            {
+                FileProvider = null,
+                Path = path,
+                Optional = false,
+                ReloadOnChange = true,
+            };
+
+            source.ResolveFileProvider();
+            return source;// new WritableJsonConfigurationProvider(source);
         }
     }
 }

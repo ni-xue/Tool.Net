@@ -308,7 +308,7 @@ namespace Tool //万能属性公有父类
 
             static Dictionary<string, object> GetObj(string txt)
             {
-                JsonDocument jsonDocument = JsonDocument.Parse(txt);
+                JsonDocument jsonDocument = JsonDocument.Parse(txt, new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Skip });
 
                 using (jsonDocument)
                 {

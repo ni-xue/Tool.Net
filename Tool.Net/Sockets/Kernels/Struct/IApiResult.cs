@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Tool.Sockets.NetFrame
+namespace Tool.Sockets.Kernels
 {
     /// <summary>
     /// 接口协议

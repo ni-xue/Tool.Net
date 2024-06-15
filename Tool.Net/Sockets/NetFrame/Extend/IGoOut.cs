@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Tool.Sockets.NetFrame
 {
@@ -14,26 +11,31 @@ namespace Tool.Sockets.NetFrame
         /// <summary>
         /// 返回的数据流
         /// </summary>
-        public byte[] Bytes { get; set; }
+        public ArraySegment<byte> Bytes { get; }
 
         /// <summary>
         /// 返回的文本类容
         /// </summary>
-        public string Text { get; set; }
+        public string Text { get; }
     }
 
     /// <summary>
     /// 默认实现
     /// </summary>
-    public class GoOut : IGoOut
+    public readonly struct GoOut : IGoOut
     {
         /// <summary>
-        /// 初始化输出结果
+        /// 空对象
         /// </summary>
-        public GoOut()
-        {
+        public static GoOut Empty { get; } = new();
 
-        }
+        ///// <summary>
+        ///// 初始化输出结果
+        ///// </summary>
+        //public GoOut()
+        //{
+
+        //}
 
         /// <summary>
         /// 初始化输出结果
@@ -41,6 +43,7 @@ namespace Tool.Sockets.NetFrame
         /// <param name="text">字符串类容</param>
         public GoOut(string text)
         {
+            this.Bytes = ArraySegment<byte>.Empty;
             this.Text = text;
         }
 
@@ -48,9 +51,10 @@ namespace Tool.Sockets.NetFrame
         /// 初始化输出结果
         /// </summary>
         /// <param name="bytes">字节流类容</param>
-        public GoOut(byte[] bytes)
+        public GoOut(ArraySegment<byte> bytes)
         {
             this.Bytes = bytes;
+            this.Text = null;
         }
 
         /// <summary>
@@ -58,7 +62,7 @@ namespace Tool.Sockets.NetFrame
         /// </summary>
         /// <param name="bytes">字节流类容</param>
         /// <param name="text">字符串类容</param>
-        public GoOut(byte[] bytes, string text)
+        public GoOut(ArraySegment<byte> bytes, string text)
         {
             this.Bytes = bytes;
             this.Text = text;
@@ -67,11 +71,11 @@ namespace Tool.Sockets.NetFrame
         /// <summary>
         /// 返回的数据流
         /// </summary>
-        public byte[] Bytes { get; set; } = null;
+        public ArraySegment<byte> Bytes { get; }
 
         /// <summary>
         /// 返回的文本类容
         /// </summary>
-        public string Text { get; set; } = null;
+        public string Text { get; }
     }
 }

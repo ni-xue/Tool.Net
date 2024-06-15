@@ -59,11 +59,7 @@ namespace Microsoft.AspNetCore.Builder //Tool.Web.Builder
             {
                 throw new Exception("您当前采用的是终结点模式，请使用 app.UseEndpoints()！ 若要使用当前模式，请将 EnableEndpointRouting 值设置为 false");
             }
-
-            //if (options.Value.IsException)
-            //{
-            //    //app.ApplicationServices.GetRequiredService<I>();
-            //}
+            options.Value.JsonOptions ??= AshxOptions.JsonOptionsDefault;
 
             builder.Application = app;
 

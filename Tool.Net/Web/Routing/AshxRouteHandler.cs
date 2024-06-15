@@ -39,18 +39,11 @@ namespace Tool.Web.Routing
             return null;
         }
 
-        public async Task RouteAsync(RouteContext context)
+        public Task RouteAsync(RouteContext context)
         {
             AshxRouteData _routeData = AshxBuilder.Filter(context);
-
-            if (AshxBuilder.Options.IsAsync)
-            {
-                await Task.Run(async () => await IHttpHandlerAshxExecute(_routeData));
-            }
-            else
-            {
-                await IHttpHandlerAshxExecute(_routeData);
-            }
+            IHttpHandlerAshxExecute(_routeData);
+            return Task.CompletedTask;
 
             //HttpContextExtension.Current
             //context.Handler
@@ -77,190 +70,27 @@ namespace Tool.Web.Routing
         /// <summary>
         /// （默认是内部调用）调用此方法，可以对 当前路由的信息 Application_Start() 方法中调用 AshxRegistration.RegisterAllAreas();
         /// </summary>
-        internal Task IHttpHandlerAshxExecute(AshxRouteData _routeData)
+        internal void IHttpHandlerAshxExecute(AshxRouteData _routeData)
         {
             string key = _routeData.Controller; ////string text = requestContext.RouteData.GetRequiredString("controller");$"{Registration.Segment}{text}";
 
             if (AshxBuilder.RouteDefaults.TryGetValue(key, out AshxExtension extension))
             {
-                if (_routeData.Area != string.Empty && !_routeData.Area.Equals(extension.AshxType.Namespace))
+                if (string.IsNullOrEmpty(_routeData.Area) || extension.AshxType.FullName.StartsWith($"{_routeData.Area}."))
                 {
-                    throw _routeData.HttpContext.AddHttpException(404, string.Format(System.Globalization.CultureInfo.CurrentCulture, "找不到该路由的控制器:“{0}” ，URL: {1}", new object[] { key, _routeData.HttpContext.Request.Path }));
-                }
-
-                Ashx ashx;
-                void isMethod()
-                {
-                    if (extension.IsMethod(_routeData.Action, out ashx))
+                    if (extension.IsMethod(_routeData.Action, out Ashx ashx))
                     {
                         _routeData.GetAshx = ashx;
-                        //SessionStateBehavior sessionState = (SessionStateBehavior)(int)ashx.IsSession;//Enum.Parse(typeof(SessionStateBehavior),);
-                        //requestContext.HttpContext.SetSessionStateBehavior(sessionState);
+                        return;
                     }
                     else
                     {
                         _routeData.IsAshx = false;
-                        //requestContext.HttpContext.SetSessionStateBehavior(SessionStateBehavior.Disabled);
-
-                        //在控制器“TaskApi”上未找到可执行方法“SellerInf
-                        throw _routeData.HttpContext.AddHttpException(404, string.Format(System.Globalization.CultureInfo.CurrentCulture, "在控制器“{0}”上未找到可执行方法“{1}”，URL: {2}", new object[] { key, _routeData.Action, _routeData.HttpContext.Request.Path }));
+                        throw _routeData.HttpContext.AddHttpException(404, "在控制器“{0}”上未找到可执行方法“{1}”，URL: {2}", new object[] { key, _routeData.Action, _routeData.HttpContext.Request.Path });
                     }
-                }
-
-                isMethod();
-
-                _routeData.SetKey();
-
-                bool isOptions() 
-                {
-                    if (AshxExtension.CrossDomain(_routeData.HttpContext.Response, _routeData.GetAshx) && _routeData.HttpContext.Request.Method.EqualsNotCase("OPTIONS"))
-                    {
-                        _routeData.Handler = async (_) => await Task.CompletedTask;
-                        Info(_routeData);
-                        return true;
-                    }
-                    return false;
-                }
-
-                if (isOptions()) return Task.CompletedTask;
-
-                if (!AshxExtension.HttpMethod(_routeData.HttpContext.Request.Method, ashx.State))
-                {
-                    _routeData.Handler = async (HttpContext i) => await AshxHandlerOrAsync.CustomOutput(i, "application/json", "请求类型错误！", 403);
-                    return Task.CompletedTask;
-                }
-
-                if (extension.IsMin)
-                {
-                    Task minapi()
-                    {
-                        IMinHttpAsynApi handler = extension.MinHttpAsynApi;
-
-                        if (AshxHandlerOrAsync.MinInitialize(handler, _routeData))
-                        {
-                            if (AshxHandlerOrAsync.GetMinObj(_routeData, out object[] _objs))
-                            {
-                                _routeData.Handler = async (HttpContext i) => await AshxHandlerOrAsync.CustomOutput(i, "application/json", "框架错误，请查看日志文件！", 500);
-                                return Task.CompletedTask;
-                            }
-
-                            Info(_routeData);
-
-                            if (ashx.IsTask)
-                            {
-                                //AshxAsyncHandler ashxAsync = new AshxAsyncHandler(handler as IHttpAsynApi, _routeData);
-                                _routeData.Handler = async (HttpContext i) => await AshxHandlerOrAsync.StartMinAsyncAshx(handler, _routeData, _objs);
-                                //return Task.CompletedTask;
-                            }
-                            else
-                            {
-                                //AshxHandler ashxHandler = new AshxHandler(handler as IHttpApi, _routeData);
-                                _routeData.Handler = async (HttpContext i) => await AshxHandlerOrAsync.StartMinAshx(handler, _routeData, _objs);
-                            }
-
-                            return Task.CompletedTask;
-                        }
-                        else
-                        {
-                            //因用户取消逻辑
-                            _routeData.Handler = async (HttpContext i) => await Task.CompletedTask;
-                            return Task.CompletedTask;
-                        }
-                    }
-
-                    return minapi();
-                }
-                else
-                {
-                    Task ashxapi()
-                    {
-                        IHttpAsynApi handler;
-                        try
-                        {
-                            handler = extension.NewClassAshx(AshxBuilder.Application.ApplicationServices);
-                        }
-                        catch (Exception e)
-                        {
-                            throw _routeData.HttpContext.AddHttpException(404, string.Format(System.Globalization.CultureInfo.CurrentCulture, "在创建时发生异常，应该是使用有参构造函数，URL: {0}", new object[] { _routeData.HttpContext.Request.Path }), e);
-                        }
-
-                        if (AshxHandlerOrAsync.Initialize(handler, _routeData))//初始加载
-                        {
-                            if (AshxHandlerOrAsync.GetObj(_routeData, out object[] _objs))
-                            {
-                                _routeData.Handler = async (HttpContext i) => await AshxHandlerOrAsync.CustomOutput(i, "application/json", "框架错误，请查看日志文件！", 500);
-                                return Task.CompletedTask;
-                            }
-
-                            Info(_routeData);
-
-                            if (ashx.IsTask)
-                            {
-                                //AshxAsyncHandler ashxAsync = new AshxAsyncHandler(handler as IHttpAsynApi, _routeData);
-                                _routeData.Handler = async (HttpContext i) => await AshxHandlerOrAsync.StartAsyncAshx(handler, _objs);
-                                //return Task.CompletedTask;
-                            }
-                            else
-                            {
-                                //AshxHandler ashxHandler = new AshxHandler(handler as IHttpApi, _routeData);
-                                _routeData.Handler = async (HttpContext i) => await AshxHandlerOrAsync.StartAshx(handler, _objs);
-                            }
-                            return Task.CompletedTask;
-                        }
-                        else
-                        {
-                            //因用户取消逻辑
-                            _routeData.Handler = async (HttpContext i) => await Task.CompletedTask;
-                            return Task.CompletedTask;
-                        }
-                    }
-
-                    return ashxapi();
-                }
+                } //extension.AshxType.FullName.StartsWith($"{areaName}.")  //_routeData.Area.Equals(extension.AshxType.Namespace)
             }
-            //if (AshxBuilder._segment.Equals("/false/"))
-            //{
-            //    throw _routeData.HttpContext.AddHttpException(404, string.Format(System.Globalization.CultureInfo.CurrentCulture, "找不到该路由的控制器:“{0}” ，URL: {1}，如果的确有这个路由，可能是MVC模式的路由，出现这种情况是因为您使用了：RegisterAllAreas(string controller, string action) 这个模式是专门针对没有MVC工程的项目使用的，请更换。", new object[] { key, requestContext.HttpContext.Request.Path }));
-            //}
-            throw _routeData.HttpContext.AddHttpException(404, string.Format(System.Globalization.CultureInfo.CurrentCulture, "找不到该路由的控制器:“{0}” ，URL: {1}", new object[] { key, _routeData.HttpContext.Request.Path }));
-        }
-
-        private void Info(AshxRouteData _routeData)
-        {
-            if (Logger.IsEnabled(LogLevel.Information))
-            {
-                void info()
-                {
-                    string ApiName;
-
-                    if (_routeData.IsAshx && _routeData.GetAshx.IsMinApi)
-                    {
-                        ApiName = "MinApi";
-                    }
-                    else
-                    {
-                        ApiName = "ApiAshx";
-                    }
-
-                    Logger.LogInformation("调用 {ApiName} 控制器操作所用内容\n\tHTTP 方法: {Method}\n\t路径: {Path}\n\t控制器: {Controller}\n\t操作: {Action}\n\t请求 ID: {Key}",
-                        ApiName,
-                        _routeData.HttpContext.Request.Method,
-                        _routeData.HttpContext.Request.Path,
-                        _routeData.Controller,
-                        _routeData.Action,
-                        _routeData.Key
-                        );
-                }
-
-                info();
-
-                //Logger.LogInformation($@"调用 {ApiName} 控制器操作所用内容:
-                //HTTP 方法: {_routeData.HttpContext.Request.Method}
-                //路径: {_routeData.HttpContext.Request.Path}
-                //控制器: {_routeData.Controller}
-                //操作: {_routeData.Action}
-                //请求 ID: {_routeData.Key.Value} ", ApiName);
-            }
+            throw _routeData.HttpContext.AddHttpException(404, "找不到该路由的控制器:“{0}” ，URL: {1}", new object[] { key, _routeData.HttpContext.Request.Path });
         }
     }
 }

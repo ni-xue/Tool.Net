@@ -493,7 +493,7 @@ namespace Tool.Utils
             return memoryStream;
         }
 
-        private static Stream GetMemory(HttpContent content)
+        private static MemoryStream GetMemory(HttpContent content)
         {
             MemoryStream memoryStream = new();
             using (content) content.CopyTo(memoryStream, null, CancellationToken.None);

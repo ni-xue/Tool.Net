@@ -531,9 +531,7 @@ namespace Tool.Web.Api
             try
             {
                 void action() => ashx.Action.VoidExecute(this, _objs); //AshxExtension.Invoke(ashx.Method, this);
-
                 action();
-
                 OnResult(ashx);
             }
             catch (ThreadAbortException)
@@ -558,18 +556,17 @@ namespace Tool.Web.Api
             {
                 if (ashx.IsOnAshxEvent)
                 {
-                    //OnAshxEvent onAshxEvent = ashx.Action.Execute(this, _objs) as OnAshxEvent;
+                    OnAshxEvent func() => ashx.AsAction<OnAshxEvent>().Execute(this, _objs);
 
-                    OnAshxEvent func() => ashx.Action.Execute(this, _objs) as OnAshxEvent;
                     OnAshxEvent onAshxEvent = func();
                     await RequestAsyncEvent(onAshxEvent);
                 }
                 else
                 {
                     //Func<Task> func = () => { return ashx.Action.Execute(this, _objs) as Task; };
+                    //async Task func() => await (ashx.Action.Execute(this, _objs) as Task); //ThreadLocal AsyncLocal
 
-                    async Task func() => await (ashx.Action.Execute(this, _objs) as Task); //ThreadLocal AsyncLocal
-                    
+                    Task func() => ashx.Action.VoidExecuteAsync(this, _objs);
                     await func(); //AshxExtension.Invoke(ashx.Method, this, _objs as object[]) as Task; //
                 }
 

@@ -21,7 +21,7 @@ namespace WebTestApp.Controllers
 
         static TaskOueue<string, string> taskOueue = new(func: (a) =>
         {
-            return a;
+            return ValueTask.FromResult(a);
         });
 
         private readonly ITableProvider aideIConfigInfo;
@@ -71,7 +71,7 @@ namespace WebTestApp.Controllers
 
             System.Data.DataSet ds = await dbHelper.ExecuteDataSetAsync("SELECT * FROM system OrDER by id desc", new { a = 1, b = 2, c = 3, d = 4 });
 
-            Test.system sy = new()
+            Test.SystemTest sy = new()
             {
                 key_cn = "66666"
             };
@@ -80,7 +80,7 @@ namespace WebTestApp.Controllers
 
             var a2 = dbHelper.GetUpdateParams(sy.ToDictionary(), out string key1);
 
-            var list = dbHelper.Select<Test.system>(s => s.key_cn = "可用积分价值");
+            var list = dbHelper.Select<Test.SystemTest>(s => s.key_cn = "可用积分价值");
 
             //TaskOueue<string, string> taskOueue = new(func: (a) =>
             //{

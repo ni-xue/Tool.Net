@@ -7,10 +7,48 @@ using System.Threading.Tasks;
 namespace Tool.Utils.ActionDelegate
 {
     /// <summary>
+    /// 定义构造函数
+    /// </summary>
+    /// <typeparam name="E">创建的类</typeparam>
+    /// <param name="parameters">包含的参数</param>
+    /// <returns></returns>
+    public delegate E NewClass<out E>(object[] parameters);
+
+
+    /// <summary>
+    /// 根据 ConstructorInfo 对象，创建一个委托，实现类调用，提高性能，支持各种返回值
+    /// </summary>
+    public sealed class ClassDispatcher : ClassDispatcher<object>
+    {
+        /// <summary>
+        /// 根据构造函数，创建对象委托
+        /// </summary>
+        /// <param name="constructor">构造函数对象</param>
+        public ClassDispatcher(ConstructorInfo constructor) : base(constructor) { }
+
+        /// <summary>
+        /// 根据构造函数，创建对象委托
+        /// </summary>
+        /// <param name="classtype">对象类型</param>
+        public ClassDispatcher(Type classtype) : base(classtype) { }
+
+        /// <summary>
+        /// 创建 New 对象
+        /// </summary>
+        /// <param name="parameters">参数</param>
+        /// <returns>返回 New 新对象</returns>
+        public T Invoke<T>(params object[] parameters)
+        {   
+            object obj = Invoke(parameters);
+            return (T)obj;
+        }
+    }
+
+    /// <summary>
     /// 根据 ConstructorInfo 对象，创建一个委托，实现类调用，提高性能，支持各种返回值
     /// </summary>
     /// <typeparam name="T">返回任何类型</typeparam>
-    public sealed class ClassDispatcher<T>
+    public class ClassDispatcher<T>
     {
         private readonly NewClass<T> _newclass;
 
@@ -23,14 +61,6 @@ namespace Tool.Utils.ActionDelegate
         /// 方法参数
         /// </summary>
         public Parameter[] Parameters { get; }
-
-        /// <summary>
-        /// 定义构造函数
-        /// </summary>
-        /// <typeparam name="E"></typeparam>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public delegate T NewClass<in E>(object[] parameters);
 
         /// <summary>
         /// 根据构造函数，创建对象委托
@@ -103,7 +133,7 @@ namespace Tool.Utils.ActionDelegate
 
             var as0 = System.Linq.Expressions.Expression.Parameter(typeof(object[]), "parameters");
 
-            if (!ActionDispatcher<object>.GetParameter(out List<System.Linq.Expressions.Expression> expressions, as0, constructor.GetParameters()))
+            if (!DispatcherCore.GetParameter(out List<System.Linq.Expressions.Expression> expressions, as0, constructor.GetParameters()))
             {
                 throw new ArgumentNullException(nameof(constructor), "无法创建该对象构造，构造参数存在未知问题，请将相关问题，上报给作者！");
             }

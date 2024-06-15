@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿//using System;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+
+//using System.IO;
 using System.Runtime.Versioning;
-using System.Text;
 
 namespace Tool.Utils
 {
@@ -14,13 +15,23 @@ namespace Tool.Utils
     /// </summary>
     public class ImageHelper
     {
+        private static void SaveJpg(MemoryStream stream, string file_name) 
+        {
+            using (stream)
+            {
+                File.Delete(file_name);
+                using FileStream fileStream = File.Open(file_name, FileMode.OpenOrCreate);
+                stream.WriteTo(fileStream);
+            }
+        }
+
         /// <summary>
         /// 获取或设置包含编码解码器的多用途网际邮件扩充协议 (MIME) 类型的字符串。例如：image/jpeg
         /// </summary>
-        /// <param name="mime_type"></param>
+        /// <param name="mime_type">图片类型</param>
         /// <returns></returns>
         [SupportedOSPlatform("windows")]
-        private static ImageCodecInfo GetEncoderInfo(string mime_type)
+        private static ImageCodecInfo? GetEncoderInfo(string mime_type)
         {
             ImageCodecInfo[] imageEncoders = ImageCodecInfo.GetImageEncoders();
             for (int i = 0; i <= imageEncoders.Length; i++)
@@ -34,48 +45,35 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 
+        /// 将图片写入磁盘（文件存在时覆盖原文件）
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="file_name"></param>
-        /// <param name="level"></param>
+        /// <param name="image">图片资源</param>
+        /// <param name="file_name">保存路径</param>
+        /// <param name="level">图片等级</param>
         [SupportedOSPlatform("windows")]
         public static void SaveJpg(Image image, string file_name, int level)
         {
-            try
-            {
-                EncoderParameters encoderParameters = new(1);
-                encoderParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, level);
-                ImageCodecInfo encoderInfo = GetEncoderInfo("image/jpeg");
-
-                File.Delete(file_name);
-                image.Save(file_name, encoderInfo, encoderParameters);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            MemoryStream stream = SaveJpgToStream(image, level);
+            SaveJpg(stream, file_name);
         }
 
         /// <summary>
         /// 将 图片 转换成 数据流
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="level"></param>
-        /// <returns></returns>
+        /// <param name="image">图片资源</param>
+        /// <param name="level">图片等级</param>
+        /// <returns><see cref="MemoryStream"/></returns>
         [SupportedOSPlatform("windows")]
         public static MemoryStream SaveJpgToStream(Image image, int level)
         {
             try
             {
                 EncoderParameters encoderParameters = new(1);
-                encoderParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, level);
-                ImageCodecInfo encoderInfo = GetEncoderInfo("image/jpeg");
+                encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, level);
+                ImageCodecInfo? encoderInfo = GetEncoderInfo("image/jpeg");
                 MemoryStream strem = new();
-                image.Save(strem, encoderInfo, encoderParameters);
+                image.Save(strem, encoderInfo ?? throw new Exception("获取图片编码失败！"), encoderParameters);
                 return strem;
-
-
             }
             catch (Exception)
             {
@@ -84,53 +82,25 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 
+        /// 将图片写入磁盘（文件存在时覆盖原文件）并验证是否压缩到传入的最大大小以内
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="file_name"></param>
-        /// <param name="max_size"></param>
-        /// <returns></returns>
+        /// <param name="image">图片资源</param>
+        /// <param name="file_name">保存路径</param>
+        /// <param name="max_size">保存最大长度限制</param>
+        /// <returns>压缩率</returns>
         [SupportedOSPlatform("windows")]
         public static int SaveJpgAtFileSize(Image image, string file_name, long max_size)
         {
-            int result;
-            try
+            for (int i = 100; i > 5; i -= 5)
             {
-                for (int i = 100; i > 5; i -= 5)
+                MemoryStream stream = ImageHelper.SaveJpgToStream(image, i);
+                if (stream.Length <= max_size)
                 {
-                    ImageHelper.SaveJpg(image, file_name, i);
-                    if (ImageHelper.GetFileSize(file_name) <= max_size)
-                    {
-                        result = i;
-                        return result;
-                    }
+                    SaveJpg(stream, file_name);
+                    return i;
                 }
-                result = 5;
             }
-            catch (Exception)
-            {
-                throw;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="file_name"></param>
-        /// <returns></returns>
-        public static long GetFileSize(string file_name)
-        {
-            long length;
-            try
-            {
-                length = new FileInfo(file_name).Length;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return length;
+            throw new Exception("无法将图片压缩到max_size值以内！");
         }
 
         /// <summary>
@@ -305,7 +275,7 @@ namespace Tool.Utils
         [SupportedOSPlatform("windows")]
         public static Bitmap BytesToBitmap(byte[] Bytes)
         {
-            MemoryStream stream = null;
+            MemoryStream? stream = null;
             try
             {
                 stream = new MemoryStream(Bytes);
@@ -321,7 +291,7 @@ namespace Tool.Utils
             }
             finally
             {
-                stream.Close();
+                stream?.Close();
             }
         }
 

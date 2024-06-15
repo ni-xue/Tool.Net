@@ -43,6 +43,7 @@ namespace Tool.Utils.Other
           -11589,-11536,-11358,-11340,-11339,-11324,-11303,-11097,-11077,-11067,-11055,-11052,-11045,-11041,-11038,-11024,
           -11020,-11019,-11018,-11014,-10838,-10832,-10815,-10800,-10790,-10780,-10764,-10587,-10544,-10533,-10519,-10331,
           -10329,-10328,-10322,-10315,-10309,-10307,-10296,-10281,-10274,-10270,-10262,-10260,-10256,-10254};
+
         private static string[] pystr = new string[]{"a","ai","an","ang","ao","ba","bai","ban","bang","bao","bei","ben","beng","bi","bian","biao",
         "bie","bin","bing","bo","bu","ca","cai","can","cang","cao","ce","ceng","cha","chai","chan","chang","chao","che","chen",
         "cheng","chi","chong","chou","chu","chuai","chuan","chuang","chui","chun","chuo","ci","cong","cou","cu","cuan","cui",
@@ -66,6 +67,7 @@ namespace Tool.Utils.Other
         "yu","yuan","yue","yun","za","zai","zan","zang","zao","ze","zei","zen","zeng","zha","zhai","zhan","zhang",
         "zhao","zhe","zhen","zheng","zhi","zhong","zhou","zhu","zhua","zhuai","zhuan","zhuang","zhui","zhun","zhuo",
         "zi","zong","zou","zu","zuan","zui","zun","zuo"};
+
         /// <summary>
         /// 获取拼音
         /// </summary>
@@ -73,28 +75,25 @@ namespace Tool.Utils.Other
         /// <returns></returns>
         public static string Convert(string str)
         {
-            byte[] array = new byte[2];
-            string returnstr = "";
-            int chrasc = 0;
-            int i1 = 0;
-            int i2 = 0;
-            char[] nowchar = str.ToCharArray();
+            Span<byte> array = stackalloc byte[2];
+            StringBuilder returnstr = new();
+            int chrasc = 0, i1 = 0, i2 = 0;
+            ReadOnlySpan<char> nowchar = str.ToCharArray();
             for (int j = 0; j < nowchar.Length; j++)
             {
-                byte[] btchk = System.Text.Encoding.Default.GetBytes(nowchar[j].ToString());
-                if (btchk.Length == 1)
+                ReadOnlySpan<char> _char = nowchar.Slice(j, 1);
+                int length = Encoding.Default.GetBytes(_char, array);
+                if (length == 1)
                 {
-                    returnstr += nowchar[j].ToString();
+                    returnstr.Append(_char);
                     continue;
                 }
-                array = btchk;
-                //array = System.Text.Encoding.Default.GetBytes(nowchar[j].ToString());
                 i1 = (short)(array[0]);
                 i2 = (short)(array[1]);
                 chrasc = i1 * 256 + i2 - 65536;
-                if (chrasc > 0 && chrasc < 160)
+                if (chrasc is > 0 and < 160)
                 {
-                    returnstr += nowchar[j];
+                    returnstr.Append(_char);
                 }
                 else
                 {
@@ -102,13 +101,13 @@ namespace Tool.Utils.Other
                     {
                         if (pyvalue[i] <= chrasc)
                         {
-                            returnstr += pystr[i];
+                            returnstr.Append(pystr[i]);
                             break;
                         }
                     }
                 }
             }
-            return returnstr;
+            return returnstr.ToString();
         }
         /// <summary>
         /// 获取拼音首字母
@@ -117,33 +116,32 @@ namespace Tool.Utils.Other
         /// <returns></returns>
         public static string GetShortPY(string str)
         {
-            string tempStr = "";
+            StringBuilder tempStr = new();
             foreach (char c in str)
             {
                 if ((int)c >= 33 && (int)c <= 126)
                 {
-                    tempStr += c.ToString(); //字母和符号原样保留 
+                    tempStr.Append(c); //字母和符号原样保留 
                 }
                 else
                 {
                     if ((int)c != 32)//如果不是空格，那么转换
                     {
-                        tempStr += GetPYChar(c.ToString()); //累加拼音声母 
+                        tempStr.Append(GetPYChar(c.ToString())); //累加拼音声母 
                     }
                     else//如果是空格那么在字符串中间+上一个空字符
                     {
-                        tempStr += " ";
+                        tempStr.Append(' ');
                     }
-
                 }
             }
-            return tempStr;
+            return tempStr.ToString();
         }
 
-        private static string GetPYChar(string c)
+        private static string GetPYChar(ReadOnlySpan<char> c)
         {
-            byte[] array = new byte[2];
-            array = System.Text.Encoding.Default.GetBytes(c);
+            Span<byte> array = stackalloc byte[2];
+            if (Encoding.Default.GetBytes(c, array) == 1) return string.Empty;
             int i = (short)(array[0] - '\0') * 256 + ((short)(array[1] - '\0'));
 
             if (i < 0xB0A1) return "";
@@ -170,7 +168,7 @@ namespace Tool.Utils.Other
             if (i < 0xD1B9) return "x";
             if (i < 0xD4D1) return "y";
             if (i < 0xD7FA) return "z";
-            return "";
+            return string.Empty;
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Tool
 {
@@ -14,11 +15,25 @@ namespace Tool
     /// 对Byte进行升级
     /// </summary>
     /// <remarks>代码由逆血提供支持</remarks>
-    public static class ByteExtension
+    public static partial class ByteExtension
     {
         #region byte 封装方法
 
         #endregion
+
+        /// <summary>
+        /// 原子方式+1
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        public static byte Increment(this ref byte value) => (byte)Interlocked.Increment(ref Unsafe.As<byte, int>(ref value));
+
+        /// <summary>
+        /// 原子方式-1
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        public static byte Decrement(this ref byte value) => (byte)Interlocked.Decrement(ref Unsafe.As<byte, int>(ref value));
 
         #region byte[] 封装方法
 
@@ -45,9 +60,24 @@ namespace Tool
         /// 将一个序列化后的byte[]数组还原 （升级版，有效降低内存消耗）
         /// </summary>
         /// <param name="Bytes">数据流</param>       
+        /// <returns>返回一个原对象</returns> 
+        public static T BytesToObject<T>(this byte[] Bytes)
+        {
+            if (Bytes == null)
+            {
+                throw new System.SystemException("对象未有初始值！");
+            }
+            IntPtr ptr = Marshal.UnsafeAddrOfPinnedArrayElement(Bytes, 0);
+            return Marshal.PtrToStructure<T>(ptr);
+        }
+
+        /// <summary> 
+        /// 将一个序列化后的byte[]数组还原 （升级版，有效降低内存消耗）
+        /// </summary>
+        /// <param name="Bytes">数据流</param>       
         /// <param name="type">转换为原来类的Type</param>
         /// <returns>返回一个原对象</returns> 
-        public static object BytesToObject(this byte[] Bytes,Type type)
+        public static object BytesToObject(this byte[] Bytes, Type type)
         {
             if (Bytes == null)
             {
@@ -68,13 +98,9 @@ namespace Tool
             {
                 File.Delete(savepath);
             }
-            using (FileStream fs = new FileStream(savepath, FileMode.CreateNew))
-            {
-                using (BinaryWriter bw = new BinaryWriter(fs))
-                {
-                    bw.Write(buff, 0, buff.Length);
-                }
-            }
+            using FileStream fs = new(savepath, FileMode.CreateNew);
+            using BinaryWriter bw = new(fs);
+            bw.Write(buff, 0, buff.Length);
         }
 
         /// <summary>
@@ -90,30 +116,6 @@ namespace Tool
             }
             //byte[] bytes = Encoding.UTF8.GetBytes(value);
             return Convert.ToBase64String(obj);
-        }
-
-        /// <summary>
-        /// 将一个序列化后的byte[]数组还原为图片类型     
-        /// </summary>
-        /// <param name="Bytes">byte[]数组</param>
-        /// <returns>返回一个原图片对象</returns>
-        [SupportedOSPlatform("windows")]
-        public static Image ToImage(this byte[] Bytes)
-        {
-            if (Bytes == null)
-            {
-                throw new System.SystemException("对象未有初始值！");
-            }
-            using (Stream str = new MemoryStream(Bytes, 0, Bytes.Length))
-            {
-                Image img = Image.FromStream(str);
-                if (img == null)
-                {
-                    throw new System.SystemException("不是有效的图像格式！");
-                }
-                return img;
-
-            }
         }
 
         /// <summary>
@@ -290,7 +292,7 @@ namespace Tool
         /// <param name="sourceIndex">源数据开始读取的位置</param>
         /// <param name="length">从源数组取多少？(是指从读取位置开始往后读的数量)</param>
         /// <returns>返回当前新的数组中复制了多少个下标的值</returns>
-        public static int Read(this byte[] sourceArray, [In] [Out] byte[] destinationArray, int sourceIndex, int length)
+        public static int Read(this byte[] sourceArray, [In][Out] byte[] destinationArray, int sourceIndex, int length)
         {
             return Read(sourceArray, sourceIndex, destinationArray, 0, length);
         }
@@ -304,7 +306,7 @@ namespace Tool
         /// <param name="destinationIndex">开始存储的位置</param>
         /// <param name="length">从源数组取多少？(是指从读取位置开始往后读的数量)</param>
         /// <returns>返回当前新的数组中复制了多少个下标的值</returns>
-        public static int Read(this byte[] sourceArray, int sourceIndex, [In] [Out] byte[] destinationArray, int destinationIndex, int length)
+        public static int Read(this byte[] sourceArray, int sourceIndex, [In][Out] byte[] destinationArray, int destinationIndex, int length)
         {
             if (sourceArray == null)
             {
@@ -368,7 +370,7 @@ namespace Tool
             {
                 throw new System.SystemException("count超出了数组，数组越界！");
             }
-            List<byte> obj1 = new List<byte>();
+            List<byte> obj1 = new();
 
             for (int i = index; i < count; i++)
             {
@@ -376,6 +378,30 @@ namespace Tool
             }
             return obj1.ToArray();
         }
+        #endregion
+
+        #region Memory<byte>
+
+        /// <summary> 
+        /// 将<see cref="Memory{T}"/>转换成<see cref="ArraySegment{T}"/>（不是拷贝）
+        /// </summary>
+        /// <param name="memory">数据流</param>       
+        /// <returns>返回<see cref="ArraySegment{T}"/></returns> 
+        public static ArraySegment<T> AsArraySegment<T>(this Memory<T> memory)
+        {
+            if (memory.IsEmpty)
+            {
+                //throw new System.SystemException("对象未有初始值！");
+                return ArraySegment<T>.Empty;
+            }
+            if (!MemoryMarshal.TryGetArray<T>(memory, out var segment))
+            {
+                var field = typeof(Memory<T>).GetField("_object", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                segment = Unsafe.As<T[]>(field.GetValue(memory));
+            }
+            return segment;
+        }
+
         #endregion
     }
 }

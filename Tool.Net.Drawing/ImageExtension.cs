@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.Versioning;
-using System.Text;
 
 namespace Tool.Utils.Data
 {
@@ -20,9 +18,10 @@ namespace Tool.Utils.Data
         /// </summary>
         /// <param name="image">图像</param>
         /// <param name="imageFormat">格式（默认为（jpeg格式））</param>
-        public static byte[] ToImageBytes(this Image image, ImageFormat imageFormat = null)
+        public static byte[] ToImageBytes(this Image image, ImageFormat? imageFormat = null)
         {
-            if (imageFormat == null) imageFormat = ImageFormat.Jpeg;
+            if (image is null) throw new ArgumentNullException(nameof(image));
+            imageFormat ??= ImageFormat.Jpeg;
             MemoryStream stream = new();
             image.Save(stream, imageFormat);// 保存图像到文件
             using (stream)

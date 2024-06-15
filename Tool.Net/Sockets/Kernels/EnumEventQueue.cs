@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Tool.Utils;
 
 namespace Tool.Sockets.Kernels
@@ -35,27 +36,27 @@ namespace Tool.Sockets.Kernels
         /**
          * 事件消息Queue
          */
-        private readonly ConcurrentQueue<GetQueOnEnum> _que;
+        private readonly ConcurrentQueue<IGetQueOnEnum> _que;
 
         /**
          * 当前锁
          */
         //private static readonly object _lockobj = new();
 
-        static EnumEventQueue() 
+        static EnumEventQueue()
         {
             _messageQueue = new EnumEventQueue();
         }
 
         private EnumEventQueue()
         {
-            _que = new ConcurrentQueue<GetQueOnEnum>();
+            _que = new ConcurrentQueue<IGetQueOnEnum>();
             _mre = new ManualResetEvent(false);
             _IsEnumOns = new ConcurrentDictionary<Enum, bool>();
 
             _logthread = new Thread(TaskOnComplete)
             {
-                Name = "Tcp事件线程",
+                Name = "Net事件线程",
                 IsBackground = true,
                 Priority = ThreadPriority.Lowest //false https://blog.csdn.net/snakorse/article/details/43888847
             };
@@ -68,22 +69,29 @@ namespace Tool.Sockets.Kernels
         /// </summary>
         private static EnumEventQueue Instance => _messageQueue;
 
-        private void TaskOnComplete()
+        private async void TaskOnComplete()
         {
-            while (true)
+            try
             {
-                // 等待信号通知
-                _mre.WaitOne();
-
-                // 判断是否有内容需要执行的事件 从列队中获取内容，并删除列队中的内容
-                while (!_que.IsEmpty && _que.TryDequeue(out GetQueOnEnum getQueOn))//_que.Count > 0
+                while (true)
                 {
-                    getQueOn.Completed();
-                }
+                    // 等待信号通知
+                    _mre.WaitOne();
 
-                // 重新设置信号
-                _mre.Reset();
-                //Thread.Sleep(1);
+                    // 判断是否有内容需要执行的事件 从列队中获取内容，并删除列队中的内容
+                    while (!_que.IsEmpty && _que.TryDequeue(out IGetQueOnEnum getQueOn))//_que.Count > 0
+                    {
+                        await getQueOn.Completed();
+                    }
+
+                    // 重新设置信号
+                    _mre.Reset();
+                    //Thread.Sleep(1);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal("连接事件线程崩溃：", ex, "Log/Tool");
             }
         }
 
@@ -93,34 +101,45 @@ namespace Tool.Sockets.Kernels
         /// <param name="key">IP</param>
         /// <param name="enAction">事件枚举</param>
         /// <param name="action">委托事件</param>
-        public void Complete(string key, Enum enAction, Action<string, Enum, DateTime> action)
+        public IGetQueOnEnum Complete<T>(in UserKey key, T enAction, CompletedEvent<T> action) where T : Enum
         {
             try
             {
                 //lock (_lockobj)
                 //{
-                    if (!_mre.SafeWaitHandle.IsClosed)
+                if (!_mre.SafeWaitHandle.IsClosed)
+                {
+                    //if (!_logthread.IsAlive)
+                    //{
+                    //    _logthread.Start();
+                    //}
+                    if (action is not null && IsEnumOn(enAction))
                     {
-                        //if (!_logthread.IsAlive)
-                        //{
-                        //    _logthread.Start();
-                        //}
-                        if (!_IsEnumOns.IsEmpty && _IsEnumOns.TryGetValue(enAction, out bool value) && value) return; //_IsEnumOns.Count > 0 
-
-                        _que.Enqueue(new GetQueOnEnum(key, enAction, action));//Completed?.Invoke(key, enAction)
+                        IGetQueOnEnum onEnum = new GetQueOnEnum<T>(key, enAction, action);
+                        _que.Enqueue(onEnum);//Completed?.Invoke(key, enAction)
                         _mre.Set();//启动
+                        return onEnum;
                     }
+                }
                 //}
             }
             catch (Exception e)
             {
                 Log.Error("TCP事件通道异常", e);
             }
+            return IGetQueOnEnum.Success;
         }
 
-        internal static void OnComplete(string key, Enum enAction, Action<string, Enum, DateTime> action)
+        private bool IsEnumOn(Enum enAction)
         {
-            Instance.Complete(key, enAction, action);
+            if (_IsEnumOns.IsEmpty) return true;
+            if (_IsEnumOns.TryGetValue(enAction, out bool value)) return value;
+            return true;
+        }
+
+        internal static IGetQueOnEnum OnComplete<T>(in UserKey key, T enAction, CompletedEvent<T> action) where T : Enum
+        {
+            return Instance.Complete(in key, enAction, action);//Unsafe.NullRef<T>();var a = ref Unsafe.AsRef<EnServer>(ref age1);
         }
 
         /// <summary>
@@ -129,7 +148,7 @@ namespace Tool.Sockets.Kernels
         /// <param name="enAction">屏蔽不触发的事件状态（<see cref="EnClient"/> | <see cref="EnServer"/>）</param>
         /// <param name="state">等于true时生效，将关闭一切的相关事件</param>
         /// <returns>返回是否设置成功</returns>
-        public static bool OnInterceptor(Enum enAction, bool state) 
+        public static bool OnInterceptor(Enum enAction, bool state)
         {
             if (enAction is EnClient or EnServer) //(typeof(EnClient) == enAction.GetType() || typeof(EnServer) == enAction.GetType())
             {

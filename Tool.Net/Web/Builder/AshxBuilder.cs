@@ -170,11 +170,11 @@ namespace Tool.Web
 
                     if (Options.EnableEndpointRouting)//ashxRoute.Name, 
                     {
-                        ((Microsoft.AspNetCore.Routing.EndpointDataSource)builder).MapApiRoute(areaName: extension.AshxType.Namespace, controller: keyValue.Key, template: ashxRoute.Template);
+                        ((EndpointDataSource)builder).MapApiRoute(areaName: extension.AshxType.Namespace, controller: keyValue.Key, template: ashxRoute.Template);
                     }
                     else
                     {
-                        ((Microsoft.AspNetCore.Routing.IRouteBuilder)builder).MapApiRoute(ashxRoute.Name, areaName: extension.AshxType.Namespace, controller: keyValue.Key, template: ashxRoute.Template);
+                        ((IRouteBuilder)builder).MapApiRoute(ashxRoute.Name, areaName: extension.AshxType.Namespace, controller: keyValue.Key, template: ashxRoute.Template);
                     }
                 }
 
@@ -188,11 +188,11 @@ namespace Tool.Web
 
                         if (Options.EnableEndpointRouting)//ashxRoute1.Name,
                         {
-                            ((Microsoft.AspNetCore.Routing.EndpointDataSource)builder).MapApiRoute(areaName: extension.AshxType.Namespace, controller: keyValue.Key, action: ashx.Key, template: ashxRoute1.Template);
+                            ((EndpointDataSource)builder).MapApiRoute(areaName: extension.AshxType.Namespace, controller: keyValue.Key, action: ashx.Key, template: ashxRoute1.Template);
                         }
                         else
                         {
-                            ((Microsoft.AspNetCore.Routing.IRouteBuilder)builder).MapApiRoute(ashxRoute1.Name, areaName: extension.AshxType.Namespace, controller: keyValue.Key, action: ashx.Key, template: ashxRoute1.Template);
+                            ((IRouteBuilder)builder).MapApiRoute(ashxRoute1.Name, areaName: extension.AshxType.Namespace, controller: keyValue.Key, action: ashx.Key, template: ashxRoute1.Template);
                         }
                     }
                 }
@@ -201,7 +201,7 @@ namespace Tool.Web
 
         internal AshxRouteData Filter(Microsoft.AspNetCore.Http.HttpContext context)
         {
-            var routeData = context.GetRouteData() ?? throw new ArgumentNullException("无法获取到，请求信息的路由配置信息！");
+            var routeData = context.GetRouteData() ?? throw new Exception("无法获取到，请求信息的路由配置信息！");
 
             //var routeData = context.Features.Get<IRoutingFeature>()?.RouteData ?? throw new ArgumentNullException("无法获取到，请求信息的路由配置信息！"); ;
 
@@ -210,11 +210,11 @@ namespace Tool.Web
             return Filter(routeContext);
         }
 
-        internal AshxRouteData Filter(Microsoft.AspNetCore.Routing.RouteContext context)
+        internal AshxRouteData Filter(RouteContext context)
         {
             //AshxRouteData _routeData = new AshxRouteData(requestContext);, System.Text.Json.JsonSerializerOptions jsonOptions
             //context.
-            return new AshxRouteData(context, Options.JsonOptions);
+            return new AshxRouteData(context, Options.JsonOptions, Logger, Options.IsAsync);
         }
 
         /// <summary>

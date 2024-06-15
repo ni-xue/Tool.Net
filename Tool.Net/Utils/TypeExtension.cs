@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Tool.Utils
 {
@@ -27,9 +30,11 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 创建异步返回模式
+        /// 创建异步模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
         /// <returns></returns>
         public static async Task InvokeAsync<T1>(this Action<T1> @delegate, T1 arg1)
         {
@@ -38,9 +43,13 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 创建异步返回模式
+        /// 创建异步模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
         /// <returns></returns>
         public static async Task InvokeAsync<T1, T2>(this Action<T1, T2> @delegate, T1 arg1, T2 arg2)
         {
@@ -49,9 +58,15 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 创建异步返回模式
+        /// 创建异步模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
         /// <returns></returns>
         public static async Task InvokeAsync<T1, T2, T3>(this Action<T1, T2, T3> @delegate, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -60,9 +75,17 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 创建异步返回模式
+        /// 创建异步模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
         /// <returns></returns>
         public static async Task InvokeAsync<T1, T2, T3, T4>(this Action<T1, T2, T3, T4> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
@@ -71,9 +94,19 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 创建异步返回模式
+        /// 创建异步模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <typeparam name="T5"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
         /// <returns></returns>
         public static async Task InvokeAsync<T1, T2, T3, T4, T5>(this Action<T1, T2, T3, T4, T5> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
@@ -82,9 +115,21 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 创建异步返回模式
+        /// 创建异步模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <typeparam name="T5"></typeparam>
+        /// <typeparam name="T6"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
         /// <returns></returns>
         public static async Task InvokeAsync<T1, T2, T3, T4, T5, T6>(this Action<T1, T2, T3, T4, T5, T6> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
@@ -93,9 +138,23 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 创建异步返回模式
+        /// 创建异步模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <typeparam name="T5"></typeparam>
+        /// <typeparam name="T6"></typeparam>
+        /// <typeparam name="T7"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
+        /// <param name="arg7"></param>
         /// <returns></returns>
         public static async Task InvokeAsync<T1, T2, T3, T4, T5, T6, T7>(this Action<T1, T2, T3, T4, T5, T6, T7> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
@@ -104,9 +163,25 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 创建异步返回模式
+        /// 创建异步模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <typeparam name="T5"></typeparam>
+        /// <typeparam name="T6"></typeparam>
+        /// <typeparam name="T7"></typeparam>
+        /// <typeparam name="T8"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
+        /// <param name="arg7"></param>
+        /// <param name="arg8"></param>
         /// <returns></returns>
         public static async Task InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this Action<T1, T2, T3, T4, T5, T6, T7, T8> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
@@ -115,9 +190,27 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 创建异步返回模式
+        /// 创建异步模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <typeparam name="T5"></typeparam>
+        /// <typeparam name="T6"></typeparam>
+        /// <typeparam name="T7"></typeparam>
+        /// <typeparam name="T8"></typeparam>
+        /// <typeparam name="T9"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
+        /// <param name="arg7"></param>
+        /// <param name="arg8"></param>
+        /// <param name="arg9"></param>
         /// <returns></returns>
         public static async Task InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
@@ -143,7 +236,10 @@ namespace Tool.Utils
         /// <summary>
         /// 创建异步返回模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
         /// <returns></returns>
         public static async Task<TResult> InvokeAsync<T1, TResult>(this Func<T1, TResult> @delegate, T1 arg1)
         {
@@ -154,7 +250,12 @@ namespace Tool.Utils
         /// <summary>
         /// 创建异步返回模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
         /// <returns></returns>
         public static async Task<TResult> InvokeAsync<T1, T2, TResult>(this Func<T1, T2, TResult> @delegate, T1 arg1, T2 arg2)
         {
@@ -165,7 +266,14 @@ namespace Tool.Utils
         /// <summary>
         /// 创建异步返回模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
         /// <returns></returns>
         public static async Task<TResult> InvokeAsync<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -176,7 +284,16 @@ namespace Tool.Utils
         /// <summary>
         /// 创建异步返回模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
         /// <returns></returns>
         public static async Task<TResult> InvokeAsync<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
@@ -187,7 +304,18 @@ namespace Tool.Utils
         /// <summary>
         /// 创建异步返回模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <typeparam name="T5"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
         /// <returns></returns>
         public static async Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, TResult>(this Func<T1, T2, T3, T4, T5, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
@@ -198,7 +326,20 @@ namespace Tool.Utils
         /// <summary>
         /// 创建异步返回模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <typeparam name="T5"></typeparam>
+        /// <typeparam name="T6"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
         /// <returns></returns>
         public static async Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, T6, TResult>(this Func<T1, T2, T3, T4, T5, T6, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
@@ -209,7 +350,22 @@ namespace Tool.Utils
         /// <summary>
         /// 创建异步返回模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <typeparam name="T5"></typeparam>
+        /// <typeparam name="T6"></typeparam>
+        /// <typeparam name="T7"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
+        /// <param name="arg7"></param>
         /// <returns></returns>
         public static async Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, T6, T7, TResult>(this Func<T1, T2, T3, T4, T5, T6, T7, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
@@ -220,7 +376,24 @@ namespace Tool.Utils
         /// <summary>
         /// 创建异步返回模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <typeparam name="T5"></typeparam>
+        /// <typeparam name="T6"></typeparam>
+        /// <typeparam name="T7"></typeparam>
+        /// <typeparam name="T8"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
+        /// <param name="arg7"></param>
+        /// <param name="arg8"></param>
         /// <returns></returns>
         public static async Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(this Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
@@ -231,7 +404,26 @@ namespace Tool.Utils
         /// <summary>
         /// 创建异步返回模式
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <typeparam name="T5"></typeparam>
+        /// <typeparam name="T6"></typeparam>
+        /// <typeparam name="T7"></typeparam>
+        /// <typeparam name="T8"></typeparam>
+        /// <typeparam name="T9"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="delegate"></param>
+        /// <param name="arg1"></param>
+        /// <param name="arg2"></param>
+        /// <param name="arg3"></param>
+        /// <param name="arg4"></param>
+        /// <param name="arg5"></param>
+        /// <param name="arg6"></param>
+        /// <param name="arg7"></param>
+        /// <param name="arg8"></param>
+        /// <param name="arg9"></param>
         /// <returns></returns>
         public static async Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
@@ -335,7 +527,6 @@ namespace Tool.Utils
         public static PropertyDescriptorCollection GetProperties(this object obj)
         {
             PropertyDescriptorCollection propertyDescriptor = TypeDescriptor.GetProperties(obj);
-
             return propertyDescriptor;
         }
 
@@ -419,6 +610,41 @@ namespace Tool.Utils
             if (!object.Equals(descriptor, null))
             {
                 obj.SetValue(descriptor, value);
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 获取指定变量值 (支持 public/private)
+        /// </summary>
+        /// <param name="obj">对象源</param>
+        /// <param name="name">变量名称</param>
+        /// <returns>返回变量值</returns>
+        public static object GetFieldValue(this object obj, string name)
+        {
+            object _obj = default;
+            var field = obj.GetType().GetField(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            if (field is not null)
+            {
+                _obj = field.GetValue(obj);
+            }
+            return _obj;
+        }
+
+        /// <summary>
+        /// 修改指定变量值 (支持 public/private)
+        /// </summary>
+        /// <param name="obj">对象源</param>
+        /// <param name="name">变量名称</param>
+        /// <param name="value">修改的值</param>
+        /// <returns>返回是否查找到并进行修改</returns>
+        public static bool SetFieldValue(this object obj, string name, object value)
+        {
+            var field = obj.GetType().GetField(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            if (field is not null)
+            {
+                field.SetValue(obj, value);
                 return true;
             }
             return false;

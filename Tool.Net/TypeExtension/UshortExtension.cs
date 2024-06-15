@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tool
@@ -25,6 +27,20 @@ namespace Tool
             //}
             return BitConverter.GetBytes(txt);
         }
+
+        /// <summary>
+        /// 原子方式+1
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        public static ushort Increment(this ref ushort value) => (ushort)Interlocked.Increment(ref Unsafe.As<ushort, int>(ref value));
+
+        /// <summary>
+        /// 原子方式-1
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        public static ushort Decrement(this ref ushort value) => (ushort)Interlocked.Decrement(ref Unsafe.As<ushort, int>(ref value));
 
         #region Ushort[] 封装方法
 

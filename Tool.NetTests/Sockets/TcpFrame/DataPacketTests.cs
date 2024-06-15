@@ -11,9 +11,9 @@ namespace Tool.Sockets.NetFrame.Tests
     [TestClass()]
     public class DataPacketTests
     {
-        Guid a0 = Guid.NewGuid();
-        string a1 => a0.ToString("N");
-        byte[] a2 => a0.ToByteArray();
+        //Guid a0 = Guid.NewGuid();
+        //string a1 => a0.ToString("N");
+        //byte[] a2 => a0.ToByteArray();
 
         //DataPacket packet => new DataPacket
         //{

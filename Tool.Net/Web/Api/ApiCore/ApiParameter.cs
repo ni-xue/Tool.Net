@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Tool.Utils.ActionDelegate;
 
 namespace Tool.Web.Api.ApiCore
@@ -27,26 +28,44 @@ namespace Tool.Web.Api.ApiCore
         /// </summary>
         /// <param name="parameter">参数</param>
         /// <param name="state">类型</param>
-        public ApiParameter(Parameter parameter, AshxState state) : base(parameter)
+        /// <param name="isbody">是否已获取body</param>
+        public ApiParameter(Parameter parameter, AshxState state, ref bool isbody) : base(parameter)
         {
-            ApiVal apiVal = Attribute.GetCustomAttribute(this.GetParameter, typeof(ApiVal)).ToVar<ApiVal>();
-            //parameter.ParameterType.Assembly
-
-            if (apiVal != null)
+            if (isbody) throw new Exception($"初始化 Api ({GetParameter.Member.DeclaringType.FullName}.{GetParameter.Member.Name}) 接口时，因存在多种 body 枚举值，故无法实现。");
+            if (Attribute.GetCustomAttribute(this.GetParameter, typeof(ApiVal)) is ApiVal apiVal)
             {
+                GetVal = apiVal.State;
                 this.KeyName = apiVal.IsName ? apiVal.Name : Name;
 
-                if (apiVal.State == Val.File && typeof(Microsoft.AspNetCore.Http.IFormFile) != ParameterType)
+                switch (GetVal)
                 {
-                    throw new Exception($"初始化 Api ({GetParameter.Member.DeclaringType.FullName}.{GetParameter.Member.Name}) 接口时，因参数名：{Name}，被定义为 Val.File 类型，但是参数类型并非 IFormFile，故无法实现。");
+                    case Val.File:
+                        TryState<Microsoft.AspNetCore.Http.IFormFile>(Val.File);
+                        break;
+                    case Val.Files:
+                        TryState<Microsoft.AspNetCore.Http.IFormFileCollection>(Val.Files);
+                        break;
+                    case Val.Body:
+                        isbody = true;
+                        if (TryIsType<System.IO.Stream>() && TryIsType<System.IO.Pipelines.PipeReader>() && TryIsType<Memory<byte>>())
+                        {
+                            TypeThrow(Val.Body, $"{nameof(System.IO.Stream)} 或 {nameof(System.IO.Pipelines.PipeReader)} 或 {nameof(Memory<byte>)}");
+                        }
+                        break;
+                    case Val.BodyJson:
+                        isbody = true;
+                        if (TryIsType<Utils.JsonVar>() && !ParameterType.IsClass)
+                        {
+                            TypeThrow(Val.BodyJson, $"{nameof(Utils.JsonVar)} 或 Json 实体类对象");
+                        }
+                        break;
+                    case Val.BodyString:
+                        isbody = true;
+                        TryState<string>(Val.BodyString);
+                        break;
+                    default:
+                        break;
                 }
-
-                if (apiVal.State == Val.Files && typeof(Microsoft.AspNetCore.Http.IFormFileCollection) != ParameterType)
-                {
-                    throw new Exception($"初始化 Api ({GetParameter.Member.DeclaringType.FullName}.{GetParameter.Member.Name}) 接口时，因参数名：{Name}，被定义为 Val.Files 类型，但是参数类型并非 IFormFileCollection，故无法实现。");
-                }
-                
-                GetVal = apiVal.State;
             }
             else
             {
@@ -59,6 +78,17 @@ namespace Tool.Web.Api.ApiCore
 
                 this.KeyName = Name;
             }
+        }
+
+        private bool TryIsType<T>() => typeof(T) != ParameterType;
+
+        private void TypeThrow<T>(Val isval) => TypeThrow(isval, nameof(T));
+
+        private void TypeThrow(Val isval, string name) => throw new Exception($"初始化 Api ({GetParameter.Member.DeclaringType.FullName}.{GetParameter.Member.Name}) 接口时，因参数名：{Name}，被定义为 Val.{isval} 类型，但是参数类型并非 {name}，故无法实现。");
+
+        private void TryState<T>(Val isval)
+        {
+            if (TryIsType<T>()) TypeThrow<T>(isval);
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Tool.Sockets.Kernels;
 using Tool.Utils.ActionDelegate;
 using Tool.Utils.Data;
 using Tool.Web.Api;
@@ -16,13 +18,13 @@ namespace Tool.Sockets.NetFrame
     /// <remarks>代码由逆血提供支持</remarks>
     [Serializable]
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Constructor, Inherited = false)]
-    public class DataTcp : Attribute
+    public class DataNet : Attribute
     {
         /// <summary>
         /// 用于实现构造(带默认参数)
         /// </summary>
         /// <param name="ID">此处Id,与绑定函数有关，绑定在方法上，为方法ID，构造函数上为类ID</param>
-        public DataTcp(byte ID) { this.ActionID = ID; }
+        public DataNet(byte ID) { this.ActionID = ID; }
 
         ///// <summary>
         ///// 消息数据格式
@@ -62,7 +64,7 @@ namespace Tool.Sockets.NetFrame
         /**
          * 当前方法的执行信息,目前只支持 <see cref="DataBase"/> 对象
          */
-        internal ActionDispatcher<DataBase> Action { get; set; } = null;
+        internal ActionDispatcher<DataBase, IGoOut> Action { get; set; } = null;
 
         /**
          * 当前主消息的类委托,目前只支持 <see cref="DataBase"/> 对象
@@ -77,9 +79,7 @@ namespace Tool.Sockets.NetFrame
         /**
          * 当前请求方法
          */
-        internal static IReadOnlyDictionary<string, DataTcp> DicDataTcps { get; set; }//ConcurrentDictionary
-
-        internal static readonly object @Lock = new();
+        internal static IReadOnlyDictionary<ushort, DataNet> DicDataTcps { get; set; }//ConcurrentDictionary
 
         /// <summary>
         /// 根据指定的自定义类获取当前接口对象上的<see cref="Attribute"/>（自定义类）
@@ -113,11 +113,11 @@ namespace Tool.Sockets.NetFrame
          */
         internal static void InitDicDataTcps<T>()
         {
-            if (DataTcp.DicDataTcps == null)
+            if (DataNet.DicDataTcps == null)
             {
-                lock (DataTcp.@Lock)
+                lock (StateObject.Lock)
                 {
-                    if (DataTcp.DicDataTcps == null)
+                    if (DataNet.DicDataTcps == null)
                     {
                         var Sources = new System.Diagnostics.StackTrace().GetFrames();
 
@@ -126,7 +126,7 @@ namespace Tool.Sockets.NetFrame
                         for (int i = 0; i < Sources.Length; i++)
                         {
                             Type ReflectedType = Sources[i].GetMethod().ReflectedType;
-                            if (typeof(DataTcp) == ReflectedType) continue;
+                            if (typeof(DataNet) == ReflectedType) continue;
                             if (typeof(T) != ReflectedType)
                             {
                                 assembly = ReflectedType.Assembly;
@@ -136,28 +136,20 @@ namespace Tool.Sockets.NetFrame
 
                         if (assembly != null)
                         {
-                            DataTcp.DicDataTcps = GetDicDataTcps(assembly);
+                            DataNet.DicDataTcps = GetDicDataTcps(assembly);
                         }
                     }
                 }
             }
         }
 
-        internal static bool IsTaskGoOut(Type ReturnType)
-        {
-            if (!object.Equals(ReturnType.BaseType, null) && object.Equals(ReturnType.BaseType, typeof(Task)))
-            {
-                if (ReturnType.GenericTypeArguments.Length > 0)
-                {
-                    return typeof(IGoOut).IsAssignableFrom(ReturnType.GenericTypeArguments[0]);
-                }
-            }
-            return false;
-        }
+        private static bool IsGoOut(Type ReturnType) => DispatcherCore.IsAssignableFrom<IGoOut>(ReturnType);
 
-        private static IReadOnlyDictionary<string, DataTcp> GetDicDataTcps(Assembly assembly)
+        private static bool IsTaskGoOut(MethodInfo method) => DispatcherCore.IsTask<IGoOut>(method);
+
+        private static IReadOnlyDictionary<ushort, DataNet> GetDicDataTcps(Assembly assembly)
         {
-            Dictionary<string, DataTcp> _dicDataTcps = new();
+            Dictionary<ushort, DataNet> _dicDataTcps = new();
 
             Type[] types = assembly.GetTypes();
 
@@ -173,34 +165,61 @@ namespace Tool.Sockets.NetFrame
 
                     if (constructorInfos[0].GetParameters().Length > 0) throw new Exception(string.Format("类：{0}，继承了【DataBase】类，必须是无参构造，无法创建消息体。", type.FullName));
 
-                    if (Attribute.GetCustomAttribute(constructorInfos[0], typeof(DataTcp)) is DataTcp constructorId)
+                    if (Attribute.GetCustomAttribute(constructorInfos[0], typeof(DataNet)) is DataNet constructorId)
                     {
-                        ActionHelper<DataBase> helper = new(type, MethodFlags.Public);
-
                         var _class = new ClassDispatcher<DataBase>(constructorInfos[0]);
-
-                        foreach (ActionMethod<DataBase> info in helper)
+                        MethodInfo[] method = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+                        foreach (MethodInfo info in method)
                         {
-                            if (Attribute.GetCustomAttribute(info.Action.Method, typeof(DataTcp)) is DataTcp hobbyAttr)
+                            if (Attribute.GetCustomAttribute(info, typeof(DataNet)) is DataNet hobbyAttr)
                             {
-                                bool igo = typeof(IGoOut).IsAssignableFrom(info.Action.ReturnType), itask = IsTaskGoOut(info.Action.ReturnType);
-
-                                if (!igo && !itask)
+                                bool itask = IsTaskGoOut(info), igo = IsGoOut(info.ReturnType);
+                                if (!itask && !igo)
                                 {
                                     throw new Exception(string.Format("类：{0}，[{1}]方法消息ID：{2}，返回值必须是【IGoOut】类型！", type.FullName, info.Name, hobbyAttr.ActionID));
                                 }
 
                                 hobbyAttr.ClassID = constructorId.ActionID;
-                                hobbyAttr.Action = info.Action;
+                                hobbyAttr.Action = new(info);
                                 hobbyAttr.NewClass = _class;
                                 hobbyAttr.IsTask = itask;
-                                hobbyAttr.Pethod = TypeInvoke.GetMethod(info.Action.Method);
-                                if (!_dicDataTcps.TryAdd($"{hobbyAttr.ClassID}.{hobbyAttr.ActionID}", hobbyAttr))
+                                hobbyAttr.Pethod = TypeInvoke.GetMethod(info);
+
+                                var actionKey = BitConverter.ToUInt16(new byte[] { hobbyAttr.ClassID, hobbyAttr.ActionID });
+                                //Debug.WriteLine($"16位数：{actionKey}");
+                                if (!_dicDataTcps.TryAdd(actionKey, hobbyAttr))
                                 {
                                     throw new Exception(string.Format("类：{0}，[{1}]方法消息ID：{2}，出现了重复！", type.FullName, info.Name, hobbyAttr.ActionID));
                                 }
                             }
                         }
+
+                        //ActionHelper<DataBase> helper = new(type, MethodFlags.Public);
+                        //foreach (ActionMethod<DataBase> info in helper)
+                        //{
+                        //    if (Attribute.GetCustomAttribute(info.Action.Method, typeof(DataNet)) is DataNet hobbyAttr)
+                        //    {
+                        //        bool igo = typeof(IGoOut).IsAssignableFrom(info.Action.ReturnType), itask = IsTaskGoOut(info.Action.ReturnType);
+
+                        //        if (!igo && !itask)
+                        //        {
+                        //            throw new Exception(string.Format("类：{0}，[{1}]方法消息ID：{2}，返回值必须是【IGoOut】类型！", type.FullName, info.Name, hobbyAttr.ActionID));
+                        //        }
+
+                        //        hobbyAttr.ClassID = constructorId.ActionID;
+                        //        hobbyAttr.Action = info.Action;
+                        //        hobbyAttr.NewClass = _class;
+                        //        hobbyAttr.IsTask = itask;
+                        //        hobbyAttr.Pethod = TypeInvoke.GetMethod(info.Action.Method);
+
+                        //        var actionKey = BitConverter.ToUInt16(new byte[] { hobbyAttr.ClassID, hobbyAttr.ActionID });
+                        //        //Debug.WriteLine($"16位数：{actionKey}");
+                        //        if (!_dicDataTcps.TryAdd(actionKey, hobbyAttr))
+                        //        {
+                        //            throw new Exception(string.Format("类：{0}，[{1}]方法消息ID：{2}，出现了重复！", type.FullName, info.Name, hobbyAttr.ActionID));
+                        //        }
+                        //    }
+                        //}
                     }
                     else
                     {
@@ -219,7 +238,7 @@ namespace Tool.Sockets.NetFrame
         /// <returns>程序集中存在接口，为[true/false]</returns>
         public static bool AddDataTcps(Assembly assembly)
         {
-            Dictionary<string, DataTcp> _dicDataTcps = DataTcp.DicDataTcps != null ? new(DataTcp.DicDataTcps) : new();
+            Dictionary<ushort, DataNet> _dicDataTcps = DataNet.DicDataTcps != null ? new(DataNet.DicDataTcps) : new();
 
             var newdatatcps = GetDicDataTcps(assembly);
 
@@ -237,9 +256,9 @@ namespace Tool.Sockets.NetFrame
                 }
             }
 
-            lock (DataTcp.@Lock)
+            lock (StateObject.Lock)
             {
-                DataTcp.DicDataTcps = _dicDataTcps.AsReadOnly();
+                DataNet.DicDataTcps = _dicDataTcps.AsReadOnly();
             }
 
             return true;

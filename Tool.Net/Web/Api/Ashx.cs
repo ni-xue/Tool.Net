@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Tool.Utils;
 using Tool.Utils.ActionDelegate;
 using Tool.Utils.Data;
 using Tool.Web.Api.ApiCore;
@@ -20,6 +17,8 @@ namespace Tool.Web.Api
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]//| AttributeTargets.Property
     public class Ashx : Attribute
     {
+        private AahxCore aahxCore = null;
+
         /// <summary>
         /// 用于实现构造(带默认参数)
         /// </summary>
@@ -53,7 +52,7 @@ namespace Tool.Web.Api
         /// <summary>
         /// 表示当前请求是否支持跨域请求，设置您的跨域对象
         /// </summary>
-        public CrossDomain CrossDomain { get; internal set; } = null;
+        public CrossDomain CrossDomain { get; private set; } = null;
 
         /// <summary>
         /// 获取当前调用方法是不是事件方法，声明事件方法必须使用 <see cref="OnAshxEvent"/> 类作为返回值。
@@ -68,32 +67,32 @@ namespace Tool.Web.Api
         /// <summary>
         /// 标注当前请求是否是请求的最小API
         /// </summary>
-        public bool IsMinApi { get; internal set; } = false;
+        public bool IsMinApi { get; private set; } = false;
 
         /// <summary>
         /// 表示该方法的名称
         /// </summary>
-        public string Methods { get { return Action.Name; } }
+        public string Methods => this.aahxCore.action.Name;
 
         /// <summary>
         /// 表示该方法所包含的访问参数
         /// </summary>
-        public ApiParameter[] Parameters { get; internal set; }
+        public ApiParameter[] Parameters => this.aahxCore.parameters;
 
         /// <summary>
         /// 当前方法的执行信息
         /// </summary>
-        internal MethodInfo Method { get { return Action.Method; } }
+        internal MethodInfo Method => this.aahxCore.action.Method;
 
         /// <summary>
         /// 当前方法的执行信息,目前只支持 <see cref="IAshxAction"/> 对象
         /// </summary>
-        internal ActionDispatcher<IAshxAction> Action { get; set; } = null;
-
+        internal IActionDispatcher<IAshxAction> Action => this.aahxCore.action;
+        
         /// <summary>
         /// 获取当前方法上包含的自定义类
         /// </summary>
-        internal IReadOnlyDictionary<Type, Attribute> _keyAttributes { get; set; } = null;//Dictionary
+        private ReadOnlyDictionary<Type, Attribute> keyAttributes = null;//Dictionary
 
         /// <summary>
         /// 根据指定的自定义类获取当前接口对象上的<see cref="Attribute"/>（自定义类）
@@ -143,14 +142,20 @@ namespace Tool.Web.Api
         /// <returns>返回<see cref="Attribute"/>（自定义类）</returns>
         public bool TryGetValue(Type key, out Attribute value)
         {
-            return _keyAttributes.TryGetValue(key, out value);
+            return keyAttributes.TryGetValue(key, out value);
         }
 
         /// <summary>
         /// 第一次绑定方法控制数据
         /// </summary>
-        internal void GetKeyAttributes(bool isMin)
+        internal void GetKeyAttributes(bool isMin, CrossDomain cross)
         {
+            if (cross != null)
+            {
+                cross.Methods ??= State == AshxState.All ? "HEAD,GET,POST,PUT,PATCH,DELETE" : State.ToString().ToUpper();
+                CrossDomain = cross;
+            }
+
             this.IsMinApi = isMin;
 
             if (this.IsMinApi)
@@ -159,7 +164,7 @@ namespace Tool.Web.Api
             }
             else
             {
-                this.IsTask = Method.ReturnType == typeof(Task) || Method.ReturnType == typeof(OnAshxEvent);//(Method.ReturnType == typeof(Task) || Method.ReturnType == typeof(OnAshxEvent) ? true : false);
+                this.IsTask = AshxExtension.IsTaskAshxApi(Method.ReturnType);// Method.ReturnType == typeof(Task) || Method.ReturnType == typeof(ValueTask) || Method.ReturnType == typeof(OnAshxEvent);//(Method.ReturnType == typeof(Task) || Method.ReturnType == typeof(OnAshxEvent) ? true : false);
             }
 
             this.IsOnAshxEvent = Method.ReturnType == typeof(OnAshxEvent); //(Method.ReturnType == typeof(OnAshxEvent) ? true : false);
@@ -179,13 +184,21 @@ namespace Tool.Web.Api
                     }
                 }
 
-                _keyAttributes = _attrikeys.AsReadOnly();
+                keyAttributes = _attrikeys.AsReadOnly();
             }
             catch
             {
             }
             //}
         }
+
+        internal void SetAction(AahxCore aahxCore) => this.aahxCore = aahxCore;
+
+        internal ActionDispatcher<IAshxAction, T> AsAction<T>() => aahxCore.action.AsAction<IAshxAction, T>(); //Unsafe.As<IActionDispatcher<IAshxAction>, ActionDispatcher<IAshxAction, T>>(ref action);
+
+        internal IHttpAsynApi NewClassAshx(IServiceProvider service) => aahxCore.newclass(service);
+
+        internal IMinHttpAsynApi ClassMinApi() => aahxCore.classmin();
     }
 
     /// <summary>
@@ -198,7 +211,7 @@ namespace Tool.Web.Api
         /// 完成该有的配置
         /// </summary>
         /// <param name="Event">当前长连接要执行的消息方法</param>
-        public OnAshxEvent(Action<OnAshxEvent> Event): this(Event, StringExtension.GetGuid())
+        public OnAshxEvent(Action<OnAshxEvent> Event) : this(Event, StringExtension.GetGuid())
         {
         }
 

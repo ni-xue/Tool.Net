@@ -14,7 +14,7 @@
 
 2. Sql包含，包含常用三种数据库的默认实现，其余数据库可以根据开源地址的实现，自行实现接口，支持所有数据库操作，提供获取原始数据库操作对象，由自行实现。
 
-3. Sockets包含，Tcp，Udp，WebTcp(WebSocket)，TcpFrame（内置实现的一种和WPF差不多的消息传输协议，后期的维护重点）（TcpFrame 重点，重构，对数据包体的高度使用，提高传输性能）
+3. Sockets包含，Tcp，Udp，WebTcp(WebSocket)，NetFrame（内置实现的一种和WPF差不多的消息传输协议，后期的维护重点）（NetFrame 重点，重构，对数据包体的高度使用，提高传输性能）
 
 4. TypeExtension包含，bool,byte,char,datetime,decimal,double,fioat,int,long,object,short,string,uint,ulong,ushort，相关扩展函数。
 

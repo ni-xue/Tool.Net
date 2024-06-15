@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tool.Web.Api
 {
@@ -110,6 +106,30 @@ namespace Tool.Web.Api
         /// <summary>
         /// 获取请求的路由格式 指定的键 的值 支持其他类型强转。
         /// </summary>
-        RouteKey  
+        RouteKey,
+        /// <summary>
+        /// 获取接收的 Body 数据流，接收对象必须是 <see cref="System.IO.Stream"/> 或 <see cref="System.IO.Pipelines.PipeReader"/> 或 <see cref="Memory{T}"/> 对象
+        /// <list type="bullet"><see cref="Body"/></list>
+        /// <list type="bullet"><see cref="BodyJson"/></list>
+        /// <list type="bullet"><see cref="BodyString"/></list>
+        /// <list type="bullet">单个接口以上类型仅可使用一个</list>
+        /// </summary>
+        Body,
+        /// <summary>
+        /// 获取接收的 Body 数据流, 转换成可用的 Json 实体类对象，或<seealso cref="Utils.JsonVar"/>
+        /// <list type="bullet"><see cref="Body"/></list>
+        /// <list type="bullet"><see cref="BodyJson"/></list>
+        /// <list type="bullet"><see cref="BodyString"/></list>
+        /// <list type="bullet">单个接口以上类型仅可使用一个</list>
+        /// </summary>
+        BodyJson,
+        /// <summary>
+        /// 获取接收的 Body 数据流, 转换成可用的 <seealso cref="string"/> 字符串
+        /// <list type="bullet"><see cref="Body"/></list>
+        /// <list type="bullet"><see cref="BodyJson"/></list>
+        /// <list type="bullet"><see cref="BodyString"/></list>
+        /// <list type="bullet">单个接口以上类型仅可使用一个</list>
+        /// </summary>
+        BodyString,
     }
 }

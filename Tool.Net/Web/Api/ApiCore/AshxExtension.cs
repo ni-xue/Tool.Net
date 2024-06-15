@@ -1,15 +1,23 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Buffers;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Pipelines;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Tool.Sockets.Kernels;
 using Tool.Utils;
 using Tool.Utils.ActionDelegate;
 using Tool.Utils.Data;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Tool.Web.Api.ApiCore
 {
@@ -32,12 +40,12 @@ namespace Tool.Web.Api.ApiCore
         /// <summary>
         /// 当前控制器的 New 对象
         /// </summary>
-        internal ClassDispatcher<IHttpAsynApi> AshxClassDelegater { get; private set; }
+        private ClassDispatcher<IHttpAsynApi> AshxClassDelegater { get; set; }
 
         /// <summary>
         /// 开始就实现的API类
         /// </summary>
-        internal IMinHttpAsynApi MinHttpAsynApi { get; private set; }
+        private IMinHttpAsynApi MinHttpAsynApi { get; set; }
 
         /// <summary>
         /// 当前对象的AshxType 是不是最小轻量级的
@@ -101,7 +109,7 @@ namespace Tool.Web.Api.ApiCore
 
                     //     var as0 = System.Linq.Expressions.Expression.Parameter(typeof(object[]), "parameters");
 
-                    //     ActionDispatcher<object>.GetParameter(out List<System.Linq.Expressions.Expression> expressions, as0, par);
+                    //     ActionDispatcher.GetParameter(out List<System.Linq.Expressions.Expression> expressions, as0, par);
 
                     //     var as1 = System.Linq.Expressions.Expression.New(constructorInfos[0], expressions);
 
@@ -125,7 +133,7 @@ namespace Tool.Web.Api.ApiCore
 
                     //var as5 = AshxClassDelegater.Invoke(new object[] { null });
                 }
-                this.Ashxes = AshxExtension.GetApiAction(type, this.IsMin).AsReadOnly();
+                this.Ashxes = GetApiAction(type, this.IsMin)?.AsReadOnly();
 
 
                 if (this.Ashxes == null || this.Ashxes.Count == 0)
@@ -267,7 +275,7 @@ namespace Tool.Web.Api.ApiCore
                     //request.Headers.TryGetValue(parameter.Name, out Microsoft.Extensions.Primitives.StringValues value1);
                     //return value1.ToString().ToVar(parameter.ParameterType, false);
 
-                    return request.Headers.TryGetValue(parameter.KeyName, out Microsoft.Extensions.Primitives.StringValues value1) ? value1.ToString().ToVar(parameter.ParameterType, false) : null;
+                    return GetHeader();
                 case Val.Cookie:
                     //request.Cookies.TryGetValue(parameter.Name, out string value2);
                     //return value2.ToVar(parameter.ParameterType, false);
@@ -284,6 +292,12 @@ namespace Tool.Web.Api.ApiCore
                 case Val.RouteKey:
                     return request.RouteValues.TryGetValue(parameter.KeyName, out object value4) ? value4.ToVar(parameter.ParameterType, false) : null;
                 //(parameter.DefaultValue is System.DBNull) ? parameter.ParameterObj : parameter.DefaultValue;
+                case Val.Body:
+                    return GetBody().Preserve().Result;
+                case Val.BodyJson:
+                    return GetBodyJson().Preserve().Result;
+                case Val.BodyString:
+                    return GetBodyString().Preserve().Result;
                 default:
                     return null;
             }
@@ -308,6 +322,19 @@ namespace Tool.Web.Api.ApiCore
                     _ => request.GetString(parameter.KeyName),
                 };
                 return string.IsNullOrWhiteSpace(value) ? null : value.ToVar(parameter.ParameterType, false);
+            }
+
+            object GetHeader()
+            {
+                if (request.Headers.TryGetValue(parameter.KeyName, out Microsoft.Extensions.Primitives.StringValues value1))
+                {
+                    if (value1.Count != 1)
+                    {
+                        return null;
+                    }
+                    return value1[0].ToVar(parameter.ParameterType, false);
+                }
+                return null;
             }
 
             object GetSession()
@@ -350,9 +377,71 @@ namespace Tool.Web.Api.ApiCore
                     return new TryFormFile(ex);
                 }
             }
+
+            async ValueTask<object> GetBody()
+            {
+                if (parameter.ParameterType == typeof(Stream))
+                {
+                    return request.Body;
+                }
+                else if (parameter.ParameterType == typeof(PipeReader))
+                {
+                    return request.BodyReader;
+                }
+                else if (request.ContentLength.HasValue)
+                {
+                    request.EnableBuffering(1024 * 100);
+
+                    var owner = MemoryPool<byte>.Shared.Rent((int)request.ContentLength);
+                    request.HttpContext.Response.RegisterForDispose(owner);
+                    int length = await request.Body.ReadAsync(owner.Memory);
+                    request.Body.Seek(0, SeekOrigin.Begin);
+                    return owner.Memory[..length];
+
+                    //BytesCore bytesCore = new((int)request.ContentLength);
+                    //request.HttpContext.Response.RegisterForDispose(bytesCore);
+                    //await request.Body.ReadAsync(bytesCore.Memory);
+                    //request.Body.Seek(0, SeekOrigin.Begin);
+                    //return bytesCore.Memory;
+
+                }
+                return null;
+            }
+
+           async ValueTask<object> GetBodyJson()
+            {
+                if (request.ContentLength.HasValue)
+                {
+                    object _obj = null;
+                    request.EnableBuffering(1024 * 100);
+                    if (parameter.ParameterType == typeof(JsonVar))
+                    {
+                        using JsonDocument jsonDocument = await JsonDocument.ParseAsync(request.Body);
+                        _obj = new JsonVar(JsonHelper.GetReturn(jsonDocument.RootElement));
+                    }
+                    else
+                    {
+                        _obj = await JsonSerializer.DeserializeAsync(request.Body, parameter.ParameterType);
+                    }
+                    request.Body.Seek(0, SeekOrigin.Begin);
+                    return _obj;
+                }
+                return null;
+            }
+
+            async ValueTask<string> GetBodyString()
+            {
+                if (request.ContentLength.HasValue)
+                {
+                    request.EnableBuffering(1024 * 100);
+                    using StreamReader stream = new(request.Body);
+                    return await stream.ReadToEndAsync();
+                }
+                return null;
+            }
         }
 
-        internal static object[] GetParameterObjs(Ashx ashx, HttpRequest request, int index, int length, object[] _objs, out bool isException)
+        internal static object[] GetParameterObjs(Ashx ashx, HttpRequest request, int index, int length, object[] _objs, out Exception error)
         {
             //int index = 0;
             //int length = ashx.Parameters.Length;
@@ -452,23 +541,21 @@ namespace Tool.Web.Api.ApiCore
                     //    }
                     //}
 
-                    if (obj == null) obj = (parameter.DefaultValue is System.DBNull) ? parameter.ParameterObj : parameter.DefaultValue;
+                    obj ??= parameter.ValueOrObj;
 
                     _objs[index] = obj;
 
                     index++;
                 }
 
-                isException = false;
+                error = null;
 
                 return _objs;
             }
             catch (Exception e)
             {
-                Log.Fatal("GetParameterObjs:异常了。", e, "Log/Tool");
-
-                isException = true;
-
+                Log.Fatal("Api调用异常（参数错误）:", e, "Log/Tool");
+                error = e;
                 return null;
             }
         }
@@ -538,36 +625,35 @@ namespace Tool.Web.Api.ApiCore
         /// <returns></returns>
         internal IHttpAsynApi NewClassAshx(IServiceProvider service)
         {
-            object[] parameters = null;
-            if (AshxClassDelegater.Parameters.Length > 0)
+            object[] getParameters()
             {
-                void getParameters()
+                int length = AshxClassDelegater.Parameters.Length;
+                if (length == 0) return null;
+                object[] parameters = new object[length];
+                for (int i = 0; i < length; i++)
                 {
-                    parameters = new object[AshxClassDelegater.Parameters.Length];
-                    for (int i = 0; i < parameters.Length; i++)
+                    var parameter = AshxClassDelegater.Parameters[i];
+                    if (parameter.IsType)
                     {
-                        var parameter = AshxClassDelegater.Parameters[i];
-                        if (parameter.IsType)
+                        parameters[i] = parameter.ValueOrObj;
+                    }
+                    else
+                    {
+                        object _obj = service.GetService(parameter.ParameterType);
+                        if (_obj == null)
                         {
-                            parameters[i] = parameter.DefaultValue.GetType() == typeof(DBNull) ? parameter.ParameterObj : parameter.DefaultValue;
+                            parameters[i] = parameter.ValueOrObj;
                         }
-                        else
-                        {
-                            object _obj = service.GetService(parameter.ParameterType);
-                            if (_obj == null)
-                            {
-                                parameters[i] = parameter.DefaultValue.GetType() == typeof(DBNull) ? parameter.ParameterObj : parameter.DefaultValue;
-                            }
-                            parameters[i] = _obj;
-                        }
+                        parameters[i] = _obj;
                     }
                 }
-
-                getParameters();
+                return parameters;
             }
 
-            return AshxClassDelegater.Invoke(parameters);
+            return AshxClassDelegater.Invoke(getParameters());
         }
+
+        internal IMinHttpAsynApi ClassMinApi() => MinHttpAsynApi;
 
         ///// <summary>
         ///// 判断该方法是不是属于发起方的请求方式
@@ -689,7 +775,7 @@ namespace Tool.Web.Api.ApiCore
         /// 获取一个内部的调用规则
         /// </summary>
         /// <returns>返回一个类型实体</returns>
-        internal static Dictionary<string, Ashx> GetApiAction(Type type, bool isMin)// where T : new()
+        private Dictionary<string, Ashx> GetApiAction(Type type, bool isMin)// where T : new()
         {
             MethodInfo[] method = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
 
@@ -725,13 +811,10 @@ namespace Tool.Web.Api.ApiCore
                     //    throw new ArgumentNullException("方法重名提示：", $"警告：对外调用方法不能存在重名的（异常方法名：{info.Name}）！");
                     //}
                 }
-                else
+                else if (!IsTaskAshxApi(info.ReturnType) && !IsAshxApi(info.ReturnType))//.BaseType
                 {
-                    if (info.ReturnType != typeof(Task) && info.ReturnType != typeof(OnAshxEvent) && info.ReturnType != typeof(void))//.BaseType
-                    {
-                        //_method.Remove(info);
-                        continue;
-                    }
+                    //_method.Remove(info);
+                    continue;
                 }
 
                 if ('a' <= c && c <= 'z')
@@ -762,62 +845,18 @@ namespace Tool.Web.Api.ApiCore
 
                 if (keyValues.ContainsKey(info.Name))
                 {
-                    throw new ArgumentNullException("方法重名提示：", $"警告：对外调用方法不能存在重名的（异常方法名：{info.Name}）！");
+                    throw new Exception($"方法重名提示：警告：对外调用方法不能存在重名的（异常方法名：{info.Name}）！");
                 }
                 else
                 {
-                    if (hobbyAttr == null)
+                    hobbyAttr ??= new Ashx();
+
+                    //if (typeof(IAshxAction).IsAssignableFrom(type))
                     {
-                        hobbyAttr = new Ashx();
+                        hobbyAttr.SetAction(new AahxCore(NewClassAshx, ClassMinApi, GetDispatcher(info, isMin), hobbyAttr.State));
                     }
 
-                    if (typeof(IAshxAction).IsAssignableFrom(type))
-                    {
-                        hobbyAttr.Action = new ActionDispatcher<IAshxAction>(info);
-
-                        hobbyAttr.Parameters = GetParameter();
-
-                        ApiParameter[] GetParameter()
-                        {
-                            List<ApiParameter> apis = new();
-                            foreach (var item in hobbyAttr.Action.Parameters)
-                            {
-                                apis.Add(new ApiParameter(item, hobbyAttr.State));
-                            }
-
-                            return apis.ToArray();
-                        }
-                    }
-
-                    if (cross != null)
-                    {
-                        hobbyAttr.CrossDomain = cross;
-
-                        if (cross.Methods == null)
-                        {
-                            if (hobbyAttr.State == AshxState.All)
-                            {
-                                cross.Methods = "HEAD,GET,POST,PUT,PATCH,DELETE";
-                            }
-                            else
-                            {
-                                cross.Methods = hobbyAttr.State.ToString().ToUpper();
-                            }
-                        }
-                    }
-                    //hobbyAttr.IsTask = (info.ReturnType == typeof(Task) || info.ReturnType == typeof(OnAshxEvent) ? true : false);
-
-                    //hobbyAttr.IsOnAshxEvent = (info.ReturnType == typeof(OnAshxEvent) ? true : false);
-
-                    //hobbyAttr.Methods = info.Name;
-
-                    //hobbyAttr.Pethod = GetMethod(info);
-
-                    //hobbyAttr.Parameters = GetParameter(info);
-
-                    //hobbyAttr.Method = info;
-
-                    hobbyAttr.GetKeyAttributes(isMin);
+                    hobbyAttr.GetKeyAttributes(isMin, cross);
 
                     string MethodsName = info.Name;
 
@@ -825,59 +864,38 @@ namespace Tool.Web.Api.ApiCore
                     {
                         if (keyValues.ContainsKey(hobbyAttr.ID))
                         {
-                            throw new ArgumentNullException($"警告：对外调用方法不能存在重名的（异常方法名：{info.Name}）(对外访问名：{hobbyAttr.ID})！", "异常提示：");
+                            throw new Exception($"警告：对外调用方法不能存在重名的（异常方法名：{info.Name}）(对外访问名：{hobbyAttr.ID})！");
                         }
                         MethodsName = hobbyAttr.ID;
                     }
-
                     keyValues.TryAdd(MethodsName, hobbyAttr);
                 }
             }
             return keyValues;
         }
 
-        /// <summary>
-        /// 是否Min合法
-        /// </summary>
-        /// <returns></returns>
-        internal static bool IsApiOut(Type ReturnType)
+        private static IActionDispatcher<IAshxAction> GetDispatcher(MethodInfo info, bool isMin)
         {
-            return typeof(IApiOut).IsAssignableFrom(ReturnType);
+            if (isMin)
+            {
+                return new ActionDispatcher<IAshxAction, IApiOut>(info);
+            }
+            if (info.ReturnType == typeof(OnAshxEvent))
+            {
+                return new ActionDispatcher<IAshxAction, OnAshxEvent>(info);
+            }
+            return new ActionDispatcher<IAshxAction>(info);
         }
 
-        /// <summary>
-        /// 是否异步合法
-        /// </summary>
-        /// <returns></returns>
-        internal static bool IsTaskApiOut(Type ReturnType)
-        {
-            if (!object.Equals(ReturnType.BaseType, null) && object.Equals(ReturnType.BaseType, typeof(Task)))
-            {
-                if (ReturnType.GenericTypeArguments.Length > 0)
-                {
-                    return typeof(IApiOut).IsAssignableFrom(ReturnType.GenericTypeArguments[0]);
-                }
-            }
-            return false;
-        }
+        private static bool IsAshxApi(Type ReturnType) => DispatcherCore.IsVoid(ReturnType);
 
-        internal static bool IsTaskIApiOut(MethodInfo method)
-        {
-            Type ReturnType = method.ReturnType;
-            if (IsTaskApiOut(ReturnType))
-            {
-                Type isiApiOut = ReturnType.GenericTypeArguments[0];
-                if (typeof(IApiOut).Equals(isiApiOut))
-                {
-                    return true;
-                }
-                else
-                {
-                    throw new ArgumentNullException("返回值类型规定提示：", $"警告：在使用异步返回值的情况下，强制采用（Task<IApiOut>）其他均视为违规操作。\n异常方法名：{method.DeclaringType.Name}.Task<{isiApiOut.Name}> {method.Name}()");
-                }
-            }
-            return false;
-        }
+        internal static bool IsTaskAshxApi(Type ReturnType) => DispatcherCore.IsTask(ReturnType) || ReturnType == typeof(OnAshxEvent);
+
+        private static bool IsApiOut(Type ReturnType) => DispatcherCore.IsAssignableFrom<IApiOut>(ReturnType);
+
+        internal static bool IsTaskApiOut(Type ReturnType) => DispatcherCore.IsTaskTuple(ReturnType);
+
+        private static bool IsTaskIApiOut(MethodInfo method) => DispatcherCore.IsTask<IApiOut>(method);
 
         ///// <summary>
         ///// 通过 PushFrame（进入一个新的消息循环）的方式来同步等待一个必须使用 await 才能等待的异步操作。

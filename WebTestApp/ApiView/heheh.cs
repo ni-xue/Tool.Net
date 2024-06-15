@@ -50,18 +50,22 @@ namespace WebTestApp.ApiView
         //    return ApiOut.View(id + ".html");// ApiOut.ViewAsyn();  //
         //}
 
-        public async Task<IApiOut> Index(string p, int a, decimal c, [ApiVal(Val.AllMode)] Api.ps app, [ApiVal(Val.RouteKey)] string d,
+        public async Task<IApiOut> Index(string p, int a, decimal c, [ApiVal(Val.AllMode)] Api.Ps app, [ApiVal(Val.RouteKey)] string d,
             [ApiVal(Val.Service)] AshxRouteData e,
+            [ApiVal(Val.RouteKey)] string controller,
+            [ApiVal(Val.RouteKey)] string action,
             [ApiVal(Val.RouteKey)] string id = "cs")
         {
-            "hhh".ToInt();
+            //"hhh".ToInt();
+            
             
             return await ApiOut.PathViewAsync(id);// ApiOut.ViewAsyn();  //
         }
 
-        //[AshxRoute(template: "小鸟/{id?}/{id1?}")]
+        [AshxRoute(template: "小鸟/{id?}/{id1?}")]
         public async Task<IApiOut> Cs([ApiVal(Val.RouteKey)] string action, [ApiVal(Val.RouteKey)] string id, [ApiVal(Val.RouteKey)] string id1)
         {
+            await Task.Delay(1000);
             return await ApiOut.WriteAsync(action + id + id1);
         }
 
@@ -83,9 +87,14 @@ namespace WebTestApp.ApiView
             return await ApiOut.JsonAsync(new { mag = "保存成功！" });
         }
 
-        public async ValueTask<IApiOut> Value() 
+        public async ValueTask<JsonOut> Value([ApiVal(Val.Service)] Tool.Sockets.NetFrame.ClientFrame client) 
         {
-            return await ApiOut.JsonAsync(new { mag = "保存成功！" });
+            var api = new Tool.Sockets.NetFrame.ApiPacket(1, 250); //100 104 250
+            api.Set("a", "1234");
+            var response = await client.SendAsync(api);
+            //"hhh".ToInt();
+            //await Task.Delay(1000);
+            return await ApiOut.JsonAsync(new { mag = "保存成功！", response = new { response.Text, response.OnlyId, response.OnNetFrame } });
         }
     }
 }

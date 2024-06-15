@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Tool.Sockets.Kernels;
 
-namespace Tool.Sockets.NetFrame.Internal
+namespace Tool.Sockets.Kernels
 {
     /**
     * 数据接收对象
@@ -14,7 +13,7 @@ namespace Tool.Sockets.NetFrame.Internal
         /// <summary>
         /// 获取对应消息Key
         /// </summary>
-        public string ActionKey => string.Concat(ClassID, '.', ActionID);
+        public readonly ushort ActionKey => BitConverter.ToUInt16(new byte[] { ClassID, ActionID }); //string.Concat(ClassID, '.', ActionID);
 
         /**
         * 通道ID
@@ -32,15 +31,13 @@ namespace Tool.Sockets.NetFrame.Internal
         public Guid OnlyId { get; init; }//byte[]
 
         /**
-         * 消息ID
-         */
-        public string OnlyID => OnlyId.ToString(); //{ get; }// set;
-
-        /**
          * 消息是否是一部分
          */
         public Range Many { get; private set; } //= "0/0";//string
 
+        /**
+         * 消息是否是完整的
+         */
         public bool NotIsMany => Many.Equals(Range.All);
 
         /**
@@ -173,7 +170,7 @@ namespace Tool.Sockets.NetFrame.Internal
             switch (IsObj)
             {
                 case 3:
-                    listData += TcpStateObject.HeadSize + TextBytes.Count + Bytes.Count;
+                    listData += StateObject.HeadSize + TextBytes.Count + Bytes.Count;
                     break;
                 case 2:
                     listData += Bytes.Count;
@@ -204,13 +201,13 @@ namespace Tool.Sockets.NetFrame.Internal
 
                 if (IsObj == 3)
                 {
-                    ArraySegment<byte> newbytes = new byte[TcpStateObject.HeadSize + TextBytes.Count + Bytes.Count];
-                    TcpStateObject.SetDataHead(newbytes, TextBytes.Count, 0);
-                    TextBytes.CopyTo(newbytes[TcpStateObject.HeadSize..]);
-                    Bytes.CopyTo(newbytes[(TcpStateObject.HeadSize + TextBytes.Count)..]);
+                    ArraySegment<byte> newbytes = new byte[StateObject.HeadSize + TextBytes.Count + Bytes.Count];
+                    StateObject.SetDataHeadTcp(newbytes, TextBytes.Count, 0);
+                    TextBytes.CopyTo(newbytes[StateObject.HeadSize..]);
+                    Bytes.CopyTo(newbytes[(StateObject.HeadSize + TextBytes.Count)..]);
                     Bytes = newbytes;
 
-                    //ArraySegment<byte> objstr = SupportCode.TcpStateObject.GetDataSend(this.TextBytes, int.MaxValue);
+                    //ArraySegment<byte> objstr = StateObject.GetDataSend(this.TextBytes, int.MaxValue);
                     //Array.Resize(ref objstr, objstr.Count + Bytes.Count);
                     //this.Bytes.CopyTo(objstr, objstr.Count - Bytes.Count);
                     //this.Bytes = objstr;
@@ -219,12 +216,12 @@ namespace Tool.Sockets.NetFrame.Internal
                 }
                 else if (IsObj == 1)
                 {
-                    ArraySegment<byte> newbytes = new byte[TcpStateObject.HeadSize + TextBytes.Count];
-                    TcpStateObject.SetDataHead(newbytes, TextBytes.Count, 0);
-                    TextBytes.CopyTo(newbytes[TcpStateObject.HeadSize..]);
+                    ArraySegment<byte> newbytes = new byte[StateObject.HeadSize + TextBytes.Count];
+                    StateObject.SetDataHeadTcp(newbytes, TextBytes.Count, 0);
+                    TextBytes.CopyTo(newbytes[StateObject.HeadSize..]);
                     Bytes = newbytes;
 
-                    //this.Bytes = SupportCode.TcpStateObject.GetDataSend(this.TextBytes, int.MaxValue);
+                    //this.Bytes = StateObject.GetDataSend(this.TextBytes, int.MaxValue);
                     Text = null;
                 }
             }
@@ -262,23 +259,27 @@ namespace Tool.Sockets.NetFrame.Internal
             // * 最少位数：23~29
             // */
 
-            int index = 0, origsize = IsIpIdea ? 29 : 23, size = origsize;
+            int index = 0, origsize = IsIpIdea ? IDataPacket.BasicSize + 6 : IDataPacket.BasicSize, size = origsize;
             ArraySegment<byte> bytes;//byte[]
 
+            bool IsText = false, IsBytes = false;
             //byte[]
             switch (IsObj)
             {
                 case 3:
-                    size += TcpStateObject.HeadSize;
+                    size += StateObject.HeadSize;
                     size += TextBytes.Count;
                     size += Bytes.Count;
                     bytes = new byte[size];
 
-                    TcpStateObject.SetDataHead(bytes, TextBytes.Count, origsize);
-                    TextBytes.CopyTo(bytes[(origsize + TcpStateObject.HeadSize)..]);
+                    StateObject.SetDataHeadTcp(bytes, TextBytes.Count, origsize);
+                    TextBytes.CopyTo(bytes[(origsize + StateObject.HeadSize)..]);
                     Bytes.CopyTo(bytes[(size - Bytes.Count)..]);
 
-                    //byte[] objstr = SupportCode.TcpStateObject.GetDataSend(this.TextBytes, int.MaxValue);
+                    IsText = true;
+                    IsBytes = true;
+
+                    //byte[] objstr = StateObject.GetDataSend(this.TextBytes, int.MaxValue);
                     //size += objstr.Length;
                     //size += this.Bytes.Count;
                     //bytes = new byte[size];
@@ -289,11 +290,15 @@ namespace Tool.Sockets.NetFrame.Internal
                     size += Bytes.Count;
                     bytes = new byte[size];
                     Bytes.CopyTo(bytes[origsize..]);
+
+                    IsBytes = true;
                     break;
                 case 1:
                     size += TextBytes.Count;
                     bytes = new byte[size];
                     TextBytes.CopyTo(bytes[origsize..]);
+
+                    IsText = true;
                     break;
                 default:
                     bytes = new byte[size];
@@ -302,14 +307,24 @@ namespace Tool.Sockets.NetFrame.Internal
 
             bytes[index++] = 123;
             //this.OnlyId.ToByteArray().CopyTo(bytes, index); //Array.Copy(OnlyId, 0, bytes, index, 16);
-            OnlyId.TryWriteBytes(bytes[index..]);
-            index += 16;
+            OnlyId.TryWriteBytes(bytes[index..(index += 16)]);
             bytes[index++] = ClassID;
             bytes[index++] = ActionID;
             bytes[index++] = (byte)Many.Start.Value;
             bytes[index++] = (byte)Many.End.Value;
-            bytes[index++] = (byte)((IsSend ? 100 : 0) + (IsErr ? 10 : 0) + (IsServer ? 1 : 0)); // string.Concat(this.IsSend ? 1 : 0, this.IsErr ? 1 : 0, this.IsServer ? 1 : 0).ToVar<byte>();
-            bytes[index++] = (byte)((IsAsync ? 100 : 0) + (IsIpIdea ? 10 : 0) + IsObj); // string.Concat(this.IsAsync ? 1 : 0, this.IsIpIdea ? 1 : 0, this.IsObj).ToVar<byte>();
+            byte is_1 = 0;
+            IDataPacket.SetBit(ref is_1, 1, IsSend);
+            IDataPacket.SetBit(ref is_1, 2, IsErr);
+            IDataPacket.SetBit(ref is_1, 3, IsServer);
+
+            IDataPacket.SetBit(ref is_1, 4, IsAsync);
+            IDataPacket.SetBit(ref is_1, 5, IsIpIdea);
+            IDataPacket.SetBit(ref is_1, 6, IsText);
+            IDataPacket.SetBit(ref is_1, 7, IsBytes);
+
+            bytes[index++] = is_1;
+            //bytes[index++] = (byte)((IsSend ? 100 : 0) + (IsErr ? 10 : 0) + (IsServer ? 1 : 0)); // string.Concat(this.IsSend ? 1 : 0, this.IsErr ? 1 : 0, this.IsServer ? 1 : 0).ToVar<byte>();
+            //bytes[index++] = (byte)((IsAsync ? 100 : 0) + (IsIpIdea ? 10 : 0) + IsObj); // string.Concat(this.IsAsync ? 1 : 0, this.IsIpIdea ? 1 : 0, this.IsObj).ToVar<byte>();
             if (IsIpIdea)
             {
                 //string[] Ips = this.IpPort.Split('.');
@@ -351,7 +366,7 @@ namespace Tool.Sockets.NetFrame.Internal
             //switch (IsObj)
             //{
             //    case 3:
-            //        byte[] objstr = SupportCode.TcpStateObject.GetDataSend(Encoding.UTF8.GetBytes(this.Obj), int.MaxValue);
+            //        byte[] objstr = StateObject.GetDataSend(Encoding.UTF8.GetBytes(this.Obj), int.MaxValue);
 
             //        //Array.Resize(ref bytes, bytes.Length + objstr.Length + this.Bytes.Length);
 
@@ -409,7 +424,7 @@ namespace Tool.Sockets.NetFrame.Internal
             //switch (IsObj)
             //{
             //    case 3:
-            //        byte[] objstr = SupportCode.TcpStateObject.GetDataSend(Encoding.UTF8.GetBytes(this.Obj), int.MaxValue);
+            //        byte[] objstr = StateObject.GetDataSend(Encoding.UTF8.GetBytes(this.Obj), int.MaxValue);
             //        bytes.AddRange(objstr);
             //        bytes.AddRange(this.Bytes);
             //        break;
@@ -452,7 +467,7 @@ namespace Tool.Sockets.NetFrame.Internal
 
             //int length = this.Obj == null ? 100 : this.Obj.Length + 100;
             //byte[] by1 = Encoding.UTF8.GetBytes(Obj);
-            //byte[] Data = SupportCode.TcpStateObject.GetDataSend(by1, 10000);
+            //byte[] Data = StateObject.GetDataSend(by1, 10000);
 
             //char random = this.OnlyID[4];
             //StringBuilder str = new StringBuilder("[#", length);//{}
@@ -560,7 +575,7 @@ namespace Tool.Sockets.NetFrame.Internal
             //            case 3:
             //                byte[] head = new byte[6];
             //                Array.Copy(bytes, i, head, 0, 6);
-            //                int length = SupportCode.TcpStateObject.GetDataHead(head);
+            //                int length = StateObject.GetDataHead(head);
             //                i += 6;
 
             //                packet.Obj = Encoding.UTF8.GetString(bytes, i, length);
@@ -599,7 +614,7 @@ namespace Tool.Sockets.NetFrame.Internal
             //    case '3':
             //        byte[] head = new byte[6];
             //        Array.Copy(bytes, i, head, 0, 6);
-            //        int length = SupportCode.TcpStateObject.GetDataHead(head);
+            //        int length = StateObject.GetDataHead(head);
             //        i += 6;
 
             //        packet.Obj = Encoding.UTF8.GetString(bytes, i, length);
@@ -627,63 +642,42 @@ namespace Tool.Sockets.NetFrame.Internal
                 ActionID = bytes[18],
                 Many = new Range(bytes[19], ^bytes[20])
             };
-            byte is_1 = bytes[21], is_2 = bytes[22];
-            i += 22;
-            if (is_1 > 99)
-            {
-                is_1 -= 100;
-                packet.IsSend = true;
-            }
-            if (is_1 > 9)
-            {
-                is_1 -= 10;
-                packet.IsErr = true;
-            }
-            if (is_1 > 0)
-            {
-                packet.IsServer = true;
-            }
 
-            if (is_2 > 99)
-            {
-                is_2 -= 100;
-                packet.IsAsync = true;
-            }
-            if (is_2 > 9)
-            {
-                is_2 -= 10;
+            byte is_1 = bytes[21];
 
-                packet.IpPort = $"{bytes[23]}.{bytes[24]}.{bytes[25]}.{bytes[26]}:{BitConverter.ToUInt16(bytes.Slice(27, 2))}";
+            packet.IsSend = IDataPacket.GetBitIs(is_1, 1);
+            packet.IsErr = IDataPacket.GetBitIs(is_1, 2);
+            packet.IsServer = IDataPacket.GetBitIs(is_1, 3);
 
-                //packet.IpPort = new System.Net.IPEndPoint(new System.Net.IPAddress(bytes.Slice(i, 4)), BitConverter.ToUInt16(bytes.Slice(i + 4, 2))).ToString();//bytes, 27
-                //packet.IpPort = string.Concat(bytes[23], '.', bytes[24], '.', bytes[25], '.', bytes[26], ':', BitConverter.ToUInt16(bytes, 27));
-                i += TcpStateObject.HeadSize;
+            packet.IsAsync = IDataPacket.GetBitIs(is_1, 4);
+            bool IsIpPort = IDataPacket.GetBitIs(is_1, 5);
+            bool IsText = IDataPacket.GetBitIs(is_1, 6);
+            bool IsBytes = IDataPacket.GetBitIs(is_1, 7);
+
+            i += 21;
+            if (IsIpPort)
+            {
+                packet.IpPort = $"{bytes[22]}.{bytes[23]}.{bytes[24]}.{bytes[25]}:{BitConverter.ToUInt16(bytes.Slice(26, 2))}";
+                i += StateObject.HeadSize;
             }
 
-            switch (is_2)
+            if (IsText && IsBytes)
             {
-                case 3:
-                    var head = bytes.Slice(i, TcpStateObject.HeadSize); //bytes.AsMemory(i, 6).ToArray(); //new byte[6];
-                    //Array.Copy(bytes, i, head, 0, 6);
-                    int length = TcpStateObject.GetDataHead(head);
-                    i += TcpStateObject.HeadSize;
+                var head = bytes.Slice(i, StateObject.HeadSize); //bytes.AsMemory(i, 6).ToArray(); //new byte[6];
+                int length = StateObject.GetDataHeadTcp(head);
+                i += StateObject.HeadSize;
 
-                    //packet.Text = Encoding.UTF8.GetString(bytes.Slice(i, length));//(bytes.ToArray(), i, length);
-                    packet.TextBytes = bytes.Slice(i, length).ToArray();
-                    i += length;
+                packet.TextBytes = bytes.Slice(i, length).ToArray();
+                i += length;
 
-                    packet.Bytes = bytes[i..].ToArray(); //new byte[bytes.Length - i];
-                    //Array.Copy(bytes.ToArray(), i, packet.Bytes, 0, packet.Bytes.Length);
-                    break;
-                case 2:
-                    packet.Bytes = bytes[i..].ToArray(); //new byte[bytes.Length - i];
-                    //Array.Copy(bytes.ToArray(), i, packet.Bytes, 0, packet.Bytes.Length);
-                    break;
-                case 1:
-                    //packet.Text = Encoding.UTF8.GetString(bytes[i..]); //(bytes.ToArray(), i, bytes.Length - i);
-                    packet.TextBytes = bytes[i..].ToArray();
-                    break;
+                packet.Bytes = bytes[i..].ToArray();
             }
+            else
+            {
+                packet.TextBytes = IsText ? bytes[i..].ToArray() : default;
+                packet.Bytes = IsBytes ? bytes[i..].ToArray() : default;
+            }
+
             return packet;
         }
 
@@ -840,7 +834,7 @@ namespace Tool.Sockets.NetFrame.Internal
          */
         private void GetCount(ArraySegment<byte> bytes, int index, int count, int BufferSize)//ref byte[] internal
         {
-            BufferSize -= IsIpIdea ? 29 : 23;
+            BufferSize -= IsIpIdea ? IDataPacket.BasicSize + 6 : IDataPacket.BasicSize;
 
             if (index == count - 1)
             {

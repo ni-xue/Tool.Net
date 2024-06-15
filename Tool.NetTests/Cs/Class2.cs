@@ -79,7 +79,7 @@ namespace Tool.NetTests.Cs
         }
 
         [TestMethod()]
-        public void Cs2() 
+        public void Cs2()
         {
             //var c = ObjectExtension.Provider.GetService<Class1>();
 
@@ -111,26 +111,39 @@ namespace Tool.NetTests.Cs
 
             //ObjectExtension.Services.AddObject(class1);
 
-            ObjectExtension.Services.TryAddTransient<Class1>();
+            ObjectExtension.Services.TryAddTransient<CsA0>();
 
-            ObjectExtension.Services.TryAddTransient<Class3>();
+            ObjectExtension.Services.TryAddTransient<CsA1>();
 
             ObjectExtension.BuildProvider();
 
-            var c3 = ObjectExtension.Provider.GetService<Class3>();
+            var c3 = ObjectExtension.Provider.GetService<CsA1>();
 
             using var a1 = ObjectExtension.Provider.CreateScope();
-            var c3_1 = a1.ServiceProvider.GetService<Class3>();
+            var c3_1 = a1.ServiceProvider.GetService<CsA1>();
 
-            var c4 = ObjectExtension.Provider.GetService<Class3>();
+            var c4 = ObjectExtension.Provider.GetService<CsA1>();
 
-            var c5 = ObjectExtension.Provider.GetService<Class3>();
+            var c5 = ObjectExtension.Provider.GetService<CsA1>();
 
             Task.Run(() =>
             {
-                var c6 = ObjectExtension.Provider.GetService<Class3>();
+                var c6 = ObjectExtension.Provider.GetService<CsA1>();
 
             }).Wait();
+        }
+
+        public class CsA0
+        {
+
+        }
+
+        public class CsA1
+        {
+            public CsA1(CsA0 class1)
+            {
+
+            }
         }
     }
 }

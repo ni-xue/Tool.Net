@@ -8,23 +8,27 @@ using System.Threading.Tasks;
 namespace Tool.Utils.ThreadQueue
 {
     /// <summary>
-    /// 一个(公共)消息队列任务模型
+    /// 一个(公共线程安全)消息队列任务模型
     /// </summary>
     /// <remarks>代码由逆血提供支持</remarks>
-    public static class ActionQueue
+    public static class ActionQueue<T, TResult>
     {
-        //private static readonly object _lock = new();
+        /// <summary>
+        /// 分配的任务队列线程完成后最大保留时间
+        /// </summary>
+        public const int WaitTimeout = 60 * 1000;
 
-        private static volatile int _islock;
+        private static volatile int _islock = 0;
 
-        private static readonly ConcurrentQueue<WaitAction> queue;
+        private static readonly ConcurrentQueue<WaitAction<T, TResult>> queue;
+        private static readonly ManualResetEventSlim ResetEven;
 
         private static Task task = null;
 
         /// <summary>
         /// 注册完成任务后触发的事件
         /// </summary>
-        public static event Action<WaitAction> ContinueWith;
+        public static event Action<WaitAction<T, TResult>> ContinueWith;
 
         /// <summary>
         /// 表示当前事件是否已经注册
@@ -35,32 +39,24 @@ namespace Tool.Utils.ThreadQueue
         {
             _islock = new();
             queue = new();
+            ResetEven = new ManualResetEventSlim(false, 100);
         }
 
         private static void PerformTask()
         {
-            if (Interlocked.Exchange(ref _islock, 1) == 1) return;
-            //lock (ActionQueue._lock)
-            //{
-            if (task == null)
+            if (Interlocked.CompareExchange(ref _islock, 1, 0) == 1) { ResetEven.Set(); return; }
+
+            if (task == null || task.IsCompleted)
             {
-                task = Task.Factory.StartNew(gettask, TaskCreationOptions.LongRunning).ContinueWith(finish);
-            }
-            else
-            {
-                if (task.Status is TaskStatus.RanToCompletion or TaskStatus.Faulted)
-                {
-                    task = null;
-                    Interlocked.Exchange(ref _islock, 0);
-                }
+                task = ObjectExtension.RunTask(gettask, TaskCreationOptions.LongRunning).ContinueWith(finish);
+                //task = Task.Factory.StartNew(gettask, TaskCreationOptions.LongRunning).ContinueWith(finish);
             }
 
-            void gettask()
+            async Task gettask()
             {
-                //System.Threading.Thread.CurrentThread.Name ??= "公共队列任务线程";
-                byte retry = 0;
-                A:
-                while (!queue.IsEmpty && queue.TryDequeue(out WaitAction waitAction))
+            //System.Threading.Thread.CurrentThread.Name ??= "公共队列任务线程";
+            A:
+                while (!queue.IsEmpty && queue.TryDequeue(out WaitAction<T, TResult> waitAction))
                 {
                     if (waitAction != null && !waitAction.IsCompleted)
                     {
@@ -68,7 +64,7 @@ namespace Tool.Utils.ThreadQueue
                         {
                             try
                             {
-                                waitAction.Run();
+                                await waitAction.Run();
                                 ContinueWith?.Invoke(waitAction);
                             }
                             catch (Exception)
@@ -78,21 +74,14 @@ namespace Tool.Utils.ThreadQueue
                     }
                 }
 
-                while (retry < 200)
-                {
-                    Thread.Sleep(100);
-                    retry++;
-                    goto A;
-                }
+                if (ResetEven.Wait(WaitTimeout)) { ResetEven.Reset(); goto A; }
             }
 
             void finish(Task i)
             {
                 i.Dispose();
-                task = null;
                 Interlocked.Exchange(ref _islock, 0);
             }
-            //}
         }
 
         /// <summary>
@@ -100,12 +89,12 @@ namespace Tool.Utils.ThreadQueue
         /// </summary>
         /// <param name="action">任务</param>
         /// <param name="state">参数</param>
-        /// <returns>获取<see cref="WaitAction"/>对象</returns>
-        public static WaitAction Add(Action<object> action, object state)
+        /// <returns>获取<see cref="WaitAction{T, TResult}"/>对象</returns>
+        public static WaitAction<T, TResult> Add(Action<T> action, T state)
         {
-            WaitAction waitAction = new(action, state);
-            ActionQueue.queue.Enqueue(waitAction);
-            ActionQueue.PerformTask();
+            WaitAction<T, TResult> waitAction = new(action, state);
+            queue.Enqueue(waitAction);
+            PerformTask();
             return waitAction;
         }
 
@@ -114,12 +103,12 @@ namespace Tool.Utils.ThreadQueue
         /// </summary>
         /// <param name="func">任务</param>
         /// <param name="state">参数</param>
-        /// <returns>获取<see cref="WaitAction"/>对象</returns>
-        public static WaitAction Add(Func<object, object> func, object state)
+        /// <returns>获取<see cref="WaitAction{T, TResult}"/>对象</returns>
+        public static WaitAction<T, TResult> Add(Func<T, ValueTask<TResult>> func, T state)
         {
-            WaitAction waitAction = new(func, state);
-            ActionQueue.queue.Enqueue(waitAction);
-            ActionQueue.PerformTask();
+            WaitAction<T, TResult> waitAction = new(func, state);
+            queue.Enqueue(waitAction);
+            PerformTask();
             return waitAction;
         }
 
@@ -127,10 +116,10 @@ namespace Tool.Utils.ThreadQueue
         /// 添加队列任务
         /// </summary>
         /// <param name="waitaction">任务对象</param>
-        public static void Add(WaitAction waitaction)
+        public static void Add(WaitAction<T, TResult> waitaction)
         {
-            ActionQueue.queue.Enqueue(waitaction);
-            ActionQueue.PerformTask();
+            queue.Enqueue(waitaction);
+            PerformTask();
         }
     }
 }

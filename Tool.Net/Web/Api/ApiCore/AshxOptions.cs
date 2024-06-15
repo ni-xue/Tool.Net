@@ -12,9 +12,9 @@ namespace Tool.Web.Api.ApiCore
         /// <summary>
         /// 初始化对象
         /// </summary>
-        public AshxOptions() 
+        public AshxOptions()
         {
-            
+
         }
 
         ///// <summary>
@@ -28,13 +28,31 @@ namespace Tool.Web.Api.ApiCore
         public bool IsAsync { get; set; }
 
         /// <summary>
-        /// 是否使用终结点模式路由 (目前公测阶段)
+        /// 是否使用终结点模式路由 (目前公测阶段 3.0 功能完善版)
         /// </summary>
         public bool EnableEndpointRouting { get; set; } = false;
 
         /// <summary>
-        /// 允许注册 全局<see cref="System.Text.Json.JsonSerializerOptions"/> Json 序列化条件。 默认 null
+        /// 允许注册 全局<see cref="System.Text.Json.JsonSerializerOptions"/> Json 序列化条件。 默认 AshxOptions.JsonOptionsDefault 值
         /// </summary>
         public System.Text.Json.JsonSerializerOptions JsonOptions { get; set; }
+
+        /// <summary>
+        /// 默认Json序列化配置
+        /// </summary>
+        public static System.Text.Json.JsonSerializerOptions JsonOptionsDefault
+        {
+            get
+            {
+                var options = new System.Text.Json.JsonSerializerOptions
+                {
+                    //IgnoreReadOnlyFields = true,
+                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),
+                };
+                options.Converters.Add(Utils.JsonConverterHelper.GetDateConverter());
+                options.Converters.Add(Utils.JsonConverterHelper.GetDBNullConverter());
+                return options;
+            }
+        }
     }
 }

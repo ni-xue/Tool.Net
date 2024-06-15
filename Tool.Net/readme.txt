@@ -4,9 +4,9 @@
 
 2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils）
 
-3. 当前版本（5.0.0）为正式包，用于进行实际线上项目开发。 
+3. 当前版本（5.1.0）为预览包，用于进行公测项目开发测试。 
 
-4. 架构基于 .Net7（兼容.Net6、.Net5） 采用最新技术，具有最新的技术支持。
+4. 架构基于 .Net8（兼容.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
 
 -------------------------------------功能详解-----------------------------------------
 
@@ -14,7 +14,7 @@
 
 2. Sql包含，包含常用三种数据库的默认实现，其余数据库可以根据开源地址的实现，自行实现接口，支持所有数据库操作，提供获取原始数据库操作对象，由自行实现。
 
-3. Sockets包含，Tcp，Udp，WebTcp(WebSocket)，TcpFrame（内置实现的一种和WPF差不多的消息传输协议，后期的维护重点）（TcpFrame 重点，重构，对数据包体的高度使用，提高传输性能）
+3. Sockets包含，Tcp，Udp，WebSocket，NetFrame（内置实现的一种和WPF差不多的消息传输协议，后期的维护重点）（NetFrame 重点，重构，对数据包体的高度使用，提高传输性能）
 
 4. TypeExtension包含，bool,byte,char,datetime,decimal,double,fioat,int,long,object,short,string,uint,ulong,ushort，相关扩展函数。
 
@@ -180,7 +180,7 @@ public void ConfigureServices(IServiceCollection services)
 
 4. 优化Api命名空间引用复杂问题，简化引用。
 
-5. 优化 TcpFrame 命名空间下的，全部有关部分，重新定义新的协议，支持字节流传输和字符串传输，基础协议更小。
+5. 优化 NetFrame 命名空间下的，全部有关部分，重新定义新的协议，支持字节流传输和字符串传输，基础协议更小。
 
 6. ClientFrame 模块 新增 心跳功能，需要手动开启 AddKeepAlive(5);（心跳模式开启后，将会自动检查是否断开连接）
 
@@ -190,7 +190,7 @@ public void ConfigureServices(IServiceCollection services)
 
 8. ClientFrame 转发模式，优化，现在性能可靠。
 
-9. TcpFrame 模块下存在大量与内存使用有关的资源，目前已经全部通过GC管理起来，内存泄漏无需关心，后期会着重处理有关GC部分。
+9. NetFrame 模块下存在大量与内存使用有关的资源，目前已经全部通过GC管理起来，内存泄漏无需关心，后期会着重处理有关GC部分。
 
 10. 多个已知Bug优化。
 
@@ -445,12 +445,12 @@ V3.9.9 - 大版本更新（预览版·主要由于改动过大需要一定使用
 
 1. Sql 相关日志完善，在执行sql异常后，也会增加操作日志，极大解决因执行错误，却不知道执行了啥，这类问题。
 2. AppSettings 获取配置文件范围优化，会优先从环境路径匹配。（好处开发模式下，在vs修改配置文件将生效）
-3. 主要是优化 TcpFrame 下的通讯效率，本次优化，解决了，在多线程环境下，容易出现的无限超时问题，优化。
-4. TcpFrame 代码执行效率 优化，事件处理优化，数据包处理优化，池合理管理优化，分包处理优化等。
+3. 主要是优化 NetFrame 下的通讯效率，本次优化，解决了，在多线程环境下，容易出现的无限超时问题，优化。
+4. NetFrame 代码执行效率 优化，事件处理优化，数据包处理优化，池合理管理优化，分包处理优化等。
 5. TcpHelper 相关实际改动，主要是围绕这提升执行效率，增加IsThreadPool 字段 控制 数据包 是否采用线程池处理，增强可控性。
 6. TcpHelper 优化 数据包 解析效率，解析流程 算法简化等。
 8. PagerParameters 参数拼装 优化简化步骤。
-9. TcpFrame 下多包 来回 发送 优化，但效率不是特别高，目前采用的是 单线程 操作。
+9. NetFrame 下多包 来回 发送 优化，但效率不是特别高，目前采用的是 单线程 操作。
 10. Http post 请求时表单参数 实体 默认可构造，Val.Files 允许获取所有上传资源。
 11. 优化：DbHelper.SubPath 允许自定义，日志存放子路径。
 12. 优化：ApiPacket对象传值，默认进行传输转义。
@@ -466,7 +466,7 @@ V4.0.0 - 正式版
 5. DictionaryExtension 新增GetDictionary和SetDictionary函数详情请查看注释
 6. DbDataReader 新增 GetReader 扩展用于 直接获取 对应集合字典，提高效率。
 7. 其他优化。
-8. 存在的风险预警，TcpFrame下多包传输模式，存在GC频繁，导致崩溃问题，崩溃来自GC内核，目前无法修复，触发条件，频繁多包传输导致GC频繁。（下个版本优先，优化此类问题）
+8. 存在的风险预警，NetFrame下多包传输模式，存在GC频繁，导致崩溃问题，崩溃来自GC内核，目前无法修复，触发条件，频繁多包传输导致GC频繁。（下个版本优先，优化此类问题）
 
 ------------2022/11/05------------
 V4.1.0 - 正式版（当前版本仅优化部分上个版本遗留问题，新功能开发还在进行中，最近作者工作繁忙，时间不咋充裕）
@@ -475,10 +475,10 @@ V4.1.0 - 正式版（当前版本仅优化部分上个版本遗留问题，新�
 3. 优化 Api接口报错后，异常日志，显示的json格式中文不能与AddAshx 注册时 配置一致问题。
 4. Udp相关模块改动，发现原设计问题，在优化改动中。（很抱歉，因作者知识储备有限，需要时间处理）
 5. 优化 IsIpPort 验证计算方式，效率大幅度提升。
-6. 优化 TcpFrame 核心对象 由 TcpClient 改为 Socket 其余不变，不过目前，在考虑优化实现一个TcpClient更高效的通讯方式，还在测试中，尽情期待。
+6. 优化 NetFrame 核心对象 由 TcpClient 改为 Socket 其余不变，不过目前，在考虑优化实现一个TcpClient更高效的通讯方式，还在测试中，尽情期待。
 7. 新增 ServerFrame 类 ADD->SetIpParser函数，委托，可简化通讯转发效率，提供可配置性和控制性。
 8. 新增 JsonVar增加GetJson函数，获取当前节点的Json字符串。
-9. 新增 TcpFrame IGoOut 接口允许 使用异步 方式调用->Task<IGoOut>
+9. 新增 NetFrame IGoOut 接口允许 使用异步 方式调用->Task<IGoOut>
 10.新增 CopyEntity 函数，全对象扩展，支持对象参数拷贝。
 实例：
 A a = new(); //下有 参数 a1(int), b2(string)
@@ -492,7 +492,7 @@ a.CopyEntity(b, "b1=a1", "b2"); //可拷贝 b->b1, b->b2
 V4.1.5 - 正式版
 1. 新增支持 .net7 版本
 2. 修复 JosnVar 对象在 json 字符串 中存在 \u007F 时出错问题修复
-3. Tool.Sockets.TcpFrame.IpParser 回调事件，提供了访问者IP信息。
+3. Tool.Sockets.NetFrame.IpParser 回调事件，提供了访问者IP信息。
 4. DiySession 新增 SetId 方法 可以指定 SessionId。
 5. 优化了 GetUserIp GetUserIps 在验证IP有效性时，效率的提升。
 
@@ -506,9 +506,114 @@ V4.1.7 - 正式版
 1. 新增支持 .net8 版本
 2. 性能优化
 
-------------2024/01/30------------
-V5.0.0 - 正式版
-ReceiveBytes
+------------2024/05/17------------
+V5.0.0 - 尝鲜版
+1. 完善 Tool.Sockets 命名空间下的相关的类完善。
+2. 完善之前 UDP 模块下的不可用，全部开放。
+3. WebSocket 部分完善客户端模块
+4. 移除 System.Drawing 有个的图片模块 -> 相关验证码等 迁移到 Tool.Net.Drawing Sdk下
+5. NetFrame 命名空间下模块优化，通信模块完善，更佳的内存管理，解决原大文件传输问题导致的GC崩溃问题。
+6. 本版本中实现了大量值类型传递，大幅度提高了，通信效率。
+7. 改动事件触发模块，采用泛型重构，提高效率。
+8. Ouic模块已经可用尝鲜了，已经进行过，多种测试，但目前Quic还在草案阶段，故只能是预览版
+9. 想尝试预览版使用的：请添加[RequiresPreviewFeatures]特性
+10. 当前版本上线后，将会在1周内发布正式版
+
+------------2024/05/18------------
+V5.0.1 - 尝鲜版（描述预览版标记）
+1. 改动连接成功后接收业务移植到独立线程，避免被客户休眠导致新连接无法进入的特殊情况。
+2. EnClient or EnServer Connect 事件触发在所有任务之前，不在并行触发。
+3. IGetQueOnEnum 提供 IsSuccess 和 Wait() 用于处理事件任务是否被完成。
+4. 当前版本上线后，将会在1周内发布正式版
+
+------------2024/05/19------------
+V5.0.2 - 尝鲜版（描述预览版标记）
+1. 改动 ServerFrame or ClientFrame 允许初始化时设置 IsThreadPool 值，针对于需要保证流顺序的场景至关重要。
+2. 修复本次大改版，出现的 ServerFrame or ClientFrame 下 Receive 事件重复触发的问题。
+3. 完善 UserKey 类型在接收 IP端口 字符串时，未验证问题，优化后可以自动适配。
+4. 当前版本上线后，将会在1周内发布正式版
+
+------------2024/05/24------------
+V5.0.3 - 尝鲜版（描述预览版标记）
+1. 修复Udp模块不可用问题。
+2. 新增 P2PHelpr 模块 支持 P2P 模型 目前提供可用的公共服务版，私有实现版（）
+相关实例：
+-------------------------------------------TCP-------------------------------------------
+
+P2pServerAsync p2PServerAsync0 = await P2pServerAsync.GetFreeTcp();
+P2pServerAsync p2PServerAsync1 = await P2pServerAsync.GetFreeTcp();
+
+TcpClientAsync p2PClientAsync0 = new(NetBufferSize.Default, true);
+var task0 = p2PClientAsync0.P2PConnectAsync(p2PServerAsync0.LocalEP, p2PServerAsync1.RemoteEP);
+
+TcpClientAsync p2PClientAsync1 = new(NetBufferSize.Default, true);
+var task1 = p2PClientAsync1.P2PConnectAsync(p2PServerAsync1.LocalEP, p2PServerAsync0.RemoteEP);
+
+-------------------------------------------UDP-------------------------------------------
+
+P2pServerAsync p2PServerAsync0 = await P2pServerAsync.GetFreeUdp();
+P2pServerAsync p2PServerAsync1 = await P2pServerAsync.GetFreeUdp();
+
+UdpClientAsync p2PClientAsync0 = new(NetBufferSize.Default, true);
+var task0 = p2PClientAsync0.P2PConnectAsync(p2PServerAsync0.LocalEP, p2PServerAsync1.RemoteEP);
+
+UdpClientAsync p2PClientAsync1 = new(NetBufferSize.Default, true);
+var task1 = p2PClientAsync1.P2PConnectAsync(p2PServerAsync1.LocalEP, p2PServerAsync0.RemoteEP);
+
+-------------------------------------------UDP-------------------------------------------
+
+Task.WaitAll(task0, task1);
+
+以上为本次最大更新，以及修复部分已知问题和增强部分函数可用性。
+
+------------2024/05/24------------
+V5.0.4 - 尝鲜版（描述预览版标记）
+1. 修复P2pServerAsync.GetFreeTcp(); 验证错误问题。
+2. 优化验证结构，提高验证效率。
+
+------------2024/06/01------------
+V5.0.5 - 尝鲜版（描述预览版标记）
+1. Tool.Utils.ActionDelegate 下相关模块加强功能。
+2. ActionDispatcher 提供异步调用模型，可实现对异步函数的更高效调用。
+3. WebApi 相关模块优化，完善 MapAshxs 终结点模式，支持自定义路由规则等。
+4. AppSettings 支持修改配置同时更新对应相关绑定文件信息。
+5. 额外优化等。
+
+------------2024/06/03------------
+V5.0.6 - 尝鲜版（描述预览版标记）
+1. 当前版本为增强版本。
+2. 修复原终结点模式，路由匹配规则不完善问题。
+3. 将两种模式的共同部分合并，以便管理维护。
+4. 简化Api调用过程，加强吞吐性能。
+5. 优化部分内部变量管理等，细节优化。
+
+------------2024/06/05------------
+V5.0.7 - 尝鲜版（描述预览版标记）
+1. 当前版本新增了 Val.BodyJson or Val.Body or Val.BodyString 三种 body 数据使用模式。
+实例：public IApiOut Api3([ApiVal(Val.BodyJson)] List<SystemTest> test);
+
+------------2024/06/05------------
+V5.0.8 - 尝鲜版（描述预览版标记）
+4. AppSettings 支持的同步修改改成了（异步队列）实现。
+主要原因是因为，没有必要占用同步IO。
+其次优化了，赋值支持。
+实例：AppSettings.GetSection("Test:a:b").Value = new string[] { "6", "7", "8" }.ToJson();
+      AppSettings.GetSection("Test:name").Value = new { a = 5, b = 9, c = "666666" }.ToJson();
+      AppSettings.GetSection("Test:int").Value = "我";
+      AppSettings.GetSection("Test:list:2:name").Value = "我";
+      AppSettings.GetSection("Test:list:1:0").Value = "我";
+同时优化了，当文件中不存在时，不调用，在文件与修改结果一样时，取消修改等等优化。
+如发现不合理，请及时指出。
+
+------------2024/06/06------------
+V5.0.9 - 尝鲜版（描述预览版标记）
+1. AppSettings 优化，仅可修改的文件，更新相关内存信息，不重复赋值。
+
+------------2024/06/15------------
+V5.1.0 - 尝鲜版（描述预览版标记）
+1. 优化 Udp 模块断线问题，可设置超时时长。
+2. 优化P2P模块连接问题优化。
+3. 其余细节优化。
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。

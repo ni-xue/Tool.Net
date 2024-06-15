@@ -15,14 +15,14 @@ namespace Tool.Sockets.NetFrame
     /// </summary>
     public class ApiPacket
     {
-        /// <summary>
-        /// 该字段默认 为true, 出现这个字段的本意是 作者认为， 通知都在线程池中操作 用 同步方案 好像很合理。
-        /// <para></para>
-        /// 但是实际情况是 好像 IO 线程 可以帮忙 所以默认是 启用异步通讯，可以根据自己的实际效果而定。
-        /// <para></para>
-        /// 这里设置成 true, 默认用全用异步发送，设置为false 将根据请求 类型 选择相对于的方式
-        /// </summary>
-        public static bool TcpAsync = true;
+        ///// <summary>
+        ///// 该字段默认 为true, 出现这个字段的本意是 作者认为， 通知都在线程池中操作 用 同步方案 好像很合理。
+        ///// <para></para>
+        ///// 但是实际情况是 好像 IO 线程 可以帮忙 所以默认是 启用异步通讯，可以根据自己的实际效果而定。
+        ///// <para></para>
+        ///// 这里设置成 true, 默认用全用异步发送，设置为false 将根据请求 类型 选择相对于的方式
+        ///// </summary>
+        //public static bool TcpAsync = true;
 
         /// <summary>
         /// 数据包初始化
@@ -39,11 +39,24 @@ namespace Tool.Sockets.NetFrame
         /// <param name="ClassID">类ID</param>
         /// <param name="ActionID">方法ID</param>
         /// <param name="Millisecond">请求等待的毫秒</param>
-        public ApiPacket(byte ClassID, byte ActionID, int Millisecond)
+        public ApiPacket(byte ClassID, byte ActionID, int Millisecond) : this(ClassID, ActionID, Millisecond, true)
+        {
+            
+        }
+
+        /// <summary>
+        /// 数据包初始化
+        /// </summary>
+        /// <param name="ClassID">类ID</param>
+        /// <param name="ActionID">方法ID</param>
+        /// <param name="Millisecond">请求等待的毫秒</param>
+        /// <param name="IsReply">是否需要有回复消息</param>
+        public ApiPacket(byte ClassID, byte ActionID, int Millisecond, bool IsReply)
         {
             this.ClassID = ClassID;
             this.ActionID = ActionID;
             this.Millisecond = Millisecond;
+            this.IsReply = IsReply;
             Data = new Dictionary<string, string>();
         }
 
@@ -63,14 +76,22 @@ namespace Tool.Sockets.NetFrame
         public int Millisecond { get; }
 
         /// <summary>
+        /// 是否需要有回复消息
+        /// </summary>
+        public bool IsReply { get; }
+
+        /// <summary>
         /// 当前消息携带的数据流
         /// </summary>
-        public byte[] Bytes { get; set; } = null;
+        public ArraySegment<byte> Bytes { get; set; } = null;
 
         /**
          * 发送的参数
          */
-        internal readonly Dictionary<string, string> Data;// { get; set; }
+        internal readonly Dictionary<string, string> Data;
+
+        internal Ipv4Port ipPort;
+        internal bool isServer;
 
         /// <summary>
         /// 加入数据（如果有则修改）

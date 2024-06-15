@@ -162,10 +162,20 @@ namespace Tool.Web
         /// <param name="StatusCode"></param>
         /// <param name="format"></param>
         /// <param name="args"></param>
-        public static Exception AddHttpException(this HttpContext context, int StatusCode, string format, params object[] args)
+        public static Exception AddHttpException(this HttpContext context, int StatusCode, string format, params object[] args) => context.AddHttpException(StatusCode, format, error: null, args);
+
+        /// <summary>
+        /// 设置错误，并指定错误号
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="StatusCode"></param>
+        /// <param name="format"></param>
+        /// <param name="error"></param>
+        /// <param name="args"></param>
+        public static Exception AddHttpException(this HttpContext context, int StatusCode, string format, Exception error, params object[] args)
         {
             context.Response.StatusCode = StatusCode;
-            return new Exception(string.Format(System.Globalization.CultureInfo.CurrentCulture, format, args));
+            return new Exception(string.Format(System.Globalization.CultureInfo.CurrentCulture, format, args), error);
         }
 
         /// <summary>

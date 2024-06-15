@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.Versioning;
-using System.Text;
 
 namespace Tool.Utils
 {
@@ -213,7 +212,7 @@ namespace Tool.Utils
             {
                 throw new Exception("length 小于4");
             }
-            return StringExtension.GetGuid().Substring(0, length);
+            return Guid.NewGuid().ToString("N")[..length];
         }
 
         /// <summary>

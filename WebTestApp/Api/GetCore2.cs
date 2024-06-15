@@ -14,7 +14,7 @@ namespace WebTestApp.Api
 
         }
 
-        public async Task Async()
+        public async ValueTask Async()
         {
             await JsonAsync("{\"i\":10}");
         }

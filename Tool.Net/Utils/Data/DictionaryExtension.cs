@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -195,9 +196,9 @@ namespace Tool.Utils.Data
         /// <typeparam name="TValue">值</typeparam>
         /// <param name="keys">原本键值对</param>
         /// <returns>只读键值对</returns>
-        public static IReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> keys)
+        public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> keys)
         {
-            return keys is not null ? new System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>(keys) : null;
+            return keys is not null ? new ReadOnlyDictionary<TKey, TValue>(keys) : null;
         }
 
 #endif

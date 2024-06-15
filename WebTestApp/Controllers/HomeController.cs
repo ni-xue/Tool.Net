@@ -38,7 +38,7 @@ namespace WebTestApp.Controllers
                 taskOueue.ContinueWith += TaskOueue_ContinueWith;
             }
 
-            return a;
+            return ValueTask.FromResult(a);
         });
 
         private static void TaskOueue_ContinueWith(string arg1, string arg2, Exception arg3)
@@ -83,7 +83,7 @@ namespace WebTestApp.Controllers
 
             System.Data.DataSet ds = await dbHelper.ExecuteDataSetAsync("SELECT * FROM system OrDER by id desc", new { a = 1, b = 2, c = 3, d = 4 });
 
-            Test.system sy = new()
+            Test.SystemTest sy = new()
             {
                 key_cn = "66666"
             };
@@ -92,7 +92,7 @@ namespace WebTestApp.Controllers
 
             var a2 = dbHelper.GetUpdateParams(sy.ToDictionary(), out string key1);
 
-            var list = dbHelper.Select<Test.system>(s => s.key_cn = "可用积分价值");
+            var list = dbHelper.Select<Test.SystemTest>(s => s.key_cn = "可用积分价值");
 
             //TaskOueue<string, string> taskOueue = new(func: (a) =>
             //{

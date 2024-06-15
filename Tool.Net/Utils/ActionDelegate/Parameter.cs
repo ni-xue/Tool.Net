@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace Tool.Utils.ActionDelegate
@@ -47,7 +48,7 @@ namespace Tool.Utils.ActionDelegate
         /// 复制元数据到新的对象
         /// </summary>
         /// <param name="parameter"></param>
-        public Parameter(Parameter parameter) 
+        public Parameter(Parameter parameter)
         {
             this.GetParameter = parameter.GetParameter;
             this.IsType = parameter.IsType;
@@ -85,6 +86,11 @@ namespace Tool.Utils.ActionDelegate
         public object DefaultValue => GetParameter.DefaultValue;
 
         /// <summary>
+        /// 默认值是不是 <see cref="DBNull"/> 类型
+        /// </summary>
+        public bool IsDBNull => !GetParameter.HasDefaultValue;
+
+        /// <summary>
         /// 变量类型是不是：（string，short，int, long, byte, bool, char, decimal, double, float, object, ushort, uint, ulong, DateTime 类型可以为加?）时为 true
         /// </summary>
         public bool IsType { get; }
@@ -93,5 +99,7 @@ namespace Tool.Utils.ActionDelegate
         /// 值类型初始值
         /// </summary>
         public object ParameterObj { get; }
+
+        internal object ValueOrObj => IsDBNull ? ParameterObj : DefaultValue;
     }
 }

@@ -2,20 +2,24 @@
 using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Net;
 using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using Tool.Sockets.WebHelper;
+using Tool.Utils;
 
 namespace Tool.Sockets.Kernels
 {
     /// <summary>
     /// 对异步接收时的对象状态的封装，将Websocket与接收到的数据封装在一起
     /// </summary>
-    public class WebStateObject
+    public class WebStateObject : StateObject
     {
+        private static readonly SemaphoreSlim slimlock = new(1, 1); //发送数据限流
+
         /// <summary>
         /// 服务商构造
         /// </summary>
@@ -32,40 +36,15 @@ namespace Tool.Sockets.Kernels
         /// <param name="Client">对象</param>
         /// <param name="DataLength">包的大小</param>
         /// <param name="SocketKey">连接标识</param>
-        public WebStateObject(string SocketKey, WebSocket Client, int DataLength)
+        public WebStateObject(in UserKey SocketKey, WebSocket Client, int DataLength)
         {
             this.ListData = new Memory<byte>(new byte[DataLength]);
             this.Client = Client;
             this.SocketKey = SocketKey;
+            WriteHeap = new();
         }
 
         #region 静态函数
-
-        /// <summary>
-        /// 根据WebContext获取IP加端口
-        /// </summary>
-        /// <param name="Context"></param>
-        /// <returns></returns>
-        public static string GetIpPort(HttpListenerContext Context)
-        {
-            try
-            {
-                if (Context.Request == null)
-                {
-                    return "0.0.0.0:0";
-                }
-                else if (Context.Request.RemoteEndPoint == null)
-                {
-                    return "0.0.0.0:0";
-                }
-                IPEndPoint iep = Context.Request.RemoteEndPoint as IPEndPoint;
-                return string.Format("{0}:{1}", iep.Address, iep.Port);
-            }
-            catch (Exception)
-            {
-                return "0.0.0.0:0";
-            }
-        }
 
         /// <summary>
         /// 根据WebContext获取当前连接是否已经断开
@@ -78,10 +57,6 @@ namespace Tool.Sockets.Kernels
             {
                 return false;
             }
-            if (Client == null)
-            {
-                return false;
-            }
             if (Client.State != WebSocketState.Open)
             {
                 return false;
@@ -89,87 +64,23 @@ namespace Tool.Sockets.Kernels
             return true;
         }
 
-        /**
-         * 给包加头保证其数据完整性
-         * listData 数据
-         * datalength 限制数据量
-         */
-        internal static byte[] GetDataSend(byte[] listData, int datalength)
-        {
-            if (listData.Length + 10 > datalength)
-            {
-                throw new Exception("发送数据超过设置大小，请考虑分包发送！");
-            }
-            char[] head = new char[10] { '(', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', ')' };
+        /// <summary>
+        /// 根据WebContext获取当前连接是否已经断开
+        /// </summary>
+        /// <returns></returns>
+        internal bool IsConnected() => IsConnected(Client);
 
-            string strlength = listData.Length.ToString();
-            //string strdatalength = datalength.ToString();
-
-            if (strlength.Length > 8)
-            {
-                throw new Exception("发送数据超过设置大小，请考虑分包发送！");
-            }
-
-            for (int i = 1; i < strlength.Length + 1; i++)
-            {
-                head[head.Length - 1 - i] = strlength[strlength.Length - i];
-            }
-
-            byte[] headby = Encoding.ASCII.GetBytes(head); //"(20971520)‬"
-
-            byte[] Data = new byte[10 + listData.Length];
-
-            headby.CopyTo(Data, 0);
-
-            listData.CopyTo(Data, 10);
-
-            return Data;
-        }
-
-        /**
-         * 给包加头保证其数据完整性
-         * headby 数据头
-         */
-        internal static int GetDataHead(byte[] headby)
-        {
-            try
-            {
-                if (headby[0] == 40 && headby[9] == 41)
-                {
-                    int index;
-                    for (index = 1; index < 9; index++)
-                    {
-                        if (headby[index] != '\0') break;
-                    }
-                    string head = Encoding.ASCII.GetString(headby, index, 9 - index); //"(20971520)‬"
-
-                    return head.ToInt();
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            catch
-            {
-
-                return -1;
-            }
-        }
-
+        /// <summary>
+        /// 返回可用的IP信息
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns></returns>
         public static async Task<string> IsWebIpEffective(string ip)
         {
             if (ip.Equals("0.0.0.0") || ip.Equals("*"))
             {
-                string name = Dns.GetHostName();
-                IPAddress[] ipadrlist = await Dns.GetHostAddressesAsync(name);
-                foreach (IPAddress ipadr in ipadrlist)
-                {
-                    if (ipadr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                    {
-                        return ipadr.ToString();
-                    }
-                }
+                IPAddress ipadr = await Utility.GetIPAddressAsync(ip, AddressFamily.InterNetwork);
+                return ipadr.ToString();
             }
 
             return ip;
@@ -177,55 +88,115 @@ namespace Tool.Sockets.Kernels
 
         #endregion
 
-        internal bool IsKeepAlive(int conut)
+        internal bool IsKeepAlive()
         {
-            if (conut == KeepAliveObj.Length
-                && ListSpan[0] == KeepAliveObj[0]
-                && ListSpan[1] == KeepAliveObj[1]
-                && ListSpan[2] == KeepAliveObj[2]
-                && ListSpan[3] == KeepAliveObj[3]
-                && ListSpan[4] == KeepAliveObj[4]
-                && ListSpan[5] == KeepAliveObj[5]
-                && ListSpan[6] == KeepAliveObj[6])
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            bool isKeep = WriteHeap.IsEmpty && Utility.SequenceCompare(ListData.Span[..Count], KeepAliveObj);
+            if (isKeep) Count = 0;
+            return isKeep;
         }
 
-        internal void OnReceived<T>(bool IsThreadPool, T Client, int Count, Func<ReceiveBytes<T>, Task> Received)
+        internal static async ValueTask SendAsync(WebSocket client, Memory<byte> listData, int dataLength)
         {
             try
             {
-                var receiveBytes = new ReceiveBytes<T>(SocketKey, Client, Count);
-                ListData[..Count].CopyTo(receiveBytes.Memory);
-                if (IsThreadPool)
+                await slimlock.WaitAsync();
+                bool sendend = true;
+                int position = 0;
+                while (sendend)
                 {
-                    System.Threading.ThreadPool.UnsafeQueueUserWorkItem(ReceivedAsync, receiveBytes, false);
+                    Memory<byte> part;
+                    if (listData.Length - position > dataLength)
+                    {
+                        part = listData.Slice(position, dataLength);
+                        position += part.Length;
+                    }
+                    else
+                    {
+                        part = listData[position..];
+                        sendend = false;
+                    }
+                    await client.SendAsync(part, WebSocketMessageType.Binary, !sendend, CancellationToken.None);// : WebSocketMessageType.Text
+                }
+            }
+            finally
+            {
+                slimlock.Release();
+            }
+        }
+
+        internal async ValueTask<bool> ReceiveAsync()
+        {
+            ValueWebSocketReceiveResult receiveResult = await Client.ReceiveAsync(ListData[Count..], CancellationToken.None);
+
+            switch (receiveResult.MessageType)
+            {
+                case WebSocketMessageType.Binary:
+                    Count += receiveResult.Count;
+                    if (receiveResult.EndOfMessage)
+                    {
+                        if (!WriteHeap.IsEmpty) goto A;
+                        Count = receiveResult.Count;
+                        goto B;
+                    }
+                    if (ListData.Length > Count) goto B;
+                    A:
+                    WriteHeap.Copy(ListData[..Count]);
+                    Count = 0;
+                B:
+                    if (receiveResult.EndOfMessage) return true;
+                    break;
+                default:
+                    Client.Abort();
+                    break;
+            }
+
+            return false;
+        }
+
+        internal async ValueTask OnReceivedAsync<T>(bool IsThreadPool, T Client, ReceiveEvent<T> Received)
+        {
+            try
+            {
+                int count = GetCount();
+                if (Received is null) return;
+                var receiveBytes = new ReceiveBytes<T>(SocketKey, Client, count, false);
+                if (WriteHeap.IsEmpty)
+                {
+                    receiveBytes.SetMemory(ListData[..count]);
                 }
                 else
                 {
-                    ReceivedAsync(receiveBytes);
+                    var memories = WriteHeap.ToReadOnlySequence();
+                    receiveBytes.SetMemory(in memories);
+                    WriteHeap.Empty();
+                }
+                if (IsThreadPool)
+                {
+                    QueueUserWorkItem(Received, receiveBytes);
+                }
+                else
+                {
+                    await ReceivedAsync(Received, receiveBytes);
                 }
             }
             catch (Exception ex)
             {
-                Utils.Log.Error($"多包线程{(IsThreadPool ? "池" : "")}异常", ex, "Log/WebSocket");
+                Log.Error($"多包线程{(IsThreadPool ? "池" : "")}异常", ex, "Log/WebSocket");
             }
+        }
 
-            void ReceivedAsync(ReceiveBytes<T> receiveBytes) 
-            {
-                Received.Invoke(receiveBytes).Wait();//触发接收事件（兼容异步模式）
-            }
+        private int GetCount()
+        {
+            int count = Count;
+            Count = 0;
+            if (WriteHeap.IsEmpty) return count;
+            return WriteHeap.Length;
         }
 
         /// <summary>
         /// 关闭当前用户连接以及数据
         /// </summary>
-        public async void Abort()
+        public async Task AbortAsync()
         {
             await Client.CloseAsync(WebSocketCloseStatus.NormalClosure, "已经断开连接！", System.Threading.CancellationToken.None);
             //    .ContinueWith((i, ip) =>
@@ -259,19 +230,22 @@ namespace Tool.Sockets.Kernels
         /// <summary>
         /// 当前对象唯一的连接票据
         /// </summary>
-        public string SocketKey { get; }
+        public UserKey SocketKey { get; }
 
         /// <summary>
         /// 接收的数据
         /// </summary>
         public Memory<byte> ListData { get; private set; }
 
+        /**
+        * 表示当前一共接收到了多少
+        */
+        private int Count;
+
         /// <summary>
         /// 接收的数据
         /// </summary>
-        public Span<byte> ListSpan => ListData.Span;
-
-        private Span<byte> KeepAliveObj => KeepAlive.KeepAliveObj;
+        private MemorySegment<byte> WriteHeap;
 
         /// <summary>
         /// 回收对象所以资源
@@ -279,6 +253,7 @@ namespace Tool.Sockets.Kernels
         public void Close()
         {
             ListData = Memory<byte>.Empty;//new ArraySegment<byte>();
+            WriteHeap = null;
             //doReceive?.Close();
             Client.Dispose();
         }

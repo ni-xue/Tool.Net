@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using System;
 using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,19 +15,15 @@ using Tool.Utils;
 namespace Tool.Sockets.TcpHelper
 {
     /// <summary>
-    /// 封装一个底层异步TCP对象（服务端）
+    /// 封装一个底层异步TCP对象（服务端）IpV4
     /// </summary>
-    public class TcpServerAsync : INetworkListener<Socket>, IDisposable
+    public class TcpServerAsync : INetworkListener<Socket>
     {
         private readonly int DataLength = 1024 * 8;
-        private TcpListener listener;
-        //用于控制异步接受连接
-        private readonly ManualResetEvent doConnect = new(false);
-        ////用于控制异步接收数据
-        //private readonly ManualResetEvent doReceive = new ManualResetEvent(false);
-        //标识服务端连接是否关闭
-        private bool isClose = false;
-        private readonly ConcurrentDictionary<string, Socket> listClient = new();
+        private Socket listener;
+        private bool isClose = false; //标识服务端连接是否关闭
+        private bool isReceive = false; //标识是否调用了接收函数
+        internal readonly ConcurrentDictionary<UserKey, Socket> listClient = new();
 
         /// <summary>
         /// 是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
@@ -41,7 +39,7 @@ namespace Tool.Sockets.TcpHelper
         /// 是否使用线程池调度接收后的数据
         /// 默认 true 开启
         /// </summary>
-        public bool IsThreadPool { get; init; } = true;
+        public bool IsThreadPool { get; set; } = true;
 
         /// <summary>
         /// 禁用掉Receive通知事件，方便上层封装
@@ -49,24 +47,25 @@ namespace Tool.Sockets.TcpHelper
         public bool DisabledReceive { get; init; } = false;
 
         /// <summary>
-        /// 已建立连接的集合
-        /// key:ip:port
-        /// value:TcpClient
+        /// 表示通讯的包大小
         /// </summary>
-        public IReadOnlyDictionary<string, Socket> ListClient
-        {
-            get { return listClient; }
-            //private set { listClient = value; }
-        }
+        public NetBufferSize BufferSize { get; }// = NetBufferSize.Size8K;
 
-        //服务端IP
-        private string server = string.Empty;
+        /// <summary>
+        /// 已建立连接的集合
+        /// key:UserKey
+        /// value:Socket
+        /// </summary>
+        public IReadOnlyDictionary<UserKey, Socket> ListClient => listClient;
+
+        private Ipv4Port server; //服务端IP
+        private IPEndPoint endPointServer;
         private int millisecond = 20; //默认20毫秒。
 
         /// <summary>
         /// 服务器创建时的信息
         /// </summary>
-        public string Server { get { return server; } }
+        public UserKey Server { get { return server; } }
 
         /// <summary>
         /// 监听控制毫秒
@@ -88,132 +87,27 @@ namespace Tool.Sockets.TcpHelper
         /**
          * 连接、发送、关闭事件
          */
-        private Func<string, EnServer, DateTime, Task> Completed; //event
+        private CompletedEvent<EnServer> Completed; //event
 
         /**
          * 接收到数据事件
          */
-        private Func<ReceiveBytes<Socket>, Task> Received; //event
+        private ReceiveEvent<Socket> Received; //event
 
         /// <summary>
         /// 连接、发送、关闭事件
         /// </summary>
         /// <param name="Completed"></param>
-        public void SetCompleted(Func<string, EnServer, DateTime, Task> Completed) => this.Completed ??= Completed;
+        public void SetCompleted(CompletedEvent<EnServer> Completed) => this.Completed ??= Completed;
 
         /// <summary>
         /// 接收到数据事件
         /// </summary>
         /// <param name="Received"></param>
-        public void SetReceived(Func<ReceiveBytes<Socket>, Task> Received) => this.Received ??= Received;
-
-        /// <summary>
-        /// 创建一个TCP服务器类
-        /// </summary>
-        public TcpServerAsync()
+        public void SetReceived(ReceiveEvent<Socket> Received)
         {
-
-        }
-
-        /// <summary>
-        /// 创建一个TCP服务器类，并确定是否开启框架验证模式保证数据唯一性。
-        /// </summary>
-        /// <param name="OnlyData">是否启动框架模式</param>
-        public TcpServerAsync(bool OnlyData) : this(OnlyData, 8 * 1024)
-        {
-
-        }
-
-        /// <summary>
-        /// 创建一个TCP服务器类，设置流大小
-        /// </summary>
-        /// <param name="DataLength">每次包的最大大小(警告：请务必保证服务端的大小和客户端一致)</param>
-        public TcpServerAsync(int DataLength) : this(false, DataLength)
-        {
-        }
-
-        /// <summary>
-        /// 创建一个TCP服务器类，确认模式和设置流大小
-        /// </summary>
-        /// <param name="OnlyData">是否启动框架模式</param>
-        /// <param name="DataLength">每次包的最大大小(警告：请务必保证服务端的大小和客户端一致)</param>
-        public TcpServerAsync(bool OnlyData, int DataLength)
-        {
-            if (DataLength <= 8 * 1024)
-            {
-                throw new ArgumentException("DataLength 值必须大于8KB！", nameof(DataLength));
-            }
-            if (DataLength > 1024 * 1024 * 20)
-            {
-                throw new ArgumentException("DataLength 值必须是在20M(DataLength < 1024 * 1024 * 20)以内！", nameof(DataLength));
-            }
-            this.DataLength = DataLength;
-            this.OnlyData = OnlyData;
-        }
-
-        /// <summary>
-        /// 开始异步监听ip地址的端口
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="port"></param>
-        public void StartAsync(string ip, int port)
-        {
-            //IPAddress ipAddress = null;
-            //try
-            //{
-            //    ipAddress = IPAddress.Parse(ip);
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
-
-            if (!IPAddress.TryParse(ip, out IPAddress ipAddress))
-            {
-                throw new FormatException("ip 无法被 IPAddress 对象识别！");
-            }
-            listener = new TcpListener(new IPEndPoint(ipAddress, port));
-            server = $"{ip}:{port}";
-            try
-            {
-                listener.Start();
-                OnComplete(server, EnServer.Create);
-            }
-            catch (Exception e)
-            {
-                OnComplete(server, EnServer.Fail);
-                throw new Exception("连接服务器时发生异常！", e);
-            }
-
-            Task.Factory.StartNew(() =>
-            {
-                Thread.CurrentThread.Name ??= $"Tcp服务端-监听({port})";
-                while (!isClose)
-                {
-                    doConnect.Reset();
-                    listener.BeginAcceptSocket(AcceptCallBack, listener);
-                    doConnect.WaitOne(); //System.Net.Sockets.Socket
-                }
-            }, TaskCreationOptions.LongRunning).ContinueWith((i) => i.Dispose());
-
-            //ThreadPool.QueueUserWorkItem(x =>
-            //{
-            //    while (!isClose)
-            //    {
-            //        doConnect.Reset();
-            //        listener.BeginAcceptTcpClient(AcceptCallBack, listener);
-            //        doConnect.WaitOne();
-            //    }
-            //});
-        }
-
-        /// <summary>
-        /// 开始异步监听本机127.0.0.1的端口号
-        /// </summary>
-        /// <param name="port"></param>
-        public void StartAsync(int port)
-        {
-            StartAsync(StaticData.LocalIp, port);
+            if (isReceive) throw new Exception("当前已无法绑定接收委托了，因为StartAsync()已经调用了。");
+            this.Received ??= Received;
         }
 
         /// <summary>
@@ -222,433 +116,328 @@ namespace Tool.Sockets.TcpHelper
         /// <param name="key">IP:Port</param>
         /// <param name="client">连接对象</param>
         /// <returns>返回成功状态</returns>
-        public bool TrySocket(string key, out Socket client)
-        {
-            return ListClient.TryGetValue(key, out client);
-        }
+        public bool TrySocket(in UserKey key, out Socket client) => ListClient.TryGetValue(key, out client);
+
+        #region TcpServerAsync
 
         /// <summary>
-        /// 开始异步发送数据
+        /// 创建一个 <see cref="TcpClientAsync"/> 服务器类
         /// </summary>
-        /// <param name="key">客户端的ip地址和端口号</param>
-        /// <param name="msg">要发送的内容</param>
-        public void SendAsync(string key, string msg)
-        {
-            if (ListClient.TryGetValue(key, out Socket client))
-            {
-                SendAsync(client, msg);
-            }
-            else
-            {
-                throw new Exception("在当前服务端找不到该客户端信息，可能是当前用户已经断开连接。");//在当前服务端找不到该客户端信息，可能是当前用户已经断开连接。
-            }
-        }
-
-        /**
-         * 开始异步发送数据
-         * key 客户端的ip地址和端口号
-         * Data 要发送的内容
-         */
-        internal void SendAsync(string key, params ArraySegment<byte>[] Data)
-        {
-            if (ListClient.TryGetValue(key, out Socket client))
-            {
-                SendAsync(client, Data);
-            }
-            else
-            {
-                throw new Exception("在当前服务端找不到该客户端信息，可能是当前用户已经断开连接。");
-            }
-        }
+        public TcpServerAsync() : this(NetBufferSize.Default) { }
 
         /// <summary>
-        /// 开始异步发送数据
+        /// 创建一个 <see cref="TcpClientAsync"/> 服务器类，并确定是否开启框架验证模式保证数据唯一性。
         /// </summary>
-        /// <param name="client">客户端的ip地址和端口号</param>
-        /// <param name="msg">要发送的内容</param>
-        public void SendAsync(Socket client, string msg)
-        {
-            byte[] listData = Encoding.UTF8.GetBytes(msg);
-            SendAsync(client, listData);
-        }
+        /// <param name="size">数据缓冲区大小</param>
+        public TcpServerAsync(NetBufferSize size) : this(size, false) { }
 
         /// <summary>
-        /// 开始异步发送数据
+        /// 创建一个 <see cref="TcpClientAsync"/> 服务器类，确认模式和设置流大小
         /// </summary>
-        /// <param name="client">客户端的ip地址和端口号</param>
-        /// <param name="listData">要发送的内容，允许多个包</param>
-        public void SendAsync(Socket client, params ArraySegment<byte>[] listData)// byte[] listData
+        /// <param name="size">数据缓冲区大小</param>
+        /// <param name="OnlyData">是否启动框架模式</param>
+        public TcpServerAsync(NetBufferSize size, bool OnlyData)
         {
-            if (client is null)
-            {
-                throw new ArgumentException("client 对象是空的！", nameof(client));
-            }
-            if (!TcpStateObject.IsConnected(client))
-            {
-                throw new Exception("与客户端的连接已断开！");
-            }
-
-            IList<ArraySegment<byte>> buffers = TcpStateObject.GetBuffers(this.OnlyData, DataLength, listData);
-
-            client.BeginSend(buffers, SocketFlags.None, SendCallBack, client);
-
-            //if (this.OnlyData)
+            if (NetBufferSize.Default == size) size = NetBufferSize.Size8K;
+            //if (DataLength < 8 * 1024)
             //{
-            //    byte[] Data = TcpStateObject.GetDataSend(listData[0], DataLength);
-
-            //    if (client == null)
-            //    {
-            //        throw new ArgumentException("client 对象是空的！", nameof(client));
-            //    }
-            //    if (!TcpStateObject.IsConnected(client))
-            //    {
-            //        throw new Exception("与客户端的连接已断开！");
-            //    }
-            //    client.Client.BeginSend(Data, 0, Data.Length, SocketFlags.None, SendCallBack, client);
+            //    throw new ArgumentException("DataLength 值必须大于8KB！", nameof(DataLength));
             //}
-            //else
+            //if (DataLength > 1024 * 1024 * 20)
             //{
-            //    if (client == null)
-            //    {
-            //        throw new ArgumentException("client 对象是空的！", nameof(client));
-            //    }
-            //    if (!TcpStateObject.IsConnected(client))
-            //    {
-            //        throw new Exception("与客户端的连接已断开！");
-            //    }
-            //    client.Client.BeginSend(listData[0], 0, listData.Length, SocketFlags.None, SendCallBack, client);
+            //    throw new ArgumentException("DataLength 值必须是在20M(DataLength < 1024 * 1024 * 20)以内！", nameof(DataLength));
             //}
+            this.BufferSize = size;
+            this.DataLength = (int)size;
+            this.OnlyData = OnlyData;
+        }
+
+        #endregion
+
+        #region StartAsync
+
+        /// <summary>
+        /// 开始异步监听本机127.0.0.1的端口号
+        /// </summary>
+        /// <param name="port"></param>
+        public async Task StartAsync(int port)
+        {
+            await StartAsync(StaticData.LocalIp, port);
         }
 
         /// <summary>
-        /// 开始发送数据
+        /// 开始异步监听ip地址的端口
         /// </summary>
-        /// <param name="key">客户端的ip地址和端口号</param>
-        /// <param name="msg">要发送的内容</param>
-        public void Send(string key, string msg)
+        /// <param name="ip"></param>
+        /// <param name="port"></param>
+        public Task StartAsync(string ip, int port)
         {
-            if (ListClient.TryGetValue(key, out Socket client))
-            {
-                Send(client, msg);
-            }
-            else
-            {
-                throw new Exception("在当前服务端找不到该客户端信息，可能是当前用户已经断开连接。");//在当前服务端找不到该客户端信息，可能是当前用户已经断开连接。
-            }
-        }
+            ThrowIfDisposed();
 
-        /**
-         * 开始发送数据
-         * key 客户端的ip地址和端口号
-         * Data 要发送的内容
-         */
-        internal void Send(string key, params ArraySegment<byte>[] Data)
-        {
-            if (ListClient.TryGetValue(key, out Socket client))
+            string _server = $"{ip}:{port}";
+            if (!IPEndPoint.TryParse(_server, out endPointServer))
             {
-                Send(client, Data);
+                throw new FormatException("ip:port 无法被 IPEndPoint 对象识别！");
             }
-            else
+            server = _server;
+
+            listener = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
             {
-                throw new Exception("在当前服务端找不到该客户端信息，可能是当前用户已经断开连接。");
-            }
-        }
+                ReceiveBufferSize = (int)this.BufferSize,
+                SendBufferSize = (int)this.BufferSize
+            };
 
-        /// <summary>
-        /// 开始发送数据
-        /// </summary>
-        /// <param name="client">客户端的ip地址和端口号</param>
-        /// <param name="msg">要发送的内容</param>
-        public void Send(Socket client, string msg)
-        {
-            byte[] listData = Encoding.UTF8.GetBytes(msg);
-            Send(client, listData);
-        }
-
-        /// <summary>
-        /// 开始发送数据
-        /// </summary>
-        /// <param name="client">客户端的ip地址和端口号</param>
-        /// <param name="listData">要发送的内容，允许多个包</param>
-        public void Send(Socket client, params ArraySegment<byte>[] listData)// byte[] listData
-        {
-            if (client == null)
-            {
-                throw new ArgumentException("client 对象是空的！", nameof(client));
-            }
-            if (!TcpStateObject.IsConnected(client))
-            {
-                throw new Exception("与客户端的连接已断开！");
-            }
-
-            IList<ArraySegment<byte>> buffers = TcpStateObject.GetBuffers(this.OnlyData, DataLength, listData);
-
+            listener.Bind(endPointServer);
             try
             {
-                int count = client.Send(buffers, SocketFlags.None);
-                string key = TcpStateObject.GetIpPort(client);
-                OnComplete(key, EnServer.SendMsg);
+                listener.Listen();
+                OnComplete(Server, EnServer.Create);
+            }
+            catch (Exception e)
+            {
+                OnComplete(Server, EnServer.Fail);
+                throw new Exception("服务器监听时发生异常！", e);
+            }
+
+            StartAsync();
+            return Task.CompletedTask;
+        }
+
+        private async void StartAsync()
+        {
+            try
+            {
+                while (!isClose)
+                {
+                    //Thread.CurrentThread.Name ??= $"Tcp服务端-监听({server})";
+                    var context = await listener.AcceptAsync();
+                    AcceptCallBack(context);
+                }
             }
             catch (Exception)
             {
-                client.Close();
-                OnComplete(server, EnServer.Close);
+                Stop();//出错可能是监听断开等
+                if (isClose)
+                {
+                    //doConnect.Set();
+                    foreach (var _client in listClient)
+                    {
+                        SocketAbort(_client.Key, _client.Value);
+                    }
+                    listClient.Clear();
+                    OnComplete(Server, EnServer.Close);
+                    listener.Close();
+                    return;
+                }
             }
         }
 
-        /**
-         * 开始异步接收数据
-         * obj 要接收的客户端包体
-         */
-        private void ReceiveAsync(TcpStateObject obj)
+        #endregion
+
+        #region SendAsync
+
+        /// <summary>
+        /// 开始异步发送数据
+        /// </summary>
+        /// <param name="key">客户端的ip地址和端口号</param>
+        /// <param name="msg">要发送的内容</param>
+        public async ValueTask SendAsync(Ipv4Port key, string msg)
         {
-            obj.doReceive.Reset();
-            if (TcpStateObject.IsConnected(obj.Client))
+            if (TrySocket(key, out Socket client))
             {
-                try
-                {
-                    obj.Client.BeginReceive(obj.ListData, obj.WriteIndex, obj.SpareSize, SocketFlags.None, ReceiveCallBack, obj);
-                }
-                catch (Exception)
-                {
-
-                }
-                obj.doReceive.WaitOne();
+                await SendAsync(client, msg);
+            }
+            else
+            {
+                throw new Exception("在当前服务端找不到该客户端信息，可能是当前用户已经断开连接。");//在当前服务端找不到该客户端信息，可能是当前用户已经断开连接。
             }
         }
+
+        /// <summary>
+        /// 开始异步发送数据
+        /// </summary>
+        /// <param name="key">客户端的ip地址和端口号</param>
+        /// <param name="listData">要发送的内容</param>
+        public async ValueTask SendAsync(Ipv4Port key, ArraySegment<byte> listData)
+        {
+            if (TrySocket(key, out Socket client))
+            {
+                await SendAsync(client, listData);
+            }
+            else
+            {
+                throw new Exception("在当前服务端找不到该客户端信息，可能是当前用户已经断开连接。");
+            }
+        }
+
+        /// <summary>
+        /// 开始异步发送数据
+        /// </summary>
+        /// <param name="client">Socket对象</param>
+        /// <param name="msg">要发送的内容</param>
+        public async ValueTask SendAsync(Socket client, string msg)
+        {
+            byte[] listData = Encoding.UTF8.GetBytes(msg);
+            await SendAsync(client, listData);
+        }
+
+        /// <summary>
+        /// 开始异步发送数据
+        /// </summary>
+        /// <param name="client">Socket对象</param>
+        /// <param name="listData">要发送的内容</param>
+        public async ValueTask SendAsync(Socket client, ArraySegment<byte> listData)// byte[] listData
+        {
+            var sendBytes = CreateSendBytes(client, listData.Count);
+
+            try
+            {
+                sendBytes.SetMemory(listData);
+                await SendAsync(sendBytes);
+            }
+            finally
+            {
+                sendBytes.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// 异步发送消息
+        /// </summary>
+        /// <param name="sendBytes">数据包</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">OnlyData验证失败</exception>
+        /// <exception cref="Exception">连接已断开</exception>
+        public async ValueTask SendAsync(SendBytes<Socket> sendBytes)
+        {
+            ThrowIfDisposed();
+
+            var client = sendBytes.Client;
+            if (sendBytes.OnlyData != OnlyData) throw new ArgumentException("与当前套接字协议不一致！", nameof(sendBytes.OnlyData));
+            if (!TcpStateObject.IsConnected(client)) throw new Exception("与客户端的连接已断开！");
+            var buffers = sendBytes.GetMemory();
+            try
+            {
+                int count = await client.SendAsync(buffers, SocketFlags.None);
+                UserKey key = StateObject.GetIpPort(client);
+                OnComplete(in key, EnServer.SendMsg);
+            }
+            catch (Exception)
+            {
+                //如果发生异常，说明客户端失去连接，触发关闭事件
+                client.Close();
+                //OnComplete(server, EnServer.ClientClose);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 创建数据发送空间
+        /// </summary>
+        /// <param name="key">接收者信息</param>
+        /// <param name="length">数据大小</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">连接已中断</exception>
+        public SendBytes<Socket> CreateSendBytes(Ipv4Port key, int length)
+        {
+            if (TrySocket(key, out Socket client))
+            {
+                return CreateSendBytes(client, length);
+            }
+            else
+            {
+                throw new Exception("在当前服务端找不到该客户端信息，可能是当前用户已经断开连接。");//在当前服务端找不到该客户端信息，可能是当前用户已经断开连接。
+            }
+        }
+
+        /// <summary>
+        /// 创建数据发送空间
+        /// </summary>
+        /// <param name="client">收数据的对象</param>
+        /// <param name="length">数据大小</param>
+        /// <returns></returns>
+        public SendBytes<Socket> CreateSendBytes(Socket client, int length = 0)
+        {
+            if (client is null) throw new ArgumentException("Socket不能为空！", nameof(client));
+            if (length == 0) length = DataLength;
+            return new SendBytes<Socket>(client, length, OnlyData);
+        }
+
+        #endregion
 
         /**
          * 异步接收连接的回调函数
          */
-        private void AcceptCallBack(IAsyncResult ar)
+        private void AcceptCallBack(Socket client)
         {
-            TcpListener l = ar.AsyncState as TcpListener;
-            if (isClose)
-            {
-                doConnect.Set();
-                foreach (var _client in listClient)
-                {
-                    string IpPort = TcpStateObject.GetIpPort(_client.Value);
-                    _client.Value.Close();
-                    OnComplete(IpPort, EnServer.ClientClose);
-                }
-                listClient.Clear();
-                OnComplete(server, EnServer.Close);
-                return;
-            }
-
-            Socket client = l.EndAcceptSocket(ar);
-            doConnect.Set();
-
-            string key = TcpStateObject.GetIpPort(client);
+            UserKey key = StateObject.GetIpPort(client);
             if (listClient.TryAdd(key, client))
             {
-                StartReceive(key, client);
-                OnComplete(key, EnServer.Connect);
+                StateObject.StartReceive("Tcp", StartReceive, client); //StartReceive(client);
             }
         }
 
         /**
          * 启动新线程，用于专门接收消息
          */
-        private void StartReceive(string key, Socket client)
+        private async Task StartReceive(Socket client)
         {
-            Task.Factory.StartNew(() =>
+            isReceive = true;
+            TcpStateObject obj = new(client, this.DataLength, this.OnlyData, Received);
+            OnComplete(obj.IpPort, EnServer.Connect).Wait();
+            while (!isClose)//ListClient.TryGetValue(key, out client) && 
             {
-                Thread.CurrentThread.Name ??= "Tcp服务端-业务";
-                TcpStateObject obj = new(client, this.DataLength);
-                while (!isClose)//ListClient.TryGetValue(key, out client) && 
+                await Task.Delay(Millisecond);
+                if (obj.IsConnected())
                 {
-                    if (TcpStateObject.IsConnected(client))
-                    {
-                        Thread.Sleep(Millisecond);
-                        ReceiveAsync(obj);
-                        obj.OnReceiveTask(OnlyData, OnReceived);//尝试使用，原线程处理包解析，验证效率
-                        Thread.Sleep(Millisecond);
-                    }
-                    else
-                    {
-                        if (listClient.TryRemove(key, out client))
-                        {
-                            client.Close();
-                            OnComplete(key, EnServer.ClientClose);
-                        }
-                        break;
-                    }
+                    await ReceiveAsync(obj);
                 }
-                obj.Close();
-
-                void OnReceived(Memory<byte> listData)
+                else
                 {
-                    if (obj.IsKeepAlive(listData.Span))
+                    if (listClient.TryRemove(obj.IpPort, out client))
                     {
-                        OnComplete(obj.IpPort, EnServer.HeartBeat);
+                        SocketAbort(obj.IpPort, client);
                     }
-                    else
-                    {   
-                        if(!DisabledReceive) OnComplete(obj.IpPort, EnServer.Receive);
-                        if(Received is not null) obj.OnReceive(IsThreadPool, listData, Received);
-                    }
+                    break;
                 }
-            }, TaskCreationOptions.LongRunning).ContinueWith((i) => i.Dispose());
-
-            //ThreadPool.QueueUserWorkItem(x =>
-            //{
-            //    //用于控制异步接收数据
-            //    ManualResetEvent doReceive = new ManualResetEvent(false);
-            //    StateObject obj = new StateObject(client, this.DataLength) { doReceive = doReceive };
-            //    while (ListClient.TryGetValue(key, out client) && !isClose)
-            //    {
-            //        if (StateObject.IsConnected(client))
-            //        {
-            //            Thread.Sleep(Millisecond);
-            //            ReceiveAsync(obj);
-            //            Thread.Sleep(Millisecond);
-            //        }
-            //        else
-            //        {
-            //            if (ListClient.TryRemove(key, out client))
-            //            {
-            //                client.Close();
-            //                OnComplete(key, EnSocketAction.Close);
-            //            }
-            //            break;
-            //        }
-            //    }
-            //    doReceive.Close();
-            //});
+            }
+            obj.Close();
         }
 
         /**
-         * 异步发送数据的回调函数
+         * 开始异步接收数据
+         * obj 要接收的客户端包体
          */
-        private void SendCallBack(IAsyncResult ar)
+        private async ValueTask ReceiveAsync(TcpStateObject obj)
         {
-            Socket client = ar.AsyncState as Socket;
-            string key = TcpStateObject.GetIpPort(client);
+            //obj.doReceive.Reset();
             try
             {
-                int count = client.EndSend(ar);
-                OnComplete(key, EnServer.SendMsg);
+                if (!await obj.ReceiveAsync()) { return; }
+                //obj.OnReceiveTask(OnReceived);//尝试使用，原线程处理包解析，验证效率
+                Memory<byte> memory = Memory<byte>.Empty;
+                bool isend = false;
+                while (obj.OnReceiveTask(ref memory, ref isend)) await OnReceived(memory, obj);
+
+                //obj.Client.BeginReceive(obj.ListData, obj.WriteIndex, obj.SpareSize, SocketFlags.None, ReceiveCallBack, obj);
+                //obj.doReceive.WaitOne();
             }
             catch (Exception)
             {
-                client.Close();
-                OnComplete(server, EnServer.ClientClose);
+                obj.ClientClose();
             }
-        }
 
-        /**
-         * 异步接收数据的回调函数
-         */
-        private void ReceiveCallBack(IAsyncResult ar)
-        {
-            TcpStateObject obj = ar.AsyncState as TcpStateObject;
-            try
+            async ValueTask OnReceived(Memory<byte> listData, TcpStateObject obj)
             {
-                if (TcpStateObject.IsConnected(obj.Client))
-                    obj.Count = obj.Client.EndReceive(ar);
-
-                //byte[] ListData;
-                //if (this.OnlyData)
-                //{
-                //    if (obj.WriteIndex + count > 6)
-                //    {
-                //    Verify:
-                //        //byte[] headby = new byte[6];
-                //        //Array.Copy(obj.ListData, 0, headby, 0, 6);
-                //        int head = TcpStateObject.GetDataHead(obj.MemoryData.Span[..6]);
-
-                //        if (head != -1)
-                //        {
-                //            if (head + 6 > obj.ListData.Length)
-                //            {
-                //                obj.Client.Close();
-                //                obj.doReceive.Set();
-                //                return;
-                //            }
-                //            int writeIndex = (count + obj.WriteIndex) - (head + 6);
-                //            if (writeIndex > -1)
-                //            {
-                //                ListData = new byte[head];
-                //                Array.Copy(obj.ListData, 6, ListData, 0, head);
-
-                //                obj.WriteIndex = writeIndex;
-
-                //                if (obj.WriteIndex > 0)
-                //                {
-                //                    byte[] NewData = new byte[obj.WriteIndex];
-                //                    Array.Copy(obj.ListData, head + 6, NewData, 0, obj.WriteIndex);
-                //                    Array.Clear(obj.ListData, 0, obj.WriteIndex + head + 6);
-                //                    Array.Copy(NewData, 0, obj.ListData, 0, obj.WriteIndex);
-                //                }
-                //                else
-                //                {
-                //                    Array.Clear(obj.ListData, 0, head + 6);
-                //                }
-
-                //                //try
-                //                //{
-                //                //    ThreadPool.QueueUserWorkItem(x =>
-                //                //    {
-                //                //        Received?.Invoke(obj.IpPort, x as byte[]);//触发接收事件
-                //                //    }, ListData);
-                //                //}
-                //                //catch (Exception ex)
-                //                //{
-                //                //    Log.Error("多包线程池异常", ex, "Log/Tcp");
-                //                //}
-
-                //                TcpStateObject.OnReceived(IsThreadPool, obj.IpPort, ListData, Received);
-
-                //                if (obj.WriteIndex > 6)
-                //                {
-                //                    count = 0;
-                //                    goto Verify;
-                //                }
-                //            }
-                //            else
-                //            {
-                //                obj.WriteIndex = (count + obj.WriteIndex);
-                //                obj.doReceive.Set();
-                //                return;
-                //            }
-                //        }
-                //        else
-                //        {
-                //            obj.Client.Close();
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    ListData = new byte[count];
-                //    Array.Copy(obj.ListData, 0, ListData, 0, count);
-                //    Array.Clear(obj.ListData, 0, count);
-                //    obj.WriteIndex = 0;
-                //    //try
-                //    //{
-                //    //    ThreadPool.QueueUserWorkItem(x =>
-                //    //    {
-                //    //        Received?.Invoke(obj.IpPort, x as byte[]);//触发接收事件
-                //    //    }, ListData);
-                //    //}
-                //    //catch (Exception ex)
-                //    //{
-                //    //    Log.Error("多包线程池异常", ex, "Log/Tcp");
-                //    //}
-
-                //    TcpStateObject.OnReceived(IsThreadPool, obj.IpPort, ListData, Received);
-                //}
-                //obj.doReceive.Set();
-            }
-            catch (Exception)
-            {
-                obj.Client.Close();
-            }
-            finally
-            {
-                obj.doReceive.Set();
+                if (obj.IsKeepAlive(in listData))
+                {
+                    OnComplete(obj.IpPort, EnServer.HeartBeat);
+                }
+                else
+                {
+                    if (!DisabledReceive) OnComplete(obj.IpPort, EnServer.Receive);
+                    await obj.OnReceiveAsync(IsThreadPool, listData);
+                }
             }
         }
 
@@ -657,40 +446,50 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         /// <param name="key">指定发送对象</param>
         /// <param name="enAction">消息类型</param>
-        public virtual void OnComplete(string key, EnServer enAction)
+        public virtual IGetQueOnEnum OnComplete(in UserKey key, EnServer enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
+
+        private void SocketAbort(in UserKey key, Socket _client)
         {
-            if (Completed is null) return;
-            EnumEventQueue.OnComplete(key, enAction, completed);
-            void completed(string age0, Enum age1, DateTime age2)
-            {
-                Completed(age0, (EnServer)age1, age2).Wait();
-            }
+            _client.Close();
+            OnComplete(in key, EnServer.ClientClose);
         }
 
         /// <summary>
         /// TCP关闭
         /// </summary>
-        public void Close()
+        public void Stop()
         {
             isClose = true;
-            if (listener != null)
-            {
-                listener.Stop();//当他不在监听，就关闭监听。
-            }
+            listener?.Dispose();//当他不在监听，就关闭监听。
         }
 
-        void IDisposable.Dispose()
+        /// <summary>
+        /// 关闭连接，回收相关资源
+        /// </summary>
+        public void Dispose()
         {
-            Close();
-
+            _disposed = true;
+            Stop();
             listClient.Clear();
 
             //listClient = null;
             //listener.Server.Dispose();
             //((IDisposable)listener.Server).Dispose();
-            doConnect.Close();
+            //doConnect.Close();
             //_mre.Close();
             GC.SuppressFinalize(this);
+        }
+
+        bool _disposed = false;
+
+        private void ThrowIfDisposed()
+        {
+            if (_disposed)
+            {
+                ThrowObjectDisposedException();
+            }
+
+            void ThrowObjectDisposedException() => throw new ObjectDisposedException(GetType().FullName);
         }
     }
 }
