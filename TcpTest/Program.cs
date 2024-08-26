@@ -1,4 +1,13 @@
-﻿using System.Runtime.Versioning;
+﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.Win32;
+using System.Buffers;
+using System.Diagnostics;
+using System.IO.Pipelines;
+using System.Net.Sockets;
+using System.Reflection.PortableExecutable;
+using System.Runtime.Versioning;
+using System.Text;
+using Tool;
 using Tool.Sockets.Kernels;
 using Tool.Sockets.NetFrame;
 using Tool.Sockets.P2PHelpr;
@@ -33,14 +42,218 @@ namespace TcpTest
         //}
         #endregion
 
-        static async ValueTask Completed(string key, UserKey a1, EnClient b1, DateTime c1)
+        static async ValueTask Completed<T>(string key, UserKey a1, T b1, DateTime c1) where T : Enum
         {
             await Console.Out.WriteLineAsync($"[{key}]IP:{a1} \t{b1} \t{c1:yyyy/MM/dd HH:mm:ss:fffffff}");
         }
 
+        static async Task PipeAsync()
+        {
+            Pipe pipe = new(new PipeOptions(minimumSegmentSize: 1472, pauseWriterThreshold: 1472 * 100, resumeWriterThreshold: 1472 * 50));
+            async void a1()
+            {
+                Memory<byte> memory = new byte[] { 6, 5, 4, 3, 2, 1, 0 };
+                for (int i = 0; i < 100000; i++)
+                {
+                    memory.CopyTo(pipe.Writer.GetMemory(memory.Length));
+                    pipe.Writer.Advance(memory.Length);
+                    await pipe.Writer.FlushAsync();
+                    //await pipe.Writer.WriteAsync(memory);
+                }
+            }
+            async void a2()
+            {
+                var reader = pipe.Reader;
+                int position = 0;//默认位
+                while (true)//running
+                {
+                    //等待writer写数据
+                    ReadResult result = await reader.ReadAsync();
+                    //获得内存区域
+                    ReadOnlySequence<byte> buffer = result.Buffer;
+
+                    SequencePosition sequence = position > 0 ? buffer.GetPosition(position) : buffer.Start;
+                    while (buffer.TryGet(ref sequence, out var memory) && memory.IsEmpty is false)
+                    {
+                        StringBuilder builder = new();
+                        for (int i = 0; i < memory.Length; i++)
+                        {
+                            builder.Append($"{memory.Span[i]} ");
+                        }
+                        Debug.WriteLine($"验证发出数据：{builder}");
+                        //还未验证是否收到 ACK 消息
+                        sequence = buffer.GetPosition(position + memory.Length); //buffer.End;
+                        position += memory.Length;
+                    }
+
+                    //数据处理完毕，告诉pipe还剩下多少数据没有处理（数据包不完整的数据，找不到head）
+                    reader.AdvanceTo(buffer.Start, buffer.End);
+
+                    if (result.IsCompleted) break;
+                }
+
+                await reader.CompleteAsync();
+            }
+
+            a2();
+            a1();
+
+            await Task.Delay(100000);
+        }
+
+        static void chaxun()
+        {
+            const string name = "1477//";
+
+            List<(RegistryKey, string)> names = new List<(RegistryKey, string)>();
+            List<(RegistryKey, string)> values = new List<(RegistryKey, string)>();
+
+            RegistryKey[] keys = { Registry.LocalMachine, Registry.Users, Registry.ClassesRoot, Registry.CurrentConfig, Registry.CurrentUser };// Registry.ClassesRoot, Registry.CurrentConfig
+            foreach (RegistryKey key in keys)
+            {
+                string[] subkeys = key.GetSubKeyNames();
+                Queue<String> al = new Queue<String>(subkeys);
+                Queue<RegistryKey> qu = new Queue<RegistryKey>();
+                for (int i = 0; i < subkeys.Length; i++)
+                    qu.Enqueue(key);
+                while (al.Count > 0)
+                {
+                    string[] subkeyNames;
+                    string[] subvalueNames;
+                    try
+                    {
+                        RegistryKey aimdir = qu.Dequeue();
+                        aimdir = aimdir.OpenSubKey(al.Dequeue(), true);
+                        subvalueNames = aimdir.GetValueNames();
+                        foreach (string valueName in subvalueNames)
+                        {
+                            if (valueName.IndexOf(name, StringComparison.OrdinalIgnoreCase) != -1) //%%1
+                            {
+                                //aimdir.DeleteValue(valueName, false);
+
+                                names.Add((aimdir, valueName));
+                            }
+                            else
+                            {
+                                string value = aimdir.GetValue(valueName) as string;
+                                if (value != null)
+                                {
+                                    if (value.IndexOf(name, StringComparison.OrdinalIgnoreCase) != -1)
+                                    {
+                                        //aimdir.DeleteValue(value, false);
+                                        names.Add((aimdir, valueName));
+                                    }
+                                }
+                            }
+                        }
+                        subkeyNames = aimdir.GetSubKeyNames();
+                        foreach (string keyName in subkeyNames)
+                        {
+                            if (keyName.IndexOf(name, StringComparison.OrdinalIgnoreCase) != -1)
+                            {
+                                //aimdir.DeleteSubKey(keyName, false);
+                                values.Add((aimdir, keyName));
+                            }
+                            al.Enqueue(keyName);
+                            qu.Enqueue(aimdir);
+                        }
+                    }
+                    catch (Exception) { }
+                }
+                key.Close();
+            }
+        }
+
         static async Task Main(string[] args)
         {
-            P2pClientAsync.TimedDelay = 60000;
+            uint i0 = uint.MaxValue;
+            //i++;
+
+            UdpClientAsync clientAsync0 = new(NetBufferSize.Size64K, false) { Millisecond = 0 /*ReceiveTimeout = 5000*/ };
+            clientAsync0.SetCompleted((age0, age1, age2) => age1 != EnClient.SendMsg ? Completed("UDPClient", age0, age1, age2) : ValueTask.CompletedTask);
+            await clientAsync0.ConnectAsync(12344);
+
+            using var sendBytes = clientAsync0.CreateSendBytes();
+            sendBytes.Span[5] = (byte)1;
+            await clientAsync0.SendAsync(sendBytes);
+
+            await clientAsync0.SendAsync(
+                   @"Hello Several .NET Aspire templates include ASP.NET Core projects that are configured to use HTTPS by default. 
+                    If this is the first time you're running the project, and you're using Visual Studio, you're prompted to install a
+                     localhost certificate.\r\n\r\nThere are situations in which you trust/install the development certificate, but you 
+                    don't close all your browser windows. In these cases, your browser might indicate that the certificate isn't trusted.
+                    \r\n\r\nThere are also situations where you don't trust the certificate at all. In these cases, your browser might indicate 
+                    that the certificate isn't trusted.\r\n\r\nAdditionally, there are warning messages from Kestrel written to the console that 
+                    indicate that the certificate is not trusted.
+
+                    实例 Stopwatch 可以测量一个间隔的已用时间，或跨多个间隔的总已用时间。 在典型Stopwatch方案中，
+                    调用 Start 方法，最终调用 Stop 方法，然后使用 属性检查运行时间Elapsed。
+                    
+                    Stopwatch实例正在运行或已停止;使用 IsRunning 确定 的Stopwatch当前状态。 使用 Start 开始测量已用时间;使用 Stop 停止测量已用时间。 
+                    通过属性 Elapsed、 ElapsedMilliseconds或 ElapsedTicks查询已用时间值。 可以在实例正在运行或停止时查询已用时间属性。 运行时间属性在 Stopwatch 运行时稳步增加;当实例停止时，它们保持不变。
+                    
+                    默认情况下，实例的已用时间值 Stopwatch 等于所有测量时间间隔的总和。 对 的每个调用 Start 在累积运行时间开始计数;
+                    对 的每次调用 Stop 将结束当前间隔度量并冻结累积已用时间值。 Reset使用 方法清除现有Stopwatch实例中的累积运行时间。
+                    
+                    通过 Stopwatch 对基础计时器机制中的计时器计时周期进行计数来测量运行时间。 如果安装的硬件和操作系统支持高分辨率性能计数器，
+                    则 Stopwatch 类使用该计数器来测量运行时间。 否则， Stopwatch 类使用系统计时器来测量已用时间。 Frequency使用 和 IsHighResolution 字段确定计时实现的Stopwatch精度和分辨率。
+                    
+                    类 Stopwatch 有助于在托管代码中操作与计时相关的性能计数器。 具体而言， Frequency 字段和 GetTimestamp 方法可用于代替非托管 
+                    Windows API QueryPerformanceFrequency 和 QueryPerformanceCounter。");
+
+            Console.ReadKey();
+            //chaxun();
+
+            //UdpServerAsync serverAsync = new(NetBufferSize.Size256K, true) { Millisecond = 0 /*ReceiveTimeout = 5000*/ };
+            ////serverAsync.SetCompleted((age0, age1, age2) => Completed($"UDPServer{++i0}", age0, age1, age2));
+            //serverAsync.SetReceived(async a =>
+            //{
+            //    await Console.Out.WriteLineAsync($"当前位：{a.OrderCount()} 原子计数：{i0.Increment()}");
+            //    a.Dispose();
+            //});
+            //await serverAsync.StartAsync(12344);
+
+            //for (int i = 0; i < 1; i++)
+            //{
+            //    await serverAsync.SendAsync("Hello Several .NET Aspire templates include ASP.NET Core projects that are configured to use HTTPS by default. If this is the first time you're running the project, and you're using Visual Studio, you're prompted to install a localhost certificate.\r\n\r\nThere are situations in which you trust/install the development certificate, but you don't close all your browser windows. In these cases, your browser might indicate that the certificate isn't trusted.\r\n\r\nThere are also situations where you don't trust the certificate at all. In these cases, your browser might indicate that the certificate isn't trusted.\r\n\r\nAdditionally, there are warning messages from Kestrel written to the console that indicate that the certificate is not trusted.");
+            //}
+
+
+            UdpClientAsync clientAsync = new(NetBufferSize.Size256K, true) { Millisecond = 0 /*ReceiveTimeout = 5000*/ };
+            clientAsync.SetCompleted((age0, age1, age2) => age1 != EnClient.SendMsg ? Completed("UDPClient", age0, age1, age2) : ValueTask.CompletedTask);
+            await clientAsync.ConnectAsync(12344);
+
+            for (int i = 0; i < 10000; i++)
+            {
+                await clientAsync.SendAsync(
+                    @"Hello Several .NET Aspire templates include ASP.NET Core projects that are configured to use HTTPS by default. 
+                    If this is the first time you're running the project, and you're using Visual Studio, you're prompted to install a
+                     localhost certificate.\r\n\r\nThere are situations in which you trust/install the development certificate, but you 
+                    don't close all your browser windows. In these cases, your browser might indicate that the certificate isn't trusted.
+                    \r\n\r\nThere are also situations where you don't trust the certificate at all. In these cases, your browser might indicate 
+                    that the certificate isn't trusted.\r\n\r\nAdditionally, there are warning messages from Kestrel written to the console that 
+                    indicate that the certificate is not trusted.
+
+                    实例 Stopwatch 可以测量一个间隔的已用时间，或跨多个间隔的总已用时间。 在典型Stopwatch方案中，
+                    调用 Start 方法，最终调用 Stop 方法，然后使用 属性检查运行时间Elapsed。
+                    
+                    Stopwatch实例正在运行或已停止;使用 IsRunning 确定 的Stopwatch当前状态。 使用 Start 开始测量已用时间;使用 Stop 停止测量已用时间。 
+                    通过属性 Elapsed、 ElapsedMilliseconds或 ElapsedTicks查询已用时间值。 可以在实例正在运行或停止时查询已用时间属性。 运行时间属性在 Stopwatch 运行时稳步增加;当实例停止时，它们保持不变。
+                    
+                    默认情况下，实例的已用时间值 Stopwatch 等于所有测量时间间隔的总和。 对 的每个调用 Start 在累积运行时间开始计数;
+                    对 的每次调用 Stop 将结束当前间隔度量并冻结累积已用时间值。 Reset使用 方法清除现有Stopwatch实例中的累积运行时间。
+                    
+                    通过 Stopwatch 对基础计时器机制中的计时器计时周期进行计数来测量运行时间。 如果安装的硬件和操作系统支持高分辨率性能计数器，
+                    则 Stopwatch 类使用该计数器来测量运行时间。 否则， Stopwatch 类使用系统计时器来测量已用时间。 Frequency使用 和 IsHighResolution 字段确定计时实现的Stopwatch精度和分辨率。
+                    
+                    类 Stopwatch 有助于在托管代码中操作与计时相关的性能计数器。 具体而言， Frequency 字段和 GetTimestamp 方法可用于代替非托管 
+                    Windows API QueryPerformanceFrequency 和 QueryPerformanceCounter。");
+            }
+
+            Console.ReadKey();
+            //await PipeAsync();
+
+            //P2pClientAsync.TimedDelay = 60000;
 
             //TcpClientAsync p2PClientAsync = new(NetBufferSize.Default, true);
             //p2PClientAsync.SetCompleted((age0, age1, age2) => Completed("TCP", age0, age1, age2));
@@ -63,7 +276,7 @@ namespace TcpTest
             var task0 = p2PServerAsync0.P2PConnectAsync(p2PClientAsync0, p2PServerAsync1.RemoteEP);
             //var task0 = p2PClientAsync0.P2PConnectAsync(p2PServerAsync0.LocalEP, p2PServerAsync1.RemoteEP);
 
-            await Task.Delay(5000);
+            await Task.Delay(2000);
 
             TcpClientAsync p2PClientAsync1 = new(NetBufferSize.Default, true);
             p2PClientAsync1.SetCompleted((age0, age1, age2) => Completed("TCP", age0, age1, age2));
@@ -76,14 +289,14 @@ namespace TcpTest
 
             UdpClientAsync p2PClientAsync0 = new(NetBufferSize.Default, true) { ReceiveTimeout = 5000 };
             p2PClientAsync0.SetCompleted((age0, age1, age2) => Completed("UDP", age0, age1, age2));
-            var task0 = p2PServerAsync0.P2PConnectAsync(p2PClientAsync0, p2PServerAsync1.RemoteEP);
+            var task0 = p2PServerAsync0.P2PConnectAsync(p2PClientAsync0, p2PServerAsync1.RemoteEP, 100000);
             //var task0 = p2PClientAsync0.P2PConnectAsync(p2PServerAsync0.LocalEP, p2PServerAsync1.RemoteEP);
 
-            await Task.Delay(5000);
+            await Task.Delay(1000);
 
             UdpClientAsync p2PClientAsync1 = new(NetBufferSize.Default, true) { ReceiveTimeout = 5000 };
             p2PClientAsync1.SetCompleted((age0, age1, age2) => Completed("UDP", age0, age1, age2));
-            var task1 = p2PServerAsync1.P2PConnectAsync(p2PClientAsync1, p2PServerAsync0.RemoteEP);
+            var task1 = p2PServerAsync1.P2PConnectAsync(p2PClientAsync1, p2PServerAsync0.RemoteEP, 100000);
             //var task1 = p2PClientAsync1.P2PConnectAsync(p2PServerAsync1.LocalEP, p2PServerAsync0.RemoteEP);
 #endif
 

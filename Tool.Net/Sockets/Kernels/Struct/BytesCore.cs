@@ -1,9 +1,5 @@
 ﻿using System.Buffers;
-using System.Net.Sockets;
 using System;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace Tool.Sockets.Kernels
 {
@@ -78,7 +74,7 @@ namespace Tool.Sockets.Kernels
         public readonly IMemoryOwner<byte> GetIMemoryOwner() => _dataOwner;
 
         /// <summary>
-        /// 写入有效的接收数据包
+        /// 写入有效的数据包
         /// </summary>
         /// <returns></returns>
         public readonly void SetMemory(in Memory<byte> memory)
@@ -87,12 +83,30 @@ namespace Tool.Sockets.Kernels
         }
 
         /// <summary>
-        /// 写入有效的接收数据包
+        /// 写入有效的数据包
+        /// </summary>
+        /// <returns></returns>
+        public readonly void SetMemory(in Memory<byte> memory, int start)
+        {
+            memory.CopyTo(start > 0 ? Memory[start..] : Memory);
+        }
+
+        /// <summary>
+        /// 写入有效的数据包
         /// </summary>
         /// <returns></returns>
         public readonly void SetMemory(in Span<byte> span)
         {
             span.CopyTo(Span);
+        }
+
+        /// <summary>
+        /// 写入有效的数据包
+        /// </summary>
+        /// <returns></returns>
+        public readonly void SetMemory(in Span<byte> span, int start)
+        {
+            span.CopyTo(start > 0 ? Span[start..] : Span);
         }
 
         //public void ResetMemory(int length, bool isCopy) 

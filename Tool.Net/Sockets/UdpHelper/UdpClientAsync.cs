@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Buffers;
+using System.Drawing;
 using System.Net.Sockets;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tool.Sockets.Kernels;
+using Tool.Sockets.UdpHelper.Extend;
 
 namespace Tool.Sockets.UdpHelper
 {
     /// <summary>
     /// 封装一个底层异步Udp对象（客户端）IpV4
     /// </summary>
-    public class UdpClientAsync : INetworkConnect<UdpEndPoint>
+    public class UdpClientAsync : INetworkConnect<IUdpCore>
     {
         /// <summary>
         /// 获取当前心跳信息
@@ -21,8 +24,9 @@ namespace Tool.Sockets.UdpHelper
         private readonly int DataLength = 1024 * 8;
 
         private Socket client;
+        private IUdpCore udp;
 
-        internal Func<Socket, System.Net.EndPoint, Task> TryP2PConnect;
+        internal Func<System.Net.EndPoint, Task<Socket>> TryP2PConnect;
 
         private bool isClose = false; //标识客户端连接是否关闭
         private bool isConnect = false; //标识是否调用了连接函数
@@ -42,7 +46,7 @@ namespace Tool.Sockets.UdpHelper
         private UdpEndPoint endPointServer;
         private int millisecond = 20; //默认20毫秒。
         private int receiveTimeout = 60000; //默认60000毫秒。
-        private ArraySegment<byte> arrayData;//一个连续的内存块
+        private Memory<byte> arrayData;//一个连续的内存块
 
         /// <summary>
         /// 是否使用线程池调度接收后的数据
@@ -51,7 +55,7 @@ namespace Tool.Sockets.UdpHelper
         public bool IsThreadPool { get; set; } = true;
 
         /// <summary>
-        /// 回复消息延迟时间（警告：当前设置仅在开启了OnlyData模式生效，超时未回复会重发，重发最大次数10，依然没有回复将抛出异常！）小于1将不生效使用默认值
+        /// 回复消息延迟时间（警告：当前设置仅在开启了OnlyData模式生效，超时未回复会重发，重发最大次数10，依然没有回复将抛出异常！）小于20将不生效使用默认值
         /// </summary>
         public int ReplyDelay { get; init; } = 500;
 
@@ -61,7 +65,8 @@ namespace Tool.Sockets.UdpHelper
         /// </summary>
         public int ReceiveTimeout
         {
-            get => receiveTimeout; init
+            get => receiveTimeout;
+            init
             {
                 if (value < 5000) throw new Exception("设置的等待时长小于5秒。");
                 receiveTimeout = value;
@@ -101,6 +106,11 @@ namespace Tool.Sockets.UdpHelper
         public Socket Client { get { return client; } }
 
         /// <summary>
+        /// UDP 核心控制器
+        /// </summary>
+        public IUdpCore UdpCore { get { return UdpCore; } }
+
+        /// <summary>
         /// 获取当前是否已连接到远程主机。
         /// </summary>
         public bool Connected => client.Connected;
@@ -123,7 +133,7 @@ namespace Tool.Sockets.UdpHelper
         /**
          * 客户端接收消息触发的事件
          */
-        private ReceiveEvent<UdpEndPoint> Received; //event Span<byte>
+        private ReceiveEvent<IUdpCore> Received; //event Span<byte>
 
         ///// <summary>
         ///// 用于控制异步接收消息
@@ -140,7 +150,7 @@ namespace Tool.Sockets.UdpHelper
         /// 接收到数据事件
         /// </summary>
         /// <param name="Received"></param>
-        public void SetReceived(ReceiveEvent<UdpEndPoint> Received)
+        public void SetReceived(ReceiveEvent<IUdpCore> Received)
         {
             if (isReceive) throw new Exception("当前已无法绑定接收委托了，因为ConnectAsync()已经调用了。");
             this.Received ??= Received;
@@ -176,7 +186,11 @@ namespace Tool.Sockets.UdpHelper
             //    throw new ArgumentException("DataLength 值必须是在20M(DataLength < 1024 * 1024 * 20)以内！", nameof(DataLength));
             //}
             int dataLength = (int)bufferSize;
-            if (bufferSize > NetBufferSize.Size32K) dataLength = (int)NetBufferSize.Size32K;
+            if (!OnlyData && bufferSize > NetBufferSize.Size32K)
+            {
+                if (bufferSize > NetBufferSize.Size64K) throw new ArgumentException($"Udp协议下只能 最大支持到Size64K，{UdpPack.MaxBuffer}B！", nameof(bufferSize));
+                dataLength = UdpPack.MaxBuffer; //最大发送区和接收区 IP20 UDP8 （保留最少）12
+            }
             this.BufferSize = bufferSize;
             this.DataLength = dataLength;
             this.OnlyData = OnlyData;
@@ -207,8 +221,11 @@ namespace Tool.Sockets.UdpHelper
                 {
                     Keep = new KeepAlive(TimeInterval, async () =>
                     {
-                        await SendNoWaitAsync(endPointServer, endPointServer.UdpState.GetKeepObj());
-                        OnComplete(Server, EnClient.HeartBeat);
+                        if (udp is not null)
+                        {
+                            await SendNoWaitAsync(udp.UdpState.GetKeepObj());
+                            if (TryP2PConnect is not null) OnComplete(Server, EnClient.HeartBeat);
+                        }
                     });
                     return;
                 }
@@ -283,35 +300,39 @@ namespace Tool.Sockets.UdpHelper
             if (isConnect) throw new Exception("当前对象以调用ConnectAsync该函数！");
             endPointServer = new(ipv4Port.Ip, ipv4Port.Port);
             server = ipv4Port;
+            isConnect = true;
             await ConnectAsync();
         }
 
         private async Task ConnectAsync()
         {
-            client = new(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
-            {
-                ReceiveBufferSize = (int)this.BufferSize,
-                SendBufferSize = (int)this.BufferSize
-            };
-
+            bool isAuth = false;
             try
             {
                 if (TryP2PConnect is not null)
                 {
-                    await TryP2PConnect.Invoke(client, endPointServer);
+                    client = await TryP2PConnect.Invoke(endPointServer);
                 }
                 else
                 {
+                    client = StateObject.CreateSocket(false, BufferSize);
                     await client.ConnectAsync(endPointServer, CancellationToken.None);
                 }
+                //需要增加对有效连接的验证消息
+                if (OnlyData)
+                {
+                    await Handshake.UdpAuthenticAtion(client, endPointServer);
+                }
+                isAuth = true;
             }
             catch (Exception ex)
             {
                 if (TryP2PConnect is not null) throw new Exception("P2P打洞失败！", ex);
+                if (isAuth is false) throw;
             }
             finally
             {
-                ConnectCallBack();
+                if (client is not null) ConnectCallBack();
             }
         }
 
@@ -325,8 +346,19 @@ namespace Tool.Sockets.UdpHelper
         /// <param name="msg">文本数据</param>
         public async ValueTask SendAsync(string msg)
         {
-            byte[] listData = Encoding.UTF8.GetBytes(msg);
-            await SendAsync(listData);
+            var chars = msg.AsMemory();
+            if (chars.IsEmpty) throw new ArgumentNullException(nameof(msg));
+            var sendBytes = CreateSendBytes(Encoding.UTF8.GetByteCount(chars.Span));
+
+            try
+            {
+                Encoding.UTF8.GetBytes(chars.Span, sendBytes.Span);
+                await SendAsync(sendBytes);
+            }
+            finally
+            {
+                sendBytes.Dispose();
+            }
         }
 
         /// <summary>
@@ -379,19 +411,24 @@ namespace Tool.Sockets.UdpHelper
         /// <param name="sendBytes">数据包对象</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async ValueTask SendAsync(SendBytes<UdpEndPoint> sendBytes)
+        public async ValueTask SendAsync(SendBytes<IUdpCore> sendBytes)
         {
-            await UdpEndPoint.ShareSendAsync(sendBytes, OnlyData, ReplyDelay, SendNoWaitAsync);
+            bool ispart = false;
+            int i = 0;
+            do
+            {
+                var memory = udp.GetSendMemory(sendBytes, ref ispart, ref i);
+                await SendNoWaitAsync(memory);
+            } while (ispart);
             OnComplete(Server, EnClient.SendMsg);
             Keep?.ResetTime();
         }
 
-        private async ValueTask SendNoWaitAsync(UdpEndPoint point, Memory<byte> buffers)
+        private async ValueTask SendNoWaitAsync(Memory<byte> buffers)
         {
             ThrowIfDisposed();
-            if (!UdpStateObject.IsConnected(client)) throw new Exception("与服务端的连接已中断！");
-            await UdpStateObject.SendNoWaitAsync(client, point, buffers);
-            point.UpDateSignal();
+            if (udp is null) throw new Exception("未调用ConnectAsync函数或未连接！");
+            await udp.SendAsync(buffers);
         }
 
         /// <summary>
@@ -399,12 +436,12 @@ namespace Tool.Sockets.UdpHelper
         /// </summary>
         /// <param name="length">数据包大小</param>
         /// <returns></returns>
-        public SendBytes<UdpEndPoint> CreateSendBytes(int length = 0)
+        public SendBytes<IUdpCore> CreateSendBytes(int length = 0)
         {
-            if (endPointServer is null) throw new Exception("未调用ConnectAsync函数！");
-            if (length > (int)NetBufferSize.Size32K) throw new ArgumentException("Udp协议下只能 最大支持到Size32K！", nameof(length));
+            if (udp is null) throw new Exception("未调用ConnectAsync函数或未连接！");
+            if (!OnlyData && length > DataLength) throw new ArgumentException($"Udp协议下文报只能 最大支持到{DataLength}B！（这与你设置的 NetBufferSize 枚举有关！）", nameof(length));
             if (length == 0) length = DataLength;
-            return new SendBytes<UdpEndPoint>(endPointServer, length, OnlyData);
+            return new SendBytes<IUdpCore>(udp, length, OnlyData);
         }
 
         #endregion
@@ -416,30 +453,44 @@ namespace Tool.Sockets.UdpHelper
         {
             if (UdpStateObject.IsConnected(client))
             {
-                StateObject.StartReceive("Udp", StartReceive, endPointServer); //StartReceive();
+                udp = IUdpCore.GetUdpCore(this, endPointServer, client, this.DataLength, this.OnlyData, ReplyDelay, false, TryP2PConnect is not null, IsReceived, Received);
+                StateObject.StartReceive("Udp", StartReceive, udp); //StartReceive();
             }
             else
             {
                 InsideClose();
                 OnComplete(Server, EnClient.Fail);
             }
+
+            void IsReceived(UserKey key, byte type)
+            {
+                Keep?.ResetTime();
+                switch (type)
+                {
+                    case 0:
+                        OnComplete(key, EnClient.HeartBeat);
+                        break;
+                    default:
+                        if (!DisabledReceive) OnComplete(key, EnClient.Receive);
+                        break;
+                }
+            }
         }
 
         /**
          * 启动新线程，用于专门接收消息
          */
-        private async Task StartReceive(UdpEndPoint endPointServer)
+        private async Task StartReceive(IUdpCore udp)
         {
             isReceive = true;
             //接收数据包
-            endPointServer.SetUdpState(this.DataLength, this.OnlyData, Received);
+            //endPointServer.SetUdpState(this.DataLength, this.OnlyData, Received);
             OnComplete(Server, EnClient.Connect).Wait();
             while (!isClose)
             {
-                await Task.Delay(Millisecond);
                 if (UdpStateObject.IsConnected(client))
                 {
-                    await ReceiveAsync(endPointServer.UdpState);
+                    await ReceiveAsync(udp.UdpState);
                 }
                 else
                 {
@@ -451,7 +502,7 @@ namespace Tool.Sockets.UdpHelper
                 }
             }
             OnComplete(Server, EnClient.Close);
-            endPointServer.UdpState.Close();
+            await udp.DisposeAsync();
         }
 
         /// <summary>
@@ -463,12 +514,18 @@ namespace Tool.Sockets.UdpHelper
             try
             {
                 SocketReceiveFromResult result = await UdpStateObject.ReceiveFromAsync(client, arrayData, endPointServer, receiveTimeout);
-                obj.UpDateSignal();
-                var head = arrayData[..StateObject.HeadSize];
-                if (obj.OnReceiveTask(head, result.ReceivedBytes, out bool isreply, out bool isReceive))//尝试使用，原线程处理包解析，验证效率
+                if (result.RemoteEndPoint is UdpEndPoint point && point == endPointServer) //客户端只处理匹配的数据包
                 {
-                    if (isreply) await SendNoWaitAsync(obj.Point, head);
-                    if (isReceive) OnReceived(arrayData[..result.ReceivedBytes], obj);
+                    obj.UpDateSignal();
+
+                    await udp.ReceiveAsync(arrayData[..result.ReceivedBytes]);
+
+                    //var head = arrayData[..StateObject.HeadSize];
+                    //if (obj.OnReceiveTask(head, result.ReceivedBytes, out bool isreply, out bool isReceive))//尝试使用，原线程处理包解析，验证效率
+                    //{
+                    //    if (isreply) await SendNoWaitAsync(head);
+                    //    if (isReceive) OnReceived(arrayData[..result.ReceivedBytes], obj);
+                    //}
                 }
             }
             catch (OperationCanceledException)
@@ -476,16 +533,6 @@ namespace Tool.Sockets.UdpHelper
                 client.Close(); //Udp等待超时，关闭连接。
             }
             catch (Exception) { }
-
-            void OnReceived(ArraySegment<byte> bytes, UdpStateObject obj)
-            {
-                Keep?.ResetTime();
-                if (TryP2PConnect is null || !obj.IsKeepAlive(bytes))
-                {
-                    if (!DisabledReceive) OnComplete(obj.IpPort, EnClient.Receive);
-                    obj.OnReceive(IsThreadPool, bytes);
-                }
-            }
         }
 
         /// <summary>
@@ -500,7 +547,7 @@ namespace Tool.Sockets.UdpHelper
         /// </summary>
         void InsideClose()
         {
-            client?.Close();
+            udp?.Close();
         }
 
         /// <summary>
@@ -520,8 +567,9 @@ namespace Tool.Sockets.UdpHelper
         {
             _disposed = true;
             Close();
-            client.Dispose();
+            client?.Dispose();
             arrayData = null;
+            udp?.Dispose();
 
             //doConnect.Close();
             //_mre.Close();

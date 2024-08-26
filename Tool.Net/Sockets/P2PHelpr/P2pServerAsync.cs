@@ -148,11 +148,11 @@ namespace Tool.Sockets.P2PHelpr
         {
             if (isTcp)
             {
-                network = new TcpClientAsync(NetBufferSize.Size8K, true);
+                network = new TcpClientAsync(NetBufferSize.Size8K, true) { Millisecond = 0 };
             }
             else
             {
-                network = new UdpClientAsync(NetBufferSize.Size8K, true);
+                network = new UdpClientAsync(NetBufferSize.Size8K, true) { Millisecond = 0 };
             }
         }
 
@@ -241,9 +241,9 @@ namespace Tool.Sockets.P2PHelpr
         /// 判断是否通过双方等待验证
         /// </summary>
         /// <returns></returns>
-        public bool OkWait()
+        public bool OkWait(CancellationToken token)
         {
-            return okwait;
+            return token.IsCancellationRequested || okwait;
         }
 
         /// <summary>
@@ -251,24 +251,32 @@ namespace Tool.Sockets.P2PHelpr
         /// </summary>
         /// <param name="clientAsync">要建立连接的对象</param>
         /// <param name="RemoteEP">连接的对方设备</param>
-        /// <param name="timedDelay">尝试等待超时时间</param>
+        /// <param name="timedDelay">尝试等待超时时间（不能小于1000ms）</param>
         /// <returns>结果</returns>
         /// <exception cref="Exception">不可用 或 模式不一致 或 超时！</exception>
-        public async Task P2PConnectAsync(TcpClientAsync clientAsync, Ipv4Port RemoteEP, int timedDelay = 10000)
+        public async Task P2PConnectAsync(TcpClientAsync clientAsync, Ipv4Port RemoteEP, int timedDelay = 5000)
         {
-            ThrowIfDisposed();
-            if (!IsSuccess()) throw new Exception("当前P2P模式，不可用！");
+            if (timedDelay < 1000) throw new Exception($"timedDelay < 1000 毫秒");
+            TryP2P();
             if (network is TcpClientAsync tcpClientAsync)
             {
-                using var sendBytes = tcpClientAsync.CreateSendBytes(10);
-                sendBytes.SetMemory(RemoteEP.Bytes);
-                sendBytes.SetMemory(TcpTop, 6);
-                await tcpClientAsync.SendAsync(sendBytes);
-
-                await WaitAsync(timedDelay);
-                Debug.WriteLine($"P2P同步协议！{DateTime.Now:O}");
-                await clientAsync.P2PConnectAsync(LocalEP, RemoteEP);
-                Dispose();
+                try
+                {
+                    using var sendBytes = tcpClientAsync.CreateSendBytes(10);
+                    sendBytes.SetMemory(RemoteEP.Bytes);
+                    sendBytes.SetMemory(TcpTop, 6);
+                    
+                    await clientAsync.P2PConnectAsync(LocalEP, RemoteEP, async token =>
+                    {
+                        DateTime Now01 = DateTime.Now;
+                        await tcpClientAsync.SendAsync(sendBytes).IsNewTask();
+                        return WaitP2pOk(Now01, timedDelay, token);
+                    });
+                }
+                finally
+                {
+                    Dispose(); //成功后回收当前类
+                }
             }
             else
             {
@@ -281,25 +289,32 @@ namespace Tool.Sockets.P2PHelpr
         /// </summary>
         /// <param name="clientAsync">要建立连接的对象</param>
         /// <param name="RemoteEP">连接的对方设备</param>
-        /// <param name="timedDelay">尝试等待超时时间</param>
+        /// <param name="timedDelay">尝试等待超时时间（不能小于1000ms）</param>
         /// <returns>结果</returns>
         /// <exception cref="Exception">不可用 或 模式不一致 或 超时！</exception>
-        public async Task P2PConnectAsync(UdpClientAsync clientAsync, Ipv4Port RemoteEP, int timedDelay = 10000)
+        public async Task P2PConnectAsync(UdpClientAsync clientAsync, Ipv4Port RemoteEP, int timedDelay = 5000)
         {
-            ThrowIfDisposed();
-            if (!IsSuccess()) throw new Exception("当前P2P模式，不可用！");
+            if (timedDelay < 1000) throw new Exception($"timedDelay < 1000 毫秒");
+            TryP2P();
             if (network is UdpClientAsync udpClientAsync)
             {
-                //await Task.Delay(1);
-                using var sendBytes = udpClientAsync.CreateSendBytes(10);
-                sendBytes.SetMemory(RemoteEP.Bytes);
-                sendBytes.SetMemory(UdpTop, 6);
-                await udpClientAsync.SendAsync(sendBytes);
+                try
+                {
+                    using var sendBytes = udpClientAsync.CreateSendBytes(10);
+                    sendBytes.SetMemory(RemoteEP.Bytes);
+                    sendBytes.SetMemory(UdpTop, 6);
 
-                await WaitAsync(timedDelay);
-                Debug.WriteLine($"P2P同步协议！{DateTime.Now:O}");
-                await clientAsync.P2PConnectAsync(LocalEP, RemoteEP);
-                Dispose();
+                    await clientAsync.P2PConnectAsync(LocalEP, RemoteEP, async token =>
+                    {
+                        DateTime Now01 = DateTime.Now;
+                        await udpClientAsync.SendAsync(sendBytes).IsNewTask();
+                        return WaitP2pOk(Now01, timedDelay, token);
+                    });
+                }
+                finally
+                {
+                    Dispose(); //成功后回收当前类
+                }
             }
             else
             {
@@ -307,10 +322,21 @@ namespace Tool.Sockets.P2PHelpr
             }
         }
 
-        private Task WaitAsync(int timedDelay)
+        private int WaitP2pOk(DateTime Now01, int timedDelay, CancellationToken token)
         {
-            if (timedDelay < 1) timedDelay = 10000;
-            return Task.Run(() => { if (!SpinWait.SpinUntil(OkWait, timedDelay)) throw new Exception("等待对方发起P2P尝试，超时！"); });
+            okwait = false;
+            //await Task.Run(() => { if (!SpinWait.SpinUntil(OkWait, timedDelay)) throw new Exception("等待对方发起P2P尝试，超时！"); });
+            if (!SpinWait.SpinUntil(() => OkWait(token), timedDelay) && !okwait) throw new Exception("等待对方发起P2P尝试，超时！");
+            DateTime Now02 = DateTime.Now;
+            double seconds = (Now02 - Now01).TotalMilliseconds;
+            Debug.WriteLine($"P2P同步协议！{Now02:O},{seconds}ms");
+            return (int)(timedDelay - seconds);
+        }
+
+        private void TryP2P()
+        {
+            ThrowIfDisposed();
+            if (!IsSuccess()) throw new Exception("当前P2P模式，不可用！");
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Tool.Utils
         public IocCore()
         {
             //使用ServiceCollaction对象的扩展方法进行注册服务
-            _services = new ServiceCollection();
+            _services = new();
 
             //Build();
             //ServiceCollectionContainerBuilderExtensions
@@ -118,6 +118,5 @@ namespace Tool.Utils
         /// 提供用于获取注入对象的服务
         /// </summary>
         public IServiceProvider Provider => _provider ?? throw new Exception("请先调用Build()，函数提供服务。");
-
     }
 }

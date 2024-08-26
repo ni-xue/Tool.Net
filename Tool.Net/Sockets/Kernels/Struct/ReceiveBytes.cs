@@ -2,6 +2,7 @@
 using System.Net.Sockets;
 using System;
 using System.Net.WebSockets;
+using Tool.Sockets.UdpHelper;
 
 namespace Tool.Sockets.Kernels
 {
@@ -91,22 +92,30 @@ namespace Tool.Sockets.Kernels
         /// <summary>
         /// 获取连续内存
         /// </summary>
-        public unsafe ArraySegment<byte> Array => _bytesCore.Array[GetIsLength()..];
+        public ArraySegment<byte> Array => _bytesCore.Array[GetIsLength()..];
+
+        internal Memory<byte> OnlyBytes => _bytesCore.Memory[..GetIsLength()];
 
         /// <summary>
-        /// 获取在Udp模式下保证数据准确性，获取当前数据包序列位
+        /// 获取一个仅在测试时有用的数据
+        /// <list type="table">TCP模式下为包的长度</list>
+        /// <list type="table">UDP模式下为当前包的编码，核心层整包和拆分包编码不一致</list>
+        /// <list type="table">超文报包拥有独立ID,文报包会与超文报包公用ID</list>
         /// </summary>
-        public ushort UdpOrderCount
+        public object OrderCount()
         {
-            get
+            if (OnlyData)
             {
-                if (Client is UdpEndPoint && OnlyData)
+                if (Client is IUdpCore)
                 {
-                    StateObject.GetDataHeadUdp(_bytesCore.Span, out ushort orderCount);
-                    return orderCount;
+                    return BitConverter.ToUInt32(OnlyBytes[1..].Span);
                 }
-                throw new InvalidOperationException("当前模式下不支持！");
+                else if (Client is Socket)
+                {
+                    return BitConverter.ToInt32(OnlyBytes[1..].Span);
+                }
             }
+            throw new InvalidOperationException("当前模式不支持！");
         }
 
         private readonly int GetIsLength() => OnlyData ? 6 : 0;

@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using System;
+﻿using System;
 using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Net.WebSockets;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tool.Sockets.Kernels;
 using Tool.Utils;
+using Tool.Utils.Data;
 
 namespace Tool.Sockets.TcpHelper
 {
@@ -181,12 +182,7 @@ namespace Tool.Sockets.TcpHelper
             }
             server = _server;
 
-            listener = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
-            {
-                ReceiveBufferSize = (int)this.BufferSize,
-                SendBufferSize = (int)this.BufferSize
-            };
-
+            listener = StateObject.CreateSocket(true, BufferSize);
             listener.Bind(endPointServer);
             try
             {
@@ -277,8 +273,19 @@ namespace Tool.Sockets.TcpHelper
         /// <param name="msg">要发送的内容</param>
         public async ValueTask SendAsync(Socket client, string msg)
         {
-            byte[] listData = Encoding.UTF8.GetBytes(msg);
-            await SendAsync(client, listData);
+            var chars = msg.AsMemory();
+            if (chars.IsEmpty) throw new ArgumentNullException(nameof(msg));
+            var sendBytes = CreateSendBytes(client, Encoding.UTF8.GetByteCount(chars.Span));
+
+            try
+            {
+                Encoding.UTF8.GetBytes(chars.Span, sendBytes.Span);
+                await SendAsync(sendBytes);
+            }
+            finally
+            {
+                sendBytes.Dispose();
+            }
         }
 
         /// <summary>
@@ -373,16 +380,22 @@ namespace Tool.Sockets.TcpHelper
             UserKey key = StateObject.GetIpPort(client);
             if (listClient.TryAdd(key, client))
             {
-                StateObject.StartReceive("Tcp", StartReceive, client); //StartReceive(client);
+                isReceive = true;
+                StateObject.StartReceive("Tcp", StartReceive, new KeyValuePair<UserKey, Socket>(key, client)); //StartReceive(client);
             }
         }
 
         /**
          * 启动新线程，用于专门接收消息
          */
-        private async Task StartReceive(Socket client)
+        private async Task StartReceive(KeyValuePair<UserKey, Socket> pair)
         {
-            isReceive = true;
+            Socket client = pair.Value;
+            if (OnlyData && await Handshake.TcpAutograph(client) is false) //验证协议，协议不匹配时，忽略连接信息
+            {
+                listClient.TryRemove(pair);
+                return;
+            }
             TcpStateObject obj = new(client, this.DataLength, this.OnlyData, Received);
             OnComplete(obj.IpPort, EnServer.Connect).Wait();
             while (!isClose)//ListClient.TryGetValue(key, out client) && 

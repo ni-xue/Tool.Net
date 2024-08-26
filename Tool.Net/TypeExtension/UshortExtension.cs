@@ -29,6 +29,18 @@ namespace Tool
         }
 
         /// <summary>
+        /// 当前数除以一个整数，返回一个向上取整的倍数
+        /// </summary>
+        /// <param name="txt">int</param>
+        /// <param name="txt1">除数</param>
+        /// <returns></returns>
+        public static ushort Ceiling(this ushort txt, decimal txt1)
+        {
+            decimal b = txt / txt1;
+            return (ushort)Math.Ceiling(b);
+        }
+
+        /// <summary>
         /// 原子方式+1
         /// </summary>
         /// <param name="value">值</param>

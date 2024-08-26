@@ -5,10 +5,10 @@
 		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
 		<RootNamespace>Tool</RootNamespace>
 		<!--<Version>5.0.6</Version>-->
-		<Version>5.1.0-pre</Version>
+		<Version>5.2.0-pre0.4</Version>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-		<Copyright>Copyright © Microsoft 2024-06-15 22:35:00</Copyright>
+		<Copyright>Copyright © Microsoft 2024-08-23 17:55:00</Copyright>
 		<Company>NiXue</Company>
 		<Authors>NiXue</Authors>
 		<PackageProjectUrl>https://github.com/nixue-xin/UniversalFrame</PackageProjectUrl>

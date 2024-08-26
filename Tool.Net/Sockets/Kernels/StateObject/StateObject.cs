@@ -10,6 +10,36 @@ using System.Threading.Tasks;
 
 namespace Tool.Sockets.Kernels
 {
+    internal readonly struct ProtocolBody 
+    {
+        public ProtocolBody(in ProtocolTop top, in BytesCore bytes) 
+        {
+            Top = top;
+            Bytes = bytes;
+        }
+
+        public readonly ProtocolTop Top; 
+        public readonly BytesCore Bytes;
+    }
+
+    internal readonly struct ProtocolTop
+    {
+        public ProtocolTop(uint orderCount, bool isPart, bool isTop, bool isRepeat, bool isClose)
+        {
+            OrderCount = orderCount;
+            IsPart = isPart;
+            IsTop = isTop;
+            IsRepeat = isRepeat;
+            IsClose = isClose;
+        }
+
+        public readonly uint OrderCount;
+        public readonly bool IsPart;
+        public readonly bool IsTop;
+        public readonly bool IsRepeat;
+        public readonly bool IsClose;
+    }
+
     /// <summary>
     /// Socket接收数据委托
     /// </summary>
@@ -34,7 +64,7 @@ namespace Tool.Sockets.Kernels
     /// <param name="age0">带验证信息</param>
     /// <param name="age1">发送者信息</param>
     /// <returns>有效的<see cref="Ipv4Port"/></returns>
-    public delegate Ipv4Port IpParserEvent(in Ipv4Port age0, in Ipv4Port age1);
+    public delegate ValueTask<Ipv4Port> IpParserEvent(Ipv4Port age0, Ipv4Port age1);
 
     /// <summary>
     /// 通信公共基础类
@@ -63,6 +93,33 @@ namespace Tool.Sockets.Kernels
         /// 获取持久连接协议
         /// </summary>
         public Span<byte> KeepAliveObj => KeepAlive.KeepAliveObj.Span;
+
+        /// <summary>
+        /// 创建用于连接的 <see cref="Socket"/> 对象
+        /// </summary>
+        /// <param name="isTcp">是否是Tcp</param>
+        /// <param name="bufferSize">缓冲区枚举</param>
+        /// <returns><see cref="Socket"/> 对象</returns>
+        public static Socket CreateSocket(bool isTcp, NetBufferSize bufferSize)
+        {
+            SocketType socketType;
+            ProtocolType protocolType;
+            if (isTcp)
+            {
+                socketType = SocketType.Stream;
+                protocolType = ProtocolType.Tcp;
+            }
+            else
+            {
+                socketType = SocketType.Dgram;
+                protocolType = ProtocolType.Udp;
+            }
+            return new(AddressFamily.InterNetwork, socketType, protocolType)
+            {
+                ReceiveBufferSize = (int)bufferSize,
+                SendBufferSize = (int)bufferSize
+            };
+        }
 
         /// <summary>
         /// 获取<see cref="Socket"/> Disposed 属性
@@ -159,7 +216,7 @@ namespace Tool.Sockets.Kernels
         public static void QueueUserWorkItem<T>(ReceiveEvent<T> receive, ReceiveBytes<T> data)
         {
 #if true
-        A:
+            A:
             try
             {
                 ThreadPool.UnsafeQueueUserWorkItem(ReceivedPool, data, false);
@@ -225,19 +282,28 @@ namespace Tool.Sockets.Kernels
          * 给包加头保证其数据完整性
          * headby 数据头
          */
-        internal static bool GetDataHeadUdp(in ReadOnlySpan<byte> headby, out ushort orderCount)//, ref ushort count
+        internal static bool GetDataHeadUdp(in ReadOnlySpan<byte> headby, out ProtocolTop protocol)//, ref ushort count
         {
-            if (headby[0] == 40 && headby[5] == 41)
+            switch (headby[0])
             {
-                orderCount = BitConverter.ToUInt16(headby[2..]);
-                //count = System.Buffers.Binary.BinaryPrimitives.ReadUInt16BigEndian(headby[1..]);
-                return true;
-            }
-            else
-            {
-                orderCount = 0;
-                //count = 0;
-                return false;
+                case 00 when headby[5] == 01:
+                    protocol = new(BitConverter.ToUInt32(headby[1..]), false, false, false, false);
+                    return true;
+                case 10 when headby[5] == 11:
+                    protocol = new(BitConverter.ToUInt32(headby[1..]), true, true, false, false);
+                    return true;
+                case 20 when headby[5] == 21:
+                    protocol = new(BitConverter.ToUInt32(headby[1..]), true, false, false, false);
+                    return true;
+                case 30 when headby[5] == 31:
+                    protocol = new(BitConverter.ToUInt32(headby[1..]), false, false, true, false);
+                    return true;
+                case 255 when headby[5] == 255:
+                    protocol = new(0, false, false, false, true);
+                    return true;
+                default:
+                    protocol = default;
+                    return false;
             }
         }
 
@@ -256,9 +322,9 @@ namespace Tool.Sockets.Kernels
         */
         internal static void SetDataHeadTcp(in Span<byte> listData, int datalength, int start)
         {
-            listData[start] = 40;
-            BitConverter.TryWriteBytes(listData[(start + 1)..], datalength);
-            listData[start + 5] = 41;
+            listData[start++] = 40;
+            BitConverter.TryWriteBytes(listData[start..], datalength);
+            listData[start + 4] = 41;
             //BitConverter.TryWriteBytes(start > 0 ? listData[start..] : listData, datalength);
         }
 
@@ -267,11 +333,36 @@ namespace Tool.Sockets.Kernels
        * listData 数据
        * datalength 限制数据量
        */
-        internal static void SetDataHeadUdp(in Span<byte> listData, ushort orderCount, int start)
+        internal static void SetDataHeadUdp(in Span<byte> listData, uint orderCount, int start = 0, byte code = 00)
         {
-            listData[start++] = 40;
+            ref byte a = ref listData[start];
+            ref byte b = ref listData[start + 5];
+            switch (code)
+            {
+                case 00:
+                    a = 00;
+                    b = 01;
+                    break;
+                case 10:
+                    a = 10;
+                    b = 11;
+                    break;
+                case 20:
+                    a = 20;
+                    b = 21;
+                    break;
+                case 30:
+                    a = 30;
+                    b = 31;
+                    break;
+                case 255:
+                    a = 255;
+                    b = 255;
+                    break;
+                default:
+                    throw new Exception("未知代号，无效协议！");
+            }
             BitConverter.TryWriteBytes(listData[++start..], orderCount);
-            listData[start + 3] = 41;
         }
 
         /**

@@ -7,6 +7,18 @@ using Tool.Utils;
 
 namespace Tool.Sockets.NetFrame.Internal
 {
+    internal readonly struct IsIpParser
+    {
+        internal IsIpParser(bool isOk, Socket client)
+        {
+            IsOk = isOk;
+            Client = client;
+        }
+
+        public readonly bool IsOk;
+        public readonly Socket Client;
+    }
+
     internal class FrameCommon
     {
         ///**

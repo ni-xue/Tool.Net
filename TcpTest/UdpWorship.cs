@@ -307,9 +307,9 @@ namespace TcpTest
                         a1.Increment();
                         //await udpServer.SendAsync(a.Client, memory);
 
-                        uint cc = a.UdpOrderCount;
-                        long ccc = cc * a.Length;
-                        Debug.WriteLine("当前索引：{0}，写入位：{1}", cc, ccc);
+                        //uint cc = a.UdpOrderCount;
+                        //long ccc = cc * a.Length;
+                        //Debug.WriteLine("当前索引：{0}，写入位：{1}", cc, ccc);
 
                         long position = BitConverter.ToInt64(a.Span);
                         var memory = a.Memory[8..];

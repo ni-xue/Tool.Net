@@ -397,11 +397,11 @@ namespace Tool.Utils
         {
             if (!ifValidateWhiteSpace && string.IsNullOrWhiteSpace(inputStr))//.NET 4.0 新增IsNullOrWhiteSpace 方法，便于对用户做处理
                 return false;//如果不要求验证空白字符串而此时传入的待验证字符串为空白字符串，则不匹配  
-            Regex regex = null;
+            Regex regex;
             if (ifIgnoreCase)
-                regex = new Regex(patternStr, RegexOptions.IgnoreCase);//指定不区分大小写的匹配  
+                regex = new(patternStr, RegexOptions.IgnoreCase);//指定不区分大小写的匹配  
             else
-                regex = new Regex(patternStr);
+                regex = new(patternStr);
             return regex.IsMatch(inputStr);
         }
         #endregion
@@ -417,8 +417,7 @@ namespace Tool.Utils
         {
             //string pattern = @"^-?\d+$|^(-?\d+)(\.\d+)?$";  
             //return IsMatch(input, pattern);  
-            double d = 0;
-            if (double.TryParse(input, out d))
+            if (double.TryParse(input, out _))
                 return true;
             else
                 return false;
@@ -433,8 +432,7 @@ namespace Tool.Utils
         {
             //string pattern = @"^-?\d+$";  
             //return IsMatch(input, pattern);  
-            int i = 0;
-            if (int.TryParse(input, out i))
+            if (int.TryParse(input, out _))
                 return true;
             else
                 return false;
@@ -449,8 +447,7 @@ namespace Tool.Utils
         {
             //string pattern = @"^\d+$";  
             //return IsMatch(input, pattern);  
-            int i = -1;
-            if (int.TryParse(input, out i) && i >= 0)
+            if (int.TryParse(input, out int i) && i >= 0)
                 return true;
             else
                 return false;
@@ -465,8 +462,7 @@ namespace Tool.Utils
         {
             //string pattern = @"^[0-9]*[1-9][0-9]*$";  
             //return IsMatch(input, pattern);  
-            int i = 0;
-            if (int.TryParse(input, out i) && i >= 1)
+            if (int.TryParse(input, out int i) && i >= 1)
                 return true;
             else
                 return false;
@@ -530,8 +526,7 @@ namespace Tool.Utils
             //return IsMatch(input, pattern);  
             if (input.Length >= lengthBegin && input.Length <= lengthEnd)
             {
-                int i;
-                if (int.TryParse(input, out i))
+                if (int.TryParse(input, out int i))
                     return true;
                 else
                     return false;
@@ -552,7 +547,7 @@ namespace Tool.Utils
         {
             if (!withEnglishCharacter && !withNumber && !withChineseCharacter)
                 return false;//如果英文字母、数字和汉字都没有，则返回false  
-            StringBuilder patternString = new StringBuilder();
+            StringBuilder patternString = new();
             patternString.Append("^[");
             if (withEnglishCharacter)
                 patternString.Append("a-zA-Z");
@@ -611,7 +606,7 @@ namespace Tool.Utils
         {
             if (!withEnglishCharacter && !withNumber && !withChineseCharacter)
                 return false;//如果英文字母、数字和汉字都没有，则返回false  
-            StringBuilder patternString = new StringBuilder();
+            StringBuilder patternString = new();
             patternString.Append("^[");
             if (withEnglishCharacter)
                 patternString.Append("a-zA-Z");
@@ -653,8 +648,7 @@ namespace Tool.Utils
         /// <returns>是否匹配</returns>  
         public static bool IsDateTime(string input)
         {
-            DateTime dt;
-            if (DateTime.TryParse(input, out dt))
+            if (DateTime.TryParse(input, out _))
                 return true;
             else
                 return false;
@@ -708,8 +702,7 @@ namespace Tool.Utils
             //return IsMatch(input, pattern);  
             if (input.Length != 6)
                 return false;
-            int i;
-            if (int.TryParse(input, out i))
+            if (int.TryParse(input, out _))
                 return true;
             else
                 return false;
@@ -759,19 +752,18 @@ namespace Tool.Utils
             string[] IPs = input.Split('.');
             if (IPs.Length != 4)
                 return false;
-            int n = -1;
             for (int i = 0; i < IPs.Length; i++)
             {
                 if (i == 0 || i == 3)
                 {
-                    if (int.TryParse(IPs[i], out n) && n > 0 && n < 255)
+                    if (int.TryParse(IPs[i], out int n) && n > 0 && n < 255)
                         continue;
                     else
                         return false;
                 }
                 else
                 {
-                    if (int.TryParse(IPs[i], out n) && n >= 0 && n <= 255)
+                    if (int.TryParse(IPs[i], out int n) && n >= 0 && n <= 255)
                         continue;
                     else
                         return false;
@@ -810,9 +802,8 @@ namespace Tool.Utils
         /// <returns>是否匹配</returns>  
         public static bool IsIDCard15(string input)
         {
-            //验证是否可以转换为15位整数  
-            long l = 0;
-            if (!long.TryParse(input, out l) || l.ToString().Length != 15)
+            //验证是否可以转换为15位整数
+            if (!long.TryParse(input, out long l) || l.ToString().Length != 15)
             {
                 return false;
             }
@@ -825,8 +816,7 @@ namespace Tool.Utils
             }
             //验证生日是否匹配  
             string birthdate = input.Substring(6, 6).Insert(4, "/").Insert(2, "/");
-            DateTime dt;
-            if (!DateTime.TryParse(birthdate, out dt))
+            if (!DateTime.TryParse(birthdate, out _))
             {
                 return false;
             }
@@ -841,9 +831,8 @@ namespace Tool.Utils
         /// <returns>是否匹配</returns>  
         public static bool IsIDCard18(string input)
         {
-            //验证是否可以转换为正确的整数  
-            long l = 0;
-            if (!long.TryParse(input.Remove(17), out l) || l.ToString().Length != 17 || !long.TryParse(input.Replace('x', '0').Replace('X', '0'), out l))
+            //验证是否可以转换为正确的整数
+            if (!long.TryParse(input.Remove(17), out long l) || l.ToString().Length != 17 || !long.TryParse(input.Replace('x', '0').Replace('X', '0'), out l))
             {
                 return false;
             }
@@ -883,7 +872,7 @@ namespace Tool.Utils
             }
             int y = -1;
             Math.DivRem(sum, 11, out y);
-            if (arrVarifyCode[y] != input.Substring(17, 1).ToLower())
+            if (!arrVarifyCode[y].Equals(input.Substring(17, 1), StringComparison.CurrentCultureIgnoreCase))
             {
                 return false;
             }
@@ -914,9 +903,8 @@ namespace Tool.Utils
         {
             ////范围为-180～180，小数位数必须是1到5位  
             //string pattern = @"^[-\+]?((1[0-7]\d{1}|0?\d{1,2})\.\d{1,5}|180\.0{1,5})$";  
-            //return IsMatch(input, pattern);  
-            float lon;
-            if (float.TryParse(input, out lon) && lon >= -180 && lon <= 180)
+            //return IsMatch(input, pattern);
+            if (float.TryParse(input, out float lon) && lon >= -180 && lon <= 180)
                 return true;
             else
                 return false;
@@ -931,9 +919,8 @@ namespace Tool.Utils
         {
             ////范围为-90～90，小数位数必须是1到5位  
             //string pattern = @"^[-\+]?([0-8]?\d{1}\.\d{1,5}|90\.0{1,5})$";  
-            //return IsMatch(input, pattern);  
-            float lat;
-            if (float.TryParse(input, out lat) && lat >= -90 && lat <= 90)
+            //return IsMatch(input, pattern);
+            if (float.TryParse(input, out float lat) && lat >= -90 && lat <= 90)
                 return true;
             else
                 return false;

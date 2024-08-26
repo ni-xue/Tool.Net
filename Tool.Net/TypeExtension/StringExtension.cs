@@ -777,7 +777,7 @@ namespace Tool //万能属性公有父类
         /// <returns>返回bool类型</returns>
         internal static bool IsNumber(this string strNumber)
         {
-            return !string.IsNullOrEmpty(strNumber) && new System.Text.RegularExpressions.Regex("^([0-9])[0-9]*(\\.\\w*)?$").IsMatch(strNumber.Trim());
+            return !string.IsNullOrEmpty(strNumber) && Validate.regex_IsInt.IsMatch(strNumber.Trim());
         }
 
         #endregion

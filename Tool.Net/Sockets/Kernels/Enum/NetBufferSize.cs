@@ -42,8 +42,20 @@ namespace Tool.Sockets.Kernels
         /// </summary>
         Size512K = 524288,
         /// <summary>
-        /// 1024KB=1048576 字节（带宽大于1000Mbps）建议使用
+        /// 1024KB=1048576 字节（带宽大于1000Mbps）谨慎使用
         /// </summary>
         Size1024K = 1048576,
+        /// <summary>
+        /// 2048KB=2097152 字节（带宽大于2000Mbps）谨慎使用
+        /// </summary>
+        Size2048K = 2097152,
+        /// <summary>
+        /// 4096KB=4194304 字节（带宽大于4000Mbps）谨慎使用
+        /// </summary>
+        Size4096K = 4194304,
+        /// <summary>
+        /// 8192KB=8388608 字节（带宽大于8000Mbps）谨慎使用
+        /// </summary>
+        Size8192K = 8388608
     }
 }

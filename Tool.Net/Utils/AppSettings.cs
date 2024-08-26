@@ -155,10 +155,12 @@ namespace Tool.Utils
             return text.ToInt();
         }
 
-        //public static string this[string key] 
-        //{
-        //    _configuration[ key] 
-        //}
+        /// <summary>
+        /// 获取key值
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string this[string key] => Configuration[key];
 
         /// <summary>
         /// 获取具有指定键的配置子节。

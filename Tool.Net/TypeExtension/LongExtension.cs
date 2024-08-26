@@ -36,6 +36,18 @@ namespace Tool
             return txt.ToVar<int>();
         }
 
+        /// <summary>
+        /// 当前数除以一个整数，返回一个向上取整的倍数
+        /// </summary>
+        /// <param name="txt">int</param>
+        /// <param name="txt1">除数</param>
+        /// <returns></returns>
+        public static long Ceiling(this long txt, decimal txt1)
+        {
+            decimal b = txt / txt1;
+            return (long)Math.Ceiling(b);
+        }
+
         #region Long[] 封装方法
 
         /// <summary>

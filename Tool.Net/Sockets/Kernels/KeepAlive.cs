@@ -18,30 +18,32 @@ namespace Tool.Sockets.Kernels
         public static Memory<byte> TcpKeepObj { get; } = new byte[] { 40, 7, 0, 0, 0, 41, 123, 1, 2, 3, 2, 1, 123 };
 
         /// <summary>
-        /// 获取完整心跳协议（Udp）
-        /// </summary>
-        public static Memory<byte> UdpKeepObj => new byte[] { 40, 0, 0, 0, 0, 41, 123, 1, 2, 3, 2, 1, 123 };
-
-        /// <summary>
         /// 获取持久连接协议
         /// </summary>
         /// <returns></returns>
-        public static Memory<byte> KeepAliveObj => TcpKeepObj[6..];
+        public static Memory<byte> KeepAliveObj { get; } = new byte[] { 123, 1, 2, 3, 2, 1, 123 };
+
+        /// <summary>
+        /// 检查率
+        /// </summary>
+        public int TimeDelay { get; }
 
         /// <summary>
         /// 创建心跳对象
         /// </summary>
         /// <param name="TimeInterval">心跳频率</param>
         /// <param name="OnStart">心跳触发器内部捕获了异常</param>
-        public KeepAlive(byte TimeInterval, Func<Task> OnStart)
+        public KeepAlive(byte TimeInterval, Func<Task> OnStart): this(TimeInterval * 1000, OnStart) {}
+
+        internal KeepAlive(int TimeInterval, Func<Task> OnStart)
         {
-            if (TimeInterval == 0)
+            if (TimeInterval < 100)
             {
                 throw new ArgumentException("TimeInterval 值必须>0！", nameof(TimeInterval));
             }
-
-            ElapsedTicks = DateTime.Now.Ticks / 10000;
-            this.TimeInterval = TimeInterval * 1000;
+            TimeDelay = TimeInterval < 1000 ? 10 : 100; //检查频率
+            ElapsedTicks = DateTime.UtcNow.Ticks / 10000;
+            this.TimeInterval = TimeInterval;
             this.OnStart = OnStart ?? throw new ArgumentNullException(nameof(OnStart), "OnStart 不能为空！");
             //Task.Factory.StartNew(HeartBeatStart, TaskCreationOptions.LongRunning);//Timer
             ObjectExtension.RunTask(HeartBeatStart, TaskCreationOptions.LongRunning);
@@ -60,11 +62,6 @@ namespace Tool.Sockets.Kernels
 
         private long MaxDelay => TimeInterval + TimeDelay;
 
-        /// <summary>
-        /// 检查率
-        /// </summary>
-        public const int TimeDelay = 100;
-
         private bool OnClose = false;
 
         /// <summary>
@@ -75,7 +72,7 @@ namespace Tool.Sockets.Kernels
         /// <summary>
         /// 时间差
         /// </summary>
-        private long TimeDifference => DateTime.Now.Ticks / 10000 - ElapsedTicks;
+        private long TimeDifference => DateTime.UtcNow.Ticks / 10000 - ElapsedTicks;
 
         /// <summary>
         /// 判断是否满足心跳事件

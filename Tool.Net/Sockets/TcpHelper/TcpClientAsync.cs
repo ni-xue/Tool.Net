@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting.Server;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -23,7 +22,7 @@ namespace Tool.Sockets.TcpHelper
 
         private Socket client;
 
-        internal Func<Socket, EndPoint, Task> TryP2PConnect;
+        internal Func<EndPoint, Task<Socket>> TryP2PConnect;
 
         /**
          * 客户端连接完成、发送完成、连接异常或者服务端关闭触发的事件
@@ -44,6 +43,7 @@ namespace Tool.Sockets.TcpHelper
         private Ipv4Port server;
         private IPEndPoint endPointServer;
         private int millisecond = 20; //默认20毫秒。
+        private bool isWhileReconnect = false;
 
         /// <summary>
         /// 表示通讯的包大小
@@ -212,6 +212,15 @@ namespace Tool.Sockets.TcpHelper
             }
         }
 
+        private void StartReconnect()
+        {
+            if (!isWhileReconnect)
+            {
+                isWhileReconnect = true;
+                StateObject.StartTask("Tcp重连", WhileReconnect);
+            }
+        }
+
         #endregion
 
         /// <summary>
@@ -229,7 +238,8 @@ namespace Tool.Sockets.TcpHelper
                 {
                     Keep = new KeepAlive(TimeInterval, async () =>
                     {
-                        await SendAsync(KeepAlive.TcpKeepObj, EnClient.HeartBeat);
+                        await SendNoWaitAsync(KeepAlive.TcpKeepObj);
+                        if (TryP2PConnect is not null) OnComplete(Server, EnClient.HeartBeat);
                     });
                     return;
                 }
@@ -320,29 +330,34 @@ namespace Tool.Sockets.TcpHelper
 
         private async Task ConnectAsync()
         {
-            client = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            client.ReceiveBufferSize = (int)this.BufferSize;
-            client.SendBufferSize = (int)this.BufferSize;
-
+            bool isAuth = false;
             try
             {
                 if (TryP2PConnect is not null)
                 {
-                    await TryP2PConnect.Invoke(client, endPointServer);
+                    client = await TryP2PConnect.Invoke(endPointServer);
                 }
                 else
                 {
+                    client = StateObject.CreateSocket(true, BufferSize);
                     await client.ConnectAsync(endPointServer, CancellationToken.None);
                 }
+                //需要增加对有效连接的验证消息
+                if (OnlyData)
+                {
+                    await Handshake.TcpAuthenticAtion(client);
+                }
+                isAuth = true;
             }
             catch (Exception ex)
             {
                 if (TryP2PConnect is not null) throw new Exception("P2P打洞失败！", ex);
                 if (!IsReconnect) throw;
+                if (isAuth is false) throw;
             }
             finally
             {
-                ConnectCallBack();
+                if (client is not null) ConnectCallBack();
             }
         }
 
@@ -396,8 +411,19 @@ namespace Tool.Sockets.TcpHelper
         /// <param name="msg">文本数据</param>
         public async ValueTask SendAsync(string msg)
         {
-            byte[] listData = Encoding.UTF8.GetBytes(msg);
-            await SendAsync(listData);
+            var chars = msg.AsMemory();
+            if (chars.IsEmpty) throw new ArgumentNullException(nameof(msg));
+            var sendBytes = CreateSendBytes(Encoding.UTF8.GetByteCount(chars.Span));
+
+            try
+            {
+                Encoding.UTF8.GetBytes(chars.Span, sendBytes.Span);
+                await SendAsync(sendBytes);
+            }
+            finally
+            {
+                sendBytes.Dispose();
+            }
         }
 
         /// <summary>
@@ -430,20 +456,18 @@ namespace Tool.Sockets.TcpHelper
             if (sendBytes.OnlyData != OnlyData) throw new ArgumentException("与当前套接字协议不一致！", nameof(sendBytes.OnlyData));
 
             var buffers = sendBytes.GetMemory();
-            await SendAsync(buffers, EnClient.SendMsg);
+            await SendNoWaitAsync(buffers);
+            OnComplete(Server, EnClient.SendMsg);
+            Keep?.ResetTime();
         }
 
-        private async ValueTask SendAsync(Memory<byte> buffers, EnClient en)
+        private async ValueTask SendNoWaitAsync(Memory<byte> buffers)
         {
             ThrowIfDisposed();
-
             if (!TcpStateObject.IsConnected(client)) throw new Exception("与服务端的连接已中断！");
-
             try
             {
-                int count = await client.SendAsync(buffers, SocketFlags.None);
-                OnComplete(Server, en);
-                if (EnClient.SendMsg == en) Keep?.ResetTime();
+                int count = await client.SendAsync(buffers, SocketFlags.None); 
             }
             catch (Exception)
             {
@@ -482,7 +506,7 @@ namespace Tool.Sockets.TcpHelper
             {
                 InsideClose();
                 OnComplete(Server, EnClient.Fail);
-                StateObject.StartTask("Tcp重连", WhileReconnect);
+                StartReconnect();
             }
         }
 
@@ -507,7 +531,7 @@ namespace Tool.Sockets.TcpHelper
                     //如果发生异常，说明客户端失去连接，触发关闭事件
                     InsideClose();
                     OnComplete(obj.IpPort, EnClient.Close);
-                    StateObject.StartTask("Tcp重连", WhileReconnect);
+                    StartReconnect();
                     break;
                 }
             }
@@ -539,7 +563,11 @@ namespace Tool.Sockets.TcpHelper
             async ValueTask OnReceived(Memory<byte> listData, TcpStateObject obj)
             {
                 Keep?.ResetTime();
-                if (TryP2PConnect is null || !obj.IsKeepAlive(in listData))
+                if (TryP2PConnect is not null && obj.IsKeepAlive(in listData)) 
+                {
+                    OnComplete(obj.IpPort, EnClient.HeartBeat);
+                }
+                else
                 {
                     if (!DisabledReceive) OnComplete(obj.IpPort, EnClient.Receive);
                     await obj.OnReceiveAsync(IsThreadPool, listData);
@@ -580,7 +608,7 @@ namespace Tool.Sockets.TcpHelper
         {
             _disposed = true;
             Close();
-            client.Dispose();
+            client?.Dispose();
             GC.SuppressFinalize(this);
         }
 

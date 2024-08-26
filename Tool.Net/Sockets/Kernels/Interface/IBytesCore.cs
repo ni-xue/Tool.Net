@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Buffers;
+using System.Threading.Tasks;
 
 namespace Tool.Sockets.Kernels
 {
     /// <summary>
     /// 内存管理对象
     /// </summary>
-    public interface IBytesCore : IDisposable
+    public interface IBytesCore : IDisposable, IAsyncDisposable
     {
         /// <summary>
         /// 仅标记作用
@@ -49,5 +50,12 @@ namespace Tool.Sockets.Kernels
         /// 获取是否被回收
         /// </summary>
         public bool IsDispose { get; }
+
+        ValueTask IAsyncDisposable.DisposeAsync()
+        {
+            Dispose();
+            GC.SuppressFinalize(this);
+            return ValueTask.CompletedTask;
+        }
     }
 }

@@ -207,6 +207,7 @@ namespace WebTestApp
             //    .UseStartup<Startup>();
 
             Host.CreateDefaultBuilder(args)
+                    .UseDiyServiceProvider()
                     .ConfigureWebHostDefaults(webBuilder =>
                     {
                         webBuilder.UseUrls(AppSettings.Get("server.urls").Split(';'));

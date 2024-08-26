@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -44,6 +43,7 @@ namespace Tool.Sockets.WebHelper
 
         private UserKey server; //服务端IP
         private int millisecond = 20; //默认20毫秒。
+        private bool isWhileReconnect = false;
 
         /// <summary>
         /// 是否使用线程池调度接收后的数据
@@ -269,8 +269,19 @@ namespace Tool.Sockets.WebHelper
         /// <param name="msg">要发送的内容</param>
         public async ValueTask<bool> SendAsync(string msg)
         {
-            byte[] listData = Encoding.UTF8.GetBytes(msg);
-            return await SendAsync(listData);
+            var chars = msg.AsMemory();
+            if (chars.IsEmpty) throw new ArgumentNullException(nameof(msg));
+            var sendBytes = CreateSendBytes(Encoding.UTF8.GetByteCount(chars.Span));
+
+            try
+            {
+                Encoding.UTF8.GetBytes(chars.Span, sendBytes.Span);
+                return await SendAsync(sendBytes.GetMemory());
+            }
+            finally
+            {
+                sendBytes.Dispose();
+            }
         }
 
         /// <summary>
@@ -358,8 +369,21 @@ namespace Tool.Sockets.WebHelper
         {
             while (IsReconnect)
             {
-                if (await Reconnection()) break;
+                if (await Reconnection()) 
+                {
+                    isWhileReconnect = false;
+                    break;
+                }
                 await Task.Delay(100); //等待一下才继续
+            }
+        }
+
+        private void StartReconnect() 
+        {
+            if (!isWhileReconnect)
+            {
+                isWhileReconnect = true;
+                StateObject.StartTask("Web重连", WhileReconnect);
             }
         }
 
@@ -403,7 +427,7 @@ namespace Tool.Sockets.WebHelper
                 InsideClose();
                 OnComplete(in server, EnClient.Fail);
 
-                StateObject.StartTask("Web重连", WhileReconnect);
+                StartReconnect();
             }
         }
 
@@ -427,7 +451,7 @@ namespace Tool.Sockets.WebHelper
                     //如果发生异常，说明客户端失去连接，触发关闭事件
                     InsideClose();
                     OnComplete(in key, EnClient.Close);
-                    StateObject.StartTask("Web重连", WhileReconnect);
+                    StartReconnect();
                     break;
                 }
             }
@@ -516,7 +540,7 @@ namespace Tool.Sockets.WebHelper
         {
             _disposed = true;
             Close();
-            client.Dispose();
+            client?.Dispose();
             //doConnect.Close();
             //_mre.Close();
             GC.SuppressFinalize(this);

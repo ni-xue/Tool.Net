@@ -7,33 +7,8 @@ namespace Tool.Sockets.Kernels
     /// <summary>
     /// 服务端模型
     /// </summary>
-    public interface INetworkListener : IDisposable
+    public interface INetworkListener : INetworkCore
     {
-        /// <summary>
-        /// 服务器IP
-        /// </summary>
-        UserKey Server { get; }
-
-        /// <summary>
-        /// 是否关闭
-        /// </summary>
-        bool IsClose { get; }
-
-        /// <summary>
-        /// 是否启用线程池处理接收数据
-        /// </summary>
-        bool IsThreadPool { get; }
-
-        /// <summary>
-        /// 是否取消内部接收数据事件推送
-        /// </summary>
-        bool DisabledReceive { get; }
-
-        /// <summary>
-        /// 表示通讯的包大小
-        /// </summary>
-        NetBufferSize BufferSize { get; }
-
         /// <summary>
         /// 相关事件委托
         /// </summary>

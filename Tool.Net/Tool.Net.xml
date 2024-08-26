@@ -201,7 +201,22 @@
         </member>
         <member name="F:Tool.Sockets.Kernels.NetBufferSize.Size1024K">
             <summary>
-            1024KB=1048576 字节（带宽大于1000Mbps）建议使用
+            1024KB=1048576 字节（带宽大于1000Mbps）谨慎使用
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.Kernels.NetBufferSize.Size2048K">
+            <summary>
+            2048KB=2097152 字节（带宽大于2000Mbps）谨慎使用
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.Kernels.NetBufferSize.Size4096K">
+            <summary>
+            4096KB=4194304 字节（带宽大于4000Mbps）谨慎使用
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.Kernels.NetBufferSize.Size8192K">
+            <summary>
+            8192KB=8388608 字节（带宽大于8000Mbps）谨慎使用
             </summary>
         </member>
         <member name="T:Tool.Sockets.Kernels.NetFrameState">
@@ -317,6 +332,45 @@
             <summary>
             获取当前任务是否完成
             </summary>
+        </member>
+        <member name="T:Tool.Sockets.Kernels.Handshake">
+            <summary>
+            UDP/TCP 协议模式 保证数据 握手模式，验证双方是否满足条件
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.Kernels.Handshake.Bytes">
+            <summary>
+            描述UDP可靠传输验证协议
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.Kernels.Handshake.Ready">
+            <summary>
+            描述UDP可靠传输完成协议
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.Handshake.UdpAuthenticAtion(System.Net.Sockets.Socket,Tool.Sockets.UdpHelper.UdpEndPoint)">
+            <summary>
+            认证
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.Handshake.UdpAutograph(System.Net.Sockets.Socket,Tool.Sockets.UdpHelper.UdpEndPoint,System.Memory{System.Byte})">
+            <summary>
+            签名（认证对方信息，并签名返回）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.Handshake.TcpAuthenticAtion(System.Net.Sockets.Socket)">
+            <summary>
+            认证
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.Handshake.TcpAutograph(System.Net.Sockets.Socket)">
+            <summary>
+            签名（认证对方信息，并签名返回）
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Tool.Sockets.Kernels.IBytesCore">
             <summary>
@@ -490,39 +544,14 @@
             连接通信模型
             </summary>
         </member>
-        <member name="P:Tool.Sockets.Kernels.INetworkConnect.Server">
-            <summary>
-            服务器信息
-            </summary>
-        </member>
         <member name="P:Tool.Sockets.Kernels.INetworkConnect.LocalPoint">
             <summary>
             本机通信IP
             </summary>
         </member>
-        <member name="P:Tool.Sockets.Kernels.INetworkConnect.IsClose">
-            <summary>
-            是否关闭
-            </summary>
-        </member>
         <member name="P:Tool.Sockets.Kernels.INetworkConnect.Connected">
             <summary>
             是否连接中
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.INetworkConnect.IsThreadPool">
-            <summary>
-            是否启用线程池处理接收数据
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.INetworkConnect.DisabledReceive">
-            <summary>
-            是否取消内部接收数据事件推送
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.INetworkConnect.BufferSize">
-            <summary>
-            表示通讯的包大小
             </summary>
         </member>
         <member name="M:Tool.Sockets.Kernels.INetworkConnect.SetCompleted(Tool.Sockets.Kernels.CompletedEvent{Tool.Sockets.Kernels.EnClient})">
@@ -583,34 +612,44 @@
             <param name="length"></param>
             <returns></returns>
         </member>
-        <member name="T:Tool.Sockets.Kernels.INetworkListener">
+        <member name="T:Tool.Sockets.Kernels.INetworkCore">
             <summary>
-            服务端模型
+            连接协议顶层接口
             </summary>
         </member>
-        <member name="P:Tool.Sockets.Kernels.INetworkListener.Server">
+        <member name="P:Tool.Sockets.Kernels.INetworkCore.Server">
             <summary>
-            服务器IP
+            服务器信息
             </summary>
         </member>
-        <member name="P:Tool.Sockets.Kernels.INetworkListener.IsClose">
+        <member name="P:Tool.Sockets.Kernels.INetworkCore.Millisecond">
+            <summary>
+            监听控制毫秒
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.INetworkCore.IsClose">
             <summary>
             是否关闭
             </summary>
         </member>
-        <member name="P:Tool.Sockets.Kernels.INetworkListener.IsThreadPool">
+        <member name="P:Tool.Sockets.Kernels.INetworkCore.IsThreadPool">
             <summary>
             是否启用线程池处理接收数据
             </summary>
         </member>
-        <member name="P:Tool.Sockets.Kernels.INetworkListener.DisabledReceive">
+        <member name="P:Tool.Sockets.Kernels.INetworkCore.DisabledReceive">
             <summary>
             是否取消内部接收数据事件推送
             </summary>
         </member>
-        <member name="P:Tool.Sockets.Kernels.INetworkListener.BufferSize">
+        <member name="P:Tool.Sockets.Kernels.INetworkCore.BufferSize">
             <summary>
             表示通讯的包大小
+            </summary>
+        </member>
+        <member name="T:Tool.Sockets.Kernels.INetworkListener">
+            <summary>
+            服务端模型
             </summary>
         </member>
         <member name="M:Tool.Sockets.Kernels.INetworkListener.SetCompleted(Tool.Sockets.Kernels.CompletedEvent{Tool.Sockets.Kernels.EnServer})">
@@ -689,16 +728,16 @@
             获取完整心跳协议（Tcp）
             </summary>
         </member>
-        <member name="P:Tool.Sockets.Kernels.KeepAlive.UdpKeepObj">
-            <summary>
-            获取完整心跳协议（Udp）
-            </summary>
-        </member>
         <member name="P:Tool.Sockets.Kernels.KeepAlive.KeepAliveObj">
             <summary>
             获取持久连接协议
             </summary>
             <returns></returns>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.KeepAlive.TimeDelay">
+            <summary>
+            检查率
+            </summary>
         </member>
         <member name="M:Tool.Sockets.Kernels.KeepAlive.#ctor(System.Byte,System.Func{System.Threading.Tasks.Task})">
             <summary>
@@ -715,11 +754,6 @@
         <member name="P:Tool.Sockets.Kernels.KeepAlive.TimeInterval">
             <summary>
             间隔时间，不能小于1秒
-            </summary>
-        </member>
-        <member name="F:Tool.Sockets.Kernels.KeepAlive.TimeDelay">
-            <summary>
-            检查率
             </summary>
         </member>
         <member name="F:Tool.Sockets.Kernels.KeepAlive.ElapsedTicks">
@@ -949,6 +983,14 @@
             获取持久连接协议
             </summary>
         </member>
+        <member name="M:Tool.Sockets.Kernels.StateObject.CreateSocket(System.Boolean,Tool.Sockets.Kernels.NetBufferSize)">
+            <summary>
+            创建用于连接的 <see cref="T:System.Net.Sockets.Socket"/> 对象
+            </summary>
+            <param name="isTcp">是否是Tcp</param>
+            <param name="bufferSize">缓冲区枚举</param>
+            <returns><see cref="T:System.Net.Sockets.Socket"/> 对象</returns>
+        </member>
         <member name="M:Tool.Sockets.Kernels.StateObject.SocketIsDispose(System.Net.Sockets.Socket)">
             <summary>
             获取<see cref="T:System.Net.Sockets.Socket"/> Disposed 属性
@@ -984,7 +1026,7 @@
             给包加头保证其数据完整性
             headby 数据头
         </member>
-        <member name="M:Tool.Sockets.Kernels.StateObject.GetDataHeadUdp(System.ReadOnlySpan{System.Byte}@,System.UInt16@)">
+        <member name="M:Tool.Sockets.Kernels.StateObject.GetDataHeadUdp(System.ReadOnlySpan{System.Byte}@,Tool.Sockets.Kernels.ProtocolTop@)">
             给包加头保证其数据完整性
             headby 数据头
         </member>
@@ -993,7 +1035,7 @@
             listData 数据
             datalength 限制数据量
         </member>
-        <member name="M:Tool.Sockets.Kernels.StateObject.SetDataHeadUdp(System.Span{System.Byte}@,System.UInt16,System.Int32)">
+        <member name="M:Tool.Sockets.Kernels.StateObject.SetDataHeadUdp(System.Span{System.Byte}@,System.UInt32,System.Int32,System.Byte)">
             给包加头保证其数据完整性(内置)
             listData 数据
             datalength 限制数据量
@@ -1130,11 +1172,11 @@
             控制滑动窗口大小（限制流量）
             </summary>
         </member>
-        <member name="M:Tool.Sockets.Kernels.UdpStateObject.#ctor(Tool.Sockets.Kernels.UdpEndPoint,System.Int32,System.Boolean,Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.Kernels.UdpEndPoint})">
+        <member name="M:Tool.Sockets.Kernels.UdpStateObject.#ctor(Tool.Sockets.UdpHelper.IUdpCore,System.Int32,System.Boolean,Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.UdpHelper.IUdpCore})">
             <summary>
             有参构造
             </summary>
-            <param name="point">IP信息</param>
+            <param name="udp">udp信息</param>
             <param name="DataLength">包的大小</param>
             <param name="OnlyData">是否保证有效</param>
             <param name="Received">完成时事件</param>
@@ -1146,7 +1188,7 @@
             <param name="Client"></param>
             <returns></returns>
         </member>
-        <member name="P:Tool.Sockets.Kernels.UdpStateObject.Point">
+        <member name="P:Tool.Sockets.Kernels.UdpStateObject.Udp">
             <summary>
             当前有个通信信息
             </summary>
@@ -1181,11 +1223,6 @@
             当前连接是否在线
             </summary>
             <param name="receiveTimeout">参数为超时最大值</param>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.UdpStateObject.OnReceiveTask(System.ReadOnlySpan{System.Byte}@,System.Int32,System.Boolean@,System.Boolean@)">
-            <summary>
-            任务处理机制 合并
-            </summary>
         </member>
         <member name="M:Tool.Sockets.Kernels.UdpStateObject.Close">
             <summary>
@@ -1328,13 +1365,25 @@
         </member>
         <member name="M:Tool.Sockets.Kernels.BytesCore.SetMemory(System.Memory{System.Byte}@)">
             <summary>
-            写入有效的接收数据包
+            写入有效的数据包
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.BytesCore.SetMemory(System.Memory{System.Byte}@,System.Int32)">
+            <summary>
+            写入有效的数据包
             </summary>
             <returns></returns>
         </member>
         <member name="M:Tool.Sockets.Kernels.BytesCore.SetMemory(System.Span{System.Byte}@)">
             <summary>
-            写入有效的接收数据包
+            写入有效的数据包
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.BytesCore.SetMemory(System.Span{System.Byte}@,System.Int32)">
+            <summary>
+            写入有效的数据包
             </summary>
             <returns></returns>
         </member>
@@ -1964,9 +2013,12 @@
             获取连续内存
             </summary>
         </member>
-        <member name="P:Tool.Sockets.Kernels.ReceiveBytes`1.UdpOrderCount">
+        <member name="M:Tool.Sockets.Kernels.ReceiveBytes`1.OrderCount">
             <summary>
-            获取在Udp模式下保证数据准确性，获取当前数据包序列位
+            获取一个仅在测试时有用的数据
+            <list type="table">TCP模式下为包的长度</list>
+            <list type="table">UDP模式下为当前包的编码，核心层整包和拆分包编码不一致</list>
+            <list type="table">超文报包拥有独立ID,文报包会与超文报包公用ID</list>
             </summary>
         </member>
         <member name="M:Tool.Sockets.Kernels.ReceiveBytes`1.SetMemory(System.Memory{System.Byte}@)">
@@ -2125,10 +2177,12 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Tool.Sockets.Kernels.SendBytes`1.GetMemory(System.UInt16)">
+        <member name="M:Tool.Sockets.Kernels.SendBytes`1.GetMemory(System.UInt32,System.Byte)">
             <summary>
             获取有效的发送数据包(UDP协议版)
             </summary>
+            <param name="orderCount">序列ID</param>
+            <param name="code">协议代号</param>
             <returns></returns>
         </member>
         <member name="M:Tool.Sockets.Kernels.SendBytes`1.SetMemory(System.Memory{System.Byte}@,System.Int32)">
@@ -2347,76 +2401,6 @@
             </summary>
             <param name="ipport">要转换的对象。</param>
             <returns>转换的 <see cref="T:System.String"/> 对象。</returns>
-        </member>
-        <member name="T:Tool.Sockets.Kernels.UdpEndPoint">
-            <summary>
-            Udp通信专属模块
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.UdpEndPoint.Address">
-            <summary>
-            IP地址信息
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.UdpEndPoint.Port">
-            <summary>
-            通信端口
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.UdpEndPoint.UdpState">
-            <summary>
-            通信相关核心
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.UdpEndPoint.#ctor(System.Net.IPAddress,System.UInt16)">
-            <summary>
-            创建一个Udp通信IP地址
-            </summary>
-            <param name="Address"></param>
-            <param name="port"></param>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.UdpEndPoint.SetUdpState(System.Int32,System.Boolean,Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.Kernels.UdpEndPoint})">
-            <summary>
-            创建通信核心
-            </summary>
-            <param name="DataLength">包大小</param>
-            <param name="OnlyData">是否保证包</param>
-            <param name="Received">完成时的委托</param>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.UdpEndPoint.Serialize">
-            <summary>
-            获取<see cref="T:System.Net.SocketAddress"/>
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.UdpEndPoint.AddressFamily">
-            <summary>
-            IP地址类型
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.UdpEndPoint.Create(System.Net.SocketAddress)">
-            <summary>
-            根据数据获取<see cref="T:System.Net.EndPoint"/>
-            </summary>
-            <param name="socketAddress"></param>
-            <returns></returns>
-            <exception cref="T:System.Exception"></exception>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.UdpEndPoint.ToString">
-            <summary>
-            默认信息
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.UdpEndPoint.TryParse(System.String,System.Int32,Tool.Sockets.Kernels.UdpEndPoint@)">
-            <summary>
-            尝试判断是否可用的IP端口信息
-            </summary>
-            <param name="ip">IP信息</param>
-            <param name="port">端口信息</param>
-            <param name="point">返回的可用对象</param>
-            <returns>是否成功</returns>
-            <exception cref="T:System.Exception">失败的信息</exception>
         </member>
         <member name="T:Tool.Sockets.NetFrame.ClientFrame">
             <summary>
@@ -3202,6 +3186,13 @@
             <param name="ip"></param>
             <param name="port"></param>
         </member>
+        <member name="M:Tool.Sockets.NetFrame.ServerFrame.ClientClose(Tool.Sockets.Kernels.Ipv4Port)">
+            <summary>
+            关闭存在的连接用户
+            </summary>
+            <param name="ipv4">IpV4</param>
+            <returns>成功/失败</returns>
+        </member>
         <member name="M:Tool.Sockets.NetFrame.ServerFrame.SendAsync(Tool.Sockets.Kernels.IDataPacket,System.Net.Sockets.Socket)">
             异步或同步发送消息
             key 发送人的IP
@@ -3253,11 +3244,6 @@
             帮助实现P2P打洞
             </summary>
         </member>
-        <member name="P:Tool.Sockets.P2PHelpr.P2pClientAsync.TimedDelay">
-            <summary>
-            P2P超时等待时长（默认10秒）
-            </summary>
-        </member>
         <member name="F:Tool.Sockets.P2PHelpr.P2pClientAsync.Bytes">
             <summary>
             描述P2P验证协议
@@ -3268,22 +3254,24 @@
             描述P2P完成协议
             </summary>
         </member>
-        <member name="M:Tool.Sockets.P2PHelpr.P2pClientAsync.P2PConnectAsync(Tool.Sockets.TcpHelper.TcpClientAsync,Tool.Sockets.Kernels.Ipv4Port,Tool.Sockets.Kernels.Ipv4Port)">
+        <member name="M:Tool.Sockets.P2PHelpr.P2pClientAsync.P2PConnectAsync(Tool.Sockets.TcpHelper.TcpClientAsync,Tool.Sockets.Kernels.Ipv4Port,Tool.Sockets.Kernels.Ipv4Port,System.Int32)">
             <summary>
             尝试使用TCP模式进行P2P
             </summary>
             <param name="tcpClient">调起方</param>
             <param name="localEP">尝试绑定的IP端口</param>
             <param name="RemoteEP">尝试连接的IP端口</param>
+            <param name="TimedDelay">P2P超时等待时长（默认5秒）</param>
             <returns>任务</returns>
         </member>
-        <member name="M:Tool.Sockets.P2PHelpr.P2pClientAsync.P2PConnectAsync(Tool.Sockets.UdpHelper.UdpClientAsync,Tool.Sockets.Kernels.Ipv4Port,Tool.Sockets.Kernels.Ipv4Port)">
+        <member name="M:Tool.Sockets.P2PHelpr.P2pClientAsync.P2PConnectAsync(Tool.Sockets.UdpHelper.UdpClientAsync,Tool.Sockets.Kernels.Ipv4Port,Tool.Sockets.Kernels.Ipv4Port,System.Int32)">
             <summary>
             尝试使用UDP模式进行P2P
             </summary>
             <param name="udpClient">调起方</param>
             <param name="localEP">尝试绑定的IP端口</param>
             <param name="RemoteEP">尝试连接的IP端口</param>
+            <param name="TimedDelay">P2P超时等待时长（默认5秒）</param>
             <returns>任务</returns>
         </member>
         <member name="T:Tool.Sockets.P2PHelpr.P2pServerAsync">
@@ -3361,7 +3349,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Tool.Sockets.P2PHelpr.P2pServerAsync.OkWait">
+        <member name="M:Tool.Sockets.P2PHelpr.P2pServerAsync.OkWait(System.Threading.CancellationToken)">
             <summary>
             判断是否通过双方等待验证
             </summary>
@@ -3373,7 +3361,7 @@
             </summary>
             <param name="clientAsync">要建立连接的对象</param>
             <param name="RemoteEP">连接的对方设备</param>
-            <param name="timedDelay">尝试等待超时时间</param>
+            <param name="timedDelay">尝试等待超时时间（不能小于1000ms）</param>
             <returns>结果</returns>
             <exception cref="T:System.Exception">不可用 或 模式不一致 或 超时！</exception>
         </member>
@@ -3383,7 +3371,7 @@
             </summary>
             <param name="clientAsync">要建立连接的对象</param>
             <param name="RemoteEP">连接的对方设备</param>
-            <param name="timedDelay">尝试等待超时时间</param>
+            <param name="timedDelay">尝试等待超时时间（不能小于1000ms）</param>
             <returns>结果</returns>
             <exception cref="T:System.Exception">不可用 或 模式不一致 或 超时！</exception>
         </member>
@@ -4150,7 +4138,7 @@
         <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.AcceptCallBack(System.Net.Sockets.Socket)">
             异步接收连接的回调函数
         </member>
-        <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.StartReceive(System.Net.Sockets.Socket)">
+        <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.StartReceive(System.Collections.Generic.KeyValuePair{Tool.Sockets.Kernels.UserKey,System.Net.Sockets.Socket})">
             启动新线程，用于专门接收消息
         </member>
         <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.ReceiveAsync(Tool.Sockets.Kernels.TcpStateObject)">
@@ -4173,6 +4161,235 @@
             <summary>
             关闭连接，回收相关资源
             </summary>
+        </member>
+        <member name="T:Tool.Sockets.UdpHelper.IUdpCore">
+            <summary>
+            Udp通信核心，管理相关连接信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.IUdpCore.SpinWaitTimeout">
+            <summary>
+            分配id最大等待时间
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.IUdpCore.LimitingSize">
+            <summary>
+            控制滑动窗口大小（限制流量）备注：计算得出1000个窗口比较满足大多数环境
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.IUdpCore.Ipv4">
+            <summary>
+            获取IpV4地址信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.IUdpCore.EndPoint">
+            <summary>
+            连接的设备地址信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.IUdpCore.Socket">
+            <summary>
+            连接的对象（请勿脱离框架使用，避免出现各种未知异常）
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.IUdpCore.DataLength">
+            <summary>
+            可用最大空间
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.IUdpCore.OnlyData">
+            <summary>
+            是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.IUdpCore.UdpState">
+            <summary>
+            管理核心
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.IUdpCore.Close">
+            <summary>
+            尝试关闭存在的连接
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.IUdpCore.CloseAsync">
+            <summary>
+            尝试异步关闭连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.IUdpCore.SendAsync(System.Memory{System.Byte})">
+            <summary>
+            直接发送数据（警告非对内核完全了解的开发者，请谨慎，会出现各种未知异常！）
+            </summary>
+            <param name="memory">发送的数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.IUdpCore.GetUdpCore(Tool.Sockets.Kernels.INetworkCore,Tool.Sockets.UdpHelper.UdpEndPoint,System.Net.Sockets.Socket,System.Int32,System.Boolean,System.Int32,System.Boolean,System.Boolean,System.Action{Tool.Sockets.Kernels.UserKey,System.Byte},Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.UdpHelper.IUdpCore})">
+            <summary>
+            创建可用的公共UDP核心
+            </summary>
+            <param name="networkCore"></param>
+            <param name="endPoint"></param>
+            <param name="socket"></param>
+            <param name="dataLength"></param>
+            <param name="onlyData"></param>
+            <param name="replyDelay"></param>
+            <param name="isserver"></param>
+            <param name="isp2p"></param>
+            <param name="complete"></param>
+            <param name="received"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tool.Sockets.UdpHelper.UdpEndPoint">
+            <summary>
+            Udp通信专属模块
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.UdpEndPoint.Address">
+            <summary>
+            IP地址信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.UdpEndPoint.Port">
+            <summary>
+            通信端口
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.UdpEndPoint.Ipv4">
+            <summary>
+            获取IpV4地址信息
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.UdpEndPoint.#ctor(System.Net.IPAddress,System.UInt16)">
+            <summary>
+            创建一个Udp通信IP地址
+            </summary>
+            <param name="address"></param>
+            <param name="port"></param>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.UdpEndPoint.Serialize">
+            <summary>
+            获取<see cref="T:System.Net.SocketAddress"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.UdpEndPoint.AddressFamily">
+            <summary>
+            IP地址类型
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.UdpEndPoint.Create(System.Net.SocketAddress)">
+            <summary>
+            根据数据获取<see cref="T:System.Net.EndPoint"/>
+            </summary>
+            <param name="socketAddress"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.UdpEndPoint.ToString">
+            <summary>
+            默认信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.UdpEndPoint.Equals(System.Object)">
+            <summary>
+            判断是否一致
+            </summary>
+            <param name="obj">比较值</param>
+            <returns>是或否</returns>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.UdpEndPoint.Equals(Tool.Sockets.UdpHelper.UdpEndPoint)">
+            <summary>
+            判断是否一致
+            </summary>
+            <param name="other">比较值</param>
+            <returns>是或否</returns>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.UdpEndPoint.GetHashCode">
+            <summary>
+            获取哈希值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.UdpEndPoint.op_Inequality(Tool.Sockets.UdpHelper.UdpEndPoint,Tool.Sockets.UdpHelper.UdpEndPoint)">
+            <summary>
+            指示两个 <see cref="T:Tool.Sockets.UdpHelper.UdpEndPoint"/> 结构是否不相等。
+            </summary>
+            <param name="a">不等运算符左侧的结构</param>
+            <param name="b">不等运算符右侧的结构</param>
+            <returns>如果 true 不等于 a，则为 b；否则为 false。</returns>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.UdpEndPoint.op_Equality(Tool.Sockets.UdpHelper.UdpEndPoint,Tool.Sockets.UdpHelper.UdpEndPoint)">
+            <summary>
+            指示两个 <see cref="T:Tool.Sockets.UdpHelper.UdpEndPoint"/> 结构是否相等。
+            </summary>
+            <param name="a">相等运算符左侧的结构</param>
+            <param name="b">相等运算符右侧的结构</param>
+            <returns>如果 true 等于 a，则为 b；否则为 false。</returns>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.UdpEndPoint.TryParse(System.String,System.Int32,Tool.Sockets.UdpHelper.UdpEndPoint@)">
+            <summary>
+            尝试判断是否可用的IP端口信息
+            </summary>
+            <param name="ip">IP信息</param>
+            <param name="port">端口信息</param>
+            <param name="point">返回的可用对象</param>
+            <returns>是否成功</returns>
+            <exception cref="T:System.Exception">失败的信息</exception>
+        </member>
+        <member name="F:Tool.Sockets.UdpHelper.Extend.UdpPack.MaxBuffer">
+            <summary>
+            UDP 文报传输最大缓冲区
+            </summary>
+        </member>
+        <member name="T:Tool.Sockets.UdpHelper.Extend.UdpStream.Pack">
+            <summary>
+            保证数据完整性模式
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.UdpHelper.Extend.UdpStream.IntranetBufferSizs">
+            <summary>
+            默认的缓冲区大小（用于确保在保证数据完整性模式下，滑动窗口合理设计）- 内网环境
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.UdpHelper.Extend.UdpStream.InternetBufferSizs">
+            <summary>
+            Internet的缓冲区大小（用于确保在保证数据完整性模式下，滑动窗口合理设计）- 公网环境
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.Extend.UdpStream.EndPoint">
+            <summary>
+            连接的设备地址信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.Extend.UdpStream.Socket">
+            <summary>
+            连接的对象（请勿脱离框架使用，避免出现各种未知异常）
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.Extend.UdpStream.DataLength">
+            <summary>
+            可用最大空间
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.Extend.UdpStream.OnlyData">
+            <summary>
+            是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.Extend.UdpStream.CloseAsync">
+            <summary>
+            尝试关闭存在的连接
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.UdpHelper.Extend.UdpStream.ReceivePipeAsync(System.IO.Pipelines.PipeReader)">
+            <summary>
+            接收数据包（带丢包验证）
+            </summary>
+            <param name="reader"></param>
+            <returns></returns>
         </member>
         <member name="T:Tool.Sockets.UdpHelper.UdpClientAsync">
             <summary>
@@ -4202,7 +4419,7 @@
         </member>
         <member name="P:Tool.Sockets.UdpHelper.UdpClientAsync.ReplyDelay">
             <summary>
-            回复消息延迟时间（警告：当前设置仅在开启了OnlyData模式生效，超时未回复会重发，重发最大次数10，依然没有回复将抛出异常！）小于1将不生效使用默认值
+            回复消息延迟时间（警告：当前设置仅在开启了OnlyData模式生效，超时未回复会重发，重发最大次数10，依然没有回复将抛出异常！）小于20将不生效使用默认值
             </summary>
         </member>
         <member name="P:Tool.Sockets.UdpHelper.UdpClientAsync.ReceiveTimeout">
@@ -4229,6 +4446,11 @@
         <member name="P:Tool.Sockets.UdpHelper.UdpClientAsync.Client">
             <summary>
             UDP 服务对象
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.UdpHelper.UdpClientAsync.UdpCore">
+            <summary>
+            UDP 核心控制器
             </summary>
         </member>
         <member name="P:Tool.Sockets.UdpHelper.UdpClientAsync.Connected">
@@ -4258,7 +4480,7 @@
             </summary>
             <param name="Completed"></param>
         </member>
-        <member name="M:Tool.Sockets.UdpHelper.UdpClientAsync.SetReceived(Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.Kernels.UdpEndPoint})">
+        <member name="M:Tool.Sockets.UdpHelper.UdpClientAsync.SetReceived(Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.UdpHelper.IUdpCore})">
             <summary>
             接收到数据事件
             </summary>
@@ -4325,7 +4547,7 @@
             </summary>
             <param name="listData">数据包</param>
         </member>
-        <member name="M:Tool.Sockets.UdpHelper.UdpClientAsync.SendAsync(Tool.Sockets.Kernels.SendBytes{Tool.Sockets.Kernels.UdpEndPoint})">
+        <member name="M:Tool.Sockets.UdpHelper.UdpClientAsync.SendAsync(Tool.Sockets.Kernels.SendBytes{Tool.Sockets.UdpHelper.IUdpCore})">
             <summary>
             开始异步发送数据
             </summary>
@@ -4343,7 +4565,7 @@
         <member name="M:Tool.Sockets.UdpHelper.UdpClientAsync.ConnectCallBack">
             异步连接的回调函数
         </member>
-        <member name="M:Tool.Sockets.UdpHelper.UdpClientAsync.StartReceive(Tool.Sockets.Kernels.UdpEndPoint)">
+        <member name="M:Tool.Sockets.UdpHelper.UdpClientAsync.StartReceive(Tool.Sockets.UdpHelper.IUdpCore)">
             启动新线程，用于专门接收消息
         </member>
         <member name="M:Tool.Sockets.UdpHelper.UdpClientAsync.ReceiveAsync(Tool.Sockets.Kernels.UdpStateObject)">
@@ -4401,7 +4623,7 @@
         </member>
         <member name="P:Tool.Sockets.UdpHelper.UdpServerAsync.ReplyDelay">
             <summary>
-            回复消息延迟时间（警告：当前设置仅在开启了OnlyData模式生效，超时未回复会重发，重发最大次数10，依然没有回复将抛出异常！）小于1将不生效使用默认值
+            回复消息延迟时间（警告：当前设置仅在开启了OnlyData模式生效，超时未回复会重发，重发最大次数10，依然没有回复将抛出异常！）小于20将不生效使用默认值
             </summary>
         </member>
         <member name="P:Tool.Sockets.UdpHelper.UdpServerAsync.BufferSize">
@@ -4444,13 +4666,13 @@
             </summary>
             <param name="Completed"></param>
         </member>
-        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.SetReceived(Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.Kernels.UdpEndPoint})">
+        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.SetReceived(Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.UdpHelper.IUdpCore})">
             <summary>
             接收到数据事件
             </summary>
             <param name="Received"></param>
         </member>
-        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.TrySocket(Tool.Sockets.Kernels.UserKey@,Tool.Sockets.Kernels.UdpEndPoint@)">
+        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.TrySocket(Tool.Sockets.Kernels.UserKey@,Tool.Sockets.UdpHelper.IUdpCore@)">
             <summary>
             根据IP:Port获取对应的连接对象
             </summary>
@@ -4503,21 +4725,21 @@
             <param name="key">客户端的ip地址和端口号</param>
             <param name="listData">要发送的内容，允许多个包</param>
         </member>
-        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.SendAsync(Tool.Sockets.Kernels.UdpEndPoint,System.String)">
+        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.SendAsync(Tool.Sockets.UdpHelper.IUdpCore,System.String)">
             <summary>
             开始异步发送数据
             </summary>
             <param name="client">UdpEndPoint对象</param>
             <param name="msg">要发送的内容</param>
         </member>
-        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.SendAsync(Tool.Sockets.Kernels.UdpEndPoint,System.ArraySegment{System.Byte})">
+        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.SendAsync(Tool.Sockets.UdpHelper.IUdpCore,System.ArraySegment{System.Byte})">
             <summary>
             开始异步发送数据
             </summary>
             <param name="client">UdpEndPoint对象</param>
             <param name="listData">要发送的内容，允许多个包</param>
         </member>
-        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.SendAsync(Tool.Sockets.Kernels.SendBytes{Tool.Sockets.Kernels.UdpEndPoint})">
+        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.SendAsync(Tool.Sockets.Kernels.SendBytes{Tool.Sockets.UdpHelper.IUdpCore})">
             <summary>
             开始异步发送数据
             </summary>
@@ -4533,7 +4755,7 @@
             <returns></returns>
             <exception cref="T:System.Exception"></exception>
         </member>
-        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.CreateSendBytes(Tool.Sockets.Kernels.UdpEndPoint,System.Int32)">
+        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.CreateSendBytes(Tool.Sockets.UdpHelper.IUdpCore,System.Int32)">
             <summary>
             创建数据包对象
             </summary>
@@ -4541,8 +4763,8 @@
             <param name="length">数据包大小</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.AcceptCallBack(System.Net.EndPoint,Tool.Sockets.Kernels.UdpEndPoint@,Tool.Sockets.Kernels.UdpStateObject@)">
-            异步接收连接的回调函数
+        <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.AcceptCallBack(System.Net.EndPoint,Tool.Sockets.UdpHelper.IUdpCore@,Tool.Sockets.Kernels.UdpStateObject@)">
+            异步接收连接的回调函数 （返回是否是新连接）
         </member>
         <member name="M:Tool.Sockets.UdpHelper.UdpServerAsync.StartReceive(Tool.Sockets.Kernels.UserKey)">
             启动新线程，用于专门接收消息
@@ -8451,6 +8673,13 @@
             <param name="memory">数据流</param>       
             <returns>返回<see cref="T:System.ArraySegment`1"/></returns> 
         </member>
+        <member name="M:Tool.ByteExtension.AsArraySegment``1(System.ReadOnlyMemory{``0})">
+            <summary> 
+            将<see cref="T:System.Memory`1"/>转换成<see cref="T:System.ArraySegment`1"/>（不是拷贝）
+            </summary>
+            <param name="memory">数据流</param>       
+            <returns>返回<see cref="T:System.ArraySegment`1"/></returns> 
+        </member>
         <member name="T:Tool.CharExtension">
             <summary>
             对char进行升级
@@ -8722,6 +8951,14 @@
             <param name="txt1">判断的条件</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.IntExtension.Ceiling(System.Int32,System.Decimal)">
+            <summary>
+            当前数除以一个整数，返回一个向上取整的倍数
+            </summary>
+            <param name="txt">int</param>
+            <param name="txt1">除数</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.IntExtension.Increment(System.Int32@)">
             <summary>
             原子方式+1
@@ -8780,6 +9017,14 @@
             <param name="txt">long</param>
             <returns>返回Int类型</returns>
         </member>
+        <member name="M:Tool.LongExtension.Ceiling(System.Int64,System.Decimal)">
+            <summary>
+            当前数除以一个整数，返回一个向上取整的倍数
+            </summary>
+            <param name="txt">int</param>
+            <param name="txt1">除数</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.LongExtension.Add(System.Int64[],System.Int64)">
             <summary>
             给数组加新的值
@@ -8826,7 +9071,7 @@
             <para>调用该函数，将会释放掉原本的服务</para>
             </summary>
         </member>
-        <member name="F:Tool.ObjectExtension.Dynamic">
+        <member name="P:Tool.ObjectExtension.Dynamic">
             <summary>
             虚拟参数(备注：要引用 <see cref="N:Microsoft.CSharp"/> .dll 方可使用)
             </summary>
@@ -9162,6 +9407,34 @@
             </summary>
             <returns>返回结果</returns>
         </member>
+        <member name="M:Tool.ObjectExtension.IsNewTask(System.Threading.Tasks.Task)">
+            <summary>
+            判断当前任务是否是使用了新线程完成，如果使用的是当前线程完成任务，将在返回前，启用新线程继续后续任务
+            </summary>
+            <param name="task">需要完成的任务</param>
+            <returns>返回与原线程不一样的继续线程</returns>
+        </member>
+        <member name="M:Tool.ObjectExtension.IsNewTask(System.Threading.Tasks.ValueTask)">
+            <summary>
+            判断当前任务是否是使用了新线程完成，如果使用的是当前线程完成任务，将在返回前，启用新线程继续后续任务
+            </summary>
+            <param name="task">需要完成的任务</param>
+            <returns>返回与原线程不一样的继续线程</returns>
+        </member>
+        <member name="M:Tool.ObjectExtension.IsNewTask``1(System.Threading.Tasks.Task{``0})">
+            <summary>
+            判断当前任务是否是使用了新线程完成，如果使用的是当前线程完成任务，将在返回前，启用新线程继续后续任务
+            </summary>
+            <param name="task">需要完成的任务</param>
+            <returns>返回与原线程不一样的继续线程</returns>
+        </member>
+        <member name="M:Tool.ObjectExtension.IsNewTask``1(System.Threading.Tasks.ValueTask{``0})">
+            <summary>
+            判断当前任务是否是使用了新线程完成，如果使用的是当前线程完成任务，将在返回前，启用新线程继续后续任务
+            </summary>
+            <param name="task">需要完成的任务</param>
+            <returns>返回与原线程不一样的继续线程</returns>
+        </member>
         <member name="T:Tool.ShortExtension">
             <summary>
             对Short进行升级
@@ -9174,6 +9447,14 @@
             </summary>
             <param name="txt">Short</param>
             <returns>返回二进制流</returns>
+        </member>
+        <member name="M:Tool.ShortExtension.Ceiling(System.Int16,System.Decimal)">
+            <summary>
+            当前数除以一个整数，返回一个向上取整的倍数
+            </summary>
+            <param name="txt">int</param>
+            <param name="txt1">除数</param>
+            <returns></returns>
         </member>
         <member name="M:Tool.ShortExtension.Increment(System.Int16@)">
             <summary>
@@ -9608,6 +9889,14 @@
             <param name="txt">Uint</param>
             <returns>返回二进制流</returns>
         </member>
+        <member name="M:Tool.UintExtension.Ceiling(System.UInt32,System.Decimal)">
+            <summary>
+            当前数除以一个整数，返回一个向上取整的倍数
+            </summary>
+            <param name="txt">int</param>
+            <param name="txt1">除数</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.UintExtension.Increment(System.UInt32@)">
             <summary>
             原子方式+1
@@ -9659,6 +9948,14 @@
             <param name="txt">Ulong</param>
             <returns>返回二进制流</returns>
         </member>
+        <member name="M:Tool.UlongExtension.Ceiling(System.UInt64,System.Decimal)">
+            <summary>
+            当前数除以一个整数，返回一个向上取整的倍数
+            </summary>
+            <param name="txt">int</param>
+            <param name="txt1">除数</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.UlongExtension.Increment(System.UInt64@)">
             <summary>
             原子方式+1
@@ -9709,6 +10006,14 @@
             </summary>
             <param name="txt">Ushort</param>
             <returns>返回二进制流</returns>
+        </member>
+        <member name="M:Tool.UshortExtension.Ceiling(System.UInt16,System.Decimal)">
+            <summary>
+            当前数除以一个整数，返回一个向上取整的倍数
+            </summary>
+            <param name="txt">int</param>
+            <param name="txt1">除数</param>
+            <returns></returns>
         </member>
         <member name="M:Tool.UshortExtension.Increment(System.UInt16@)">
             <summary>
@@ -10902,6 +11207,13 @@
             <param name="key">名称</param>
             <param name="throwOnError">true 表示在找不到该键值时引发异常；false 则表示返回 null。</param>
             <returns>返回值，如果键值名称不存在则返回0</returns>
+        </member>
+        <member name="P:Tool.Utils.AppSettings.Item(System.String)">
+            <summary>
+            获取key值
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
         </member>
         <member name="M:Tool.Utils.AppSettings.GetSection(System.String)">
             <summary>
@@ -14752,14 +15064,14 @@
         </member>
         <member name="M:Tool.Utils.TextUtility.TransformFirstToLower(System.String)">
             <summary>
-            第一次转换 小写
+            首字母转换 小写
             </summary>
             <param name="originalVal">原始值</param>
             <returns></returns>
         </member>
         <member name="M:Tool.Utils.TextUtility.TransformFirstToUpper(System.String)">
             <summary>
-            第一次转换 大写
+            首字母转换 大写
             </summary>
             <param name="originalVal">原始值</param>
             <returns></returns>
@@ -14784,6 +15096,36 @@
             </summary>
             <param name="url">字符串</param>
             <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.TextUtility.IsPrivateNetwork(System.String)">
+            <summary>
+            根据传入ipv4地址，检测是否是局域网IP
+            </summary>
+            <param name="ipv4Address">ipv4地址</param>
+            <returns>true/false</returns>
+        </member>
+        <member name="M:Tool.Utils.TextUtility.IsPrivateNetwork(System.Net.IPAddress)">
+            <summary>
+            根据传入ipv4地址，检测是否是局域网IP
+            </summary>
+            <param name="ipv4Address">ipv4地址</param>
+            <returns>true/false</returns>
+        </member>
+        <member name="M:Tool.Utils.TextUtility.IpAddressInRange(System.String,System.String,System.String)">
+            <summary>
+            判断IP地址在不在某个IP地址段（仅支持IPV4）
+            </summary>
+            <param name="input">需要判断的IP地址</param>
+            <param name="begin">起始地址</param>
+            <param name="ends">结束地址</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.TextUtility.IPToID(System.String)">
+            <summary>
+            IP地址转换成数字
+            </summary>
+            <param name="addr">IP地址</param>
+            <returns>数字,输入无效IP地址返回0</returns>
         </member>
         <member name="T:Tool.Utils.ThreadQueue.ActionLock">
             <summary>
@@ -18563,6 +18905,53 @@
             <param name="context"></param>
             <returns></returns>
         </member>
+        <member name="T:Tool.Web.Hosting.DiyContainerBuilder">
+            <summary>
+            Diy容器数据
+            </summary>
+        </member>
+        <member name="M:Tool.Web.Hosting.DiyContainerBuilder.#ctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:Tool.Web.Hosting.DiyContainerBuilder.Populate(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            将默认的依赖注入的对象填入新的容器
+            </summary>
+            <param name="services">服务</param>
+        </member>
+        <member name="M:Tool.Web.Hosting.DiyContainerBuilder.Build">
+            <summary>
+            完成服务模型注册
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Tool.Web.Hosting.DiyServiceProviderFactory">
+            <summary>
+            Diy 依赖注入工厂
+            </summary>
+        </member>
+        <member name="M:Tool.Web.Hosting.DiyServiceProviderFactory.#ctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:Tool.Web.Hosting.DiyServiceProviderFactory.CreateBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            创建一个新的 <see cref="T:Tool.Web.Hosting.DiyContainerBuilder"/> 用于注册服务
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Web.Hosting.DiyServiceProviderFactory.CreateServiceProvider(Tool.Web.Hosting.DiyContainerBuilder)">
+            <summary>
+            使用 <see cref="T:Tool.Web.Hosting.DiyContainerBuilder"/> 构建 Autofac 容器，并返回一个 <see cref="T:System.IServiceProvider"/>
+            </summary>
+            <param name="containerBuilder"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
         <member name="T:Tool.Web.HttpContextExtension">
             <summary>
             对<see cref="T:Microsoft.AspNetCore.Http.HttpContext"/>进行升级
@@ -19597,6 +19986,20 @@
             </summary>
             <param name="app">IApplicationBuilder框架对象</param>
             <returns>IApplicationBuilder</returns>
+        </member>
+        <member name="T:Microsoft.Extensions.Hosting.HostBuilderExtensions">
+            <summary>
+            HostBuilder扩展
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.Hosting.HostBuilderExtensions.UseDiyServiceProvider(Microsoft.Extensions.Hosting.IHostBuilder)">
+            <summary>
+            依赖注入（采用自定义模式，替换掉 默认的容器）
+            <list type="table">自动注册<see cref="T:Tool.ObjectExtension"/>.Services</list>
+            <list type="table">自动注册<see cref="T:Tool.ObjectExtension"/>.Provider</list>
+            </summary>
+            <param name="builder">信息</param>
+            <returns><see cref="T:Microsoft.Extensions.Hosting.IHostBuilder"/></returns>
         </member>
     </members>
 </doc>

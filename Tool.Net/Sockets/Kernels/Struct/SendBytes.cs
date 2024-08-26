@@ -1,10 +1,5 @@
 ﻿using System.Buffers;
 using System;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using Tool.Utils;
-using System.Reflection;
 
 namespace Tool.Sockets.Kernels
 {
@@ -85,7 +80,9 @@ namespace Tool.Sockets.Kernels
         /// <summary>
         /// 获取连续内存
         /// </summary>
-        public unsafe ArraySegment<byte> Array => _bytesCore.Array[GetIsLength()..];
+        public ArraySegment<byte> Array => _bytesCore.Array[GetIsLength()..];
+
+        internal Memory<byte> OnlyBytes => _bytesCore.Memory[..GetIsLength()];
 
         private readonly int GetIsLength() => OnlyData ? 6 : 0;
 
@@ -102,10 +99,12 @@ namespace Tool.Sockets.Kernels
         /// <summary>
         /// 获取有效的发送数据包(UDP协议版)
         /// </summary>
+        /// <param name="orderCount">序列ID</param>
+        /// <param name="code">协议代号</param>
         /// <returns></returns>
-        public Memory<byte> GetMemory(ushort orderCount)
+        public Memory<byte> GetMemory(uint orderCount, byte code = 0)
         {
-            if (OnlyData) StateObject.SetDataHeadUdp(_bytesCore.Span, orderCount, 0);
+            if (OnlyData) StateObject.SetDataHeadUdp(_bytesCore.Span, orderCount, 0, code);
             return _bytesCore.Memory;
         }
 

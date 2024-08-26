@@ -319,8 +319,8 @@ namespace Tool.Sockets.NetFrame
         private async ValueTask<NetResponse> SendAsync(Ipv4Port IpPort, ApiPacket api)//bool isIpPort,
         {
             FrameCommon.SetApiPacket(api, false, IpPort);
-            //return await OnSendWaitOne(api);
-            return await Task.Run(() => OnSendWaitOne(api));
+            return await OnSendWaitOne(api);
+            //return await Task.Run(() => OnSendWaitOne(api));
         }
 
         /// <summary>
@@ -354,8 +354,8 @@ namespace Tool.Sockets.NetFrame
             try
             {
                 using IDataPacket dataPacket = FrameCommon.GetDataPacket(api, clmidmt);
-
-                await SendAsync(dataPacket);
+               
+                await SendAsync(dataPacket).IsNewTask();
                 if (!_threadObj.WaitOne(api.Millisecond))
                 {
                     _DataPacketThreads.SetTimeout(in clmidmt);

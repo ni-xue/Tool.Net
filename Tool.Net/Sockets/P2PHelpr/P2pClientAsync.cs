@@ -19,11 +19,6 @@ namespace Tool.Sockets.P2PHelpr
     public static class P2pClientAsync
     {
         /// <summary>
-        /// P2P超时等待时长（默认10秒）
-        /// </summary>
-        public static int TimedDelay { get; set; } = 10000;
-
-        /// <summary>
         /// 描述P2P验证协议
         /// </summary>
         private static readonly ArraySegment<byte> Bytes = new byte[] { 255, 225, 195, 155, 125, 95, 55, 25, 0 };
@@ -39,11 +34,12 @@ namespace Tool.Sockets.P2PHelpr
         /// <param name="tcpClient">调起方</param>
         /// <param name="localEP">尝试绑定的IP端口</param>
         /// <param name="RemoteEP">尝试连接的IP端口</param>
+        /// <param name="TimedDelay">P2P超时等待时长（默认5秒）</param>
         /// <returns>任务</returns>
-        public static async Task P2PConnectAsync(this TcpClientAsync tcpClient, Ipv4Port localEP, Ipv4Port RemoteEP)
+        public static async Task P2PConnectAsync(this TcpClientAsync tcpClient, Ipv4Port localEP, Ipv4Port RemoteEP, int TimedDelay = 5000)
         {
-            tcpClient.TryP2PConnect = (socket, endPoint) => TryP2PConnect(socket, new IPEndPoint(localEP.Ip, localEP.Port), endPoint);// //new IPEndPoint(IPAddress.Any, port); //IPEndPoint.Parse($"127.0.0.1:{port}");
-            await tcpClient.ConnectAsync(RemoteEP);
+            if (TimedDelay < 1000) throw new Exception($"TimedDelay < 1000 毫秒");
+            await tcpClient.P2PConnectAsync(localEP, RemoteEP, _ => ValueTask.FromResult(TimedDelay));
         }
 
         /// <summary>
@@ -52,19 +48,31 @@ namespace Tool.Sockets.P2PHelpr
         /// <param name="udpClient">调起方</param>
         /// <param name="localEP">尝试绑定的IP端口</param>
         /// <param name="RemoteEP">尝试连接的IP端口</param>
+        /// <param name="TimedDelay">P2P超时等待时长（默认5秒）</param>
         /// <returns>任务</returns>
-        public static async Task P2PConnectAsync(this UdpClientAsync udpClient, Ipv4Port localEP, Ipv4Port RemoteEP)
+        public static async Task P2PConnectAsync(this UdpClientAsync udpClient, Ipv4Port localEP, Ipv4Port RemoteEP, int TimedDelay = 5000)
         {
-            udpClient.TryP2PConnect = (socket, endPoint) => TryP2PConnect(socket, new IPEndPoint(localEP.Ip, localEP.Port), endPoint);// //new IPEndPoint(IPAddress.Any, port); //IPEndPoint.Parse($"127.0.0.1:{port}");
+            if (TimedDelay < 1000) throw new Exception($"TimedDelay < 1000 毫秒");
+            await udpClient.P2PConnectAsync(localEP, RemoteEP, _ => ValueTask.FromResult(TimedDelay));
+        }
+
+        internal static async Task P2PConnectAsync(this TcpClientAsync tcpClient, Ipv4Port localEP, Ipv4Port RemoteEP, Func<CancellationToken, ValueTask<int>> func)
+        {
+            tcpClient.TryP2PConnect = (endPoint) => TryP2PConnect(true, tcpClient.BufferSize, new IPEndPoint(localEP.Ip, localEP.Port), endPoint, func); //new IPEndPoint(IPAddress.Any, port); //IPEndPoint.Parse($"127.0.0.1:{port}");
+            await tcpClient.ConnectAsync(RemoteEP);
+        }
+
+        internal static async Task P2PConnectAsync(this UdpClientAsync udpClient, Ipv4Port localEP, Ipv4Port RemoteEP, Func<CancellationToken, ValueTask<int>> func)
+        {
+            udpClient.TryP2PConnect = (endPoint) => TryP2PConnect(false, udpClient.BufferSize, new IPEndPoint(localEP.Ip, localEP.Port), endPoint, func);
             await udpClient.ConnectAsync(RemoteEP);
         }
 
-        private static async Task TryP2PConnect(Socket socket, EndPoint localEP, EndPoint endPoint)
+        private static async Task<Socket> TryP2PConnect(bool isTcp, NetBufferSize bufferSize, EndPoint localEP, EndPoint endPoint, Func<CancellationToken, ValueTask<int>> func)
         {
-            using CancellationTokenSource tokenSource = new(TimedDelay);
-            bool p2psuccess = false, isTcp = socket.ProtocolType == ProtocolType.Tcp;
-
-            socket.Bind(localEP);
+            Socket socket = StateObject.CreateSocket(isTcp, bufferSize);
+            bool p2psuccess = false;
+            int timedDelay = await func(CancellationToken.None); //动态获取剩余超时值
 
             async Task<int> Send(ArraySegment<byte> bytes)
             {
@@ -86,70 +94,68 @@ namespace Tool.Sockets.P2PHelpr
 #else
                     var result = await socket.ReceiveFromAsync(buffer, SocketFlags.None, endPoint, token);
 #endif
+                    //if (result.RemoteEndPoint is UdpEndPoint point0 && endPoint is UdpEndPoint point1 && point0 == point1)
+                    //{
+                    //    await socket.ConnectAsync(point0);
+                    //}
+                    //else
+                    //{
+                    //    throw new Exception("建立通道错误！");
+                    //}
                     coun = result.ReceivedBytes;
                 }
                 return coun;
             }
 
-            async Task ConnectAsync()
+            async Task ConnectAsync(CancellationToken token)
             {
+                socket.Bind(localEP);
+
+                bool isConnect = false;
                 using var eventArgs = SocketEventPool.Pop();
                 eventArgs.RemoteEndPoint = endPoint;
-                eventArgs.Completed += EventArgs_Completed;
+                eventArgs.Completed += (_, _) => { isConnect = true; };
                 eventArgs.SocketError = SocketError.ConnectionRefused;
-                bool isConnect = false;
-                while (!tokenSource.IsCancellationRequested)
+                while (!token.IsCancellationRequested)
                 {
                     try
                     {
-                        //using CancellationTokenSource tokenSource = new(1000);
-                        //await socket.ConnectAsync(endPoint, tokenSource.Token);
-
-                        //DateTime time = DateTime.UtcNow;
                         if (!socket.ConnectAsync(eventArgs)) isConnect = true;
-
-                        SpinWait.SpinUntil(() => isConnect);
-
-                        if (!isTcp && socket.RemoteEndPoint is null)
+                        SpinWait.SpinUntil(() =>
                         {
-
-                        }
-
+                            if (token.IsCancellationRequested) throw new Exception("超时取消任务！");
+                            return isConnect;
+                        });
+                        if (!isTcp && socket.RemoteEndPoint == null) eventArgs.SocketError = SocketError.SocketError;
                         if (eventArgs.SocketError is SocketError.Success)
                         {
-                            if (!isTcp) await Task.Delay(1);
-                            await Task.WhenAll(SendAsync(), ReceiveAsync());
+                            await Task.WhenAll(SendAsync(token), ReceiveAsync(token));
                             break;
                         }
                         else
                         {
                             isConnect = false;
-                            int delay = DateTime.UtcNow.Millisecond % 100; //延迟到统一时差
-                            Debug.WriteLine($"{endPoint}:Connect失败！补齐{delay}ms");
-                            await Task.Delay(delay);
+                            //int delay = DateTime.UtcNow.Millisecond % 100; //延迟到统一时差
+                            //Debug.WriteLine($"{endPoint}:Connect失败！补齐{delay}ms");
+                            //await Task.Delay(delay, token);
                         }
                     }
                     catch
                     {
                     }
                 }
-
-                void EventArgs_Completed(object sender, SocketAsyncEventArgs e)
-                {
-                    isConnect = true;
-                }
             }
 
-            async Task SendAsync()
+            async Task SendAsync(CancellationToken token)
             {
                 Debug.WriteLine($"{endPoint}:Send验证！");
-                while (!tokenSource.IsCancellationRequested && !p2psuccess)
+                while (!token.IsCancellationRequested && !p2psuccess)
                 {
                     try
                     {
-                        await Send(Bytes);
-                        int millisecondsDelay = isTcp ? 1000 : 100;
-                        await Task.Delay(millisecondsDelay, tokenSource.Token);
+                        await Send(Bytes).IsNewTask();
+                        int millisecondsDelay = isTcp ? 100 : 50;
+                        await Task.Delay(millisecondsDelay, token);
                     }
                     catch
                     {
@@ -157,15 +163,15 @@ namespace Tool.Sockets.P2PHelpr
                 }
             }
 
-            async Task ReceiveAsync()
+            async Task ReceiveAsync(CancellationToken token)
             {
                 Debug.WriteLine($"{endPoint}:Receive验证！");
                 ArraySegment<byte> buffer = new byte[9];
-                while (!tokenSource.IsCancellationRequested && !p2psuccess)
+                while (!token.IsCancellationRequested && !p2psuccess)
                 {
                     try
                     {
-                        int coun = await Receive(buffer, tokenSource.Token);
+                        int coun = await Receive(buffer, token).IsNewTask();
                         if (Utility.SequenceCompare(Bytes, buffer[..coun])) p2psuccess = true; //receivecount.Increment(); else return;
                     }
                     catch (Exception)
@@ -175,42 +181,90 @@ namespace Tool.Sockets.P2PHelpr
                 }
             }
 
-            //Task task = Task.Run(ConnectAsync);
-            async Task ReadyAsync()
+            async Task<Socket> ReadyAsync()
             {
-                await Task.Run(ConnectAsync);
+                DateTime StartTime = DateTime.UtcNow;
+                using CancellationTokenSource tokenSource = new(timedDelay);
+                while (!tokenSource.IsCancellationRequested)
+                {
+                    await Task.Run(async () =>
+                    {
+                        Debug.WriteLine($"{endPoint}:开启{timedDelay - (DateTime.UtcNow - StartTime).TotalMilliseconds}ms！");
+                        using CancellationTokenSource tokenSource = new(500);
+                        await ConnectAsync(tokenSource.Token);
 
-                //if (!SpinWait.SpinUntil(() => p2psuccess, 10000))
-                //{
-                //    tokenSource.Cancel();
-                //    throw new Exception("在P2P超时期到来前未能成功打通通道。");
-                //}
+                        //if (isTcp)
+                        //{
+                        //    await ConnectAsync(tokenSource.Token);
+                        //}
+                        //else
+                        //{
+                        //    using CancellationTokenSource tokenSource = new(500);
+                        //    await ConnectAsync(tokenSource.Token);
+                        //}
+                    });
+                    //if (isTcp) break; else 
+                    if (p2psuccess) break;
+                    bool isretry = true;
+                    if (tokenSource.IsCancellationRequested) isretry = false;
+                    //SpinWait.SpinUntil(() =>
+                    //{
+                    //    if (tokenSource.IsCancellationRequested)
+                    //    {
+                    //        isretry = false;
+                    //        return true;
+                    //    }
+                    //    return DateTime.UtcNow.Millisecond % 100 < 5;
+                    //});
+                    if (isretry)
+                    {
+                        Debug.WriteLine($"{endPoint}:重试！{DateTime.Now:O}");
+                        socket.Dispose(); //重置Socket，再尝试！
+                        socket = StateObject.CreateSocket(isTcp, bufferSize);
+                        if(timedDelay == await func(tokenSource.Token)) //重新获取剩余超时值（自实现）
+                        {
+                            //无实现模式，模拟实现
+                            int delay = DateTime.UtcNow.Millisecond % 100; //延迟到统一时差
+                            Debug.WriteLine($"{endPoint}:Connect失败！补齐{delay}ms");
+                            await Task.Delay(delay, tokenSource.Token);
+                        }
+                    }
+                }
 
                 if (p2psuccess)
                 {
                     await Send(Ready);
                     ArraySegment<byte> buffer = new byte[9];
+                    Debug.WriteLine($"{endPoint}:认证{timedDelay - (DateTime.UtcNow - StartTime).TotalMilliseconds}ms！"); //auth
                     while (!tokenSource.IsCancellationRequested)
                     {
                         try
                         {
-                            using CancellationTokenSource tokenSource = new(1000);
                             int coun = await Receive(buffer, tokenSource.Token);
-                            if (Utility.SequenceCompare(Ready, buffer[..coun])) break; //receivecount.Increment(); else return;
+                            if (Utility.SequenceCompare(Ready, buffer[..coun])) return socket;
                         }
                         catch (Exception)
                         {
-                            throw new Exception("在P2P通道打通完成，但未能完成身份验证。");
                         }
                     }
+                    Throw("在P2P通道打通完成，但未能完成身份验证。");
                 }
                 else
                 {
-                    throw new Exception("在P2P超时期到来前未能成功打通通道。");
+                    Throw("在P2P超时期到来前未能成功打通通道。");
                 }
+
+                return null;
             }
 
-            await ReadyAsync();
+            void Throw(string mag)
+            {
+                //if (socket.Connected) socket.Close(); else if (!StateObject.SocketIsDispose(socket)) socket.Close();
+                socket.Dispose();
+                throw new Exception(mag);
+            }
+
+            return await ReadyAsync();
         }
     }
 }

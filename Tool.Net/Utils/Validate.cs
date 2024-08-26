@@ -827,6 +827,13 @@ namespace Tool.Utils
             return Regex.IsMatch(expression, "[0-9a-zA-Z]?");
         }
 
+        //#if NET7_0_OR_GREATER
+
+        //        [GeneratedRegex("[0-9a-zA-Z]?")]
+        //        private static partial Regex Regex_IsWordAndNum();
+
+        //#endif
+
         //private static readonly Regex regex_ImgFormat = new Regex("\\.(gif|jpg|bmp|png|jpeg)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         //private static readonly Regex regex_IsDate = new Regex("^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))$", RegexOptions.Compiled);
@@ -850,6 +857,10 @@ namespace Tool.Utils
         //private static readonly Regex regex_IsUserName = new Regex("^[a-zA-Z\\d_]+$", RegexOptions.Compiled);
 
         //private static readonly Regex regex_SqlFormat = new Regex("\\?|select%20|select\\s+|insert%20|insert\\s+|delete%20|delete\\s+|count\\(|drop%20|drop\\s+|update%20|update\\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        internal static readonly Regex regex_SqlWhere = new("^(?=\\().*(?<=\\))", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        internal static readonly Regex regex_IsInt = new("^([0-9])[0-9]*(\\.\\w*)?$", RegexOptions.Compiled);
     }
 
     ///<summary>    

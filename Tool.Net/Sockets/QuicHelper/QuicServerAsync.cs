@@ -15,7 +15,6 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using Tool.Utils;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
 
 namespace Tool.Sockets.QuicHelper
 {
@@ -299,8 +298,19 @@ namespace Tool.Sockets.QuicHelper
         /// <param name="msg">要发送的内容</param>
         public async ValueTask SendAsync(QuicSocket client, string msg)
         {
-            byte[] listData = Encoding.UTF8.GetBytes(msg);
-            await SendAsync(client, listData);
+            var chars = msg.AsMemory();
+            if (chars.IsEmpty) throw new ArgumentNullException(nameof(msg));
+            var sendBytes = CreateSendBytes(client, Encoding.UTF8.GetByteCount(chars.Span));
+
+            try
+            {
+                Encoding.UTF8.GetBytes(chars.Span, sendBytes.Span);
+                await SendAsync(sendBytes);
+            }
+            finally
+            {
+                sendBytes.Dispose();
+            }
         }
 
         /// <summary>

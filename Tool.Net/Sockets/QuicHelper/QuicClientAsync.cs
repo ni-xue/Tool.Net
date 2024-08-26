@@ -50,6 +50,7 @@ namespace Tool.Sockets.QuicHelper
         private Ipv4Port server; //服务端IP
         private EndPoint endPointServer;
         private int millisecond = 20; //默认20毫秒。
+        private bool isWhileReconnect = false;
 
         /**
         * 连接、发送、关闭事件
@@ -289,8 +290,19 @@ namespace Tool.Sockets.QuicHelper
         /// <param name="msg">要发送的内容</param>
         public async ValueTask SendAsync(string msg)
         {
-            byte[] listData = Encoding.UTF8.GetBytes(msg);
-            await SendAsync(listData);
+            var chars = msg.AsMemory();
+            if (chars.IsEmpty) throw new ArgumentNullException(nameof(msg));
+            var sendBytes = CreateSendBytes(Encoding.UTF8.GetByteCount(chars.Span));
+
+            try
+            {
+                Encoding.UTF8.GetBytes(chars.Span, sendBytes.Span);
+                await SendAsync(sendBytes);
+            }
+            finally
+            {
+                sendBytes.Dispose();
+            }
         }
 
         /// <summary>
@@ -365,7 +377,7 @@ namespace Tool.Sockets.QuicHelper
                 InsideClose().Preserve();
                 OnComplete(Server, EnClient.Fail);
 
-                StateObject.StartTask("Quic重连", WhileReconnect);
+                StartReconnect();
             }
         }
 
@@ -389,7 +401,7 @@ namespace Tool.Sockets.QuicHelper
                     //如果发生异常，说明客户端失去连接，触发关闭事件
                     await InsideClose();
                     OnComplete(obj.SocketKey, EnClient.Close);
-                    StateObject.StartTask("Quic重连", WhileReconnect);
+                    StartReconnect();
                     break;
                 } //Thread.Sleep(Millisecond);
             }
@@ -482,6 +494,15 @@ namespace Tool.Sockets.QuicHelper
             }
             catch (Exception)
             {
+            }
+        }
+
+        private void StartReconnect()
+        {
+            if (!isWhileReconnect)
+            {
+                isWhileReconnect = true;
+                StateObject.StartTask("Quic重连", WhileReconnect);
             }
         }
 

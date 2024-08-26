@@ -410,7 +410,7 @@ namespace Tool.Utils
         /// <returns>IP地址</returns>
         public static string Int2IP(long ipNumber)
         {
-            IPAddress iPAddress = new IPAddress(ipNumber);
+            IPAddress iPAddress = new(ipNumber);
             return iPAddress.ToString();
         }
 
@@ -425,14 +425,11 @@ namespace Tool.Utils
             {
                 return -1L;
             }
-            string[] array = ip.Split(new char[]
-            {
-                '.'
-            });
+            string[] array = ip.Split('.');
             long num = long.Parse(array[3]) * 16777216L;
-            num += (long)(int.Parse(array[2]) * 65536);
-            num += (long)(int.Parse(array[1]) * 256);
-            return num + (long)int.Parse(array[0]);
+            num += int.Parse(array[2]) * 65536;
+            num += int.Parse(array[1]) * 256;
+            return num + int.Parse(array[0]);
         }
 
         /// <summary>
@@ -686,7 +683,7 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="Host">域名（为空时获取本机IP信息）</param>
         /// <returns></returns>
-        public static async Task<IPAddress[]> GetIPAddressListAsync(string Host = null) => await Dns.GetHostAddressesAsync(Host??Dns.GetHostName());
+        public static async Task<IPAddress[]> GetIPAddressListAsync(string Host = null) => await Dns.GetHostAddressesAsync(Host ?? Dns.GetHostName());
 
         /// <summary>
         /// 获取域名下的第一个IP

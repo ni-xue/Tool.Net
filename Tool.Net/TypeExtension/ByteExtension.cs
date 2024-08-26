@@ -387,16 +387,23 @@ namespace Tool
         /// </summary>
         /// <param name="memory">数据流</param>       
         /// <returns>返回<see cref="ArraySegment{T}"/></returns> 
-        public static ArraySegment<T> AsArraySegment<T>(this Memory<T> memory)
+        public static ArraySegment<T> AsArraySegment<T>(this Memory<T> memory) => AsArraySegment((ReadOnlyMemory<T>)memory);
+
+        /// <summary> 
+        /// 将<see cref="Memory{T}"/>转换成<see cref="ArraySegment{T}"/>（不是拷贝）
+        /// </summary>
+        /// <param name="memory">数据流</param>       
+        /// <returns>返回<see cref="ArraySegment{T}"/></returns> 
+        public static ArraySegment<T> AsArraySegment<T>(this ReadOnlyMemory<T> memory)
         {
             if (memory.IsEmpty)
             {
                 //throw new System.SystemException("对象未有初始值！");
                 return ArraySegment<T>.Empty;
             }
-            if (!MemoryMarshal.TryGetArray<T>(memory, out var segment))
+            if (!MemoryMarshal.TryGetArray(memory, out var segment))
             {
-                var field = typeof(Memory<T>).GetField("_object", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                var field = typeof(ReadOnlyMemory<T>).GetField("_object", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 segment = Unsafe.As<T[]>(field.GetValue(memory));
             }
             return segment;

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
+using Tool.Utils;
 using Tool.Utils.Data;
 
 namespace Tool.SqlCore
@@ -299,7 +300,7 @@ namespace Tool.SqlCore
             if (where.StartsWith("WHERE", StringComparison.OrdinalIgnoreCase)
                 || where.StartsWith("(NOLOCK)", StringComparison.OrdinalIgnoreCase)
                 || where.StartsWith("WITH(", StringComparison.OrdinalIgnoreCase)
-                || System.Text.RegularExpressions.Regex.IsMatch(where, "^(?=\\().*(?<=\\))", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                || Validate.regex_SqlWhere.IsMatch(where))
             {
                 return where;
             }

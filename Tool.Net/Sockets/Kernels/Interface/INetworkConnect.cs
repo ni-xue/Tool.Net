@@ -6,42 +6,17 @@ namespace Tool.Sockets.Kernels
     /// <summary>
     /// 连接通信模型
     /// </summary>
-    public interface INetworkConnect : IDisposable
+    public interface INetworkConnect : INetworkCore
     {
-        /// <summary>
-        /// 服务器信息
-        /// </summary>
-        UserKey Server { get; }
-
         /// <summary>
         /// 本机通信IP
         /// </summary>
         Ipv4Port LocalPoint { get; }
 
         /// <summary>
-        /// 是否关闭
-        /// </summary>
-        bool IsClose { get; }
-
-        /// <summary>
         /// 是否连接中
         /// </summary>
         bool Connected { get; }
-
-        /// <summary>
-        /// 是否启用线程池处理接收数据
-        /// </summary>
-        bool IsThreadPool { get; }
-
-        /// <summary>
-        /// 是否取消内部接收数据事件推送
-        /// </summary>
-        bool DisabledReceive { get; }
-
-        /// <summary>
-        /// 表示通讯的包大小
-        /// </summary>
-        NetBufferSize BufferSize { get; }
 
         /// <summary>
         /// 相关事件委托

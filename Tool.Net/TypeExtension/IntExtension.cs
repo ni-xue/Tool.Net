@@ -43,6 +43,19 @@ namespace Tool
             return false;
         }
 
+
+        /// <summary>
+        /// 当前数除以一个整数，返回一个向上取整的倍数
+        /// </summary>
+        /// <param name="txt">int</param>
+        /// <param name="txt1">除数</param>
+        /// <returns></returns>
+        public static int Ceiling(this int txt, decimal txt1)
+        {
+            decimal b = txt / txt1;
+            return (int)Math.Ceiling(b);
+        }
+
         #endregion
 
         /// <summary>

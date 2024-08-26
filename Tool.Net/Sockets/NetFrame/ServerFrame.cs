@@ -138,6 +138,21 @@ namespace Tool.Sockets.NetFrame
             await serverAsync.StartAsync(ip, port);
         }
 
+        /// <summary>
+        /// 关闭存在的连接用户
+        /// </summary>
+        /// <param name="ipv4">IpV4</param>
+        /// <returns>成功/失败</returns>
+        public bool ClientClose(Ipv4Port ipv4) 
+        {
+            bool isOk = serverAsync.TrySocket(ipv4, out var client);
+            if (isOk)
+            {
+                client.Close();
+            }
+            return isOk;
+        }
+
         /**
          * 异步或同步发送消息
          * key 发送人的IP
@@ -192,8 +207,9 @@ namespace Tool.Sockets.NetFrame
          */
         private async ValueTask AgentSendAsync(IDataPacket dataPacket, Ipv4Port key, Ipv4Port SponsorIp)
         {
-            if (!OnIpParser(in key, in SponsorIp, out Socket client)) throw new("接收方不存在！");
-            await AgentSendAsync(dataPacket, client);
+            IsIpParser ipParser = await OnIpParser(key, SponsorIp);
+            if (!ipParser.IsOk) throw new("接收方不存在！");
+            await AgentSendAsync(dataPacket, ipParser.Client);
         }
 
         /**
@@ -228,8 +244,8 @@ namespace Tool.Sockets.NetFrame
         public async ValueTask<NetResponse> SendAsync(Ipv4Port key, ApiPacket api)
         {
             FrameCommon.SetApiPacket(api, true);
-            //return await OnSendWaitOne(key, api);
-            return await Task.Run(() => OnSendWaitOne(key, api)); 
+            return await OnSendWaitOne(key, api);
+            //return await Task.Run(() => OnSendWaitOne(key, api)); 
         }
 
         /// <summary>
@@ -252,11 +268,12 @@ namespace Tool.Sockets.NetFrame
 
             try
             {
-                if (!OnIpParser(in key, Ipv4Port.Empty, out var client)) throw new("接收方不存在！");
+                IsIpParser ipParser = await OnIpParser(key, Ipv4Port.Empty);
+                if (!ipParser.IsOk) throw new("接收方不存在！");
 
                 using IDataPacket dataPacket = FrameCommon.GetDataPacket(api, clmidmt);
 
-                await SendAsync(dataPacket, client);
+                await SendAsync(dataPacket, ipParser.Client).IsNewTask();
                 if (!_threadObj.WaitOne(api.Millisecond))
                 {
                     _DataPacketThreads.SetTimeout(in clmidmt);
@@ -380,10 +397,19 @@ namespace Tool.Sockets.NetFrame
             serverAsync.OnComplete(in key, enAction);
         }
 
-        private bool OnIpParser(in Ipv4Port key, in Ipv4Port SponsorIp, out Socket client)
+        private async ValueTask<IsIpParser> OnIpParser(Ipv4Port key, Ipv4Port SponsorIp)
         {
-            UserKey strip = IpParser?.Invoke(in SponsorIp, in key) ?? key;
-            return serverAsync.TrySocket(in strip, out client);
+            UserKey strip;
+            if (IpParser is not null)
+            {
+                strip = await IpParser.Invoke(SponsorIp, key);
+            }
+            else
+            {
+                strip = key;
+            }
+            bool isOk = serverAsync.TrySocket(in strip, out var client);
+            return new IsIpParser(isOk, client);
         }
 
         /// <summary>

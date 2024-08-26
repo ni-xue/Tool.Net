@@ -13,6 +13,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using Tool.Sockets.Kernels;
 using Tool.Utils;
 using Tool.Utils.ActionDelegate;
 using Tool.Utils.Data;
@@ -50,7 +51,7 @@ namespace Tool
         /// 虚拟参数(备注：要引用 <see cref="Microsoft.CSharp"/> .dll 方可使用)
         /// </summary>
         [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
-        public static dynamic Dynamic = new ExpandoObject();
+        public static dynamic Dynamic { get; } = new ExpandoObject();
 
         /// <summary>
         /// 全局公共对象 可以用于 存放任何对象 管理，存在拆箱装箱行为
@@ -1058,6 +1059,51 @@ namespace Tool
             return new ValueTask<T>(Task.Factory.StartNew(gettask, token, creationOptions, TaskScheduler.Default));
             T gettask() => task().Preserve().Result;
         }
+
+        #endregion
+
+        #region 新的继续线程
+
+        /// <summary>
+        /// 判断当前任务是否是使用了新线程完成，如果使用的是当前线程完成任务，将在返回前，启用新线程继续后续任务
+        /// </summary>
+        /// <param name="task">需要完成的任务</param>
+        /// <returns>返回与原线程不一样的继续线程</returns>
+        public static async Task IsNewTask(this Task task)
+        {
+            int threadId = Environment.CurrentManagedThreadId;
+            await task;
+            if (threadId == Environment.CurrentManagedThreadId)
+                await Task.Yield();
+        }
+
+        /// <summary>
+        /// 判断当前任务是否是使用了新线程完成，如果使用的是当前线程完成任务，将在返回前，启用新线程继续后续任务
+        /// </summary>
+        /// <param name="task">需要完成的任务</param>
+        /// <returns>返回与原线程不一样的继续线程</returns>
+        public static async ValueTask IsNewTask(this ValueTask task) => await task.AsTask().IsNewTask();
+
+        /// <summary>
+        /// 判断当前任务是否是使用了新线程完成，如果使用的是当前线程完成任务，将在返回前，启用新线程继续后续任务
+        /// </summary>
+        /// <param name="task">需要完成的任务</param>
+        /// <returns>返回与原线程不一样的继续线程</returns>
+        public static async Task<TResult> IsNewTask<TResult>(this Task<TResult> task)
+        {
+            int threadId = Environment.CurrentManagedThreadId;
+            TResult result = await task;
+            if (threadId == Environment.CurrentManagedThreadId)
+                await Task.Yield();
+            return result;
+        }
+
+        /// <summary>
+        /// 判断当前任务是否是使用了新线程完成，如果使用的是当前线程完成任务，将在返回前，启用新线程继续后续任务
+        /// </summary>
+        /// <param name="task">需要完成的任务</param>
+        /// <returns>返回与原线程不一样的继续线程</returns>
+        public static async ValueTask<TResult> IsNewTask<TResult>(this ValueTask<TResult> task) => await task.AsTask().IsNewTask();
 
         #endregion
     }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using System;
+﻿using System;
 using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -290,8 +289,19 @@ namespace Tool.Sockets.WebHelper
         /// <param name="msg">要发送的内容</param>
         public async ValueTask<bool> SendAsync(WebSocketContext client, string msg)
         {
-            byte[] listData = Encoding.UTF8.GetBytes(msg);
-            return await SendAsync(client, listData);
+            var chars = msg.AsMemory();
+            if (chars.IsEmpty) throw new ArgumentNullException(nameof(msg));
+            var sendBytes = CreateSendBytes(client, Encoding.UTF8.GetByteCount(chars.Span));
+
+            try
+            {
+                Encoding.UTF8.GetBytes(chars.Span, sendBytes.Span);
+                return await SendAsync(client, sendBytes.GetMemory());
+            }
+            finally
+            {
+                sendBytes.Dispose();
+            }
         }
 
         /// <summary>

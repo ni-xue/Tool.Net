@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -357,11 +358,11 @@ namespace Tool.Utils
             string text = Regex.Replace(content.ToString(), "<[^>]+>", "");
             if (text.Length > cutLength && text.Length > 2)
             {
-                text = text.Substring(0, cutLength - 2) + "...";
+                text = string.Concat(text.AsSpan(0, cutLength - 2), "...");
             }
-            if (text.IndexOf("<") > -1)
+            if (text.IndexOf('<') > -1)
             {
-                text = text.Remove(text.LastIndexOf("<"), text.Length - text.LastIndexOf("<"));
+                text = text.Remove(text.LastIndexOf('<'), text.Length - text.LastIndexOf('<'));
             }
             return text;
         }
@@ -1285,7 +1286,7 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 第一次转换 小写
+        /// 首字母转换 小写
         /// </summary>
         /// <param name="originalVal">原始值</param>
         /// <returns></returns>
@@ -1303,7 +1304,7 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 第一次转换 大写
+        /// 首字母转换 大写
         /// </summary>
         /// <param name="originalVal">原始值</param>
         /// <returns></returns>
@@ -1350,6 +1351,64 @@ namespace Tool.Utils
         {
             Regex regex = new("^(http:\\/\\/||https:\\/\\/)[A-Za-z0-9_:.]*\\/");
             return regex.Replace(url, "/");
+        }
+
+        /// <summary>
+        /// 根据传入ipv4地址，检测是否是局域网IP
+        /// </summary>
+        /// <param name="ipv4Address">ipv4地址</param>
+        /// <returns>true/false</returns>
+        public static bool IsPrivateNetwork(string ipv4Address)
+        {
+            if (IPAddress.TryParse(ipv4Address, out var ip))
+            {
+                return IsPrivateNetwork(ip);
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 根据传入ipv4地址，检测是否是局域网IP
+        /// </summary>
+        /// <param name="ipv4Address">ipv4地址</param>
+        /// <returns>true/false</returns>
+        public static bool IsPrivateNetwork(IPAddress ipv4Address)
+        {
+            if (ipv4Address.AddressFamily is System.Net.Sockets.AddressFamily.InterNetwork)
+            {
+                byte[] ipBytes = ipv4Address.GetAddressBytes();
+                if (ipBytes[0] == 10) return true;
+                if (ipBytes[0] == 172 && ipBytes[1] >= 16 && ipBytes[1] <= 31) return true;
+                if (ipBytes[0] == 192 && ipBytes[1] == 168) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 判断IP地址在不在某个IP地址段（仅支持IPV4）
+        /// </summary>
+        /// <param name="input">需要判断的IP地址</param>
+        /// <param name="begin">起始地址</param>
+        /// <param name="ends">结束地址</param>
+        /// <returns></returns>
+        public static bool IpAddressInRange(string input, string begin, string ends)
+        {
+            uint current = IPToID(input);
+            return current >= IPToID(begin) && current <= IPToID(ends);
+        }
+
+        /// <summary>
+        /// IP地址转换成数字
+        /// </summary>
+        /// <param name="addr">IP地址</param>
+        /// <returns>数字,输入无效IP地址返回0</returns>
+        private static uint IPToID(string addr)
+        {
+            if (!IPAddress.TryParse(addr, out var ip) || ip.AddressFamily is not System.Net.Sockets.AddressFamily.InterNetwork) return 0;
+            Span<byte> bytes = stackalloc byte[4];
+            ip.TryWriteBytes(bytes, out _);
+            if (BitConverter.IsLittleEndian) bytes.Reverse();
+            return BitConverter.ToUInt32(bytes);
         }
 
         ///// <summary>
