@@ -117,7 +117,7 @@ namespace Tool.Sockets.Kernels
         //    }
         //    catch (Exception ex)
         //    {
-        //        Log.Error($"多包线程{(IsThreadPool ? "池" : "")}异常", ex, "Log/Tcp");
+        //        Log.Error($"任务Core{(IsThreadPool ? "池" : "")}异常", ex, "Log/Udp");
         //    }
         //}
 
@@ -143,7 +143,7 @@ namespace Tool.Sockets.Kernels
             }
             catch (Exception ex)
             {
-                Log.Error($"多包线程{(IsThreadPool ? "池" : "")}异常", ex, "Log/Tcp");
+                Log.Error($"任务Core{(IsThreadPool ? "池" : "")}异常", ex, "Log/Udp");
             }
         }
 

@@ -16,6 +16,7 @@ namespace Tool.Sockets.UdpHelper.Extend
 
         private bool _dispose;
         private bool _isClose;
+        private bool _loading; //描述（特定行为，当用户加入时标记身份）
 
         private readonly bool isserver;
         private readonly bool isp2p;
@@ -31,6 +32,7 @@ namespace Tool.Sockets.UdpHelper.Extend
             EndPoint = endPoint;
             Socket = socket;
             this.isserver = isserver;
+            this._loading = !isserver;
             this.isp2p = isp2p;
             this.networkCore = networkCore ?? throw new ArgumentNullException(nameof(complete));
             this.complete = complete ?? throw new ArgumentNullException(nameof(complete));
@@ -93,7 +95,7 @@ namespace Tool.Sockets.UdpHelper.Extend
 
         Task IUdpCore.ReceiveAsync(Memory<byte> memory) //原模式完全还原原始效果，优化了多个连接者缓冲区增大
         {
-            if (isserver || isp2p && udpState.IsKeepAlive(in memory))
+            if ((isserver || isp2p) && udpState.IsKeepAlive(in memory))//((isserver && udpState.IsKeepAlive(in memory)) || (isp2p && udpState.IsKeepAlive(in memory)))
             {
                 complete(udpState.IpPort, 0);
             }
@@ -123,10 +125,20 @@ namespace Tool.Sockets.UdpHelper.Extend
         //int a = 0;
         private async Task ReceiveBlockAsync(BytesCore owner)
         {
+            FirstLoading();
             //await Console.Out.WriteLineAsync($"计数：{++a}, {string.Join(',', owner.Array)}");
             await Task.Delay(networkCore.Millisecond);
             complete(udpState.IpPort, 1);
             await udpState.OnReceive(networkCore.IsThreadPool, owner);
+        }
+
+        private void FirstLoading()
+        {
+            if (!_loading)
+            {
+                _loading = true;
+                complete(udpState.IpPort, 2);
+            }
         }
     }
 }

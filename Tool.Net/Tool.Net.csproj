@@ -5,10 +5,10 @@
 		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
 		<RootNamespace>Tool</RootNamespace>
 		<!--<Version>5.0.6</Version>-->
-		<Version>5.2.0-pre0.4</Version>
+		<Version>5.2.0-pre0.5</Version>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-		<Copyright>Copyright © Microsoft 2024-08-23 17:55:00</Copyright>
+		<Copyright>Copyright © Microsoft 2024-08-28 11:40:00</Copyright>
 		<Company>NiXue</Company>
 		<Authors>NiXue</Authors>
 		<PackageProjectUrl>https://github.com/nixue-xin/UniversalFrame</PackageProjectUrl>
@@ -18,15 +18,18 @@
 		<PackageTags>Sql Socket Web Tools Delegate</PackageTags>
 		<IsPackable>true</IsPackable>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
-		<PackageReleaseNotes>当前版本为正式包，用于进行实际线上项目开发。
-详细说明请下载后查看。
-补充说明：接下来将重点新增SQL异步方法，以及修复其他特殊bug。
-NetFrame 模块将会持续关注。
-更多更新，敬请期待，希望有伙伴加入帮我分担。		</PackageReleaseNotes>
-		<Description>Tool.Net-逆血著作 (本产品完全免费)，
-由逆血本人持有：联系方式-QQ群：857401501，
-有任何优化建议，请联系作者，作者很愿意讨论和学习。
-Url:nixue.top</Description>
+		<PackageReleaseNotes>
+      当前版本为正式包，用于进行实际线上项目开发。
+      详细说明请下载后查看。
+      补充说明：接下来将重点新增SQL异步方法，以及修复其他特殊bug。
+      NetFrame 模块将会持续关注。
+      更多更新，敬请期待，希望有伙伴加入帮我分担。
+    </PackageReleaseNotes>
+		<Description>
+      Tool.Net-逆血著作 (本产品完全免费)，
+      由逆血本人持有：联系方式-QQ群：857401501，
+      有任何优化建议，请联系作者，作者很愿意讨论和学习。
+      Url:nixue.top</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<AnalysisLevel>latest</AnalysisLevel>
 		<SignAssembly>true</SignAssembly>

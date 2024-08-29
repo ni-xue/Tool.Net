@@ -61,6 +61,7 @@ namespace Tool.Sockets.UdpHelper.Extend
 
         private bool _dispose;
         private bool _isClose;
+        private bool _loading; //描述（特定行为，当用户加入时标记身份）
 
         private uint packOrderCount = uint.MinValue; //大包ID
         private uint writeOrderCount = uint.MinValue;//传输ID
@@ -95,6 +96,7 @@ namespace Tool.Sockets.UdpHelper.Extend
             Socket = socket;
             this.replyDelay = replyDelay < 20 ? 20 : replyDelay;
             this.isserver = isserver;
+            this._loading = !isserver;
             this.isp2p = isp2p;
             this.networkCore = networkCore ?? throw new ArgumentNullException(nameof(complete));
             this.complete = complete ?? throw new ArgumentNullException(nameof(complete));
@@ -532,6 +534,7 @@ namespace Tool.Sockets.UdpHelper.Extend
         private readonly Stopwatch stopWatch = new();
         private async Task ReceiveBlockAsync(ProtocolBody body)
         {
+            FirstLoading();
             await Task.Delay(networkCore.Millisecond);
 
             #region 补发验证
@@ -667,6 +670,15 @@ namespace Tool.Sockets.UdpHelper.Extend
                 {
                     await SendNoWaitAsync(pack.Memory);
                 }
+            }
+        }
+
+        private void FirstLoading() 
+        {
+            if (!_loading)
+            {
+                _loading = true;
+                complete(udpState.IpPort, 2);
             }
         }
 

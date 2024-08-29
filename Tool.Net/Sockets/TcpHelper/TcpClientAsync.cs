@@ -194,6 +194,7 @@ namespace Tool.Sockets.TcpHelper
                         await ConnectAsync();
                     }
                 }
+                isWhileReconnect = false;
                 return true;
             }
             catch

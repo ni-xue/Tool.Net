@@ -7,18 +7,19 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Tool.Utils;
 
 namespace Tool.Sockets.Kernels
 {
-    internal readonly struct ProtocolBody 
+    internal readonly struct ProtocolBody
     {
-        public ProtocolBody(in ProtocolTop top, in BytesCore bytes) 
+        public ProtocolBody(in ProtocolTop top, in BytesCore bytes)
         {
             Top = top;
             Bytes = bytes;
         }
 
-        public readonly ProtocolTop Top; 
+        public readonly ProtocolTop Top;
         public readonly BytesCore Bytes;
     }
 
@@ -182,7 +183,14 @@ namespace Tool.Sockets.Kernels
             {
                 if (obj is Func<Task> action)
                 {
-                    action.Invoke().Wait();
+                    try
+                    {
+                        action.Invoke().Wait();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Fatal("重连线程崩溃：", ex, "Log/Net");
+                    }
                 }
             }
         }
@@ -202,7 +210,14 @@ namespace Tool.Sockets.Kernels
             {
                 if (obj is object[] objs && objs[0] is Func<T, Task> action && objs[1] is T client)
                 {
-                    action.Invoke(client).Wait();
+                    try
+                    {
+                        action.Invoke(client).Wait();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Fatal("通信Core线程崩溃：", ex, "Log/Net");
+                    }
                 }
             }
         }
@@ -229,7 +244,12 @@ namespace Tool.Sockets.Kernels
 
             void ReceivedPool(ReceiveBytes<T> receiveBytes)
             {
-                receive.Invoke(receiveBytes).Preserve();
+                var task = receive.Invoke(receiveBytes).AsTask();
+                if (task.IsFaulted)
+                {
+                    receiveBytes.Dispose();//崩溃时以防万一，帮助回收。
+                    Log.Fatal("公共线程池任务崩溃：", task.Exception.InnerException, "Log/Net");
+                }
             }
 #else
             Task.Run(task);
@@ -244,7 +264,18 @@ namespace Tool.Sockets.Kernels
         /// <param name="receive">委托</param>
         /// <param name="data">数据</param>
         /// <returns>任务结果</returns>
-        public static ValueTask ReceivedAsync<T>(ReceiveEvent<T> receive, ReceiveBytes<T> data) => receive.Invoke(data);
+        public static async ValueTask ReceivedAsync<T>(ReceiveEvent<T> receive, ReceiveBytes<T> data)
+        {
+            try
+            {
+                await receive.Invoke(data);
+            }
+            catch (Exception ex)
+            {
+                data.Dispose();
+                throw ex.InnerException; //只要子级错误
+            }
+        }
 
         /**
          * 给包加头保证其数据完整性

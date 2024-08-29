@@ -409,8 +409,6 @@ namespace Tool.Sockets.UdpHelper
                 obj = udpCore.UdpState;
                 obj.UpDateSignal();
 
-                if (isadd && !OnlyData) OnComplete(in key, EnServer.Connect).Wait();
-
                 IUdpCore add(UserKey key, Socket socket)
                 {
                     isadd = true;
@@ -432,8 +430,11 @@ namespace Tool.Sockets.UdpHelper
                     case 0:
                         OnComplete(key, EnServer.HeartBeat);
                         break;
-                    default:
+                    case 1:
                         if (!DisabledReceive) OnComplete(key, EnServer.Receive);
+                        break;
+                    case 2:
+                        OnComplete(in key, EnServer.Connect).Wait();
                         break;
                 }
             }
@@ -492,22 +493,17 @@ namespace Tool.Sockets.UdpHelper
                     {
                         await ClientCloes(new KeyValuePair<UserKey, IUdpCore>(udp.Ipv4, udp)); //失败后，销毁记录
                     }
-                    else
-                    {
-                        OnComplete(udp.Ipv4, EnServer.Connect).Wait(); //验证成功后，触发连接事件
-                    }
+                    return; //跳出业务
                 }
-                else
-                {
-                    await udp.ReceiveAsync(arrayData[..result.ReceivedBytes]);
 
-                    //var head = arrayData[..StateObject.HeadSize];
-                    //if (obj.OnReceiveTask(head, result.ReceivedBytes, out bool isreply, out bool isReceive))//尝试使用，原线程处理包解析，验证效率
-                    //{
-                    //    if (isreply) await SendNoWaitAsync(obj.Udp, head);
-                    //    if (isReceive) await OnReceived(arrayData[..result.ReceivedBytes], obj);
-                    //}
-                }
+                await udp.ReceiveAsync(arrayData[..result.ReceivedBytes]);
+
+                //var head = arrayData[..StateObject.HeadSize];
+                //if (obj.OnReceiveTask(head, result.ReceivedBytes, out bool isreply, out bool isReceive))//尝试使用，原线程处理包解析，验证效率
+                //{
+                //    if (isreply) await SendNoWaitAsync(obj.Udp, head);
+                //    if (isReceive) await OnReceived(arrayData[..result.ReceivedBytes], obj);
+                //}
             }
             catch (Exception) { }
         }

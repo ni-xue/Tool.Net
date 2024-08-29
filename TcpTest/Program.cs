@@ -166,64 +166,99 @@ namespace TcpTest
 
         static async Task Main(string[] args)
         {
-            uint i0 = uint.MaxValue;
-            //i++;
+            //var Client = new ClientFrame(NetBufferSize.Size128K, true) { IsThreadPool = false };
+            //EnumEventQueue.OnInterceptor(EnClient.Receive, false);
+            //EnumEventQueue.OnInterceptor(EnClient.SendMsg, false);
+            //EnumEventQueue.OnInterceptor(EnClient.HeartBeat, false);
+            //Client.SetCompleted(async (a1, b1, c1) =>
+            //{
+            //    switch (b1)
+            //    {
+            //        case EnClient.Connect:
+            //            break;
+            //        case EnClient.Fail:
+            //        case EnClient.Close:
+            //            break;
+            //    }
+            //    await Console.Out.WriteLineAsync($"IP:{a1} \t{b1} \t{c1:yyyy/MM/dd HH:mm:ss:fffffff}");
+            //});
 
-            UdpClientAsync clientAsync0 = new(NetBufferSize.Size64K, false) { Millisecond = 0 /*ReceiveTimeout = 5000*/ };
-            clientAsync0.SetCompleted((age0, age1, age2) => age1 != EnClient.SendMsg ? Completed("UDPClient", age0, age1, age2) : ValueTask.CompletedTask);
-            await clientAsync0.ConnectAsync(12344);
+            //await Client.ConnectAsync("127.0.0.1", 8081);//120.79.58.17 //"127.0.0.1"
 
-            using var sendBytes = clientAsync0.CreateSendBytes();
-            sendBytes.Span[5] = (byte)1;
-            await clientAsync0.SendAsync(sendBytes);
+            //Console.ReadKey();
 
-            await clientAsync0.SendAsync(
-                   @"Hello Several .NET Aspire templates include ASP.NET Core projects that are configured to use HTTPS by default. 
-                    If this is the first time you're running the project, and you're using Visual Studio, you're prompted to install a
-                     localhost certificate.\r\n\r\nThere are situations in which you trust/install the development certificate, but you 
-                    don't close all your browser windows. In these cases, your browser might indicate that the certificate isn't trusted.
-                    \r\n\r\nThere are also situations where you don't trust the certificate at all. In these cases, your browser might indicate 
-                    that the certificate isn't trusted.\r\n\r\nAdditionally, there are warning messages from Kestrel written to the console that 
-                    indicate that the certificate is not trusted.
+            uint i0 = uint.MaxValue, i1 = uint.MaxValue;
+            ////i++;
 
-                    实例 Stopwatch 可以测量一个间隔的已用时间，或跨多个间隔的总已用时间。 在典型Stopwatch方案中，
-                    调用 Start 方法，最终调用 Stop 方法，然后使用 属性检查运行时间Elapsed。
-                    
-                    Stopwatch实例正在运行或已停止;使用 IsRunning 确定 的Stopwatch当前状态。 使用 Start 开始测量已用时间;使用 Stop 停止测量已用时间。 
-                    通过属性 Elapsed、 ElapsedMilliseconds或 ElapsedTicks查询已用时间值。 可以在实例正在运行或停止时查询已用时间属性。 运行时间属性在 Stopwatch 运行时稳步增加;当实例停止时，它们保持不变。
-                    
-                    默认情况下，实例的已用时间值 Stopwatch 等于所有测量时间间隔的总和。 对 的每个调用 Start 在累积运行时间开始计数;
-                    对 的每次调用 Stop 将结束当前间隔度量并冻结累积已用时间值。 Reset使用 方法清除现有Stopwatch实例中的累积运行时间。
-                    
-                    通过 Stopwatch 对基础计时器机制中的计时器计时周期进行计数来测量运行时间。 如果安装的硬件和操作系统支持高分辨率性能计数器，
-                    则 Stopwatch 类使用该计数器来测量运行时间。 否则， Stopwatch 类使用系统计时器来测量已用时间。 Frequency使用 和 IsHighResolution 字段确定计时实现的Stopwatch精度和分辨率。
-                    
-                    类 Stopwatch 有助于在托管代码中操作与计时相关的性能计数器。 具体而言， Frequency 字段和 GetTimestamp 方法可用于代替非托管 
-                    Windows API QueryPerformanceFrequency 和 QueryPerformanceCounter。");
+            //UdpClientAsync clientAsync0 = new(NetBufferSize.Size64K, false) { Millisecond = 0 /*ReceiveTimeout = 5000*/ };
+            //clientAsync0.SetCompleted((age0, age1, age2) => age1 != EnClient.SendMsg ? Completed("UDPClient", age0, age1, age2) : ValueTask.CompletedTask);
+            //await clientAsync0.ConnectAsync(12344);
 
-            Console.ReadKey();
+            //using var sendBytes = clientAsync0.CreateSendBytes();
+            //sendBytes.Span[5] = (byte)1;
+            //await clientAsync0.SendAsync(sendBytes);
+
+            //await clientAsync0.SendAsync(
+            //       @"Hello Several .NET Aspire templates include ASP.NET Core projects that are configured to use HTTPS by default. 
+            //        If this is the first time you're running the project, and you're using Visual Studio, you're prompted to install a
+            //         localhost certificate.\r\n\r\nThere are situations in which you trust/install the development certificate, but you 
+            //        don't close all your browser windows. In these cases, your browser might indicate that the certificate isn't trusted.
+            //        \r\n\r\nThere are also situations where you don't trust the certificate at all. In these cases, your browser might indicate 
+            //        that the certificate isn't trusted.\r\n\r\nAdditionally, there are warning messages from Kestrel written to the console that 
+            //        indicate that the certificate is not trusted.
+
+            //        实例 Stopwatch 可以测量一个间隔的已用时间，或跨多个间隔的总已用时间。 在典型Stopwatch方案中，
+            //        调用 Start 方法，最终调用 Stop 方法，然后使用 属性检查运行时间Elapsed。
+
+            //        Stopwatch实例正在运行或已停止;使用 IsRunning 确定 的Stopwatch当前状态。 使用 Start 开始测量已用时间;使用 Stop 停止测量已用时间。 
+            //        通过属性 Elapsed、 ElapsedMilliseconds或 ElapsedTicks查询已用时间值。 可以在实例正在运行或停止时查询已用时间属性。 运行时间属性在 Stopwatch 运行时稳步增加;当实例停止时，它们保持不变。
+
+            //        默认情况下，实例的已用时间值 Stopwatch 等于所有测量时间间隔的总和。 对 的每个调用 Start 在累积运行时间开始计数;
+            //        对 的每次调用 Stop 将结束当前间隔度量并冻结累积已用时间值。 Reset使用 方法清除现有Stopwatch实例中的累积运行时间。
+
+            //        通过 Stopwatch 对基础计时器机制中的计时器计时周期进行计数来测量运行时间。 如果安装的硬件和操作系统支持高分辨率性能计数器，
+            //        则 Stopwatch 类使用该计数器来测量运行时间。 否则， Stopwatch 类使用系统计时器来测量已用时间。 Frequency使用 和 IsHighResolution 字段确定计时实现的Stopwatch精度和分辨率。
+
+            //        类 Stopwatch 有助于在托管代码中操作与计时相关的性能计数器。 具体而言， Frequency 字段和 GetTimestamp 方法可用于代替非托管 
+            //        Windows API QueryPerformanceFrequency 和 QueryPerformanceCounter。");
+
+            //Console.ReadKey();
             //chaxun();
 
-            //UdpServerAsync serverAsync = new(NetBufferSize.Size256K, true) { Millisecond = 0 /*ReceiveTimeout = 5000*/ };
-            ////serverAsync.SetCompleted((age0, age1, age2) => Completed($"UDPServer{++i0}", age0, age1, age2));
-            //serverAsync.SetReceived(async a =>
-            //{
-            //    await Console.Out.WriteLineAsync($"当前位：{a.OrderCount()} 原子计数：{i0.Increment()}");
-            //    a.Dispose();
-            //});
-            //await serverAsync.StartAsync(12344);
+            UdpServerAsync serverAsync = new(NetBufferSize.Size256K, true) { Millisecond = 0 /*ReceiveTimeout = 5000*/ };
+            serverAsync.SetCompleted((age0, age1, age2) => age1 != EnServer.SendMsg ? Completed($"UDPServer{i0.Increment()}", age0, age1, age2) : ValueTask.CompletedTask);
+            serverAsync.SetReceived(async a =>
+            {
+                //await Console.Out.WriteLineAsync($"当前位：{a.OrderCount()} 原子计数：{i0.Increment()}");
+                if (a.Length > 2)
+                {
+                    await serverAsync.SendAsync(a.Client, "ok");
+                }
+                a.Dispose();
+            });
+            await serverAsync.StartAsync(12344);
 
             //for (int i = 0; i < 1; i++)
             //{
             //    await serverAsync.SendAsync("Hello Several .NET Aspire templates include ASP.NET Core projects that are configured to use HTTPS by default. If this is the first time you're running the project, and you're using Visual Studio, you're prompted to install a localhost certificate.\r\n\r\nThere are situations in which you trust/install the development certificate, but you don't close all your browser windows. In these cases, your browser might indicate that the certificate isn't trusted.\r\n\r\nThere are also situations where you don't trust the certificate at all. In these cases, your browser might indicate that the certificate isn't trusted.\r\n\r\nAdditionally, there are warning messages from Kestrel written to the console that indicate that the certificate is not trusted.");
             //}
 
+            Console.ReadKey();
 
             UdpClientAsync clientAsync = new(NetBufferSize.Size256K, true) { Millisecond = 0 /*ReceiveTimeout = 5000*/ };
-            clientAsync.SetCompleted((age0, age1, age2) => age1 != EnClient.SendMsg ? Completed("UDPClient", age0, age1, age2) : ValueTask.CompletedTask);
+            clientAsync.SetCompleted((age0, age1, age2) => age1 != EnClient.SendMsg ? Completed($"UDPClient{i1.Increment()}", age0, age1, age2) : ValueTask.CompletedTask);
+            clientAsync.SetReceived(async a =>
+            {
+                //await Console.Out.WriteLineAsync($"当前位：{a.OrderCount()} 原子计数：{i0.Increment()}");
+                if (a.Length > 2)
+                {
+                    await clientAsync.SendAsync("ok");
+                }
+                a.Dispose();
+            });
             await clientAsync.ConnectAsync(12344);
 
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 await clientAsync.SendAsync(
                     @"Hello Several .NET Aspire templates include ASP.NET Core projects that are configured to use HTTPS by default. 

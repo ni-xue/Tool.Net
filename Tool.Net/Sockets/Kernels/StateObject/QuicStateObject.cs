@@ -106,16 +106,16 @@ namespace Tool.Sockets.Kernels
             }
             catch (Exception ex)
             {
-                Utils.Log.Error($"多包线程{(IsThreadPool ? "池" : "")}异常", ex, "Log/Tcp");
+                Utils.Log.Error($"任务Core{(IsThreadPool ? "池" : "")}异常", ex, "Log/Quic");
             }
         }
 
         internal bool IsKeepAlive(in ReadOnlySequence<byte> ListSpan)
         {
-            if (true)
-            {
+            //if (true)
+            //{
 
-            }
+            //}
             return OnlyData && Utils.Utility.SequenceCompare(ListSpan.FirstSpan, KeepAlive.TcpKeepObj.Span);
         }
 

@@ -470,7 +470,7 @@ namespace Tool.Sockets.UdpHelper
                     case 0:
                         OnComplete(key, EnClient.HeartBeat);
                         break;
-                    default:
+                    case 1:
                         if (!DisabledReceive) OnComplete(key, EnClient.Receive);
                         break;
                 }
