@@ -207,23 +207,23 @@ namespace Tool.Sockets.UdpHelper
                 throw new FormatException("ip:port 无法被 IPEndPoint 对象识别！");
             }
             server = $"{ip}:{port}";
-            StartAsync();
+            await StartAsync();
 
-            await Task.CompletedTask;
+            //await Task.CompletedTask;
         }
 
-        private void StartAsync()
+        private async Task StartAsync()
         {
             listener = StateObject.CreateSocket(false, BufferSize);
 
             try
             {
                 listener.Bind(endPointServer);
-                OnComplete(Server, EnServer.Create);
+                await OnComplete(Server, EnServer.Create);
             }
             catch (Exception e)
             {
-                OnComplete(Server, EnServer.Fail);
+                await OnComplete(Server, EnServer.Fail);
                 throw new Exception("监听服务器时发生异常！", e);
             }
 
@@ -351,7 +351,7 @@ namespace Tool.Sockets.UdpHelper
                 var memory = udp.GetSendMemory(sendBytes, ref ispart, ref i);
                 await SendNoWaitAsync(udp, memory);
             } while (ispart);
-            OnComplete(udp, EnServer.SendMsg);
+            await OnComplete(udp.Ipv4, EnServer.SendMsg);
         }
 
         private async ValueTask SendNoWaitAsync(IUdpCore udp, Memory<byte> buffers)
@@ -423,18 +423,18 @@ namespace Tool.Sockets.UdpHelper
                 throw new Exception($"意料外的异常错误，EndPoint 类型不匹配。");
             }
 
-            void IsReceived(UserKey key, byte type)
+            async ValueTask IsReceived(UserKey key, byte type)
             {
                 switch (type)
                 {
                     case 0:
-                        OnComplete(key, EnServer.HeartBeat);
+                        await OnComplete(key, EnServer.HeartBeat);
                         break;
                     case 1:
-                        if (!DisabledReceive) OnComplete(key, EnServer.Receive);
+                        if (!DisabledReceive) await OnComplete(key, EnServer.Receive);
                         break;
                     case 2:
-                        OnComplete(in key, EnServer.Connect).Wait();
+                        await OnComplete(in key, EnServer.Connect);
                         break;
                 }
             }
@@ -453,7 +453,7 @@ namespace Tool.Sockets.UdpHelper
                 {
                     if (!udp.IsOnLine(receiveTimeout))
                     {
-                        await udp.CloseAsync();
+                        await udp.DisposeAsync();
                     }
                 }
             });
@@ -471,7 +471,7 @@ namespace Tool.Sockets.UdpHelper
             }
 
             Keep.Close();
-            OnComplete(in server, EnServer.Close);
+            await OnComplete(in server, EnServer.Close);
             await ListenerClose();
         }
 
@@ -513,12 +513,7 @@ namespace Tool.Sockets.UdpHelper
         /// </summary>
         /// <param name="key">指定发送对象</param>
         /// <param name="enAction">消息类型</param>
-        public virtual IGetQueOnEnum OnComplete(in UserKey key, EnServer enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
-
-        private void OnComplete(IUdpCore key, EnServer enAction)
-        {
-            OnComplete(key.Ipv4, enAction);
-        }
+        public virtual ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnServer enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
 
         //private void TimeoutClose() 
         //{
@@ -541,7 +536,7 @@ namespace Tool.Sockets.UdpHelper
         private async ValueTask SocketAbort(UserKey key, IUdpCore _client)
         {
             await _client.DisposeAsync();
-            OnComplete(key, EnServer.ClientClose);
+            await OnComplete(key, EnServer.ClientClose);
         }
 
         internal async ValueTask ClientCloes(KeyValuePair<UserKey, IUdpCore> pair)

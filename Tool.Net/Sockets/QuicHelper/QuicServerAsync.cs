@@ -227,12 +227,12 @@ namespace Tool.Sockets.QuicHelper
                     ListenEndPoint = endPointServer,
                     ConnectionOptionsCallback = ServerConnectionOptions
                 });
+                await OnComplete(Server, EnServer.Create);
                 StartAsync();
-                OnComplete(Server, EnServer.Create);
             }
             catch (Exception e)
             {
-                OnComplete(Server, EnServer.Fail);
+                await OnComplete(Server, EnServer.Fail);
                 throw new Exception("服务器监听时发生异常！", e);
             }
         }
@@ -353,7 +353,7 @@ namespace Tool.Sockets.QuicHelper
                 await client.SendAsync(buffers);
 
                 UserKey key = QuicStateObject.GetIpPort(client);
-                OnComplete(in key, EnServer.SendMsg);
+                await OnComplete(in key, EnServer.SendMsg);
             }
             catch (Exception)
             {
@@ -418,7 +418,7 @@ namespace Tool.Sockets.QuicHelper
         {
             isReceive = true;
             QuicStateObject obj = new(quicSocket, DataLength, OnlyData, Received);
-            OnComplete(obj.SocketKey, EnServer.Connect).Wait();
+            await OnComplete(obj.SocketKey, EnServer.Connect);
             while (!isClose)//ListClient.TryGetValue(key, out client) && 
             {
                 await Task.Delay(Millisecond); //Thread.Sleep(Millisecond);
@@ -479,11 +479,11 @@ namespace Tool.Sockets.QuicHelper
             {
                 if (obj.IsKeepAlive(in listData))
                 {
-                    OnComplete(obj.SocketKey, EnServer.HeartBeat);
+                    await OnComplete(obj.SocketKey, EnServer.HeartBeat);
                 }
                 else
                 {
-                    if (!DisabledReceive) OnComplete(obj.SocketKey, EnServer.Receive);
+                    if (!DisabledReceive) await OnComplete(obj.SocketKey, EnServer.Receive);
                     await obj.OnReceiveAsync(IsThreadPool, listData);
                 }
             }
@@ -494,12 +494,12 @@ namespace Tool.Sockets.QuicHelper
         /// </summary>
         /// <param name="key">指定发送对象</param>
         /// <param name="enAction">消息类型</param>
-        public virtual IGetQueOnEnum OnComplete(in UserKey key, EnServer enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
+        public virtual ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnServer enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
 
         private async ValueTask QuicAbortAsync(UserKey key, QuicSocket _client)
         {
             await _client.CloseAsync();
-            OnComplete(key, EnServer.ClientClose);
+            await OnComplete(key, EnServer.ClientClose);
         }
 
         private async ValueTask<QuicServerConnectionOptions> ServerConnectionOptions(QuicConnection connection, SslClientHelloInfo ssl, CancellationToken token = default)
@@ -525,7 +525,7 @@ namespace Tool.Sockets.QuicHelper
                         await QuicAbortAsync(_client.Key, _client.Value);
                     }
                     listClient.Clear();
-                    OnComplete(Server, EnServer.Close);
+                    await OnComplete(Server, EnServer.Close);
                 }
             }
             catch (Exception ex)

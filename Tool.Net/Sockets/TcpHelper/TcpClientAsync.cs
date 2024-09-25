@@ -240,7 +240,7 @@ namespace Tool.Sockets.TcpHelper
                     Keep = new KeepAlive(TimeInterval, async () =>
                     {
                         await SendNoWaitAsync(KeepAlive.TcpKeepObj);
-                        if (TryP2PConnect is not null) OnComplete(Server, EnClient.HeartBeat);
+                        if (TryP2PConnect is not null) await OnComplete(Server, EnClient.HeartBeat);
                     });
                     return;
                 }
@@ -331,10 +331,10 @@ namespace Tool.Sockets.TcpHelper
 
         private async Task ConnectAsync()
         {
-            bool isAuth = false;
+            bool isAuth = false, isp2p = TryP2PConnect is not null;
             try
             {
-                if (TryP2PConnect is not null)
+                if (isp2p)
                 {
                     client = await TryP2PConnect.Invoke(endPointServer);
                 }
@@ -346,19 +346,24 @@ namespace Tool.Sockets.TcpHelper
                 //需要增加对有效连接的验证消息
                 if (OnlyData)
                 {
-                    await Handshake.TcpAuthenticAtion(client);
+                    await Handshake.TcpAuthenticAtion(client, isp2p);
                 }
                 isAuth = true;
             }
             catch (Exception ex)
             {
-                if (TryP2PConnect is not null) throw new Exception("P2P打洞失败！", ex);
+                if (isp2p) throw new Exception("P2P打洞失败！", ex);
                 if (!IsReconnect) throw;
-                if (isAuth is false) throw;
+                if (isAuth is false)
+                {
+                    client.Dispose();//回收资源
+                    if (ex is OperationCanceledException) throw new Exception("连接超时！");
+                    throw;
+                }
             }
             finally
             {
-                if (client is not null) ConnectCallBack();
+                if (client is not null) await ConnectCallBack();
             }
         }
 
@@ -458,7 +463,7 @@ namespace Tool.Sockets.TcpHelper
 
             var buffers = sendBytes.GetMemory();
             await SendNoWaitAsync(buffers);
-            OnComplete(Server, EnClient.SendMsg);
+            await OnComplete(Server, EnClient.SendMsg);
             Keep?.ResetTime();
         }
 
@@ -497,7 +502,7 @@ namespace Tool.Sockets.TcpHelper
         /**
          * 异步连接的回调函数
          */
-        private void ConnectCallBack()
+        private async ValueTask ConnectCallBack()
         {
             if (TcpStateObject.IsConnected(client))
             {
@@ -506,7 +511,7 @@ namespace Tool.Sockets.TcpHelper
             else
             {
                 InsideClose();
-                OnComplete(Server, EnClient.Fail);
+                await OnComplete(Server, EnClient.Fail);
                 StartReconnect();
             }
         }
@@ -519,7 +524,7 @@ namespace Tool.Sockets.TcpHelper
             isReceive = true;
             //接收数据包
             TcpStateObject obj = new(client, this.DataLength, this.OnlyData, Received);
-            OnComplete(obj.IpPort, EnClient.Connect).Wait();
+            await OnComplete(obj.IpPort, EnClient.Connect);
             while (!isClose)
             {
                 await Task.Delay(Millisecond);
@@ -531,7 +536,7 @@ namespace Tool.Sockets.TcpHelper
                 {
                     //如果发生异常，说明客户端失去连接，触发关闭事件
                     InsideClose();
-                    OnComplete(obj.IpPort, EnClient.Close);
+                    await OnComplete(obj.IpPort, EnClient.Close);
                     StartReconnect();
                     break;
                 }
@@ -566,11 +571,11 @@ namespace Tool.Sockets.TcpHelper
                 Keep?.ResetTime();
                 if (TryP2PConnect is not null && obj.IsKeepAlive(in listData)) 
                 {
-                    OnComplete(obj.IpPort, EnClient.HeartBeat);
+                    await OnComplete(obj.IpPort, EnClient.HeartBeat);
                 }
                 else
                 {
-                    if (!DisabledReceive) OnComplete(obj.IpPort, EnClient.Receive);
+                    if (!DisabledReceive) await OnComplete(obj.IpPort, EnClient.Receive);
                     await obj.OnReceiveAsync(IsThreadPool, listData);
                 }
             }
@@ -581,7 +586,7 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         /// <param name="IpPort">IP：端口</param>
         /// <param name="enAction">消息类型</param>
-        public virtual IGetQueOnEnum OnComplete(in UserKey IpPort, EnClient enAction) => EnumEventQueue.OnComplete(IpPort, enAction, Completed);
+        public virtual ValueTask<IGetQueOnEnum> OnComplete(in UserKey IpPort, EnClient enAction) => EnumEventQueue.OnComplete(IpPort, enAction, Completed);
 
         /// <summary>
         /// TCP关闭

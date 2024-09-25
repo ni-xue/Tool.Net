@@ -31,10 +31,10 @@
         </member>
         <member name="F:Tool.Sockets.Kernels.EnumEventQueue._messageQueue">
             <summary>
-            日志
+            Net事件核心
             </summary>
         </member>
-        <member name="F:Tool.Sockets.Kernels.EnumEventQueue._logthread">
+        <member name="F:Tool.Sockets.Kernels.EnumEventQueue._eventthread">
             <summary>
             TCP连接公共的事件线程
             </summary>
@@ -50,7 +50,7 @@
         <member name="F:Tool.Sockets.Kernels.EnumEventQueue._que">
             事件消息Queue
         </member>
-        <member name="M:Tool.Sockets.Kernels.EnumEventQueue.#cctor">
+        <member name="M:Tool.Sockets.Kernels.EnumEventQueue.#ctor">
             当前锁
         </member>
         <member name="P:Tool.Sockets.Kernels.EnumEventQueue.Instance">
@@ -73,6 +73,17 @@
             <param name="enAction">屏蔽不触发的事件状态（<see cref="T:Tool.Sockets.Kernels.EnClient"/> | <see cref="T:Tool.Sockets.Kernels.EnServer"/>）</param>
             <param name="state">等于true时生效，将关闭一切的相关事件</param>
             <returns>返回是否设置成功</returns>
+            /// <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnumEventQueue.OnIsQueue(System.Enum,System.Boolean)">
+            <summary>
+            设置将，特定事件，载入或不载入，队列池
+            <list type="table">注意系统默认，提供了合理方案，如果需要更改，请仔细理解设计模式后，改动。</list>
+            </summary>
+            <param name="enAction">事件状态（<see cref="T:Tool.Sockets.Kernels.EnClient"/> | <see cref="T:Tool.Sockets.Kernels.EnServer"/>）</param>
+            <param name="state">true时载入队列，false时由当前线程处理</param>
+            <returns>返回是否设置成功</returns>
+            <exception cref="T:System.Exception"></exception>
         </member>
         <member name="T:Tool.Sockets.Kernels.EnClient">
             <summary>
@@ -269,6 +280,11 @@
             获取当前任务是否完成
             </summary>
         </member>
+        <member name="P:Tool.Sockets.Kernels.IGetQueOnEnum.Error">
+            <summary>
+            获取当前任务可能发生的错误
+            </summary>
+        </member>
         <member name="M:Tool.Sockets.Kernels.IGetQueOnEnum.Wait">
             <summary>
             等待任务完成！
@@ -333,6 +349,11 @@
             获取当前任务是否完成
             </summary>
         </member>
+        <member name="P:Tool.Sockets.Kernels.GetQueOnEnum`1.Error">
+            <summary>
+            获取当前任务可能发生的错误
+            </summary>
+        </member>
         <member name="T:Tool.Sockets.Kernels.Handshake">
             <summary>
             UDP/TCP 协议模式 保证数据 握手模式，验证双方是否满足条件
@@ -348,7 +369,12 @@
             描述UDP可靠传输完成协议
             </summary>
         </member>
-        <member name="M:Tool.Sockets.Kernels.Handshake.UdpAuthenticAtion(System.Net.Sockets.Socket,Tool.Sockets.UdpHelper.UdpEndPoint)">
+        <member name="P:Tool.Sockets.Kernels.Handshake.MillisecondsDelay">
+            <summary>
+            验证等待时长
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.Handshake.UdpAuthenticAtion(System.Net.Sockets.Socket,Tool.Sockets.UdpHelper.UdpEndPoint,System.Boolean)">
             <summary>
             认证
             </summary>
@@ -360,7 +386,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Tool.Sockets.Kernels.Handshake.TcpAuthenticAtion(System.Net.Sockets.Socket)">
+        <member name="M:Tool.Sockets.Kernels.Handshake.TcpAuthenticAtion(System.Net.Sockets.Socket,System.Boolean)">
             <summary>
             认证
             </summary>
@@ -424,7 +450,7 @@
             通讯协议模型
             </summary>
         </member>
-        <member name="P:Tool.Sockets.Kernels.IDataPacket.IsIpIdea">
+        <member name="P:Tool.Sockets.Kernels.IDataPacket.IsRelay">
             <summary>
             是否转发数据，默认不转发
             </summary>
@@ -794,62 +820,8 @@
         </member>
         <member name="T:Tool.Sockets.Kernels.QuicStateObject">
             <summary>
-            对异步接收时的对象状态的封装，将Websocket与接收到的数据封装在一起
+            .Net7 以上支持
             </summary>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.QuicStateObject.#ctor(Tool.Sockets.Kernels.QuicSocket,System.Int32,System.Boolean,Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.Kernels.QuicSocket})">
-            <summary>
-            有参构造
-            </summary>
-            <param name="Client">对象</param>
-            <param name="DataLength">包的大小</param>
-            <param name="OnlyData">是否确保数据有效</param>
-            <param name="received">任务事件</param>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.QuicStateObject.IsConnected">
-            <summary>
-            根据 <see cref="T:Tool.Sockets.Kernels.QuicSocket"/> 获取当前连接是否已经断开
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.QuicStateObject.OnlyData">
-            <summary>
-            是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.QuicStateObject.Client">
-            <summary>
-            为 Quic 网络服务提供客户端连接。
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.QuicStateObject.DataLength">
-            <summary>
-            包长度
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.QuicStateObject.SocketKey">
-            <summary>
-            当前对象唯一的连接票据
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.QuicStateObject.CloseAsync">
-            <summary>
-            回收对象所以资源
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.QuicStateObject.IsConnected(Tool.Sockets.Kernels.QuicSocket)">
-            <summary>
-            根据 <see cref="T:Tool.Sockets.Kernels.QuicSocket"/> 获取当前连接是否已经断开
-            </summary>
-            <param name="Client"><see cref="T:Tool.Sockets.Kernels.QuicSocket"/></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.QuicStateObject.GetIpPort(Tool.Sockets.Kernels.QuicSocket)">
-            <summary>
-            根据QuicSocket获取IP加端口
-            </summary>
-            <param name="Client"></param>
-            <returns></returns>
         </member>
         <member name="M:Tool.Sockets.Kernels.QuicStateObject.GenerateManualCertificate(System.String)">
             <summary>
@@ -860,77 +832,8 @@
         </member>
         <member name="T:Tool.Sockets.Kernels.QuicSocket">
             <summary>
-            QuicSocket通信模块
+            .Net7 以上支持
             </summary>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.QuicSocket.QuicSocketAsync(System.Net.Quic.QuicConnection,System.Boolean)">
-            <summary>
-            使用连接信息创建或获取流
-            </summary>
-            <param name="connection">连接信息</param>
-            <param name="isServer">发起方</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.QuicSocket.OutOrInStreamAsync">
-            <summary>
-            获取服务端或客户端的new流对象
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.QuicSocket.IsServer">
-            <summary>
-            连接信息
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.QuicSocket.Connection">
-            <summary>
-            连接信息
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.QuicSocket.Stream">
-            <summary>
-            Quic默认流信息
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.QuicSocket.Connected">
-            <summary>
-            当前Quic是否连接
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.QuicSocket.RemoteEndPoint">
-            <summary>
-            用于此连接的远程终结点。
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.QuicSocket.LocalEndPoint">
-            <summary>
-            用于此连接的本地终结点。
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.QuicSocket.SendAsync(System.Memory{System.Byte})">
-            <summary>
-            向当前默认流发送数据
-            </summary>
-            <param name="listData">数据</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.QuicSocket.ReceiveAsync">
-            <summary>
-            获取从当前流中获取新的数据
-            </summary>
-            <returns>结果</returns>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.QuicSocket.AdvanceTo(System.Buffers.ReadOnlySequence{System.Byte}@)">
-            <summary>
-            标记已使用数据的位置
-            </summary>
-            <param name="buffer">位置</param>
-        </member>
-        <member name="M:Tool.Sockets.Kernels.QuicSocket.CloseAsync">
-            <summary>
-            关闭Quic连接
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:Tool.Sockets.Kernels.ReceiveEvent`1">
             <summary>
@@ -1162,16 +1065,6 @@
             对异步接收时的对象状态的封装，将socket与接收到的数据封装在一起
             </summary>
         </member>
-        <member name="P:Tool.Sockets.Kernels.UdpStateObject.SpinWaitTimeout">
-            <summary>
-            分配id最大等待时间
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.UdpStateObject.LimitingSize">
-            <summary>
-            控制滑动窗口大小（限制流量）
-            </summary>
-        </member>
         <member name="M:Tool.Sockets.Kernels.UdpStateObject.#ctor(Tool.Sockets.UdpHelper.IUdpCore,System.Int32,System.Boolean,Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.UdpHelper.IUdpCore})">
             <summary>
             有参构造
@@ -1196,16 +1089,6 @@
         <member name="P:Tool.Sockets.Kernels.UdpStateObject.IpPort">
             <summary>
             当前对象唯一的IP：端口
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.UdpStateObject.ReadOrderCount">
-            <summary>
-            读序列数（仅在OnlyData状态下支持）
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.Kernels.UdpStateObject.WriteOrderCount">
-            <summary>
-            写序列数（仅在OnlyData状态下支持）
             </summary>
         </member>
         <member name="P:Tool.Sockets.Kernels.UdpStateObject.DataLength">
@@ -2493,7 +2376,7 @@
             </summary>
             <param name="api">接口调用信息</param>
         </member>
-        <member name="M:Tool.Sockets.NetFrame.ClientFrame.SendIpIdeaAsync(System.String,Tool.Sockets.NetFrame.ApiPacket)">
+        <member name="M:Tool.Sockets.NetFrame.ClientFrame.SendRelayAsync(System.String,Tool.Sockets.NetFrame.ApiPacket)">
             <summary>
             异步发送消息（转发给指定客户端）
             </summary>
@@ -2506,7 +2389,7 @@
             </summary>
             <param name="api">接口调用信息</param>
         </member>
-        <member name="M:Tool.Sockets.NetFrame.ClientFrame.SendIpIdea(System.String,Tool.Sockets.NetFrame.ApiPacket)">
+        <member name="M:Tool.Sockets.NetFrame.ClientFrame.SendRelay(System.String,Tool.Sockets.NetFrame.ApiPacket)">
             <summary>
             同步发送消息（转发给指定客户端）
             </summary>
@@ -2616,7 +2499,7 @@
             <param name="api">接口调用信息</param>
             <returns>返回数据包，以及下标</returns>
         </member>
-        <member name="M:Tool.Sockets.NetFrame.ClientFrameList.SendIpIdea(System.String,Tool.Sockets.NetFrame.ApiPacket,System.Int32@)">
+        <member name="M:Tool.Sockets.NetFrame.ClientFrameList.SendRelay(System.String,Tool.Sockets.NetFrame.ApiPacket,System.Int32@)">
             <summary>
             同步发送消息（多服务器协调发送+转发给指定客户端）
             </summary>
@@ -2625,7 +2508,7 @@
             <param name="i">返回成功发送包的下标</param>
             <returns>返回数据包</returns>
         </member>
-        <member name="M:Tool.Sockets.NetFrame.ClientFrameList.SendIpIdeaAsync(System.String,Tool.Sockets.NetFrame.ApiPacket)">
+        <member name="M:Tool.Sockets.NetFrame.ClientFrameList.SendRelayAsync(System.String,Tool.Sockets.NetFrame.ApiPacket)">
             <summary>
             异步发送消息（多服务器协调发送+转发给指定客户端）
             </summary>
@@ -2902,6 +2785,11 @@
             </summary>
             <param name="ID">此处Id,与绑定函数有关，绑定在方法上，为方法ID，构造函数上为类ID</param>
         </member>
+        <member name="P:Tool.Sockets.NetFrame.DataNet.IsRelay">
+            <summary>
+            表示当前类或接口是否允许转发协议访问
+            </summary>
+        </member>
         <member name="P:Tool.Sockets.NetFrame.DataNet.ClassID">
             <summary>
             表示为该方法指定了一个名称，用于对外的访问安全
@@ -3039,12 +2927,7 @@
             消息唯一ID
             </summary>
         </member>
-        <member name="P:Tool.Sockets.NetFrame.NetResponse.OnlyID">
-            <summary>
-            消息唯一ID
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.NetFrame.NetResponse.OnNetFrame">
+        <member name="P:Tool.Sockets.NetFrame.NetResponse.State">
             <summary>
             用于表示当前数据包的执行情况
             </summary>
@@ -3147,6 +3030,11 @@
             已建立连接的集合
             key:ip:port
             value:Socket
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.NetFrame.ServerFrame.IsAllowRelay">
+            <summary>
+            表示服务器是否接受转发消息（默认接受）
             </summary>
         </member>
         <member name="M:Tool.Sockets.NetFrame.ServerFrame.#ctor">
@@ -3377,405 +3265,12 @@
         </member>
         <member name="T:Tool.Sockets.QuicHelper.QuicClientAsync">
             <summary>
-            封装一个底层异步Quic对象（客户端）写了但属于预览物无法使用
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.Keep">
-            <summary>
-            获取当前心跳信息
-            </summary>
-        </member>
-        <member name="F:Tool.Sockets.QuicHelper.QuicClientAsync.Completed">
-            连接、发送、关闭事件
-        </member>
-        <member name="F:Tool.Sockets.QuicHelper.QuicClientAsync.Received">
-            接收到数据事件
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.IsClose">
-            <summary>
-            标识客户端连接是否关闭
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.Server">
-            <summary>
-            服务器的连接信息
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.LocalPoint">
-            <summary>
-            当前设备的连接信息
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.Connected">
-            <summary>
-            连接状态
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.Millisecond">
-            <summary>
-            监听控制毫秒
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.OnlyData">
-            <summary>
-            是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.ApplicationProtocols">
-            <summary>
-            设置支持的HTTP协议
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.SetCompleted(Tool.Sockets.Kernels.CompletedEvent{Tool.Sockets.Kernels.EnClient})">
-            <summary>
-            连接、发送、关闭事件
-            </summary>
-            <param name="Completed"></param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.SetReceived(Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.Kernels.QuicSocket})">
-            <summary>
-            接收到数据事件
-            </summary>
-            <param name="Received"></param>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.IsThreadPool">
-            <summary>
-            是否使用线程池调度接收后的数据
-            默认 true 开启
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.IsReconnect">
-            <summary>
-            是否在与服务器断开后主动重连？ 
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.DisabledReceive">
-            <summary>
-            禁用掉Receive通知事件，方便上层封装
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.BufferSize">
-            <summary>
-            表示通讯的包大小
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.#ctor">
-            <summary>
-            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicClientAsync"/> 客户端类
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.#ctor(Tool.Sockets.Kernels.NetBufferSize)">
-            <summary>
-            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicClientAsync"/> 客户端类，确认模式和设置流大小
-            </summary>
-            <param name="bufferSize">包大小枚举</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.#ctor(Tool.Sockets.Kernels.NetBufferSize,System.Boolean)">
-            <summary>
-            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicClientAsync"/> 客户端类，确认模式和设置流大小
-            </summary>
-            <param name="bufferSize">包大小枚举</param>
-            <param name="OnlyData">是否启动框架模式</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.#ctor(Tool.Sockets.Kernels.NetBufferSize,System.Boolean,System.Boolean)">
-            <summary>
-            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicClientAsync"/> 客户端类，确认模式和设置流大小
-            </summary>
-            <param name="bufferSize">包大小枚举</param>
-            <param name="OnlyData">是否启动框架模式</param>
-            <param name="IsReconnect">是否在与服务器断开后主动重连？ </param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.ConnectAsync(System.Int32)">
-            <summary>
-            异步连接，连接ip地址为127.0.0.1
-            </summary>
-            <param name="port">要连接服务端的端口</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.ConnectAsync(System.String,System.Int32)">
-            <summary>
-            异步连接
-            </summary>
-            <param name="ip">要连接的服务器的ip地址</param>
-            <param name="port">要连接的服务器的端口</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.ConnectAsync(System.Net.DnsEndPoint)">
-            <summary>
-            异步连接
-            </summary>
-            <param name="dnsEndPoint">域名:端口</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.SendAsync(System.String)">
-            <summary>
-            开始异步发送数据
-            </summary>
-            <param name="msg">要发送的内容</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.SendAsync(System.ArraySegment{System.Byte})">
-            <summary>
-            开始异步发送数据
-            </summary>
-            <param name="listData">数据包</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.SendAsync(Tool.Sockets.Kernels.SendBytes{Tool.Sockets.Kernels.QuicSocket})">
-            <summary>
-            异步发送消息
-            </summary>
-            <param name="sendBytes">数据包</param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentException">OnlyData验证失败</exception>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.ConnectCallBack">
-            异步接收连接的回调函数
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.StartReceive(Tool.Sockets.Kernels.QuicSocket)">
-            启动新线程，用于专门接收消息
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.ReceiveAsync(Tool.Sockets.Kernels.QuicStateObject)">
-            开始异步接收数据
-            obj 要接收的客户端包体
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.Reconnection">
-            <summary>
-            重连，返回是否重连，如果没有断开是不会重连的
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.AddKeepAlive(System.Byte)">
-            <summary>
-            添加持久化消息（心跳），防止特殊情况下的断开连接
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.OnComplete(Tool.Sockets.Kernels.UserKey@,Tool.Sockets.Kernels.EnClient)">
-            <summary>
-            可供开发重写的事件方法
-            </summary>
-            <param name="key">IP：端口</param>
-            <param name="enAction">消息类型</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.CreateSendBytes(System.Int32)">
-            <summary>
-            创建数据发送空间
-            </summary>
-            <param name="length"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.InsideClose">
-            <summary>
-            TCP关闭
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.CloseAsync">
-            <summary>
-            异步关闭Quic
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.Close">
-            <summary>
-            关闭Quic
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.Dispose">
-            <summary>
-            关闭连接，回收相关资源
+            .Net7 以上支持
             </summary>
         </member>
         <member name="T:Tool.Sockets.QuicHelper.QuicServerAsync">
             <summary>
-            封装一个底层异步Quic对象（服务端）写了但属于预览物无法使用
-            </summary>
-        </member>
-        <member name="F:Tool.Sockets.QuicHelper.QuicServerAsync.Completed">
-            连接、发送、关闭事件
-        </member>
-        <member name="F:Tool.Sockets.QuicHelper.QuicServerAsync.Received">
-            接收到数据事件
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.IsClose">
-            <summary>
-            标识客户端连接是否关闭
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.Server">
-            <summary>
-            服务器的监听信息
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.ListClient">
-            <summary>
-            已建立连接的集合
-            key:UserKey
-            value:QuicSocket
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.Millisecond">
-            <summary>
-            监听控制毫秒
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.OnlyData">
-            <summary>
-            是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.IsThreadPool">
-            <summary>
-            是否使用线程池调度接收后的数据
-            默认 true 开启
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.DisabledReceive">
-            <summary>
-            禁用掉Receive通知事件，方便上层封装
-            </summary>
-        </member>
-        <member name="F:Tool.Sockets.QuicHelper.QuicServerAsync.InitCertificate">
-            提供自定义设置证书的服务
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.ApplicationProtocols">
-            <summary>
-            设置支持的HTTP协议
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.BufferSize">
-            <summary>
-            表示通讯的包大小
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SetInitCertificate(System.Func{System.Net.Quic.QuicConnection,System.Net.Security.SslClientHelloInfo,System.Threading.Tasks.ValueTask{System.Security.Cryptography.X509Certificates.X509Certificate2}})">
-            <summary>
-            当新连接，创建时，返回对应用于验证的证书
-            </summary>
-            <param name="InitCertificate"></param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SetCompleted(Tool.Sockets.Kernels.CompletedEvent{Tool.Sockets.Kernels.EnServer})">
-            <summary>
-            连接、发送、关闭事件 <see cref="T:Tool.Sockets.Kernels.EnServer"/>
-            </summary>
-            <param name="Completed"></param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SetReceived(Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.Kernels.QuicSocket})">
-            <summary>
-            接收到数据事件
-            </summary>
-            <param name="Received"></param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.TrySocket(Tool.Sockets.Kernels.UserKey@,Tool.Sockets.Kernels.QuicSocket@)">
-            <summary>
-            根据IP:Port获取对应的连接对象
-            </summary>
-            <param name="key">IP:Port</param>
-            <param name="client">连接对象</param>
-            <returns>返回成功状态</returns>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.#ctor">
-            <summary>
-            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicServerAsync"/> 服务器类
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.#ctor(Tool.Sockets.Kernels.NetBufferSize)">
-            <summary>
-            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicServerAsync"/> 服务器类，并确定是否开启框架验证模式保证数据唯一性。
-            </summary>
-            <param name="size">数据缓冲区大小</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.#ctor(Tool.Sockets.Kernels.NetBufferSize,System.Boolean)">
-            <summary>
-            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicServerAsync"/> 服务器类，确认模式和设置流大小
-            </summary>
-            <param name="size">数据缓冲区大小</param>
-            <param name="OnlyData">是否启动框架模式</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.StartAsync(System.Int32)">
-            <summary>
-            开始异步监听本机127.0.0.1的端口号
-            </summary>
-            <param name="port"></param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.StartAsync(System.String,System.Int32)">
-            <summary>
-            开始异步监听ip地址的端口
-            </summary>
-            <param name="ip"></param>
-            <param name="port"></param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SendAsync(Tool.Sockets.Kernels.Ipv4Port,System.String)">
-            <summary>
-            开始异步发送数据
-            </summary>
-            <param name="key">客户端的ip地址和端口号</param>
-            <param name="msg">要发送的内容</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SendAsync(Tool.Sockets.Kernels.Ipv4Port,System.ArraySegment{System.Byte})">
-            <summary>
-            开始异步发送数据
-            </summary>
-            <param name="key">客户端的ip地址和端口号</param>
-            <param name="listData">要发送的内容</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SendAsync(Tool.Sockets.Kernels.QuicSocket,System.String)">
-            <summary>
-            开始异步发送数据
-            </summary>
-            <param name="client">Socket对象</param>
-            <param name="msg">要发送的内容</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SendAsync(Tool.Sockets.Kernels.QuicSocket,System.ArraySegment{System.Byte})">
-            <summary>
-            开始异步发送数据
-            </summary>
-            <param name="client">Socket对象</param>
-            <param name="listData">要发送的内容</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SendAsync(Tool.Sockets.Kernels.SendBytes{Tool.Sockets.Kernels.QuicSocket})">
-            <summary>
-            异步发送消息
-            </summary>
-            <param name="sendBytes">数据包</param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentException">OnlyData验证失败</exception>
-            <exception cref="T:System.Exception">连接已断开</exception>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.CreateSendBytes(Tool.Sockets.Kernels.Ipv4Port,System.Int32)">
-            <summary>
-            创建数据发送空间
-            </summary>
-            <param name="key">接收者信息</param>
-            <param name="length">数据大小</param>
-            <returns></returns>
-            <exception cref="T:System.Exception">连接已中断</exception>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.CreateSendBytes(Tool.Sockets.Kernels.QuicSocket,System.Int32)">
-            <summary>
-            创建数据发送空间
-            </summary>
-            <param name="quicclient">收数据的对象</param>
-            <param name="length">数据大小</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.AcceptCallBack(Tool.Sockets.Kernels.QuicSocket)">
-            异步接收连接的回调函数
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.StartReceive(Tool.Sockets.Kernels.QuicSocket)">
-            启动新线程，用于专门接收消息
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.ReceiveAsync(Tool.Sockets.Kernels.QuicStateObject)">
-            开始异步接收数据
-            obj 要接收的客户端包体
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.OnComplete(Tool.Sockets.Kernels.UserKey@,Tool.Sockets.Kernels.EnServer)">
-            <summary>
-            可供开发重写的事件方法
-            </summary>
-            <param name="key">指定发送对象</param>
-            <param name="enAction">消息类型</param>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.Stop">
-            <summary>
-            不等待异步关闭Ouic
-            </summary>
-        </member>
-        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.Dispose">
-            <summary>
-            关闭连接，回收相关资源
+            .Net7 以上支持
             </summary>
         </member>
         <member name="T:Tool.Sockets.TcpHelper.TcpClientAsync">
@@ -4207,11 +3702,6 @@
             管理核心
             </summary>
         </member>
-        <member name="M:Tool.Sockets.UdpHelper.IUdpCore.Close">
-            <summary>
-            尝试关闭存在的连接
-            </summary>
-        </member>
         <member name="M:Tool.Sockets.UdpHelper.IUdpCore.CloseAsync">
             <summary>
             尝试异步关闭连接
@@ -4225,7 +3715,7 @@
             <param name="memory">发送的数据</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Sockets.UdpHelper.IUdpCore.GetUdpCore(Tool.Sockets.Kernels.INetworkCore,Tool.Sockets.UdpHelper.UdpEndPoint,System.Net.Sockets.Socket,System.Int32,System.Boolean,System.Int32,System.Boolean,System.Boolean,System.Action{Tool.Sockets.Kernels.UserKey,System.Byte},Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.UdpHelper.IUdpCore})">
+        <member name="M:Tool.Sockets.UdpHelper.IUdpCore.GetUdpCore(Tool.Sockets.Kernels.INetworkCore,Tool.Sockets.UdpHelper.UdpEndPoint,System.Net.Sockets.Socket,System.Int32,System.Boolean,System.Int32,System.Boolean,System.Boolean,System.Func{Tool.Sockets.Kernels.UserKey,System.Byte,System.Threading.Tasks.ValueTask},Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.UdpHelper.IUdpCore})">
             <summary>
             创建可用的公共UDP核心
             </summary>
@@ -4579,11 +4069,6 @@
             </summary>
             <param name="IpPort">IP：端口</param>
             <param name="enAction">消息类型</param>
-        </member>
-        <member name="M:Tool.Sockets.UdpHelper.UdpClientAsync.InsideClose">
-            <summary>
-            UDP关闭
-            </summary>
         </member>
         <member name="M:Tool.Sockets.UdpHelper.UdpClientAsync.Close">
             <summary>
@@ -11737,6 +11222,15 @@
             <returns><see cref="T:System.Collections.Generic.Dictionary`2"/></returns>
             /// <param name="key">需要删除的键值集合</param>
         </member>
+        <member name="M:Tool.Utils.Data.DictionaryExtension.AsReadOnly``2(System.Collections.Generic.IDictionary{``0,``1})">
+            <summary>
+            将键值对转换成只读类型键值对
+            </summary>
+            <typeparam name="TKey">键</typeparam>
+            <typeparam name="TValue">值</typeparam>
+            <param name="keys">原本键值对</param>
+            <returns>只读键值对</returns>
+        </member>
         <member name="M:Tool.Utils.Data.DictionaryExtension.GetParamAscii``2(System.Collections.Generic.Dictionary{``0,``1})">
             <summary>
             按照ASCII码从小到大排序（示例： 1, 2, A, B, a, b 这是格式循序）
@@ -13759,6 +13253,11 @@
             日志工具类
             </summary>
         </member>
+        <member name="F:Tool.Utils.Log._flashLog">
+            <summary>
+            日志核心
+            </summary>
+        </member>
         <member name="F:Tool.Utils.Log.LogFilePath">
             日志文件路径 
         </member>
@@ -13777,12 +13276,7 @@
             日志
             </summary>
         </member>
-        <member name="F:Tool.Utils.Log._flashLog">
-            <summary>
-            日志
-            </summary>
-        </member>
-        <member name="F:Tool.Utils.Log._logtask">
+        <member name="F:Tool.Utils.Log._logthread">
             <summary>
             日志线程
             </summary>
@@ -13979,6 +13473,11 @@
             <param name="msg">日志内容</param>
             <param name="ex">异常对象</param>
             <param name="LogFilePath">提供的路径可以是相对路径也可以是绝对路径</param>
+        </member>
+        <member name="P:Tool.Utils.Log.IsEnd">
+            <summary>
+            日志结束（可以获取日志是否出现了，异常导致终止）
+            </summary>
         </member>
         <member name="T:Tool.Utils.FlashLogLevel">
             <summary>

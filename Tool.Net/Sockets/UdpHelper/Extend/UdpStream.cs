@@ -79,7 +79,7 @@ namespace Tool.Sockets.UdpHelper.Extend
         private readonly bool isp2p;
         private readonly int replyDelay;
         private readonly INetworkCore networkCore;
-        private readonly Action<UserKey, byte> complete;
+        private readonly Func<UserKey, byte, ValueTask> complete;
         private readonly UdpStateObject udpState;
         //private readonly PipeWriter sendwriter;
         //private readonly PipeWriter receivewriter;
@@ -88,7 +88,7 @@ namespace Tool.Sockets.UdpHelper.Extend
         private readonly KeepAlive Keep;
         //private readonly Task readertask;
 
-        internal UdpStream(INetworkCore networkCore, UdpEndPoint endPoint, Socket socket, int dataLength, bool onlyData, int replyDelay, bool isserver, bool isp2p, Action<UserKey, byte> complete, ReceiveEvent<IUdpCore> received)
+        internal UdpStream(INetworkCore networkCore, UdpEndPoint endPoint, Socket socket, int dataLength, bool onlyData, int replyDelay, bool isserver, bool isp2p, Func<UserKey, byte, ValueTask> complete, ReceiveEvent<IUdpCore> received)
         {
             if (endPoint is null) throw new ArgumentException("endPoint 对象是空的！", nameof(endPoint));
             if (socket is null) throw new ArgumentException("socket 对象是空的！", nameof(socket));
@@ -366,7 +366,7 @@ namespace Tool.Sockets.UdpHelper.Extend
 
                     if ((isserver || isp2p) && udpState.IsKeepAlive(in memory))
                     {
-                        complete(udpState.IpPort, 0);
+                        await complete(udpState.IpPort, 0);
                     }
                     else
                     {
@@ -396,37 +396,27 @@ namespace Tool.Sockets.UdpHelper.Extend
             }
         }
 
-        public void Dispose()
+        void Dispose()
         {
-            if (!_dispose)
-            {
-                _dispose = true;
-                Keep.Close();
-                //sendwriter?.Complete();//new Exception("UDP连接已关闭！")
-                //receivewriter.Complete();
-                //readertask.Wait();
-                //readertask.Dispose();
-                udpState.Close();
-
-                GC.SuppressFinalize(this);
-            }
+            _dispose = true;
+            Keep.Close();
+            //sendwriter?.Complete();//new Exception("UDP连接已关闭！")
+            //receivewriter.Complete();
+            //readertask.Wait();
+            //readertask.Dispose();
+            udpState.Close();
+            block.Complete();//标记任务已结束了
         }
 
-        public ValueTask DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
             if (!_dispose)
             {
-                _dispose = true;
-                Keep.Close();
-                //if (receivewriter is { }) await sendwriter.CompleteAsync();//new Exception("UDP连接已关闭！")
-                //await receivewriter.CompleteAsync();
-                //await readertask;
-                //readertask.Dispose();
-                udpState.Close();
-
+                await CloseAsync();
+                Dispose();
                 GC.SuppressFinalize(this);
             }
-            return ValueTask.CompletedTask;
+            //return ValueTask.CompletedTask;
         }
 
         #endregion
@@ -534,7 +524,7 @@ namespace Tool.Sockets.UdpHelper.Extend
         private readonly Stopwatch stopWatch = new();
         private async Task ReceiveBlockAsync(ProtocolBody body)
         {
-            FirstLoading();
+            await FirstLoading();
             await Task.Delay(networkCore.Millisecond);
 
             #region 补发验证
@@ -651,7 +641,7 @@ namespace Tool.Sockets.UdpHelper.Extend
 
                 A:
                 //小包业务，数据小于文报体
-                complete(udpState.IpPort, 1);
+                await complete(udpState.IpPort, 1);
                 await udpState.OnReceive(networkCore.IsThreadPool, bytesCore);
             }
             catch (Exception ex)
@@ -673,12 +663,12 @@ namespace Tool.Sockets.UdpHelper.Extend
             }
         }
 
-        private void FirstLoading() 
+        private async ValueTask FirstLoading() 
         {
             if (!_loading)
             {
                 _loading = true;
-                complete(udpState.IpPort, 2);
+                await complete(udpState.IpPort, 2);
             }
         }
 
@@ -686,12 +676,15 @@ namespace Tool.Sockets.UdpHelper.Extend
         {
             try
             {
-                Memory<byte> msg = RepeatObj.ToArray();//拷贝副本确保数据有效
-                StateObject.SetDataHeadUdp(msg.Span, 0, 0, 255);
-                await SendNoWaitAsync(msg);
-                if (!isserver)
+                if (UdpStateObject.IsConnected(Socket))
                 {
-                    Socket.Dispose();
+                    Memory<byte> msg = RepeatObj.ToArray();//拷贝副本确保数据有效
+                    StateObject.SetDataHeadUdp(msg.Span, 0, 0, 255);
+                    await SendNoWaitAsync(msg);
+                    if (!isserver)
+                    {
+                        Socket.Dispose();
+                    }
                 }
             }
             catch (Exception)

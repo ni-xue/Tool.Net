@@ -43,7 +43,7 @@ namespace Tool.Sockets.Kernels
         /// </summary>
         /// <param name="key"></param>
         /// <param name="enAction"></param>
-        IGetQueOnEnum OnComplete(in UserKey key, EnClient enAction);
+        ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnClient enAction);
 
         /// <summary>
         /// 关闭当前连接

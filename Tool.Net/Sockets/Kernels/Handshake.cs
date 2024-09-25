@@ -23,31 +23,29 @@ namespace Tool.Sockets.Kernels
         /// </summary>
         private static readonly ArraySegment<byte> Ready = new byte[] { 0, 128, 64, 32, 16, 8, 4, 2, 0 }; //008040201008040200
 
+        /// <summary>
+        /// 验证等待时长
+        /// </summary>
+        public static uint MillisecondsDelay { get; set; } = 10000;
+
         #region UDP模块
 
         /// <summary>
         /// 认证
         /// </summary>
         /// <returns></returns>
-        public static async Task UdpAuthenticAtion(Socket socket, UdpEndPoint endPoint)
+        public static async Task UdpAuthenticAtion(Socket socket, UdpEndPoint endPoint, bool isp2p)
         {
-            try
+            using CancellationTokenSource tokenSource = new((int)MillisecondsDelay);
+            A:
+            await socket.SendToAsync(Bytes, SocketFlags.None, endPoint).IsNewTask();
+            ArraySegment<byte> buffer = new byte[9];
+            int coun = await ReceiveAsync(socket, endPoint, buffer, tokenSource.Token);
+            if (!Utility.SequenceCompare(isp2p ? Bytes : Ready, buffer[..coun])) //特殊行为
             {
-                await socket.SendToAsync(Bytes, SocketFlags.None, endPoint).IsNewTask();
-                ArraySegment<byte> buffer = new byte[9];
-                using CancellationTokenSource tokenSource = new(10000);
-                int coun = await ReceiveAsync(socket, endPoint, buffer, tokenSource.Token);
-                if (!Utility.SequenceCompare(Ready, buffer[..coun]))
-                {
-                    throw new Exception("于服务器协议不一致！");
-                }
+                if (isp2p) goto A; //当这个模式时，等待最大失败
+                throw new Exception("于服务器协议不一致！");
             }
-            catch (Exception)
-            {
-                socket.Dispose();//回收资源
-                throw;
-            }
-
         }
 
         /// <summary>
@@ -115,25 +113,16 @@ namespace Tool.Sockets.Kernels
         /// 认证
         /// </summary>
         /// <returns></returns>
-        public static async Task TcpAuthenticAtion(Socket socket)
+        public static async Task TcpAuthenticAtion(Socket socket, bool isp2p)
         {
-            try
+            await socket.SendAsync(Bytes, SocketFlags.None).IsNewTask();
+            ArraySegment<byte> buffer = new byte[9];
+            using CancellationTokenSource tokenSource = new((int)MillisecondsDelay);
+            int coun = await ReceiveAsync(socket, buffer, tokenSource.Token);
+            if (!Utility.SequenceCompare(isp2p ? Bytes : Ready, buffer[..coun])) //特殊行为
             {
-                await socket.SendAsync(Bytes, SocketFlags.None).IsNewTask();
-                ArraySegment<byte> buffer = new byte[9];
-                using CancellationTokenSource tokenSource = new(10000);
-                int coun = await ReceiveAsync(socket, buffer, tokenSource.Token);
-                if (!Utility.SequenceCompare(Ready, buffer[..coun]))
-                {
-                    throw new Exception("于服务器协议不一致！");
-                }
+                throw new Exception("于服务器协议不一致！");
             }
-            catch (Exception)
-            {
-                socket.Dispose();//回收资源
-                throw;
-            }
-
         }
 
         /// <summary>
@@ -145,7 +134,7 @@ namespace Tool.Sockets.Kernels
             try
             {
                 Memory<byte> buffer = new byte[9];
-                using CancellationTokenSource tokenSource = new(10000);
+                using CancellationTokenSource tokenSource = new((int)MillisecondsDelay);
                 int coun = await ReceiveAsync(socket, buffer, tokenSource.Token);
 
                 //System.Net.NetworkInformation.IPGlobalProperties

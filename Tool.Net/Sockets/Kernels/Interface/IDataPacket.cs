@@ -18,7 +18,7 @@ namespace Tool.Sockets.Kernels
         /// <summary>
         /// 是否转发数据，默认不转发
         /// </summary>
-        public bool IsIpIdea => !IpPort.IsEmpty; //{ get; set; }
+        public bool IsRelay => !IpPort.IsEmpty; //{ get; set; }
 
         #endregion
 

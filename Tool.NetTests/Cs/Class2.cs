@@ -111,6 +111,8 @@ namespace Tool.NetTests.Cs
 
             //ObjectExtension.Services.AddObject(class1);
 
+            //ObjectExtension.Services.AddSingleton(typeof(LiteDB.ILiteCollection<>), typeof(LiteCollection<>));
+
             ObjectExtension.Services.TryAddTransient<CsA0>();
 
             ObjectExtension.Services.TryAddTransient<CsA1>();

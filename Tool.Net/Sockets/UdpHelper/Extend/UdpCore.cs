@@ -16,7 +16,7 @@ namespace Tool.Sockets.UdpHelper
     /// <summary>
     /// Udp通信核心，管理相关连接信息
     /// </summary>
-    public interface IUdpCore : IDisposable, IAsyncDisposable
+    public interface IUdpCore : IAsyncDisposable
     {
         /// <summary>
         /// 分配id最大等待时间
@@ -60,10 +60,6 @@ namespace Tool.Sockets.UdpHelper
 
         internal uint AddWriteOrderCount() => uint.MinValue;
 
-        internal bool Wait(ushort orderCount, int replyDelay, ref int count) => UdpState.Wait(orderCount, replyDelay, ref count);
-
-        //internal void UpDateSignal() => UdpState.UpDateSignal();
-
         internal bool IsOnLine(int receiveTimeout);
 
         internal Memory<byte> GetSendMemory(in SendBytes<IUdpCore> sendBytes, ref bool ispart, ref int i);
@@ -71,11 +67,6 @@ namespace Tool.Sockets.UdpHelper
         internal Task ReceiveAsync(Memory<byte> memory);
 
         #region 公开接口
-
-        /// <summary>
-        /// 尝试关闭存在的连接
-        /// </summary>
-        public void Close() => CloseAsync().Wait();
 
         /// <summary>
         /// 尝试异步关闭连接
@@ -104,7 +95,7 @@ namespace Tool.Sockets.UdpHelper
         /// <param name="complete"></param>
         /// <param name="received"></param>
         /// <returns></returns>
-        public static IUdpCore GetUdpCore(INetworkCore networkCore, UdpEndPoint endPoint, Socket socket, int dataLength, bool onlyData, int replyDelay, bool isserver, bool isp2p, Action<UserKey, byte> complete, ReceiveEvent<IUdpCore> received) 
+        public static IUdpCore GetUdpCore(INetworkCore networkCore, UdpEndPoint endPoint, Socket socket, int dataLength, bool onlyData, int replyDelay, bool isserver, bool isp2p, Func<UserKey, byte, ValueTask> complete, ReceiveEvent<IUdpCore> received) 
         {
             if (onlyData)
             {

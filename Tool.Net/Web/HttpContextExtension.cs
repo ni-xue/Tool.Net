@@ -439,18 +439,17 @@ namespace Tool.Web
         public static async System.Threading.Tasks.Task StreamMove(System.IO.Stream ReadStream, System.IO.Stream WriteStream, int minlen)
         {
             long length = ReadStream.Length;
-            long len = (minlen) > length ? length : (minlen);
+            int len = minlen > length ? length.ToInt() : minlen;
 
-            byte[] slice = new byte[len];
+            using Sockets.Kernels.BytesCore bytes = new(len);
 
             long seekiength = 0;
             do
             {
-                int i = await ReadStream.ReadAsync(slice.AsMemory(0, slice.Length));
-                await WriteStream.WriteAsync(slice.AsMemory(0, i));
+                int i = await ReadStream.ReadAsync(bytes.Memory);
+                await WriteStream.WriteAsync(bytes.Memory[..i]);
                 await WriteStream.FlushAsync();
                 seekiength += i;
-                Array.Clear(slice, 0, i);
             } while (length > seekiength);
 
             await ReadStream.DisposeAsync();

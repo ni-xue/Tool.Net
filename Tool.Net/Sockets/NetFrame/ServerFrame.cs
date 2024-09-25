@@ -73,6 +73,11 @@ namespace Tool.Sockets.NetFrame
         public IReadOnlyDictionary<UserKey, Socket> ListClient => serverAsync.listClient;
 
         /// <summary>
+        /// 表示服务器是否接受转发消息（默认接受）
+        /// </summary>
+        public bool IsAllowRelay { get; init; } = true;
+
+        /// <summary>
         /// 无参构造
         /// </summary>
         public ServerFrame() : this(NetBufferSize.Default) { }
@@ -316,24 +321,31 @@ namespace Tool.Sockets.NetFrame
                 //if (json.IsServer) return;
                 //if (!FrameCommon.IsComplete(true, ref json)) return;
 
-                OnComplete(poolData.Key, EnServer.Receive);
+                await OnComplete(poolData.Key, EnServer.Receive);
                 var json = poolData.Packet;
 
-                if (json.IsIpIdea)//转发 单包无问题 分包 有问题
+                if (json.IsRelay)//转发 单包无问题 分包 有问题
                 {
                     IDataPacket dataPacket = json.Clone();
                     dataPacket.ResetValue(IsServer: true);
                     try
                     {
-                        if (json.IsSend)
+                        if (IsAllowRelay)
                         {
-                            Ipv4Port _IpPort = dataPacket.IpPort, _Key = poolData.Key;
-                            dataPacket.ResetValue(IpPort: _Key);
-                            await AgentSendAsync(dataPacket, _IpPort, _Key);
+                            if (json.IsSend)
+                            {
+                                Ipv4Port _IpPort = dataPacket.IpPort, _Key = poolData.Key;
+                                dataPacket.ResetValue(IpPort: _Key);
+                                await AgentSendAsync(dataPacket, _IpPort, _Key);
+                            }
+                            else if (serverAsync.TrySocket(dataPacket.IpPort, out var client))
+                            {
+                                await AgentSendAsync(dataPacket, client);
+                            }
                         }
-                        else if (serverAsync.TrySocket(dataPacket.IpPort, out var client))
+                        else
                         {
-                            await AgentSendAsync(dataPacket, client);
+                            throw new Exception("Server:拒绝Relay协议！");
                         }
                     }
                     catch (Exception e)
@@ -392,9 +404,9 @@ namespace Tool.Sockets.NetFrame
          * key 指定发送对象
          * enAction 消息类型
          */
-        private void OnComplete(in UserKey key, EnServer enAction)
+        private ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnServer enAction)
         {
-            serverAsync.OnComplete(in key, enAction);
+            return serverAsync.OnComplete(in key, enAction);
         }
 
         private async ValueTask<IsIpParser> OnIpParser(Ipv4Port key, Ipv4Port SponsorIp)

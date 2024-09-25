@@ -94,7 +94,7 @@ namespace WebTestApp.ApiView
             var response = await client.SendAsync(api);
             //"hhh".ToInt();
             //await Task.Delay(1000);
-            return await ApiOut.JsonAsync(new { mag = "保存成功！", response = new { response.Text, response.OnlyId, response.OnNetFrame } });
+            return await ApiOut.JsonAsync(new { mag = "保存成功！", response = new { response.Text, response.OnlyId, response.State } });
         }
     }
 }

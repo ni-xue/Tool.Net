@@ -20,31 +20,38 @@ namespace Tool.Sockets.NetFrame
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Constructor, Inherited = false)]
     public class DataNet : Attribute
     {
+        private readonly byte ID;
+
         /// <summary>
         /// 用于实现构造(带默认参数)
         /// </summary>
         /// <param name="ID">此处Id,与绑定函数有关，绑定在方法上，为方法ID，构造函数上为类ID</param>
-        public DataNet(byte ID) { this.ActionID = ID; }
+        public DataNet(byte ID) { this.ID = ID; }
 
-        ///// <summary>
-        ///// 消息数据格式
-        ///// </summary>
-        //public DataTcpState ObjType { get; set; } = DataTcpState.Json;
+        private DataNet(byte ClassID, byte ActionID, Method Pethod, ActionDispatcher<DataBase, IGoOut> Action, ClassDispatcher<DataBase> NewClass, bool IsTask) 
+        {
+            this.ClassID = ClassID;
+            this.ActionID = ActionID;
+            this.Pethod = Pethod;
+            this.Action = Action;
+            this.NewClass = NewClass;
+            this.IsTask = IsTask;
+        }
 
-        ///// <summary>
-        ///// 表示当前请求方法可以接收实体对象
-        ///// </summary>
-        //public bool IsMode { get; set; } = false;
+        /// <summary>
+        /// 表示当前类或接口是否允许转发协议访问
+        /// </summary>
+        public bool IsRelay { get; init; }
 
         /// <summary>
         /// 表示为该方法指定了一个名称，用于对外的访问安全
         /// </summary>
-        public byte ClassID { get; internal set; }
+        public byte ClassID { get; }
 
         /// <summary>
         /// 表示为该方法指定了一个名称，用于对外的访问安全
         /// </summary>
-        public byte ActionID { get; internal set; }
+        public byte ActionID { get; }
 
         /// <summary>
         /// 表示该方法的名称
@@ -59,22 +66,22 @@ namespace Tool.Sockets.NetFrame
         /// <summary>
         /// 表示该方法的详细信息
         /// </summary>
-        public Method Pethod { get; internal set; } = null;
+        public Method Pethod { get; }
 
         /**
          * 当前方法的执行信息,目前只支持 <see cref="DataBase"/> 对象
          */
-        internal ActionDispatcher<DataBase, IGoOut> Action { get; set; } = null;
+        internal ActionDispatcher<DataBase, IGoOut> Action { get; }
 
         /**
          * 当前主消息的类委托,目前只支持 <see cref="DataBase"/> 对象
          */
-        internal ClassDispatcher<DataBase> NewClass { get; set; } = null;
+        internal ClassDispatcher<DataBase> NewClass { get; }
 
         /// <summary>
         /// 当前是函数是否支持异步
         /// </summary>
-        public bool IsTask { get; internal set; }
+        public bool IsTask { get; }
 
         /**
          * 当前请求方法
@@ -147,7 +154,7 @@ namespace Tool.Sockets.NetFrame
 
         private static bool IsTaskGoOut(MethodInfo method) => DispatcherCore.IsTask<IGoOut>(method);
 
-        private static IReadOnlyDictionary<ushort, DataNet> GetDicDataTcps(Assembly assembly)
+        private static System.Collections.ObjectModel.ReadOnlyDictionary<ushort, DataNet> GetDicDataTcps(Assembly assembly)
         {
             Dictionary<ushort, DataNet> _dicDataTcps = new();
 
@@ -176,20 +183,16 @@ namespace Tool.Sockets.NetFrame
                                 bool itask = IsTaskGoOut(info), igo = IsGoOut(info.ReturnType);
                                 if (!itask && !igo)
                                 {
-                                    throw new Exception(string.Format("类：{0}，[{1}]方法消息ID：{2}，返回值必须是【IGoOut】类型！", type.FullName, info.Name, hobbyAttr.ActionID));
+                                    throw new Exception(string.Format("类：{0}，[{1}]方法消息ID：{2}，返回值必须是【IGoOut】类型！", type.FullName, info.Name, hobbyAttr.ID));
                                 }
 
-                                hobbyAttr.ClassID = constructorId.ActionID;
-                                hobbyAttr.Action = new(info);
-                                hobbyAttr.NewClass = _class;
-                                hobbyAttr.IsTask = itask;
-                                hobbyAttr.Pethod = TypeInvoke.GetMethod(info);
+                                DataNet dataNet = new(constructorId.ID, hobbyAttr.ID, TypeInvoke.GetMethod(info), new(info), _class, itask) { IsRelay = !hobbyAttr.IsRelay ? constructorId.IsRelay : hobbyAttr.IsRelay };
 
-                                var actionKey = BitConverter.ToUInt16(new byte[] { hobbyAttr.ClassID, hobbyAttr.ActionID });
+                                var actionKey = BitConverter.ToUInt16(new byte[] { dataNet.ClassID, dataNet.ActionID });
                                 //Debug.WriteLine($"16位数：{actionKey}");
-                                if (!_dicDataTcps.TryAdd(actionKey, hobbyAttr))
+                                if (!_dicDataTcps.TryAdd(actionKey, dataNet))
                                 {
-                                    throw new Exception(string.Format("类：{0}，[{1}]方法消息ID：{2}，出现了重复！", type.FullName, info.Name, hobbyAttr.ActionID));
+                                    throw new Exception(string.Format("类：{0}，[{1}]方法消息ID：{2}，出现了重复！", type.FullName, info.Name, dataNet.ActionID));
                                 }
                             }
                         }
@@ -223,7 +226,7 @@ namespace Tool.Sockets.NetFrame
                     }
                     else
                     {
-                        throw new Exception(string.Format("类：{0}，继承了【DataBase】类，并未在构造函数上申明【DataTcp】类，无法创建消息体。", type.FullName));
+                        throw new Exception(string.Format("类：{0}，继承了【DataBase】类，并未在构造函数上申明【DataNet】类，无法创建消息体。", type.FullName));
                     }
                 }
             }

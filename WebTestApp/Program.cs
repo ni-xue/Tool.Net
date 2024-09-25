@@ -21,7 +21,7 @@ namespace WebTestApp
 {
     public class Class1 : Tool.Sockets.NetFrame.DataBase
     {
-        [Tool.Sockets.NetFrame.DataNet(1)]
+        [Tool.Sockets.NetFrame.DataNet(1, IsRelay = true)]
         public Class1()
         {
 

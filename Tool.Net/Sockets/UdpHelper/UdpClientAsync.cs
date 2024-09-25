@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.DataProtection;
+using System;
 using System.Buffers;
 using System.Drawing;
 using System.Net.Sockets;
@@ -108,7 +109,7 @@ namespace Tool.Sockets.UdpHelper
         /// <summary>
         /// UDP 核心控制器
         /// </summary>
-        public IUdpCore UdpCore { get { return UdpCore; } }
+        public IUdpCore UdpCore { get { return udp; } }
 
         /// <summary>
         /// 获取当前是否已连接到远程主机。
@@ -224,7 +225,7 @@ namespace Tool.Sockets.UdpHelper
                         if (udp is not null)
                         {
                             await SendNoWaitAsync(udp.UdpState.GetKeepObj());
-                            if (TryP2PConnect is not null) OnComplete(Server, EnClient.HeartBeat);
+                            if (TryP2PConnect is not null) await OnComplete(Server, EnClient.HeartBeat);
                         }
                     });
                     return;
@@ -306,10 +307,10 @@ namespace Tool.Sockets.UdpHelper
 
         private async Task ConnectAsync()
         {
-            bool isAuth = false;
+            bool isAuth = false, isp2p = TryP2PConnect is not null;
             try
             {
-                if (TryP2PConnect is not null)
+                if (isp2p)
                 {
                     client = await TryP2PConnect.Invoke(endPointServer);
                 }
@@ -321,18 +322,23 @@ namespace Tool.Sockets.UdpHelper
                 //需要增加对有效连接的验证消息
                 if (OnlyData)
                 {
-                    await Handshake.UdpAuthenticAtion(client, endPointServer);
+                    await Handshake.UdpAuthenticAtion(client, endPointServer, isp2p);
                 }
                 isAuth = true;
             }
             catch (Exception ex)
             {
-                if (TryP2PConnect is not null) throw new Exception("P2P打洞失败！", ex);
-                if (isAuth is false) throw;
+                if (isp2p) throw new Exception("P2P打洞失败！", ex);
+                if (isAuth is false)
+                {
+                    client.Dispose();//回收资源
+                    if (ex is OperationCanceledException) throw new Exception("连接超时！");
+                    throw;
+                }
             }
             finally
             {
-                if (client is not null) ConnectCallBack();
+                if (client is not null) await ConnectCallBack();
             }
         }
 
@@ -420,7 +426,7 @@ namespace Tool.Sockets.UdpHelper
                 var memory = udp.GetSendMemory(sendBytes, ref ispart, ref i);
                 await SendNoWaitAsync(memory);
             } while (ispart);
-            OnComplete(Server, EnClient.SendMsg);
+            await OnComplete(Server, EnClient.SendMsg);
             Keep?.ResetTime();
         }
 
@@ -449,7 +455,7 @@ namespace Tool.Sockets.UdpHelper
         /**
          * 异步连接的回调函数
          */
-        private void ConnectCallBack()
+        private async ValueTask ConnectCallBack()
         {
             if (UdpStateObject.IsConnected(client))
             {
@@ -458,20 +464,20 @@ namespace Tool.Sockets.UdpHelper
             }
             else
             {
-                InsideClose();
-                OnComplete(Server, EnClient.Fail);
+                Dispose();//连接失败直接关闭并回收
+                await OnComplete(Server, EnClient.Fail);
             }
 
-            void IsReceived(UserKey key, byte type)
+            async ValueTask IsReceived(UserKey key, byte type)
             {
                 Keep?.ResetTime();
                 switch (type)
                 {
                     case 0:
-                        OnComplete(key, EnClient.HeartBeat);
+                        await OnComplete(key, EnClient.HeartBeat);
                         break;
                     case 1:
-                        if (!DisabledReceive) OnComplete(key, EnClient.Receive);
+                        if (!DisabledReceive) await OnComplete(key, EnClient.Receive);
                         break;
                 }
             }
@@ -485,7 +491,7 @@ namespace Tool.Sockets.UdpHelper
             isReceive = true;
             //接收数据包
             //endPointServer.SetUdpState(this.DataLength, this.OnlyData, Received);
-            OnComplete(Server, EnClient.Connect).Wait();
+            await OnComplete(Server, EnClient.Connect);
             while (!isClose)
             {
                 if (UdpStateObject.IsConnected(client))
@@ -495,14 +501,14 @@ namespace Tool.Sockets.UdpHelper
                 else
                 {
                     //如果发生异常，说明客户端失去连接，触发关闭事件
-                    InsideClose();
+                    //InsideClose();
                     //OnComplete(obj.IpPort, EnClient.Close);
                     //if (this.IsReconnect) WhileReconnect();
-                    break;
+                    break; //直接结束
                 }
             }
-            OnComplete(Server, EnClient.Close);
             await udp.DisposeAsync();
+            await OnComplete(Server, EnClient.Close);
         }
 
         /// <summary>
@@ -527,11 +533,15 @@ namespace Tool.Sockets.UdpHelper
                     //    if (isReceive) OnReceived(arrayData[..result.ReceivedBytes], obj);
                     //}
                 }
+                else if (result.ReceivedBytes is -1)
+                {
+                    isClose = true;
+                }
             }
-            catch (OperationCanceledException)
-            {
-                client.Close(); //Udp等待超时，关闭连接。
-            }
+            //catch (OperationCanceledException)
+            //{
+            //    isClose = true;  //client.Close(); //Udp等待超时，关闭连接。
+            //}
             catch (Exception) { }
         }
 
@@ -540,15 +550,7 @@ namespace Tool.Sockets.UdpHelper
         /// </summary>
         /// <param name="IpPort">IP：端口</param>
         /// <param name="enAction">消息类型</param>
-        public virtual IGetQueOnEnum OnComplete(in UserKey IpPort, EnClient enAction) => EnumEventQueue.OnComplete(in IpPort, enAction, Completed);
-
-        /// <summary>
-        /// UDP关闭
-        /// </summary>
-        void InsideClose()
-        {
-            udp?.Close();
-        }
+        public virtual ValueTask<IGetQueOnEnum> OnComplete(in UserKey IpPort, EnClient enAction) => EnumEventQueue.OnComplete(in IpPort, enAction, Completed);
 
         /// <summary>
         /// UDP关闭
@@ -556,7 +558,7 @@ namespace Tool.Sockets.UdpHelper
         public void Close()
         {
             isClose = true;
-            InsideClose();
+            client?.Close();
             Keep?.Close();
         }
 
@@ -565,15 +567,17 @@ namespace Tool.Sockets.UdpHelper
         /// </summary>
         public void Dispose()
         {
-            _disposed = true;
-            Close();
-            client?.Dispose();
-            arrayData = null;
-            udp?.Dispose();
+            if (!_disposed)
+            {
+                _disposed = true;
+                Close();
+                client?.Dispose();
+                arrayData = null;
 
-            //doConnect.Close();
-            //_mre.Close();
-            GC.SuppressFinalize(this);
+                //doConnect.Close();
+                //_mre.Close();
+                GC.SuppressFinalize(this);
+            }
         }
 
         bool _disposed = false;

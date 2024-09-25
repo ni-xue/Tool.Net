@@ -13,7 +13,6 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-using Tool.Sockets.Kernels;
 using Tool.Utils;
 using Tool.Utils.ActionDelegate;
 using Tool.Utils.Data;
@@ -26,10 +25,7 @@ namespace Tool
     /// <remarks>代码由逆血提供支持</remarks>
     public static class ObjectExtension
     {
-        static ObjectExtension()
-        {
-            Static = new(5);
-        }
+        private static readonly Lazy<GlobalObj> _static = new(() => new GlobalObj(5));
 
         /// <summary>
         /// 提供用于添加对象服务
@@ -56,7 +52,7 @@ namespace Tool
         /// <summary>
         /// 全局公共对象 可以用于 存放任何对象 管理，存在拆箱装箱行为
         /// </summary>
-        public static GlobalObj Static { get; }
+        public static GlobalObj Static => _static.Value;
 
         /// <summary>
         /// 获取当前上下文正在运行的当前线程

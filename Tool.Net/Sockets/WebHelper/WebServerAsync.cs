@@ -203,7 +203,7 @@ namespace Tool.Sockets.WebHelper
         /// 开始异步监听ip地址的端口
         /// </summary>
         /// <param name="uriPrefix">高级定义法，例如：0.0.0.0:80/tcp，该格式适用</param>
-        public Task StartAsync(string uriPrefix)
+        public async Task StartAsync(string uriPrefix)
         {
             ThrowIfDisposed();
 
@@ -220,17 +220,15 @@ namespace Tool.Sockets.WebHelper
                 listener.Prefixes.Add(url);
                 listener.Start();
 
-                OnComplete(in server, EnServer.Create);
+               await OnComplete(in server, EnServer.Create);
             }
             catch (Exception e)
             {
-                OnComplete(in server, EnServer.Fail);
+                await OnComplete(in server, EnServer.Fail);
                 throw new Exception("服务器无法创建！", e);
             }
 
             StartAsync();
-
-            return Task.CompletedTask;
         }
 
         private async void StartAsync()
@@ -251,10 +249,10 @@ namespace Tool.Sockets.WebHelper
                     //doConnect.Set();
                     foreach (var _client in listClient.Values)
                     {
-                        WebSocketAbort(_client);
+                        await WebSocketAbort(_client);
                     }
                     listClient.Clear();
-                    OnComplete(in server, EnServer.Close);
+                    await OnComplete(in server, EnServer.Close);
                     listener.Close();
                     return;
                 }
@@ -369,7 +367,7 @@ namespace Tool.Sockets.WebHelper
             var buffers = sendBytes.GetMemory();
 
             await WebStateObject.SendAsync(sendBytes.Client.WebSocket, buffers, DataLength);
-            OnComplete(sendBytes.Client.SecWebSocketKey, EnServer.SendMsg);
+            await OnComplete(sendBytes.Client.SecWebSocketKey, EnServer.SendMsg);
         }
 
         /// <summary>
@@ -441,7 +439,7 @@ namespace Tool.Sockets.WebHelper
         {
             isReceive = true;
             WebStateObject obj = new(client, this.DataLength);// { doReceive = doReceive };
-            OnComplete(obj.SocketKey, EnServer.Connect).Wait();
+            await OnComplete(obj.SocketKey, EnServer.Connect);
             while (!isClose)//ListClient.TryGetValue(key, out client) && 不允许意外删除对象问题
             {
                 await Task.Delay(Millisecond);
@@ -453,7 +451,7 @@ namespace Tool.Sockets.WebHelper
                 {
                     if (listClient.TryRemove(obj.SocketKey, out client))
                     {
-                        WebSocketAbort(client);
+                        await WebSocketAbort(client);
                     }
                     break;
                 }
@@ -476,11 +474,11 @@ namespace Tool.Sockets.WebHelper
                 {
                     if (obj.IsKeepAlive())
                     {
-                        OnComplete(obj.SocketKey, EnServer.HeartBeat);
+                        await OnComplete(obj.SocketKey, EnServer.HeartBeat);
                     }
                     else
                     {
-                        if (!DisabledReceive) OnComplete(obj.SocketKey, EnServer.Receive);
+                        if (!DisabledReceive) await OnComplete(obj.SocketKey, EnServer.Receive);
                         await obj.OnReceivedAsync(IsThreadPool, obj.WebSocketContext, Received);
                         //await Received.InvokeAsync(obj.IpPort, ListData);
                     }
@@ -527,17 +525,17 @@ namespace Tool.Sockets.WebHelper
         /// </summary>
         /// <param name="key">指定发送对象</param>
         /// <param name="enAction">消息类型</param>
-        public IGetQueOnEnum OnComplete(in UserKey key, EnServer enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
+        public ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnServer enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
 
         /// <summary>
         /// 中断连接并触发事件
         /// </summary>
         /// <param name="client"></param>
-        private void WebSocketAbort(WebSocketContext client)
+        private async ValueTask WebSocketAbort(WebSocketContext client)
         {
             string IpPort = client.SecWebSocketKey;
             client.WebSocket.Abort();
-            OnComplete(IpPort, EnServer.ClientClose);
+            await OnComplete(IpPort, EnServer.ClientClose);
         }
 
         /// <summary>

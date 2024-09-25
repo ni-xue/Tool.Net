@@ -176,7 +176,11 @@ namespace Tool.Sockets.Kernels
                 IsBackground = true,
                 Priority = ThreadPriority.Lowest
             };
+#if NET6_0_OR_GREATER
+            thread.UnsafeStart(action);
+#else
             thread.Start(action);
+#endif
             return thread;
 
             static void TaskStartReceive(object obj)
@@ -203,7 +207,11 @@ namespace Tool.Sockets.Kernels
                 IsBackground = true,
                 Priority = ThreadPriority.AboveNormal
             };
+#if NET6_0_OR_GREATER
+            thread.UnsafeStart(new object[] { action, client });
+#else
             thread.Start(new object[] { action, client });
+#endif
             return thread;
 
             static void TaskStartReceive(object obj)
@@ -248,7 +256,7 @@ namespace Tool.Sockets.Kernels
                 if (task.IsFaulted)
                 {
                     receiveBytes.Dispose();//崩溃时以防万一，帮助回收。
-                    Log.Fatal("公共线程池任务崩溃：", task.Exception.InnerException, "Log/Net");
+                    Log.Fatal("公共线程池任务崩溃：", task.Exception.GetBaseException(), "Log/Net");
                 }
             }
 #else
@@ -273,7 +281,14 @@ namespace Tool.Sockets.Kernels
             catch (Exception ex)
             {
                 data.Dispose();
-                throw ex.InnerException; //只要子级错误
+                if (ex is AggregateException exception)
+                {
+                    throw exception.GetBaseException(); //只要子级错误
+                }
+                else
+                {
+                    throw; //只要子级错误
+                }
             }
         }
 

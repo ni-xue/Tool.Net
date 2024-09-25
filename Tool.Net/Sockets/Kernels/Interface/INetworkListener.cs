@@ -28,7 +28,7 @@ namespace Tool.Sockets.Kernels
         /// </summary>
         /// <param name="key"></param>
         /// <param name="enAction"></param>
-        IGetQueOnEnum OnComplete(in UserKey key, EnServer enAction);
+        ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnServer enAction);
 
         /// <summary>
         /// 关闭服务器

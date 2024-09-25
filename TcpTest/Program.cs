@@ -166,6 +166,15 @@ namespace TcpTest
 
         static async Task Main(string[] args)
         {
+
+#if false
+
+            //while (true)
+            //{
+            //    Tool.Utils.Log.Debug("1111111111111111111111111");
+            //    await Task.Delay(10);
+            //}
+
             //var Client = new ClientFrame(NetBufferSize.Size128K, true) { IsThreadPool = false };
             //EnumEventQueue.OnInterceptor(EnClient.Receive, false);
             //EnumEventQueue.OnInterceptor(EnClient.SendMsg, false);
@@ -378,11 +387,13 @@ namespace TcpTest
             //var a2 = BitConverter.ToUInt16(data);
             //var a3 = BitConverter.ToUInt16(data.Reverse().ToArray());
 
-            //await NetWorship.OnMain(args);
+#endif
+
+            await NetWorship.OnMain(args);
             //await TcpWorship.OnMain(args);
             //await UdpWorship.OnMain(args);
             //await WebWorship.OnMain(args);
-            await QuicWorship.OnMain(args);
+            //await QuicWorship.OnMain(args);
 
             #region 暂无用
 

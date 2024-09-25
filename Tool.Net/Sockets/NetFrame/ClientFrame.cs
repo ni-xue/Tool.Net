@@ -284,7 +284,7 @@ namespace Tool.Sockets.NetFrame
         ///// <param name="IpPort">事件处理的服务器</param>
         ///// <param name="api">接口调用信息</param>
         ///// <param name="action">异步回调返回消息</param>
-        //public void SendIpIdeaAsync(string IpPort, ApiPacket api, Action<TcpResponse> action)
+        //public void SendRelayAsync(string IpPort, ApiPacket api, Action<TcpResponse> action)
         //{
         //    if (!StateObject.IsIpPort(IpPort))
         //    {
@@ -307,7 +307,7 @@ namespace Tool.Sockets.NetFrame
         /// </summary>
         /// <param name="IpPort">事件处理的服务器</param>
         /// <param name="api">接口调用信息</param>
-        public async ValueTask<NetResponse> SendIpIdeaAsync(string IpPort, ApiPacket api)
+        public async ValueTask<NetResponse> SendRelayAsync(string IpPort, ApiPacket api)
         {
             if (!StateObject.IsIpPort(IpPort, out Ipv4Port ipunm))
             {
@@ -337,7 +337,7 @@ namespace Tool.Sockets.NetFrame
         /// </summary>
         /// <param name="IpPort">事件处理的服务器</param>
         /// <param name="api">接口调用信息</param>
-        public NetResponse SendIpIdea(string IpPort, ApiPacket api)
+        public NetResponse SendRelay(string IpPort, ApiPacket api)
         {
             if (!StateObject.IsIpPort(IpPort, out Ipv4Port ipunm))
             {
@@ -406,7 +406,7 @@ namespace Tool.Sockets.NetFrame
                 //if (!json.IsServer) return;
                 //if (!FrameCommon.IsComplete(false, ref json)) return;
 
-                OnComplete(poolData.Key, EnClient.Receive);
+                await OnComplete(poolData.Key, EnClient.Receive);
                 var json = poolData.Packet;
                 if (json.IsSend) //表示服务器发包
                 {
@@ -450,9 +450,9 @@ namespace Tool.Sockets.NetFrame
          * key 指定发送对象
          * enAction 消息类型
          */
-        private void OnComplete(in UserKey key, EnClient enAction)
+        private ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnClient enAction)
         {
-            clientAsync.OnComplete(in key, enAction);
+            return clientAsync.OnComplete(in key, enAction);
         }
 
         /// <summary>

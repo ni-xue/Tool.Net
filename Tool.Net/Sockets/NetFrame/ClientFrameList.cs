@@ -159,7 +159,7 @@ namespace Tool.Sockets.NetFrame
         /// <param name="api">接口调用信息</param>
         /// <param name="i">返回成功发送包的下标</param>
         /// <returns>返回数据包</returns>
-        public NetResponse SendIpIdea(string IpPort, ApiPacket api, out int i)
+        public NetResponse SendRelay(string IpPort, ApiPacket api, out int i)
         {
             i = Interlocked.Increment(ref LockCount);
             if (ClientCount - 1 == i)
@@ -170,7 +170,7 @@ namespace Tool.Sockets.NetFrame
             {
                 i = 0;
             }
-            return ClientFrames[i].SendIpIdea(IpPort, api);
+            return ClientFrames[i].SendRelay(IpPort, api);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Tool.Sockets.NetFrame
         /// <param name="IpPort">事件处理的服务器</param>
         /// <param name="api">接口调用信息</param>
         /// <returns>返回数据包，以及下标</returns>
-        public async ValueTask<(NetResponse, int i)> SendIpIdeaAsync(string IpPort, ApiPacket api)
+        public async ValueTask<(NetResponse, int i)> SendRelayAsync(string IpPort, ApiPacket api)
         {
             int i = Interlocked.Increment(ref LockCount);
             if (ClientCount - 1 == i)
@@ -190,7 +190,7 @@ namespace Tool.Sockets.NetFrame
             {
                 i = 0;
             }
-            return (await ClientFrames[i].SendIpIdeaAsync(IpPort, api), i);
+            return (await ClientFrames[i].SendRelayAsync(IpPort, api), i);
         }
 
         /// <summary>

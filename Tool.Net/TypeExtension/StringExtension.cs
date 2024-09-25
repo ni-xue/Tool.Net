@@ -18,12 +18,6 @@ namespace Tool //万能属性公有父类
     /// <remarks>代码由逆血提供支持</remarks>
     public static class StringExtension
     {
-
-        static StringExtension()
-        {
-
-        }
-
         #region String 封装方法
 
         /// <summary>

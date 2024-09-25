@@ -13,7 +13,7 @@ namespace Tool.Sockets.Kernels.Struct
         private readonly ReceiveDataPacket packet;
         private readonly IBytesCore BytesCore => packet.BytesCore;
 
-        private readonly Memory<byte> MemoryByte => BytesCore.Memory;
+        private readonly Memory<byte> MemoryByte => BytesCore.GetIMemoryOwner().Memory[(BytesCore.OnlyData ? 6 : 0)..]; //因存在会报错的特殊情况，导致需要获取而外的内存故从核心区外拿数据
 
         private readonly Span<byte> SpanByte => MemoryByte.Span;
 
@@ -99,21 +99,26 @@ namespace Tool.Sockets.Kernels.Struct
 
         public void SetErr(string ex)
         {
-            int bodyLength = BufferSize - GettopLength();
+            int topLength = GettopLength(), bodyLength = MemoryByte.Length - topLength;
+            bool islog = true;
             if (bodyLength > 0)
             {
                 var textspan = ex.AsSpan();
                 int textSize = Encoding.UTF8.GetByteCount(textspan);
                 if (textSize <= bodyLength)
                 {
-                    Encoding.UTF8.GetBytes(textspan, SpanByte[GettopLength()..]);
-                    BufferSize = GettopLength() + textSize;
+                    Encoding.UTF8.GetBytes(textspan, SpanByte[topLength..]);
+                    BufferSize = topLength + textSize;
+                    islog = false;
                 }
                 else
                 {
-                    BufferSize = GettopLength();
-                    Utils.Log.Error($"服务器转发消息异常：{ex}", "Log/NetFrame/Agent");
+                    BufferSize = topLength;
                 }
+            }
+            if (islog)
+            {
+                Utils.Log.Error($"服务器转发消息异常：{ex}", "Log/NetFrame/Agent");
             }
             this.IsErr = true;
         }

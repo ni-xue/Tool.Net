@@ -22,7 +22,7 @@ namespace Tool.Sockets.NetFrame
         public NetResponse(in Guid onlyId, bool isreply, NetFrameState state, Exception error)
         {
             OnlyId = onlyId;
-            OnNetFrame = state;
+            State = state;
             Error = error;
             IsReply = isreply;
 
@@ -41,14 +41,14 @@ namespace Tool.Sockets.NetFrame
             IsReply = packet.IsReply;
             if (packet.IsErr)
             {
-                OnNetFrame = NetFrameState.Exception;
+                State = NetFrameState.Exception;
                 Error = new Exception(packet.Text ?? "相关错误信息未能传播，请查看相关通信服务器日志。");
                 Text = null;
                 Bytes = null;
             }
             else
             {
-                OnNetFrame = NetFrameState.Success;
+                State = NetFrameState.Success;
                 Error = null;
                 Text = packet.Text;
                 Bytes = packet.Bytes; // packet.Bytes.Count is 0 ? null : packet.Bytes.ToArray();
@@ -60,15 +60,15 @@ namespace Tool.Sockets.NetFrame
         /// </summary>
         public Guid OnlyId { get; }
 
-        /// <summary>
-        /// 消息唯一ID
-        /// </summary>
-        public string OnlyID => OnlyId.ToString();
+        ///// <summary>
+        ///// 消息唯一ID
+        ///// </summary>
+        //public string OnlyID => OnlyId.ToString();
 
         /// <summary>
         /// 用于表示当前数据包的执行情况
         /// </summary>
-        public NetFrameState OnNetFrame { get; }
+        public NetFrameState State { get; }
 
         /// <summary>
         /// 是否需要有回复消息

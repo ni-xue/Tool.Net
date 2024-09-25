@@ -171,7 +171,7 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         /// <param name="ip"></param>
         /// <param name="port"></param>
-        public Task StartAsync(string ip, int port)
+        public async Task StartAsync(string ip, int port)
         {
             ThrowIfDisposed();
 
@@ -187,16 +187,15 @@ namespace Tool.Sockets.TcpHelper
             try
             {
                 listener.Listen();
-                OnComplete(Server, EnServer.Create);
+                await OnComplete(Server, EnServer.Create);
             }
             catch (Exception e)
             {
-                OnComplete(Server, EnServer.Fail);
+                await OnComplete(Server, EnServer.Fail);
                 throw new Exception("服务器监听时发生异常！", e);
             }
 
             StartAsync();
-            return Task.CompletedTask;
         }
 
         private async void StartAsync()
@@ -218,10 +217,10 @@ namespace Tool.Sockets.TcpHelper
                     //doConnect.Set();
                     foreach (var _client in listClient)
                     {
-                        SocketAbort(_client.Key, _client.Value);
+                        await SocketAbort(_client.Key, _client.Value);
                     }
                     listClient.Clear();
-                    OnComplete(Server, EnServer.Close);
+                    await OnComplete(Server, EnServer.Close);
                     listener.Close();
                     return;
                 }
@@ -327,7 +326,7 @@ namespace Tool.Sockets.TcpHelper
             {
                 int count = await client.SendAsync(buffers, SocketFlags.None);
                 UserKey key = StateObject.GetIpPort(client);
-                OnComplete(in key, EnServer.SendMsg);
+                await OnComplete(in key, EnServer.SendMsg);
             }
             catch (Exception)
             {
@@ -397,7 +396,7 @@ namespace Tool.Sockets.TcpHelper
                 return;
             }
             TcpStateObject obj = new(client, this.DataLength, this.OnlyData, Received);
-            OnComplete(obj.IpPort, EnServer.Connect).Wait();
+            await OnComplete(obj.IpPort, EnServer.Connect);
             while (!isClose)//ListClient.TryGetValue(key, out client) && 
             {
                 await Task.Delay(Millisecond);
@@ -409,7 +408,7 @@ namespace Tool.Sockets.TcpHelper
                 {
                     if (listClient.TryRemove(obj.IpPort, out client))
                     {
-                        SocketAbort(obj.IpPort, client);
+                        await SocketAbort(obj.IpPort, client);
                     }
                     break;
                 }
@@ -444,11 +443,11 @@ namespace Tool.Sockets.TcpHelper
             {
                 if (obj.IsKeepAlive(in listData))
                 {
-                    OnComplete(obj.IpPort, EnServer.HeartBeat);
+                    await OnComplete(obj.IpPort, EnServer.HeartBeat);
                 }
                 else
                 {
-                    if (!DisabledReceive) OnComplete(obj.IpPort, EnServer.Receive);
+                    if (!DisabledReceive) await OnComplete(obj.IpPort, EnServer.Receive);
                     await obj.OnReceiveAsync(IsThreadPool, listData);
                 }
             }
@@ -459,12 +458,12 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         /// <param name="key">指定发送对象</param>
         /// <param name="enAction">消息类型</param>
-        public virtual IGetQueOnEnum OnComplete(in UserKey key, EnServer enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
+        public virtual ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnServer enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
 
-        private void SocketAbort(in UserKey key, Socket _client)
+        private async ValueTask SocketAbort(UserKey key, Socket _client)
         {
             _client.Close();
-            OnComplete(in key, EnServer.ClientClose);
+            await OnComplete(in key, EnServer.ClientClose);
         }
 
         /// <summary>

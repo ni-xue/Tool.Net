@@ -276,7 +276,7 @@ namespace Tool.Sockets.QuicHelper
             }
             finally
             {
-                if (!isAuthex) ConnectCallBack();
+                if (!isAuthex) await ConnectCallBack();
             }
         }
 
@@ -348,7 +348,7 @@ namespace Tool.Sockets.QuicHelper
             {
                 await quicclient.SendAsync(listData);
 
-                OnComplete(Server, en);
+                await OnComplete(Server, en);
                 if (EnClient.SendMsg == en) Keep?.ResetTime();
             }
             catch
@@ -363,7 +363,7 @@ namespace Tool.Sockets.QuicHelper
         /**
         * 异步接收连接的回调函数
         */
-        private void ConnectCallBack()
+        private async ValueTask ConnectCallBack()
         {
             if (QuicStateObject.IsConnected(quicclient))
             {
@@ -374,8 +374,8 @@ namespace Tool.Sockets.QuicHelper
             }
             else
             {
-                InsideClose().Preserve();
-                OnComplete(Server, EnClient.Fail);
+                await InsideClose();
+                await OnComplete(Server, EnClient.Fail);
 
                 StartReconnect();
             }
@@ -388,7 +388,7 @@ namespace Tool.Sockets.QuicHelper
         {
             isReceive = true;
             QuicStateObject obj = new(client, DataLength, OnlyData, Received);
-            OnComplete(obj.SocketKey, EnClient.Connect).Wait();
+            await OnComplete(obj.SocketKey, EnClient.Connect);
             while (!isClose)//ListClient.TryGetValue(key, out client) && 不允许意外删除对象问题
             {
                 await Task.Delay(Millisecond); //Thread.Sleep(Millisecond);
@@ -400,7 +400,7 @@ namespace Tool.Sockets.QuicHelper
                 {
                     //如果发生异常，说明客户端失去连接，触发关闭事件
                     await InsideClose();
-                    OnComplete(obj.SocketKey, EnClient.Close);
+                    await OnComplete(obj.SocketKey, EnClient.Close);
                     StartReconnect();
                     break;
                 } //Thread.Sleep(Millisecond);
@@ -447,7 +447,7 @@ namespace Tool.Sockets.QuicHelper
 
             async ValueTask OnReceived(ReadOnlySequence<byte> listData, QuicStateObject obj)
             {
-                if (!DisabledReceive) OnComplete(obj.SocketKey, EnClient.Receive);
+                if (!DisabledReceive) await OnComplete(obj.SocketKey, EnClient.Receive);
                 Keep?.ResetTime();
                 await obj.OnReceiveAsync(IsThreadPool, listData);
             }
@@ -473,6 +473,7 @@ namespace Tool.Sockets.QuicHelper
                         await ConnectAsync();
                     }
                 }
+                isWhileReconnect = false;
                 return true;
             }
             catch
@@ -536,7 +537,7 @@ namespace Tool.Sockets.QuicHelper
         /// </summary>
         /// <param name="key">IP：端口</param>
         /// <param name="enAction">消息类型</param>
-        public virtual IGetQueOnEnum OnComplete(in UserKey key, EnClient enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
+        public virtual ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnClient enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
 
         /// <summary>
         /// 创建数据发送空间

@@ -37,7 +37,7 @@ namespace TcpTest
                 {
                     a = d = e = f = g = b = c = s = 0;
                 }
-                Console.WriteLine("\nIP:{0} \t{1} \t{2}", a1, b1, c1.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
+                Console.WriteLine("IP:{0} \t{1} \t{2}", a1, b1, c1.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
                 return ValueTask.CompletedTask;
             });
 
@@ -46,6 +46,10 @@ namespace TcpTest
 
             EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
             EnumEventQueue.OnInterceptor(EnClient.Receive, true);
+
+            ApiPacket packet = new(1, 104, 60000);
+            packet.Set("a", "asd123");
+            using var response = await client.SendRelayAsync("0.0.0.0:1", packet);
 
             Thread.Sleep(1000);
             Task[] tasks;
@@ -107,7 +111,7 @@ namespace TcpTest
             {
                 Interlocked.Increment(ref a);
                 using var response = await client.SendAsync(api);
-                OnNetFrame(response.OnNetFrame, () =>
+                OnNetFrame(response.State, () =>
                 {
                     if (guid == response.Text) return true;
                     return false;
@@ -118,7 +122,7 @@ namespace TcpTest
             {
                 Interlocked.Increment(ref a);
                 using var mag = await client.SendAsync(api);
-                OnNetFrame(mag.OnNetFrame, () =>
+                OnNetFrame(mag.State, () =>
                 {
                     //if (!File.Exists(url)) File.WriteAllBytes(url, mag.Bytes.Array ?? throw new());
                     if (mag.Text == "Ok") return true;

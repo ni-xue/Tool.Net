@@ -561,7 +561,7 @@ namespace TcpFrameTest
 
         private static async Task Server()
         {
-            ServerFrame server = new(NetBufferSize.Size512K);
+            ServerFrame server = new(NetBufferSize.Size512K) { IsAllowRelay = false };
 
             server.SetIpParser(GetKey);
 
@@ -575,23 +575,23 @@ namespace TcpFrameTest
 
             Console.ReadLine();
 
-            Ipv4Port GetKey(in Ipv4Port age0, in Ipv4Port age1)
+           ValueTask<Ipv4Port> GetKey(Ipv4Port age0, Ipv4Port age1)
             {
                 IEnumerable<UserKey> strings = server.ListClient.Keys;
                 Interlocked.Increment(ref Class1.e); //统计总转发计数
 
                 int Count = strings.Count();
-                if (Count == 1) return age0;
+                if (Count == 1) return ValueTask.FromResult(age0);
 
                 int i = Interlocked.Increment(ref a1), j = 0;
                 foreach (UserKey s in strings)
                 {
                     if (s == (UserKey)age0) continue;
-                    if (j == i) return age0;
+                    if (j == i) return ValueTask.FromResult(age0);
                     j++;
                 }
                 Interlocked.Exchange(ref a1, -1);
-                return age0;
+                return ValueTask.FromResult(age0);
             }
         }
 
@@ -641,10 +641,10 @@ namespace TcpFrameTest
 #endif
                     //Debug.WriteLine($"Thread:{Environment.CurrentManagedThreadId}");
 
-                    switch (response.OnNetFrame)
+                    switch (response.State)
                     {
                         case not NetFrameState.Success:
-                            Console.WriteLine("访问状态：{0}，{1}", response.OnNetFrame, response.Error?.Message);
+                            Console.WriteLine("访问状态：{0}，{1}", response.State, response.Error?.Message);
                             await Task.Delay(1000, token);
                             break;
                     }

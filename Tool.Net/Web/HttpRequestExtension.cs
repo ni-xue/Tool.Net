@@ -453,7 +453,8 @@ namespace Tool.Web
         {
             System.IO.Stream stream = formFile.OpenReadStream();
 
-            long len = (1024 * 512) > formFile.Length ? formFile.Length : (1024 * 512);
+            const int size = 1024 * 512;
+            long len = size > formFile.Length ? formFile.Length : size;
 
             if (len < 1) len = 1;
             //byte[] slice = new byte[len];
@@ -476,7 +477,7 @@ namespace Tool.Web
 
             using System.IO.FileStream fileStream = System.IO.File.Create(filename, len.ToInt(), System.IO.FileOptions.WriteThrough);
             //OpenWrite
-            await HttpContextExtension.StreamMove(stream, fileStream, 1024 * 512);
+            await HttpContextExtension.StreamMove(stream, fileStream, size);
 
             await fileStream.DisposeAsync();
 

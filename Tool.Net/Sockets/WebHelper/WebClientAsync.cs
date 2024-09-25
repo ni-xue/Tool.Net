@@ -331,7 +331,7 @@ namespace Tool.Sockets.WebHelper
             if (!WebStateObject.IsConnected(client)) throw new Exception("与服务端的连接已断开！");
 
             await WebStateObject.SendAsync(client, listData, DataLength);
-            OnComplete(in server, en);
+            await OnComplete(in server, en);
             if (EnClient.SendMsg == en) Keep?.ResetTime();
         }
         #endregion
@@ -413,7 +413,7 @@ namespace Tool.Sockets.WebHelper
         /**
         * 异步接收连接的回调函数
         */
-        private void ConnectCallBack()
+        private async void ConnectCallBack()
         {
             if (WebStateObject.IsConnected(client))
             {
@@ -425,7 +425,7 @@ namespace Tool.Sockets.WebHelper
             else
             {
                 InsideClose();
-                OnComplete(in server, EnClient.Fail);
+                await OnComplete(in server, EnClient.Fail);
 
                 StartReconnect();
             }
@@ -438,7 +438,7 @@ namespace Tool.Sockets.WebHelper
         {
             isReceive = true;
             WebStateObject obj = new(in key, client, this.DataLength);// { doReceive = doReceive };
-            OnComplete(in key, EnClient.Connect).Wait();
+            await OnComplete(in key, EnClient.Connect);
             while (!isClose)//ListClient.TryGetValue(key, out client) && 不允许意外删除对象问题
             {
                 await Task.Delay(Millisecond);
@@ -450,7 +450,7 @@ namespace Tool.Sockets.WebHelper
                 {
                     //如果发生异常，说明客户端失去连接，触发关闭事件
                     InsideClose();
-                    OnComplete(in key, EnClient.Close);
+                    await OnComplete(in key, EnClient.Close);
                     StartReconnect();
                     break;
                 }
@@ -471,7 +471,7 @@ namespace Tool.Sockets.WebHelper
 
                 if (await obj.ReceiveAsync())
                 {
-                    if (!DisabledReceive) OnComplete(obj.SocketKey, EnClient.Receive);
+                    if (!DisabledReceive) await OnComplete(obj.SocketKey, EnClient.Receive);
                     Keep?.ResetTime();
                     await obj.OnReceivedAsync(IsThreadPool, obj.Client, Received);
                     //await Received.InvokeAsync(obj.IpPort, ListData);
@@ -512,7 +512,7 @@ namespace Tool.Sockets.WebHelper
         /// </summary>
         /// <param name="key">指定发送对象</param>
         /// <param name="enAction">消息类型</param>
-        public IGetQueOnEnum OnComplete(in UserKey key, EnClient enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
+        public ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnClient enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
 
         /// <summary>
         /// TCP关闭

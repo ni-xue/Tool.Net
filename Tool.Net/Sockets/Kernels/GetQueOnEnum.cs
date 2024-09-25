@@ -24,6 +24,11 @@ namespace Tool.Sockets.Kernels
         public bool IsSuccess { get; }
 
         /// <summary>
+        /// 获取当前任务可能发生的错误
+        /// </summary>
+        public Exception Error { get; }
+
+        /// <summary>
         /// 等待任务完成！
         /// </summary>
         /// <returns>采用自旋模式</returns>
@@ -47,6 +52,8 @@ namespace Tool.Sockets.Kernels
         /// 获取当前任务是否完成
         /// </summary>
         public bool IsSuccess { get; }
+
+        public Exception Error => null;
 
         /// <summary>
         /// 事件触发器
@@ -78,7 +85,11 @@ namespace Tool.Sockets.Kernels
         /// </summary>
         async ValueTask IGetQueOnEnum.Completed()
         {
-            //if (IsSuccess) return;
+            await WaitAsync();
+        }
+
+        public async ValueTask<IGetQueOnEnum> WaitAsync()
+        {
             try
             {
                 //Debug.WriteLine("{0} ：{1}", ObjectExtension.Thread.Name, EnumAction);
@@ -86,12 +97,15 @@ namespace Tool.Sockets.Kernels
             }
             catch (Exception e)
             {
+                Error = e;
                 Log.Error("Net事件调用异常", e);
             }
             finally
             {
                 IsSuccess = true;
             }
+
+            return this;
         }
 
         /// <summary>
@@ -118,5 +132,10 @@ namespace Tool.Sockets.Kernels
         /// 获取当前任务是否完成
         /// </summary>
         public bool IsSuccess { get; private set; } = false;
+
+        /// <summary>
+        /// 获取当前任务可能发生的错误
+        /// </summary>
+        public Exception Error { get; private set; } = null;
     }
 }

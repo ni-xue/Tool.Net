@@ -25,10 +25,19 @@ namespace Tool.Sockets.Kernels
             IDataPacket dataPacket;
             if (DataNet.DicDataTcps.TryGetValue(Packet.ActionKey, out DataNet dataTcp))
             {
-                DataBase handler = dataTcp.NewClass.Invoke();
-                using (handler)
+                if (Packet.IsRelay && !dataTcp.IsRelay)
                 {
-                    dataPacket = await handler.RequestAsync(Packet, Key, dataTcp);
+                    dataPacket = Packet.CopyTo(false, false);
+                    dataPacket.ResetValue(false, !Packet.IsServer);
+                    dataPacket.SetErr("转发请求已被拒绝");
+                }
+                else
+                {
+                    DataBase handler = dataTcp.NewClass.Invoke();
+                    using (handler)
+                    {
+                        dataPacket = await handler.RequestAsync(Packet, Key, dataTcp);
+                    }
                 }
             }
             else
