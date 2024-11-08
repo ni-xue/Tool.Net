@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Tool.SqlCore
 {
@@ -108,7 +109,17 @@ namespace Tool.SqlCore
         /// <returns></returns>
         protected virtual PagerSet GetPagerSet(PagerParameters prams)
         {
-            return this.Database.GetPagerSet(prams); // this.PagerHelper.GetPagerSet(prams);
+            return this.Database.GetPagerSet(prams);
+        }
+
+        /// <summary>
+        /// 分页，用于SQL对象的分页
+        /// </summary>
+        /// <param name="prams"></param>
+        /// <returns></returns>
+        protected virtual Task<PagerSet> GetPagerSetAsync(PagerParameters prams)
+        {
+            return this.Database.GetPagerSetAsync(prams);
         }
 
         ///// <summary>
@@ -130,7 +141,6 @@ namespace Tool.SqlCore
         {
             return new TableProvider(this.Database, tableName);
         }
-
 
         /// <summary>
         /// 表信息对象，用于对单张表的处理，可以通过自己实现接口来完成效果。

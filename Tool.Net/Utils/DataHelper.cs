@@ -15,7 +15,7 @@ namespace Tool.Utils
     {
         internal static IList<DataTableProperty> GetTablePropertys(PropertyInfo[] properties, DataColumnCollection columns)
         {
-            IList<DataTableProperty> result = new List<DataTableProperty>();
+            List<DataTableProperty> result = new();
             foreach (var property in properties)
             {
                 if (!property.CanWrite) continue;
@@ -40,7 +40,7 @@ namespace Tool.Utils
             {
                 return null;
             }
-            IList<TEntity> list = new List<TEntity>();
+            List<TEntity> list = new();
             Type typeFromHandle = typeof(TEntity);
             var modeBuild = EntityBuilder.GetEntity(typeFromHandle);
             var tableProperties = GetTablePropertys(modeBuild.Parameters, dt.Columns);

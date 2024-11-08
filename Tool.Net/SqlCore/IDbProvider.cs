@@ -4,21 +4,23 @@ using System.Data;
 using System.Data.Common;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Tool.SqlCore
 {
+
     /// <summary>
     /// SQL数据化的模型接口
     /// </summary>
-    /// <remarks>代码由逆血提供支持</remarks>
-    public interface IDbProvider
+    /// <typeparam name="T">数据类型枚举</typeparam>
+    public interface IDbProvider<T> : IDbProvider where T : Enum
     {
         /// <summary>
         /// 根据<see cref="Type"/>类型获取对应的数据库类型，请自行写实现
         /// </summary>
         /// <param name="t"><see cref="Type"/>类型</param>
         /// <returns>类型</returns>
-		Enum ConvertToLocalDbType(Type t) => throw new Exception("需要使用此方法，请自行写实现，针对于特殊用户数据库类型操作。");
+        T ConvertToLocalDbType(Type t);// => throw new Exception("需要使用此方法，请自行写实现，针对于特殊用户数据库类型操作。");
 
         /// <summary>
         /// 根据<see cref="Type"/>类型获取对应的类型字符串
@@ -29,25 +31,26 @@ namespace Tool.SqlCore
         {
             return ConvertToLocalDbType(netType).ToString();
         }
+    }
 
+    /// <summary>
+    /// SQL数据化的模型接口
+    /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
+    public interface IDbProvider
+    {
         /// <summary>
-        /// 读取存储过程参数填充到 <see cref="IDbCommand"/>.Parameters 集合（内置实现采用反射，如在意性能请自行实现，示例：DbCommandBuilder.DeriveParameters(cmd) 每个数据库下面都有对应的实现类。）
+        /// 读取存储过程参数填充到 <see cref="IDbCommand"/>.Parameters 集合（内置实现采用虚构委托，如在意性能请自行实现，示例：DbCommandBuilder.DeriveParameters(cmd) 每个数据库下面都有对应的实现类。）
         /// </summary>
         /// <param name="cmd">数据库对象</param>
         void DeriveParameters(IDbCommand cmd)
         {
-            string qualifiedName = cmd.GetType().AssemblyQualifiedName;
-            Type builderType = Type.GetType(qualifiedName.Insert(qualifiedName.IndexOf(','), "Builder"));
-            MethodInfo method = builderType.GetMethod("DeriveParameters", BindingFlags.Public | BindingFlags.Static | BindingFlags.InvokeMethod);
-            if (method == null)
-            {
-                throw new ArgumentException("指定的提供程序工厂不支持存储过程函数获取，请自行实现该接口。");
-            }
-            //Utils.ActionDelegate.ActionDispatcher<object> action = new Utils.ActionDelegate.ActionDispatcher<object>(method);
-            //action.VoidExecute(null, cmd);
+            string qualifiedName = cmd.GetType().AssemblyQualifiedName, typenmae = qualifiedName.Insert(qualifiedName.IndexOf(','), "Builder");
+
+            Utils.ActionDelegate.ActionDispatcher dispatcher = StaticData.DeriveParametersObjs.GetOrAdd(typenmae, AddDeriveParameters);
             try
             {
-                method.Invoke(null, new object[] { cmd });
+                dispatcher.VoidExecute(null, cmd);
             }
             catch (Exception ex)
             {
@@ -55,7 +58,14 @@ namespace Tool.SqlCore
                 {
                     throw ex.InnerException;
                 }
-                throw new Exception("无法通过反射获取到对应的实现方法，请采用手动实现接口！", ex);
+                throw new Exception("无法通过虚构函数获取到对应的实现方法，请采用手动实现接口！", ex);
+            }
+
+            static Utils.ActionDelegate.ActionDispatcher AddDeriveParameters(string typenmae)
+            {
+                Type builderType = Type.GetType(typenmae);
+                MethodInfo method = builderType.GetMethod("DeriveParameters", BindingFlags.Public | BindingFlags.Static | BindingFlags.InvokeMethod) ?? throw new ArgumentException("指定的提供程序工厂不支持存储过程函数获取，请自行实现该接口。");
+                return new Utils.ActionDelegate.ActionDispatcher(method);
             }
         }
 
@@ -170,40 +180,77 @@ namespace Tool.SqlCore
         {
             try
             {
-                if (pramsPager.PageIndex < 0)
-                {
-                    return null;
-                }
-                List<DbParameter> list = new()
-                {
-                    dbHelper.GetInParam("IsSql", pramsPager.IsSql ? 1 : 0),
-                    dbHelper.GetInParam("TableName", pramsPager.Table),
-                    dbHelper.GetInParam("ReturnFields", PagerManager.GetFieldString(pramsPager.Fields, pramsPager.FieldAlias)),
-                    dbHelper.GetInParam("PageSize", pramsPager.PageSize),
-                    dbHelper.GetInParam("PageIndex", pramsPager.PageIndex),
-                    dbHelper.GetInParam("Where", pramsPager.WhereStr),
-                    dbHelper.GetInParam("Order", pramsPager.PKey),
-                    dbHelper.GetOutParam("PageCount", typeof(int)),
-                    dbHelper.GetOutParam("RecordCount", typeof(int))
-                };
+                List<DbParameter> list = SetPagerParameters(dbHelper, pramsPager);
                 dbHelper.RunProc("WEB_PageView", list, out DataSet pageSet);
-                return new PagerSet(pramsPager.PageIndex, pramsPager.PageSize, Convert.ToInt32(list[^3].Value), Convert.ToInt32(list[^2].Value), pageSet)
-                {
-                    PageSet =
-                    {
-                        DataSetName = $"PagerSet_{pramsPager.Table}"
-                    }
-                };
+                return GetPagerSet(pramsPager, list, pageSet);
             }
             catch (Exception e)
             {
+                throw GetException(e);
+            }
+        }
 
-                if (!e.Message.Equals("找不到存储过程 'WEB_PageView'。"))
+        /// <summary>
+		/// 分页核心方法，建议重写，底层默认实现 SqlServer 分页。
+		/// </summary>
+        /// <param name="dbHelper"></param>
+		/// <param name="pramsPager">分页参数</param>
+		/// <returns>返回分页对象实体</returns>
+	    async Task<PagerSet> GetPagerSetAsync(DbHelper dbHelper, PagerParameters pramsPager)
+        {
+            try
+            {
+                List<DbParameter> list = SetPagerParameters(dbHelper, pramsPager);
+                DataSet pageSet = await dbHelper.RunProcDataSetAsync("WEB_PageView", list);
+                return GetPagerSet(pramsPager, list, pageSet);
+            }
+            catch (Exception e)
+            {
+                throw GetException(e);
+            }
+        }
+
+        private static List<DbParameter> SetPagerParameters(DbHelper dbHelper, PagerParameters pramsPager)
+        {
+            if (pramsPager.PageIndex < 0)
+            {
+                return null;
+            }
+            List<DbParameter> list = new()
+            {
+                dbHelper.GetInParam("IsSql", pramsPager.IsSql ? 1 : 0),
+                dbHelper.GetInParam("TableName", pramsPager.Table),
+                dbHelper.GetInParam("ReturnFields", PagerManager.GetFieldString(pramsPager.Fields, pramsPager.FieldAlias)),
+                dbHelper.GetInParam("PageSize", pramsPager.PageSize),
+                dbHelper.GetInParam("PageIndex", pramsPager.PageIndex),
+                dbHelper.GetInParam("Where", pramsPager.WhereStr),
+                dbHelper.GetInParam("Order", pramsPager.PKey),
+                dbHelper.GetOutParam("PageCount", typeof(int)),
+                dbHelper.GetOutParam("RecordCount", typeof(int))
+            };
+            return list;
+        }
+
+        private static PagerSet GetPagerSet(PagerParameters pramsPager, List<DbParameter> list, DataSet pageSet) 
+        {
+            return new PagerSet(pramsPager.PageIndex, pramsPager.PageSize, Convert.ToInt32(list[^3].Value), Convert.ToInt32(list[^2].Value), pageSet)
+            {
+                PageSet =
                 {
-                    throw new Exception("调用默认分页存储过程发生异常！", e);
+                    DataSetName = $"PagerSet_{pramsPager.Table}"
                 }
+            };
+        }
 
-                throw new ArgumentException(@"                /*********************************************************************************
+        private static Exception GetException(Exception e)
+        {
+            if (!e.Message.Equals("找不到存储过程 'WEB_PageView'。"))
+            {
+                return new Exception("调用默认分页存储过程发生异常！", e);
+            }
+
+            return new Exception("SqlServer数据库，中不存在分页SQL，其他数据库请忽略，可重新实现。", new Exception(@"
+                /*********************************************************************************
                 *      Function:  WEB_PageView										             *
                 *      Description:                                                              *
                 *             Sql2012分页存储过程												 *
@@ -302,8 +349,7 @@ namespace Tool.SqlCore
                 END
                 RETURN 0
                 
-                GO", "SqlServer数据库，中不存在分页SQL，其他数据库请忽略，可重新实现。");
-            }
+                GO"));
         }
 
         /// <summary>

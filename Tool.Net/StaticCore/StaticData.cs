@@ -15,11 +15,13 @@ namespace Tool
 
         internal readonly static ConcurrentDictionary<string, Web.Api.OnAshxEvent> AshxEvents = new();
 
-        internal readonly static ConcurrentDictionary<Guid, Sockets.NetFrame.Internal.NetByteObjs> TcpByteObjs = new();
+        internal readonly static ConcurrentDictionary<Guid, Sockets.NetFrame.Internal.NetByteObjs> NetByteObjs = new();
 
         internal readonly static ConcurrentDictionary<Type, Utils.EntityBuilder> EntityObjs = new();
 
-        //internal readonly static ConcurrentDictionary<Type, PropertyDescriptorCollection> Propertys = new();
+        internal readonly static ConcurrentDictionary<string, Utils.ActionDelegate.ActionDispatcher> DeriveParametersObjs = new();
+
+        internal readonly static ConcurrentDictionary<Type, Utils.ActionDelegate.TypePropertyDescriptor> Propertys = new();
     }
 
     /// <summary>

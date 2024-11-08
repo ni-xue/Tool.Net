@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
+using System.Threading.Tasks;
 
 namespace Tool.SqlCore
 {
@@ -60,17 +61,48 @@ namespace Tool.SqlCore
             }
             catch (Exception ex)
             {
-                if (transaction != null)
-                {
-                    transaction.Rollback();
-                }
+                transaction?.Rollback();
                 exp = ex;
             }
-            finally 
+            finally
+            {
+                transaction?.Dispose();
+            }
+
+            return new DbTransResult(Success, Rows, exp);
+        }
+
+        /// <summary>
+        /// SQL事物执行（增/改/删）相关操作
+        /// </summary>
+        /// <param name="transaction">SQL事物对象</param>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="sqlTexts">SQL操作对象<see cref="SqlTextParameter"/>[]</param>
+        /// <returns></returns>
+        public static async Task<DbTransResult> ExecuteNonQueryAsync(this DbTransaction transaction, DbHelper dbHelper, params SqlTextParameter[] sqlTexts)
+        {
+            Exception exp = null;
+            bool Success = false;
+            int Rows = -1;
+            try
+            {
+                Rows = await dbHelper.ExecuteNonQueryAsync(transaction, sqlTexts);
+                await transaction.CommitAsync();
+                Success = true;
+            }
+            catch (Exception ex)
             {
                 if (transaction != null)
                 {
-                    transaction.Dispose();
+                    await transaction.RollbackAsync();
+                }
+                exp = ex;
+            }
+            finally
+            {
+                if (transaction != null)
+                {
+                    await transaction.DisposeAsync();
                 }
             }
 
@@ -88,7 +120,7 @@ namespace Tool.SqlCore
         /// 创建查询语句
         /// </summary>
         /// <param name="commandText">执行的SQL语句</param>
-        public SqlTextParameter(string commandText): this(commandText, null) { }
+        public SqlTextParameter(string commandText) : this(commandText, null) { }
 
         /// <summary>
         /// 创建查询语句
@@ -138,7 +170,7 @@ namespace Tool.SqlCore
         /// <param name="success">完成情况</param>
         /// <param name="rows">受影响行数</param>
         /// <param name="exception">发生的异常</param>
-        public DbTransResult(bool success, int rows, Exception exception) 
+        public DbTransResult(bool success, int rows, Exception exception)
         {
             Success = success;
             Rows = rows;

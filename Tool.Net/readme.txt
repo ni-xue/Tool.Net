@@ -4,7 +4,7 @@
 
 2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils）
 
-3. 当前版本（5.2.0-pre1.0）为预览包，用于进行公测项目开发测试。 
+3. 当前版本（5.3.0-pre0.1）为预览包，用于进行公测项目开发测试。 
 
 4. 架构基于 .Net8（兼容.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
 
@@ -685,8 +685,46 @@ V5.2.0-pre0.9 - 预览版
 6. 新增 [DataNet(0, IsRelay = false)] IsRelay属性，控制当前方法或当前类的转发是否支持
 7. 其他优化，以及是否发布V5.2正式版的预期是否达标。
 
-------------2024/09/26------------
-V5.2.0-pre1.0 - 预览版
+------------2024/11/08------------
+5.3.0-pre0.1 - 预览版
+1. 当前版本主要优化升级了SQL连接部分（完善异步部分）
+2. 提供更高效的获取 DataSet 的异步函数等
+3. 覆盖全部Sql异步模式
+4. 新增直接Sql返回字典数据 SelectDictionaryAsync/SelectDictionary
+5. 其他重要功能新增
+    public class Abc
+    {
+        public int? a { get; init; }
+        public string? b { get; set; }
+        public DateTime? c { get; init; } = DateTime.Now;
+        public bool? d { get; set; }
+        public byte? e { get; init; }
+        public double? f;
+        public decimal? g { get; init; }
+        protected object s => throw new AggregateException();
+        protected static object a1 { get; set; }
+        private static object a2 { get; set; }
+        public static object a3 { get; set; }
+        protected static object a4;
+        private static object a5;
+        public static object a6;
+    }
+    Abc abc = new Abc();
+    var dic = abc.GetDictionary();
+    abc.SetDictionary(dic);
+    
+    abc.SetFieldValue("f", 0.1);
+    abc.SetPropertyValue("a", 123456);
+    abc.SetPropertyValue("a1", 0.1);
+    abc.SetPropertyValue("a2", 0.2);
+    abc.SetPropertyValue("a3", 0.3);
+    abc.SetFieldValue("a4", 0.4);
+    abc.SetFieldValue("a5", 0.5);
+    abc.SetFieldValue("a6", 0.6);
+    abc.GetPropertyValue("s", out var s);
+
+  /** 目前已是最终版本，将在预览版后，同步更新正式版本，缓冲期7个工作日内 */
+
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。

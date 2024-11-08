@@ -82,15 +82,15 @@ namespace Tool.Sockets.NetFrame.Internal
                 //if (packet.IsSend)
                 //{
                 //    int count = packet.Many.End.Value;
-                //    _threadObj = StaticData.TcpByteObjs.GetOrAdd(OnlyID, a => new TcpByteObjs(count));
+                //    _threadObj = StaticData.NetByteObjs.GetOrAdd(OnlyID, a => new NetByteObjs(count));
                 //}
-                //else if (!StaticData.TcpByteObjs.TryGetValue(OnlyID, out _threadObj))
+                //else if (!StaticData.NetByteObjs.TryGetValue(OnlyID, out _threadObj))
                 //{
                 //    packet.Dispose();
                 //    return false;
                 //}
 
-                NetByteObjs _byteObjs = StaticData.TcpByteObjs.GetOrAdd(OnlyID, a => new NetByteObjs(objcount));
+                NetByteObjs _byteObjs = StaticData.NetByteObjs.GetOrAdd(OnlyID, a => new NetByteObjs(objcount));
 
                 //lock (_byteObjs._lock)
                 //{
@@ -125,9 +125,9 @@ namespace Tool.Sockets.NetFrame.Internal
                     packet.EmptyMany();
                     //if (packet.IsSend)
                     //{
-                    //    StaticData.TcpByteObjs.TryRemove(OnlyID, out _);
+                    //    StaticData.NetByteObjs.TryRemove(OnlyID, out _);
                     //}
-                    StaticData.TcpByteObjs.TryRemove(OnlyID, out _);
+                    StaticData.NetByteObjs.TryRemove(OnlyID, out _);
                     //_byteObjs.Dispose();
                     return true;
                 }

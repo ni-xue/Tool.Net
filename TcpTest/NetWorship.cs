@@ -47,10 +47,6 @@ namespace TcpTest
             EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
             EnumEventQueue.OnInterceptor(EnClient.Receive, true);
 
-            ApiPacket packet = new(1, 104, 60000);
-            packet.Set("a", "asd123");
-            using var response = await client.SendRelayAsync("0.0.0.0:1", packet);
-
             Thread.Sleep(1000);
             Task[] tasks;
             switch (Console.ReadKey(true).KeyChar)

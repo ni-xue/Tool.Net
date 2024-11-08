@@ -11,16 +11,11 @@ using Tool.SqlCore;
 
 namespace WebTestApp
 {
-    public class SqlServerProvider : IDbProvider
+    public class SqlServerProvider : IDbProvider<SqlDbType>
     {
-		/// <summary>
-		/// 根据<see cref="Type"/>类型获取对应的类型
-		/// </summary>
-		/// <param name="t"><see cref="Type"/>类型</param>
-		/// <returns>类型</returns>
-		public Enum ConvertToLocalDbType(Type t)
-		{
-			string key = t.ToString();
+        public SqlDbType ConvertToLocalDbType(Type t)
+        {
+            string key = t.ToString();
             return key switch
             {
                 "System.Boolean" => SqlDbType.Bit,
@@ -45,13 +40,13 @@ namespace WebTestApp
         /// 验证对象信息，并填充进<see cref="SqlCommand"/>集合中
         /// </summary>
         /// <param name="cmd">参数</param>
-        public void DeriveParameters(IDbCommand cmd)
-		{
-			if (cmd is SqlCommand)
-			{
-				SqlCommandBuilder.DeriveParameters(cmd as SqlCommand);
-			}
-		}
+  //      public void DeriveParameters(IDbCommand cmd)
+		//{
+		//	if (cmd is SqlCommand)
+		//	{
+		//		SqlCommandBuilder.DeriveParameters(cmd as SqlCommand);
+		//	}
+		//}
 
 		/// <summary>
 		/// 绑定数据
@@ -68,7 +63,7 @@ namespace WebTestApp
 			SqlParameter sqlParameter = paraName as SqlParameter;
 			if (paraType != null)
 			{
-				sqlParameter.SqlDbType = ConvertToLocalDbType(paraType).ToVar<SqlDbType>();
+				sqlParameter.SqlDbType = ConvertToLocalDbType(paraType);
 			}
 		}
 
@@ -84,6 +79,5 @@ namespace WebTestApp
         {
             return "SELECT SCOPE_IDENTITY()";
         }
-
     }
 }

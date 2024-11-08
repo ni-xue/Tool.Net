@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.Win32;
 using System.Buffers;
+using System.Data;
+using System.Data.Common;
 using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Reflection.PortableExecutable;
 using System.Runtime.Versioning;
 using System.Text;
@@ -13,6 +16,9 @@ using Tool.Sockets.NetFrame;
 using Tool.Sockets.P2PHelpr;
 using Tool.Sockets.TcpHelper;
 using Tool.Sockets.UdpHelper;
+using Tool.SqlCore;
+using Tool.Utils;
+using Tool.Utils.Data;
 
 namespace TcpTest
 {
@@ -23,8 +29,22 @@ namespace TcpTest
         public DateTime? c { get; init; } = DateTime.Now;
         public bool? d { get; set; }
         public byte? e { get; init; }
-        public double? f { get; set; }
+        public double? f;
         public decimal? g { get; init; }
+
+        protected object s => throw new AggregateException();
+
+        protected static object a1 { get; set; }
+
+        private static object a2 { get; set; }
+
+        public static object a3 { get; set; }
+
+        protected static object a4;
+
+        private static object a5;
+
+        public static object a6;
     }
 
     [SupportedOSPlatform("windows")]
@@ -388,6 +408,30 @@ namespace TcpTest
             //var a3 = BitConverter.ToUInt16(data.Reverse().ToArray());
 
 #endif
+
+            //PropertyInfo[]? properties = null;
+            //var asda = Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassFields(typeof(Abc), ref properties);
+
+            //var dir = asda.Invoke(new Abc());
+
+            Abc abc = new Abc();
+
+            var dic = abc.GetDictionary();
+            dic["a"] = 999;
+            abc.SetDictionary(dic);
+
+            abc.SetFieldValue("f", 0.1);
+
+            abc.SetPropertyValue("a", 123456);
+
+            abc.SetPropertyValue("a1", 0.1);
+            abc.SetPropertyValue("a2", 0.2);
+            abc.SetPropertyValue("a3", 0.3);
+            abc.SetFieldValue("a4", 0.4);
+            abc.SetFieldValue("a5", 0.5);
+            abc.SetFieldValue("a6", 0.6);
+
+            abc.GetPropertyValue("s", out var s);
 
             await NetWorship.OnMain(args);
             //await TcpWorship.OnMain(args);

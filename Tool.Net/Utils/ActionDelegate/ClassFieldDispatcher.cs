@@ -176,7 +176,7 @@ namespace Tool.Utils.ActionDelegate
         {
             if (classtype == null) throw new ArgumentNullException(nameof(classtype), "参数为空！");
 
-            propertyInfos ??= classtype.GetProperties();
+            propertyInfos ??= classtype.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             var hashtype = typeof(IDictionary<string, object>);
 
             var as0 = Expression.Parameter(typeof(object), "callclass");
@@ -194,10 +194,8 @@ namespace Tool.Utils.ActionDelegate
             {
                 if (!classField.CanWrite) continue;
 
-                var source = Expression.Property(as3, classField);
-
+                var source = Expression.Property(classField.SetMethod.IsStatic ? null : as3, classField);
                 var method = Expression.Call(as1, getContainsKey, Expression.Constant(classField.Name), as4);
-
                 var assign = Expression.Assign(source, Expression.Convert(as4, classField.PropertyType));
 
                 var ifassign = Expression.IfThen(method, assign);
@@ -206,7 +204,6 @@ namespace Tool.Utils.ActionDelegate
             if (blockExpressions.Count == 1) return default;
 
             var as2 = Expression.Block(new[] { as3, as4 }, blockExpressions);
-
             var as5 = Expression.Lambda<SetClassField>(as2, as0, as1);
 
             return as5.Compile();
@@ -222,7 +219,7 @@ namespace Tool.Utils.ActionDelegate
         {
             if (classtype == null) throw new ArgumentNullException(nameof(classtype), "参数为空！");
 
-            propertyInfos ??= classtype.GetProperties();
+            propertyInfos ??= classtype.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             var hashtype = typeof(IDictionary<string, object>);
 
             var as0 = Expression.Parameter(typeof(object), "callclass");
@@ -241,16 +238,20 @@ namespace Tool.Utils.ActionDelegate
             {
                 if (!classField.CanRead) continue;
 
-                var target = Expression.Call(as1, addItem, Expression.Constant(classField.Name), Expression.TypeAs(Expression.Property(as2, classField), typeof(object)));//Expression.Call(as2, classField.GetMethod)//Convert
+                var source = Expression.Property(classField.GetMethod.IsStatic ? null : as2, classField);
+                var value = Expression.TypeAs(source, typeof(object));
+                var ex = Expression.Parameter(typeof(Exception), "ex");
+                var target = Expression.Call(as1, addItem, Expression.Constant(classField.Name), value);//Expression.Call(as2, classField.GetMethod)//Convert
 
-                blockExpressions.Add(target);
+                var catchassign = Expression.Catch(ex, Expression.Call(as1, addItem, Expression.Constant(classField.Name), ex));
+                var tryassign = Expression.TryCatch(target, catchassign);
+
+                blockExpressions.Add(tryassign);
             }
             if (blockExpressions.Count == 2) return default;
 
             blockExpressions.Add(Expression.Label(Expression.Label(hashtype), as1));
-
             var as3 = Expression.Block(new[] { as2, as1 }, blockExpressions);
-
             var as4 = Expression.Lambda<GetClassField>(as3, as0);
 
             return as4.Compile();

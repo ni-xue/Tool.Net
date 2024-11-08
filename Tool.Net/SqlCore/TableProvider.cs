@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Text;
+using System.Threading.Tasks;
 using Tool.Utils;
 using Tool.Utils.Data;
 
@@ -94,7 +95,7 @@ namespace Tool.SqlCore
         /// <param name="dt"><see cref="DataTable"/>对象</param>
         public void CommitData(DataTable dt)
         {
-            DataSet dataSet = this.ConstructDataSet(dt);
+            DataSet dataSet = ConstructDataSet(dt);
             Database.UpdateDataSet(dataSet, this.TableName);
         }
 
@@ -103,7 +104,7 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="dt"></param>
         /// <returns></returns>
-        private DataSet ConstructDataSet(DataTable dt)
+        private static DataSet ConstructDataSet(DataTable dt)
         {
             if (dt.DataSet != null)
             {
@@ -130,25 +131,6 @@ namespace Tool.SqlCore
                 throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
             }
 
-            //StringBuilder key = new StringBuilder();
-
-            //StringBuilder value = new StringBuilder();
-
-            //List<DbParameter> parms = new List<DbParameter>();
-
-            //foreach (KeyValuePair<string, object> keyValue in keyValues)
-            //{
-            //    key.AppendFormat("[{0}],", keyValue.Key);
-
-            //    value.AppendFormat("@{0},", keyValue.Key);
-
-            //    parms.Add(Database.MakeInParam(keyValue.Key, keyValue.Value));
-            //}
-
-            //key.Remove(key.Length - 1, 1);
-
-            //value.Remove(value.Length - 1, 1);
-
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
             string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
@@ -167,25 +149,6 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
             }
-
-            //StringBuilder key = new StringBuilder();
-
-            //StringBuilder value = new StringBuilder();
-
-            //List<DbParameter> parms = new List<DbParameter>();
-
-            //foreach (KeyValuePair<string, object> keyValue in keyValues)
-            //{
-            //    key.AppendFormat("[{0}],", keyValue.Key);
-
-            //    value.AppendFormat("@{0},", keyValue.Key);
-
-            //    parms.Add(Database.MakeInParam(keyValue.Key, keyValue.Value));
-            //}
-
-            //key.Remove(key.Length - 1, 1);
-
-            //value.Remove(value.Length - 1, 1);
 
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
@@ -207,25 +170,6 @@ namespace Tool.SqlCore
                 throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
             }
 
-            //StringBuilder key = new StringBuilder();
-
-            //StringBuilder value = new StringBuilder();
-
-            //List<DbParameter> parms = new List<DbParameter>();
-
-            //foreach (KeyValuePair<string, object> keyValue in keyValues)
-            //{
-            //    key.AppendFormat("[{0}],", keyValue.Key);
-
-            //    value.AppendFormat("@{0},", keyValue.Key);
-
-            //    parms.Add(Database.MakeInParam(keyValue.Key, keyValue.Value));
-            //}
-
-            //key.Remove(key.Length - 1, 1);
-
-            //value.Remove(value.Length - 1, 1);
-
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
             string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
@@ -246,25 +190,6 @@ namespace Tool.SqlCore
             {
                 throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
             }
-
-            //StringBuilder key = new StringBuilder();
-
-            //StringBuilder value = new StringBuilder();
-
-            //List<DbParameter> parms = new List<DbParameter>();
-
-            //foreach (KeyValuePair<string, object> keyValue in keyValues)
-            //{
-            //    key.AppendFormat("[{0}],", keyValue.Key);
-
-            //    value.AppendFormat("@{0},", keyValue.Key);
-
-            //    parms.Add(Database.MakeInParam(keyValue.Key, keyValue.Value));
-            //}
-
-            //key.Remove(key.Length - 1, 1);
-
-            //value.Remove(value.Length - 1, 1);
 
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
@@ -309,19 +234,6 @@ namespace Tool.SqlCore
                 throw NullException;
             }
 
-            //StringBuilder stringBuilder = new StringBuilder();
-
-            //List<DbParameter> parms = new List<DbParameter>();
-
-            //foreach (KeyValuePair<string, object> keyValue in keyValues)
-            //{
-            //    stringBuilder.AppendFormat("[{0}] = @{0},", keyValue.Key);
-
-            //    parms.Add(Database.MakeInParam(keyValue.Key, keyValue.Value));
-            //}
-
-            //stringBuilder.Remove(stringBuilder.Length - 1, 1);
-
             List<DbParameter> parms = Database.GetUpdateParams(keyValues, out string strsql);
 
             string commandText = string.Format("UPDATE {0} SET {1} {2}", this.TableName, strsql, DbHelperExensions.WhereStr(where));
@@ -343,20 +255,6 @@ namespace Tool.SqlCore
             {
                 throw NullException;
             }
-
-            //StringBuilder stringBuilder = new StringBuilder();
-
-            //List<DbParameter> parms = new List<DbParameter>();
-
-            //foreach (KeyValuePair<string, object> keyValue in keyValues)
-            //{
-            //    stringBuilder.AppendFormat("[{0}] = @{0},", keyValue.Key);
-
-            //    parms.Add(Database.MakeInParam(keyValue.Key, keyValue.Value));
-            //}
-
-            //stringBuilder.Remove(stringBuilder.Length - 1, 1);
-
 
             List<DbParameter> parms = Database.GetUpdateParams(keyValues, out string strsql);
 
@@ -382,19 +280,6 @@ namespace Tool.SqlCore
                 throw NullException;
             }
 
-            //StringBuilder stringBuilder = new StringBuilder();
-
-            //List<DbParameter> parms = new List<DbParameter>();
-
-            //foreach (KeyValuePair<string, object> keyValue in keyValues)
-            //{
-            //    stringBuilder.AppendFormat("[{0}] = @{0},", keyValue.Key);
-
-            //    parms.Add(Database.MakeInParam(keyValue.Key, keyValue.Value));
-            //}
-
-            //stringBuilder.Remove(stringBuilder.Length - 1, 1);
-
             List<DbParameter> parms = Database.GetUpdateParams(keyValues, out string strsql);
 
             string commandText = string.Format("UPDATE {0} SET {1} {2}", this.TableName, strsql, DbHelperExensions.WhereStr(where));
@@ -410,7 +295,7 @@ namespace Tool.SqlCore
         {
             string commandText = string.Format("SELECT * FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
 
-            DataSet dataSet = Database.ExecuteDataset(commandText);
+            DataSet dataSet = Database.ExecuteDataSet(commandText);
             if (!dataSet.IsEmpty())
             {
                 return dataSet.Tables[0];
@@ -428,7 +313,7 @@ namespace Tool.SqlCore
         {
             string commandText = string.Format("SELECT * FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
 
-            DataSet dataSet = Database.ExecuteDataset(commandText, prams);
+            DataSet dataSet = Database.ExecuteDataSet(commandText, prams);
             if (!dataSet.IsEmpty())
             {
                 return dataSet.Tables[0];
@@ -457,7 +342,7 @@ namespace Tool.SqlCore
 
             string commandText = string.Format("SELECT {0} FROM {1} {2}", key.ToString(0, key.Length - 1), this.TableName, DbHelperExensions.WhereStr(where));
 
-            DataSet dataSet = Database.ExecuteDataset(commandText);
+            DataSet dataSet = Database.ExecuteDataSet(commandText);
             if (!dataSet.IsEmpty())
             {
                 return dataSet.Tables[0];
@@ -487,7 +372,7 @@ namespace Tool.SqlCore
 
             string commandText = string.Format("SELECT {0} FROM {1} {2}", key.ToString(0, key.Length - 1), this.TableName, DbHelperExensions.WhereStr(where));
 
-            DataSet dataSet = Database.ExecuteDataset(commandText, prams);
+            DataSet dataSet = Database.ExecuteDataSet(commandText, prams);
             if (!dataSet.IsEmpty())
             {
                 return dataSet.Tables[0];
@@ -728,10 +613,7 @@ namespace Tool.SqlCore
         /// <returns>返回行数</returns>
         public int GetRecordsCount(string where)
         {
-            if (where == null)
-            {
-                where = "";
-            }
+            where ??= "";
             string commandText = string.Format("SELECT COUNT(*) FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
             return int.Parse(Database.ExecuteScalarToStr(CommandType.Text, commandText));
         }
@@ -762,6 +644,502 @@ namespace Tool.SqlCore
                 emptyTable.Rows.Clear();
                 emptyTable.AcceptChanges();
             }
+        }
+
+        /// <summary>
+        /// 查询行数
+        /// </summary>
+        /// <param name="where">查询条件</param>
+        /// <returns>返回行数</returns>
+        public async Task<int> GetRecordsCountAsync(string where)
+        {
+            where ??= "";
+            string commandText = string.Format("SELECT COUNT(*) FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
+            return int.Parse(await Database.ExecuteScalarToStrAsync(CommandType.Text, commandText));
+        }
+
+        /// <summary>
+        /// 插入新的数据 
+        /// </summary>
+        /// <param name="keyValues">键值对的数据集</param>
+        /// <returns>返回受影响数</returns>
+        public Task<int> InsertAsync(Dictionary<string, object> keyValues)
+        {
+            if (keyValues == null || keyValues.Count == 0)
+            {
+                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", nameof(keyValues));
+            }
+
+            List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
+
+            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+            return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
+        }
+
+        /// <summary>
+        /// 插入新的数据
+        /// </summary>
+        /// <param name="keyValues">键值对的数据集</param>
+        /// <returns>返回受影响数</returns>
+        public Task<SqlNonQuery> InsertIdAsync(Dictionary<string, object> keyValues)
+        {
+            if (keyValues == null || keyValues.Count == 0)
+            {
+                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", nameof(keyValues));
+            }
+
+            List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
+
+            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+            return Database.ExecuteNonQueryIdAsync(CommandType.Text, commandText, parms.ToArray());
+        }
+
+        /// <summary>
+        /// 插入新的数据
+        /// </summary>
+        /// <param name="prams">对字符串进行映射</param>
+        /// <returns>返回受影响数</returns>
+        public Task<SqlNonQuery> InsertIdAsync(object prams)
+        {
+            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+
+            if (keyValues == null || keyValues.Count == 0)
+            {
+                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
+            }
+
+            List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
+
+            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+            return Database.ExecuteNonQueryIdAsync(CommandType.Text, commandText, parms.ToArray());
+        }
+
+        /// <summary>
+        /// 插入新的数据 
+        /// </summary>
+        /// <param name="prams">对虚构参数进行映射</param>
+        /// <returns>返回受影响数</returns>
+        public Task<int> InsertAsync(object prams)
+        {
+            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+
+            if (keyValues == null || keyValues.Count == 0)
+            {
+                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
+            }
+
+            List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
+
+            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+            return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
+        }
+
+        /// <summary>
+        /// 删除该表数据
+        /// </summary>
+        /// <param name="where">指定的删除条件</param>
+        /// <returns>受影响行数</returns>
+        public Task<int> DeleteAsync(string where)
+        {
+            string commandText = string.Format("DELETE FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
+            return Database.ExecuteNonQueryAsync(commandText);
+        }
+
+        /// <summary>
+        /// 删除该表数据
+        /// </summary>
+        /// <param name="where">指定的删除条件</param>
+        /// <param name="prams">对字符串进行映射</param>
+        /// <returns>受影响行数</returns>
+        public Task<int> DeleteAsync(string where, object prams)
+        {
+            string commandText = string.Format("DELETE FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
+            return Database.ExecuteNonQueryAsync(commandText, prams);
+        }
+
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="prams">对虚构参数进行映射</param>
+        /// <param name="where">指定的修改的条件</param>
+        public Task<int> UpdateAsync(object prams, string where)
+        {
+            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+
+            if (keyValues == null || keyValues.Count == 0)
+            {
+                throw NullException;
+            }
+
+            List<DbParameter> parms = Database.GetUpdateParams(keyValues, out string strsql);
+
+            string commandText = string.Format("UPDATE {0} SET {1} {2}", this.TableName, strsql, DbHelperExensions.WhereStr(where));
+            return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
+        }
+
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="prams">对虚构参数进行映射</param>
+        /// <param name="where">指定的修改的条件</param>
+        /// <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
+        public Task<int> UpdateAsync(object prams, string where, object parameter)
+        {
+            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+
+            if (keyValues == null || keyValues.Count == 0)
+            {
+                throw NullException;
+            }
+
+            List<DbParameter> parms = Database.GetUpdateParams(keyValues, out string strsql);
+
+            DbParameter[] dbParameters = Database.SetParameters(parameter);
+            if (dbParameters != null && dbParameters.Length > 0)
+            {
+                parms.AddRange(dbParameters);
+            }
+
+            string commandText = string.Format("UPDATE {0} SET {1} {2}", this.TableName, strsql, DbHelperExensions.WhereStr(where));
+            return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
+        }
+
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="keyValues">修改的键值对集合</param>
+        /// <param name="where">指定的修改的条件</param>
+        public Task<int> UpdateAsync(Dictionary<string, object> keyValues, string where)
+        {
+            if (keyValues == null || keyValues.Count == 0)
+            {
+                throw NullException;
+            }
+
+            List<DbParameter> parms = Database.GetUpdateParams(keyValues, out string strsql);
+
+            string commandText = string.Format("UPDATE {0} SET {1} {2}", this.TableName, strsql, DbHelperExensions.WhereStr(where));
+            return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
+        }
+
+        /// <summary>
+        /// 查询该表信息
+        /// </summary>
+        /// <param name="where">指定的查询条件</param>
+        /// <returns><see cref="DataTable"/>对象</returns>
+        public async Task<DataTable> GetAsync(string where)
+        {
+            string commandText = string.Format("SELECT * FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
+
+            DataSet dataSet = await Database.ExecuteDataSetAsync(commandText);
+            if (!dataSet.IsEmpty())
+            {
+                return dataSet.Tables[0];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 查询该表信息
+        /// </summary>
+        /// <param name="where">指定的查询条件</param>
+        /// <param name="prams">对字符串进行映射</param>
+        /// <returns><see cref="DataTable"/>对象</returns>
+        public async Task<DataTable> GetAsync(string where, object prams)
+        {
+            string commandText = string.Format("SELECT * FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
+
+            DataSet dataSet = await Database.ExecuteDataSetAsync(commandText, prams);
+            if (!dataSet.IsEmpty())
+            {
+                return dataSet.Tables[0];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 查询该表信息
+        /// </summary>
+        /// <param name="where">指定的查询条件</param>
+        /// <param name="fields">要查询的字段</param>
+        /// <returns><see cref="DataTable"/>对象</returns>
+        public async Task<DataTable> GetAsync(string where, params string[] fields)
+        {
+            if (fields == null || fields.Length == 0)
+            {
+                throw NullException;
+            }
+            StringBuilder key = new();
+
+            foreach (string field in fields)
+            {
+                key.AppendFormat("[{0}],", field);
+            }
+
+            string commandText = string.Format("SELECT {0} FROM {1} {2}", key.ToString(0, key.Length - 1), this.TableName, DbHelperExensions.WhereStr(where));
+
+            DataSet dataSet = await Database.ExecuteDataSetAsync(commandText);
+            if (!dataSet.IsEmpty())
+            {
+                return dataSet.Tables[0];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 查询该表信息
+        /// </summary>
+        /// <param name="where">指定的查询条件</param>
+        /// <param name="prams">对字符串进行映射</param>
+        /// <param name="fields">要查询的字段</param>
+        /// <returns><see cref="DataTable"/>对象</returns>
+        public async Task<DataTable> GetAsync(string where, object prams, params string[] fields)
+        {
+            if (fields == null || fields.Length == 0)
+            {
+                throw NullException;
+            }
+            StringBuilder key = new();
+
+            foreach (string field in fields)
+            {
+                key.AppendFormat("[{0}],", field);
+            }
+
+            string commandText = string.Format("SELECT {0} FROM {1} {2}", key.ToString(0, key.Length - 1), this.TableName, DbHelperExensions.WhereStr(where));
+
+            DataSet dataSet = await Database.ExecuteDataSetAsync(commandText, prams);
+            if (!dataSet.IsEmpty())
+            {
+                return dataSet.Tables[0];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获取空表
+        /// </summary>
+        /// <returns><see cref="DataTable"/>对象</returns>
+        public async Task<DataTable> GetEmptyTableAsync()
+        {
+            DataTable emptyTable = await Database.GetEmptyTableAsync(this.TableName);
+            emptyTable.TableName = this.TableName;
+            return emptyTable;
+        }
+
+        /// <summary>
+        /// 新行
+        /// </summary>
+        /// <returns><see cref="DataRow"/>对象</returns>
+        public async Task<DataRow> NewRowAsync()
+        {
+            DataTable emptyTable = await this.GetEmptyTableAsync();
+            DataRow dataRow = emptyTable.NewRow();
+            for (int i = 0; i < emptyTable.Columns.Count; i++)
+            {
+                dataRow[i] = DBNull.Value;
+            }
+            return dataRow;
+        }
+
+        /// <summary>
+        /// 获取对象
+        /// </summary>
+        /// <typeparam name="T">实体对象</typeparam>
+        /// <param name="where">查询条件</param>
+        /// <returns>返回实体对象</returns>
+        public async Task<T> GetObjectAsync<T>(string where)
+        {
+            DataRow one = await this.GetOneAsync(where);
+            if (one == null)
+            {
+                return default;
+            }
+            return DataHelper.ConvertRowToObject<T>(one);
+        }
+
+        /// <summary>
+        /// 获取对象
+        /// </summary>
+        /// <typeparam name="T">实体对象</typeparam>
+        /// <param name="where">查询条件</param>
+        /// <param name="prams">对字符串进行映射</param>
+        /// <returns>返回实体对象</returns>
+        public async Task<T> GetObjectAsync<T>(string where, object prams)
+        {
+            DataRow one = await this.GetOneAsync(where, prams);
+            if (one == null)
+            {
+                return default;
+            }
+            return DataHelper.ConvertRowToObject<T>(one);
+        }
+
+        /// <summary>
+        /// 获取对象
+        /// </summary>
+        /// <typeparam name="T">实体对象</typeparam>
+        /// <param name="where">查询条件</param>
+        /// <param name="fields">要查询的字段</param>
+        /// <returns>返回实体对象</returns>
+        public async Task<T> GetObjectAsync<T>(string where, params string[] fields)
+        {
+            DataRow one = await this.GetOneAsync(where, fields);
+            if (one == null)
+            {
+                return default;
+            }
+            return DataHelper.ConvertRowToObject<T>(one);
+        }
+
+        /// <summary>
+        /// 获取对象
+        /// </summary>
+        /// <typeparam name="T">实体对象</typeparam>
+        /// <param name="where">查询条件</param>
+        /// <param name="prams">对字符串进行映射</param>
+        /// <param name="fields">要查询的字段</param>
+        /// <returns>返回实体对象</returns>
+        public async Task<T> GetObjectAsync<T>(string where, object prams, params string[] fields)
+        {
+            DataRow one = await this.GetOneAsync(where, prams, fields);
+            if (one == null)
+            {
+                return default;
+            }
+            return DataHelper.ConvertRowToObject<T>(one);
+        }
+
+        /// <summary>
+        /// 获取对象列表
+        /// </summary>
+        /// <typeparam name="T">实体对象</typeparam>
+        /// <param name="where">查询条件</param>
+        /// <returns>返回实体对象集合</returns>
+        public async Task<IList<T>> GetObjectListAsync<T>(string where)
+        {
+            DataTable dataTable = await this.GetAsync(where);
+            if (!dataTable.IsEmpty())
+            {
+                return DataHelper.ConvertDataTableToObjects<T>(dataTable);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获取对象列表
+        /// </summary>
+        /// <typeparam name="T">实体对象</typeparam>
+        /// <param name="where">查询条件</param>
+        /// <param name="prams">对字符串进行映射</param>
+        /// <returns>返回实体对象集合</returns>
+        public async Task<IList<T>> GetObjectListAsync<T>(string where, object prams)
+        {
+            DataTable dataTable = await this.GetAsync(where, prams);
+            if (!dataTable.IsEmpty())
+            {
+                return DataHelper.ConvertDataTableToObjects<T>(dataTable);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获取对象列表
+        /// </summary>
+        /// <typeparam name="T">实体对象</typeparam>
+        /// <param name="where">查询条件</param>
+        /// <param name="fields">要查询的字段</param>
+        /// <returns>返回实体对象集合</returns>
+        public async Task<IList<T>> GetObjectListAsync<T>(string where, params string[] fields)
+        {
+            DataTable dataTable = await this.GetAsync(where, fields);
+            if (!dataTable.IsEmpty())
+            {
+                return DataHelper.ConvertDataTableToObjects<T>(dataTable);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获取对象列表
+        /// </summary>
+        /// <typeparam name="T">实体对象</typeparam>
+        /// <param name="where">查询条件</param>
+        /// <param name="prams">对字符串进行映射</param>
+        /// <param name="fields">要查询的字段</param>
+        /// <returns>返回实体对象集合</returns>
+        public async Task<IList<T>> GetObjectListAsync<T>(string where, object prams, params string[] fields)
+        {
+            DataTable dataTable = await this.GetAsync(where, prams, fields);
+            if (!dataTable.IsEmpty())
+            {
+                return DataHelper.ConvertDataTableToObjects<T>(dataTable);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获取当前查询的数据的第一行
+        /// </summary>
+        /// <param name="where">查询条件</param>
+        /// <returns>返回第一条数据</returns>
+        public async Task<DataRow> GetOneAsync(string where)
+        {
+            DataTable dataTable = await this.GetAsync(where);
+            if (!dataTable.IsEmpty())
+            {
+                return dataTable.Rows[0];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获取当前查询的数据的第一行
+        /// </summary>
+        /// <param name="where">查询条件</param>
+        /// <param name="prams">对字符串进行映射</param>
+        /// <returns>返回第一条数据</returns>
+        public async Task<DataRow> GetOneAsync(string where, object prams)
+        {
+            DataTable dataTable = await this.GetAsync(where, prams);
+            if (!dataTable.IsEmpty())
+            {
+                return dataTable.Rows[0];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获取当前查询的数据的第一行
+        /// </summary>
+        /// <param name="where">查询条件</param>
+        /// <param name="fields">要查询的字段</param>
+        /// <returns>返回第一条数据</returns>
+        public async Task<DataRow> GetOneAsync(string where, params string[] fields)
+        {
+            DataTable dataTable = await this.GetAsync(where, fields);
+            if (!dataTable.IsEmpty())
+            {
+                return dataTable.Rows[0];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获取当前查询的数据的第一行
+        /// </summary>
+        /// <param name="where">查询条件</param>
+        /// <param name="prams">对字符串进行映射</param>
+        /// <param name="fields">要查询的字段</param>
+        /// <returns>返回第一条数据</returns>
+        public async Task<DataRow> GetOneAsync(string where, object prams, params string[] fields)
+        {
+            DataTable dataTable = await this.GetAsync(where, prams, fields);
+            if (!dataTable.IsEmpty())
+            {
+                return dataTable.Rows[0];
+            }
+            return null;
         }
     }
 }

@@ -820,8 +820,62 @@
         </member>
         <member name="T:Tool.Sockets.Kernels.QuicStateObject">
             <summary>
-            .Net7 以上支持
+            对异步接收时的对象状态的封装，将Websocket与接收到的数据封装在一起
             </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.QuicStateObject.#ctor(Tool.Sockets.Kernels.QuicSocket,System.Int32,System.Boolean,Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.Kernels.QuicSocket})">
+            <summary>
+            有参构造
+            </summary>
+            <param name="Client">对象</param>
+            <param name="DataLength">包的大小</param>
+            <param name="OnlyData">是否确保数据有效</param>
+            <param name="received">任务事件</param>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.QuicStateObject.IsConnected">
+            <summary>
+            根据 <see cref="T:Tool.Sockets.Kernels.QuicSocket"/> 获取当前连接是否已经断开
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.QuicStateObject.OnlyData">
+            <summary>
+            是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.QuicStateObject.Client">
+            <summary>
+            为 Quic 网络服务提供客户端连接。
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.QuicStateObject.DataLength">
+            <summary>
+            包长度
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.QuicStateObject.SocketKey">
+            <summary>
+            当前对象唯一的连接票据
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.QuicStateObject.CloseAsync">
+            <summary>
+            回收对象所以资源
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.QuicStateObject.IsConnected(Tool.Sockets.Kernels.QuicSocket)">
+            <summary>
+            根据 <see cref="T:Tool.Sockets.Kernels.QuicSocket"/> 获取当前连接是否已经断开
+            </summary>
+            <param name="Client"><see cref="T:Tool.Sockets.Kernels.QuicSocket"/></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.QuicStateObject.GetIpPort(Tool.Sockets.Kernels.QuicSocket)">
+            <summary>
+            根据QuicSocket获取IP加端口
+            </summary>
+            <param name="Client"></param>
+            <returns></returns>
         </member>
         <member name="M:Tool.Sockets.Kernels.QuicStateObject.GenerateManualCertificate(System.String)">
             <summary>
@@ -832,8 +886,77 @@
         </member>
         <member name="T:Tool.Sockets.Kernels.QuicSocket">
             <summary>
-            .Net7 以上支持
+            QuicSocket通信模块
             </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.QuicSocket.QuicSocketAsync(System.Net.Quic.QuicConnection,System.Boolean)">
+            <summary>
+            使用连接信息创建或获取流
+            </summary>
+            <param name="connection">连接信息</param>
+            <param name="isServer">发起方</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.QuicSocket.OutOrInStreamAsync">
+            <summary>
+            获取服务端或客户端的new流对象
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.QuicSocket.IsServer">
+            <summary>
+            连接信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.QuicSocket.Connection">
+            <summary>
+            连接信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.QuicSocket.Stream">
+            <summary>
+            Quic默认流信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.QuicSocket.Connected">
+            <summary>
+            当前Quic是否连接
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.QuicSocket.RemoteEndPoint">
+            <summary>
+            用于此连接的远程终结点。
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.QuicSocket.LocalEndPoint">
+            <summary>
+            用于此连接的本地终结点。
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.QuicSocket.SendAsync(System.Memory{System.Byte})">
+            <summary>
+            向当前默认流发送数据
+            </summary>
+            <param name="listData">数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.QuicSocket.ReceiveAsync">
+            <summary>
+            获取从当前流中获取新的数据
+            </summary>
+            <returns>结果</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.QuicSocket.AdvanceTo(System.Buffers.ReadOnlySequence{System.Byte}@)">
+            <summary>
+            标记已使用数据的位置
+            </summary>
+            <param name="buffer">位置</param>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.QuicSocket.CloseAsync">
+            <summary>
+            关闭Quic连接
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Tool.Sockets.Kernels.ReceiveEvent`1">
             <summary>
@@ -3265,12 +3388,405 @@
         </member>
         <member name="T:Tool.Sockets.QuicHelper.QuicClientAsync">
             <summary>
-            .Net7 以上支持
+            封装一个底层异步Quic对象（客户端）写了但属于预览物无法使用
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.Keep">
+            <summary>
+            获取当前心跳信息
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.QuicHelper.QuicClientAsync.Completed">
+            连接、发送、关闭事件
+        </member>
+        <member name="F:Tool.Sockets.QuicHelper.QuicClientAsync.Received">
+            接收到数据事件
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.IsClose">
+            <summary>
+            标识客户端连接是否关闭
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.Server">
+            <summary>
+            服务器的连接信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.LocalPoint">
+            <summary>
+            当前设备的连接信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.Connected">
+            <summary>
+            连接状态
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.Millisecond">
+            <summary>
+            监听控制毫秒
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.OnlyData">
+            <summary>
+            是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.ApplicationProtocols">
+            <summary>
+            设置支持的HTTP协议
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.SetCompleted(Tool.Sockets.Kernels.CompletedEvent{Tool.Sockets.Kernels.EnClient})">
+            <summary>
+            连接、发送、关闭事件
+            </summary>
+            <param name="Completed"></param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.SetReceived(Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.Kernels.QuicSocket})">
+            <summary>
+            接收到数据事件
+            </summary>
+            <param name="Received"></param>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.IsThreadPool">
+            <summary>
+            是否使用线程池调度接收后的数据
+            默认 true 开启
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.IsReconnect">
+            <summary>
+            是否在与服务器断开后主动重连？ 
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.DisabledReceive">
+            <summary>
+            禁用掉Receive通知事件，方便上层封装
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.BufferSize">
+            <summary>
+            表示通讯的包大小
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.#ctor">
+            <summary>
+            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicClientAsync"/> 客户端类
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.#ctor(Tool.Sockets.Kernels.NetBufferSize)">
+            <summary>
+            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicClientAsync"/> 客户端类，确认模式和设置流大小
+            </summary>
+            <param name="bufferSize">包大小枚举</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.#ctor(Tool.Sockets.Kernels.NetBufferSize,System.Boolean)">
+            <summary>
+            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicClientAsync"/> 客户端类，确认模式和设置流大小
+            </summary>
+            <param name="bufferSize">包大小枚举</param>
+            <param name="OnlyData">是否启动框架模式</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.#ctor(Tool.Sockets.Kernels.NetBufferSize,System.Boolean,System.Boolean)">
+            <summary>
+            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicClientAsync"/> 客户端类，确认模式和设置流大小
+            </summary>
+            <param name="bufferSize">包大小枚举</param>
+            <param name="OnlyData">是否启动框架模式</param>
+            <param name="IsReconnect">是否在与服务器断开后主动重连？ </param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.ConnectAsync(System.Int32)">
+            <summary>
+            异步连接，连接ip地址为127.0.0.1
+            </summary>
+            <param name="port">要连接服务端的端口</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.ConnectAsync(System.String,System.Int32)">
+            <summary>
+            异步连接
+            </summary>
+            <param name="ip">要连接的服务器的ip地址</param>
+            <param name="port">要连接的服务器的端口</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.ConnectAsync(System.Net.DnsEndPoint)">
+            <summary>
+            异步连接
+            </summary>
+            <param name="dnsEndPoint">域名:端口</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.SendAsync(System.String)">
+            <summary>
+            开始异步发送数据
+            </summary>
+            <param name="msg">要发送的内容</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.SendAsync(System.ArraySegment{System.Byte})">
+            <summary>
+            开始异步发送数据
+            </summary>
+            <param name="listData">数据包</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.SendAsync(Tool.Sockets.Kernels.SendBytes{Tool.Sockets.Kernels.QuicSocket})">
+            <summary>
+            异步发送消息
+            </summary>
+            <param name="sendBytes">数据包</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">OnlyData验证失败</exception>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.ConnectCallBack">
+            异步接收连接的回调函数
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.StartReceive(Tool.Sockets.Kernels.QuicSocket)">
+            启动新线程，用于专门接收消息
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.ReceiveAsync(Tool.Sockets.Kernels.QuicStateObject)">
+            开始异步接收数据
+            obj 要接收的客户端包体
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.Reconnection">
+            <summary>
+            重连，返回是否重连，如果没有断开是不会重连的
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.AddKeepAlive(System.Byte)">
+            <summary>
+            添加持久化消息（心跳），防止特殊情况下的断开连接
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.OnComplete(Tool.Sockets.Kernels.UserKey@,Tool.Sockets.Kernels.EnClient)">
+            <summary>
+            可供开发重写的事件方法
+            </summary>
+            <param name="key">IP：端口</param>
+            <param name="enAction">消息类型</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.CreateSendBytes(System.Int32)">
+            <summary>
+            创建数据发送空间
+            </summary>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.InsideClose">
+            <summary>
+            TCP关闭
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.CloseAsync">
+            <summary>
+            异步关闭Quic
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.Close">
+            <summary>
+            关闭Quic
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.Dispose">
+            <summary>
+            关闭连接，回收相关资源
             </summary>
         </member>
         <member name="T:Tool.Sockets.QuicHelper.QuicServerAsync">
             <summary>
-            .Net7 以上支持
+            封装一个底层异步Quic对象（服务端）写了但属于预览物无法使用
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.QuicHelper.QuicServerAsync.Completed">
+            连接、发送、关闭事件
+        </member>
+        <member name="F:Tool.Sockets.QuicHelper.QuicServerAsync.Received">
+            接收到数据事件
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.IsClose">
+            <summary>
+            标识客户端连接是否关闭
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.Server">
+            <summary>
+            服务器的监听信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.ListClient">
+            <summary>
+            已建立连接的集合
+            key:UserKey
+            value:QuicSocket
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.Millisecond">
+            <summary>
+            监听控制毫秒
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.OnlyData">
+            <summary>
+            是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.IsThreadPool">
+            <summary>
+            是否使用线程池调度接收后的数据
+            默认 true 开启
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.DisabledReceive">
+            <summary>
+            禁用掉Receive通知事件，方便上层封装
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.QuicHelper.QuicServerAsync.InitCertificate">
+            提供自定义设置证书的服务
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.ApplicationProtocols">
+            <summary>
+            设置支持的HTTP协议
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.BufferSize">
+            <summary>
+            表示通讯的包大小
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SetInitCertificate(System.Func{System.Net.Quic.QuicConnection,System.Net.Security.SslClientHelloInfo,System.Threading.Tasks.ValueTask{System.Security.Cryptography.X509Certificates.X509Certificate2}})">
+            <summary>
+            当新连接，创建时，返回对应用于验证的证书
+            </summary>
+            <param name="InitCertificate"></param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SetCompleted(Tool.Sockets.Kernels.CompletedEvent{Tool.Sockets.Kernels.EnServer})">
+            <summary>
+            连接、发送、关闭事件 <see cref="T:Tool.Sockets.Kernels.EnServer"/>
+            </summary>
+            <param name="Completed"></param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SetReceived(Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.Kernels.QuicSocket})">
+            <summary>
+            接收到数据事件
+            </summary>
+            <param name="Received"></param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.TrySocket(Tool.Sockets.Kernels.UserKey@,Tool.Sockets.Kernels.QuicSocket@)">
+            <summary>
+            根据IP:Port获取对应的连接对象
+            </summary>
+            <param name="key">IP:Port</param>
+            <param name="client">连接对象</param>
+            <returns>返回成功状态</returns>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.#ctor">
+            <summary>
+            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicServerAsync"/> 服务器类
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.#ctor(Tool.Sockets.Kernels.NetBufferSize)">
+            <summary>
+            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicServerAsync"/> 服务器类，并确定是否开启框架验证模式保证数据唯一性。
+            </summary>
+            <param name="size">数据缓冲区大小</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.#ctor(Tool.Sockets.Kernels.NetBufferSize,System.Boolean)">
+            <summary>
+            创建一个 <see cref="T:Tool.Sockets.QuicHelper.QuicServerAsync"/> 服务器类，确认模式和设置流大小
+            </summary>
+            <param name="size">数据缓冲区大小</param>
+            <param name="OnlyData">是否启动框架模式</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.StartAsync(System.Int32)">
+            <summary>
+            开始异步监听本机127.0.0.1的端口号
+            </summary>
+            <param name="port"></param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.StartAsync(System.String,System.Int32)">
+            <summary>
+            开始异步监听ip地址的端口
+            </summary>
+            <param name="ip"></param>
+            <param name="port"></param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SendAsync(Tool.Sockets.Kernels.Ipv4Port,System.String)">
+            <summary>
+            开始异步发送数据
+            </summary>
+            <param name="key">客户端的ip地址和端口号</param>
+            <param name="msg">要发送的内容</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SendAsync(Tool.Sockets.Kernels.Ipv4Port,System.ArraySegment{System.Byte})">
+            <summary>
+            开始异步发送数据
+            </summary>
+            <param name="key">客户端的ip地址和端口号</param>
+            <param name="listData">要发送的内容</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SendAsync(Tool.Sockets.Kernels.QuicSocket,System.String)">
+            <summary>
+            开始异步发送数据
+            </summary>
+            <param name="client">Socket对象</param>
+            <param name="msg">要发送的内容</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SendAsync(Tool.Sockets.Kernels.QuicSocket,System.ArraySegment{System.Byte})">
+            <summary>
+            开始异步发送数据
+            </summary>
+            <param name="client">Socket对象</param>
+            <param name="listData">要发送的内容</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SendAsync(Tool.Sockets.Kernels.SendBytes{Tool.Sockets.Kernels.QuicSocket})">
+            <summary>
+            异步发送消息
+            </summary>
+            <param name="sendBytes">数据包</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">OnlyData验证失败</exception>
+            <exception cref="T:System.Exception">连接已断开</exception>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.CreateSendBytes(Tool.Sockets.Kernels.Ipv4Port,System.Int32)">
+            <summary>
+            创建数据发送空间
+            </summary>
+            <param name="key">接收者信息</param>
+            <param name="length">数据大小</param>
+            <returns></returns>
+            <exception cref="T:System.Exception">连接已中断</exception>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.CreateSendBytes(Tool.Sockets.Kernels.QuicSocket,System.Int32)">
+            <summary>
+            创建数据发送空间
+            </summary>
+            <param name="quicclient">收数据的对象</param>
+            <param name="length">数据大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.AcceptCallBack(Tool.Sockets.Kernels.QuicSocket)">
+            异步接收连接的回调函数
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.StartReceive(Tool.Sockets.Kernels.QuicSocket)">
+            启动新线程，用于专门接收消息
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.ReceiveAsync(Tool.Sockets.Kernels.QuicStateObject)">
+            开始异步接收数据
+            obj 要接收的客户端包体
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.OnComplete(Tool.Sockets.Kernels.UserKey@,Tool.Sockets.Kernels.EnServer)">
+            <summary>
+            可供开发重写的事件方法
+            </summary>
+            <param name="key">指定发送对象</param>
+            <param name="enAction">消息类型</param>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.Stop">
+            <summary>
+            不等待异步关闭Ouic
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.Dispose">
+            <summary>
+            关闭连接，回收相关资源
             </summary>
         </member>
         <member name="T:Tool.Sockets.TcpHelper.TcpClientAsync">
@@ -4748,6 +5264,13 @@
             <param name="prams"></param>
             <returns></returns>
         </member>
+        <member name="M:Tool.SqlCore.BaseDataProvider.GetPagerSetAsync(Tool.SqlCore.PagerParameters)">
+            <summary>
+            分页，用于SQL对象的分页
+            </summary>
+            <param name="prams"></param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.SqlCore.BaseDataProvider.GetTableProvider(System.String)">
             <summary>
             表信息对象，用于对单张表的处理
@@ -4833,6 +5356,11 @@
             数据工厂对象
             </summary>
         </member>
+        <member name="P:Tool.SqlCore.DbHelper.CommandTimeout">
+            <summary>
+            获取或设置 <see cref="T:System.Data.Common.DbCommand"/>.CommandTimeout 最大等待时长（秒）
+            </summary>
+        </member>
         <member name="P:Tool.SqlCore.DbHelper.Provider">
             <summary>
             IDB提供商
@@ -4860,7 +5388,7 @@
         </member>
         <member name="P:Tool.SqlCore.DbHelper.QueryCount">
             <summary>
-            查询计数
+            查询计数（请求计数超过最大后会重新计数）
             </summary>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.CreateCommand">
@@ -4869,6 +5397,14 @@
             </summary>
             <returns><see cref="T:System.Data.Common.DbCommand"/> 的新实例。</returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateCommand(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbCommand"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <returns> 的新实例。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
         <member name="M:Tool.SqlCore.DbHelper.CreateCommand``1">
             <summary>
             返回实现 <see cref="T:System.Data.Common.DbCommand"/> 类的提供程序类的一个新实例。
@@ -4876,23 +5412,25 @@
             <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbCommand"/> 实现类</typeparam>
             <returns><see cref="T:System.Data.Common.DbCommand"/> 的新实例。</returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.CreateCommandBuilder">
+        <member name="M:Tool.SqlCore.DbHelper.CreateCommand``1(System.Object)">
             <summary>
-            返回实现 <see cref="T:System.Data.Common.DbCommandBuilder"/> 类的提供程序类的一个新实例。
+            返回实现 <see cref="T:System.Data.Common.DbCommand"/> 类的提供程序类的一个新实例。
             </summary>
-            <returns><see cref="T:System.Data.Common.DbCommandBuilder"/> 的新实例。</returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.CreateCommandBuilder``1">
-            <summary>
-            返回实现 <see cref="T:System.Data.Common.DbCommandBuilder"/> 类的提供程序类的一个新实例。
-            </summary>
-            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbCommandBuilder"/> 实现类</typeparam>
-            <returns><see cref="T:System.Data.Common.DbCommandBuilder"/> 的新实例。</returns>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <returns> 的新实例。</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.CreateConnection">
             <summary>
             返回实现 <see cref="T:System.Data.Common.DbConnection"/> 类的提供程序类的一个新实例。
             </summary>
+            <returns><see cref="T:System.Data.Common.DbConnection"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateConnection(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbConnection"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
             <returns><see cref="T:System.Data.Common.DbConnection"/> 的新实例。</returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.CreateConnection``1">
@@ -4902,10 +5440,191 @@
             <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbConnection"/> 实现类</typeparam>
             <returns><see cref="T:System.Data.Common.DbConnection"/> 的新实例。</returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateConnection``1(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbConnection"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbConnection"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbConnection"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateConnectionStringBuilder">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbConnectionStringBuilder"/> 类的提供程序类的一个新实例。
+            </summary>
+            <returns><see cref="T:System.Data.Common.DbConnectionStringBuilder"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateConnectionStringBuilder(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbConnectionStringBuilder"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <returns><see cref="T:System.Data.Common.DbConnectionStringBuilder"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateConnectionStringBuilder``1">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbConnectionStringBuilder"/> 类的提供程序类的一个新实例。
+            </summary>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbConnectionStringBuilder"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbConnectionStringBuilder"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateConnectionStringBuilder``1(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbConnectionStringBuilder"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbConnectionStringBuilder"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbConnectionStringBuilder"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateParameter">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbParameter"/> 类的提供程序类的一个新实例。
+            </summary>
+            <returns><see cref="T:System.Data.Common.DbParameter"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateParameter(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbParameter"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <returns><see cref="T:System.Data.Common.DbParameter"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateParameter``1">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbParameter"/> 类的提供程序类的一个新实例。
+            </summary>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbParameter"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbParameter"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateParameter``1(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbParameter"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbParameter"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbParameter"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateDataSource">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbDataSource"/> 类的提供程序类的一个新实例。
+            </summary>
+            <returns><see cref="T:System.Data.Common.DbDataSource"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateDataSource(System.String)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbDataSource"/> 类的提供程序类的一个新实例。
+            </summary>
+            <returns><see cref="T:System.Data.Common.DbDataSource"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateDataSource``1">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbDataSource"/> 类的提供程序类的一个新实例。
+            </summary>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbDataSource"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbDataSource"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateDataSource``1(System.String)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbDataSource"/> 类的提供程序类的一个新实例。
+            </summary>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbDataSource"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbDataSource"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateBatch">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbBatch"/> 类的提供程序类的一个新实例。
+            </summary>
+            <returns><see cref="T:System.Data.Common.DbBatch"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateBatch(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbBatch"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <returns><see cref="T:System.Data.Common.DbBatch"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateBatch``1">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbBatch"/> 类的提供程序类的一个新实例。
+            </summary>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbBatch"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbBatch"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateBatch``1(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbBatch"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbBatch"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbBatch"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateBatchCommand">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbBatchCommand"/> 类的提供程序类的一个新实例。
+            </summary>
+            <returns><see cref="T:System.Data.Common.DbBatchCommand"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateBatchCommand(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbBatchCommand"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <returns><see cref="T:System.Data.Common.DbBatchCommand"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateBatchCommand``1">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbBatchCommand"/> 类的提供程序类的一个新实例。
+            </summary>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbBatchCommand"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbBatchCommand"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateBatchCommand``1(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbBatchCommand"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbBatchCommand"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbBatchCommand"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateCommandBuilder">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbCommandBuilder"/> 类的提供程序类的一个新实例。
+            </summary>
+            <returns><see cref="T:System.Data.Common.DbCommandBuilder"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateCommandBuilder(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbCommandBuilder"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <returns><see cref="T:System.Data.Common.DbCommandBuilder"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateCommandBuilder``1">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbCommandBuilder"/> 类的提供程序类的一个新实例。
+            </summary>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbCommandBuilder"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbCommandBuilder"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateCommandBuilder``1(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbCommandBuilder"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbCommandBuilder"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbCommandBuilder"/> 的新实例。</returns>
+        </member>
         <member name="M:Tool.SqlCore.DbHelper.CreateDataAdapter">
             <summary>
             返回实现 <see cref="T:System.Data.Common.DbDataAdapter"/> 类的提供程序类的一个新实例。
             </summary>
+            <returns><see cref="T:System.Data.Common.DbDataAdapter"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateDataAdapter(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbDataAdapter"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
             <returns><see cref="T:System.Data.Common.DbDataAdapter"/> 的新实例。</returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.CreateDataAdapter``1">
@@ -4915,18 +5634,41 @@
             <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbDataAdapter"/> 实现类</typeparam>
             <returns><see cref="T:System.Data.Common.DbDataAdapter"/> 的新实例。</returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.CreateParameter">
+        <member name="M:Tool.SqlCore.DbHelper.CreateDataAdapter``1(System.Object)">
             <summary>
-            返回实现 <see cref="T:System.Data.Common.DbParameter"/> 类的提供程序类的一个新实例。
+            返回实现 <see cref="T:System.Data.Common.DbDataAdapter"/> 类的提供程序类的一个新实例。
             </summary>
-            <returns><see cref="T:System.Data.Common.DbParameter"/> 的新实例。</returns>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbDataAdapter"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbDataAdapter"/> 的新实例。</returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.CreateParameter``1">
+        <member name="M:Tool.SqlCore.DbHelper.CreateDataSourceEnumerator">
             <summary>
-            返回实现 <see cref="T:System.Data.Common.DbParameter"/> 类的提供程序类的一个新实例。
+            返回实现 <see cref="T:System.Data.Common.DbDataSourceEnumerator"/> 类的提供程序类的一个新实例。
             </summary>
-            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbParameter"/> 实现类</typeparam>
-            <returns><see cref="T:System.Data.Common.DbParameter"/> 的新实例。</returns>
+            <returns><see cref="T:System.Data.Common.DbDataSourceEnumerator"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateDataSourceEnumerator(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbDataSourceEnumerator"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <returns><see cref="T:System.Data.Common.DbDataSourceEnumerator"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateDataSourceEnumerator``1">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbDataSourceEnumerator"/> 类的提供程序类的一个新实例。
+            </summary>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbDataSourceEnumerator"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbDataSourceEnumerator"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateDataSourceEnumerator``1(System.Object)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbDataSourceEnumerator"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="prams">给对象赋值提供的 字典/对象</param>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbDataSourceEnumerator"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbDataSourceEnumerator"/> 的新实例。</returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.CreateTransaction">
             <summary>
@@ -4949,6 +5691,34 @@
             <returns><see cref="T:System.Data.Common.DbTransaction"/> 的新实例。</returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.CreateTransaction``1(System.Data.IsolationLevel)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbTransaction"/> 类的提供程序类的一个新实例。
+            </summary>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbTransaction"/> 实现类</typeparam>
+            <param name="isolationLevel">指定的事物类型</param>
+            <returns><see cref="T:System.Data.Common.DbTransaction"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateTransactionAsync">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbTransaction"/> 类的提供程序类的一个新实例。
+            </summary>
+            <returns><see cref="T:System.Data.Common.DbTransaction"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateTransactionAsync``1">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbTransaction"/> 类的提供程序类的一个新实例。
+            </summary>
+            <typeparam name="T">指定数据库的 <see cref="T:System.Data.Common.DbTransaction"/> 实现类</typeparam>
+            <returns><see cref="T:System.Data.Common.DbTransaction"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateTransactionAsync(System.Data.IsolationLevel)">
+            <summary>
+            返回实现 <see cref="T:System.Data.Common.DbTransaction"/> 类的提供程序类的一个新实例。
+            </summary>
+            <param name="isolationLevel">指定的事物类型</param>
+            <returns><see cref="T:System.Data.Common.DbTransaction"/> 的新实例。</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateTransactionAsync``1(System.Data.IsolationLevel)">
             <summary>
             返回实现 <see cref="T:System.Data.Common.DbTransaction"/> 类的提供程序类的一个新实例。
             </summary>
@@ -5092,7 +5862,22 @@
             <param name="commandText">缓存数据集的名称</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelper.EmptyCachedParameterSet(System.String)">
+            <summary>
+            清空缓存的参数集（会清空所有的参数信息）
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Tool.SqlCore.DbHelper.CreateCommand(System.Data.Common.DbConnection,System.String,System.String[])">
+            <summary>
+            返回SQL数据对象基类
+            </summary>
+            <param name="connection">数据库链接对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="sourceColumns">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.CreateCommandAsync(System.Data.Common.DbConnection,System.String,System.String[])">
             <summary>
             返回SQL数据对象基类
             </summary>
@@ -5110,10 +5895,33 @@
             <param name="includeReturnValueParameter">是否包含的返回值参数</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelper.DiscoverSpParameterSetAsync(System.Data.Common.DbConnection,System.String,System.Boolean)">
+            <summary>
+            获取当前存储过程执行所需要的参数
+            </summary>
+            <param name="connection">数据库链接对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="includeReturnValueParameter">是否包含的返回值参数</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.SqlCore.DbHelper.ResetDbProvider">
             <summary>
             回收当前数据核心对象一切资源
             </summary>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetPagerSet(Tool.SqlCore.PagerParameters)">
+            <summary>
+            分页函数 实现至 IDbProvider 接口 GetPagerSet 方法
+            </summary>
+            <param name="pager">相关参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetPagerSetAsync(Tool.SqlCore.PagerParameters)">
+            <summary>
+            分页函数 实现至 IDbProvider 接口 GetPagerSet 方法
+            </summary>
+            <param name="pager">相关参数</param>
+            <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.Query(System.String)">
             <summary>
@@ -5164,34 +5972,167 @@
             <param name="parameter">SQL参数</param>
             <returns>返回一个实体数组</returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteCommandWithSplitter(System.String)">
+        <member name="M:Tool.SqlCore.DbHelper.QueryAsync(System.String)">
             <summary>
-            执行拆分命令
+            根据SQL语句，查询返回查询结果。
             </summary>
             <param name="commandText">SQL语句</param>
+            <returns>返回数据集合</returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteCommandWithSplitter(System.String,System.String)">
+        <member name="M:Tool.SqlCore.DbHelper.QueryAsync(System.String,System.Object)">
             <summary>
-            执行拆分命令
+            根据SQL语句，查询返回查询结果。
             </summary>
             <param name="commandText">SQL语句</param>
-            <param name="splitter">验证</param>
+            <param name="parameter">SQL参数</param>
+            <returns>返回数据集合</returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetPagerSet(Tool.SqlCore.PagerParameters)">
+        <member name="M:Tool.SqlCore.DbHelper.QueryAsync``1(System.String)">
             <summary>
-            分页函数 实现至 IDbProvider 接口 GetPagerSet 方法
+            根据SQL语句，查询返回查询结果。
             </summary>
-            <param name="pager">相关参数</param>
+            <typeparam name="T">转换的实体</typeparam>
+            <param name="commandText">SQL语句</param>
+            <returns>返回一个实体</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.QueryAsync``1(System.String,System.Object)">
+            <summary>
+            根据SQL语句，查询返回查询结果。
+            </summary>
+            <typeparam name="T">转换的实体</typeparam>
+            <param name="commandText">SQL语句</param>
+            <param name="parameter">SQL参数</param>
+            <returns>返回一个实体</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.QueryListAsync``1(System.String)">
+            <summary>
+            根据SQL语句，查询返回查询结果。
+            </summary>
+            <typeparam name="T">转换的实体</typeparam>
+            <param name="commandText">SQL语句</param>
+            <returns>返回一个实体数组</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.QueryListAsync``1(System.String,System.Object)">
+            <summary>
+            根据SQL语句，查询返回查询结果。
+            </summary>
+            <typeparam name="T">转换的实体</typeparam>
+            <param name="commandText">SQL语句</param>
+            <param name="parameter">SQL参数</param>
+            <returns>返回一个实体数组</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteObject``1(System.String)">
+            <summary>
+            执行查询SQL返回查询结果，转换为对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="commandText">SQL字符串</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataset(System.String)">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteObject``1(System.String,System.Object)">
+            <summary>
+            执行查询SQL返回查询结果，转换为对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="commandText">SQL字符串</param>
+            <param name="prams">表示字符串映射参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteObject``1(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            执行查询SQL返回查询结果，转换为对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="commandText">SQL字符串</param>
+            <param name="prams">表示 <see cref="T:System.Collections.Generic.List`1"/> 的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteObjectList``1(System.String)">
+            <summary>
+            执行查询SQL返回查询结果集合，转换为<see cref="T:System.Collections.Generic.IList`1"/>对象集合
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="commandText">SQL字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteObjectList``1(System.String,System.Object)">
+            <summary>
+            执行查询SQL返回查询结果集合，转换为<see cref="T:System.Collections.Generic.IList`1"/>对象集合
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="commandText">SQL字符串</param>
+            <param name="prams">表示字符串映射参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteObjectList``1(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            执行查询SQL返回查询结果集合，转换为<see cref="T:System.Collections.Generic.IList`1"/>对象集合
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="commandText">SQL字符串</param>
+            <param name="prams">表示 <see cref="T:System.Collections.Generic.List`1"/> 的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteObjectAsync``1(System.String)">
+            <summary>
+            执行查询SQL返回查询结果，转换为对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="commandText">SQL字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteObjectAsync``1(System.String,System.Object)">
+            <summary>
+            执行查询SQL返回查询结果，转换为对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="commandText">SQL字符串</param>
+            <param name="prams">表示字符串映射参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteObjectAsync``1(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            执行查询SQL返回查询结果，转换为对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="commandText">SQL字符串</param>
+            <param name="prams">表示 <see cref="T:System.Collections.Generic.List`1"/> 的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteObjectListAsync``1(System.String)">
+            <summary>
+            执行查询SQL返回查询结果集合，转换为<see cref="T:System.Collections.Generic.IList`1"/>对象集合
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="commandText">SQL字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteObjectListAsync``1(System.String,System.Object)">
+            <summary>
+            执行查询SQL返回查询结果集合，转换为<see cref="T:System.Collections.Generic.IList`1"/>对象集合
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="commandText">SQL字符串</param>
+            <param name="prams">表示字符串映射参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteObjectListAsync``1(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            执行查询SQL返回查询结果集合，转换为<see cref="T:System.Collections.Generic.IList`1"/>对象集合
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="commandText">SQL字符串</param>
+            <param name="prams">表示 <see cref="T:System.Collections.Generic.List`1"/> 的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSet(System.String)">
             <summary>
             执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
             </summary>
             <param name="commandText">Sql字符串</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataset(System.String,System.Object)">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSet(System.String,System.Object)">
             <summary>
             执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
             </summary>
@@ -5199,7 +6140,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataset(System.Data.CommandType,System.String)">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSet(System.Data.CommandType,System.String)">
             <summary>
             执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
             </summary>
@@ -5207,7 +6148,7 @@
             <param name="commandText">Sql字符串</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataset(System.Data.CommandType,System.String,System.Object)">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSet(System.Data.CommandType,System.String,System.Object)">
             <summary>
             执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
             </summary>
@@ -5216,13 +6157,69 @@
             <param name="prams">对字符串进行映射</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataset(System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSet(System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
             <summary>
             执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
             </summary>
             <param name="commandType">指定如何解释命令字符串。</param>
             <param name="commandText">Sql字符串</param>
             <param name="commandParameters">参数对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSet(System.Data.Common.DbConnection,System.Data.CommandType,System.String)">
+            <summary>
+            执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
+            </summary>
+            <param name="connection">数据库链接对象</param>
+            <param name="commandType">指定如何解释命令字符串。</param>
+            <param name="commandText">Sql字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSet(System.Data.Common.DbConnection,System.String,System.Object[])">
+            <summary>
+            执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="parameterValues">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSet(System.Data.Common.DbConnection,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSet(System.Data.Common.DbTransaction,System.Data.CommandType,System.String)">
+            <summary>
+            执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSet(System.Data.Common.DbTransaction,System.String,System.Object[])">
+            <summary>
+            执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="parameterValues">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSet(System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSetAsync(System.String)">
@@ -5266,7 +6263,7 @@
             <param name="commandParameters">参数对象</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataset(System.Data.Common.DbConnection,System.Data.CommandType,System.String)">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSetAsync(System.Data.Common.DbConnection,System.Data.CommandType,System.String)">
             <summary>
             执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
             </summary>
@@ -5275,7 +6272,7 @@
             <param name="commandText">Sql字符串</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataset(System.Data.Common.DbConnection,System.String,System.Object[])">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSetAsync(System.Data.Common.DbConnection,System.String,System.Object[])">
             <summary>
             执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
             </summary>
@@ -5284,7 +6281,7 @@
             <param name="parameterValues">字符串映射对象</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataset(System.Data.Common.DbConnection,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSetAsync(System.Data.Common.DbConnection,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
             <summary>
             执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
             </summary>
@@ -5294,7 +6291,7 @@
             <param name="commandParameters">字符串映射对象</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataset(System.Data.Common.DbTransaction,System.Data.CommandType,System.String)">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSetAsync(System.Data.Common.DbTransaction,System.Data.CommandType,System.String)">
             <summary>
             执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
             </summary>
@@ -5303,7 +6300,7 @@
             <param name="commandText">SQL字符串</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataset(System.Data.Common.DbTransaction,System.String,System.Object[])">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSetAsync(System.Data.Common.DbTransaction,System.String,System.Object[])">
             <summary>
             执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
             </summary>
@@ -5312,7 +6309,7 @@
             <param name="parameterValues">字符串映射对象</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataset(System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDataSetAsync(System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
             <summary>
             执行SQL获取<see cref="T:System.Data.DataSet"/>数据源
             </summary>
@@ -5340,6 +6337,32 @@
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.ExecuteDatasetTypedParams(System.Data.Common.DbTransaction,System.String,System.Data.DataRow)">
+            <summary>
+            根据SQL获取<see cref="T:System.Data.DataSet"/>
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="dataRow">参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDatasetTypedParamsAsync(System.String,System.Data.DataRow)">
+            <summary>
+            根据SQL获取<see cref="T:System.Data.DataSet"/>
+            </summary>
+            <param name="spName">存储过程名</param>
+            <param name="dataRow">参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDatasetTypedParamsAsync(System.Data.Common.DbConnection,System.String,System.Data.DataRow)">
+            <summary>
+            根据SQL获取<see cref="T:System.Data.DataSet"/>
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="dataRow">参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteDatasetTypedParamsAsync(System.Data.Common.DbTransaction,System.String,System.Data.DataRow)">
             <summary>
             根据SQL获取<see cref="T:System.Data.DataSet"/>
             </summary>
@@ -5504,6 +6527,42 @@
             <param name="commandParameters">字符串映射对象</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryAsync(System.Data.Common.DbTransaction,System.Data.CommandType,System.String)">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryAsync(System.Data.Common.DbTransaction,System.String,System.Object[])">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="parameterValues">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryAsync(System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryAsync(System.Data.Common.DbTransaction,Tool.SqlCore.SqlTextParameter[])">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="sqlTexts">SQL操作对象<see cref="T:Tool.SqlCore.SqlTextParameter"/>[]</param>
+            <returns>返回受影响行数</returns>
+        </member>
         <member name="M:Tool.SqlCore.DbHelper.TransExecuteNonQuery(System.Data.CommandType,System.String,System.Object)">
             <summary>
             根据SQL返回受影响行数
@@ -5523,6 +6582,31 @@
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.TransExecuteNonQuery(Tool.SqlCore.SqlTextParameter[])">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="sqlTexts">SQL操作对象<see cref="T:Tool.SqlCore.SqlTextParameter"/>[]</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.TransExecuteNonQueryAsync(System.Data.CommandType,System.String,System.Object)">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="commandType">执行类型</param>
+            <param name="commandText">SQL语句</param>
+            <param name="commandParameters">参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.TransExecuteNonQueryAsync(System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="commandType">执行类型</param>
+            <param name="commandText">SQL语句</param>
+            <param name="commandParameters">参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.TransExecuteNonQueryAsync(Tool.SqlCore.SqlTextParameter[])">
             <summary>
             根据SQL返回受影响行数
             </summary>
@@ -5598,6 +6682,68 @@
             <param name="commandParameters">字符串映射对象</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryIdAsync(System.Data.CommandType,System.String)">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <returns>返回第一行第一列的id</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryIdAsync(System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
+            <returns>返回第一行第一列的id</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryIdAsync(System.String)">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="commandText">SQL字符串</param>
+            <returns>返回第一行第一列的id</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryIdAsync(System.Data.Common.DbConnection,System.Data.CommandType,System.String)">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <returns>返回第一行第一列的id</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryIdAsync(System.Data.Common.DbTransaction,System.Data.CommandType,System.String)">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <returns>返回第一行第一列的id</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryIdAsync(System.Data.Common.DbConnection,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
+            <returns>返回第一行第一列的id</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryIdAsync(System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            根据SQL返回受影响行数
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
+            <returns>返回第一行第一列的id</returns>
+        </member>
         <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryTypedParams(System.String,System.Data.DataRow)">
             <summary>
             根据SQL返回受影响行数
@@ -5624,56 +6770,30 @@
             <param name="dataRow">参数对象</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteObject``1(System.String)">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryTypedParamsAsync(System.String,System.Data.DataRow)">
             <summary>
-            执行查询SQL返回查询结果，转换为对象
+            根据SQL返回受影响行数
             </summary>
-            <typeparam name="T">实体对象</typeparam>
-            <param name="commandText">SQL字符串</param>
+            <param name="spName">存储过程名</param>
+            <param name="dataRow">参数对象</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteObject``1(System.String,System.Object)">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryTypedParamsAsync(System.Data.Common.DbConnection,System.String,System.Data.DataRow)">
             <summary>
-            执行查询SQL返回查询结果，转换为对象
+            根据SQL返回受影响行数
             </summary>
-            <typeparam name="T">实体对象</typeparam>
-            <param name="commandText">SQL字符串</param>
-            <param name="prams">表示字符串映射参数</param>
+            <param name="connection">数据库连接对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="dataRow">参数对象</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteObject``1(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteNonQueryTypedParamsAsync(System.Data.Common.DbTransaction,System.String,System.Data.DataRow)">
             <summary>
-            执行查询SQL返回查询结果，转换为对象
+            根据SQL返回受影响行数
             </summary>
-            <typeparam name="T">实体对象</typeparam>
-            <param name="commandText">SQL字符串</param>
-            <param name="prams">表示 <see cref="T:System.Collections.Generic.List`1"/> 的参数</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteObjectList``1(System.String)">
-            <summary>
-            执行查询SQL返回查询结果集合，转换为<see cref="T:System.Collections.Generic.IList`1"/>对象集合
-            </summary>
-            <typeparam name="T">实体对象</typeparam>
-            <param name="commandText">SQL字符串</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteObjectList``1(System.String,System.Object)">
-            <summary>
-            执行查询SQL返回查询结果集合，转换为<see cref="T:System.Collections.Generic.IList`1"/>对象集合
-            </summary>
-            <typeparam name="T">实体对象</typeparam>
-            <param name="commandText">SQL字符串</param>
-            <param name="prams">表示字符串映射参数</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.ExecuteObjectList``1(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
-            <summary>
-            执行查询SQL返回查询结果集合，转换为<see cref="T:System.Collections.Generic.IList`1"/>对象集合
-            </summary>
-            <typeparam name="T">实体对象</typeparam>
-            <param name="commandText">SQL字符串</param>
-            <param name="prams">表示 <see cref="T:System.Collections.Generic.List`1"/> 的参数</param>
+            <param name="transaction">SQL事物对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="dataRow">参数对象</param>
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.ExecuteReader(System.Data.CommandType,System.String)">
@@ -5757,6 +6877,87 @@
             <param name="commandParameters">字符串映射对象</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderAsync(System.Data.CommandType,System.String)">
+            <summary>
+            执行SQL返回数据流
+            </summary>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderAsync(System.String,System.Object[])">
+            <summary>
+            执行存储过程返回数据流
+            </summary>
+            <param name="spName">存储过程名</param>
+            <param name="parameterValues">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderAsync(System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            执行存储过程返回数据流
+            </summary>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderAsync(System.Data.Common.DbConnection,System.Data.CommandType,System.String)">
+            <summary>
+            执行存储过程返回数据流
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderAsync(System.Data.Common.DbConnection,System.String,System.Object[])">
+            <summary>
+            执行存储过程返回数据流
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="parameterValues">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderAsync(System.Data.Common.DbTransaction,System.Data.CommandType,System.String)">
+            <summary>
+            执行存储过程返回数据流
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderAsync(System.Data.Common.DbTransaction,System.String,System.Object[])">
+            <summary>
+            执行存储过程返回数据流
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="parameterValues">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderAsync(System.Data.Common.DbConnection,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            执行存储过程返回数据流
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderAsync(System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            执行存储过程返回数据流
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderTypedParams(System.String,System.Data.DataRow)">
             <summary>
             执行存储过程返回数据流
@@ -5775,6 +6976,32 @@
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderTypedParams(System.Data.Common.DbTransaction,System.String,System.Data.DataRow)">
+            <summary>
+            执行存储过程返回数据流
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="dataRow">参数对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderTypedParamsAsync(System.String,System.Data.DataRow)">
+            <summary>
+            执行存储过程返回数据流
+            </summary>
+            <param name="spName">存储过程名</param>
+            <param name="dataRow">参数对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderTypedParamsAsync(System.Data.Common.DbConnection,System.String,System.Data.DataRow)">
+            <summary>
+            执行存储过程返回数据流
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="dataRow">参数对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteReaderTypedParamsAsync(System.Data.Common.DbTransaction,System.String,System.Data.DataRow)">
             <summary>
             执行存储过程返回数据流
             </summary>
@@ -5856,6 +7083,79 @@
             <param name="commandParameters">字符串映射对象</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarAsync(System.Data.CommandType,System.String)">
+            <summary>
+            返回一个数据对象
+            </summary>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarAsync(System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            返回一个数据对象
+            </summary>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarAsync(System.Data.Common.DbConnection,System.Data.CommandType,System.String)">
+            <summary>
+            返回一个数据对象
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarAsync(System.Data.Common.DbConnection,System.String,System.Object[])">
+            <summary>
+            返回一个数据对象
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="parameterValues">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarAsync(System.Data.Common.DbTransaction,System.Data.CommandType,System.String)">
+            <summary>
+            返回一个数据对象
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarAsync(System.Data.Common.DbTransaction,System.String,System.Object[])">
+            <summary>
+            返回一个数据对象
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="parameterValues">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarAsync(System.Data.Common.DbConnection,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            返回一个数据对象
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarAsync(System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            返回一个数据对象
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarToStr(System.Data.CommandType,System.String)">
             <summary>
             执行SQL返回string类型的数据
@@ -5865,6 +7165,23 @@
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarToStr(System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            执行SQL返回string类型的数据
+            </summary>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <param name="commandParameters">字符串映射对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarToStrAsync(System.Data.CommandType,System.String)">
+            <summary>
+            执行SQL返回string类型的数据
+            </summary>
+            <param name="commandType"><see cref="T:System.Data.CommandType"/>对象</param>
+            <param name="commandText">SQL字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarToStrAsync(System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
             <summary>
             执行SQL返回string类型的数据
             </summary>
@@ -5899,7 +7216,33 @@
             <param name="dataRow">参数对象</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.FillDataset(System.Data.CommandType,System.String,System.Data.DataSet,System.String[])">
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarTypedParamsAsync(System.String,System.Data.DataRow)">
+            <summary>
+            执行SQL返回object类型的数据
+            </summary>
+            <param name="spName">存储过程名</param>
+            <param name="dataRow">参数对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarTypedParamsAsync(System.Data.Common.DbConnection,System.String,System.Data.DataRow)">
+            <summary>
+            执行SQL返回object类型的数据
+            </summary>
+            <param name="connection">数据库连接对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="dataRow">参数对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteScalarTypedParamsAsync(System.Data.Common.DbTransaction,System.String,System.Data.DataRow)">
+            <summary>
+            执行SQL返回object类型的数据
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="spName">存储过程名</param>
+            <param name="dataRow">参数对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.FillDataSet(System.Data.CommandType,System.String,System.Data.DataSet,System.String[])">
             <summary>
             通过SQL获取数据对象<see cref="T:System.Data.DataSet"/>
             </summary>
@@ -5908,7 +7251,7 @@
             <param name="dataSet">返回的数据对象</param>
             <param name="tableNames">对应的表名称</param>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.FillDataset(System.String,System.Data.DataSet,System.String[],System.Object[])">
+        <member name="M:Tool.SqlCore.DbHelper.FillDataSet(System.String,System.Data.DataSet,System.String[],System.Object[])">
             <summary>
             通过SQL获取数据对象<see cref="T:System.Data.DataSet"/>
             </summary>
@@ -5917,7 +7260,7 @@
             <param name="tableNames"><see cref="T:System.Data.DataSet"/>对象中的列名</param>
             <param name="parameterValues">字符串映射对象</param>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.FillDataset(System.Data.CommandType,System.String,System.Data.DataSet,System.String[],System.Data.Common.DbParameter[])">
+        <member name="M:Tool.SqlCore.DbHelper.FillDataSet(System.Data.CommandType,System.String,System.Data.DataSet,System.String[],System.Data.Common.DbParameter[])">
             <summary>
             通过SQL获取数据对象<see cref="T:System.Data.DataSet"/>
             </summary>
@@ -5927,7 +7270,7 @@
             <param name="tableNames"><see cref="T:System.Data.DataSet"/>对象中的列名</param>
             <param name="commandParameters">字符串映射对象</param>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.FillDataset(System.Data.Common.DbConnection,System.Data.CommandType,System.String,System.Data.DataSet,System.String[])">
+        <member name="M:Tool.SqlCore.DbHelper.FillDataSet(System.Data.Common.DbConnection,System.Data.CommandType,System.String,System.Data.DataSet,System.String[])">
             <summary>
             通过SQL获取数据对象<see cref="T:System.Data.DataSet"/>
             </summary>
@@ -5937,7 +7280,7 @@
             <param name="dataSet">返回的数据对象</param>
             <param name="tableNames"><see cref="T:System.Data.DataSet"/>对象中的列名</param>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.FillDataset(System.Data.Common.DbConnection,System.String,System.Data.DataSet,System.String[],System.Object[])">
+        <member name="M:Tool.SqlCore.DbHelper.FillDataSet(System.Data.Common.DbConnection,System.String,System.Data.DataSet,System.String[],System.Object[])">
             <summary>
             通过SQL获取数据对象<see cref="T:System.Data.DataSet"/>
             </summary>
@@ -5947,7 +7290,7 @@
             <param name="tableNames"><see cref="T:System.Data.DataSet"/>对象中的列名</param>
             <param name="parameterValues">字符串映射对象</param>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.FillDataset(System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.DataSet,System.String[])">
+        <member name="M:Tool.SqlCore.DbHelper.FillDataSet(System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.DataSet,System.String[])">
             <summary>
             通过SQL获取数据对象<see cref="T:System.Data.DataSet"/>
             </summary>
@@ -5957,7 +7300,7 @@
             <param name="dataSet">返回的数据对象</param>
             <param name="tableNames"><see cref="T:System.Data.DataSet"/>对象中的列名</param>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.FillDataset(System.Data.Common.DbTransaction,System.String,System.Data.DataSet,System.String[],System.Object[])">
+        <member name="M:Tool.SqlCore.DbHelper.FillDataSet(System.Data.Common.DbTransaction,System.String,System.Data.DataSet,System.String[],System.Object[])">
             <summary>
             通过SQL获取数据对象<see cref="T:System.Data.DataSet"/>
             </summary>
@@ -5967,7 +7310,7 @@
             <param name="tableNames"><see cref="T:System.Data.DataSet"/>对象中的列名</param>
             <param name="parameterValues">字符串映射对象</param>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.FillDataset(System.Data.Common.DbConnection,System.Data.CommandType,System.String,System.Data.DataSet,System.String[],System.Data.Common.DbParameter[])">
+        <member name="M:Tool.SqlCore.DbHelper.FillDataSet(System.Data.Common.DbConnection,System.Data.CommandType,System.String,System.Data.DataSet,System.String[],System.Data.Common.DbParameter[])">
             <summary>
             通过SQL获取数据对象<see cref="T:System.Data.DataSet"/>
             </summary>
@@ -5978,7 +7321,7 @@
             <param name="tableNames"><see cref="T:System.Data.DataSet"/>对象中的列名</param>
             <param name="commandParameters">字符串映射对象</param>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.FillDataset(System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.DataSet,System.String[],System.Data.Common.DbParameter[])">
+        <member name="M:Tool.SqlCore.DbHelper.FillDataSet(System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.DataSet,System.String[],System.Data.Common.DbParameter[])">
             <summary>
             通过SQL获取数据对象<see cref="T:System.Data.DataSet"/>
             </summary>
@@ -5988,153 +7331,6 @@
             <param name="dataSet">返回的数据对象</param>
             <param name="tableNames"><see cref="T:System.Data.DataSet"/>对象中的列名</param>
             <param name="commandParameters">字符串映射对象</param>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.FillDataset(System.Data.Common.DbConnection,System.Data.Common.DbTransaction,System.Data.CommandType,System.String,System.Data.DataSet,System.String[],System.Data.Common.DbParameter[])">
-            <summary>
-            看着像是表修改 忘记啥时候写的了 意义可能不大了
-            </summary>
-            <param name="connection"></param>
-            <param name="transaction"></param>
-            <param name="commandType"></param>
-            <param name="commandText"></param>
-            <param name="dataSet"></param>
-            <param name="tableNames"></param>
-            <param name="commandParameters"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-            <exception cref="T:System.ArgumentException"></exception>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetEmptyTable(System.String)">
-            <summary>
-            根据表名返回当前这张表
-            </summary>
-            <param name="tableName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetStopwatch">
-            <summary>
-            获取执行时间器
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.AddQueryDetail(System.String,System.Diagnostics.Stopwatch,System.Data.Common.DbParameter[],System.Boolean)">
-            <summary>
-            增加SQL请求日志
-            </summary>
-            <param name="commandText">SQL字符串</param>
-            <param name="watch">时间测量器</param>
-            <param name="cmdParams">执行参数</param>
-            <param name="iserror">是否执行时异常</param>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetQueryDetail(System.String,System.Int64,System.Data.Common.DbParameter[],System.Boolean)">
-            <summary>
-            SQL执行完成后的日志生成
-            </summary>
-            <param name="commandText">SQL字符串</param>
-            <param name="ElapsedMilliseconds">执行毫秒</param>
-            <param name="cmdParams">执行参数</param>
-            <param name="IsSqlLogHtml">打印模式</param>
-            <returns>返回日志</returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.Throw(System.String)">
-            <summary>
-            异常提示
-            </summary>
-            <param name="message">提示信息</param>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetSpParameterSet(System.String)">
-            <summary>
-            根据存储过程名获得存储过程所需要的参数
-            </summary>
-            <param name="spName">储过程名</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetSpParameterSet(System.String,System.Boolean)">
-            <summary>
-            根据存储过程名获得存储过程所需要的参数
-            </summary>
-            <param name="spName">储过程名</param>
-            <param name="includeReturnValueParameter">是否包含的返回值参数</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetInParam(System.String,System.Object)">
-            <summary>
-            绑定数据 （例如：@id=1）
-            </summary>
-            <param name="paraName">名字</param>
-            <param name="paraValue">数据</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetOutParam(System.String,System.Type)">
-            <summary>
-            返回数据
-            </summary>
-            <param name="paraName">名字</param>
-            <param name="paraType">类型</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetOutParam(System.String,System.Type,System.Int32)">
-            <summary>
-            返回数据
-            </summary>
-            <param name="paraName">名字</param>
-            <param name="paraType">类型</param>
-            <param name="size">大小</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetOutParam(System.String,System.Object,System.Type,System.Int32)">
-            <summary>
-            绑定数据
-            </summary>
-            <param name="paraName">名字</param>
-            <param name="paraType">类型</param>
-            <param name="paraValue">数据</param>
-            <param name="size">大小</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetParam(System.String,System.Object,System.Data.ParameterDirection)">
-            <summary>
-            绑定数据
-            </summary>
-            <param name="paraName">名字</param>
-            <param name="paraValue">数据</param>
-            <param name="direction">数据库对应类型</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetParam(System.String,System.Object,System.Data.ParameterDirection,System.Type,System.String)">
-            <summary>
-            绑定数据
-            </summary>
-            <param name="paraName">名字</param>
-            <param name="paraValue">数据</param>
-            <param name="direction">数据库对应类型</param>
-            <param name="paraType">类型</param>
-            <param name="sourceColumn">源列</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetParam(System.String,System.Object,System.Data.ParameterDirection,System.Type,System.String,System.Int32)">
-            <summary>
-            绑定数据
-            </summary>
-            <param name="paraName">名字</param>
-            <param name="paraValue">数据</param>
-            <param name="direction">数据库对应类型</param>
-            <param name="paraType">类型</param>
-            <param name="sourceColumn">源列</param>
-            <param name="size">大小</param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetReturnParam">
-            <summary>
-            获取存储过程执行，返回结果参数 , 默认参数：ReturnValue。
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetReturnParam(System.String)">
-            <summary>
-            获取存储过程执行，返回结果参数。
-            </summary>
-            <param name="paraName">参数名</param>
-            <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.RunProc(System.String)">
             <summary>
@@ -6238,6 +7434,134 @@
             <param name="prams">表示 <see cref="T:System.Collections.Generic.List`1"/> 的参数</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcAsync(System.String)">
+            <summary>
+            执行存储过程返回受影响行数
+            </summary>
+            <param name="procName">存储过程名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcDataReaderAsync(System.String)">
+            <summary>
+            执行存储过程返回结果
+            </summary>
+            <param name="procName">存储过程名</param>
+            <remarks>返回 <see cref="T:System.Data.Common.DbDataReader"/> 对象</remarks>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcDataSetAsync(System.String)">
+            <summary>
+            执行存储过程返回结果
+            </summary>
+            <param name="procName">存储过程名</param>
+            <remarks>返回 <see cref="T:System.Data.DataSet"/> 对象</remarks>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcExecuteScalarAsync(System.String)">
+            <summary>
+            执行存储过程返回结果
+            </summary>
+            <param name="procName">存储过程名</param>
+            <returns>返回 <see cref="T:System.Object"/> 对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcAsyncAsync(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            执行存储过程返回结果
+            </summary>
+            <param name="procName">存储过程名</param>
+            <param name="prams">表示 <see cref="T:System.Collections.Generic.List`1"/> 的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcAsync(System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            执行存储过程返回结果
+            </summary>
+            <param name="procName">存储过程名</param>
+            <param name="prams">表示 <see cref="T:System.Data.Common.DbParameter"/>[] 的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcDataReaderAsync(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            执行存储过程返回结果
+            </summary>
+            <param name="procName">存储过程名</param>
+            <param name="prams">表示 <see cref="T:System.Collections.Generic.List`1"/> 的参数</param>
+            <returns>返回 <see cref="T:System.Data.Common.DbDataReader"/> 对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcDataSetAsync(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            根据存储过程，返回<see cref="T:System.Data.DataSet"/>数据
+            </summary>
+            <param name="procName">存储过程名</param>
+            <param name="prams">参数</param>
+            <returns>返回<see cref="T:System.Data.DataSet"/>数据</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcExecuteScalarAsync(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            执行存储过程返回结果
+            </summary>
+            <param name="procName">存储过程名</param>
+            <param name="prams">表示 <see cref="T:System.Collections.Generic.List`1"/> 的参数</param>
+            <returns>返回 <see cref="T:System.Object"/> 对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcObjectAsync``1(System.String)">
+            <summary>
+            执行存储过程返回结果
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="procName">存储过程名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcObjectAsync``1(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            执行存储过程返回结果
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="procName">存储过程名</param>
+            <param name="prams">表示 <see cref="T:System.Collections.Generic.List`1"/> 的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcObjectListAsync``1(System.String)">
+            <summary>
+            执行存储过程返回结果 <see cref="T:System.Collections.Generic.IList`1"/>数据集合
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="procName">存储过程名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.RunProcObjectListAsync``1(System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+            <summary>
+            执行存储过程返回结果 <see cref="T:System.Collections.Generic.IList`1"/>数据集合
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="procName">存储过程名</param>
+            <param name="prams">表示 <see cref="T:System.Collections.Generic.List`1"/> 的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteCommandWithSplitter(System.String)">
+            <summary>
+            执行拆分命令 拆分符（\r\nGO\r\n）
+            </summary>
+            <param name="commandText">SQL语句</param>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteCommandWithSplitter(System.String,System.String)">
+            <summary>
+            执行拆分命令
+            </summary>
+            <param name="commandText">SQL语句</param>
+            <param name="splitter">拆分符</param>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteCommandWithSplitterAsync(System.String)">
+            <summary>
+            执行拆分命令 拆分符（\r\nGO\r\n）
+            </summary>
+            <param name="commandText">SQL语句</param>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.ExecuteCommandWithSplitterAsync(System.String,System.String)">
+            <summary>
+            执行拆分命令
+            </summary>
+            <param name="commandText">SQL语句</param>
+            <param name="splitter">拆分符</param>
+        </member>
         <member name="M:Tool.SqlCore.DbHelper.UpdateDataSet(System.Data.DataSet,System.String)">
             <summary>
             更新数据集
@@ -6254,6 +7578,166 @@
             <param name="updateCommand"></param>
             <param name="dataSet"></param>
             <param name="tableName">表名</param>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetEmptyTable(System.String)">
+            <summary>
+            根据表名返回当前这张表
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetEmptyTableAsync(System.String)">
+            <summary>
+            根据表名返回当前这张表
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetStopwatch">
+            <summary>
+            获取执行时间器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.AddQueryDetail(System.String,System.Diagnostics.Stopwatch,System.Data.Common.DbParameter[],System.Boolean)">
+            <summary>
+            增加SQL请求日志
+            </summary>
+            <param name="commandText">SQL字符串</param>
+            <param name="watch">时间测量器</param>
+            <param name="cmdParams">执行参数</param>
+            <param name="iserror">是否执行时异常</param>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetQueryDetail(System.String,System.Int64,System.Data.Common.DbParameter[],System.Boolean)">
+            <summary>
+            SQL执行完成后的日志生成
+            </summary>
+            <param name="commandText">SQL字符串</param>
+            <param name="ElapsedMilliseconds">执行毫秒</param>
+            <param name="cmdParams">执行参数</param>
+            <param name="IsSqlLogHtml">打印模式</param>
+            <returns>返回日志</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.Throw(System.String)">
+            <summary>
+            异常提示
+            </summary>
+            <param name="message">提示信息</param>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetSpParameterSet(System.String)">
+            <summary>
+            根据存储过程名获得存储过程所需要的参数
+            </summary>
+            <param name="spName">储过程名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetSpParameterSet(System.String,System.Boolean)">
+            <summary>
+            根据存储过程名获得存储过程所需要的参数
+            </summary>
+            <param name="spName">储过程名</param>
+            <param name="includeReturnValueParameter">是否包含的返回值参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetSpParameterSetAsync(System.String)">
+            <summary>
+            根据存储过程名获得存储过程所需要的参数
+            </summary>
+            <param name="spName">储过程名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetSpParameterSetAsync(System.String,System.Boolean)">
+            <summary>
+            根据存储过程名获得存储过程所需要的参数
+            </summary>
+            <param name="spName">储过程名</param>
+            <param name="includeReturnValueParameter">是否包含的返回值参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetInParam(System.String,System.Object)">
+            <summary>
+            绑定数据 （例如：@id=1）
+            </summary>
+            <param name="paraName">名字</param>
+            <param name="paraValue">数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetOutParam(System.String,System.Type)">
+            <summary>
+            返回数据
+            </summary>
+            <param name="paraName">名字</param>
+            <param name="paraType">类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetOutParam(System.String,System.Type,System.Int32)">
+            <summary>
+            返回数据
+            </summary>
+            <param name="paraName">名字</param>
+            <param name="paraType">类型</param>
+            <param name="size">大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetOutParam(System.String,System.Object,System.Type,System.Int32)">
+            <summary>
+            绑定数据
+            </summary>
+            <param name="paraName">名字</param>
+            <param name="paraType">类型</param>
+            <param name="paraValue">数据</param>
+            <param name="size">大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetParam(System.String,System.Object,System.Data.ParameterDirection)">
+            <summary>
+            绑定数据
+            </summary>
+            <param name="paraName">名字</param>
+            <param name="paraValue">数据</param>
+            <param name="direction">数据库对应类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetParam(System.String,System.Object,System.Data.ParameterDirection,System.Type,System.String)">
+            <summary>
+            绑定数据
+            </summary>
+            <param name="paraName">名字</param>
+            <param name="paraValue">数据</param>
+            <param name="direction">数据库对应类型</param>
+            <param name="paraType">类型</param>
+            <param name="sourceColumn">源列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetParam(System.String,System.Object,System.Data.ParameterDirection,System.Type,System.String,System.Int32)">
+            <summary>
+            绑定数据
+            </summary>
+            <param name="paraName">名字</param>
+            <param name="paraValue">数据</param>
+            <param name="direction">数据库对应类型</param>
+            <param name="paraType">类型</param>
+            <param name="sourceColumn">源列</param>
+            <param name="size">大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetReturnParam">
+            <summary>
+            获取存储过程执行，返回结果参数 , 默认参数：ReturnValue。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetReturnParam(System.String)">
+            <summary>
+            获取存储过程执行，返回结果参数。
+            </summary>
+            <param name="paraName">参数名</param>
+            <returns></returns>
+        </member>
+        <member name="F:Tool.SqlCore.DbHelper.m_queryCount">
+            <summary>
+            请求计数
+            </summary>
         </member>
         <member name="F:Tool.SqlCore.DbHelper.m_connectionstring">
             <summary>
@@ -6282,6 +7766,15 @@
             <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.Select(Tool.SqlCore.DbHelper,System.String,System.Object)">
+            <summary>
+            查询单张表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="commandText">查询语句</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.SelectDictionary(Tool.SqlCore.DbHelper,System.String,System.Object)">
             <summary>
             查询单张表
             </summary>
@@ -6385,6 +7878,119 @@
             <param name="commandTexts">多张表删除语句</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.SelectAsync(Tool.SqlCore.DbHelper,System.String,System.Object)">
+            <summary>
+            查询单张表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="commandText">查询语句</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.SelectDictionaryAsync(Tool.SqlCore.DbHelper,System.String,System.Object)">
+            <summary>
+            查询单张表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="commandText">查询语句</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.SelectAsync``1(Tool.SqlCore.DbHelper,System.Action{``0})">
+            <summary>
+            查询单张表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="prams">查询条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.SelectAsync(Tool.SqlCore.DbHelper,System.String[])">
+            <summary>
+            查询多张表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="commandTexts">多条查询语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.InsertAsync``1(Tool.SqlCore.DbHelper,System.Object)">
+            <summary>
+            插入一条结果
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.InsertAsync(Tool.SqlCore.DbHelper,System.String,System.Object)">
+            <summary>
+            插入一条结果
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="TableName">表名</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.InsertAsync(Tool.SqlCore.DbHelper,System.String[])">
+            <summary>
+            插入多条结果，可以是多张不同的表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="commandTexts">多条插入语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.UpdateAsync``1(Tool.SqlCore.DbHelper,System.String,System.Object[])">
+            <summary>
+            修改单表结果
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="where">修改的条件</param>
+            <param name="prams">修改表的参数 Or 修改条件的参数,可以是任何类型的键值对</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.UpdateAsync(Tool.SqlCore.DbHelper,System.String,System.String,System.Object[])">
+            <summary>
+            修改单表结果
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="TableName">表名</param>
+            <param name="where">修改的条件，无需写 WHERE 直接条件</param>
+            <param name="prams">修改表的参数 Or 修改条件的参数,可以是任何类型的键值对</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.UpdateAsync(Tool.SqlCore.DbHelper,System.String[])">
+            <summary>
+            修改多表结果
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="commandTexts">多条插入语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.DeleteAsync``1(Tool.SqlCore.DbHelper,System.String,System.Object)">
+            <summary>
+            删除单张表数据
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="where">删除的条件</param>
+            <param name="prams">删除条件的参数,可以是任何类型的键值对</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.DeleteAsync(Tool.SqlCore.DbHelper,System.String,System.String,System.Object)">
+            <summary>
+            删除单张表数据
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="TableName">表名</param>
+            <param name="where">删除的条件</param>
+            <param name="prams">删除条件的参数,可以是任何类型的键值对</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.DeleteAsync(Tool.SqlCore.DbHelper,System.String[])">
+            <summary>
+            删除多多张表数据
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="commandTexts">多张表删除语句</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.GetTextParameter(Tool.SqlCore.DbHelper,System.String,System.Object)">
             <summary>
             提供快捷方式，匿名对象实现
@@ -6435,6 +8041,71 @@
             <param name="isnull">是否处理Null值，true时将不包含在字典中</param>
             <returns>返回可读集合字典</returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetReaderAsync(System.Data.Common.DbDataReader,System.Boolean)">
+            <summary>
+            将<see cref="T:System.Data.Common.DbDataReader"/>对象，中数据转换为集合字典
+            </summary>
+            <param name="dataReader">原数据对象</param>
+            <param name="isnull">是否处理Null值，true时将不包含在字典中</param>
+            <returns>返回可读集合字典</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetDataSet(System.Data.Common.DbDataReader)">
+            <summary>
+            将<see cref="T:System.Data.Common.DbDataReader"/>对象，中数据转换为 <see cref="T:System.Data.DataSet"/>
+            </summary>
+            <param name="dataReader">原数据对象</param>
+            <returns>返回可读集合字典</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetDataTable(System.Data.Common.DbDataReader)">
+            <summary>
+            将<see cref="T:System.Data.Common.DbDataReader"/>对象，中数据转换为 <see cref="T:System.Data.DataTable"/>
+            </summary>
+            <param name="dataReader">原数据对象</param>
+            <returns>返回可读集合字典</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetDataSetAsync(System.Data.Common.DbDataReader)">
+            <summary>
+            将<see cref="T:System.Data.Common.DbDataReader"/>对象，中数据转换为 <see cref="T:System.Data.DataSet"/>
+            </summary>
+            <param name="dataReader">原数据对象</param>
+            <returns>返回可读集合字典</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetDataTableAsync(System.Data.Common.DbDataReader)">
+            <summary>
+            将<see cref="T:System.Data.Common.DbDataReader"/>对象，中数据转换为 <see cref="T:System.Data.DataTable"/>
+            </summary>
+            <param name="dataReader">原数据对象</param>
+            <returns>返回可读集合字典</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetDataColumnSchema(System.Data.Common.DbDataReader)">
+            <summary>
+            获取DataTable表信息不含数据
+            </summary>
+            <param name="dataReader">原数据对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetDataColumnSchemaAsync(System.Data.Common.DbDataReader)">
+            <summary>
+            获取DataTable表信息不含数据
+            </summary>
+            <param name="dataReader">原数据对象</param>
+            <returns></returns>
+        </member>
+        <member name="T:Tool.SqlCore.SqlNonQuery">
+            <summary>
+            异步返回带有主键的影响信息
+            </summary>
+        </member>
+        <member name="P:Tool.SqlCore.SqlNonQuery.RowsCount">
+            <summary>
+            影响行数
+            </summary>
+        </member>
+        <member name="P:Tool.SqlCore.SqlNonQuery.Id">
+            <summary>
+            主键Id
+            </summary>
+        </member>
         <member name="T:Tool.SqlCore.DbTransactionExensions">
             <summary>
             对<see cref="T:System.Data.Common.DbTransaction"/> 对象，提供扩展支持
@@ -6462,6 +8133,15 @@
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbTransactionExensions.ExecuteNonQuery(System.Data.Common.DbTransaction,Tool.SqlCore.DbHelper,Tool.SqlCore.SqlTextParameter[])">
+            <summary>
+            SQL事物执行（增/改/删）相关操作
+            </summary>
+            <param name="transaction">SQL事物对象</param>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="sqlTexts">SQL操作对象<see cref="T:Tool.SqlCore.SqlTextParameter"/>[]</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbTransactionExensions.ExecuteNonQueryAsync(System.Data.Common.DbTransaction,Tool.SqlCore.DbHelper,Tool.SqlCore.SqlTextParameter[])">
             <summary>
             SQL事物执行（增/改/删）相关操作
             </summary>
@@ -6541,29 +8221,35 @@
             受影响行数（无需解释）
             </summary>
         </member>
-        <member name="T:Tool.SqlCore.IDbProvider">
+        <member name="T:Tool.SqlCore.IDbProvider`1">
             <summary>
             SQL数据化的模型接口
             </summary>
-            <remarks>代码由逆血提供支持</remarks>
+            <typeparam name="T">数据类型枚举</typeparam>
         </member>
-        <member name="M:Tool.SqlCore.IDbProvider.ConvertToLocalDbType(System.Type)">
+        <member name="M:Tool.SqlCore.IDbProvider`1.ConvertToLocalDbType(System.Type)">
             <summary>
             根据<see cref="T:System.Type"/>类型获取对应的数据库类型，请自行写实现
             </summary>
             <param name="t"><see cref="T:System.Type"/>类型</param>
             <returns>类型</returns>
         </member>
-        <member name="M:Tool.SqlCore.IDbProvider.ConvertToLocalDbTypeString(System.Type)">
+        <member name="M:Tool.SqlCore.IDbProvider`1.ConvertToLocalDbTypeString(System.Type)">
             <summary>
             根据<see cref="T:System.Type"/>类型获取对应的类型字符串
             </summary>
             <param name="netType"><see cref="T:System.Type"/>类型</param>
             <returns>类型字符串</returns>
         </member>
+        <member name="T:Tool.SqlCore.IDbProvider">
+            <summary>
+            SQL数据化的模型接口
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
         <member name="M:Tool.SqlCore.IDbProvider.DeriveParameters(System.Data.IDbCommand)">
             <summary>
-            读取存储过程参数填充到 <see cref="T:System.Data.IDbCommand"/>.Parameters 集合（内置实现采用反射，如在意性能请自行实现，示例：DbCommandBuilder.DeriveParameters(cmd) 每个数据库下面都有对应的实现类。）
+            读取存储过程参数填充到 <see cref="T:System.Data.IDbCommand"/>.Parameters 集合（内置实现采用虚构委托，如在意性能请自行实现，示例：DbCommandBuilder.DeriveParameters(cmd) 每个数据库下面都有对应的实现类。）
             </summary>
             <param name="cmd">数据库对象</param>
         </member>
@@ -6629,6 +8315,14 @@
             <param name="size">大小</param>
         </member>
         <member name="M:Tool.SqlCore.IDbProvider.GetPagerSet(Tool.SqlCore.DbHelper,Tool.SqlCore.PagerParameters)">
+            <summary>
+            分页核心方法，建议重写，底层默认实现 SqlServer 分页。
+            </summary>
+            <param name="dbHelper"></param>
+            <param name="pramsPager">分页参数</param>
+            <returns>返回分页对象实体</returns>
+        </member>
+        <member name="M:Tool.SqlCore.IDbProvider.GetPagerSetAsync(Tool.SqlCore.DbHelper,Tool.SqlCore.PagerParameters)">
             <summary>
             分页核心方法，建议重写，底层默认实现 SqlServer 分页。
             </summary>
@@ -6726,6 +8420,12 @@
             插入新的数据
             </summary>
             <param name="dt"><see cref="T:System.Data.DataTable"/>对象</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.NewRow">
+            <summary>
+            新行
+            </summary>
+            <returns><see cref="T:System.Data.DataRow"/>对象</returns>
         </member>
         <member name="M:Tool.SqlCore.ITableProvider.Delete(System.String)">
             <summary>
@@ -6943,7 +8643,215 @@
             <param name="prams">对字符串进行映射</param>
             <param name="ID">获取插入数据的ID</param>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.NewRow">
+        <member name="M:Tool.SqlCore.ITableProvider.GetRecordsCountAsync(System.String)">
+            <summary>
+            查询行数
+            </summary>
+            <param name="where">查询条件</param>
+            <returns>返回行数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.InsertAsync(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            插入新的数据
+            </summary>
+            <param name="keyValues">键值对的数据集</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.InsertAsync(System.Object)">
+            <summary>
+            插入新的数据
+            </summary>
+            <param name="prams">对字符串进行映射</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.InsertIdAsync(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            插入新的数据
+            </summary>
+            <param name="keyValues">键值对的数据集</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.InsertIdAsync(System.Object)">
+            <summary>
+            插入新的数据
+            </summary>
+            <param name="prams">对字符串进行映射</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.DeleteAsync(System.String)">
+            <summary>
+            删除该表数据
+            </summary>
+            <param name="where">指定的删除条件</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.DeleteAsync(System.String,System.Object)">
+            <summary>
+            删除该表数据
+            </summary>
+            <param name="where">指定的删除条件</param>
+            <param name="prams">对虚构参数进行映射</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.UpdateAsync(System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
+            <summary>
+            修改数据
+            </summary>
+            <param name="keyValues">修改的键值对集合</param>
+            <param name="where">指定的修改的条件</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.UpdateAsync(System.Object,System.String)">
+            <summary>
+            修改数据
+            </summary>
+            <param name="prams">对虚构参数进行映射</param>
+            <param name="where">指定的修改的条件</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.UpdateAsync(System.Object,System.String,System.Object)">
+            <summary>
+            修改数据
+            </summary>
+            <param name="prams">对虚构参数进行映射</param>
+            <param name="where">指定的修改的条件</param>
+            <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetAsync(System.String)">
+            <summary>
+            查询该表信息
+            </summary>
+            <param name="where">指定的查询条件</param>
+            <returns><see cref="T:System.Data.DataTable"/>对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetAsync(System.String,System.Object)">
+            <summary>
+            查询该表信息
+            </summary>
+            <param name="where">指定的查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <returns><see cref="T:System.Data.DataTable"/>对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetAsync(System.String,System.String[])">
+            <summary>
+            查询该表信息
+            </summary>
+            <param name="where">指定的查询条件</param>
+            <param name="fields">要查询的字段</param>
+            <returns><see cref="T:System.Data.DataTable"/>对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetAsync(System.String,System.Object,System.String[])">
+            <summary>
+            查询该表信息
+            </summary>
+            <param name="where">指定的查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <param name="fields">要查询的字段</param>
+            <returns><see cref="T:System.Data.DataTable"/>对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetEmptyTableAsync">
+            <summary>
+            获取空表
+            </summary>
+            <returns><see cref="T:System.Data.DataTable"/>对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectAsync``1(System.String)">
+            <summary>
+            获取对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <returns>返回实体对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectAsync``1(System.String,System.Object)">
+            <summary>
+            获取对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <returns>返回实体对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectAsync``1(System.String,System.String[])">
+            <summary>
+            获取对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <param name="fields">要查询的字段</param>
+            <returns>返回实体对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectAsync``1(System.String,System.Object,System.String[])">
+            <summary>
+            获取对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <param name="fields">要查询的字段</param>
+            <returns>返回实体对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectListAsync``1(System.String)">
+            <summary>
+            获取对象列表
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <returns>返回实体对象集合</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectListAsync``1(System.String,System.Object)">
+            <summary>
+            获取对象列表
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <returns>返回实体对象集合</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectListAsync``1(System.String,System.String[])">
+            <summary>
+            获取对象列表
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <param name="fields">要查询的字段</param>
+            <returns>返回实体对象集合</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectListAsync``1(System.String,System.Object,System.String[])">
+            <summary>
+            获取对象列表
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <param name="fields">要查询的字段</param>
+            <returns>返回实体对象集合</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetOneAsync(System.String)">
+            <summary>
+            获取当前查询的数据的第一行
+            </summary>
+            <param name="where">查询条件</param>
+            <returns>返回第一条数据</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetOneAsync(System.String,System.Object)">
+            <summary>
+            获取当前查询的数据的第一行
+            </summary>
+            <param name="where">查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <returns>返回第一条数据</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetOneAsync(System.String,System.String[])">
+            <summary>
+            获取当前查询的数据的第一行
+            </summary>
+            <param name="where">查询条件</param>
+            <param name="fields">要查询的字段</param>
+            <returns>返回第一条数据</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.GetOneAsync(System.String,System.Object,System.String[])">
+            <summary>
+            获取当前查询的数据的第一行
+            </summary>
+            <param name="where">查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <param name="fields">要查询的字段</param>
+            <returns>返回第一条数据</returns>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.NewRowAsync">
             <summary>
             新行
             </summary>
@@ -7896,6 +9804,226 @@
             插入新的数据
             </summary>
             <param name="row">新数据<see cref="T:System.Data.DataRow"/>对象</param>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetRecordsCountAsync(System.String)">
+            <summary>
+            查询行数
+            </summary>
+            <param name="where">查询条件</param>
+            <returns>返回行数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.InsertAsync(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            插入新的数据 
+            </summary>
+            <param name="keyValues">键值对的数据集</param>
+            <returns>返回受影响数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.InsertIdAsync(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            插入新的数据
+            </summary>
+            <param name="keyValues">键值对的数据集</param>
+            <returns>返回受影响数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.InsertIdAsync(System.Object)">
+            <summary>
+            插入新的数据
+            </summary>
+            <param name="prams">对字符串进行映射</param>
+            <returns>返回受影响数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.InsertAsync(System.Object)">
+            <summary>
+            插入新的数据 
+            </summary>
+            <param name="prams">对虚构参数进行映射</param>
+            <returns>返回受影响数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.DeleteAsync(System.String)">
+            <summary>
+            删除该表数据
+            </summary>
+            <param name="where">指定的删除条件</param>
+            <returns>受影响行数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.DeleteAsync(System.String,System.Object)">
+            <summary>
+            删除该表数据
+            </summary>
+            <param name="where">指定的删除条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <returns>受影响行数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.UpdateAsync(System.Object,System.String)">
+            <summary>
+            修改数据
+            </summary>
+            <param name="prams">对虚构参数进行映射</param>
+            <param name="where">指定的修改的条件</param>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.UpdateAsync(System.Object,System.String,System.Object)">
+            <summary>
+            修改数据
+            </summary>
+            <param name="prams">对虚构参数进行映射</param>
+            <param name="where">指定的修改的条件</param>
+            <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.UpdateAsync(System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
+            <summary>
+            修改数据
+            </summary>
+            <param name="keyValues">修改的键值对集合</param>
+            <param name="where">指定的修改的条件</param>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetAsync(System.String)">
+            <summary>
+            查询该表信息
+            </summary>
+            <param name="where">指定的查询条件</param>
+            <returns><see cref="T:System.Data.DataTable"/>对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetAsync(System.String,System.Object)">
+            <summary>
+            查询该表信息
+            </summary>
+            <param name="where">指定的查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <returns><see cref="T:System.Data.DataTable"/>对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetAsync(System.String,System.String[])">
+            <summary>
+            查询该表信息
+            </summary>
+            <param name="where">指定的查询条件</param>
+            <param name="fields">要查询的字段</param>
+            <returns><see cref="T:System.Data.DataTable"/>对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetAsync(System.String,System.Object,System.String[])">
+            <summary>
+            查询该表信息
+            </summary>
+            <param name="where">指定的查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <param name="fields">要查询的字段</param>
+            <returns><see cref="T:System.Data.DataTable"/>对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetEmptyTableAsync">
+            <summary>
+            获取空表
+            </summary>
+            <returns><see cref="T:System.Data.DataTable"/>对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.NewRowAsync">
+            <summary>
+            新行
+            </summary>
+            <returns><see cref="T:System.Data.DataRow"/>对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectAsync``1(System.String)">
+            <summary>
+            获取对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <returns>返回实体对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectAsync``1(System.String,System.Object)">
+            <summary>
+            获取对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <returns>返回实体对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectAsync``1(System.String,System.String[])">
+            <summary>
+            获取对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <param name="fields">要查询的字段</param>
+            <returns>返回实体对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectAsync``1(System.String,System.Object,System.String[])">
+            <summary>
+            获取对象
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <param name="fields">要查询的字段</param>
+            <returns>返回实体对象</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectListAsync``1(System.String)">
+            <summary>
+            获取对象列表
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <returns>返回实体对象集合</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectListAsync``1(System.String,System.Object)">
+            <summary>
+            获取对象列表
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <returns>返回实体对象集合</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectListAsync``1(System.String,System.String[])">
+            <summary>
+            获取对象列表
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <param name="fields">要查询的字段</param>
+            <returns>返回实体对象集合</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectListAsync``1(System.String,System.Object,System.String[])">
+            <summary>
+            获取对象列表
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+            <param name="where">查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <param name="fields">要查询的字段</param>
+            <returns>返回实体对象集合</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetOneAsync(System.String)">
+            <summary>
+            获取当前查询的数据的第一行
+            </summary>
+            <param name="where">查询条件</param>
+            <returns>返回第一条数据</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetOneAsync(System.String,System.Object)">
+            <summary>
+            获取当前查询的数据的第一行
+            </summary>
+            <param name="where">查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <returns>返回第一条数据</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetOneAsync(System.String,System.String[])">
+            <summary>
+            获取当前查询的数据的第一行
+            </summary>
+            <param name="where">查询条件</param>
+            <param name="fields">要查询的字段</param>
+            <returns>返回第一条数据</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.GetOneAsync(System.String,System.Object,System.String[])">
+            <summary>
+            获取当前查询的数据的第一行
+            </summary>
+            <param name="where">查询条件</param>
+            <param name="prams">对字符串进行映射</param>
+            <param name="fields">要查询的字段</param>
+            <returns>返回第一条数据</returns>
         </member>
         <member name="T:Tool.StaticData">
             <summary>
@@ -10645,6 +12773,147 @@
             方法的返回类型
             </summary>
         </member>
+        <member name="T:Tool.Utils.ActionDelegate.TypePropertyDescriptor">
+            <summary>
+            引用对象属性构造器
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.TypePropertyDescriptor.ClassType">
+            <summary>
+            数据源Type
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.TypePropertyDescriptor.#ctor(System.Type)">
+            <summary>
+            初始化属性构造器
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.TypePropertyDescriptor.TryProperty(System.String,Tool.Utils.ActionDelegate.PropertyDescriptor@)">
+            <summary>
+            获取指定<see cref="T:Tool.Utils.ActionDelegate.PropertyDescriptor"/>变量
+            </summary>
+            <param name="name">变量名称</param>
+            <param name="property">对象财产托管调度器</param>
+            <returns>返回变量值</returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.TypePropertyDescriptor.TryField(System.String,Tool.Utils.ActionDelegate.PropertyDescriptor@)">
+            <summary>
+            获取指定<see cref="T:Tool.Utils.ActionDelegate.PropertyDescriptor"/>变量
+            </summary>
+            <param name="name">变量名称</param>
+            <param name="property">对象财产托管调度器</param>
+            <returns>返回变量值</returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.TypePropertyDescriptor.GetProperty(System.Object,System.String,System.Boolean@)">
+            <summary>
+            获取指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="name">变量名称</param>
+            <param name="isexist">是否可以修改</param>
+            <returns>返回变量值</returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.TypePropertyDescriptor.SetProperty(System.Object,System.String,System.Object)">
+            <summary>
+            修改指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="name">变量名称</param>
+            <param name="value">修改的值</param>
+            <returns>返回是否查找到并进行修改</returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.TypePropertyDescriptor.GetField(System.Object,System.String,System.Boolean@)">
+            <summary>
+            获取指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="name">变量名称</param>
+            <param name="isexist">是否可以获取</param>
+            <returns>返回变量值</returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.TypePropertyDescriptor.SetField(System.Object,System.String,System.Object)">
+            <summary>
+            修改指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="name">变量名称</param>
+            <param name="value">修改的值</param>
+            <returns>返回是否查找到并进行修改</returns>
+        </member>
+        <member name="T:Tool.Utils.ActionDelegate.PropertyDescriptor">
+            <summary>
+            对象财产托管调度器
+            </summary>
+        </member>
+        <member name="T:Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty">
+            <summary>
+            定义类成员赋值函数
+            </summary>
+            <param name="callclass"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tool.Utils.ActionDelegate.PropertyDescriptor.GetClassProperty">
+            <summary>
+            定义类成员取值函数
+            </summary>
+            <param name="callclass"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.PropertyDescriptor.Property">
+            <summary>
+            可能存在的财产<see cref="T:System.Reflection.PropertyInfo"/>
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.PropertyDescriptor.Field">
+            <summary>
+            可能存在的财产<see cref="T:System.Reflection.FieldInfo"/>
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.PropertyDescriptor.CanWrite">
+            <summary>
+            是否可写
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.PropertyDescriptor.CanRead">
+            <summary>
+            是否可读
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.PropertyDescriptor.IsStatic">
+            <summary>
+            是否是静态变量
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.PropertyDescriptor.#ctor(System.Type,System.Reflection.PropertyInfo)">
+            <summary>
+            尝试获取可用的财产
+            </summary>
+            <param name="classtype">对象信息</param>
+            <param name="property">财产</param>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.PropertyDescriptor.#ctor(System.Type,System.Reflection.FieldInfo)">
+            <summary>
+            尝试获取可用的财产
+            </summary>
+            <param name="classtype">对象信息</param>
+            <param name="fieldInfo">财产</param>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.PropertyDescriptor.GetValue(System.Object)">
+            <summary>
+            获取指定变量值
+            </summary>
+            <param name="obj">对象源</param>
+            <returns>返回变量值</returns>
+        </member>
+        <member name="M:Tool.Utils.ActionDelegate.PropertyDescriptor.SetValue(System.Object,System.Object)">
+            <summary>
+            修改指定变量值
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="value">修改的值</param>
+        </member>
         <member name="T:Tool.Utils.AppSettings">
             <summary>
             获取配置文件数据 (允许修改原文件异步队列式更新)
@@ -11221,15 +13490,6 @@
             <param name="keys"><see cref="T:System.Collections.Generic.IDictionary`2"/>对象</param>
             <returns><see cref="T:System.Collections.Generic.Dictionary`2"/></returns>
             /// <param name="key">需要删除的键值集合</param>
-        </member>
-        <member name="M:Tool.Utils.Data.DictionaryExtension.AsReadOnly``2(System.Collections.Generic.IDictionary{``0,``1})">
-            <summary>
-            将键值对转换成只读类型键值对
-            </summary>
-            <typeparam name="TKey">键</typeparam>
-            <typeparam name="TValue">值</typeparam>
-            <param name="keys">原本键值对</param>
-            <returns>只读键值对</returns>
         </member>
         <member name="M:Tool.Utils.Data.DictionaryExtension.GetParamAscii``2(System.Collections.Generic.Dictionary{``0,``1})">
             <summary>
@@ -15301,22 +17561,124 @@
             <param name="ignoreCase">是否忽略大小写</param>
             <returns>返回是否查找到并进行修改</returns>
         </member>
-        <member name="M:Tool.Utils.TypeExtension.GetFieldValue(System.Object,System.String)">
+        <member name="M:Tool.Utils.TypeExtension.GetFieldValue(System.Object,System.String,System.Boolean@)">
             <summary>
-            获取指定变量值 (支持 public/private)
+            获取指定变量值 (支持 public/private/protected) 静态时obj为null
             </summary>
             <param name="obj">对象源</param>
             <param name="name">变量名称</param>
+            <param name="isexist">是否可以获取</param>
             <returns>返回变量值</returns>
         </member>
         <member name="M:Tool.Utils.TypeExtension.SetFieldValue(System.Object,System.String,System.Object)">
             <summary>
-            修改指定变量值 (支持 public/private)
+            修改指定变量值 (支持 public/private/protected) 静态时obj为null
             </summary>
             <param name="obj">对象源</param>
             <param name="name">变量名称</param>
             <param name="value">修改的值</param>
             <returns>返回是否查找到并进行修改</returns>
+        </member>
+        <member name="M:Tool.Utils.TypeExtension.GetFieldValue``1(System.Object,System.String,System.Boolean@)">
+            <summary>
+            获取指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="name">变量名称</param>
+            <param name="isexist">是否可以获取</param>
+            <returns>返回变量值</returns>
+        </member>
+        <member name="M:Tool.Utils.TypeExtension.SetFieldValue``1(System.Object,System.String,System.Object)">
+            <summary>
+            修改指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="name">变量名称</param>
+            <param name="value">修改的值</param>
+            <returns>返回是否查找到并进行修改</returns>
+        </member>
+        <member name="M:Tool.Utils.TypeExtension.GetFieldValue(System.Object,System.Type,System.String,System.Boolean@)">
+            <summary>
+            获取指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="type">类型</param>
+            <param name="name">变量名称</param>
+            <param name="isexist">是否可以获取</param>
+            <returns>返回变量值</returns>
+        </member>
+        <member name="M:Tool.Utils.TypeExtension.SetFieldValue(System.Object,System.Type,System.String,System.Object)">
+            <summary>
+            修改指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="type">类型</param>
+            <param name="name">变量名称</param>
+            <param name="value">修改的值</param>
+            <returns>返回是否查找到并进行修改</returns>
+        </member>
+        <member name="M:Tool.Utils.TypeExtension.GetPropertyValue(System.Object,System.String,System.Boolean@)">
+            <summary>
+            获取指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="name">变量名称</param>
+            <param name="isexist">是否可以获取</param>
+            <returns>返回变量值</returns>
+        </member>
+        <member name="M:Tool.Utils.TypeExtension.SetPropertyValue(System.Object,System.String,System.Object)">
+            <summary>
+            修改指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="name">变量名称</param>
+            <param name="value">修改的值</param>
+            <returns>返回是否查找到并进行修改</returns>
+        </member>
+        <member name="M:Tool.Utils.TypeExtension.GetPropertyValue``1(System.Object,System.String,System.Boolean@)">
+            <summary>
+            获取指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="name">变量名称</param>
+            <param name="isexist">是否可以获取</param>
+            <returns>返回变量值</returns>
+        </member>
+        <member name="M:Tool.Utils.TypeExtension.SetPropertyValue``1(System.Object,System.String,System.Object)">
+            <summary>
+            修改指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="name">变量名称</param>
+            <param name="value">修改的值</param>
+            <returns>返回是否查找到并进行修改</returns>
+        </member>
+        <member name="M:Tool.Utils.TypeExtension.GetPropertyValue(System.Object,System.Type,System.String,System.Boolean@)">
+            <summary>
+            获取指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="type">类型</param>
+            <param name="name">变量名称</param>
+            <param name="isexist">是否可以获取</param>
+            <returns>返回变量值</returns>
+        </member>
+        <member name="M:Tool.Utils.TypeExtension.SetPropertyValue(System.Object,System.Type,System.String,System.Object)">
+            <summary>
+            修改指定变量值 (支持 public/private/protected) 静态时obj为null
+            </summary>
+            <param name="obj">对象源</param>
+            <param name="type">类型</param>
+            <param name="name">变量名称</param>
+            <param name="value">修改的值</param>
+            <returns>返回是否查找到并进行修改</returns>
+        </member>
+        <member name="M:Tool.Utils.TypeExtension.GetPropertys(System.Type)">
+            <summary>
+            获取公共管理的属性构造器
+            </summary>
+            <param name="type">类型</param>
+            <returns>属性构造器</returns>
         </member>
         <member name="T:Tool.Utils.TypeHelper">
             <summary>

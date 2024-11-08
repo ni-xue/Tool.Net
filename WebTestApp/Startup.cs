@@ -27,6 +27,7 @@ using System.Threading;
 using System.Buffers;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace WebTestApp
 {
@@ -78,17 +79,17 @@ namespace WebTestApp
             //WebServer webServer = new();
             //webServer.StartAsync("127.0.0.1", 9999, false);
 
-            ClientFrame client = new(NetBufferSize.Default, true);
-            client.SetCompleted((a, b, c) =>
-            {
-                Console.WriteLine("\nIP:{0} \t{1} \t{2}", a, b, c.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
-                return ValueTask.CompletedTask;
-            });
+            //ClientFrame client = new(NetBufferSize.Default, true);
+            //client.SetCompleted((a, b, c) =>
+            //{
+            //    Console.WriteLine("\nIP:{0} \t{1} \t{2}", a, b, c.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
+            //    return ValueTask.CompletedTask;
+            //});
 
-            client.ConnectAsync("127.0.0.1", 444).Wait();//120.79.58.17 
-            client.AddKeepAlive(5);
+            //client.ConnectAsync("127.0.0.1", 444).Wait();//120.79.58.17 
+            //client.AddKeepAlive(5);
 
-            services.AddObject(client);
+            //services.AddObject(client);
 
             services.AddRouting();
 
@@ -238,9 +239,10 @@ namespace WebTestApp
 
             //wait.Run();
 
-            //services.AddObject(new DbHelper("server=nixue.top;database=CommunDB;uid=user;password=123456;Pooling=true;", DbProviderType.SqlServer1, new SqlServerProvider()));
+            string sqlstr = "user id=hkr1985sql123qwe;password=123qwe!@#QWEHello2019_c30110cb85e5a4e36ee9240081341132;initial catalog=HKR51;data source=127.0.0.1;TrustServerCertificate=true";
+            services.AddObject(new DbHelper(sqlstr, DbProviderType.SqlServer1, new SqlServerProvider()));
 
-            services.AddObject(new DbHelper("data source=47.94.109.199;database=liquortribe;user id=liquortribe;password=NjCHBrzhrWpJZr8a;pooling=true;charset=utf8;", DbProviderType.MySql, new MySqlProvider()));
+            //services.AddObject(new DbHelper("data source=47.94.109.199;database=liquortribe;user id=liquortribe;password=NjCHBrzhrWpJZr8a;pooling=true;charset=utf8;", DbProviderType.MySql, new MySqlProvider()));
         }
 
         //private void ActionQueue_ContinueWith(Tool.Utils.ThreadQueue.WaitAction obj)
@@ -250,7 +252,7 @@ namespace WebTestApp
         //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, ClientFrame client)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)//, ClientFrame client
         {
             //HttpContextExtension.Current.//env.IsDevelopment
 
@@ -264,7 +266,20 @@ namespace WebTestApp
             EnumEventQueue.OnInterceptor(EnClient.Receive, true);
 
             DbHelper dbHelper = app.GetObject<DbHelper>();
+            dbHelper.CommandTimeout = 1800;
             dbHelper.SetLogger(loggerFactory.CreateLogger("sql"));
+
+            using var data = dbHelper.ExecuteDataSetAsync("SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];SELECT * FROM [HKR51].[dbo].[XGDZ_cUser];SELECT * FROM [HKR51].[dbo].[XGDZ_cUserQx]").Result;
+            
+            var reader = dbHelper.ExecuteReader(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];SELECT * FROM [HKR51].[dbo].[XGDZ_cUser];SELECT * FROM [HKR51].[dbo].[XGDZ_cUserQx]");
+
+            var dataTable = reader.GetDataTableAsync().Result;
+
+            var dataset = reader.GetDataSetAsync().Result;
+
+            var dbParameters = dbHelper.GetSpParameterSetAsync("usp_output").Result;
+
+            var dbParameters0 = dbHelper.GetSpParameterSetAsync("usp_output").Result;
 
             if (env.IsDevelopment())
             {

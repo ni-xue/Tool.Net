@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Tool.Utils;
 using Tool.Utils.Data;
 
@@ -34,6 +37,23 @@ namespace Tool.SqlCore
                 return dataSet.Tables[0];
             }
             return default;
+        }
+
+        /// <summary>
+        /// 查询单张表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="commandText">查询语句</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+        /// <returns></returns>
+        public static IList<IDictionary<string, object>> SelectDictionary(this DbHelper dbHelper, string commandText, object prams = null)
+        {
+            if (string.IsNullOrWhiteSpace(commandText))
+            {
+                throw new Exception("commandText 变量值不能为空。");
+            }
+            using var dataReader = dbHelper.ExecuteReader(commandText, prams);
+            return dataReader.GetReader();
         }
 
         /// <summary>
@@ -83,15 +103,11 @@ namespace Tool.SqlCore
                 where = "1=1";
             }
 
-            //System.Collections.ObjectModel.ObservableCollection
-
             string sql = $"SELECT * FROM {typeof(T).Name} WHERE {where}";
-            using (DataSet dataSet = dbHelper.ExecuteDataset(commandType: CommandType.Text, sql, dbHelper.SetParameterList(dic)?.ToArray()))
+            using DataSet dataSet = dbHelper.ExecuteDataSet(commandType: CommandType.Text, sql, dbHelper.SetParameterList(dic)?.ToArray());
+            if (!dataSet.IsEmpty())
             {
-                if (!dataSet.IsEmpty())
-                {
-                    return dataSet.Tables[0].ToEntityList<T>();
-                }
+                return dataSet.Tables[0].ToEntityList<T>();
             }
             return default;
         }
@@ -155,7 +171,6 @@ namespace Tool.SqlCore
         {
             return ExecuteNonQuery(dbHelper, commandTexts);
         }
-
 
         /// <summary>
         /// 修改单表结果
@@ -263,6 +278,266 @@ namespace Tool.SqlCore
         }
 
         /// <summary>
+        /// 查询单张表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="commandText">查询语句</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+        /// <returns></returns>
+        public static async Task<DataTable>  SelectAsync(this DbHelper dbHelper, string commandText, object prams = null)
+        {
+            if (string.IsNullOrWhiteSpace(commandText))
+            {
+                throw new Exception("commandText 变量值不能为空。");
+            }
+            DataSet dataSet = await dbHelper.QueryAsync(commandText, prams);
+            if (!dataSet.IsEmpty())
+            {
+                return dataSet.Tables[0];
+            }
+            return default;
+        }
+
+        /// <summary>
+        /// 查询单张表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="commandText">查询语句</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+        /// <returns></returns>
+        public static async Task<IList<IDictionary<string, object>>> SelectDictionaryAsync(this DbHelper dbHelper, string commandText, object prams = null)
+        {
+            if (string.IsNullOrWhiteSpace(commandText))
+            {
+                throw new Exception("commandText 变量值不能为空。");
+            }
+            using var dataReader = await dbHelper.ExecuteReaderAsync(commandText, prams);
+            return await dataReader.GetReaderAsync();
+        }
+
+        /// <summary>
+        /// 查询单张表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="prams">查询条件</param>
+        /// <returns></returns>
+        public static async Task<IList<T>> SelectAsync<T>(this DbHelper dbHelper, Action<T> prams = null) where T : new()
+        {
+            string where;
+            var dic = default(IDictionary<string, object>);
+            if (prams != null)
+            {
+                var t = new T();
+
+                dic = t.GetDictionary();
+
+                prams?.Invoke(t);
+
+                var dic1 = t.GetDictionary();
+
+                StringBuilder @string = new("1=1");
+
+                foreach (var pair in dic1)
+                {
+                    if (pair.Value == null)
+                    {
+                        dic.Remove(pair.Key);
+                        continue;
+                    }
+                    if (pair.Value.Equals(dic[pair.Key]))
+                    {
+                        dic.Remove(pair.Key);
+                        continue;
+                    }
+                    dic[pair.Key] = pair.Value;
+                    @string.AppendFormat(" AND {0}={1}{2}", pair.Key, dbHelper.Provider.ParameterPrefix, pair.Key);
+                }
+
+                dic1.Clear();
+
+                where = @string.ToString();
+            }
+            else
+            {
+                where = "1=1";
+            }
+
+            string sql = $"SELECT * FROM {typeof(T).Name} WHERE {where}";
+            using DataSet dataSet = await dbHelper.ExecuteDataSetAsync(commandType: CommandType.Text, sql, dbHelper.SetParameterList(dic)?.ToArray());
+            if (!dataSet.IsEmpty())
+            {
+                return dataSet.Tables[0].ToEntityList<T>();
+            }
+            return default;
+        }
+
+        /// <summary>
+        /// 查询多张表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="commandTexts">多条查询语句</param>
+        /// <returns></returns>
+        public static Task<DataSet> SelectAsync(this DbHelper dbHelper, params string[] commandTexts)
+        {
+            if (commandTexts == null || commandTexts.Length == 0)
+            {
+                throw new Exception("commandText 变量值不能为空。");
+            }
+            string _commandText = string.Join("; ", commandTexts);
+            return dbHelper.QueryAsync(_commandText);
+        }
+
+        /// <summary>
+        /// 插入一条结果
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+        /// <returns></returns>
+        public static Task<int> InsertAsync<T>(this DbHelper dbHelper, object prams) where T : new()
+        {
+            return dbHelper.InsertAsync(typeof(T).Name, prams);
+        }
+
+        /// <summary>
+        /// 插入一条结果
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="TableName">表名</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+        /// <returns></returns>
+        public static Task<int> InsertAsync(this DbHelper dbHelper, string TableName, object prams)
+        {
+            IDictionary<string, object> keyValues = dbHelper.SetDictionaryParam(prams);
+
+            if (keyValues == null || keyValues.Count == 0)
+            {
+                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！（传入的新增参数是空的）", nameof(prams));
+            }
+
+            List<DbParameter> parms = dbHelper.GetInsertParams(keyValues, out string key, out string value);
+
+            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", TableName, key, value);
+            return dbHelper.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
+        }
+
+        /// <summary>
+        /// 插入多条结果，可以是多张不同的表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="commandTexts">多条插入语句</param>
+        /// <returns></returns>
+        public static Task<int> InsertAsync(this DbHelper dbHelper, params string[] commandTexts)
+        {
+            return ExecuteNonQueryAsync(dbHelper, commandTexts);
+        }
+
+
+        /// <summary>
+        /// 修改单表结果
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="where">修改的条件</param>
+        /// <param name="prams">修改表的参数 Or 修改条件的参数,可以是任何类型的键值对</param>
+        /// <returns></returns>
+        public static Task<int> UpdateAsync<T>(this DbHelper dbHelper, string where, params object[] prams) where T : new()
+        {
+            return dbHelper.UpdateAsync(typeof(T).Name, where, prams);
+        }
+
+        /// <summary>
+        /// 修改单表结果
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="TableName">表名</param>
+        /// <param name="where">修改的条件，无需写 WHERE 直接条件</param>
+        /// <param name="prams">修改表的参数 Or 修改条件的参数,可以是任何类型的键值对</param>
+        /// <returns></returns>
+        public static Task<int> UpdateAsync(this DbHelper dbHelper, string TableName, string where, params object[] prams)
+        {
+            if (prams == null || prams.Length == 0)
+            {
+                throw new ArgumentException("键值对集合为空！", nameof(prams));
+            }
+
+            IDictionary<string, object> keyValues = dbHelper.SetDictionaryParam(prams[0]);
+
+            if (keyValues == null || keyValues.Count == 0)
+            {
+                throw new ArgumentException("在准备修改表的时候发生异常，键值对集合为空！（传入的修改参数是空的）", "prams[0]");
+            }
+
+            List<DbParameter> parms = dbHelper.GetUpdateParams(keyValues, out string strsql);
+
+            if (prams.Length > 1)
+            {
+                List<DbParameter> _parms = dbHelper.SetParameterList(prams[1]);
+                if (_parms == null || _parms.Count == 0)
+                {
+                    throw new ArgumentException("在准备修改表的时候发生异常，键值对集合为空！（传入的条件参数是空的）", "prams[1]");
+                }
+                parms.AddRange(_parms);
+            }
+
+            string commandText = string.Format("UPDATE {0} SET {1} {2}", TableName, strsql, WhereStr(where));
+            return dbHelper.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
+        }
+
+        /// <summary>
+        /// 修改多表结果
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="commandTexts">多条插入语句</param>
+        /// <returns></returns>
+        public static Task<int> UpdateAsync(this DbHelper dbHelper, params string[] commandTexts)
+        {
+            return ExecuteNonQueryAsync(dbHelper, commandTexts);
+        }
+
+        /// <summary>
+        /// 删除单张表数据
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="where">删除的条件</param>
+        /// <param name="prams">删除条件的参数,可以是任何类型的键值对</param>
+        /// <returns></returns>
+        public static Task<int> DeleteAsync<T>(this DbHelper dbHelper, string where, object prams) where T : new()
+        {
+            return dbHelper.DeleteAsync(typeof(T).Name, where, prams);
+        }
+
+        /// <summary>
+        /// 删除单张表数据
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="TableName">表名</param>
+        /// <param name="where">删除的条件</param>
+        /// <param name="prams">删除条件的参数,可以是任何类型的键值对</param>
+        /// <returns></returns>
+        public static Task<int> DeleteAsync(this DbHelper dbHelper, string TableName, string where, object prams)
+        {
+            DbParameter[] parameters = dbHelper.SetParameters(prams);
+
+            if (parameters == null || parameters.Length == 0)
+            {
+                throw new ArgumentException("在准备修改表的时候发生异常，prams 中无有效数据或为空！", "错误提示：");
+            }
+
+            string commandText = string.Format("DELETE FROM {0} {1}", TableName, WhereStr(where));
+            return dbHelper.ExecuteNonQueryAsync(CommandType.Text, commandText, parameters);
+        }
+
+        /// <summary>
+        /// 删除多多张表数据
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="commandTexts">多张表删除语句</param>
+        /// <returns></returns>
+        public static Task<int> DeleteAsync(this DbHelper dbHelper, params string[] commandTexts)
+        {
+            return ExecuteNonQueryAsync(dbHelper, commandTexts);
+        }
+
+        /// <summary>
         /// 提供快捷方式，匿名对象实现
         /// </summary>
         /// <param name="dbHelper">数据库引擎</param>
@@ -274,7 +549,7 @@ namespace Tool.SqlCore
             DbParameter[] _parameters = dbHelper.SetParameters(prams);
             return new SqlTextParameter(commandText, _parameters);
         }
-
+        
         private static int ExecuteNonQuery(DbHelper dbHelper, params string[] commandTexts)
         {
             if (commandTexts == null || commandTexts.Length == 0)
@@ -283,6 +558,16 @@ namespace Tool.SqlCore
             }
             string _commandText = string.Join("; ", commandTexts);
             return dbHelper.ExecuteNonQuery(CommandType.Text, _commandText, null);
+        }
+
+        private static Task<int> ExecuteNonQueryAsync(DbHelper dbHelper, params string[] commandTexts)
+        {
+            if (commandTexts == null || commandTexts.Length == 0)
+            {
+                throw new Exception("commandText 变量值不能为空。");
+            }
+            string _commandText = string.Join("; ", commandTexts);
+            return dbHelper.ExecuteNonQueryAsync(CommandType.Text, _commandText, null);
         }
 
         /// <summary>
@@ -408,7 +693,7 @@ namespace Tool.SqlCore
         /// <returns></returns>
         public static Func<DbDataReader, T> GetReader<T>()
         {
-            Delegate resDelegate;
+            Func<DbDataReader, T> resDelegate;
             //if (!ExpressionCache.TryGetValue(typeof(T), out resDelegate))
             {
                 // Get the indexer property of SqlDataReader 
@@ -457,7 +742,7 @@ namespace Tool.SqlCore
                 // 将动态方法保存到缓存中
                 //ExpressionCache[typeof(T)] = resDelegate;
             }
-            return (Func<DbDataReader, T>)resDelegate;
+            return resDelegate;
         }
 
         /// <summary>
@@ -470,7 +755,7 @@ namespace Tool.SqlCore
         {
             //if (dataReader.IsClosed)
             {
-                IList<IDictionary<string, object>> keys = new List<IDictionary<string, object>>();
+                List<IDictionary<string, object>> keys = new();
                 while (dataReader.Read())
                 {
                     Dictionary<string, object> pairs = new(dataReader.FieldCount, StringComparer.OrdinalIgnoreCase);
@@ -493,5 +778,176 @@ namespace Tool.SqlCore
                 return keys;
             }
         }
+
+        /// <summary>
+        /// 将<see cref="DbDataReader"/>对象，中数据转换为集合字典
+        /// </summary>
+        /// <param name="dataReader">原数据对象</param>
+        /// <param name="isnull">是否处理Null值，true时将不包含在字典中</param>
+        /// <returns>返回可读集合字典</returns>
+        public static async Task<IList<IDictionary<string, object>>> GetReaderAsync(this DbDataReader dataReader, bool isnull = false)
+        {
+            //if (dataReader.IsClosed)
+            {
+                List<IDictionary<string, object>> keys = new();
+                while (await dataReader.ReadAsync())
+                {
+                    Dictionary<string, object> pairs = new(dataReader.FieldCount, StringComparer.OrdinalIgnoreCase);
+                    for (int i = 0; i < dataReader.FieldCount; i++)
+                    {
+                        bool isNull = await dataReader.IsDBNullAsync(i);
+
+                        if (isNull && !isnull)
+                        {
+                            pairs.Add(dataReader.GetName(i), null);
+                        }
+                        else
+                        {
+                            pairs.Add(dataReader.GetName(i), dataReader.GetValue(i));
+                        }
+                    }
+                    keys.Add(pairs);
+                }
+
+                return keys;
+            }
+        }
+
+        /// <summary>
+        /// 将<see cref="DbDataReader"/>对象，中数据转换为 <see cref="DataSet"/>
+        /// </summary>
+        /// <param name="dataReader">原数据对象</param>
+        /// <returns>返回可读集合字典</returns>
+        public static DataSet GetDataSet(this DbDataReader dataReader)
+        {
+            //if (dataReader.IsClosed)
+            {
+                DataSet dataSet = new();
+                do
+                {
+                    dataSet.Tables.Add(dataReader.GetDataTable());
+                } while (dataReader.NextResult());
+                return dataSet;
+            }
+        }
+
+        /// <summary>
+        /// 将<see cref="DbDataReader"/>对象，中数据转换为 <see cref="DataTable"/>
+        /// </summary>
+        /// <param name="dataReader">原数据对象</param>
+        /// <returns>返回可读集合字典</returns>
+        public static DataTable GetDataTable(this DbDataReader dataReader)
+        {
+            //if (dataReader.IsClosed)
+            {
+                DataTable dataTable = dataReader.GetDataColumnSchema();
+                while (dataReader.Read())
+                {
+                    DataRow dataRow = dataTable.NewRow();
+                    for (int i = 0; i < dataReader.FieldCount; i++)
+                    {
+                        bool isNull = dataReader.IsDBNull(i);
+                        dataRow[i] = isNull ? DBNull.Value : dataReader.GetValue(i);//dataReader.GetName(i)
+                    }
+                    dataTable.Rows.Add(dataRow);
+                }
+                return dataTable;
+            }
+        }
+
+        /// <summary>
+        /// 将<see cref="DbDataReader"/>对象，中数据转换为 <see cref="DataSet"/>
+        /// </summary>
+        /// <param name="dataReader">原数据对象</param>
+        /// <returns>返回可读集合字典</returns>
+        public static async Task<DataSet> GetDataSetAsync(this DbDataReader dataReader)
+        {
+            //if (dataReader.IsClosed)
+            {
+                DataSet dataSet = new();
+                do
+                {
+                    dataSet.Tables.Add(await dataReader.GetDataTableAsync());
+                } while (await dataReader.NextResultAsync());
+                return dataSet;
+            }
+        }
+
+        /// <summary>
+        /// 将<see cref="DbDataReader"/>对象，中数据转换为 <see cref="DataTable"/>
+        /// </summary>
+        /// <param name="dataReader">原数据对象</param>
+        /// <returns>返回可读集合字典</returns>
+        public static async Task<DataTable> GetDataTableAsync(this DbDataReader dataReader)
+        {
+            //if (dataReader.IsClosed)
+            {
+                DataTable dataTable = await dataReader.GetDataColumnSchemaAsync();
+                while (await dataReader.ReadAsync())
+                {
+                    DataRow dataRow = dataTable.NewRow();
+                    for (int i = 0; i < dataReader.FieldCount; i++)
+                    {
+                        bool isNull = await dataReader.IsDBNullAsync(i);
+                        dataRow[i] = isNull ? DBNull.Value : dataReader.GetValue(i);//dataReader.GetName(i)
+                    }
+                    dataTable.Rows.Add(dataRow);
+                }
+                return dataTable;
+            }
+        }
+
+        /// <summary>
+        /// 获取DataTable表信息不含数据
+        /// </summary>
+        /// <param name="dataReader">原数据对象</param>
+        /// <returns></returns>
+        public static DataTable GetDataColumnSchema(this DbDataReader dataReader)
+        {
+            return GetEmptyDataTable(dataReader.GetColumnSchema());
+        }
+
+        /// <summary>
+        /// 获取DataTable表信息不含数据
+        /// </summary>
+        /// <param name="dataReader">原数据对象</param>
+        /// <returns></returns>
+        public static async Task<DataTable> GetDataColumnSchemaAsync(this DbDataReader dataReader)
+        {
+            return GetEmptyDataTable(await dataReader.GetColumnSchemaAsync());
+        }
+
+        private static DataTable GetEmptyDataTable(ReadOnlyCollection<DbColumn> columns)
+        {
+            DataTable dataTable = new();
+            foreach (DbColumn column in columns)
+            {
+                dataTable.Columns.Add(new DataColumn
+                {
+                    AllowDBNull = column.AllowDBNull ?? true,
+                    DataType = column.DataType,
+                    ColumnName = column.ColumnName,
+                    Unique = column.IsUnique ?? false,
+                    ReadOnly = column.IsReadOnly == false,
+                });
+            }
+            return dataTable;
+        }
+    }
+
+    /// <summary>
+    /// 异步返回带有主键的影响信息
+    /// </summary>
+    public record SqlNonQuery
+    {
+        /// <summary>
+        /// 影响行数
+        /// </summary>
+        public int RowsCount { get; set; }
+
+        /// <summary>
+        /// 主键Id
+        /// </summary>
+        public object Id { get; set; }
     }
 }
