@@ -129,7 +129,7 @@ namespace Tool.SqlCore
         public Message(List<DbParameter> prams) : this()
         {
             this.m_prams = prams;
-            this.MessageID = Utils.TypeParse.StrToInt(prams[prams.Count - 1].Value, -1);
+            this.MessageID = Utils.TypeParse.StrToInt(prams[^1].Value, -1);
             if (prams.Count > 1)
             {
                 DbParameter db = prams[prams.Count - 2];
@@ -181,10 +181,10 @@ namespace Tool.SqlCore
         }
 
         /// <summary>
-        /// 
+        /// 获取数组下对应下标的数据
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T">返回的指定类型</typeparam>
+        /// <returns>返回结果</returns>
         public T GetEntityList<T>(int index) 
         {
             return EntityList[index].ToVar<T>();
@@ -195,10 +195,7 @@ namespace Tool.SqlCore
         /// </summary>
         public void ResetEntityList()
         {
-            if (this.EntityList != null)
-            {
-                this.EntityList.Clear();
-            }
+            this.EntityList?.Clear();
         }
 
         /// <summary>

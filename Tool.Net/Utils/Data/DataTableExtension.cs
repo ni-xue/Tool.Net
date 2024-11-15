@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Reflection;
 using System.Text;
 
@@ -96,6 +98,122 @@ namespace Tool.Utils.Data
         }
 
         /// <summary>
+        /// 将 <see cref="System.Collections.ArrayList"/> 集合数据克隆到 <see cref="DataTable"/> 中
+        /// <list type="bullet"><see cref="DataTable"/>必须是空的</list>
+        /// </summary>
+        /// <param name="table">DataTable</param>
+        /// <param name="objects">数据集合</param>
+        public static void CloneArray(this DataTable table, System.Collections.ArrayList objects)
+        {
+            if (table is not null && table.IsEmpty() && table.Columns.Count == 0)
+            {
+                if (objects is null) throw new Exception("提供的objects是空的！");
+                if (objects[0] is IDictionary dic)
+                {
+                    foreach (DictionaryEntry entry in dic)
+                    {
+                        table.Columns.Add(entry.Key.ToString(), Type.GetType(entry.Value.ToString()));
+                    }
+                    for (int i = 1; i < objects.Count; i++)
+                    {
+                        if (objects[i] is IList objs)
+                        {
+                            var data = table.NewRow();
+                            for (int j = 0; j < objs.Count; j++)
+                            {
+                                data[j] = objs[j];
+                            }
+                            table.Rows.Add(data);
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception("ArrayList 第一行必须字典表头信息！");
+                }
+            }
+            else
+            {
+                throw new Exception("提供的容器不是空的！");
+            }
+        }
+
+        /// <summary>
+        /// 将 <see cref="System.Collections.ArrayList"/> 集合数据克隆到 <see cref="DataTable"/> 中
+        /// <list type="bullet"><see cref="DataTable"/>必须是空的</list>
+        /// </summary>
+        /// <param name="json">Json数据</param>
+        /// <param name="table">DataTable</param>
+        public static void CloneArray(this DataTable table, JsonVar json)
+        {
+            ArrayList arrayList = new(json.Count);
+            for (int i = 0; i < json.Count; i++)
+            {
+                var data = json[i];
+                switch (data.ValueKind)
+                {
+                    case System.Text.Json.JsonValueKind.Object:
+                        arrayList.Add(data.Data);
+                        break;
+                    case System.Text.Json.JsonValueKind.Array:
+                        arrayList.Add(data.Data);
+                        break;
+                }
+            }
+            table.CloneArray(arrayList);
+        }
+
+        /// <summary>
+        /// （DataTable）转换 <see cref="System.Collections.ArrayList"/> 集合
+        /// </summary>
+        /// <param name="table">DataTable</param>
+        /// <returns>返回<see cref="System.Collections.ArrayList"/></returns>
+        public static System.Collections.ArrayList ToArray(this DataTable table)
+        {
+            return table.ToArrayIf(null);
+        }
+
+        /// <summary>
+        /// （DataTable）转换 <see cref="System.Collections.ArrayList"/> 集合（结果可自定义）
+        /// </summary>
+        /// <param name="table">DataTable</param>
+        /// <param name="func">用于指定特殊结果的函数</param>
+        /// <returns>返回<see cref="System.Collections.ArrayList"/></returns>
+        public static System.Collections.ArrayList ToArrayIf(this DataTable table, Func<string, object, object> func)
+        {
+            //if (func == null) throw new ArgumentNullException(nameof(func), "请实现该方法，验证版！");
+            if (!table.IsEmpty())
+            {
+                System.Collections.ArrayList parentRow = new();
+                foreach (DataRow row in table.Rows)
+                {
+                    object[] childRow = new object[table.Columns.Count];
+                    for (int i = 0; i < childRow.Length; i++)
+                    {
+                        var col = table.Columns[i];
+                        object _obj = func?.Invoke(col.ColumnName, row[col]) ?? row[col];
+                        childRow[i] = _obj;
+                    }
+                    parentRow.Add(childRow);
+                }
+                parentRow.Insert(0, GetEmptyDictionaryKey(table));
+                return parentRow;
+            }
+            return default;
+        }
+
+        private static Dictionary<string, string> GetEmptyDictionaryKey(DataTable table)
+        {
+            Dictionary<string, string> keys = new(StringComparer.OrdinalIgnoreCase);
+            for (int i = 0; i < table.Columns.Count; i++)
+            {
+                var column = table.Columns[i];
+                keys.Add(column.ColumnName, column.DataType.FullName);
+            }
+            return keys;
+        }
+
+        /// <summary>
         /// （DataTable）转换 <see cref="object"/> 集合
         /// </summary>
         /// <param name="dataTable">DataTable</param>
@@ -110,9 +228,9 @@ namespace Tool.Utils.Data
         /// </summary>
         /// <param name="table">DataTable</param>
         /// <returns>返回JSON字符串</returns>
-        public static string ToJSON(this DataTable table)
+        public static string TableToJson(this DataTable table)
         {
-            return ToJSON(table, false);
+            return TableToJson(table, false);
         }
 
         /// <summary>
@@ -121,9 +239,9 @@ namespace Tool.Utils.Data
         /// <param name="table">DataTable</param>
         /// <param name="IsDate">ToJson格式时间，启用转字符串</param>
         /// <returns>返回JSON字符串</returns>
-        public static string ToJSON(this DataTable table, bool IsDate)
+        public static string TableToJson(this DataTable table, bool IsDate)
         {
-            return ToJSON(table, IsDate, null);
+            return TableToJson(table, IsDate, null);
         }
 
         /// <summary>
@@ -133,7 +251,7 @@ namespace Tool.Utils.Data
         /// <param name="IsDate">ToJson格式时间，启用转字符串</param>
         /// <param name="ToDateString">Date.ToString()的写法。</param>
         /// <returns>返回JSON字符串</returns>
-        public static string ToJSON(this DataTable table, bool IsDate, string ToDateString)
+        public static string TableToJson(this DataTable table, bool IsDate, string ToDateString)
         {
             if (!table.IsEmpty())
             {
@@ -416,7 +534,7 @@ namespace Tool.Utils.Data
                     IList<DataTableProperty> tableProperties = DataHelper.GetTablePropertys(modeBuild.Parameters, dataTable.Columns);
                     //Dictionary<PropertyInfo, DataColumn> keys = DataRowExtension.GetDataPropertys<T>(dataTable.Columns);
 
-                    DataRowCollection dataRows; 
+                    DataRowCollection dataRows;
                     if (indexs != null)
                     {
                         var _clone = dataTable.Clone();

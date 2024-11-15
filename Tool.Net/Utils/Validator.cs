@@ -415,8 +415,6 @@ namespace Tool.Utils
         /// <returns>是否匹配</returns>  
         public static bool IsNumber(string input)
         {
-            //string pattern = @"^-?\d+$|^(-?\d+)(\.\d+)?$";  
-            //return IsMatch(input, pattern);  
             if (double.TryParse(input, out _))
                 return true;
             else
@@ -430,8 +428,6 @@ namespace Tool.Utils
         /// <returns>是否匹配</returns>  
         public static bool IsInteger(string input)
         {
-            //string pattern = @"^-?\d+$";  
-            //return IsMatch(input, pattern);  
             if (int.TryParse(input, out _))
                 return true;
             else
@@ -445,8 +441,6 @@ namespace Tool.Utils
         /// <returns>是否匹配</returns>  
         public static bool IsIntegerNotNagtive(string input)
         {
-            //string pattern = @"^\d+$";  
-            //return IsMatch(input, pattern);  
             if (int.TryParse(input, out int i) && i >= 0)
                 return true;
             else
@@ -460,8 +454,6 @@ namespace Tool.Utils
         /// <returns>是否匹配</returns>  
         public static bool IsIntegerPositive(string input)
         {
-            //string pattern = @"^[0-9]*[1-9][0-9]*$";  
-            //return IsMatch(input, pattern);  
             if (int.TryParse(input, out int i) && i >= 1)
                 return true;
             else
@@ -628,12 +620,6 @@ namespace Tool.Utils
         /// <returns></returns>  
         public static bool IsStringByteLength(string input, int lengthBegin, int lengthEnd)
         {
-            //int byteLength = Regex.Replace(input, @"[^\x00-\xff]", "ok").Length;  
-            //if (byteLength >= lengthBegin && byteLength <= lengthEnd)  
-            //{  
-            //    return true;  
-            //}  
-            //return false;  
             int byteLength = Encoding.Default.GetByteCount(input);
             if (byteLength >= lengthBegin && byteLength <= lengthEnd)
                 return true;

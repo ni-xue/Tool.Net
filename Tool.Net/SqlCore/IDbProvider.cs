@@ -48,24 +48,20 @@ namespace Tool.SqlCore
             string qualifiedName = cmd.GetType().AssemblyQualifiedName, typenmae = qualifiedName.Insert(qualifiedName.IndexOf(','), "Builder");
 
             Utils.ActionDelegate.ActionDispatcher dispatcher = StaticData.DeriveParametersObjs.GetOrAdd(typenmae, AddDeriveParameters);
-            try
-            {
-                dispatcher.VoidExecute(null, cmd);
-            }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null)
-                {
-                    throw ex.InnerException;
-                }
-                throw new Exception("无法通过虚构函数获取到对应的实现方法，请采用手动实现接口！", ex);
-            }
+            dispatcher.VoidExecute(null, cmd);
 
             static Utils.ActionDelegate.ActionDispatcher AddDeriveParameters(string typenmae)
             {
-                Type builderType = Type.GetType(typenmae);
-                MethodInfo method = builderType.GetMethod("DeriveParameters", BindingFlags.Public | BindingFlags.Static | BindingFlags.InvokeMethod) ?? throw new ArgumentException("指定的提供程序工厂不支持存储过程函数获取，请自行实现该接口。");
-                return new Utils.ActionDelegate.ActionDispatcher(method);
+                try
+                {
+                    Type builderType = Type.GetType(typenmae);
+                    MethodInfo method = builderType.GetMethod("DeriveParameters", BindingFlags.Public | BindingFlags.Static | BindingFlags.InvokeMethod) ?? throw new ArgumentException("指定的提供程序工厂不支持存储过程函数获取，请自行实现该接口。");
+                    return new Utils.ActionDelegate.ActionDispatcher(method);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("无法通过虚构函数获取到对应的实现方法，请采用手动实现接口！", ex);
+                }
             }
         }
 

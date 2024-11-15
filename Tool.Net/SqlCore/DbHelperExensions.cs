@@ -52,8 +52,29 @@ namespace Tool.SqlCore
             {
                 throw new Exception("commandText 变量值不能为空。");
             }
-            using var dataReader = dbHelper.ExecuteReader(commandText, prams);
-            return dataReader.GetReader();
+
+            IDictionary<string, object> dic = dbHelper.SetDictionaryParam(prams);
+            using var dataReader = dbHelper.ExecuteReader(CommandType.Text, commandText, dbHelper.SetParameterList(dic)?.ToArray());
+            return dataReader.GetListHash();
+        }
+
+        /// <summary>
+        /// 查询单张表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="commandText">查询语句</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+        /// <returns></returns>
+        public static System.Collections.ArrayList SelectArray(this DbHelper dbHelper, string commandText, object prams = null)
+        {
+            if (string.IsNullOrWhiteSpace(commandText))
+            {
+                throw new Exception("commandText 变量值不能为空。");
+            }
+
+            IDictionary<string, object> dic = dbHelper.SetDictionaryParam(prams);
+            using var dataReader = dbHelper.ExecuteReader(CommandType.Text, commandText, dbHelper.SetParameterList(dic)?.ToArray());
+            return dataReader.GetReaderArray();
         }
 
         /// <summary>
@@ -284,7 +305,7 @@ namespace Tool.SqlCore
         /// <param name="commandText">查询语句</param>
         /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
         /// <returns></returns>
-        public static async Task<DataTable>  SelectAsync(this DbHelper dbHelper, string commandText, object prams = null)
+        public static async Task<DataTable> SelectAsync(this DbHelper dbHelper, string commandText, object prams = null)
         {
             if (string.IsNullOrWhiteSpace(commandText))
             {
@@ -311,8 +332,29 @@ namespace Tool.SqlCore
             {
                 throw new Exception("commandText 变量值不能为空。");
             }
-            using var dataReader = await dbHelper.ExecuteReaderAsync(commandText, prams);
-            return await dataReader.GetReaderAsync();
+
+            IDictionary<string, object> dic = dbHelper.SetDictionaryParam(prams);
+            using var dataReader = await dbHelper.ExecuteReaderAsync(CommandType.Text, commandText, dbHelper.SetParameterList(dic)?.ToArray());
+            return await dataReader.GetListHashAsync();
+        }
+
+        /// <summary>
+        /// 查询单张表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="commandText">查询语句</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+        /// <returns></returns>
+        public static async Task<System.Collections.ArrayList> SelectArrayAsync(this DbHelper dbHelper, string commandText, object prams = null)
+        {
+            if (string.IsNullOrWhiteSpace(commandText))
+            {
+                throw new Exception("commandText 变量值不能为空。");
+            }
+
+            IDictionary<string, object> dic = dbHelper.SetDictionaryParam(prams);
+            using var dataReader = await dbHelper.ExecuteReaderAsync(CommandType.Text, commandText, dbHelper.SetParameterList(dic)?.ToArray());
+            return await dataReader.GetReaderArrayAsync();
         }
 
         /// <summary>
@@ -549,7 +591,7 @@ namespace Tool.SqlCore
             DbParameter[] _parameters = dbHelper.SetParameters(prams);
             return new SqlTextParameter(commandText, _parameters);
         }
-        
+
         private static int ExecuteNonQuery(DbHelper dbHelper, params string[] commandTexts)
         {
             if (commandTexts == null || commandTexts.Length == 0)
@@ -751,7 +793,7 @@ namespace Tool.SqlCore
         /// <param name="dataReader">原数据对象</param>
         /// <param name="isnull">是否处理Null值，true时将不包含在字典中</param>
         /// <returns>返回可读集合字典</returns>
-        public static IList<IDictionary<string, object>> GetReader(this DbDataReader dataReader, bool isnull = false)
+        public static IList<IDictionary<string, object>> GetListHash(this DbDataReader dataReader, bool isnull = false)
         {
             //if (dataReader.IsClosed)
             {
@@ -785,7 +827,7 @@ namespace Tool.SqlCore
         /// <param name="dataReader">原数据对象</param>
         /// <param name="isnull">是否处理Null值，true时将不包含在字典中</param>
         /// <returns>返回可读集合字典</returns>
-        public static async Task<IList<IDictionary<string, object>>> GetReaderAsync(this DbDataReader dataReader, bool isnull = false)
+        public static async Task<IList<IDictionary<string, object>>> GetListHashAsync(this DbDataReader dataReader, bool isnull = false)
         {
             //if (dataReader.IsClosed)
             {
@@ -812,6 +854,74 @@ namespace Tool.SqlCore
                 return keys;
             }
         }
+
+
+        /// <summary>
+        /// 将<see cref="DbDataReader"/>对象，中数据转换为 二维数组集合
+        /// </summary>
+        /// <param name="dataReader">原数据对象</param>
+        /// <param name="isnull">是否处理Null值，true时将不包含在二维数组中</param>
+        /// <returns>返回可读二维数组集合</returns>
+        public static System.Collections.ArrayList GetReaderArray(this DbDataReader dataReader, bool isnull = false)
+        {
+            //if (dataReader.IsClosed)
+            {
+                System.Collections.ArrayList keys = new();
+                while (dataReader.Read())
+                {
+                    object[] objects = new object[dataReader.FieldCount];
+                    for (int i = 0; i < dataReader.FieldCount; i++)
+                    {
+                        bool isNull = dataReader.IsDBNull(i);
+                        if (isNull && !isnull)
+                        {
+                            objects[i] = null;
+                        }
+                        else
+                        {
+                            objects[i] = dataReader.GetValue(i);
+                        }
+                    }
+                    keys.Add(objects);
+                }
+                keys.Insert(0, GetEmptyDictionaryKey(dataReader));
+                return keys;
+            }
+        }
+
+        /// <summary>
+        /// 将<see cref="DbDataReader"/>对象，中数据转换为 二维数组集合
+        /// </summary>
+        /// <param name="dataReader">原数据对象</param>
+        /// <param name="isnull">是否处理Null值，true时将不包含在二维数组中</param>
+        /// <returns>返回可读二维数组集合</returns>
+        public static async Task<System.Collections.ArrayList> GetReaderArrayAsync(this DbDataReader dataReader, bool isnull = false)
+        {
+            //if (dataReader.IsClosed)
+            {
+                System.Collections.ArrayList keys = new();
+                while (await dataReader.ReadAsync())
+                {
+                    object[] objects = new object[dataReader.FieldCount];
+                    for (int i = 0; i < dataReader.FieldCount; i++)
+                    {
+                        bool isNull = await dataReader.IsDBNullAsync(i);
+                        if (isNull && !isnull)
+                        {
+                            objects[i] = null;
+                        }
+                        else
+                        {
+                            objects[i] = dataReader.GetValue(i);
+                        }
+                    }
+                    keys.Add(objects);
+                }
+                keys.Insert(0, GetEmptyDictionaryKey(dataReader));
+                return keys;
+            }
+        }
+
 
         /// <summary>
         /// 将<see cref="DbDataReader"/>对象，中数据转换为 <see cref="DataSet"/>
@@ -932,6 +1042,16 @@ namespace Tool.SqlCore
                 });
             }
             return dataTable;
+        }
+
+        private static Dictionary<string, string> GetEmptyDictionaryKey(DbDataReader dataReader)
+        {
+            Dictionary<string, string> keys = new(StringComparer.OrdinalIgnoreCase);
+            for (int i = 0; i < dataReader.FieldCount; i++)
+            {
+                keys.Add(dataReader.GetName(i), dataReader.GetFieldType(i).FullName);
+            }
+            return keys;
         }
     }
 

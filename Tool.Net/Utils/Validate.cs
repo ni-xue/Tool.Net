@@ -12,7 +12,7 @@ namespace Tool.Utils
     /// 各种验证类，包含正则表达式
     /// </summary>
     /// <remarks>代码由逆血提供支持</remarks>
-    public sealed class Validate
+    public sealed partial class Validate
     {
         /// <summary>
         /// 无参构造
@@ -314,131 +314,91 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="dt"><see cref="DataTable"/>对象</param>
         /// <returns>返回<see cref="bool"/>类型</returns>
-        public static bool CheckedDataTable(DataTable dt)
-        {
-            return !dt.IsEmpty();
-        }
+        public static bool CheckedDataTable(DataTable dt) => !dt.IsEmpty();
 
         /// <summary>
         /// 判断<see cref="DataRow"/>对象中的是否为空，行为空，对象为空
         /// </summary>
         /// <param name="dr"><see cref="DataRow"/>对象</param>
         /// <returns>返回<see cref="bool"/>类型</returns>
-        public static bool CheckedDataRow(DataRow dr)
-        {
-            return !dr.IsEmpty();
-        }
+        public static bool CheckedDataRow(DataRow dr) => !dr.IsEmpty();
 
         /// <summary>
         /// 判断<see cref="Array"/>对象中的是否为空
         /// </summary>
         /// <param name="obj">数组</param>
         /// <returns>返回<see cref="bool"/>类型</returns>
-        public static bool CheckedObjcetArray(object[] obj)
-        {
-            return !object.Equals(obj, null) && obj.Length != 0 && !object.Equals(obj[0], null);
-        }
+        public static bool CheckedObjcetArray(object[] obj) => !object.Equals(obj, null) && obj.Length != 0 && !object.Equals(obj[0], null);
 
         /// <summary>
         /// 判断是否是 Base64 格式的字符串
         /// </summary>
         /// <param name="expression">字符串</param>
         /// <returns>返回<see cref="bool"/>类型</returns>
-        public static bool IsBase64String(string expression)
-        {
-            return Regex.IsMatch(expression, "[A-Za-z0-9\\+\\/\\=]");
-        }
+        public static bool IsBase64String(string expression) => IsBase64StringRegex().IsMatch(expression);
 
         /// <summary>
         /// 判断是否是 Char 类型数据
         /// </summary>
         /// <param name="expression">字符串</param>
         /// <returns></returns>
-        public static bool IsCnChar(string expression)
-        {
-            return Regex.IsMatch(expression, "^(?:[一-龥])+$");
-        }
+        public static bool IsCnChar(string expression) => IsCnCharRegex().IsMatch(expression);
 
         /// <summary>
         /// 判断是否是 Char 类型数据
         /// </summary>
         /// <param name="expression">字符串</param>
         /// <returns></returns>
-        public static bool IsCnCharAndWordAndNum(string expression)
-        {
-            return Regex.IsMatch(expression, "^[0-9a-zA-Z一-龥]+$");
-        }
+        public static bool IsCnCharAndWordAndNum(string expression) => IsCnCharAndWordAndNumRegex().IsMatch(expression);
 
         /// <summary>
         /// 判断是否是时间类型数据
         /// </summary>
         /// <param name="dateval">字符串</param>
         /// <returns></returns>
-        public static bool IsDate(string dateval)
-        {
-            return Regex.IsMatch(dateval, "^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))$", RegexOptions.Compiled);
-        }
+        public static bool IsDate(string dateval) => IsDateRegex().IsMatch(dateval);
 
         /// <summary>
         /// 判断是否是十进制分数
         /// </summary>
         /// <param name="expression">字符串</param>
         /// <returns>返回<see cref="bool"/>类型</returns>
-        public static bool IsDecimalFraction(string expression)
-        {
-            return Regex.IsMatch(expression, "^([0-9]{1,10})\\.([0-9]{1,10})$", RegexOptions.Compiled);
-        }
+        public static bool IsDecimalFraction(string expression) => IsDecimalFractionRegex().IsMatch(expression);
 
         /// <summary>
         /// 判断是否是电子邮件格式
         /// </summary>
         /// <param name="strEmail">字符串</param>
         /// <returns></returns>
-        public static bool IsDoEmail(string strEmail)
-        {
-            return Regex.IsMatch(strEmail, "^@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$");
-        }
+        public static bool IsDoEmail(string strEmail) => IsDoEmailRegex().IsMatch(strEmail);
 
         /// <summary>
         /// 判断是否是域名格式
         /// </summary>
         /// <param name="strHost"></param>
         /// <returns></returns>
-        public static bool IsDomain(string strHost)
-        {
-            //Regex regex = new Regex("^\\d+$");
-            return strHost.IndexOf(".") != -1 && !Regex.IsMatch(strHost.Replace(".", string.Empty), "^\\d+$");
-        }
+        public static bool IsDomain(string strHost) => strHost.Contains('.', StringComparison.CurrentCulture) && !IsDomainRegex().IsMatch(strHost.Replace(".", string.Empty));
 
         /// <summary>
         /// 判断是否是Double格式
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        public static bool IsDouble(object expression)
-        {
-            return expression != null && Regex.IsMatch(expression.ToString(), "^([0-9])[0-9]*(\\.\\w*)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        }
+        public static bool IsDouble(object expression) => expression != null && IsDoubleRegex().IsMatch(expression.ToString());
 
         /// <summary>
         /// 判断值是不是邮箱格式
         /// </summary>
         /// <param name="strEmail">判断值</param>
         /// <returns>返回<see cref="bool"/>类型</returns>
-        public static bool IsEmail(string strEmail)
-        {
-            return Regex.IsMatch(strEmail, "^([\\w-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$");
-        }
+        public static bool IsEmail(string strEmail) => IsEmailRegex().IsMatch(strEmail);
 
         /// <summary>
         /// 判断值是不是文件名
         /// </summary>
         /// <param name="filename">判断值</param>
         /// <returns></returns>
-        public static bool IsFileName(string filename)
-        {
-            return !Regex.IsMatch(filename, "[<>/\";#$*%]+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        }
+        public static bool IsFileName(string filename) => !IsFileNameRegex().IsMatch(filename);
 
         /// <summary>
         /// 判断值是不是合法的身份证
@@ -460,7 +420,7 @@ namespace Tool.Utils
             bool result;
             if (strIDCard.Length == 15)
             {
-                regex = new Regex("^(\\d{6})(\\d{2})(\\d{2})(\\d{2})(\\d{3})$");
+                regex = IsIDCard0Regex();
                 if (!regex.Match(strIDCard).Success)
                 {
                     return false;
@@ -468,7 +428,7 @@ namespace Tool.Utils
                 array = regex.Split(strIDCard);
                 try
                 {
-                    new DateTime(int.Parse("19" + array[2]), int.Parse(array[3]), int.Parse(array[4]));
+                    _ = new DateTime(int.Parse("19" + array[2]), int.Parse(array[3]), int.Parse(array[4]));
                     result = true;
                     return result;
                 }
@@ -478,7 +438,7 @@ namespace Tool.Utils
                     return result;
                 }
             }
-            regex = new Regex("^(\\d{6})(\\d{4})(\\d{2})(\\d{2})(\\d{3})([0-9Xx])$");
+            regex = IsIDCard1Regex();
             if (!regex.Match(strIDCard).Success)
             {
                 return false;
@@ -486,7 +446,7 @@ namespace Tool.Utils
             array = regex.Split(strIDCard);
             try
             {
-                new DateTime(int.Parse(array[2]), int.Parse(array[3]), int.Parse(array[4]));
+                _ = new DateTime(int.Parse(array[2]), int.Parse(array[3]), int.Parse(array[4]));
                 result = true;
             }
             catch
@@ -501,90 +461,63 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="filename">文件名称</param>
         /// <returns></returns>
-        public static bool IsImage(string filename)
-        {
-            return Regex.IsMatch(filename, "\\.(gif|jpg|bmp|png|jpeg)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        }
+        public static bool IsImage(string filename) => IsImageRegex().IsMatch(filename);
 
         /// <summary>
         /// 验证IP地址是否合法
         /// </summary>
         /// <param name="ipval">待验证的IP</param>
         /// <returns>返回<see cref="bool"/>类型</returns>
-        public static bool IsIP(string ipval)
-        {
-            return Regex.IsMatch(ipval, "^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)$");
-        }
+        public static bool IsIP(string ipval) => IsIpRegex().IsMatch(ipval);
 
         /// <summary>
         /// 是不是有效的IP和端口
         /// </summary>
         /// <param name="ipval">判断值</param>
         /// <returns>返回<see cref="bool"/>类型</returns>
-        public static bool IsIPAndPort(string ipval)
-        {
-            return Regex.IsMatch(ipval, "^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9]),\\d{1,5}?$");
-        }
+        public static bool IsIPAndPort(string ipval) => IsIpAndPortRegex().IsMatch(ipval);
 
         /// <summary>
         /// 是不是有效的IP
         /// </summary>
         /// <param name="ipval">判断值</param>
         /// <returns>返回<see cref="bool"/>类型</returns>
-        public static bool IsIPSect(string ipval)
-        {
-            return Regex.IsMatch(ipval, "^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){2}((2[0-4]\\d|25[0-5]|[01]?\\d\\d?|\\*)\\.)(2[0-4]\\d|25[0-5]|[01]?\\d\\d?|\\*)$");
-        }
+        public static bool IsIPSect(string ipval) => IsIpSectRegex().IsMatch(ipval);
 
         /// <summary>
         /// 是不是长日期
         /// </summary>
         /// <param name="dateval">字符串</param>
         /// <returns></returns>
-        public static bool IsLongDate(string dateval)
-        {
-            return Regex.IsMatch(dateval, "^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\\d):[0-5]?\\d:[0-5]?\\d$", RegexOptions.Compiled);
-        }
+        public static bool IsLongDate(string dateval) => IsLongDateRegex().IsMatch(dateval);
 
         /// <summary>
         /// 是不是移动电话号码
         /// </summary>
         /// <param name="strMobile">字符串</param>
         /// <returns></returns>
-        public static bool IsMobileCode(string strMobile)
-        {
-            return Regex.IsMatch(strMobile, "^13|15|18\\d{9}$", RegexOptions.IgnoreCase);
-        }
+        public static bool IsMobileCode(string strMobile) => IsMobileCodeRegex().IsMatch(strMobile);
 
         /// <summary>
-        /// s是不是负整数
+        /// 是不是负整数
         /// </summary>
         /// <param name="expression">字符串</param>
         /// <returns></returns>
-        public static bool IsNegativeInt(string expression)
-        {
-            return Regex.IsMatch(expression, "^-\\d+$", RegexOptions.Compiled) && long.Parse(expression) >= -2147483648L;
-        }
+        public static bool IsNegativeInt(string expression) => IsNegativeIntRegex().IsMatch(expression) && long.Parse(expression) >= -2147483648L;
 
         /// <summary>
         /// 是否是昵称
         /// </summary>
         /// <param name="strVal">字符串</param>
         /// <returns></returns>
-        public static bool IsNickName(string strVal)
-        {
-            return Regex.IsMatch(strVal, "^[a-zA-Z\\u4e00-\\u9fa5\\d_]+$", RegexOptions.Compiled);
-        }
+        public static bool IsNickName(string strVal) => IsNickNameRegex().IsMatch(strVal);
 
         /// <summary>
         /// 判断expVal里面是否有值
         /// </summary>
         /// <param name="expVal">判断值</param>
         /// <returns>返回<see cref="bool"/>类型</returns>
-        public static bool IsNotNull(object expVal)
-        {
-            return !Validate.IsNull(expVal);
-        }
+        public static bool IsNotNull(object expVal) => !Validate.IsNull(expVal);
 
         /// <summary>
         /// 判断expVal里面是否为空
@@ -617,7 +550,7 @@ namespace Tool.Utils
             if (expression != null)
             {
                 string text = expression.ToString();
-                if (text.Length > 0 && text.Length <= 11 && Regex.IsMatch(text, "^[-]?[0-9]*[.]?[0-9]*$", RegexOptions.Compiled) && (text.Length < 10 || (text.Length == 10 && text[0] == '1') || (text.Length == 11 && text[0] == '-' && text[1] == '1')))
+                if (text.Length > 0 && text.Length <= 11 && IsNumericRegex().IsMatch(text) && (text.Length < 10 || (text.Length == 10 && text[0] == '1') || (text.Length == 11 && text[0] == '-' && text[1] == '1')))
                 {
                     return true;
                 }
@@ -656,81 +589,56 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="strPhone">号码</param>
         /// <returns></returns>
-        public static bool IsPhoneCode(string strPhone)
-        {
-            return Regex.IsMatch(strPhone, "^(86)?(-)?(0\\d{2,3})?(-)?(\\d{7,8})(-)?(\\d{3,5})?$", RegexOptions.IgnoreCase);
-        }
+        public static bool IsPhoneCode(string strPhone) => IsPhoneCodeRegex().IsMatch(strPhone);
 
         /// <summary>
         /// 验证是否是物理路径
         /// </summary>
         /// <param name="s">路径</param>
         /// <returns></returns>
-        public static bool IsPhysicalPath(string s)
-        {
-            string pattern = "^\\s*[a-zA-Z]:.*$";
-            return Regex.IsMatch(s, pattern);
-        }
+        public static bool IsPhysicalPath(string s) => IsPhysicalPathRegex().IsMatch(s);
 
         /// <summary>
         /// 验证是否是正整数
         /// </summary>
         /// <param name="expression">字符串</param>
         /// <returns></returns>
-        public static bool IsPositiveInt(string expression)
-        {
-            return Regex.IsMatch(expression, "^\\d+$", RegexOptions.Compiled) && long.Parse(expression) <= 2147483647L;
-        }
+        public static bool IsPositiveInt(string expression) => IsInt0Regex().IsMatch(expression) && long.Parse(expression) <= 2147483647L;
 
         /// <summary>
         /// 验证是否是正整数64位的
         /// </summary>
         /// <param name="expression">字符串</param>
         /// <returns></returns>
-        public static bool IsPositiveInt64(string expression)
-        {
-            return Regex.IsMatch(expression, "^\\d+$", RegexOptions.Compiled) && long.Parse(expression) <= 9223372036854775807L;
-        }
+        public static bool IsPositiveInt64(string expression) => IsInt0Regex().IsMatch(expression) && long.Parse(expression) <= 9223372036854775807L;
 
         /// <summary>
         /// 验证是否是邮政编码
         /// </summary>
         /// <param name="strPostalCode">字符串</param>
         /// <returns></returns>
-        public static bool IsPostalCode(string strPostalCode)
-        {
-            return Regex.IsMatch(strPostalCode, "^\\d{6}$", RegexOptions.IgnoreCase);
-        }
+        public static bool IsPostalCode(string strPostalCode) => IsPostalCodeRegex().IsMatch(strPostalCode);
 
         /// <summary>
         /// 验证是否是相对路径
         /// </summary>
         /// <param name="s">字符串</param>
         /// <returns></returns>
-        public static bool IsRelativePath(string s)
-        {
-            return s != null && !(s == string.Empty) && !s.StartsWith("/") && !s.StartsWith("?") && !Regex.IsMatch(s, "^\\s*[a-zA-Z]{1,10}:.*$");
-        }
+        public static bool IsRelativePath(string s) => s != null && !(s == string.Empty) && !s.StartsWith('/') && !s.StartsWith('?') && !IsRelativePathRegex().IsMatch(s);
 
         /// <summary>
         /// 验证是否是安全的输入词
         /// </summary>
         /// <param name="expression">字符串</param>
         /// <returns></returns>
-        public static bool IsSafeInputWords(string expression)
-        {
-            return Regex.IsMatch(expression, "/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\"\\s\\t\\<\\>\\&]|$guestexp/is");
-        }
+        public static bool IsSafeInputWords(string expression) => IsSafeInputWordsRegex().IsMatch(expression);
 
         /// <summary>
         /// 验证是否是安全的Sql字符串
         /// </summary>
         /// <param name="expression">字符串</param>
         /// <returns></returns>
-        public static bool IsSafeSqlString(string expression)
-        {
-            return !Regex.IsMatch(expression, "[-|;|,|\\/|\\(|\\)|\\[|\\]|\\}|\\{|%|@|\\*|!|\\']");
-        }
+        public static bool IsSafeSqlString(string expression) => !IsSafeSqlStringRegex().IsMatch(expression);
 
         /// <summary>
         /// 验证是否是安全的Sql字符串
@@ -739,9 +647,8 @@ namespace Tool.Utils
         /// <returns></returns>
         public static bool IsSafety(string s)
         {
-            string input = Regex.Replace(s.Replace("%20", " "), "\\s", " ");
-            string pattern = "select |insert |delete from |count\\(|drop table|update |truncate |asc\\(|mid\\(|char\\(|xp_cmdshell|exec master|net localgroup administrators|:|net user|\"|\\'| or ";
-            return !Regex.IsMatch(input, pattern, RegexOptions.IgnoreCase);
+            string input = Replace0Regex().Replace(s.Replace("%20", " "), " ");
+            return !IsSafetyRegex().IsMatch(input);
         }
 
         /// <summary>
@@ -749,10 +656,7 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="dateval">要检测的字符串</param>
         /// <returns>返回结果</returns>
-        public static bool IsShortDate(string dateval)
-        {
-            return Regex.IsMatch(dateval, "^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))$", RegexOptions.Compiled);
-        }
+        public static bool IsShortDate(string dateval) => IsShortDateRegex().IsMatch(dateval);
 
         /// <summary>
         ///  检测字符串是不是指定单词和数字
@@ -761,106 +665,251 @@ namespace Tool.Utils
         /// <param name="start">开始下标</param>
         /// <param name="end">结束下标</param>
         /// <returns>返回结果</returns>
-        public static bool IsSpecifyWordAndNum(string expression, int start, int end)
-        {
-            return !string.IsNullOrEmpty(expression) && start <= end && Regex.IsMatch(expression, string.Format("^[0-9a-zA-Z]{{0},{1}}$", start, end));
-        }
+        public static bool IsSpecifyWordAndNum(string expression, int start, int end) => !string.IsNullOrEmpty(expression) && start <= end && Regex.IsMatch(expression, string.Format("^[0-9a-zA-Z]{{0},{1}}$", start, end));
 
         /// <summary>
         /// 检测字符串中是否包含SQL注入
         /// </summary>
         /// <param name="sqlExpression">要检测的字符串</param>
         /// <returns>返回结果</returns>
-        public static bool IsSQL(string sqlExpression)
-        {
-            return Regex.IsMatch(sqlExpression, "\\?|select%20|select\\s+|insert%20|insert\\s+|delete%20|delete\\s+|count\\(|drop%20|drop\\s+|update%20|update\\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        }
+        public static bool IsSQL(string sqlExpression) => IsSqlRegex().IsMatch(sqlExpression);
 
         /// <summary>
         /// 验证字符串是不是时间格式
         /// </summary>
         /// <param name="timeval">要检测的字符串</param>
         /// <returns>返回结果</returns>
-        public static bool IsTime(string timeval)
-        {
-            return Regex.IsMatch(timeval, "^((([0-1]?[0-9])|(2[0-3])):([0-5]?[0-9])(:[0-5]?[0-9])?)$");
-        }
+        public static bool IsTime(string timeval) => IsTimeRegex().IsMatch(timeval);
 
         /// <summary>
         /// 验证字符串是不是Unicode编码格式
         /// </summary>
         /// <param name="s">要检测的字符串</param>
         /// <returns>返回结果</returns>
-        public static bool IsUnicode(string s)
-        {
-            string pattern = "^[\\u4E00-\\u9FA5\\uE815-\\uFA29]+$";
-            return Regex.IsMatch(s, pattern);
-        }
+        public static bool IsUnicode(string s) => IsUnicodeRegex().IsMatch(s);
 
         /// <summary>
         /// 验证字符串是不是有效的Url链接
         /// </summary>
         /// <param name="strUrl">要检测的字符串</param>
         /// <returns>返回结果</returns>
-        public static bool IsURL(string strUrl)
-        {
-            return Regex.IsMatch(strUrl, "^(http|https)\\://([a-zA-Z0-9\\.\\-]+(\\:[a-zA-Z0-9\\.&%\\$\\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{1,10}))(\\:[0-9]+)*(/($|[a-zA-Z0-9\\.\\,\\?\\'\\\\\\+&%\\$#\\=~_\\-]+))*$");
-        }
+        public static bool IsURL(string strUrl) => IsUrlRegex().IsMatch(strUrl);
 
         /// <summary>
         /// 验证字符串是不是中文名称
         /// </summary>
         /// <param name="strVal">要检测的字符串</param>
         /// <returns>返回结果</returns>
-        public static bool IsUserName(string strVal)
-        {
-            return Regex.IsMatch(strVal, "^[a-zA-Z\\d_]+$", RegexOptions.Compiled);
-        }
+        public static bool IsUserName(string strVal) => IsUserNameRegex().IsMatch(strVal);
 
         /// <summary>
         /// 检测字符串是不是单词和数字
         /// </summary>
         /// <param name="expression">要检测的字符串</param>
         /// <returns>返回结果</returns>
-        public static bool IsWordAndNum(string expression)
-        {
-            return Regex.IsMatch(expression, "[0-9a-zA-Z]?");
-        }
+        public static bool IsWordAndNum(string expression) => IsWordAndNumRegex().IsMatch(expression);
 
-        //#if NET7_0_OR_GREATER
+#if NET7_0_OR_GREATER
+        [GeneratedRegex("[A-Za-z0-9\\+\\/\\=]")]
+        private static partial Regex IsBase64StringRegex();
 
-        //        [GeneratedRegex("[0-9a-zA-Z]?")]
-        //        private static partial Regex Regex_IsWordAndNum();
+        [GeneratedRegex("^(?:[一-龥])+$")]
+        private static partial Regex IsCnCharRegex();
 
-        //#endif
+        [GeneratedRegex("^[0-9a-zA-Z一-龥]+$")]
+        private static partial Regex IsCnCharAndWordAndNumRegex();
 
-        //private static readonly Regex regex_ImgFormat = new Regex("\\.(gif|jpg|bmp|png|jpeg)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        [GeneratedRegex("^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))$", RegexOptions.Compiled)]
+        private static partial Regex IsDateRegex();
 
-        //private static readonly Regex regex_IsDate = new Regex("^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))$", RegexOptions.Compiled);
+        [GeneratedRegex("^([0-9]{1,10})\\.([0-9]{1,10})$", RegexOptions.Compiled)]
+        private static partial Regex IsDecimalFractionRegex();
 
-        //private static readonly Regex regex_IsDecimalFraction = new Regex("^([0-9]{1,10})\\.([0-9]{1,10})$", RegexOptions.Compiled);
+        [GeneratedRegex("^@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$")]
+        private static partial Regex IsDoEmailRegex();
 
-        //private static readonly Regex regex_IsDouble = new Regex("^([0-9])[0-9]*(\\.\\w*)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        [GeneratedRegex("^\\d+$")]
+        private static partial Regex IsDomainRegex();
 
-        //private static readonly Regex regex_IsLongDate = new Regex("^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\\d):[0-5]?\\d:[0-5]?\\d$", RegexOptions.Compiled);
+        [GeneratedRegex("^([0-9])[0-9]*(\\.\\w*)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled, "zh-CN")]
+        private static partial Regex IsDoubleRegex();
 
-        //private static readonly Regex regex_IsNegativeInt = new Regex("^-\\d+$", RegexOptions.Compiled);
+        [GeneratedRegex("^([\\w-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$")]
+        private static partial Regex IsEmailRegex();
 
-        //private static readonly Regex regex_IsNickName = new Regex("^[a-zA-Z\\u4e00-\\u9fa5\\d_]+$", RegexOptions.Compiled);
+        [GeneratedRegex("[<>/\";#$*%]+", RegexOptions.IgnoreCase | RegexOptions.Compiled, "zh-CN")]
+        private static partial Regex IsFileNameRegex();
 
-        //private static readonly Regex regex_IsNumeric = new Regex("^[-]?[0-9]*[.]?[0-9]*$", RegexOptions.Compiled);
+        [GeneratedRegex("^(\\d{6})(\\d{2})(\\d{2})(\\d{2})(\\d{3})$")]
+        private static partial Regex IsIDCard0Regex();
 
-        //private static readonly Regex regex_IsPositiveInt = new Regex("^\\d+$", RegexOptions.Compiled);
+        [GeneratedRegex("^(\\d{6})(\\d{4})(\\d{2})(\\d{2})(\\d{3})([0-9Xx])$")]
+        private static partial Regex IsIDCard1Regex();
 
-        //private static readonly Regex regex_IsShortDate = new Regex("^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))$", RegexOptions.Compiled);
+        [GeneratedRegex("\\.(gif|jpg|bmp|png|jpeg)$", RegexOptions.IgnoreCase | RegexOptions.Compiled, "zh-CN")]
+        private static partial Regex IsImageRegex();
 
-        //private static readonly Regex regex_IsUserName = new Regex("^[a-zA-Z\\d_]+$", RegexOptions.Compiled);
+        [GeneratedRegex("^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)$")]
+        private static partial Regex IsIpRegex();
 
-        //private static readonly Regex regex_SqlFormat = new Regex("\\?|select%20|select\\s+|insert%20|insert\\s+|delete%20|delete\\s+|count\\(|drop%20|drop\\s+|update%20|update\\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        [GeneratedRegex("^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9]),\\d{1,5}?$")]
+        private static partial Regex IsIpAndPortRegex();
 
-        internal static readonly Regex regex_SqlWhere = new("^(?=\\().*(?<=\\))", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        [GeneratedRegex("^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){2}((2[0-4]\\d|25[0-5]|[01]?\\d\\d?|\\*)\\.)(2[0-4]\\d|25[0-5]|[01]?\\d\\d?|\\*)$")]
+        private static partial Regex IsIpSectRegex();
 
-        internal static readonly Regex regex_IsInt = new("^([0-9])[0-9]*(\\.\\w*)?$", RegexOptions.Compiled);
+        [GeneratedRegex("^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\\d):[0-5]?\\d:[0-5]?\\d$", RegexOptions.Compiled)]
+        private static partial Regex IsLongDateRegex();
+
+        [GeneratedRegex("^13|15|18\\d{9}$", RegexOptions.IgnoreCase, "zh-CN")]
+        private static partial Regex IsMobileCodeRegex();
+
+        [GeneratedRegex("^-\\d+$", RegexOptions.Compiled)]
+        private static partial Regex IsNegativeIntRegex();
+
+        [GeneratedRegex("^[a-zA-Z\\u4e00-\\u9fa5\\d_]+$", RegexOptions.Compiled)]
+        private static partial Regex IsNickNameRegex();
+
+        [GeneratedRegex("^[-]?[0-9]*[.]?[0-9]*$", RegexOptions.Compiled)]
+        private static partial Regex IsNumericRegex();
+
+        [GeneratedRegex("^(86)?(-)?(0\\d{2,3})?(-)?(\\d{7,8})(-)?(\\d{3,5})?$", RegexOptions.IgnoreCase, "zh-CN")]
+        private static partial Regex IsPhoneCodeRegex();
+
+        [GeneratedRegex("^\\s*[a-zA-Z]:.*$")]
+        private static partial Regex IsPhysicalPathRegex();
+
+        [GeneratedRegex("^\\d+$", RegexOptions.Compiled)]
+        private static partial Regex IsInt0Regex();
+
+        [GeneratedRegex("^\\d{6}$", RegexOptions.IgnoreCase, "zh-CN")]
+        private static partial Regex IsPostalCodeRegex();
+
+        [GeneratedRegex("^\\s*[a-zA-Z]{1,10}:.*$")]
+        private static partial Regex IsRelativePathRegex();
+
+        [GeneratedRegex("/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\"\\s\\t\\<\\>\\&]|$guestexp/is")]
+        private static partial Regex IsSafeInputWordsRegex();
+
+        [GeneratedRegex("[-|;|,|\\/|\\(|\\)|\\[|\\]|\\}|\\{|%|@|\\*|!|\\']")]
+        private static partial Regex IsSafeSqlStringRegex();
+
+        [GeneratedRegex("\\s")]
+        private static partial Regex Replace0Regex();
+
+        [GeneratedRegex("select |insert |delete from |count\\(|drop table|update |truncate |asc\\(|mid\\(|char\\(|xp_cmdshell|exec master|net localgroup administrators|:|net user|\"|\\'| or ", RegexOptions.IgnoreCase)]
+        private static partial Regex IsSafetyRegex();
+
+        [GeneratedRegex("^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))$", RegexOptions.Compiled)]
+        private static partial Regex IsShortDateRegex();
+
+        [GeneratedRegex("\\?|select%20|select\\s+|insert%20|insert\\s+|delete%20|delete\\s+|count\\(|drop%20|drop\\s+|update%20|update\\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled, "zh-CN")]
+        private static partial Regex IsSqlRegex();
+
+        [GeneratedRegex("^((([0-1]?[0-9])|(2[0-3])):([0-5]?[0-9])(:[0-5]?[0-9])?)$")]
+        private static partial Regex IsTimeRegex();
+        
+        [GeneratedRegex("^[\\u4E00-\\u9FA5\\uE815-\\uFA29]+$")]
+        private static partial Regex IsUnicodeRegex();
+
+        [GeneratedRegex("^(http|https)\\://([a-zA-Z0-9\\.\\-]+(\\:[a-zA-Z0-9\\.&%\\$\\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{1,10}))(\\:[0-9]+)*(/($|[a-zA-Z0-9\\.\\,\\?\\'\\\\\\+&%\\$#\\=~_\\-]+))*$")]
+        private static partial Regex IsUrlRegex();
+
+        [GeneratedRegex("[0-9a-zA-Z]?")]
+        private static partial Regex IsWordAndNumRegex();
+
+        [GeneratedRegex("^[a-zA-Z\\d_]+$", RegexOptions.Compiled)]
+        private static partial Regex IsUserNameRegex();
+
+        [GeneratedRegex("^(?=\\().*(?<=\\))", RegexOptions.IgnoreCase | RegexOptions.Compiled)]
+        private static partial Regex IsSqlWhereRegex();
+
+        [GeneratedRegex("^([0-9])[0-9]*(\\.\\w*)?$", RegexOptions.Compiled)]
+        private static partial Regex IsIntRegex();
+#else
+
+        private static Regex IsBase64StringRegex() => new("[A-Za-z0-9\\+\\/\\=]");
+
+        private static Regex IsCnCharRegex() => new("^(?:[一-龥])+$");
+
+        private static Regex IsCnCharAndWordAndNumRegex() => new("^[0-9a-zA-Z一-龥]+$");
+
+        private static Regex IsDateRegex() => new("^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))$", RegexOptions.Compiled);
+
+        private static Regex IsDecimalFractionRegex() => new("^([0-9]{1,10})\\.([0-9]{1,10})$", RegexOptions.Compiled);
+
+        private static Regex IsDoEmailRegex() => new("^@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$");
+
+        private static Regex IsDomainRegex() => new("^\\d+$");
+
+        private static Regex IsDoubleRegex() => new("^([0-9])[0-9]*(\\.\\w*)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private static Regex IsEmailRegex() => new("^([\\w-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$");
+
+        private static Regex IsFileNameRegex() => new("[<>/\";#$*%]+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private static Regex IsIDCard0Regex() => new("^(\\d{6})(\\d{2})(\\d{2})(\\d{2})(\\d{3})$");
+
+        private static Regex IsIDCard1Regex() => new("^(\\d{6})(\\d{4})(\\d{2})(\\d{2})(\\d{3})([0-9Xx])$");
+
+        private static Regex IsImageRegex() => new("\\.(gif|jpg|bmp|png|jpeg)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private static Regex IsIpRegex() => new("^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)$");
+
+        private static Regex IsIpAndPortRegex() => new("^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9]),\\d{1,5}?$");
+
+        private static Regex IsIpSectRegex() => new("^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){2}((2[0-4]\\d|25[0-5]|[01]?\\d\\d?|\\*)\\.)(2[0-4]\\d|25[0-5]|[01]?\\d\\d?|\\*)$");
+
+        private static Regex IsLongDateRegex() => new("^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\\d):[0-5]?\\d:[0-5]?\\d$", RegexOptions.Compiled);
+
+        private static Regex IsMobileCodeRegex() => new("^13|15|18\\d{9}$", RegexOptions.IgnoreCase);
+
+        private static Regex IsNegativeIntRegex() => new("^-\\d+$", RegexOptions.Compiled);
+
+        private static Regex IsNickNameRegex() => new("^[a-zA-Z\\u4e00-\\u9fa5\\d_]+$", RegexOptions.Compiled);
+
+        private static Regex IsNumericRegex() => new("^[-]?[0-9]*[.]?[0-9]*$", RegexOptions.Compiled);
+
+        private static Regex IsPhoneCodeRegex() => new("^(86)?(-)?(0\\d{2,3})?(-)?(\\d{7,8})(-)?(\\d{3,5})?$", RegexOptions.IgnoreCase);
+
+        private static Regex IsPhysicalPathRegex() => new("^\\s*[a-zA-Z]:.*$");
+
+        private static Regex IsInt0Regex() => new("^\\d+$", RegexOptions.Compiled);
+
+        private static Regex IsPostalCodeRegex() => new("^\\d{6}$", RegexOptions.IgnoreCase);
+
+        private static Regex IsRelativePathRegex() => new("^\\s*[a-zA-Z]{1,10}:.*$");
+
+        private static Regex IsSafeInputWordsRegex() => new("/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\"\\s\\t\\<\\>\\&]|$guestexp/is");
+        
+        private static Regex IsSafeSqlStringRegex() => new("[-|;|,|\\/|\\(|\\)|\\[|\\]|\\}|\\{|%|@|\\*|!|\\']");
+
+        private static Regex Replace0Regex() => new("\\s");
+
+        private static Regex IsSafetyRegex() => new("select |insert |delete from |count\\(|drop table|update |truncate |asc\\(|mid\\(|char\\(|xp_cmdshell|exec master|net localgroup administrators|:|net user|\"|\\'| or ", RegexOptions.IgnoreCase);
+
+        private static Regex IsShortDateRegex() => new("^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))$", RegexOptions.Compiled);
+
+        private static Regex IsSqlRegex() => new("\\?|select%20|select\\s+|insert%20|insert\\s+|delete%20|delete\\s+|count\\(|drop%20|drop\\s+|update%20|update\\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private static Regex IsTimeRegex() => new("^((([0-1]?[0-9])|(2[0-3])):([0-5]?[0-9])(:[0-5]?[0-9])?)$");
+
+        private static Regex IsUnicodeRegex() => new("^[\\u4E00-\\u9FA5\\uE815-\\uFA29]+$");
+
+        private static Regex IsUrlRegex() => new("^(http|https)\\://([a-zA-Z0-9\\.\\-]+(\\:[a-zA-Z0-9\\.&%\\$\\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{1,10}))(\\:[0-9]+)*(/($|[a-zA-Z0-9\\.\\,\\?\\'\\\\\\+&%\\$#\\=~_\\-]+))*$");
+
+        private static Regex IsWordAndNumRegex() => new("[0-9a-zA-Z]?");
+
+        private static Regex IsUserNameRegex() => new("^[a-zA-Z\\d_]+$", RegexOptions.Compiled);
+
+        private static Regex IsSqlWhereRegex() => new("^(?=\\().*(?<=\\))", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private static Regex IsIntRegex() => new("^([0-9])[0-9]*(\\.\\w*)?$", RegexOptions.Compiled);
+#endif
+
+        internal static readonly Regex regex_SqlWhere = IsSqlWhereRegex();
+
+        internal static readonly Regex regex_IsInt = IsIntRegex();
     }
 
     ///<summary>    

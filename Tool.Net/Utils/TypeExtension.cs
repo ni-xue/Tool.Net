@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -521,6 +522,25 @@ namespace Tool.Utils
         }
 
         /// <summary>
+        /// 判断是否是字典类型
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <returns><see cref="bool"/></returns>
+        public static bool IsDictionary(this Type type)
+        {
+            if (type.IsGenericType)
+            {
+                Type type1 = type.GetGenericTypeDefinition();
+                if (typeof(IDictionary).IsAssignableFrom(type1) || typeof(IDictionary<,>).IsAssignableFrom(type1))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        /// <summary>
         /// 获取当前对象下所有属性集合
         /// </summary>
         /// <param name="obj">对象源</param>
@@ -584,7 +604,7 @@ namespace Tool.Utils
         /// <param name="name">属性名称</param>
         /// <param name="ignoreCase">是否忽略大小写</param>
         /// <returns>返回属性值</returns>
-        public static object GetValue(this object obj, string name, bool ignoreCase = false)
+        public static object GetValue(this object obj, string name, bool ignoreCase)
         {
             object _obj = default;
             PropertyDescriptor descriptor = obj.GetPropertieFind(name, ignoreCase);
@@ -603,7 +623,7 @@ namespace Tool.Utils
         /// <param name="value">修改的值</param>
         /// <param name="ignoreCase">是否忽略大小写</param>
         /// <returns>返回是否查找到并进行修改</returns>
-        public static bool SetValue(this object obj, string name, object value, bool ignoreCase = false)
+        public static bool SetValue(this object obj, string name, object value, bool ignoreCase)
         {
             PropertyDescriptor descriptor = obj.GetPropertieFind(name, ignoreCase);
             if (!object.Equals(descriptor, null))
@@ -615,13 +635,52 @@ namespace Tool.Utils
         }
 
         /// <summary>
+        /// 获取指定属性值（新模式）获取不到时 会抛出异常
+        /// </summary>
+        /// <param name="obj">对象源</param>
+        /// <param name="name">属性名称</param>
+        /// <returns>返回属性值</returns>
+        /// <exception cref="Exception">字段不存在时会报错！</exception>
+        public static object GetValue(this object obj, string name)
+        {
+            object _obj = obj.GetPropertyKey(name, out bool isexit);
+            if (isexit)
+            {
+                return _obj;
+            }
+            _obj = obj.GetFieldKey(name, out isexit);
+            if (isexit)
+            {
+                return _obj;
+            }
+            throw new Exception($"{obj.GetType().FullName}.{name} 字段不存在！");
+        }
+
+        /// <summary>
+        /// 修改指定属性值（新模式）
+        /// </summary>
+        /// <param name="obj">对象源</param>
+        /// <param name="name">属性名称</param>
+        /// <param name="value">修改的值</param>
+        /// <returns>返回是否查找到并进行修改</returns>
+        public static bool SetValue(this object obj, string name, object value)
+        {
+            bool isexit = obj.SetPropertyKey(name, value);
+            if (!isexit)
+            {
+                return obj.SetFieldKey(name, value); ;
+            }
+            return isexit;
+        }
+
+        /// <summary>
         /// 获取指定变量值 (支持 public/private/protected) 静态时obj为null
         /// </summary>
         /// <param name="obj">对象源</param>
         /// <param name="name">变量名称</param>
         /// <param name="isexist">是否可以获取</param>
         /// <returns>返回变量值</returns>
-        public static object GetFieldValue(this object obj, string name, out bool isexist) => obj.GetFieldValue(obj.GetType(), name, out isexist);
+        public static object GetFieldKey(this object obj, string name, out bool isexist) => obj.GetFieldKey(obj.GetType(), name, out isexist);
 
         /// <summary>
         /// 修改指定变量值 (支持 public/private/protected) 静态时obj为null
@@ -630,7 +689,7 @@ namespace Tool.Utils
         /// <param name="name">变量名称</param>
         /// <param name="value">修改的值</param>
         /// <returns>返回是否查找到并进行修改</returns>
-        public static bool SetFieldValue(this object obj, string name, object value) => obj.SetFieldValue(obj.GetType(), name, value);
+        public static bool SetFieldKey(this object obj, string name, object value) => obj.SetFieldKey(obj.GetType(), name, value);
 
         /// <summary>
         /// 获取指定变量值 (支持 public/private/protected) 静态时obj为null
@@ -639,7 +698,7 @@ namespace Tool.Utils
         /// <param name="name">变量名称</param>
         /// <param name="isexist">是否可以获取</param>
         /// <returns>返回变量值</returns>
-        public static object GetFieldValue<T>(this object obj, string name, out bool isexist) => obj.GetFieldValue(typeof(T), name, out isexist);
+        public static object GetFieldKey<T>(this object obj, string name, out bool isexist) => obj.GetFieldKey(typeof(T), name, out isexist);
 
         /// <summary>
         /// 修改指定变量值 (支持 public/private/protected) 静态时obj为null
@@ -648,7 +707,7 @@ namespace Tool.Utils
         /// <param name="name">变量名称</param>
         /// <param name="value">修改的值</param>
         /// <returns>返回是否查找到并进行修改</returns>
-        public static bool SetFieldValue<T>(this object obj, string name, object value) => obj.SetFieldValue(typeof(T), name, value);
+        public static bool SetFieldKey<T>(this object obj, string name, object value) => obj.SetFieldKey(typeof(T), name, value);
 
         /// <summary>
         /// 获取指定变量值 (支持 public/private/protected) 静态时obj为null
@@ -658,7 +717,7 @@ namespace Tool.Utils
         /// <param name="name">变量名称</param>
         /// <param name="isexist">是否可以获取</param>
         /// <returns>返回变量值</returns>
-        public static object GetFieldValue(this object obj, Type type, string name, out bool isexist)
+        public static object GetFieldKey(this object obj, Type type, string name, out bool isexist)
         {
             var typeProperty = type.GetPropertys();
             return typeProperty.GetField(obj, name, out isexist);
@@ -672,7 +731,7 @@ namespace Tool.Utils
         /// <param name="name">变量名称</param>
         /// <param name="value">修改的值</param>
         /// <returns>返回是否查找到并进行修改</returns>
-        public static bool SetFieldValue(this object obj, Type type, string name, object value)
+        public static bool SetFieldKey(this object obj, Type type, string name, object value)
         {
             var typeProperty = type.GetPropertys();
             return typeProperty.SetField(obj, name, value);
@@ -685,7 +744,7 @@ namespace Tool.Utils
         /// <param name="name">变量名称</param>
         /// <param name="isexist">是否可以获取</param>
         /// <returns>返回变量值</returns>
-        public static object GetPropertyValue(this object obj, string name, out bool isexist) => obj.GetPropertyValue(obj.GetType(), name, out isexist);
+        public static object GetPropertyKey(this object obj, string name, out bool isexist) => obj.GetPropertyKey(obj.GetType(), name, out isexist);
 
         /// <summary>
         /// 修改指定变量值 (支持 public/private/protected) 静态时obj为null
@@ -694,7 +753,7 @@ namespace Tool.Utils
         /// <param name="name">变量名称</param>
         /// <param name="value">修改的值</param>
         /// <returns>返回是否查找到并进行修改</returns>
-        public static bool SetPropertyValue(this object obj, string name, object value) => obj.SetPropertyValue(obj.GetType(), name, value);
+        public static bool SetPropertyKey(this object obj, string name, object value) => obj.SetPropertyKey(obj.GetType(), name, value);
 
         /// <summary>
         /// 获取指定变量值 (支持 public/private/protected) 静态时obj为null
@@ -703,7 +762,7 @@ namespace Tool.Utils
         /// <param name="name">变量名称</param>
         /// <param name="isexist">是否可以获取</param>
         /// <returns>返回变量值</returns>
-        public static object GetPropertyValue<T>(this object obj, string name, out bool isexist) => obj.GetPropertyValue(typeof(T), name, out isexist);
+        public static object GetPropertyKey<T>(this object obj, string name, out bool isexist) => obj.GetPropertyKey(typeof(T), name, out isexist);
 
         /// <summary>
         /// 修改指定变量值 (支持 public/private/protected) 静态时obj为null
@@ -712,7 +771,7 @@ namespace Tool.Utils
         /// <param name="name">变量名称</param>
         /// <param name="value">修改的值</param>
         /// <returns>返回是否查找到并进行修改</returns>
-        public static bool SetPropertyValue<T>(this object obj, string name, object value) => obj.SetPropertyValue(typeof(T), name, value);
+        public static bool SetPropertyKey<T>(this object obj, string name, object value) => obj.SetPropertyKey(typeof(T), name, value);
 
         /// <summary>
         /// 获取指定变量值 (支持 public/private/protected) 静态时obj为null
@@ -722,7 +781,7 @@ namespace Tool.Utils
         /// <param name="name">变量名称</param>
         /// <param name="isexist">是否可以获取</param>
         /// <returns>返回变量值</returns>
-        public static object GetPropertyValue(this object obj, Type type, string name, out bool isexist)
+        public static object GetPropertyKey(this object obj, Type type, string name, out bool isexist)
         {
             var typeProperty = type.GetPropertys();
             return typeProperty.GetProperty(obj, name, out isexist);
@@ -736,7 +795,7 @@ namespace Tool.Utils
         /// <param name="name">变量名称</param>
         /// <param name="value">修改的值</param>
         /// <returns>返回是否查找到并进行修改</returns>
-        public static bool SetPropertyValue(this object obj, Type type, string name, object value)
+        public static bool SetPropertyKey(this object obj, Type type, string name, object value)
         {
             var typeProperty = type.GetPropertys();
             return typeProperty.SetProperty(obj, name, value);

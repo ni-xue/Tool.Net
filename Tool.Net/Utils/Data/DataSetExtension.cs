@@ -76,9 +76,9 @@ namespace Tool.Utils.Data
         /// </summary>
         /// <param name="data">DataSet</param>
         /// <returns>返回JSON字符串</returns>
-        public static string[] ToJSON(this DataSet data)
+        public static string[] SetToJson(this DataSet data)
         {
-            return ToJSON(data, false);
+            return SetToJson(data, false);
         }
 
         /// <summary>
@@ -87,9 +87,9 @@ namespace Tool.Utils.Data
         /// <param name="data">DataSet</param>
         /// <param name="IsDate">ToJson格式时间，启用转字符串</param>
         /// <returns>返回JSON字符串</returns>
-        public static string[] ToJSON(this DataSet data, bool IsDate)
+        public static string[] SetToJson(this DataSet data, bool IsDate)
         {
-            return ToJSON(data, IsDate, null);
+            return SetToJson(data, IsDate, null);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Tool.Utils.Data
         /// <param name="IsDate">ToJson格式时间，启用转字符串</param>
         /// <param name="ToDateString">Date.ToString()的写法。</param>
         /// <returns>返回JSON字符串</returns>
-        public static string[] ToJSON(this DataSet data, bool IsDate, string ToDateString)
+        public static string[] SetToJson(this DataSet data, bool IsDate, string ToDateString)
         {
             if (data.IsEmpty()) return default;
             List<string> Jsons = new();

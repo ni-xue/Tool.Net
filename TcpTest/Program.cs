@@ -42,7 +42,7 @@ namespace TcpTest
 
         protected static object a4;
 
-        private static object a5;
+        private  static object a5;
 
         public static object a6;
     }
@@ -409,6 +409,8 @@ namespace TcpTest
 
 #endif
 
+            var  dic0 = """{ "key": "123" }""".Json();
+
             //PropertyInfo[]? properties = null;
             //var asda = Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassFields(typeof(Abc), ref properties);
 
@@ -420,18 +422,26 @@ namespace TcpTest
             dic["a"] = 999;
             abc.SetDictionary(dic);
 
-            abc.SetFieldValue("f", 0.1);
+            abc.SetFieldKey("f", 0.1);
 
-            abc.SetPropertyValue("a", 123456);
+            abc.SetPropertyKey("a", 123456);
 
-            abc.SetPropertyValue("a1", 0.1);
-            abc.SetPropertyValue("a2", 0.2);
-            abc.SetPropertyValue("a3", 0.3);
-            abc.SetFieldValue("a4", 0.4);
-            abc.SetFieldValue("a5", 0.5);
-            abc.SetFieldValue("a6", 0.6);
+            //abc.GetValue("a0");
+            abc.SetValue("a1", 0.1);
+            abc.SetValue("a2", 0.2);
+            abc.SetValue("a3", 0.3);
+            abc.SetValue("a4", 0.4);
+            abc.SetValue("a5", 0.5);
+            abc.SetValue("a6", 0.6);
 
-            abc.GetPropertyValue("s", out var s);
+            abc.SetPropertyKey("a1", 1);
+            abc.SetPropertyKey("a2", 2);
+            abc.SetPropertyKey("a3", 3);
+            abc.SetFieldKey("a4", 4);
+            abc.SetFieldKey("a5", 5);
+            abc.SetFieldKey("a6", 6);
+
+            abc.GetPropertyKey("s", out var s);
 
             await NetWorship.OnMain(args);
             //await TcpWorship.OnMain(args);

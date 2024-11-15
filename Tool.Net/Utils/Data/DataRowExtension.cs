@@ -297,11 +297,11 @@ namespace Tool.Utils.Data
         /// <summary>
         /// （DataRow）转换 <see cref="object"/> 对象
         /// </summary>
-        /// <param name="dataRows">DataRow</param>
+        /// <param name="dataRow">DataRow</param>
         /// <returns>返回dynamic</returns>
-        public static dynamic ToObject(this DataRow dataRows)
+        public static dynamic ToObject(this DataRow dataRow)
         {
-            if (dataRows.IsEmpty()) return null;
+            if (dataRow.IsEmpty()) return null;
             //return new DataRow[] { dataRows }.ToObject(0);
 
             dynamic Dynamic = new ExpandoObject();
@@ -310,9 +310,9 @@ namespace Tool.Utils.Data
             {
                 var add = ((IDictionary<string, object>)Dynamic);
 
-                foreach (DataColumn col in dataRows.Table.Columns)
+                foreach (DataColumn col in dataRow.Table.Columns)
                 {
-                    add.Add(col.ColumnName, dataRows[col]);
+                    add.Add(col.ColumnName, dataRow[col]);
                 }
             }
 
@@ -347,6 +347,72 @@ namespace Tool.Utils.Data
         {
             DataRow row = dataRows[index];
             return row.ToObject();
+        }
+
+
+        /// <summary>
+        /// 序列化AjaxJson（DataRow）
+        /// </summary>
+        /// <param name="dataRow">DataRow</param>
+        /// <returns>返回JSON字符串</returns>
+        public static string RowToJson(this DataRow dataRow)
+        {
+            return RowToJson(dataRow, false);
+        }
+
+        /// <summary>
+        /// 序列化AjaxJson（DataRow）
+        /// </summary>
+        /// <param name="dataRow">DataRow</param>
+        /// <param name="IsDate">ToJson格式时间，启用转字符串</param>
+        /// <returns>返回JSON字符串</returns>
+        public static string RowToJson(this DataRow dataRow, bool IsDate)
+        {
+            return RowToJson(dataRow, IsDate, null);
+        }
+
+        /// <summary>
+        /// 序列化AjaxJson（DataRow）
+        /// </summary>
+        /// <param name="dataRow">DataRow</param>
+        /// <param name="IsDate">ToJson格式时间，启用转字符串</param>
+        /// <param name="ToDateString">Date.ToString()的写法。</param>
+        /// <returns>返回JSON字符串</returns>
+        public static string RowToJson(this DataRow dataRow, bool IsDate, string ToDateString)
+        {
+            if (!dataRow.IsEmpty())
+            {
+                Dictionary<string, object> childRow = new();
+                foreach (DataColumn col in dataRow.Table.Columns)
+                {
+                    if (IsDate)
+                    {
+                        var value = dataRow[col];
+                        if (value.GetType() == typeof(DateTime))
+                        {
+                            DateTime dateTime = value.ToVar<DateTime>();
+                            if (!string.IsNullOrWhiteSpace(ToDateString))
+                            {
+                                childRow.Add(col.ColumnName, dateTime.ToString(ToDateString));
+                            }
+                            else
+                            {
+                                childRow.Add(col.ColumnName, dateTime.ToString());
+                            }
+                        }
+                        else
+                        {
+                            childRow.Add(col.ColumnName, value);
+                        }
+                    }
+                    else
+                    {
+                        childRow.Add(col.ColumnName, dataRow[col]);
+                    }
+                }
+                return childRow.ToJson();
+            }
+            return "{}";
         }
     }
 }

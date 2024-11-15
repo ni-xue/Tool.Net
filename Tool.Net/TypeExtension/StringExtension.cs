@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -257,20 +258,15 @@ namespace Tool //万能属性公有父类
 
         #region JSON
 
-        /// <summary>
-        /// 转换成虚构实体对象
-        /// </summary>
-        /// <param name="txt">String</param>
-        /// <returns>转换成虚构实体对象</returns>
-        public static dynamic JsonDynamic(this string txt)
+        private static object JsonObject(this string txt, JsonDocumentOptions options = default)
         {
             return string.IsNullOrWhiteSpace(txt)
                 ? throw new SystemException("该字符串不存在任何内容！")
                 : GetObj(txt);//string json = System.Text.Json.JsonSerializer.Serialize<object>(new { i });
 
-            static dynamic GetObj(string txt) 
+            object GetObj(string txt)
             {
-                JsonDocument jsonDocument = JsonDocument.Parse(txt);
+                JsonDocument jsonDocument = JsonDocument.Parse(txt, options);
                 using (jsonDocument)
                 {
                     return JsonHelper.GetReturn(jsonDocument.RootElement);
@@ -279,58 +275,102 @@ namespace Tool //万能属性公有父类
         }
 
         /// <summary>
-        /// 一种获取 Json 格式数据的实现
+        /// 转换成虚构实体对象
         /// </summary>
-        /// <param name="txt">Json 格式字符串</param>
-        /// <returns>转换成特殊结构对象，用于获取值</returns>
-        public static JsonVar JsonVar(this string txt) 
+        /// <param name="txt">String</param>
+        /// <param name="options">解析时用到的配置信息</param>
+        /// <returns>转换成虚构实体对象</returns>
+        public static dynamic JsonDynamic(this string txt, JsonDocumentOptions options = default)
         {
-            return new(txt.JsonDynamic());
+            return txt.JsonObject(options);
         }
 
         /// <summary>
-        /// 转换成Dictionary对象
+        /// 一种获取 Json 格式数据的实现
+        /// </summary>
+        /// <param name="txt">Json 格式字符串</param>
+        /// <param name="options">解析时用到的配置信息</param>
+        /// <returns>转换成特殊结构对象，用于获取值</returns>
+        public static JsonVar JsonVar(this string txt, JsonDocumentOptions options = default)
+        {
+            return new(txt.JsonObject(options));
+        }
+
+        /// <summary>
+        /// 转换成<see cref="Dictionary{String, Object}"/>对象 （默认允许Json中包含注释）
         /// </summary>
         /// <param name="txt">String</param>
         /// <returns>转换成Dictionary对象</returns>
         public static Dictionary<string, object> Json(this string txt)
+        {
+            return txt.Json(new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Skip });
+        }
+
+        /// <summary>
+        /// 转换成<see cref="Dictionary{String, Object}"/>对象
+        /// </summary>
+        /// <param name="txt">String</param>
+        /// <param name="options">解析时用到的配置信息</param>
+        /// <returns>转换成Dictionary对象</returns>
+        public static Dictionary<string, object> Json(this string txt, JsonDocumentOptions options = default)
         {
             //JavaScriptSerializer js = new JavaScriptSerializer();
             return string.IsNullOrWhiteSpace(txt)
                 ? throw new SystemException("该字符串不存在任何内容！")
                 : GetObj(txt);
 
-            static Dictionary<string, object> GetObj(string txt)
+            Dictionary<string, object> GetObj(string txt)
             {
-                JsonDocument jsonDocument = JsonDocument.Parse(txt, new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Skip });
-
+                JsonDocument jsonDocument = JsonDocument.Parse(txt, options);// new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Skip }
                 using (jsonDocument)
                 {
                     JsonElement RootElement = jsonDocument.RootElement;
-                    if (RootElement.ValueKind == JsonValueKind.Array)
+                    if (RootElement.ValueKind is JsonValueKind.Object)
                     {
-                        throw new SystemException("输入的Json字符串为数组格式无法转换成键值对！");
+                        return JsonHelper.GetReturn(RootElement) as Dictionary<string, object>;
                     }
-
-                    return (Dictionary<string, object>)JsonHelper.GetReturn(RootElement);
+                    throw new SystemException($"输入的Json字符串为<{RootElement.ValueKind}>格式无法转换成 Dictionary<string, object>！");
                 }
+            }
+        }
 
-                //Dictionary<string, JsonDocument> pairs = JsonSerializer.Deserialize<Dictionary<string, JsonDocument>>(txt);
+        /// <summary>
+        /// 转换成 List{Dictionary{string, object}} 对象 （默认允许Json中包含注释）
+        /// </summary>
+        /// <param name="txt">String</param>
+        /// <returns>转换成Dictionary对象</returns>
+        public static List<Dictionary<string, object>> JsonList(this string txt)
+        {
+            return txt.JsonList(new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Skip });
+        }
 
-                //Dictionary<string, object> keyValues = new();
-                //if (pairs.Count > 0)
-                //{
-                //    foreach (KeyValuePair<string, JsonDocument> item in pairs)
-                //    {
-                //        using (item.Value)
-                //        {
-                //            keyValues.Add(item.Key, GetReturn(item.Value.RootElement));
-                //        }
-                //    }
-                //    pairs.Clear();
-                //}
+        /// <summary>
+        /// 转换成 List{Dictionary{string, object}} 对象
+        /// </summary>
+        /// <param name="txt">String</param>
+        /// <param name="options">解析时用到的配置信息</param>
+        /// <returns>转换成Dictionary对象</returns>
+        public static List<Dictionary<string, object>> JsonList(this string txt, JsonDocumentOptions options = default)
+        {
+            return string.IsNullOrWhiteSpace(txt)
+                ? throw new SystemException("该字符串不存在任何内容！")
+                : GetObj(txt);
 
-                //return keyValues;
+            List<Dictionary<string, object>> GetObj(string txt)
+            {
+                JsonDocument jsonDocument = JsonDocument.Parse(txt, options);// new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Skip }
+                using (jsonDocument)
+                {
+                    JsonElement RootElement = jsonDocument.RootElement;
+                    if (RootElement.ValueKind is JsonValueKind.Array)
+                    {
+                        ArrayList list = JsonHelper.GetReturn(RootElement) as ArrayList;
+                        List<Dictionary<string, object>> pairs = new(list.Count);
+                        pairs.AddRange(from Dictionary<string, object> keys in list select keys);
+                        return pairs;
+                    }
+                    throw new SystemException($"输入的Json字符串为<{RootElement.ValueKind}>格式无法转换成 List<Dictionary<string, object>>！");
+                }
             }
         }
 
@@ -354,6 +394,10 @@ namespace Tool //万能属性公有父类
         /// <returns>转换成实体类</returns>
         public static T Json<T>(this string txt, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (typeof(T).IsDictionary())
+            {
+                throw new Exception("无法转成字典，请直接使用 \"\".Json() 函数！");
+            }
             return string.IsNullOrWhiteSpace(txt)
                 ? throw new SystemException("该字符串不存在任何内容！")
                 : JsonSerializer.Deserialize<T>(txt, jsonSerializerOptions);
@@ -379,6 +423,10 @@ namespace Tool //万能属性公有父类
         /// <returns>转换成实体数组</returns>
         public static List<T> JsonList<T>(this string txt, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (typeof(T).IsDictionary())
+            {
+                throw new SystemException("无法转成字典，请直接使用 \"\".JsonList() 函数！");
+            }
             return string.IsNullOrWhiteSpace(txt)
                 ? throw new SystemException("该字符串不存在任何内容！")
                 : JsonSerializer.Deserialize<List<T>>(txt, jsonSerializerOptions);
@@ -401,7 +449,7 @@ namespace Tool //万能属性公有父类
             //serializer.Serialize(sw, obj);
             //sw.Close();
             //return sw.ToString();
-            
+
             using StringReader sr = new(txt);
             XmlSerializer serializer = new(typeof(T));
             return (T)serializer.Deserialize(sr);
@@ -468,7 +516,7 @@ namespace Tool //万能属性公有父类
                 throw new System.SystemException("自定义脏字数组不能为空");
             }
             List<string> keywords = texts.ToList();
-            KeywordSearch ks = new KeywordSearch(keywords);
+            KeywordSearch ks = new(keywords);
             return ks.Contains(text);
         }
 
@@ -792,8 +840,6 @@ namespace Tool //万能属性公有父类
                 vs.Add(val.ToInt());
             }
             return vs.ToArray();
-
-            //return txt.Select(a => System.Text.RegularExpressions.Regex.IsMatch(a, @"^(\-|\+)?\d+(\d+)?$") ? Convert.ToInt32(a) : 0).ToArray();
         }
 
         // <summary>

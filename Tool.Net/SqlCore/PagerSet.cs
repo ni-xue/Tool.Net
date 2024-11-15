@@ -33,7 +33,7 @@ namespace Tool.SqlCore
         /// <summary>
         /// 私有对象，延迟加载数据
         /// </summary>
-        private Lazy<object> _pageEntitys
+        private Lazy<object> p_pageEntitys
         {
             get;
             set;
@@ -44,7 +44,7 @@ namespace Tool.SqlCore
         /// </summary>
         public object PageEntitys
         {
-            get { return _pageEntitys == null ? null : _pageEntitys.Value; }
+            get { return p_pageEntitys == null ? null : p_pageEntitys.Value; }
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Tool.SqlCore
         {
             if (this.PageTable != null)
             {
-                _pageEntitys = new Lazy<object>(() => { return PageTable.ToEntityList<T>(); });
+                p_pageEntitys = new Lazy<object>(() => { return PageTable.ToEntityList<T>(); });
             }
         }
 
@@ -148,7 +148,7 @@ namespace Tool.SqlCore
         /// <returns>JSON格式字符串数组</returns>
         public string[] PageSetJson()
         {
-            return this.PageSet.ToJSON();
+            return this.PageSet.SetToJson();
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Tool.SqlCore
         /// <returns>JSON格式字符串数组</returns>
         public string[] PageSetJson(bool IsDate)
         {
-            return this.PageSet.ToJSON(IsDate);
+            return this.PageSet.SetToJson(IsDate);
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Tool.SqlCore
         /// <returns>JSON格式字符串数组</returns>
         public string[] PageSetJson(bool IsDate, string ToDateString)
         {
-            return this.PageSet.ToJSON(IsDate, ToDateString);
+            return this.PageSet.SetToJson(IsDate, ToDateString);
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace Tool.SqlCore
         /// <returns>JSON格式字符串</returns>
         public string PageTableJson()
         {
-            return this.PageTable.ToJSON();
+            return this.PageTable.TableToJson();
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace Tool.SqlCore
         /// <returns>JSON格式字符串</returns>
         public string PageTableJson(bool IsDate)
         {
-            return this.PageTable.ToJSON(IsDate);
+            return this.PageTable.TableToJson(IsDate);
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace Tool.SqlCore
         /// <returns>JSON格式字符串</returns>
         public string PageTableJson(bool IsDate, string ToDateString)
         {
-            return this.PageTable.ToJSON(IsDate, ToDateString);
+            return this.PageTable.TableToJson(IsDate, ToDateString);
         }
     }
 }

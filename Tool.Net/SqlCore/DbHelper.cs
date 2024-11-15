@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -79,7 +80,7 @@ namespace Tool.SqlCore
         /// <summary>
         /// 获取或设置 <see cref="DbCommand"/>.CommandTimeout 最大等待时长（秒）
         /// </summary>
-        public int CommandTimeout { get; set; }
+        public int CommandTimeout { get; set; } = 30;
 
         /// <summary>
         /// IDB提供商
@@ -706,7 +707,7 @@ namespace Tool.SqlCore
         public IDictionary<string, object> SetDictionaryParam(object parameter)
         {
             var keys = SetDictionaryParam(parameter, out bool isnull);
-            if (!isnull)
+            if (keys is not null && !isnull)
             {
                 List<string> strings = new();
                 foreach (var pair in keys)
@@ -825,11 +826,6 @@ namespace Tool.SqlCore
             this.m_queryCount = 0;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="commandParameters"></param>
-        /// <param name="dataRow"></param>
         private static void AssignParameterValues(DbParameter[] commandParameters, DataRow dataRow)
         {
             if (commandParameters != null && dataRow != null)
@@ -851,11 +847,6 @@ namespace Tool.SqlCore
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="commandParameters"></param>
-        /// <param name="parameterValues"></param>
         private static void AssignParameterValues(DbParameter[] commandParameters, object[] parameterValues)
         {
             if (commandParameters != null && parameterValues != null)
@@ -928,28 +919,28 @@ namespace Tool.SqlCore
             }
         }
 
-        /// <summary>
-        /// 克隆一个副本
-        /// </summary>
-        /// <param name="originalParameters">源对象数据</param>
-        /// <returns></returns>
-        private static DbParameter[] CloneParameters(DbParameter[] originalParameters)
-        {
-            DbParameter[] array = new DbParameter[originalParameters.Length];
-            int i = 0;
-            int num = originalParameters.Length;
-            while (i < num)
-            {
-                if (originalParameters[i] is ICloneable cloneable)
-                {
-                    array[i] = cloneable.Clone() as DbParameter;
-                    i++;
-                }
-                //array[i] = (DbParameter)((ICloneable)originalParameters[i]).Clone();
-                //i++;
-            }
-            return array;
-        }
+        ///// <summary>
+        ///// 克隆一个副本
+        ///// </summary>
+        ///// <param name="originalParameters">源对象数据</param>
+        ///// <returns></returns>
+        //private static DbParameter[] CloneParameters(DbParameter[] originalParameters)
+        //{
+        //    DbParameter[] array = new DbParameter[originalParameters.Length];
+        //    int i = 0;
+        //    int num = originalParameters.Length;
+        //    while (i < num)
+        //    {
+        //        if (originalParameters[i] is ICloneable cloneable)
+        //        {
+        //            array[i] = cloneable.Clone() as DbParameter;
+        //            i++;
+        //        }
+        //        //array[i] = (DbParameter)((ICloneable)originalParameters[i]).Clone();
+        //        //i++;
+        //    }
+        //    return array;
+        //}
 
         private void IsNullConnectionString() => ThrowIfNullString(ConnectionString, nameof(ConnectionString));
 
@@ -996,7 +987,10 @@ namespace Tool.SqlCore
             IsNullConnectionString();
             ThrowIfNullString(commandText, nameof(commandText));
             string key = this.ConnectionString + ":" + commandText;
-            this.m_paramcache[key] = commandParameters;
+            this.m_paramcache.AddOrUpdate(key, Add, Update);
+            DbParameterCache Add(string key) => new(commandParameters);
+            DbParameterCache Update(string key, DbParameterCache _) => Add(key);
+            //this.m_paramcache[key] = commandParameters;
         }
 
         /// <summary>
@@ -1009,18 +1003,23 @@ namespace Tool.SqlCore
             IsNullConnectionString();
             ThrowIfNullString(commandText, nameof(commandText));
             string key = this.ConnectionString + ":" + commandText;
-            if (this.m_paramcache[key] is not DbParameter[] array)
+            if (m_paramcache.TryGetValue(key, out var parameterCache))
             {
-                return null;
+                return parameterCache.CloneParameters();
             }
-            return CloneParameters(array);
+            return null;
+            //if (this.m_paramcache[key] is not DbParameter[] array)
+            //{
+            //    return null;
+            //}
+            //return CloneParameters(array);
         }
 
         /// <summary>
         /// 清空缓存的参数集（会清空所有的参数信息）
         /// </summary>
         /// <returns></returns>
-        public void EmptyCachedParameterSet(string commandText)
+        public void EmptyCachedParameterSet()
         {
             IsNullConnectionString();
             this.m_paramcache.Clear();
@@ -4422,7 +4421,7 @@ namespace Tool.SqlCore
         /// <param name="procName">存储过程名</param>
         /// <param name="prams">表示 <see cref="List{DbParameter}"/> 的参数</param>
         /// <returns></returns>
-        public Task<int> RunProcAsyncAsync(string procName, List<DbParameter> prams)
+        public Task<int> RunProcAsync(string procName, List<DbParameter> prams)
         {
             prams.Add(this.GetReturnParam());
             return this.ExecuteNonQueryAsync(CommandType.StoredProcedure, procName, prams.ToArray());
@@ -4898,13 +4897,20 @@ namespace Tool.SqlCore
             ThrowIfNull(connection, nameof(connection));
             ThrowIfNullString(spName, nameof(spName));
             string key = $"{connection.ConnectionString}:{spName}{(includeReturnValueParameter ? ":包含ReturnValue参数" : "")}";
-            if (this.m_paramcache[key] is not DbParameter[] array)
+
+            DbParameterCache array = m_paramcache.GetOrAdd(key, Get);
+
+            DbParameterCache Get(string key)
             {
-                DbParameter[] array2 = this.DiscoverSpParameterSet(connection, spName, includeReturnValueParameter);
-                this.m_paramcache[key] = array2;
-                array = array2;
+                return new DbParameterCache(this.DiscoverSpParameterSet(connection, spName, includeReturnValueParameter));
             }
-            return CloneParameters(array);
+            //if (this.m_paramcache[key] is not DbParameter[] array)
+            //{
+            //    DbParameter[] array2 = this.DiscoverSpParameterSet(connection, spName, includeReturnValueParameter);
+            //    this.m_paramcache[key] = array2;
+            //    array = array2;
+            //}
+            return array.CloneParameters();
         }
 
         #endregion
@@ -4957,13 +4963,20 @@ namespace Tool.SqlCore
             ThrowIfNull(connection, nameof(connection));
             ThrowIfNullString(spName, nameof(spName));
             string key = $"{connection.ConnectionString}:{spName}{(includeReturnValueParameter ? ":包含ReturnValue参数" : "")}";
-            if (this.m_paramcache[key] is not DbParameter[] array)
+
+            DbParameterCache array = m_paramcache.GetOrAdd(key, Get);
+            DbParameterCache Get(string key)
             {
-                DbParameter[] array2 = await this.DiscoverSpParameterSetAsync(connection, spName, includeReturnValueParameter);
-                this.m_paramcache[key] = array2;
-                array = array2;
+                return new DbParameterCache(this.DiscoverSpParameterSetAsync(connection, spName, includeReturnValueParameter));
             }
-            return CloneParameters(array);
+
+            //if (this.m_paramcache[key] is not DbParameter[] array)
+            //{
+            //    DbParameter[] array2 = await this.DiscoverSpParameterSetAsync(connection, spName, includeReturnValueParameter);
+            //    this.m_paramcache[key] = array2;
+            //    array = array2;
+            //}
+            return await array.CloneParametersAsync();
         }
 
         #endregion
@@ -5097,7 +5110,7 @@ namespace Tool.SqlCore
 
         #region 私有SQL验证部分
 
-        private static void PrepareCommand(DbCommand command , int CommandTimeout, DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DbParameter[] commandParameters, out bool mustCloseConnection)
+        private static void PrepareCommand(DbCommand command, int CommandTimeout, DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DbParameter[] commandParameters, out bool mustCloseConnection)
         {
             ThrowIfNull(command, nameof(command));
             ThrowIfNullString(commandText, nameof(commandText));
@@ -5176,7 +5189,9 @@ namespace Tool.SqlCore
 
         private DbProviderFactory m_factory;
 
-        private readonly Hashtable m_paramcache = Hashtable.Synchronized(new Hashtable());
+        //private readonly Hashtable m_paramcache = Hashtable.Synchronized(new());
+
+        private readonly ConcurrentDictionary<string, DbParameterCache> m_paramcache = new();
 
         private IDbProvider m_provider;
 

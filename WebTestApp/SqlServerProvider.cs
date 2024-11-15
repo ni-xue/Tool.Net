@@ -40,7 +40,7 @@ namespace WebTestApp
         /// 验证对象信息，并填充进<see cref="SqlCommand"/>集合中
         /// </summary>
         /// <param name="cmd">参数</param>
-  //      public void DeriveParameters(IDbCommand cmd)
+        //public void DeriveParameters(IDbCommand cmd)
 		//{
 		//	if (cmd is SqlCommand)
 		//	{

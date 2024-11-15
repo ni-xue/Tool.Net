@@ -8,10 +8,10 @@ using System.Text.RegularExpressions;
 namespace Tool.Utils.FtpHelper
 {
     /// <summary>
-    /// FTP帮助类
+    /// FTP帮助类（推荐使用:FluentFTP）
     /// </summary>
     [Obsolete("FTP 过时 是因为 6.0 版本 将WebRequest 设置为了过时，目前还可用，后期可能取消 或 改用其他方式。")]
-    public class FTPHelper
+    public partial class FTPHelper
     {
         #region 字段
         private string ftpURI;
@@ -222,7 +222,7 @@ namespace Tool.Utils.FtpHelper
 
                     if (!line.Contains("<DIR>", StringComparison.CurrentCulture))
                     {
-                        result.Append(Regex.Match(line, @"[\S]+ [\S]+", RegexOptions.IgnoreCase).Value.Split(' ')[1]);
+                        result.Append(IsFileListRegex().Match(line).Value.Split(' ')[1]);
                         result.Append('\n');
                     }
                     line = reader.ReadLine();
@@ -347,5 +347,12 @@ namespace Tool.Utils.FtpHelper
             }
             ftpURI = "ftp://" + ftpServerIP + "/" + ftpRemotePath + "/";
         }
+
+#if NET7_0_OR_GREATER
+        [GeneratedRegex("[\\S]+ [\\S]+", RegexOptions.IgnoreCase)]
+        private static partial Regex IsFileListRegex();
+#else
+        private static Regex IsFileListRegex() => new("[\\S]+ [\\S]+", RegexOptions.IgnoreCase);
+#endif
     }
 }

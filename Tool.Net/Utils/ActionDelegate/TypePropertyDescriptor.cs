@@ -165,9 +165,24 @@ namespace Tool.Utils.ActionDelegate
     }
 
     /// <summary>
+    /// 相关类型枚举描述
+    /// </summary>
+    public enum PropertyEnum 
+    {
+        /// <summary>
+        /// <see cref="PropertyInfo"/> 类属性字段
+        /// </summary>
+        Property,
+        /// <summary>
+        /// <see cref="FieldInfo"/> 类字段
+        /// </summary>
+        Field
+    }
+
+    /// <summary>
     /// 对象财产托管调度器
     /// </summary>
-    public class PropertyDescriptor
+    public class PropertyDescriptor//<T> where T : MemberInfo
     {
         /// <summary>
         /// 定义类成员赋值函数
@@ -185,14 +200,14 @@ namespace Tool.Utils.ActionDelegate
         public delegate object GetClassProperty(object callclass);
 
         /// <summary>
-        /// 可能存在的财产<see cref="PropertyInfo"/>
+        /// 类信息基类<see cref="PropertyInfo"/>或<see cref="FieldInfo"/>
         /// </summary>
-        public PropertyInfo Property { get; }
+        public MemberInfo Member { get; }
 
         /// <summary>
-        /// 可能存在的财产<see cref="FieldInfo"/>
+        /// 财产描述
         /// </summary>
-        public FieldInfo Field { get; }
+        public PropertyEnum TypeEnum { get; }
 
         /// <summary>
         /// 是否可写
@@ -219,20 +234,21 @@ namespace Tool.Utils.ActionDelegate
         /// <param name="property">财产</param>
         public PropertyDescriptor(Type classtype, PropertyInfo property)
         {
-            Property = property;
-            if (Property is not null)
+            Member = property;
+            if (property is not null)
             {
-                if (Property.SetMethod is not null)
+                TypeEnum = PropertyEnum.Property;
+                if (property.SetMethod is not null)
                 {
                     CanWrite = true;
-                    IsStatic = Property.SetMethod.IsStatic;
-                    SetProperty = CreateSetProperty(classtype, Property.SetMethod, Property.PropertyType, IsStatic);
+                    IsStatic = property.SetMethod.IsStatic;
+                    SetProperty = CreateSetProperty(classtype, property.SetMethod, property.PropertyType, IsStatic);
                 }
-                if (Property.GetMethod is not null)
+                if (property.GetMethod is not null)
                 {
                     CanRead = true;
-                    IsStatic = Property.GetMethod.IsStatic;
-                    GetProperty = CreateGetProperty(classtype, Property.GetMethod, IsStatic);
+                    IsStatic = property.GetMethod.IsStatic;
+                    GetProperty = CreateGetProperty(classtype, property.GetMethod, IsStatic);
                 }
             }
         }
@@ -244,16 +260,16 @@ namespace Tool.Utils.ActionDelegate
         /// <param name="fieldInfo">财产</param>
         public PropertyDescriptor(Type classtype, FieldInfo fieldInfo)
         {
-            Field = fieldInfo;
-            if (Field is not null)
+            Member = fieldInfo;
+            if (fieldInfo is not null)
             {
+                TypeEnum = PropertyEnum.Field;
                 CanWrite = true;
                 CanRead = true;
-                IsStatic = Field.IsStatic;
+                IsStatic = fieldInfo.IsStatic;
 
-                SetProperty = CreateSetProperty(classtype, Field, Field.FieldType, IsStatic);
-
-                GetProperty = CreateGetProperty(classtype, Field, IsStatic);
+                SetProperty = CreateSetProperty(classtype, fieldInfo, fieldInfo.FieldType, IsStatic);
+                GetProperty = CreateGetProperty(classtype, fieldInfo, IsStatic);
             }
         }
 

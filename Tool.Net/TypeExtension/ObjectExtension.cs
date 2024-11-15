@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
@@ -44,12 +45,6 @@ namespace Tool
         public static void BuildProvider() => Utils.IocHelper.IocCore.Build();
 
         /// <summary>
-        /// 虚拟参数(备注：要引用 <see cref="Microsoft.CSharp"/> .dll 方可使用)
-        /// </summary>
-        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
-        public static dynamic Dynamic { get; } = new ExpandoObject();
-
-        /// <summary>
         /// 全局公共对象 可以用于 存放任何对象 管理，存在拆箱装箱行为
         /// </summary>
         public static GlobalObj Static => _static.Value;
@@ -71,6 +66,14 @@ namespace Tool
                 return allThreads;
             }
         }
+
+        #region 过时部分归类
+
+        /// <summary>
+        /// 虚拟参数(备注：要引用 <see cref="Microsoft.CSharp"/> .dll 方可使用)
+        /// </summary>
+        [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
+        public static dynamic Dynamic { get; } = new ExpandoObject();
 
         /// <summary>
         /// 添加虚拟参数(备注：如果对象名存在则会在直接修改原对象名内的数据，type字段默认为true，为false时则不进行修改),注明：如果存在多线程添加同一个键值的情况，请自己使用锁解决
@@ -232,6 +235,8 @@ namespace Tool
                 return (Dynamic as IDictionary<string, object>).ContainsKey(propertyname);//((IDictionary<string, object>)Dynamic)
             return Dynamic.GetType().GetProperty(propertyname) != null;
         }
+
+        #endregion
 
         ///// <summary>
         ///// 虚拟数组(备注：要引用 <see cref="Microsoft.CSharp"/> .dll 方可使用)
@@ -548,6 +553,16 @@ namespace Tool
         /// 转换为JSON格式字符串，针对Web场景定制Json格式
         /// </summary>
         /// <param name="obj">object</param>
+        /// <returns>JSON字符串</returns>
+        public static string ToJsonWeb(this object obj)
+        {
+            return obj.ToJsonWeb((s) => { });
+        }
+
+        /// <summary>
+        /// 转换为JSON格式字符串，针对Web场景定制Json格式
+        /// </summary>
+        /// <param name="obj">object</param>
         /// <param name="action">委托Json任务</param>
         /// <returns>JSON字符串</returns>
         public static string ToJsonWeb(this object obj, Action<JsonSerializerOptions> action)
@@ -558,7 +573,6 @@ namespace Tool
 
             return obj.ToJson(jsonSerializer);
         }
-
 
         /// <summary>
         /// 转换为JSON格式字符串 

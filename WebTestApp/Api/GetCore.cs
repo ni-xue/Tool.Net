@@ -60,7 +60,7 @@ namespace WebTestApp.Api
 
         public object System(object dataSet)
         {
-            return (dataSet as System.Data.DataSet).ToJSON();
+            return (dataSet as System.Data.DataSet).SetToJson();
         }
 
         [Ashx(State = AshxState.All), CrossDomain]

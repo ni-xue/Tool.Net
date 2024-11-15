@@ -276,7 +276,12 @@ namespace Tool.Sockets.Kernels
                 req.CertificateExtensions.Add(sanBuilder.Build());
                 // Sign
                 using var crt = req.CreateSelfSigned(now, now.AddDays(14)); // 14 days is the max duration of a certificate for this
+
+#if NET9_0_OR_GREATER
+                cert = X509CertificateLoader.LoadCertificate(crt.Export(X509ContentType.Pfx));
+#else
                 cert = new(crt.Export(X509ContentType.Pfx));
+#endif
 
                 // Save
                 store.Add(cert);
@@ -289,7 +294,7 @@ namespace Tool.Sockets.Kernels
             return cert;
         }
 
-        #endregion
+#endregion
     }
 
 #if NET7_0_OR_GREATER

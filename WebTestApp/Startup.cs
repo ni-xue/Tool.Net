@@ -28,6 +28,9 @@ using System.Buffers;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using Tool.Utils.Data;
+using System.Collections;
+using Microsoft.Data.SqlClient;
 
 namespace WebTestApp
 {
@@ -269,17 +272,36 @@ namespace WebTestApp
             dbHelper.CommandTimeout = 1800;
             dbHelper.SetLogger(loggerFactory.CreateLogger("sql"));
 
+            var dic = dbHelper.SelectDictionaryAsync("SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];").Result;
+
+            var array = dbHelper.SelectArrayAsync("SELECT TOP (10000) * FROM [HKR51].[dbo].[XGDZ_CheckSub]  WHERE SerID=@SerID", new { SerID  = 1406468 }).Result;
+
+            string str0 = array.ToJson();
+            string str1 = dic.ToJson();
+
+            DataTable dt = new DataTable();
+            dt.CloneArray(array);
+
+            DataTable dt1 = new DataTable();
+            dt1.CloneArray(dt.ToArray().ToJson().JsonVar());
+
             using var data = dbHelper.ExecuteDataSetAsync("SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];SELECT * FROM [HKR51].[dbo].[XGDZ_cUser];SELECT * FROM [HKR51].[dbo].[XGDZ_cUserQx]").Result;
-            
-            var reader = dbHelper.ExecuteReader(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];SELECT * FROM [HKR51].[dbo].[XGDZ_cUser];SELECT * FROM [HKR51].[dbo].[XGDZ_cUserQx]");
 
-            var dataTable = reader.GetDataTableAsync().Result;
+            var array0 = data.Tables[0].ToArray();
+            array0.ToJson();
 
-            var dataset = reader.GetDataSetAsync().Result;
+            using (var reader = dbHelper.ExecuteReader(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];SELECT * FROM [HKR51].[dbo].[XGDZ_cUser];SELECT * FROM [HKR51].[dbo].[XGDZ_cUserQx]")) 
+            {
+                var dataTable = reader.GetDataTableAsync().Result;
+                var dataset = reader.GetDataSetAsync().Result;
+            }
+
+
+            var dataset0 = dbHelper.GetMessageForDataSetAsync("usp_output", new { bookname = "T001" }, dbHelper.GetOutParam("recordCount", typeof(int))).Result;
 
             var dbParameters = dbHelper.GetSpParameterSetAsync("usp_output").Result;
 
-            var dbParameters0 = dbHelper.GetSpParameterSetAsync("usp_output").Result;
+            var dbParameters0 = dbHelper.GetSpParameterSetAsync("usp_output1").Result;
 
             if (env.IsDevelopment())
             {

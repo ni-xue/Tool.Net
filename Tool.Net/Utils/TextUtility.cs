@@ -13,7 +13,7 @@ namespace Tool.Utils
     /// <summary>
     /// 提供技术支持的类库
     /// </summary>
-    public class TextUtility
+    public partial class TextUtility
     {
         /// <summary>
         /// 无参构造
@@ -355,7 +355,7 @@ namespace Tool.Utils
         /// <returns></returns>
         public static string CutStringTitle(object content, int cutLength)
         {
-            string text = Regex.Replace(content.ToString(), "<[^>]+>", "");
+            string text = CutStringTitleRegex().Replace(content.ToString(), "");
             if (text.Length > cutLength && text.Length > 2)
             {
                 text = string.Concat(text.AsSpan(0, cutLength - 2), "...");
@@ -1059,7 +1059,7 @@ namespace Tool.Utils
             {
                 return string.Empty;
             }
-            return Regex.Replace(originalVal, "[^\\u4E00-\\u9FA5]", "");
+            return ReplaceCnCharRegex().Replace(originalVal, "");
         }
 
         /// <summary>
@@ -1349,7 +1349,7 @@ namespace Tool.Utils
         /// <returns></returns>
         public static string CutUrlReturnPath(string url)
         {
-            Regex regex = new("^(http:\\/\\/||https:\\/\\/)[A-Za-z0-9_:.]*\\/");
+            Regex regex = CutUrlReturnPathRegex();
             return regex.Replace(url, "/");
         }
 
@@ -1464,5 +1464,21 @@ namespace Tool.Utils
         private static readonly string PROLONG_SYMBOL = "...";
 
         private static readonly RandomNumberGenerator rng = RandomNumberGenerator.Create();//RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+
+#if NET7_0_OR_GREATER
+        [GeneratedRegex("<[^>]+>")]
+        private static partial Regex CutStringTitleRegex();
+        [GeneratedRegex("[^\\u4E00-\\u9FA5]")]
+        private static partial Regex ReplaceCnCharRegex();
+        [GeneratedRegex("^(http:\\/\\/||https:\\/\\/)[A-Za-z0-9_:.]*\\/")]
+        private static partial Regex CutUrlReturnPathRegex();
+#else
+
+        private static Regex CutStringTitleRegex() => new("<[^>]+>");
+
+        private static Regex ReplaceCnCharRegex() => new("[^\\u4E00-\\u9FA5]");
+
+        private static Regex CutUrlReturnPathRegex() => new("^(http:\\/\\/||https:\\/\\/)[A-Za-z0-9_:.]*\\/");
+#endif
     }
 }

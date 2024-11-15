@@ -64,7 +64,7 @@ namespace WebTestApp.Api
         [Test.Select("SELECT * FROM system WHERE Id=@a OrDER by id desc")]//"SELECT * FROM system WHERE Id=@a", ref int a
         public object System(object dataSet) 
         {
-            return (dataSet as System.Data.DataSet).ToJSON();
+            return (dataSet as System.Data.DataSet).SetToJson();
         }
 
         public JsonOut GetSql(

@@ -20,7 +20,7 @@ namespace Tool.Utils
     /// 常用方法类
     /// </summary>
     /// <remarks>代码由逆血提供支持</remarks>
-    public class Utility
+    public partial class Utility
     {
         //地球半径，单位米
         private const double EARTH_RADIUS = 6378137;
@@ -397,11 +397,7 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="HTML">HTML字符串</param>
         /// <returns>返回内容</returns>
-        public static string GetTextFromHTML(string HTML)
-        {
-            Regex regex = new Regex("</?(?!br|/?p|img)[^>]*>", RegexOptions.IgnoreCase);
-            return regex.Replace(HTML, "");
-        }
+        public static string GetTextFromHTML(string HTML) => GetTextFromHTMLRegex().Replace(HTML, "");
 
         /// <summary>
         /// IP 地址的长值。 例如，Big-Endian 格式的值 0x2414188f 可能为 IP 地址"143.24.20.36"。
@@ -653,7 +649,7 @@ namespace Tool.Utils
         public static Color ToColor(string color)
         {
             color = color.TrimStart('#');
-            color = Regex.Replace(color.ToLower(), "[g-zG-Z]", "");
+            color = ToColorRegex().Replace(color.ToLower(), "");
             int length = color.Length;
             char[] array;
             int red;
@@ -1034,5 +1030,18 @@ namespace Tool.Utils
         /// 汇编版本
         /// </summary>
         public const string ASSEMBLY_VERSION = "3.1.0";
+
+#if NET7_0_OR_GREATER
+        [GeneratedRegex("</?(?!br|/?p|img)[^>]*>", RegexOptions.IgnoreCase, "zh-CN")]
+        private static partial Regex GetTextFromHTMLRegex();
+        [GeneratedRegex("[g-zG-Z]")]
+        private static partial Regex ToColorRegex();
+#else
+        private static Regex GetTextFromHTMLRegex() => new("</?(?!br|/?p|img)[^>]*>", RegexOptions.IgnoreCase);
+
+        private static Regex ToColorRegex() => new("[g-zG-Z]");
+#endif
+
+
     }
 }
