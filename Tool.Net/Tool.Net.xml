@@ -5827,13 +5827,6 @@
             <param name="command">SQL数据对象基类</param>
             <param name="commandParameters">要附加的参数对象数组</param>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.CloneParameters(System.Data.Common.DbParameter[])">
-            <summary>
-            克隆一个副本
-            </summary>
-            <param name="originalParameters">源对象数据</param>
-            <returns></returns>
-        </member>
         <member name="M:Tool.SqlCore.DbHelper.SetCacheParameterSet(System.String,System.Data.Common.DbParameter[])">
             <summary>
             添加缓存参数集
@@ -5848,7 +5841,7 @@
             <param name="commandText">缓存数据集的名称</param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.EmptyCachedParameterSet(System.String)">
+        <member name="M:Tool.SqlCore.DbHelper.EmptyCachedParameterSet">
             <summary>
             清空缓存的参数集（会清空所有的参数信息）
             </summary>
@@ -7769,6 +7762,15 @@
             <param name="prams">实体类，虚构对象,任何类型的键值对</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.SelectArray(Tool.SqlCore.DbHelper,System.String,System.Object)">
+            <summary>
+            查询单张表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="commandText">查询语句</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.Select``1(Tool.SqlCore.DbHelper,System.Action{``0})">
             <summary>
             查询单张表
@@ -7874,6 +7876,15 @@
             <returns></returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.SelectDictionaryAsync(Tool.SqlCore.DbHelper,System.String,System.Object)">
+            <summary>
+            查询单张表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="commandText">查询语句</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.SelectArrayAsync(Tool.SqlCore.DbHelper,System.String,System.Object)">
             <summary>
             查询单张表
             </summary>
@@ -8019,7 +8030,7 @@
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelperExensions.GetReader(System.Data.Common.DbDataReader,System.Boolean)">
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetListHash(System.Data.Common.DbDataReader,System.Boolean)">
             <summary>
             将<see cref="T:System.Data.Common.DbDataReader"/>对象，中数据转换为集合字典
             </summary>
@@ -8027,13 +8038,29 @@
             <param name="isnull">是否处理Null值，true时将不包含在字典中</param>
             <returns>返回可读集合字典</returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelperExensions.GetReaderAsync(System.Data.Common.DbDataReader,System.Boolean)">
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetListHashAsync(System.Data.Common.DbDataReader,System.Boolean)">
             <summary>
             将<see cref="T:System.Data.Common.DbDataReader"/>对象，中数据转换为集合字典
             </summary>
             <param name="dataReader">原数据对象</param>
             <param name="isnull">是否处理Null值，true时将不包含在字典中</param>
             <returns>返回可读集合字典</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetReaderArray(System.Data.Common.DbDataReader,System.Boolean)">
+            <summary>
+            将<see cref="T:System.Data.Common.DbDataReader"/>对象，中数据转换为 二维数组集合
+            </summary>
+            <param name="dataReader">原数据对象</param>
+            <param name="isnull">是否处理Null值，true时将不包含在二维数组中</param>
+            <returns>返回可读二维数组集合</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.GetReaderArrayAsync(System.Data.Common.DbDataReader,System.Boolean)">
+            <summary>
+            将<see cref="T:System.Data.Common.DbDataReader"/>对象，中数据转换为 二维数组集合
+            </summary>
+            <param name="dataReader">原数据对象</param>
+            <param name="isnull">是否处理Null值，true时将不包含在二维数组中</param>
+            <returns>返回可读二维数组集合</returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.GetDataSet(System.Data.Common.DbDataReader)">
             <summary>
@@ -8091,6 +8118,35 @@
             <summary>
             主键Id
             </summary>
+        </member>
+        <member name="T:Tool.SqlCore.DbParameterCache">
+            <summary>
+            本地数据库参数缓存
+            </summary>
+        </member>
+        <member name="M:Tool.SqlCore.DbParameterCache.#ctor(System.Data.Common.DbParameter[])">
+            <summary>
+            创建默认缓存
+            </summary>
+            <param name="parameters"></param>
+        </member>
+        <member name="M:Tool.SqlCore.DbParameterCache.#ctor(System.Threading.Tasks.Task{System.Data.Common.DbParameter[]})">
+            <summary>
+            创建等待缓存
+            </summary>
+            <param name="taskParameters"></param>
+        </member>
+        <member name="M:Tool.SqlCore.DbParameterCache.CloneParameters">
+            <summary>
+            克隆一个副本<see cref="T:System.Data.Common.DbParameter"/>[]
+            </summary>
+            <returns><see cref="T:System.Data.Common.DbParameter"/>[]</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbParameterCache.CloneParametersAsync">
+            <summary>
+            克隆一个副本<see cref="T:System.Data.Common.DbParameter"/>[]
+            </summary>
+            <returns><see cref="T:System.Data.Common.DbParameter"/>[]</returns>
         </member>
         <member name="T:Tool.SqlCore.DbTransactionExensions">
             <summary>
@@ -9425,7 +9481,7 @@
             源数据集合第一条
             </summary>
         </member>
-        <member name="P:Tool.SqlCore.PagerSet._pageEntitys">
+        <member name="P:Tool.SqlCore.PagerSet.p_pageEntitys">
             <summary>
             私有对象，延迟加载数据
             </summary>
@@ -13418,7 +13474,7 @@
             <summary>
             （DataRow）转换 <see cref="T:System.Object"/> 对象
             </summary>
-            <param name="dataRows">DataRow</param>
+            <param name="dataRow">DataRow</param>
             <returns>返回dynamic</returns>
         </member>
         <member name="M:Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection)">
@@ -13435,6 +13491,30 @@
             <param name="dataRows">DataRowCollection</param>
             <param name="index">要读取的那一条数组的下标</param>
             <returns>返回dynamic</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow)">
+            <summary>
+            序列化AjaxJson（DataRow）
+            </summary>
+            <param name="dataRow">DataRow</param>
+            <returns>返回JSON字符串</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow,System.Boolean)">
+            <summary>
+            序列化AjaxJson（DataRow）
+            </summary>
+            <param name="dataRow">DataRow</param>
+            <param name="IsDate">ToJson格式时间，启用转字符串</param>
+            <returns>返回JSON字符串</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow,System.Boolean,System.String)">
+            <summary>
+            序列化AjaxJson（DataRow）
+            </summary>
+            <param name="dataRow">DataRow</param>
+            <param name="IsDate">ToJson格式时间，启用转字符串</param>
+            <param name="ToDateString">Date.ToString()的写法。</param>
+            <returns>返回JSON字符串</returns>
         </member>
         <member name="T:Tool.Utils.Data.DataSetExtension">
             <summary>
@@ -13456,14 +13536,14 @@
             <param name="data">DataSet</param>
             <returns>返回Dictionary</returns>
         </member>
-        <member name="M:Tool.Utils.Data.DataSetExtension.ToJSON(System.Data.DataSet)">
+        <member name="M:Tool.Utils.Data.DataSetExtension.SetToJson(System.Data.DataSet)">
             <summary>
             序列化AjaxJson（DataSet）
             </summary>
             <param name="data">DataSet</param>
             <returns>返回JSON字符串</returns>
         </member>
-        <member name="M:Tool.Utils.Data.DataSetExtension.ToJSON(System.Data.DataSet,System.Boolean)">
+        <member name="M:Tool.Utils.Data.DataSetExtension.SetToJson(System.Data.DataSet,System.Boolean)">
             <summary>
             序列化AjaxJson（DataSet）
             </summary>
@@ -13471,7 +13551,7 @@
             <param name="IsDate">ToJson格式时间，启用转字符串</param>
             <returns>返回JSON字符串</returns>
         </member>
-        <member name="M:Tool.Utils.Data.DataSetExtension.ToJSON(System.Data.DataSet,System.Boolean,System.String)">
+        <member name="M:Tool.Utils.Data.DataSetExtension.SetToJson(System.Data.DataSet,System.Boolean,System.String)">
             <summary>
             序列化AjaxJson（DataSet）
             </summary>
@@ -13508,6 +13588,37 @@
             <param name="func">用于指定特殊结果的函数</param>
             <returns>返回Dictionary</returns>
         </member>
+        <member name="M:Tool.Utils.Data.DataTableExtension.CloneArray(System.Data.DataTable,System.Collections.ArrayList)">
+            <summary>
+            将 <see cref="T:System.Collections.ArrayList"/> 集合数据克隆到 <see cref="T:System.Data.DataTable"/> 中
+            <list type="bullet"><see cref="T:System.Data.DataTable"/>必须是空的</list>
+            </summary>
+            <param name="table">DataTable</param>
+            <param name="objects">数据集合</param>
+        </member>
+        <member name="M:Tool.Utils.Data.DataTableExtension.CloneArray(System.Data.DataTable,Tool.Utils.JsonVar)">
+            <summary>
+            将 <see cref="T:System.Collections.ArrayList"/> 集合数据克隆到 <see cref="T:System.Data.DataTable"/> 中
+            <list type="bullet"><see cref="T:System.Data.DataTable"/>必须是空的</list>
+            </summary>
+            <param name="json">Json数据</param>
+            <param name="table">DataTable</param>
+        </member>
+        <member name="M:Tool.Utils.Data.DataTableExtension.ToArray(System.Data.DataTable)">
+            <summary>
+            （DataTable）转换 <see cref="T:System.Collections.ArrayList"/> 集合
+            </summary>
+            <param name="table">DataTable</param>
+            <returns>返回<see cref="T:System.Collections.ArrayList"/></returns>
+        </member>
+        <member name="M:Tool.Utils.Data.DataTableExtension.ToArrayIf(System.Data.DataTable,System.Func{System.String,System.Object,System.Object})">
+            <summary>
+            （DataTable）转换 <see cref="T:System.Collections.ArrayList"/> 集合（结果可自定义）
+            </summary>
+            <param name="table">DataTable</param>
+            <param name="func">用于指定特殊结果的函数</param>
+            <returns>返回<see cref="T:System.Collections.ArrayList"/></returns>
+        </member>
         <member name="M:Tool.Utils.Data.DataTableExtension.ToObject(System.Data.DataTable)">
             <summary>
             （DataTable）转换 <see cref="T:System.Object"/> 集合
@@ -13515,14 +13626,14 @@
             <param name="dataTable">DataTable</param>
             <returns>返回dynamic[]</returns>
         </member>
-        <member name="M:Tool.Utils.Data.DataTableExtension.ToJSON(System.Data.DataTable)">
+        <member name="M:Tool.Utils.Data.DataTableExtension.TableToJson(System.Data.DataTable)">
             <summary>
             序列化AjaxJson（DataTable）
             </summary>
             <param name="table">DataTable</param>
             <returns>返回JSON字符串</returns>
         </member>
-        <member name="M:Tool.Utils.Data.DataTableExtension.ToJSON(System.Data.DataTable,System.Boolean)">
+        <member name="M:Tool.Utils.Data.DataTableExtension.TableToJson(System.Data.DataTable,System.Boolean)">
             <summary>
             序列化AjaxJson（DataTable）
             </summary>
@@ -13530,7 +13641,7 @@
             <param name="IsDate">ToJson格式时间，启用转字符串</param>
             <returns>返回JSON字符串</returns>
         </member>
-        <member name="M:Tool.Utils.Data.DataTableExtension.ToJSON(System.Data.DataTable,System.Boolean,System.String)">
+        <member name="M:Tool.Utils.Data.DataTableExtension.TableToJson(System.Data.DataTable,System.Boolean,System.String)">
             <summary>
             序列化AjaxJson（DataTable）
             </summary>
@@ -13913,6 +14024,188 @@
             <param name="index">从下标N开始</param>
             <param name="count">到下标N结束</param>
             <returns>返回一部分的数组内容</returns>
+        </member>
+        <member name="T:Tool.Utils.Data.TaskConcurrentDictionary`2">
+            <summary>
+            完全保证的多线程可等待字典，表示可由多个线程同时访问的键/值对的线程安全集合。
+            </summary>
+            <typeparam name="TKey">字典中的键的类型。</typeparam>
+            <typeparam name="TValue">字典中的值的类型。</typeparam>
+        </member>
+        <member name="F:Tool.Utils.Data.TaskConcurrentDictionary`2.Dictionary">
+            <summary>
+            线程安全的字典
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.#ctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.Data.TaskConcurrentDictionary`2.Item(`0)">
+            <summary>
+            获取或设置与指定的键相关联的值。
+            </summary>
+            <param name="key">要获取或设置的值的键。</param>
+            <returns>位于指定索引处的键/值对。</returns>
+            <exception cref="T:System.ArgumentNullException">key 为 null。</exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">已检索该属性，并且集合中不存在 key。</exception>
+        </member>
+        <member name="P:Tool.Utils.Data.TaskConcurrentDictionary`2.IsEmpty">
+            <summary>
+            获取一个指示 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 是否为空的值。
+            </summary>
+            <returns>如果 System.Collections.Concurrent.ConcurrentDictionary`2 为空，则为 true；否则为 false。</returns>
+        </member>
+        <member name="P:Tool.Utils.Data.TaskConcurrentDictionary`2.Keys">
+            <summary>
+            获取包含 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中的键的集合。
+            </summary>
+            <returns><see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中的键的集合。</returns>
+        </member>
+        <member name="P:Tool.Utils.Data.TaskConcurrentDictionary`2.Values">
+            <summary>
+            获取包含 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中的值的集合。 (作者并不建议使用该字段，开销有点大)
+            </summary>
+            <returns>包含 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中的值的集合。</returns>
+        </member>
+        <member name="P:Tool.Utils.Data.TaskConcurrentDictionary`2.Count">
+            <summary>
+            获取包含在 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中的键/值对的数目。
+            </summary>
+            <returns>包含在 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中的键/值对的数目。</returns>
+            <exception cref="T:System.OverflowException">字典已包含最大数目的元素 (System.Int32.MaxValue)。</exception>
+        </member>
+        <member name="P:Tool.Utils.Data.TaskConcurrentDictionary`2.IsReadOnly">
+            <summary>
+            获取一个值，该值指示 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 是否为只读。（无效参数）
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.GetOrAdd(`0,System.Func{`0,System.Threading.Tasks.Task{`1}})">
+            <summary>
+            如果该键尚不存在，则使用指定函数将键/值对添加到 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/>
+            </summary>
+            <param name="key">要添加的元素的键。</param>
+            <param name="valueFactory">用于为键生成值的函数</param>
+            <returns>键的值。 如果字典中已存在指定的键，则为该键的现有值；如果字典中不存在指定的键，则为 valueFactory 返回的键的新值。</returns>
+            <exception cref="T:System.ArgumentNullException">valueFactory 为 null。</exception>
+            <exception cref="T:System.OverflowException">字典已包含最大数目的元素 (System.Int32.MaxValue)。</exception>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.GetOrAdd(`0,`1)">
+            <summary>
+            如果该键尚不存在，则使用指定函数将键/值对添加到 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/>
+            </summary>
+            <param name="key">要添加的元素的键。</param>
+            <param name="value">用于为键生成值的函数</param>
+            <returns>键的值。 如果字典中已存在指定的键，则为该键的现有值；如果字典中不存在指定的键，则为新值。</returns>
+            <exception cref="T:System.ArgumentNullException">value 为 null。</exception>
+            <exception cref="T:System.OverflowException">字典已包含最大数目的元素 (System.Int32.MaxValue)。</exception>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.Clear">
+            <summary>
+            从 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中移除所有的键和值。
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.ContainsKey(`0)">
+            <summary>
+            确定 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 是否包含指定的键。
+            </summary>
+            <param name="key">要在 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中定位的键。</param>
+            <returns>如果 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 包含具有指定键的元素，则为 true；否则为 false。</returns>
+            <exception cref="T:System.ArgumentNullException">key 为 null。</exception>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.Add(`0,`1)">
+            <summary>
+            在 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中添加一个带有所提供的键和值的元素。
+            </summary>
+            <param name="key">用作要添加的元素的键的对象。</param>
+            <param name="value">作为要添加的元素的值的对象。</param>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.TryAdd(`0,`1)">
+            <summary>
+            在 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中添加一个带有所提供的键和值的元素。
+            </summary>
+            <param name="key">用作要添加的元素的键的对象。</param>
+            <param name="value">作为要添加的元素的值的对象。</param>
+            <returns>如果该键/值对已成功添加到 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/>，则为 true；如果该键已存在，则为 false。</returns>
+            <exception cref="T:System.ArgumentNullException">value 为 null。</exception>
+            <exception cref="T:System.OverflowException">字典已包含最大数目的元素 (System.Int32.MaxValue)。</exception>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.Remove(`0)">
+            <summary>
+            尝试从 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中移除。
+            </summary>
+            <param name="key">要移除并返回的元素的键。</param>
+            <returns>如果已成功移除对象，则为 true；否则为 false。</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.TryRemove(`0,`1@)">
+            <summary>
+            尝试从 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中移除。
+            </summary>
+            <param name="key">要移除并返回的元素的键。</param>
+            <param name="value">当此方法返回时，将包含从 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中移除的对象；如果 key 不存在，则包含 TValue 类型。</param>
+            <returns>如果已成功移除对象，则为 true；否则为 false。</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.TryGetValue(`0,System.Threading.Tasks.Task{`1}@)">
+            <summary>
+            尝试从 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 获取与指定的键关联的值。
+            </summary>
+            <param name="key">要获取的值的键。</param>
+            <param name="value">当此方法返回时，将包含 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中具有指定键的对象；如果操作失败，则包含默认值。</param>
+            <returns>如果在 System.Collections.Concurrent.ConcurrentDictionary`2 中找到该键，则为 true；否则为 false。</returns>
+            <exception cref="T:System.ArgumentNullException">key 为 null。</exception>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.Add(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+             在 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中添加一个带有所提供的键和值的元素。
+            </summary>
+            <param name="item">单个对象的键值对</param>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey,TValue}}#Contains(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+            不被实现的。
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey,TValue}}#CopyTo(System.Collections.Generic.KeyValuePair{`0,`1}[],System.Int32)">
+            <summary>
+            不被实现的。
+            </summary>
+            <param name="array"></param>
+            <param name="arrayIndex"></param>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey,TValue}}#Remove(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+            不被实现的。
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.GetEnumerator">
+            <summary>
+            返回循环访问 <see cref="T:Tool.Utils.Data.LazyConcurrentDictionary`2"/> 的枚举数。
+            </summary>
+            <returns><see cref="T:Tool.Utils.Data.LazyConcurrentDictionary`2"/> 的一个枚举数。</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            返回一个循环访问集合的枚举器。
+            </summary>
+            <returns>可用于循环访问集合的 System.Collections.IEnumerator 对象。</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.ToString">
+            <summary>
+            显示结果
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.GetAsyncEnumerator(System.Threading.CancellationToken)">
+            <summary>
+            异步迭代器
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="T:Tool.Utils.Encryption.AES">
             <summary>
@@ -15592,7 +15885,7 @@
         </member>
         <member name="P:Tool.Utils.JsonVar.Count">
             <summary>
-            当前 层 可能存在的 集合 长度
+            当前 层 可能存在的 集合 长度 （string 会显示 字符长度）
             </summary>
         </member>
         <member name="P:Tool.Utils.JsonVar.Data">
@@ -15627,11 +15920,25 @@
             <typeparam name="T">转换的值</typeparam>
             <returns>得到的值</returns>
         </member>
+        <member name="M:Tool.Utils.JsonVar.TryGet(Tool.Utils.JsonVar@,System.Object[])">
+            <summary>
+            获取当前Json集合下可能存在的数据信息
+            </summary>
+            <param name="jsonVar">返回存在的结果</param>
+            <param name="keys">查找的Key和下标</param>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
         <member name="M:Tool.Utils.JsonVar.GetJson">
             <summary>
             获取当前对象的Json字符串
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.JsonVar.ToString">
+            <summary>
+            根据实际类型返回特定内容
+            </summary>
+            <returns>结果</returns>
         </member>
         <member name="M:Tool.Utils.JsonVar.op_Implicit(System.Collections.Generic.Dictionary{System.String,System.Object})~Tool.Utils.JsonVar">
             <summary>
@@ -17726,12 +18033,26 @@
             <param name="type"></param>
             <returns></returns>
         </member>
+        <member name="M:Tool.Utils.TypeExtension.IsString(System.Type)">
+            <summary>
+            验证是否是字符类型
+            </summary>
+            <param name="type"></param>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
+        <member name="M:Tool.Utils.TypeExtension.IsNumber(System.Type)">
+            <summary>
+            验证是否是数字类型
+            </summary>
+            <param name="type"></param>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
         <member name="M:Tool.Utils.TypeExtension.IsType(System.Type)">
             <summary>
             验证是否是系统变量
             </summary>
             <param name="type"></param>
-            <returns></returns>
+            <returns><see cref="T:System.Boolean"/></returns>
         </member>
         <member name="M:Tool.Utils.TypeExtension.IsDictionary(System.Type)">
             <summary>

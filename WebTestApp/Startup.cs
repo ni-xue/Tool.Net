@@ -272,18 +272,34 @@ namespace WebTestApp
             dbHelper.CommandTimeout = 1800;
             dbHelper.SetLogger(loggerFactory.CreateLogger("sql"));
 
-            var dic = dbHelper.SelectDictionaryAsync("SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];").Result;
+            var dic = dbHelper.SelectDictionaryAsync("SELECT TOP (10000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];").Result;
 
-            var array = dbHelper.SelectArrayAsync("SELECT TOP (10000) * FROM [HKR51].[dbo].[XGDZ_CheckSub]  WHERE SerID=@SerID", new { SerID  = 1406468 }).Result;
+            var array = dbHelper.SelectArrayAsync("SELECT TOP (10000) * FROM [HKR51].[dbo].[XGDZ_CheckSub]  WHERE SerNo=@SerID", new { SerID  = 1 }).Result;
 
             string str0 = array.ToJson();
             string str1 = dic.ToJson();
 
-            DataTable dt = new DataTable();
+            DataTable dt = new();
             dt.CloneArray(array);
 
-            DataTable dt1 = new DataTable();
-            dt1.CloneArray(dt.ToArray().ToJson().JsonVar());
+            DataTable dt1 = new();
+            var varjson0 = str0.JsonVar();
+
+            var varjson1 = str1.JsonVar();
+
+            if (varjson0.TryGet(out JsonVar varobj0, 6, 4))
+            {
+                Console.WriteLine(varobj0.ToString());
+            }
+
+            if (varjson1.TryGet(out JsonVar varobj1, 5, "FromNo"))
+            {
+                Console.WriteLine(varobj0.ToString());
+            }
+
+            dt1.CloneArray(varjson0);
+
+            Console.WriteLine(dt1.Rows.Count);
 
             using var data = dbHelper.ExecuteDataSetAsync("SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];SELECT * FROM [HKR51].[dbo].[XGDZ_cUser];SELECT * FROM [HKR51].[dbo].[XGDZ_cUserQx]").Result;
 
@@ -295,7 +311,6 @@ namespace WebTestApp
                 var dataTable = reader.GetDataTableAsync().Result;
                 var dataset = reader.GetDataSetAsync().Result;
             }
-
 
             var dataset0 = dbHelper.GetMessageForDataSetAsync("usp_output", new { bookname = "T001" }, dbHelper.GetOutParam("recordCount", typeof(int))).Result;
 

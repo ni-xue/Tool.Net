@@ -149,16 +149,17 @@ namespace Tool.Utils.Data
             ArrayList arrayList = new(json.Count);
             for (int i = 0; i < json.Count; i++)
             {
-                var data = json[i];
-                switch (data.ValueKind)
-                {
-                    case System.Text.Json.JsonValueKind.Object:
-                        arrayList.Add(data.Data);
-                        break;
-                    case System.Text.Json.JsonValueKind.Array:
-                        arrayList.Add(data.Data);
-                        break;
-                }
+                arrayList.Add(json[i].Data);
+                //var data = json[i];
+                //switch (data.ValueKind)
+                //{
+                //    case System.Text.Json.JsonValueKind.Object:
+                //        arrayList.Add(data.Data);
+                //        break;
+                //    case System.Text.Json.JsonValueKind.Array:
+                //        arrayList.Add(data.Data);
+                //        break;
+                //}
             }
             table.CloneArray(arrayList);
         }

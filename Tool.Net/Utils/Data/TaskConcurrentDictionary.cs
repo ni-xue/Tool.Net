@@ -79,8 +79,6 @@ namespace Tool.Utils.Data
         /// </summary>
         public bool IsReadOnly => false;
 
-        public KeyValuePair<TKey, TValue> Current => throw new NotImplementedException();
-
         /// <summary>
         /// 如果该键尚不存在，则使用指定函数将键/值对添加到 <see cref="TaskConcurrentDictionary{TKey, TValue}"/>
         /// </summary>

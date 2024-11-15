@@ -997,13 +997,13 @@ namespace Tool //万能属性公有父类
         {
             if (!File.Exists(path))
             {
-                return new byte[0];
+                return Array.Empty<byte>();
             }
-            FileInfo fi = new FileInfo(path);
+            FileInfo fi = new(path);
             byte[] buff = new byte[fi.Length];
-            using (FileStream fs = fi.OpenRead())
+            using (FileStream fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                fs.Read(buff, 0, fs.Length.ToVar<int>());
+                _ = fs.Read(buff);
             }
             return buff;
         }

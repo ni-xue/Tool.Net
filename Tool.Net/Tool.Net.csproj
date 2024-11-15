@@ -4,11 +4,11 @@
     <!--<TargetFramework>net6.0</TargetFramework>-->
     <TargetFrameworks>net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
     <RootNamespace>Tool</RootNamespace>
-    <Version>5.3.2</Version>
+    <Version>5.3.3</Version>
     <!--<Version>5.3.0-pre0.1</Version>-->
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Copyright>Copyright © Microsoft 2024-11-15 10:00:00</Copyright>
+    <Copyright>Copyright © Microsoft 2024-11-15 17:30:00</Copyright>
     <Company>NiXue</Company>
     <Authors>NiXue</Authors>
     <PackageProjectUrl>https://github.com/nixue-xin/UniversalFrame</PackageProjectUrl>
@@ -21,7 +21,7 @@
     <PackageReleaseNotes>
       当前版本为正式包，用于进行实际线上项目开发。
       详细说明请下载后查看。
-      补充说明：接下来将重点新增SQL异步方法，以及修复其他特殊bug。
+      补充说明：以及修复其他特殊bug。
       NetFrame 模块将会持续关注。
       更多更新，敬请期待，希望有伙伴加入帮我分担。
     </PackageReleaseNotes>

@@ -446,79 +446,57 @@ namespace Tool.Utils
         }
 
         /// <summary>
-        /// 验证是否是系统变量
+        /// 验证是否是字符类型
         /// </summary>
         /// <param name="type"></param>
-        /// <returns></returns>
-        public static bool IsType(this Type type)
+        /// <returns><see cref="bool"/></returns>
+        public static bool IsString(this Type type)
         {
-            if (type == typeof(string) || type == typeof(short) || type == typeof(short?) || type == typeof(int) || type == typeof(int?)
-                || type == typeof(long) || type == typeof(long?) || type == typeof(byte) || type == typeof(byte?) || type == typeof(bool)
-                || type == typeof(bool?) || type == typeof(char) || type == typeof(char?) || type == typeof(decimal) || type == typeof(decimal?)
-                || type == typeof(double) || type == typeof(double?) || type == typeof(float) || type == typeof(float?) || type == typeof(object)
-                || type == typeof(ushort) || type == typeof(ushort?) || type == typeof(uint) || type == typeof(uint?) || type == typeof(ulong)
-                || type == typeof(ulong?) || type == typeof(DateTime) || type == typeof(DateTime?))
+            if (type == typeof(string) || type == typeof(char) || type == typeof(char?))
             {
                 return true;
             }
-
             return false;
-            //if (type == typeof(short))
-            //{
+        }
 
-            //}
-            //if (type == typeof(int))
-            //{
+        /// <summary>
+        /// 验证是否是数字类型
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns><see cref="bool"/></returns>
+        public static bool IsNumber(this Type type)
+        {
+            if (type == typeof(short) || type == typeof(short?)
+                || type == typeof(int) || type == typeof(int?)
+                || type == typeof(long) || type == typeof(long?)
+                || type == typeof(byte) || type == typeof(byte?)
+                || type == typeof(decimal) || type == typeof(decimal?)
+                || type == typeof(double) || type == typeof(double?)
+                || type == typeof(float) || type == typeof(float?)
+                || type == typeof(ushort) || type == typeof(ushort?)
+                || type == typeof(uint) || type == typeof(uint?)
+                || type == typeof(ulong) || type == typeof(ulong?))
+            {
+                return true;
+            }
+            return false;
+        }
 
-            //}
-            //if (type == typeof(long))
-            //{
-
-            //}
-            //if (type == typeof(byte))
-            //{
-
-            //}
-            //if (type == typeof(bool))
-            //{
-
-            //}
-            //if (type == typeof(char))
-            //{
-
-            //}
-            //if (type == typeof(decimal))
-            //{
-
-            //}
-            //if (type == typeof(double))
-            //{
-
-            //}
-            //if (type == typeof(float))
-            //{
-
-            //}
-            //if (type == typeof(object))
-            //{
-
-            //}
-            //if (type == typeof(ushort))
-            //{
-
-            //}
-            //if (type == typeof(uint))
-            //{
-
-            //}
-            //if (type == typeof(ulong))
-            //{
-
-            //}
-            //if (type == typeof(DateTime))
-            //{
-
-            //}
+        /// <summary>
+        /// 验证是否是系统变量
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns><see cref="bool"/></returns>
+        public static bool IsType(this Type type)
+        {
+            if (type.IsString() || type.IsNumber()
+                || type == typeof(bool) || type == typeof(bool?) || type == typeof(object)
+                || type == typeof(DateTime) || type == typeof(DateTime?)
+                || type == typeof(TimeSpan) || type == typeof(TimeSpan?))
+            {
+                return true;
+            }
+            return false;
         }
 
         /// <summary>

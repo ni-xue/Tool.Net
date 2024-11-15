@@ -855,7 +855,6 @@ namespace Tool.SqlCore
             }
         }
 
-
         /// <summary>
         /// 将<see cref="DbDataReader"/>对象，中数据转换为 二维数组集合
         /// </summary>
@@ -921,7 +920,6 @@ namespace Tool.SqlCore
                 return keys;
             }
         }
-
 
         /// <summary>
         /// 将<see cref="DbDataReader"/>对象，中数据转换为 <see cref="DataSet"/>

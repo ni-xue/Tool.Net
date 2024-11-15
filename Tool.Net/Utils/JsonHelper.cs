@@ -42,7 +42,6 @@ namespace Tool.Utils
         public static Dictionary<string, object> GetObject(JsonElement.ObjectEnumerator element)
         {
             Dictionary<string, object> keyValues = new();
-
             using (element)
             {
                 foreach (var item in element)
@@ -50,7 +49,6 @@ namespace Tool.Utils
                     keyValues.Add(item.Name, GetReturn(item.Value));
                 }
             }
-
             return keyValues;
         }
 
@@ -62,7 +60,6 @@ namespace Tool.Utils
         public static ArrayList GetArray(JsonElement.ArrayEnumerator element)
         {
             ArrayList array = new();
-
             using (element)
             {
                 foreach (JsonElement item in element)
@@ -70,7 +67,6 @@ namespace Tool.Utils
                     array.Add(GetReturn(item));
                 }
             }
-
             return array;
         }
 
@@ -79,30 +75,31 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="element">原型对象</param>
         /// <returns>必然是字符串或时间类型的结果</returns>
-        private static object GetString(JsonElement element)
+        private static string GetString(JsonElement element)
         {
-            object _obj;
-            try
-            {
-                if (element.TryGetDateTime(out DateTime dateTime))
-                {
-                    _obj = dateTime;
-                }
-                else if (element.TryGetDateTimeOffset(out DateTimeOffset dateTimeOffset))
-                {
-                    _obj = dateTimeOffset;
-                }
-                else
-                {
-                    _obj = element.GetString();
-                }
-            }
-            catch (Exception)
-            {
-                _obj = element.GetString();
-            }
+            return element.GetString();
+            //object _obj;
+            //try
+            //{
+            //    if (element.TryGetDateTime(out DateTime dateTime))
+            //    {
+            //        _obj = dateTime;
+            //    }
+            //    else if (element.TryGetDateTimeOffset(out DateTimeOffset dateTimeOffset))
+            //    {
+            //        _obj = dateTimeOffset;
+            //    }
+            //    else
+            //    {
+            //        _obj = element.GetString();
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    _obj = element.GetString();
+            //}
 
-            return _obj;
+            //return _obj;
         }
 
         /// <summary>
@@ -112,60 +109,76 @@ namespace Tool.Utils
         /// <returns>必然是数值的结果</returns>
         private static object GetNumber(JsonElement element)
         {
-            object _obj;
-            try
+            //object _obj;
+            //try
+            //{
+            if (element.TryGetInt32(out int val0))
             {
-                if (element.TryGetDecimal(out decimal val))
-                {
-                    if (val % 1 == 0)//(decimal.Truncate(val) == val)
-                    {
-                        if (val >= decimal.Zero)
-                        {
-                            if (val <= int.MaxValue)
-                            {
-                                _obj = decimal.ToInt32(val);
-                            }
-                            else if (val <= long.MaxValue)
-                            {
-                                _obj = decimal.ToInt64(val);
-                            }
-                            else
-                            {
-                                _obj = val;
-                            }
-                        }
-                        else
-                        {
-                            if (val >= int.MinValue)
-                            {
-                                _obj = decimal.ToInt32(val);
-                            }
-                            else if (val >= long.MinValue)
-                            {
-                                _obj = decimal.ToInt64(val);
-                            }
-                            else
-                            {
-                                _obj = val;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        _obj = val;
-                    }
-                }
-                else
-                {
-                    _obj = element.GetDouble();
-                }
+                return val0;
             }
-            catch (Exception)
+            else if (element.TryGetInt64(out long val1))
             {
-                _obj = element.GetDecimal();
+                return val1;
             }
-            
-            return _obj;
+            else if (element.TryGetDouble(out double val2))
+            {
+                return val2;
+            }
+            else
+            {
+                return element.GetDecimal();
+            }
+            //    if (element.TryGetDecimal(out decimal val))
+            //    {
+            //        if (val % 1 == 0)//(decimal.Truncate(val) == val)
+            //        {
+            //            if (val >= decimal.Zero)
+            //            {
+            //                if (val <= int.MaxValue)
+            //                {
+            //                    _obj = decimal.ToInt32(val);
+            //                }
+            //                else if (val <= long.MaxValue)
+            //                {
+            //                    _obj = decimal.ToInt64(val);
+            //                }
+            //                else
+            //                {
+            //                    _obj = val;
+            //                }
+            //            }
+            //            else
+            //            {
+            //                if (val >= int.MinValue)
+            //                {
+            //                    _obj = decimal.ToInt32(val);
+            //                }
+            //                else if (val >= long.MinValue)
+            //                {
+            //                    _obj = decimal.ToInt64(val);
+            //                }
+            //                else
+            //                {
+            //                    _obj = val;
+            //                }
+            //            }
+            //        }
+            //        else
+            //        {
+            //            _obj = val;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        _obj = element.GetDouble();
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    _obj = element.GetDecimal();
+            //}
+
+            //return _obj;
         }
     }
 
@@ -180,7 +193,7 @@ namespace Tool.Utils
         public JsonValueKind ValueKind { get; }
 
         /// <summary>
-        /// 当前 层 可能存在的 集合 长度
+        /// 当前 层 可能存在的 集合 长度 （string 会显示 字符长度）
         /// </summary>
         public int Count { get; }
 
@@ -200,19 +213,28 @@ namespace Tool.Utils
             {
                 ValueKind = JsonValueKind.Null;
             }
-            else if (data.GetType() == typeof(Dictionary<string, object>))
+            else if (data is IDictionary dic)
             {
                 ValueKind = JsonValueKind.Object;
-                count = (data as Dictionary<string, object>).Count;
+                count = dic.Count;
             }
-            else if (data.GetType() == typeof(ArrayList))
+            else if (data is IList list)
             {
                 ValueKind = JsonValueKind.Array;
-                count = (data as ArrayList).Count;
+                count = list.Count;
             }
-            else if (data.GetType() == typeof(string))
+            else if (data is bool isok)
+            {
+                ValueKind = isok ? JsonValueKind.True : JsonValueKind.False;
+            }
+            else if (data is string str)
             {
                 ValueKind = JsonValueKind.String;
+                count = str.Length;
+            }
+            else if (data.GetType().IsNumber())
+            {
+                ValueKind = JsonValueKind.Number;
             }
             else
             {
@@ -232,13 +254,10 @@ namespace Tool.Utils
         {
             get
             {
-                if (ValueKind == JsonValueKind.Object)
+                if (ValueKind is JsonValueKind.Object && Data is IDictionary dic)
                 {
-                    var _data = Data.ToVar<Dictionary<string, object>>();
-
-                    return new JsonVar(_data[name]);
+                    return new JsonVar(dic[name]);
                 }
-
                 throw new Exception("对象下不存在字典结构！");
             }
         }
@@ -252,13 +271,10 @@ namespace Tool.Utils
         {
             get
             {
-                if (ValueKind == JsonValueKind.Array)
+                if (ValueKind is JsonValueKind.Array && Data is IList list)
                 {
-                    var _data = Data.ToVar<ArrayList>();
-
-                    return new JsonVar(_data[i]);
+                    return new JsonVar(list[i]);
                 }
-
                 throw new Exception("对象下不存在数组结构！");
             }
         }
@@ -274,12 +290,79 @@ namespace Tool.Utils
         }
 
         /// <summary>
+        /// 获取当前Json集合下可能存在的数据信息
+        /// </summary>
+        /// <param name="jsonVar">返回存在的结果</param>
+        /// <param name="keys">查找的Key和下标</param>
+        /// <returns><see cref="bool"/></returns>
+        public bool TryGet(out JsonVar jsonVar, params object[] keys)
+        {
+            try
+            {
+                if (keys.Length > 0)
+                {
+                    switch (ValueKind)
+                    {
+                        case JsonValueKind.Object:
+                            if (keys[0] is string key)
+                            {
+                                return IsGet(this[key], out jsonVar, keys);
+                            }
+                            break;
+                        case JsonValueKind.Array:
+                            if (keys[0] is int i)
+                            {
+                                return IsGet(this[i], out jsonVar, keys);
+                            }
+                            break;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            jsonVar = new(null);
+            return false;
+
+            static bool IsGet(JsonVar json, out JsonVar jsonVar, params object[] keys)
+            {
+                if (keys.Length > 1)
+                {
+                    return json.TryGet(out jsonVar, keys[1..]);
+                }
+                else
+                {
+                    jsonVar = json;
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
         /// 获取当前对象的Json字符串
         /// </summary>
         /// <returns></returns>
         public string GetJson()
         {
             return Data.ToJson();
+        }
+
+        /// <summary>
+        /// 根据实际类型返回特定内容
+        /// </summary>
+        /// <returns>结果</returns>
+        public override string ToString()
+        {
+            return ValueKind switch
+            {
+                JsonValueKind.Object or JsonValueKind.Array => GetJson(),
+                JsonValueKind.String or JsonValueKind.Number => Data.ToString(),
+                JsonValueKind.True => "true",
+                JsonValueKind.False => "false",
+                JsonValueKind.Null => "null",
+                _ => base.ToString(),
+            };
         }
 
         /// <summary>
