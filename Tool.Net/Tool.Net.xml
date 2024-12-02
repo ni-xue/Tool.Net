@@ -8,6 +8,7 @@
             <summary>
             包相关信息说明类
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="F:Tool.Net.Explains.PackageName">
             <summary>
@@ -24,10 +25,348 @@
             作者开发说明
             </summary>
         </member>
+        <member name="T:Tool.Sockets.Kernels.EnClientEventDrive">
+            <summary>
+            事件控制抽象类（客户端版）
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnClientEventDrive.#ctor">
+            <summary>
+            默认构造（公共模板信息）
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnClientEventDrive.OnInterceptor(Tool.Sockets.Kernels.EnClient,System.Boolean)">
+            <summary>
+            设置开启或关闭不想收到的消息事件
+            </summary>
+            <param name="enClient"><see cref="T:Tool.Sockets.Kernels.EnClient"/></param>
+            <param name="state">等于true时生效，将关闭一切的相关事件</param>
+            <returns>返回true时表示设置成功！</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnClientEventDrive.OnIsQueue(Tool.Sockets.Kernels.EnClient,System.Boolean)">
+            <summary>
+            设置将<see cref="T:Tool.Sockets.Kernels.EnClient"/>事件，载入或不载入
+            </summary>
+            <param name="enClient"><see cref="T:Tool.Sockets.Kernels.EnClient"/></param>
+            <param name="state">等于true时，事件由队列线程完成，false时交由任务线程自行完成</param>
+            <returns>返回true时表示设置成功！</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnClientEventDrive.IsEvent(Tool.Sockets.Kernels.EnClient)">
+            <summary>
+            获取该事件是否会触发
+            </summary>
+            <param name="enClient"><see cref="T:Tool.Sockets.Kernels.EnClient"/></param>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnClientEventDrive.IsQueue(Tool.Sockets.Kernels.EnClient)">
+            <summary>
+            获取该事件是否在队列任务中运行
+            </summary>
+            <param name="enClient"><see cref="T:Tool.Sockets.Kernels.EnClient"/></param>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnClientEventDrive.OpenAllEvent">
+            <summary>
+            开启全部事件
+            </summary>
+            <returns>返回当前对象，快速配置</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnClientEventDrive.OpenAllQueue">
+            <summary>
+            全部事件都设置成队列事件
+            </summary>
+            <returns>返回当前对象，快速配置</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnClientEventDrive.CloseAllEvent">
+            <summary>
+            关闭全部事件
+            </summary>
+            <returns>返回当前对象，快速配置</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnClientEventDrive.CloseAllQueue">
+            <summary>
+            全部事件都设置成主要事件
+            </summary>
+            <returns>返回当前对象，快速配置</returns>
+        </member>
+        <member name="T:Tool.Sockets.Kernels.EnServerEventDrive">
+            <summary>
+            事件控制抽象类（服务端版）
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnServerEventDrive.#ctor">
+            <summary>
+            默认构造（公共模板信息）
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnServerEventDrive.OnInterceptor(Tool.Sockets.Kernels.EnServer,System.Boolean)">
+            <summary>
+            设置开启或关闭不想收到的消息事件
+            </summary>
+            <param name="enServer"><see cref="T:Tool.Sockets.Kernels.EnServer"/></param>
+            <param name="state">等于true时生效，将关闭一切的相关事件</param>
+            <returns>返回true时表示设置成功！</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnServerEventDrive.OnIsQueue(Tool.Sockets.Kernels.EnServer,System.Boolean)">
+            <summary>
+            设置将<see cref="T:Tool.Sockets.Kernels.EnServer"/>事件，载入或不载入
+            </summary>
+            <param name="enServer"><see cref="T:Tool.Sockets.Kernels.EnServer"/></param>
+            <param name="state">等于true时，事件由队列线程完成，false时交由任务线程自行完成</param>
+            <returns>返回true时表示设置成功！</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnServerEventDrive.IsEvent(Tool.Sockets.Kernels.EnServer)">
+            <summary>
+            获取该事件是否会触发
+            </summary>
+            <param name="enServer"><see cref="T:Tool.Sockets.Kernels.EnServer"/></param>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnServerEventDrive.IsQueue(Tool.Sockets.Kernels.EnServer)">
+            <summary>
+            获取该事件是否在队列任务中运行
+            </summary>
+            <param name="enServer"><see cref="T:Tool.Sockets.Kernels.EnServer"/></param>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnServerEventDrive.OpenAllEvent">
+            <summary>
+            开启全部事件
+            </summary>
+            <returns>返回当前对象，快速配置</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnServerEventDrive.OpenAllQueue">
+            <summary>
+            全部事件都设置成队列事件
+            </summary>
+            <returns>返回当前对象，快速配置</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnServerEventDrive.CloseAllEvent">
+            <summary>
+            关闭全部事件
+            </summary>
+            <returns>返回当前对象，快速配置</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnServerEventDrive.CloseAllQueue">
+            <summary>
+            全部事件都设置成主要事件
+            </summary>
+            <returns>返回当前对象，快速配置</returns>
+        </member>
+        <member name="T:Tool.Sockets.Kernels.NetworkConnect`1">
+            <summary>
+            通信公共模板抽象类（客户端版）
+            </summary>
+            <typeparam name="ISocket"></typeparam>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkConnect`1.#ctor">
+            <summary>
+            默认构造（公共模板信息）
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkConnect`1.LocalPoint">
+            <summary>
+            当前设备的连接信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkConnect`1.Connected">
+            <summary>
+            获取一个值，该值指示 Client 的基础 Socket 是否已连接到远程主机。
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkConnect`1.Server">
+            <summary>
+            服务器的连接信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkConnect`1.Millisecond">
+            <summary>
+            监听控制毫秒
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkConnect`1.IsClose">
+            <summary>
+            标识客户端是否关闭，改状态为调用关闭方法后的状态。
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkConnect`1.IsThreadPool">
+            <summary>
+            是否使用线程池调度接收后的数据
+            默认 true 开启
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkConnect`1.BufferSize">
+            <summary>
+            表示通讯的包大小
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkConnect`1.Close">
+            <summary>
+            TCP关闭
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkConnect`1.ConnectAsync(System.String,System.Int32)">
+            <summary>
+            异步连接
+            </summary>
+            <param name="ip">要连接的服务器的ip地址</param>
+            <param name="port">要连接的服务器的端口</param>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkConnect`1.CreateSendBytes(System.Int32)">
+            <summary>
+            创建数据发送空间
+            </summary>
+            <param name="length">数据大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkConnect`1.Dispose">
+            <summary>
+            关闭连接，回收相关资源
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkConnect`1.OnComplete(Tool.Sockets.Kernels.UserKey@,Tool.Sockets.Kernels.EnClient)">
+            <summary>
+            可供开发重写的事件方法
+            </summary>
+            <param name="key">IP：端口</param>
+            <param name="enAction">消息类型</param>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkConnect`1.Reconnection">
+            <summary>
+            重连，返回是否重连，如果没有断开是不会重连的
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkConnect`1.SendAsync(Tool.Sockets.Kernels.SendBytes{`0})">
+            <summary>
+            异步发送消息
+            </summary>
+            <param name="sendBytes">数据包</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkConnect`1.SetCompleted(Tool.Sockets.Kernels.CompletedEvent{Tool.Sockets.Kernels.EnClient})">
+            <summary>
+            连接、发送、关闭事件
+            </summary>
+            <param name="Completed"></param>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkConnect`1.SetReceived(Tool.Sockets.Kernels.ReceiveEvent{`0})">
+            <summary>
+            接收到数据事件
+            </summary>
+            <param name="Received"></param>
+        </member>
+        <member name="T:Tool.Sockets.Kernels.NetworkListener`1">
+            <summary>
+            通信公共模板抽象类（服务端版）
+            </summary>
+            <typeparam name="ISocket"></typeparam>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkListener`1.#ctor">
+            <summary>
+            默认构造（公共模板信息）
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkListener`1.ListClient">
+            <summary>
+            已建立连接的集合
+            key:UserKey
+            value:Socket
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkListener`1.Server">
+            <summary>
+            服务器创建时的信息
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkListener`1.Millisecond">
+            <summary>
+            监听控制毫秒
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkListener`1.IsClose">
+            <summary>
+            标识服务端连接是否关闭
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkListener`1.IsThreadPool">
+            <summary>
+            是否使用线程池调度接收后的数据
+            默认 true 开启
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.NetworkListener`1.BufferSize">
+            <summary>
+            表示通讯的包大小
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkListener`1.CreateSendBytes(`0,System.Int32)">
+            <summary>
+            创建数据发送空间
+            </summary>
+            <param name="client">收数据的对象</param>
+            <param name="length">数据大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkListener`1.Dispose">
+            <summary>
+            关闭连接，回收相关资源
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkListener`1.OnComplete(Tool.Sockets.Kernels.UserKey@,Tool.Sockets.Kernels.EnServer)">
+            <summary>
+            可供开发重写的事件方法
+            </summary>
+            <param name="key">指定发送对象</param>
+            <param name="enAction">消息类型</param>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkListener`1.SendAsync(Tool.Sockets.Kernels.SendBytes{`0})">
+            <summary>
+            异步发送消息
+            </summary>
+            <param name="sendBytes">数据包</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkListener`1.SetCompleted(Tool.Sockets.Kernels.CompletedEvent{Tool.Sockets.Kernels.EnServer})">
+            <summary>
+            连接、发送、关闭事件
+            </summary>
+            <param name="Completed"></param>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkListener`1.SetReceived(Tool.Sockets.Kernels.ReceiveEvent{`0})">
+            <summary>
+            接收到数据事件
+            </summary>
+            <param name="Received"></param>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkListener`1.StartAsync(System.String,System.Int32)">
+            <summary>
+            开始异步监听ip地址的端口
+            </summary>
+            <param name="ip"></param>
+            <param name="port"></param>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkListener`1.Stop">
+            <summary>
+            TCP关闭
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.NetworkListener`1.TrySocket(Tool.Sockets.Kernels.UserKey@,`0@)">
+            <summary>
+            根据IP:Port获取对应的连接对象
+            </summary>
+            <param name="key">IP:Port</param>
+            <param name="client">连接对象</param>
+            <returns>返回成功状态</returns>
+        </member>
         <member name="T:Tool.Sockets.Kernels.EnumEventQueue">
             <summary>
-            一个TCP连接公共的事件消息体
+            一个Net连接公共的事件消息体
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="F:Tool.Sockets.Kernels.EnumEventQueue._messageQueue">
             <summary>
@@ -36,12 +375,7 @@
         </member>
         <member name="F:Tool.Sockets.Kernels.EnumEventQueue._eventthread">
             <summary>
-            TCP连接公共的事件线程
-            </summary>
-        </member>
-        <member name="F:Tool.Sockets.Kernels.EnumEventQueue._IsEnumOns">
-            <summary>
-            事件拦截器
+            Net连接公共的事件线程
             </summary>
         </member>
         <member name="F:Tool.Sockets.Kernels.EnumEventQueue._mre">
@@ -50,7 +384,7 @@
         <member name="F:Tool.Sockets.Kernels.EnumEventQueue._que">
             事件消息Queue
         </member>
-        <member name="M:Tool.Sockets.Kernels.EnumEventQueue.#ctor">
+        <member name="F:Tool.Sockets.Kernels.EnumEventQueue.noEnClient">
             当前锁
         </member>
         <member name="P:Tool.Sockets.Kernels.EnumEventQueue.Instance">
@@ -58,36 +392,50 @@
             实现单例,不建议直接调用。
             </summary>
         </member>
-        <member name="M:Tool.Sockets.Kernels.EnumEventQueue.Complete``1(Tool.Sockets.Kernels.UserKey@,``0,Tool.Sockets.Kernels.CompletedEvent{``0})">
+        <member name="M:Tool.Sockets.Kernels.EnumEventQueue.Complete``1(Tool.Sockets.Kernels.UserKey@,``0,System.Boolean,Tool.Sockets.Kernels.CompletedEvent{``0})">
             <summary>
             调用TCP事件队列线程
             </summary>
             <param name="key">IP</param>
             <param name="enAction">事件枚举</param>
+            <param name="isQueue">是否采用队列处理</param>
             <param name="action">委托事件</param>
         </member>
-        <member name="M:Tool.Sockets.Kernels.EnumEventQueue.OnInterceptor(System.Enum,System.Boolean)">
+        <member name="M:Tool.Sockets.Kernels.EnumEventQueue.OnInterceptor(Tool.Sockets.Kernels.EnClient,System.Boolean)">
             <summary>
-            设置开启或关闭不想收到的消息事件
+            设置开启或关闭不想收到的消息事件（当前设置仅在 <see cref="T:Tool.Sockets.Kernels.INetworkCore"/> 接口，相关构造对象还未创建之前设置有效，是这些通信的公共默认配置）
             </summary>
-            <param name="enAction">屏蔽不触发的事件状态（<see cref="T:Tool.Sockets.Kernels.EnClient"/> | <see cref="T:Tool.Sockets.Kernels.EnServer"/>）</param>
+            <param name="enClient"><see cref="T:Tool.Sockets.Kernels.EnClient"/></param>
             <param name="state">等于true时生效，将关闭一切的相关事件</param>
-            <returns>返回是否设置成功</returns>
-            /// <exception cref="T:System.Exception"></exception>
+            <returns>返回true时表示设置成功！</returns>
         </member>
-        <member name="M:Tool.Sockets.Kernels.EnumEventQueue.OnIsQueue(System.Enum,System.Boolean)">
+        <member name="M:Tool.Sockets.Kernels.EnumEventQueue.OnInterceptor(Tool.Sockets.Kernels.EnServer,System.Boolean)">
             <summary>
-            设置将，特定事件，载入或不载入，队列池
-            <list type="table">注意系统默认，提供了合理方案，如果需要更改，请仔细理解设计模式后，改动。</list>
+            设置开启或关闭不想收到的消息事件（当前设置仅在 <see cref="T:Tool.Sockets.Kernels.INetworkCore"/> 接口，相关构造对象还未创建之前设置有效，是这些通信的公共默认配置）
             </summary>
-            <param name="enAction">事件状态（<see cref="T:Tool.Sockets.Kernels.EnClient"/> | <see cref="T:Tool.Sockets.Kernels.EnServer"/>）</param>
-            <param name="state">true时载入队列，false时由当前线程处理</param>
-            <returns>返回是否设置成功</returns>
-            <exception cref="T:System.Exception"></exception>
+            <param name="enServer"><see cref="T:Tool.Sockets.Kernels.EnServer"/></param>
+            <param name="state">等于true时生效，将关闭一切的相关事件</param>
+            <returns>返回true时表示设置成功！</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnumEventQueue.OnIsQueue(Tool.Sockets.Kernels.EnClient,System.Boolean)">
+            <summary>
+            设置将<see cref="T:Tool.Sockets.Kernels.EnClient"/>事件，载入或不载入，队列池（当前设置仅在 <see cref="T:Tool.Sockets.Kernels.INetworkCore"/> 接口，相关构造对象还未创建之前设置有效，是这些通信的公共默认配置）
+            </summary>
+            <param name="enClient"><see cref="T:Tool.Sockets.Kernels.EnClient"/></param>
+            <param name="state">等于true时，事件由队列线程完成，false时交由任务线程自行完成</param>
+            <returns>返回true时表示设置成功！</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.EnumEventQueue.OnIsQueue(Tool.Sockets.Kernels.EnServer,System.Boolean)">
+            <summary>
+            设置将<see cref="T:Tool.Sockets.Kernels.EnServer"/>事件，载入或不载入，队列池（当前设置仅在 <see cref="T:Tool.Sockets.Kernels.INetworkCore"/> 接口，相关构造对象还未创建之前设置有效，是这些通信的公共默认配置）
+            </summary>
+            <param name="enServer"><see cref="T:Tool.Sockets.Kernels.EnServer"/></param>
+            <param name="state">等于true时，事件由队列线程完成，false时交由任务线程自行完成</param>
+            <returns>返回true时表示设置成功！</returns>
         </member>
         <member name="T:Tool.Sockets.Kernels.EnClient">
             <summary>
-            ClientFrame类的行为
+            Client客户端枚举
             </summary>
         </member>
         <member name="F:Tool.Sockets.Kernels.EnClient.Connect">
@@ -120,9 +468,14 @@
             心跳包事件（推送后触发）
             </summary>
         </member>
+        <member name="F:Tool.Sockets.Kernels.EnClient.Reconnect">
+            <summary>
+            （断线后/连接失败）需要重连时触发
+            </summary>
+        </member>
         <member name="T:Tool.Sockets.Kernels.EnServer">
             <summary>
-            ServerFrame类的行为
+            Server服务器枚举
             </summary>
         </member>
         <member name="F:Tool.Sockets.Kernels.EnServer.Create">
@@ -271,6 +624,11 @@
             </summary>
         </member>
         <member name="P:Tool.Sockets.Kernels.IGetQueOnEnum.Success">
+            <summary>
+            获取默认完成的事件结果
+            </summary>
+        </member>
+        <member name="P:Tool.Sockets.Kernels.IGetQueOnEnum.SuccessAsync">
             <summary>
             获取默认完成的事件结果
             </summary>
@@ -607,6 +965,36 @@
             <param name="key"></param>
             <param name="enAction"></param>
         </member>
+        <member name="M:Tool.Sockets.Kernels.INetworkConnect.OnInterceptor(Tool.Sockets.Kernels.EnClient,System.Boolean)">
+            <summary>
+            设置开启或关闭不想收到的消息事件
+            </summary>
+            <param name="enClient"><see cref="T:Tool.Sockets.Kernels.EnClient"/></param>
+            <param name="state">等于true时生效，将关闭一切的相关事件</param>
+            <returns>返回true时表示设置成功！</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.INetworkConnect.OnIsQueue(Tool.Sockets.Kernels.EnClient,System.Boolean)">
+            <summary>
+            设置将<see cref="T:Tool.Sockets.Kernels.EnClient"/>事件，载入或不载入
+            </summary>
+            <param name="enClient"><see cref="T:Tool.Sockets.Kernels.EnClient"/></param>
+            <param name="state">等于true时，事件由队列线程完成，false时交由任务线程自行完成</param>
+            <returns>返回true时表示设置成功！</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.INetworkConnect.IsEvent(Tool.Sockets.Kernels.EnClient)">
+            <summary>
+            获取该事件是否会触发
+            </summary>
+            <param name="enClient"><see cref="T:Tool.Sockets.Kernels.EnClient"/></param>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.INetworkConnect.IsQueue(Tool.Sockets.Kernels.EnClient)">
+            <summary>
+            获取该事件是否在队列任务中运行
+            </summary>
+            <param name="enClient"><see cref="T:Tool.Sockets.Kernels.EnClient"/></param>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
         <member name="M:Tool.Sockets.Kernels.INetworkConnect.Close">
             <summary>
             关闭当前连接
@@ -663,11 +1051,6 @@
             是否启用线程池处理接收数据
             </summary>
         </member>
-        <member name="P:Tool.Sockets.Kernels.INetworkCore.DisabledReceive">
-            <summary>
-            是否取消内部接收数据事件推送
-            </summary>
-        </member>
         <member name="P:Tool.Sockets.Kernels.INetworkCore.BufferSize">
             <summary>
             表示通讯的包大小
@@ -698,6 +1081,36 @@
             </summary>
             <param name="key"></param>
             <param name="enAction"></param>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.INetworkListener.OnInterceptor(Tool.Sockets.Kernels.EnServer,System.Boolean)">
+            <summary>
+            设置开启或关闭不想收到的消息事件
+            </summary>
+            <param name="enServer"><see cref="T:Tool.Sockets.Kernels.EnServer"/></param>
+            <param name="state">等于true时生效，将关闭一切的相关事件</param>
+            <returns>返回true时表示设置成功！</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.INetworkListener.OnIsQueue(Tool.Sockets.Kernels.EnServer,System.Boolean)">
+            <summary>
+            设置将<see cref="T:Tool.Sockets.Kernels.EnServer"/>事件，载入或不载入，队列池
+            </summary>
+            <param name="enServer"><see cref="T:Tool.Sockets.Kernels.EnServer"/></param>
+            <param name="state">等于true时，事件由队列线程完成，false时交由任务线程自行完成</param>
+            <returns>返回true时表示设置成功！</returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.INetworkListener.IsEvent(Tool.Sockets.Kernels.EnServer)">
+            <summary>
+            获取该事件是否会触发
+            </summary>
+            <param name="enServer"><see cref="T:Tool.Sockets.Kernels.EnServer"/></param>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
+        <member name="M:Tool.Sockets.Kernels.INetworkListener.IsQueue(Tool.Sockets.Kernels.EnServer)">
+            <summary>
+            获取该事件是否在队列任务中运行
+            </summary>
+            <param name="enServer"><see cref="T:Tool.Sockets.Kernels.EnServer"/></param>
+            <returns><see cref="T:System.Boolean"/></returns>
         </member>
         <member name="M:Tool.Sockets.Kernels.INetworkListener.Stop">
             <summary>
@@ -748,6 +1161,7 @@
             <summary>
             用于长连接的心跳模型
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Sockets.Kernels.KeepAlive.TcpKeepObj">
             <summary>
@@ -811,6 +1225,7 @@
             <summary>
             Socket异步传输池
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Sockets.Kernels.SocketEventPool.Pop">
             <summary>
@@ -822,6 +1237,7 @@
             <summary>
             对异步接收时的对象状态的封装，将Websocket与接收到的数据封装在一起
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Sockets.Kernels.QuicStateObject.#ctor(Tool.Sockets.Kernels.QuicSocket,System.Int32,System.Boolean,Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.Kernels.QuicSocket})">
             <summary>
@@ -988,6 +1404,7 @@
             <summary>
             通信公共基础类
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="F:Tool.Sockets.Kernels.StateObject.EmptyIpv4Port">
             <summary>
@@ -1104,6 +1521,7 @@
             <summary>
             对异步接收时的对象状态的封装，将socket与接收到的数据封装在一起
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Sockets.Kernels.TcpStateObject.#ctor(System.Net.Sockets.Socket)">
             <summary>
@@ -1187,6 +1605,7 @@
             <summary>
             对异步接收时的对象状态的封装，将socket与接收到的数据封装在一起
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Sockets.Kernels.UdpStateObject.#ctor(Tool.Sockets.UdpHelper.IUdpCore,System.Int32,System.Boolean,Tool.Sockets.Kernels.ReceiveEvent{Tool.Sockets.UdpHelper.IUdpCore})">
             <summary>
@@ -1239,6 +1658,7 @@
             <summary>
             对异步接收时的对象状态的封装，将Websocket与接收到的数据封装在一起
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Sockets.Kernels.WebStateObject.#ctor(System.Net.WebSockets.WebSocketContext,System.Int32)">
             <summary>
@@ -2412,8 +2832,9 @@
             <summary>
             封装的一个TCP框架（客户端）
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
-        <member name="F:Tool.Sockets.NetFrame.ClientFrame._DataPacketThreads">
+        <member name="F:Tool.Sockets.NetFrame.ClientFrame.threadUuIdObj">
             当前要同步等待的线程组信息
         </member>
         <member name="F:Tool.Sockets.NetFrame.ClientFrame.clientAsync">
@@ -2544,6 +2965,7 @@
             <summary>
             用于连接多服务器，分发消息的客户端帮助类，可以保证线程安全，均衡分发数据包。
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="E:Tool.Sockets.NetFrame.ClientFrameList.Completed">
             <summary>
@@ -2670,6 +3092,7 @@
             <summary>
             接口请求数据包
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Sockets.NetFrame.ApiPacket.#ctor(System.Byte,System.Byte)">
             <summary>
@@ -3090,7 +3513,37 @@
             回收资源
             </summary>
         </member>
-        <member name="M:Tool.Sockets.NetFrame.Internal.FrameCommon.SetApiPacket(Tool.Sockets.NetFrame.ApiPacket,System.Boolean,Tool.Sockets.Kernels.Ipv4Port)">
+        <member name="T:Tool.Sockets.NetFrame.ProtocolStatus">
+            <summary>
+            通信状态
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.NetFrame.ProtocolStatus.Unknown">
+            <summary>
+            未知
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.NetFrame.ProtocolStatus.Connect">
+            <summary>
+            已连接
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.NetFrame.ProtocolStatus.Fail">
+            <summary>
+            连接失败
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.NetFrame.ProtocolStatus.Close">
+            <summary>
+            已断开
+            </summary>
+        </member>
+        <member name="F:Tool.Sockets.NetFrame.ProtocolStatus.Reconnect">
+            <summary>
+            重连中
+            </summary>
+        </member>
+        <member name="M:Tool.Sockets.NetFrame.Internal.FrameCommon.TryProtocolStatus(Tool.Sockets.NetFrame.ProtocolStatus,System.Guid@,System.Boolean,Tool.Sockets.NetFrame.NetResponse@)">
             **
         </member>
         <member name="M:Tool.Sockets.NetFrame.Internal.FrameCommon.IsComplete(System.Boolean,Tool.Sockets.Kernels.DataPacket@)">
@@ -3113,12 +3566,19 @@
         <member name="M:Tool.Sockets.NetFrame.Internal.ThreadObj.Dispose">
             回收资源
         </member>
+        <member name="F:Tool.Sockets.NetFrame.Internal.ThreadUuIdObj.pairs">
+            当前要同步等待的线程组信息
+        </member>
+        <member name="F:Tool.Sockets.NetFrame.Internal.ThreadKeyObj.pairs">
+            当前要同步等待的线程组信息
+        </member>
         <member name="T:Tool.Sockets.NetFrame.ServerFrame">
             <summary>
             封装的一个TCP框架（服务端）
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
-        <member name="F:Tool.Sockets.NetFrame.ServerFrame._DataPacketThreads">
+        <member name="F:Tool.Sockets.NetFrame.ServerFrame.threadKeyObj">
             当前要同步等待的线程组信息
         </member>
         <member name="F:Tool.Sockets.NetFrame.ServerFrame.serverAsync">
@@ -3390,6 +3850,7 @@
             <summary>
             封装一个底层异步Quic对象（客户端）写了但属于预览物无法使用
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.Keep">
             <summary>
@@ -3449,25 +3910,9 @@
             </summary>
             <param name="Received"></param>
         </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.IsThreadPool">
-            <summary>
-            是否使用线程池调度接收后的数据
-            默认 true 开启
-            </summary>
-        </member>
         <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.IsReconnect">
             <summary>
             是否在与服务器断开后主动重连？ 
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.DisabledReceive">
-            <summary>
-            禁用掉Receive通知事件，方便上层封装
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicClientAsync.BufferSize">
-            <summary>
-            表示通讯的包大小
             </summary>
         </member>
         <member name="M:Tool.Sockets.QuicHelper.QuicClientAsync.#ctor">
@@ -3593,6 +4038,7 @@
             <summary>
             封装一个底层异步Quic对象（服务端）写了但属于预览物无法使用
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="F:Tool.Sockets.QuicHelper.QuicServerAsync.Completed">
             连接、发送、关闭事件
@@ -3627,28 +4073,12 @@
             是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
             </summary>
         </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.IsThreadPool">
-            <summary>
-            是否使用线程池调度接收后的数据
-            默认 true 开启
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.DisabledReceive">
-            <summary>
-            禁用掉Receive通知事件，方便上层封装
-            </summary>
-        </member>
         <member name="F:Tool.Sockets.QuicHelper.QuicServerAsync.InitCertificate">
             提供自定义设置证书的服务
         </member>
         <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.ApplicationProtocols">
             <summary>
             设置支持的HTTP协议
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.QuicHelper.QuicServerAsync.BufferSize">
-            <summary>
-            表示通讯的包大小
             </summary>
         </member>
         <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.SetInitCertificate(System.Func{System.Net.Quic.QuicConnection,System.Net.Security.SslClientHelloInfo,System.Threading.Tasks.ValueTask{System.Security.Cryptography.X509Certificates.X509Certificate2}})">
@@ -3784,6 +4214,11 @@
             不等待异步关闭Ouic
             </summary>
         </member>
+        <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.StopAsync">
+            <summary>
+            异步关闭Ouic
+            </summary>
+        </member>
         <member name="M:Tool.Sockets.QuicHelper.QuicServerAsync.Dispose">
             <summary>
             关闭连接，回收相关资源
@@ -3793,6 +4228,7 @@
             <summary>
             封装一个底层异步TCP对象（客户端）IpV4
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Sockets.TcpHelper.TcpClientAsync.Keep">
             <summary>
@@ -3805,25 +4241,9 @@
         <member name="F:Tool.Sockets.TcpHelper.TcpClientAsync.Received">
             客户端接收消息触发的事件
         </member>
-        <member name="P:Tool.Sockets.TcpHelper.TcpClientAsync.BufferSize">
-            <summary>
-            表示通讯的包大小
-            </summary>
-        </member>
         <member name="P:Tool.Sockets.TcpHelper.TcpClientAsync.OnlyData">
             <summary>
             是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.TcpHelper.TcpClientAsync.IsThreadPool">
-            <summary>
-            是否使用线程池调度接收后的数据
-            默认 true 开启
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.TcpHelper.TcpClientAsync.DisabledReceive">
-            <summary>
-            禁用掉Receive通知事件，方便上层封装
             </summary>
         </member>
         <member name="P:Tool.Sockets.TcpHelper.TcpClientAsync.IsReconnect">
@@ -3991,6 +4411,7 @@
             <summary>
             封装一个底层异步TCP对象（服务端）IpV4
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Sockets.TcpHelper.TcpServerAsync.OnlyData">
             <summary>
@@ -4000,22 +4421,6 @@
         <member name="P:Tool.Sockets.TcpHelper.TcpServerAsync.IsClose">
             <summary>
             标识服务端连接是否关闭
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.TcpHelper.TcpServerAsync.IsThreadPool">
-            <summary>
-            是否使用线程池调度接收后的数据
-            默认 true 开启
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.TcpHelper.TcpServerAsync.DisabledReceive">
-            <summary>
-            禁用掉Receive通知事件，方便上层封装
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.TcpHelper.TcpServerAsync.BufferSize">
-            <summary>
-            表示通讯的包大小
             </summary>
         </member>
         <member name="P:Tool.Sockets.TcpHelper.TcpServerAsync.ListClient">
@@ -4160,7 +4565,7 @@
             <summary>
             可供开发重写的事件方法
             </summary>
-            <param name="key">指定发送对象</param>
+            <param name="IpPort">指定发送对象</param>
             <param name="enAction">消息类型</param>
         </member>
         <member name="M:Tool.Sockets.TcpHelper.TcpServerAsync.Stop">
@@ -4251,6 +4656,7 @@
             <summary>
             Udp通信专属模块
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Sockets.UdpHelper.UdpEndPoint.Address">
             <summary>
@@ -4401,6 +4807,7 @@
             <summary>
             封装一个底层异步Udp对象（客户端）IpV4
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Sockets.UdpHelper.UdpClientAsync.Keep">
             <summary>
@@ -4415,12 +4822,6 @@
         <member name="P:Tool.Sockets.UdpHelper.UdpClientAsync.IsClose">
             <summary>
             标识服务端连接是否关闭
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.UdpHelper.UdpClientAsync.IsThreadPool">
-            <summary>
-            是否使用线程池调度接收后的数据
-            默认 true 开启
             </summary>
         </member>
         <member name="P:Tool.Sockets.UdpHelper.UdpClientAsync.ReplyDelay">
@@ -4462,16 +4863,6 @@
         <member name="P:Tool.Sockets.UdpHelper.UdpClientAsync.Connected">
             <summary>
             获取当前是否已连接到远程主机。
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.UdpHelper.UdpClientAsync.DisabledReceive">
-            <summary>
-            禁用掉Receive通知事件，方便上层封装
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.UdpHelper.UdpClientAsync.BufferSize">
-            <summary>
-            表示通讯的包大小
             </summary>
         </member>
         <member name="F:Tool.Sockets.UdpHelper.UdpClientAsync.Completed">
@@ -4600,6 +4991,7 @@
             <summary>
             封装一个底层异步Udp对象（服务端）IpV4
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Sockets.UdpHelper.UdpServerAsync.OnlyData">
             <summary>
@@ -4611,25 +5003,9 @@
             标识服务端连接是否关闭
             </summary>
         </member>
-        <member name="P:Tool.Sockets.UdpHelper.UdpServerAsync.IsThreadPool">
-            <summary>
-            是否使用线程池调度接收后的数据
-            默认 true 开启
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.UdpHelper.UdpServerAsync.DisabledReceive">
-            <summary>
-            禁用掉Receive通知事件，方便上层封装
-            </summary>
-        </member>
         <member name="P:Tool.Sockets.UdpHelper.UdpServerAsync.ReplyDelay">
             <summary>
             回复消息延迟时间（警告：当前设置仅在开启了OnlyData模式生效，超时未回复会重发，重发最大次数10，依然没有回复将抛出异常！）小于20将不生效使用默认值
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.UdpHelper.UdpServerAsync.BufferSize">
-            <summary>
-            表示通讯的包大小
             </summary>
         </member>
         <member name="P:Tool.Sockets.UdpHelper.UdpServerAsync.ListClient">
@@ -4812,12 +5188,6 @@
             </summary>
             <remarks>true 如果使用 SSL; 保护 WebSocket 连接，否则为false。</remarks>
         </member>
-        <member name="P:Tool.Sockets.WebHelper.WebClientAsync.IsThreadPool">
-            <summary>
-            是否使用线程池调度接收后的数据
-            默认 true 开启
-            </summary>
-        </member>
         <member name="P:Tool.Sockets.WebHelper.WebClientAsync.IsReconnect">
             <summary>
             是否在与服务器断开后主动重连？ 
@@ -4841,16 +5211,6 @@
         <member name="P:Tool.Sockets.WebHelper.WebClientAsync.Connected">
             <summary>
             获取当前是否已连接到远程主机。
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.WebHelper.WebClientAsync.DisabledReceive">
-            <summary>
-            禁用掉Receive通知事件，方便上层封装
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.WebHelper.WebClientAsync.BufferSize">
-            <summary>
-            表示通讯的包大小
             </summary>
         </member>
         <member name="F:Tool.Sockets.WebHelper.WebClientAsync.InitWebOptions">
@@ -5013,25 +5373,9 @@
             服务器创建时的信息
             </summary>
         </member>
-        <member name="P:Tool.Sockets.WebHelper.WebServerAsync.IsThreadPool">
-            <summary>
-            是否使用线程池调度接收后的数据
-            默认 true 开启
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.WebHelper.WebServerAsync.BufferSize">
-            <summary>
-            表示通讯的包大小
-            </summary>
-        </member>
         <member name="P:Tool.Sockets.WebHelper.WebServerAsync.Millisecond">
             <summary>
             监听控制毫秒
-            </summary>
-        </member>
-        <member name="P:Tool.Sockets.WebHelper.WebServerAsync.DisabledReceive">
-            <summary>
-            禁用掉Receive通知事件，方便上层封装
             </summary>
         </member>
         <member name="F:Tool.Sockets.WebHelper.WebServerAsync.InitWebContext">
@@ -5330,6 +5674,7 @@
             <summary>
             Sql 核心 操作底层
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="F:Tool.SqlCore.DbHelper.LogPath">
             <summary>
@@ -7578,7 +7923,13 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.AddQueryDetail(System.String,System.Diagnostics.Stopwatch,System.Data.Common.DbParameter[],System.Boolean)">
+        <member name="M:Tool.SqlCore.DbHelper.GetException(System.Exception,System.Boolean@,System.String@)">
+            <summary>
+            获取执行时间器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.AddQueryDetail(System.String,System.Diagnostics.Stopwatch,System.Data.Common.DbParameter[],System.Boolean,System.String)">
             <summary>
             增加SQL请求日志
             </summary>
@@ -7586,15 +7937,25 @@
             <param name="watch">时间测量器</param>
             <param name="cmdParams">执行参数</param>
             <param name="iserror">是否执行时异常</param>
+            <param name="guid">有guid时异常</param>
         </member>
-        <member name="M:Tool.SqlCore.DbHelper.GetQueryDetail(System.String,System.Int64,System.Data.Common.DbParameter[],System.Boolean)">
+        <member name="M:Tool.SqlCore.DbHelper.AddQueryDetail(System.Data.Common.DbBatchCommandCollection,System.Diagnostics.Stopwatch,System.Boolean,System.String)">
+            <summary>
+            增加SQL请求日志
+            </summary>
+            <param name="dbBatchCommands">批处理命令</param>
+            <param name="watch">时间测量器</param>
+            <param name="iserror">是否执行时异常</param>
+            <param name="guid">有guid时异常</param>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelper.GetQueryDetail(System.String,System.Int64,System.Data.Common.DbParameter[],System.String)">
             <summary>
             SQL执行完成后的日志生成
             </summary>
             <param name="commandText">SQL字符串</param>
             <param name="ElapsedMilliseconds">执行毫秒</param>
             <param name="cmdParams">执行参数</param>
-            <param name="IsSqlLogHtml">打印模式</param>
+            <param name="guid">id</param>
             <returns>返回日志</returns>
         </member>
         <member name="M:Tool.SqlCore.DbHelper.Throw(System.String)">
@@ -7762,11 +8123,31 @@
             <param name="prams">实体类，虚构对象,任何类型的键值对</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.SelectDictionary(Tool.SqlCore.DbHelper,System.Data.CommandType,System.String,System.Object)">
+            <summary>
+            查询单张表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="command">执行模式</param>
+            <param name="commandText">查询语句</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.SelectArray(Tool.SqlCore.DbHelper,System.String,System.Object)">
             <summary>
             查询单张表
             </summary>
             <param name="dbHelper">数据库引擎</param>
+            <param name="commandText">查询语句</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.SelectArray(Tool.SqlCore.DbHelper,System.Data.CommandType,System.String,System.Object)">
+            <summary>
+            查询单张表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="command">执行模式</param>
             <param name="commandText">查询语句</param>
             <param name="prams">实体类，虚构对象,任何类型的键值对</param>
             <returns></returns>
@@ -7884,11 +8265,31 @@
             <param name="prams">实体类，虚构对象,任何类型的键值对</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.SelectDictionaryAsync(Tool.SqlCore.DbHelper,System.Data.CommandType,System.String,System.Object)">
+            <summary>
+            查询单张表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="command">执行模式</param>
+            <param name="commandText">查询语句</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.SqlCore.DbHelperExensions.SelectArrayAsync(Tool.SqlCore.DbHelper,System.String,System.Object)">
             <summary>
             查询单张表
             </summary>
             <param name="dbHelper">数据库引擎</param>
+            <param name="commandText">查询语句</param>
+            <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DbHelperExensions.SelectArrayAsync(Tool.SqlCore.DbHelper,System.Data.CommandType,System.String,System.Object)">
+            <summary>
+            查询单张表
+            </summary>
+            <param name="dbHelper">数据库引擎</param>
+            <param name="command">执行模式</param>
             <param name="commandText">查询语句</param>
             <param name="prams">实体类，虚构对象,任何类型的键值对</param>
             <returns></returns>
@@ -8104,6 +8505,179 @@
             <param name="dataReader">原数据对象</param>
             <returns></returns>
         </member>
+        <member name="T:Tool.SqlCore.DbBatchExensions">
+            <summary>
+            对<see cref="T:System.Data.Common.DbBatch"/> 对象，提供扩展支持
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="M:Tool.SqlCore.DbBatchExensions.NewDbBatch(Tool.SqlCore.DbHelper)">
+            <summary>
+            创建一个新的框架内置<see cref="T:Tool.SqlCore.DiyDbBatch"/>
+            </summary>
+            <param name="dbHelper">数据db</param>
+            <returns>返回<see cref="T:Tool.SqlCore.DiyDbBatch"/></returns>
+            <exception cref="T:System.Exception">执行脚本为空！</exception>
+        </member>
+        <member name="M:Tool.SqlCore.DbBatchExensions.NewDbBatch(Tool.SqlCore.DbHelper,System.Data.IsolationLevel)">
+            <summary>
+            创建一个新的框架内置<see cref="T:Tool.SqlCore.DiyDbBatch"/> 带事务版本
+            </summary>
+            <param name="dbHelper">数据db</param>
+            <param name="isolationLevel">指定事务类型</param>
+            <returns>返回<see cref="T:Tool.SqlCore.DiyDbBatch"/></returns>
+            <exception cref="T:System.Exception">执行脚本为空！</exception>
+        </member>
+        <member name="M:Tool.SqlCore.DbBatchExensions.AddDbBatchCommand(Tool.SqlCore.DbHelper,System.Data.Common.DbBatch,System.Data.CommandType,System.String,System.Object)">
+            <summary>
+            对批量执行sql提供参数化支持
+            </summary>
+            <param name="dbHelper">数据db</param>
+            <param name="dbBatch">批量操作对象</param>
+            <param name="command">命令模式</param>
+            <param name="commandText">脚本</param>
+            <param name="prams">可能包含的参数</param>
+            <returns>返回<see cref="T:System.Data.Common.DbBatch"/></returns>
+            <exception cref="T:System.Exception">执行脚本为空！</exception>
+        </member>
+        <member name="M:Tool.SqlCore.DbBatchExensions.AddDbBatchCommand(System.Data.Common.DbBatch,System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            对批量执行sql提供参数化支持
+            </summary>
+            <param name="dbBatch">批量操作对象</param>
+            <param name="command">命令模式</param>
+            <param name="commandText">脚本</param>
+            <param name="commandParameters">可能包含的参数</param>
+            <returns>返回<see cref="T:System.Data.Common.DbBatch"/></returns>
+            <exception cref="T:System.Exception">执行脚本为空！</exception>
+        </member>
+        <member name="M:Tool.SqlCore.DbBatchExensions.AttachParameters(System.Data.Common.DbBatchCommand,System.Data.Common.DbParameter[])">
+            <summary>
+            附加参数（批量模式）
+            </summary>
+            <param name="command">SQL数据对象基类</param>
+            <param name="commandParameters">要附加的参数对象数组</param>
+        </member>
+        <member name="T:Tool.SqlCore.DiyDbBatch">
+            <summary>
+            框架内置Db批处理公共模型
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.#ctor(Tool.SqlCore.DbHelper)">
+            <summary>
+            创建批处理DB
+            </summary>
+            <param name="dbHelper">数据中心</param>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.#ctor(Tool.SqlCore.DbHelper,System.Data.IsolationLevel)">
+            <summary>
+            创建批处理DB带事务
+            </summary>
+            <param name="dbHelper">数据中心</param>
+            <param name="isolationLevel">事务类型</param>
+        </member>
+        <member name="P:Tool.SqlCore.DiyDbBatch.Timeout">
+            <summary>
+            超时时间
+            </summary>
+        </member>
+        <member name="P:Tool.SqlCore.DiyDbBatch.DbBatchCommands">
+            <summary>
+            批处理任务集合
+            </summary>
+        </member>
+        <member name="P:Tool.SqlCore.DiyDbBatch.Connection">
+            <summary>
+            连接对象
+            </summary>
+        </member>
+        <member name="P:Tool.SqlCore.DiyDbBatch.Transaction">
+            <summary>
+            事务对象
+            </summary>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.CreateDbBatchCommand">
+            <summary>
+            创建新的批处理任务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.AddDbBatchCommand(System.Data.CommandType,System.String,System.Object)">
+            <summary>
+            对批量执行sql提供参数化支持
+            </summary>
+            <param name="command">命令模式</param>
+            <param name="commandText">脚本</param>
+            <param name="prams">可能包含的参数</param>
+            <exception cref="T:System.Exception">执行脚本为空！</exception>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.AddDbBatchCommand(System.Data.CommandType,System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            对批量执行sql提供参数化支持
+            </summary>
+            <param name="command">命令模式</param>
+            <param name="commandText">脚本</param>
+            <param name="commandParameters">可能包含的参数</param>
+            <returns>返回<see cref="T:System.Data.Common.DbBatch"/></returns>
+            <exception cref="T:System.Exception">执行脚本为空！</exception>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.Cancel">
+            <summary>
+            取消批处理任务
+            </summary>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.ExecuteNonQuery">
+            <summary>
+            执行批处理任务并返回受影响行数
+            </summary>
+            <returns>返回受影响行数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.ExecuteNonQueryAsync(System.Threading.CancellationToken)">
+            <summary>
+            执行批处理任务并返回受影响行数（异步）
+            </summary>
+            <param name="cancellationToken">可取消</param>
+            <returns>返回受影响行数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.ExecuteScalar">
+            <summary>
+            执行批处理任务并返回第一行的第一列
+            </summary>
+            <returns>返回第一行的第一列</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.ExecuteScalarAsync(System.Threading.CancellationToken)">
+            <summary>
+            执行批处理任务并返回第一行的第一列（异步）
+            </summary>
+            <param name="cancellationToken">可取消</param>
+            <returns>返回第一行的第一列</returns>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.ExecuteReader(System.Data.CommandBehavior)">
+            <summary>
+            执行批处理任务并返回<see cref="T:System.Data.Common.DbDataReader"/>
+            </summary>
+            <param name="behavior">提供查询结果及其对数据库影响的描述。</param>
+            <returns><see cref="T:System.Data.Common.DbDataReader"/></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.ExecuteReaderAsync(System.Data.CommandBehavior,System.Threading.CancellationToken)">
+            <summary>
+            执行批处理任务并返回<see cref="T:System.Data.Common.DbDataReader"/>（异步）
+            </summary>
+            <param name="behavior">提供查询结果及其对数据库影响的描述。</param>
+            <param name="cancellationToken">可取消</param>
+            <returns><see cref="T:System.Data.Common.DbDataReader"/></returns>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.Dispose">
+            <summary>
+            回收相关资源
+            </summary>
+        </member>
+        <member name="M:Tool.SqlCore.DiyDbBatch.DisposeAsync">
+            <summary>
+            回收相关资源（异步）
+            </summary>
+        </member>
         <member name="T:Tool.SqlCore.SqlNonQuery">
             <summary>
             异步返回带有主键的影响信息
@@ -8123,6 +8697,7 @@
             <summary>
             本地数据库参数缓存
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.SqlCore.DbParameterCache.#ctor(System.Data.Common.DbParameter[])">
             <summary>
@@ -8356,11 +8931,30 @@
             <param name="sourceColumn">源列</param>
             <param name="size">大小</param>
         </member>
+        <member name="M:Tool.SqlCore.IDbProvider.GetInsertParams(Tool.SqlCore.DbHelper,System.Collections.Generic.IDictionary{System.String,System.Object},System.String@,System.String@)">
+            <summary>
+            根据键值对生成 Insert 部分语法，和值添加对象
+            </summary>
+            <param name="database">数据库引擎</param>
+            <param name="keyValues">数据集键值对</param>
+            <param name="key">返回生成的部分SQL语句</param>
+            <param name="value">返回生成的部分SQL语句</param>
+            <returns><see cref="T:System.Collections.Generic.List`1"/></returns>
+        </member>
+        <member name="M:Tool.SqlCore.IDbProvider.GetUpdateParams(Tool.SqlCore.DbHelper,System.Collections.Generic.IDictionary{System.String,System.Object},System.String@)">
+            <summary>
+            根据键值对生成 Update 部分语法，和值添加对象
+            </summary>
+            <param name="database">数据库引擎</param>
+            <param name="keyValues">数据集键值对</param>
+            <param name="strsql">返回生成的部分SQL语句</param>
+            <returns><see cref="T:System.Collections.Generic.List`1"/></returns>
+        </member>
         <member name="M:Tool.SqlCore.IDbProvider.GetPagerSet(Tool.SqlCore.DbHelper,Tool.SqlCore.PagerParameters)">
             <summary>
             分页核心方法，建议重写，底层默认实现 SqlServer 分页。
             </summary>
-            <param name="dbHelper"></param>
+            <param name="dbHelper">数据库引擎</param>
             <param name="pramsPager">分页参数</param>
             <returns>返回分页对象实体</returns>
         </member>
@@ -9336,6 +9930,7 @@
             <summary>
             根据指定分页信息查询SQL
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.SqlCore.PagerParameters.FieldAlias">
             <summary>
@@ -9470,6 +10065,7 @@
             <summary>
             分页数据对象
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.SqlCore.PagerSet.PageSet">
             <summary>
@@ -9585,6 +10181,7 @@
             <summary>
             DbProviderFactory工厂类
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.SqlCore.ProviderFactory.GetProviderInvariantName(Tool.SqlCore.DbProviderType)">
             <summary>
@@ -10809,6 +11406,20 @@
             <param name="txt">Long</param>
             <returns>返回二进制流</returns>
         </member>
+        <member name="M:Tool.LongExtension.Increment(System.Int64@)">
+            <summary>
+            原子方式+1
+            </summary>
+            <param name="value">值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.LongExtension.Decrement(System.Int64@)">
+            <summary>
+            原子方式-1
+            </summary>
+            <param name="value">值</param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.LongExtension.ToInt(System.Int64)">
             <summary>
             返回Int类型
@@ -11401,6 +12012,15 @@
             <param name="txt">String</param>
             <param name="encoding">指定格式</param>
             <returns>返回二进制流</returns>
+        </member>
+        <member name="M:Tool.StringExtension.JsonObject(System.String,System.Text.Json.JsonDocumentOptions)">
+            <summary>
+            转换成<see cref="T:System.Object"/>对象
+            </summary>
+            <param name="txt">String</param>
+            <param name="options">解析时用到的配置信息</param>
+            <returns><see cref="T:System.Object"/>对象</returns>
+            <exception cref="T:System.SystemException">该字符串不存在任何内容！</exception>
         </member>
         <member name="M:Tool.StringExtension.JsonDynamic(System.String,System.Text.Json.JsonDocumentOptions)">
             <summary>
@@ -12154,6 +12774,7 @@
             <summary>
             根据 MethodInfo 对象，创建一个委托，实现方法调用，提高性能，支持各种返回值(object)
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.ActionDelegate.ActionDispatcher.#ctor(System.Reflection.MethodInfo)">
             <summary>
@@ -12166,6 +12787,7 @@
             根据 MethodInfo 对象，创建一个委托，实现方法调用，提高性能，支持各种返回值(object)
             </summary>
             <typeparam name="T"></typeparam>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.ActionDelegate.ActionDispatcher`1.#ctor(System.Reflection.MethodInfo)">
             <summary>
@@ -12202,10 +12824,11 @@
             </summary>
             <typeparam name="T">调用类</typeparam>
             <typeparam name="TResult">返回值</typeparam>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Utils.ActionDelegate.ActionDispatcher`2.IsVoid">
             <summary>
-            是否有返回值，默认没有
+            是否无返回值
             </summary>
         </member>
         <member name="P:Tool.Utils.ActionDelegate.ActionDispatcher`2.IsTask">
@@ -12389,6 +13012,7 @@
             调用方法信息
             </summary>
             <typeparam name="T">类对象</typeparam>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Utils.ActionDelegate.ActionMethod`1.Action">
             <summary>
@@ -12413,6 +13037,16 @@
         <member name="P:Tool.Utils.ActionDelegate.ActionMethod`1.IsBase">
             <summary>
             是不是继承类方法
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.ActionMethod`1.IsTask">
+            <summary>
+            是否是 异步函数？
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.ActionMethod`1.IsVoid">
+            <summary>
+            是否无返回值
             </summary>
         </member>
         <member name="P:Tool.Utils.ActionDelegate.ActionMethod`1.MethodEnum">
@@ -12476,6 +13110,7 @@
             根据 ConstructorInfo 对象，创建一个委托，实现类调用，提高性能，支持各种返回值
             </summary>
             <typeparam name="T">返回任何类型</typeparam>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Utils.ActionDelegate.ClassDispatcher`1.Type">
             <summary>
@@ -12542,6 +13177,7 @@
             <summary>
             类中字段赋值，创建一个委托，实现类调用，提高性能 (赋值/取值)
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Utils.ActionDelegate.ClassFieldDispatcher.Type">
             <summary>
@@ -12995,6 +13631,7 @@
             <summary>
             引用对象属性构造器
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Utils.ActionDelegate.TypePropertyDescriptor.ClassType">
             <summary>
@@ -13078,6 +13715,7 @@
             <summary>
             对象财产托管调度器
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="T:Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty">
             <summary>
@@ -13167,6 +13805,11 @@
             项目配置文件获取对象
             </summary>
         </member>
+        <member name="P:Tool.Utils.AppSettings.CurrentDirectory">
+            <summary>
+            获取当前配置文件的路径
+            </summary>
+        </member>
         <member name="M:Tool.Utils.AppSettings.#cctor">
             <summary>
             自动注入
@@ -13230,6 +13873,7 @@
             <summary>
             数据集帮助类
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.DataHelper.ConvertDataTableToObjects``1(System.Data.DataTable)">
             <summary>
@@ -13312,6 +13956,7 @@
             <summary>
             表示一个 实体字段对应的表下标
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Utils.DataTableProperty.Index">
             <summary>
@@ -13801,6 +14446,7 @@
             </summary>
             <typeparam name="TKey">字典中的键的类型。</typeparam>
             <typeparam name="TValue">字典中的值的类型。</typeparam>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="F:Tool.Utils.Data.LazyConcurrentDictionary`2.Dictionary">
             <summary>
@@ -13901,6 +14547,16 @@
             <exception cref="T:System.ArgumentNullException">value 为 null。</exception>
             <exception cref="T:System.OverflowException">字典已包含最大数目的元素 (System.Int32.MaxValue)。</exception>
         </member>
+        <member name="M:Tool.Utils.Data.LazyConcurrentDictionary`2.TryAdd(`0,System.Func{`0,`1})">
+            <summary>
+            在 <see cref="T:Tool.Utils.Data.LazyConcurrentDictionary`2"/> 中添加一个带有所提供的键和值的元素。
+            </summary>
+            <param name="key">用作要添加的元素的键的对象。</param>
+            <param name="addValueFactory">作为要添加的元素的值的委托。</param>
+            <returns>如果该键/值对已成功添加到 <see cref="T:Tool.Utils.Data.LazyConcurrentDictionary`2"/>，则为 true；如果该键已存在，则为 false。</returns>
+            <exception cref="T:System.ArgumentNullException">value 为 null。</exception>
+            <exception cref="T:System.OverflowException">字典已包含最大数目的元素 (System.Int32.MaxValue)。</exception>
+        </member>
         <member name="M:Tool.Utils.Data.LazyConcurrentDictionary`2.Remove(`0)">
             <summary>
             尝试从 <see cref="T:Tool.Utils.Data.LazyConcurrentDictionary`2"/> 中移除。
@@ -13915,6 +14571,53 @@
             <param name="key">要移除并返回的元素的键。</param>
             <param name="value">当此方法返回时，将包含从 <see cref="T:Tool.Utils.Data.LazyConcurrentDictionary`2"/> 中移除的对象；如果 key 不存在，则包含 TValue 类型。</param>
             <returns>如果已成功移除对象，则为 true；否则为 false。</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.LazyConcurrentDictionary`2.TryUpdate(`0,`1,`1)">
+            <summary>
+            尝试从 <see cref="T:Tool.Utils.Data.LazyConcurrentDictionary`2"/> 中修改数据（对比数据不一致时进行修改）
+            </summary>
+            <param name="key">要修改的元素的键</param>
+            <param name="newValue">修改的内容</param>
+            <param name="comparisonValue">比较的内容</param>
+            <returns>如果已成功修改对象，则为 true；否则为 false。</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.LazyConcurrentDictionary`2.TryUpdate(`0,System.Func{`0,`1},`1)">
+            <summary>
+            尝试从 <see cref="T:Tool.Utils.Data.LazyConcurrentDictionary`2"/> 中修改数据（对比数据不一致时进行修改）
+            </summary>
+            <param name="key">要修改的元素的键</param>
+            <param name="addValueFactory">修改的内容委托</param>
+            <param name="comparisonValue">比较的内容</param>
+            <returns>如果已成功修改对象，则为 true；否则为 false。</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.LazyConcurrentDictionary`2.AddOrUpdate(`0,`1,System.Func{`0,`1,`1})">
+            <summary>
+            使用指定的函数将键/值对添加到 <see cref="T:Tool.Utils.Data.LazyConcurrentDictionary`2"/> 如果密钥已经存在，更新系统中的密钥/值对。如果密钥不存在 则添加进去。
+            </summary>
+            <param name="key">元素的键</param>
+            <param name="addValue">新增的内容</param>
+            <param name="updateValueFactory">修改的内容委托</param>
+            <returns>返回值</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.LazyConcurrentDictionary`2.AddOrUpdate(`0,System.Func{`0,`1},System.Func{`0,`1,`1})">
+            <summary>
+            使用指定的函数将键/值对添加到 <see cref="T:Tool.Utils.Data.LazyConcurrentDictionary`2"/> 如果密钥已经存在，更新系统中的密钥/值对。如果密钥不存在 则添加进去。
+            </summary>
+            <param name="key">元素的键</param>
+            <param name="addValueFactory">新增的内容委托</param>
+            <param name="updateValueFactory">修改的内容委托</param>
+            <returns>返回值</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.LazyConcurrentDictionary`2.AddOrUpdate``1(`0,System.Func{`0,``0,`1},System.Func{`0,`1,``0,`1},``0)">
+            <summary>
+            使用指定的函数将键/值对添加到 <see cref="T:Tool.Utils.Data.LazyConcurrentDictionary`2"/> 如果密钥已经存在，更新系统中的密钥/值对。如果密钥不存在 则添加进去。
+            </summary>
+            <typeparam name="TArg"></typeparam>
+            <param name="key">元素的键</param>
+            <param name="addValueFactory">新增的内容委托</param>
+            <param name="updateValueFactory">修改的内容委托</param>
+            <param name="factoryArgument">传入的额外对象</param>
+            <returns>返回值</returns>
         </member>
         <member name="M:Tool.Utils.Data.LazyConcurrentDictionary`2.TryGetValue(`0,`1@)">
             <summary>
@@ -14031,6 +14734,7 @@
             </summary>
             <typeparam name="TKey">字典中的键的类型。</typeparam>
             <typeparam name="TValue">字典中的值的类型。</typeparam>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="F:Tool.Utils.Data.TaskConcurrentDictionary`2.Dictionary">
             <summary>
@@ -14131,6 +14835,16 @@
             <exception cref="T:System.ArgumentNullException">value 为 null。</exception>
             <exception cref="T:System.OverflowException">字典已包含最大数目的元素 (System.Int32.MaxValue)。</exception>
         </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.TryAdd(`0,System.Func{`0,System.Threading.Tasks.Task{`1}})">
+            <summary>
+            在 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中添加一个带有所提供的键和值的元素。
+            </summary>
+            <param name="key">用作要添加的元素的键的对象。</param>
+            <param name="addValueFactory">作为要添加的元素的值的委托。</param>
+            <returns>如果该键/值对已成功添加到 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/>，则为 true；如果该键已存在，则为 false。</returns>
+            <exception cref="T:System.ArgumentNullException">value 为 null。</exception>
+            <exception cref="T:System.OverflowException">字典已包含最大数目的元素 (System.Int32.MaxValue)。</exception>
+        </member>
         <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.Remove(`0)">
             <summary>
             尝试从 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中移除。
@@ -14145,6 +14859,53 @@
             <param name="key">要移除并返回的元素的键。</param>
             <param name="value">当此方法返回时，将包含从 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中移除的对象；如果 key 不存在，则包含 TValue 类型。</param>
             <returns>如果已成功移除对象，则为 true；否则为 false。</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.TryUpdate(`0,System.Threading.Tasks.Task{`1},System.Threading.Tasks.Task{`1})">
+            <summary>
+            尝试从 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中修改数据（对比数据不一致时进行修改）
+            </summary>
+            <param name="key">要修改的元素的键</param>
+            <param name="newValue">修改的内容</param>
+            <param name="comparisonValue">比较的内容</param>
+            <returns>如果已成功修改对象，则为 true；否则为 false。</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.TryUpdate(`0,System.Func{`0,System.Threading.Tasks.Task{`1}},System.Threading.Tasks.Task{`1})">
+            <summary>
+            尝试从 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 中修改数据（对比数据不一致时进行修改）
+            </summary>
+            <param name="key">要修改的元素的键</param>
+            <param name="addValueFactory">修改的内容委托</param>
+            <param name="comparisonValue">比较的内容</param>
+            <returns>如果已成功修改对象，则为 true；否则为 false。</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.AddOrUpdate(`0,System.Threading.Tasks.Task{`1},System.Func{`0,System.Threading.Tasks.Task{`1},System.Threading.Tasks.Task{`1}})">
+            <summary>
+            使用指定的函数将键/值对添加到 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 如果密钥已经存在，更新系统中的密钥/值对。如果密钥不存在 则添加进去。
+            </summary>
+            <param name="key">元素的键</param>
+            <param name="addValue">新增的内容</param>
+            <param name="updateValueFactory">修改的内容委托</param>
+            <returns>返回值</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.AddOrUpdate(`0,System.Func{`0,System.Threading.Tasks.Task{`1}},System.Func{`0,System.Threading.Tasks.Task{`1},System.Threading.Tasks.Task{`1}})">
+            <summary>
+            使用指定的函数将键/值对添加到 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 如果密钥已经存在，更新系统中的密钥/值对。如果密钥不存在 则添加进去。
+            </summary>
+            <param name="key">元素的键</param>
+            <param name="addValueFactory">新增的内容委托</param>
+            <param name="updateValueFactory">修改的内容委托</param>
+            <returns>返回值</returns>
+        </member>
+        <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.AddOrUpdate``1(`0,System.Func{`0,``0,System.Threading.Tasks.Task{`1}},System.Func{`0,System.Threading.Tasks.Task{`1},``0,System.Threading.Tasks.Task{`1}},``0)">
+            <summary>
+            使用指定的函数将键/值对添加到 <see cref="T:Tool.Utils.Data.TaskConcurrentDictionary`2"/> 如果密钥已经存在，更新系统中的密钥/值对。如果密钥不存在 则添加进去。
+            </summary>
+            <typeparam name="TArg"></typeparam>
+            <param name="key">元素的键</param>
+            <param name="addValueFactory">新增的内容委托</param>
+            <param name="updateValueFactory">修改的内容委托</param>
+            <param name="factoryArgument">传入的额外对象</param>
+            <returns>返回值</returns>
         </member>
         <member name="M:Tool.Utils.Data.TaskConcurrentDictionary`2.TryGetValue(`0,System.Threading.Tasks.Task{`1}@)">
             <summary>
@@ -14426,6 +15187,7 @@
             <summary>
             用于提高，对象构造（只支持无参构造），对象取值，对象赋值。
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Utils.EntityBuilder.Parameters">
             <summary>
@@ -14498,6 +15260,7 @@
             <summary>
             文件管理器
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.FileManager.CopyDirectories(System.String,System.String)">
             <summary>
@@ -14696,6 +15459,7 @@
             <summary>
             文件详情类
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.FolderInfo.#ctor">
             <summary>
@@ -14778,6 +15542,7 @@
             <summary>
             FTP 操作类客户端
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.FtpHelper.FtpClient.#ctor">
             <summary>
@@ -15121,6 +15886,7 @@
             <summary>
             FTP操作类
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Utils.FtpHelper.FtpOperater.Ftp">
             <summary>
@@ -15279,6 +16045,7 @@
             <summary>
             提供 CRC32 算法的实现
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="F:Tool.Utils.Crc32.DefaultPolynomial">
             <summary>
@@ -15585,6 +16352,7 @@
             <summary>
             关于内存地址读写的操作帮助类
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.IntPtrHelper.GetPidByProcessName(System.String)">
             <summary>
@@ -15676,6 +16444,7 @@
             <para>瞬时（Transient）和单例（Singleton）模式是相反的，每次使用时，DI容器都是创建一个新的实例。</para>
             <para>作用域（Scoped），在一个作用域内，会使用同一个实例，像EF Core的DbContext上下文就被注册为作用域服务。</para>
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Utils.IocHelper.IocCore">
             <summary>
@@ -15692,6 +16461,7 @@
             <summary>
             提供一个完全独立的 Ioc 容器
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="F:Tool.Utils.IocCore._services">
             <summary>
@@ -15744,6 +16514,7 @@
             <summary>
             获取 系统中可用的 Json 自定义转换对象
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.JsonConverterHelper.GetDateConverter(System.String)">
             <summary>
@@ -15762,6 +16533,7 @@
             <summary>
             Json 标准或自定义日期和时间格式字符串。
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Utils.DateConverter.Format">
             <summary>
@@ -15802,6 +16574,7 @@
             <summary>
             Json <see cref="T:System.DBNull"/> 将 {} 改Null输出
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.DBNullConverter.#ctor">
             <summary>
@@ -16404,6 +17177,7 @@
             自定义的公共对象（重用模型）
             </summary>
             <typeparam name="T"></typeparam>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Utils.ObjectPool`1.MaximumRetained">
             <summary>
@@ -16492,6 +17266,7 @@
             <summary>
             是<see cref="T:Tool.Utils.Other.ConvertHzToPzGb2312"/>类的升级版
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.Other.ConvertHzToPy.#ctor">
             <summary>
@@ -16516,6 +17291,7 @@
             <summary>
             文字转拼音类·ConvertHzToPz_Gb2312
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.Other.ConvertHzToPzGb2312.#ctor">
             <summary>
@@ -16658,6 +17434,7 @@
             INI文件读写类。
             Copyright (C) Maticsoft
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="F:Tool.Utils.Other.IniFile.path">
             <summary>
@@ -16783,6 +17560,7 @@
             Rmb 的摘要说明。 
             用于转换人民币大小金额
             </summary> 
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.Other.Rmb.CmycurD(System.Decimal)">
             <summary> 
@@ -16802,6 +17580,7 @@
             <summary>
             获取汉子首字母类·StrToPinyin
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.Other.StrToPinyin.#ctor">
             <summary>
@@ -16819,6 +17598,7 @@
             <summary>
             获取<see cref="T:System.Type"/> 对象的封装类
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.ReflectionHelper.GetType(System.String)">
             <summary>
@@ -17493,6 +18273,7 @@
             <summary>
             一个原子计数锁，可以确保多线程下，可调用区域内只能调用固定次数
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Utils.ThreadQueue.AtomCountLock.InitialCount">
             <summary>
@@ -17533,42 +18314,107 @@
             回收资源
             </summary>
         </member>
-        <member name="T:Tool.Utils.ThreadQueue.TaskOueue`1">
+        <member name="T:Tool.Utils.ThreadQueue.TaskQueue">
+            <summary>
+            一个消息队列任务模型（异步处理任务·线程安全）
+            <list type="table">警告：在队列执行任务中，注册任务是很傻逼的行为，这回导致无限期死锁，是死锁，死锁。</list>
+            <list type="table">但是并不代表不能注册，但是如业务需要注册，请不要直接 等待任务 结果 await 等行为，这才是导致死锁发生的祸因。</list>
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.TaskQueue.Count">
+            <summary>
+            当前活动的任务数
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.TaskQueue.TotalCount">
+            <summary>
+            累计已有的任务数
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.TaskQueue.CompleteCount">
+            <summary>
+            累计已完成的任务数
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.TaskQueue.Enqueue(System.Object,System.Delegate,System.Object[])">
+            <summary>
+            添加一个新的任务（他会排队一个一个完成）
+            </summary>
+            <param name="callClass">调用类信息</param>
+            <param name="action">任务</param>
+            <param name="args">任务需要的参数</param>
+            <remarks>可等待的结果</remarks>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.TaskQueue.Enqueue``1(System.Object,System.Delegate,System.Object[])">
+            <summary>
+            添加一个新的任务（他会排队一个一个完成）
+            </summary>
+            <param name="callClass">调用类信息</param>
+            <param name="func">任务</param>
+            <param name="args">任务需要的参数</param>
+            <remarks>可等待的结果</remarks>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(System.Delegate,System.Object[])">
+            <summary>
+            添加一个新的任务（他会排队一个一个完成）
+            </summary>
+            <param name="action">任务</param>
+            <param name="args">任务需要的参数</param>
+            <remarks>可等待的结果</remarks>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue``1(System.Delegate,System.Object[])">
+            <summary>
+            添加一个新的任务（他会排队一个一个完成）
+            </summary>
+            <param name="func">任务</param>
+            <param name="args">任务需要的参数</param>
+            <remarks>可等待的结果</remarks>
+        </member>
+        <member name="M:Tool.Utils.ThreadQueue.TaskQueue.GetOrAdd(System.Delegate)">
+            <summary>
+            获取一个可以动态传递的委托（可复用保证线程安全）
+            </summary>
+            <param name="func">任务需要的参数</param>
+            <remarks><see cref="T:Tool.Utils.ActionDelegate.IActionDispatcher"/></remarks>
+        </member>
+        <member name="T:Tool.Utils.ThreadQueue.TaskQueue`1">
             <summary>
              一个消息队列任务模型（异步处理任务·线程安全）
             </summary>
             <typeparam name="T">传入对象</typeparam>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
-        <member name="E:Tool.Utils.ThreadQueue.TaskOueue`1.ContinueWith">
+        <member name="E:Tool.Utils.ThreadQueue.TaskQueue`1.ContinueWith">
             <summary>
             注册完成任务后触发的事件
             </summary>
         </member>
-        <member name="P:Tool.Utils.ThreadQueue.TaskOueue`1.IsContinueWith">
+        <member name="P:Tool.Utils.ThreadQueue.TaskQueue`1.IsContinueWith">
             <summary>
             表示当前事件是否已经注册
             </summary>
         </member>
-        <member name="M:Tool.Utils.ThreadQueue.TaskOueue`1.#ctor(System.Func{`0,System.Threading.Tasks.ValueTask})">
+        <member name="M:Tool.Utils.ThreadQueue.TaskQueue`1.#ctor(System.Func{`0,System.Threading.Tasks.ValueTask})">
             <summary>
             创建执行需要的函数
             </summary>
             <param name="func">队列处理的函数</param>
         </member>
-        <member name="M:Tool.Utils.ThreadQueue.TaskOueue`1.#ctor(System.Func{`0,System.Threading.Tasks.ValueTask},System.Threading.Tasks.TaskCreationOptions)">
+        <member name="M:Tool.Utils.ThreadQueue.TaskQueue`1.#ctor(System.Func{`0,System.Threading.Tasks.ValueTask},System.Threading.Tasks.TaskCreationOptions)">
             <summary>
             创建执行需要的函数
             </summary>
             <param name="func">队列处理的函数</param>
             <param name="creationOptions">异步线程属性</param>
         </member>
-        <member name="M:Tool.Utils.ThreadQueue.TaskOueue`1.Add(`0)">
+        <member name="M:Tool.Utils.ThreadQueue.TaskQueue`1.Add(`0)">
             <summary>
             添加一个新的任务（他会排队一个一个完成）
             </summary>
             <param name="state">任务需要的参数</param>
         </member>
-        <member name="T:Tool.Utils.ThreadQueue.TaskOueue`2">
+        <member name="T:Tool.Utils.ThreadQueue.TaskQueue`2">
             <summary>
             一个消息队列任务模型（异步处理任务·线程安全）
             </summary>
@@ -17576,35 +18422,50 @@
             <typeparam name="TResult">返回结果</typeparam>
             <remarks>代码由逆血提供支持</remarks>
         </member>
-        <member name="F:Tool.Utils.ThreadQueue.TaskOueue`2.WaitTimeout">
+        <member name="F:Tool.Utils.ThreadQueue.TaskQueue`2.WaitTimeout">
             <summary>
             分配的任务队列线程完成后最大保留时间
             </summary>
         </member>
-        <member name="E:Tool.Utils.ThreadQueue.TaskOueue`2.ContinueWith">
+        <member name="E:Tool.Utils.ThreadQueue.TaskQueue`2.ContinueWith">
             <summary>
             注册完成任务后触发的事件
             </summary>
         </member>
-        <member name="P:Tool.Utils.ThreadQueue.TaskOueue`2.IsContinueWith">
+        <member name="P:Tool.Utils.ThreadQueue.TaskQueue`2.CompleteCount">
+            <summary>
+            累计已完成的任务数
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.TaskQueue`2.Count">
+            <summary>
+            当前活动的任务数
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.TaskQueue`2.TotalCount">
+            <summary>
+            累计已有的任务数
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ThreadQueue.TaskQueue`2.IsContinueWith">
             <summary>
             表示当前事件是否已经注册
             </summary>
         </member>
-        <member name="M:Tool.Utils.ThreadQueue.TaskOueue`2.#ctor(System.Func{`0,System.Threading.Tasks.ValueTask{`1}})">
+        <member name="M:Tool.Utils.ThreadQueue.TaskQueue`2.#ctor(System.Func{`0,System.Threading.Tasks.ValueTask{`1}})">
             <summary>
             创建执行需要的函数
             </summary>
             <param name="func">队列处理的函数</param>
         </member>
-        <member name="M:Tool.Utils.ThreadQueue.TaskOueue`2.#ctor(System.Func{`0,System.Threading.Tasks.ValueTask{`1}},System.Threading.Tasks.TaskCreationOptions)">
+        <member name="M:Tool.Utils.ThreadQueue.TaskQueue`2.#ctor(System.Func{`0,System.Threading.Tasks.ValueTask{`1}},System.Threading.Tasks.TaskCreationOptions)">
             <summary>
             创建执行需要的函数
             </summary>
             <param name="func">队列处理的函数</param>
             <param name="creationOptions">异步线程属性</param>
         </member>
-        <member name="M:Tool.Utils.ThreadQueue.TaskOueue`2.Add(`0)">
+        <member name="M:Tool.Utils.ThreadQueue.TaskQueue`2.Add(`0)">
             <summary>
             添加一个新的任务（他会排队一个一个完成）
             </summary>
@@ -18260,6 +19121,7 @@
             <summary>
             类型助手
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.TypeHelper.ChangeType(System.Type,System.Object)">
             <summary>
@@ -20775,6 +21637,7 @@
             <summary>
             相关正则类（包含常用的正则表达式）高达65种供大家参考学习，使用。
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="F:Tool.Utils.Validator.reg">
             <summary>
@@ -21669,6 +22532,7 @@
             <summary>
             Api 调用函数 参数值范围可控
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Web.Api.ApiCore.ApiParameter.GetVal">
             <summary>
@@ -21870,6 +22734,7 @@
             <summary>
             Ashx 相关选项，提高使用
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Web.Api.ApiCore.AshxOptions.#ctor">
             <summary>
@@ -22421,6 +23286,7 @@
             <summary>
             Api的异常处理类
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Web.Api.AshxException.ID">
             <summary>
@@ -22533,6 +23399,7 @@
             <summary>
             系统默认 <see cref="T:Tool.Web.Api.MinApi"/> Api输出结果 抽象类，用于普通返回值，特殊返回值建议您自己实现。
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Web.Api.ApiOut.#ctor">
             <summary>
@@ -22686,10 +23553,39 @@
             <param name="url">跳转的URL</param>
             <returns>输出对象</returns>
         </member>
+        <member name="M:Tool.Web.Api.ApiOut.NoContent">
+            <summary>
+            无输出结果
+            </summary>
+            <returns>输出对象</returns>
+        </member>
+        <member name="M:Tool.Web.Api.ApiOut.NoContentAsync">
+            <summary>
+            无输出结果
+            </summary>
+            <returns>输出对象</returns>
+        </member>
+        <member name="M:Tool.Web.Api.ApiOut.EventStream(System.Func{Tool.Web.EventStream,System.Threading.Tasks.Task},System.Int32)">
+            <summary>
+            SSE服务器事件流
+            </summary>
+            <param name="func">流任务</param>
+            <param name="retry">超时重连时间</param>
+            <returns>输出对象</returns>
+        </member>
+        <member name="M:Tool.Web.Api.ApiOut.EventStreamAsync(System.Func{Tool.Web.EventStream,System.Threading.Tasks.Task},System.Int32)">
+            <summary>
+            SSE服务器事件流
+            </summary>
+            <param name="func">流任务</param>
+            <param name="retry">超时重连时间</param>
+            <returns>输出对象</returns>
+        </member>
         <member name="T:Tool.Web.Api.JsonOut">
             <summary>
             系统默认 <see cref="T:Tool.Web.Api.ApiOut"/> 输出对象的实现类，JSON格式处理
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Web.Api.JsonOut.#ctor(System.Object)">
             <summary>
@@ -22735,6 +23631,7 @@
             <summary>
             系统默认 <see cref="T:Tool.Web.Api.ApiOut"/> 输出对象的实现类，文本格式处理
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Web.Api.WriteOut.#ctor(System.String)">
             <summary>
@@ -22768,6 +23665,7 @@
             <summary>
             系统默认 <see cref="T:Tool.Web.Api.ApiOut"/> 输出对象的实现类，视图页面输出处理
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Web.Api.ViewOut.#ctor(System.Boolean,System.String)">
             <summary>
@@ -22807,6 +23705,7 @@
             <summary>
             系统默认 <see cref="T:Tool.Web.Api.ApiOut"/> 输出对象的实现类，文件输出处理
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Web.Api.FileOut.FileStream">
             <summary>
@@ -22853,6 +23752,7 @@
             <summary>
             系统默认 <see cref="T:Tool.Web.Api.ApiOut"/> 跳转地址的实现类，跳转地址302
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Web.Api.RedirectOut.Url">
             <summary>
@@ -22881,6 +23781,25 @@
             </summary>
             <param name="ashxRoute">核心传输对象</param>
             <returns>返回任务</returns>
+        </member>
+        <member name="T:Tool.Web.Api.NoContentOut">
+            <summary>
+            无返回结果
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="T:Tool.Web.Api.EventStreamOut">
+            <summary>
+            SSE服务器事件流
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="M:Tool.Web.Api.EventStreamOut.#ctor(System.Func{Tool.Web.EventStream,System.Threading.Tasks.Task},System.Int32)">
+            <summary>
+            创建流任务
+            </summary>
+            <param name="func">任务</param>
+            <param name="retry">超时多久或断线后重连（浏览器行为）</param>
         </member>
         <member name="F:Tool.Web.AshxBuilder.RouteDefaults">
             <summary>
@@ -22957,6 +23876,7 @@
             <summary>
             URL 拦截器中间件
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Web.Builder.IgnoreUrlMiddleware.Urls">
             <summary>
@@ -22977,10 +23897,92 @@
             <param name="context"></param>
             <returns></returns>
         </member>
+        <member name="T:Tool.Web.IEventStream">
+            <summary>
+            HTTP协议的事件流（EventStream）简称SSE 接口
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="P:Tool.Web.IEventStream.Retry">
+            <summary>
+            告知断开后多久重连
+            </summary>
+        </member>
+        <member name="P:Tool.Web.IEventStream.ContentEncoding">
+            <summary>
+            输出的编码格式
+            </summary>
+        </member>
+        <member name="P:Tool.Web.IEventStream.LastEventID">
+            <summary>
+            最后一次接收到的事件的标识符
+            </summary>
+        </member>
+        <member name="M:Tool.Web.IEventStream.ExecuteResultAsync">
+            <summary>
+            开始挂起输出流，直到<see cref="T:System.Func`2"/> 函数完成为止。
+            </summary>
+            <returns>任务</returns>
+        </member>
+        <member name="T:Tool.Web.EventStream">
+            <summary>
+            SSE服务器事件流
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="P:Tool.Web.EventStream.LastEventID">
+            <summary>
+            最后一次接收到的事件的标识符
+            </summary>
+        </member>
+        <member name="P:Tool.Web.EventStream.ContentEncoding">
+            <summary>
+            输出的编码格式
+            </summary>
+        </member>
+        <member name="P:Tool.Web.EventStream.Retry">
+            <summary>
+            告知断开后多久重连
+            </summary>
+        </member>
+        <member name="P:Tool.Web.EventStream.Context">
+            <summary>
+            连接对象
+            </summary>
+        </member>
+        <member name="M:Tool.Web.EventStream.#ctor(System.Func{Tool.Web.EventStream,System.Threading.Tasks.Task},Microsoft.AspNetCore.Http.HttpContext,System.Int32)">
+            <summary>
+            SSE服务器事件流
+            </summary>
+            <param name="func">流回复任务</param>
+            <param name="context">连接对象</param>
+            <param name="retry">指定浏览器重新发起连接的时间间隔</param>
+        </member>
+        <member name="M:Tool.Web.EventStream.ExecuteResultAsync">
+            <summary>
+            开始挂起输出流，直到<see cref="T:System.Func`2"/> 函数完成为止。
+            </summary>
+            <returns>任务</returns>
+        </member>
+        <member name="M:Tool.Web.EventStream.ServerSent``1(``0,System.String,System.String)">
+            <summary>
+            发送通知
+            </summary>
+            <param name="t"></param>
+            <param name="event"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:Tool.Web.EventStream.ServerSent(System.Byte[])">
+            <summary>
+            发送通知
+            </summary>
+            <param name="content"></param>
+        </member>
         <member name="T:Tool.Web.Hosting.DiyContainerBuilder">
             <summary>
             Diy容器数据
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Web.Hosting.DiyContainerBuilder.#ctor">
             <summary>
@@ -23003,6 +24005,7 @@
             <summary>
             Diy 依赖注入工厂
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Web.Hosting.DiyServiceProviderFactory.#ctor">
             <summary>
@@ -23307,6 +24310,7 @@
             <summary>
             向请求添加指定范围的字节范围标头。
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Web.Range.#ctor(System.Int64,System.Int64)">
             <summary>
@@ -23444,6 +24448,7 @@
             <summary>
             封装有关路由的信息。
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Tool.Web.Routing.AshxRouteData.RouteContext">
             <summary>
@@ -23707,6 +24712,7 @@
             <summary>
             自定义的Session对象，必须完成的实现方法
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="F:Tool.Web.Session.DiySessionOptions.IsSign">
             <summary>
@@ -23948,6 +24954,7 @@
             <summary>
             Ashx终结点核心模块
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="P:Microsoft.AspNetCore.Builder.AshxEndpointDataSource.Endpoints">
             <summary>

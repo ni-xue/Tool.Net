@@ -11,6 +11,7 @@ namespace Tool.Web.Api.ApiCore
     /// <summary>
     /// Api 调用函数 参数值范围可控
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ApiParameter : Parameter
     {
         /// <summary>

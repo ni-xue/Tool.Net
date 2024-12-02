@@ -8,6 +8,7 @@ namespace Tool.Utils
     /// <summary>
     /// 相关正则类（包含常用的正则表达式）高达65种供大家参考学习，使用。
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class Validator
     {
         #region 相关数字验证的

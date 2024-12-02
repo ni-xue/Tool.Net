@@ -133,6 +133,7 @@ namespace Microsoft.AspNetCore.Builder
     /// <summary>
     /// Ashx终结点核心模块
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class AshxEndpointDataSource : EndpointDataSource, IDisposable
     {
         /// <summary>

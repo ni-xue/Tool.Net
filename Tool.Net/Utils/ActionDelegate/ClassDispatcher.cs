@@ -48,6 +48,7 @@ namespace Tool.Utils.ActionDelegate
     /// 根据 ConstructorInfo 对象，创建一个委托，实现类调用，提高性能，支持各种返回值
     /// </summary>
     /// <typeparam name="T">返回任何类型</typeparam>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ClassDispatcher<T>
     {
         private readonly NewClass<T> _newclass;

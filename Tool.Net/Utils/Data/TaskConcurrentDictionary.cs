@@ -13,6 +13,7 @@ namespace Tool.Utils.Data
     /// </summary>
     /// <typeparam name="TKey">字典中的键的类型。</typeparam>
     /// <typeparam name="TValue">字典中的值的类型。</typeparam>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class TaskConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IAsyncEnumerable<KeyValuePair<TKey, TValue>>
     {
         /// <summary>
@@ -101,10 +102,9 @@ namespace Tool.Utils.Data
         /// <returns>键的值。 如果字典中已存在指定的键，则为该键的现有值；如果字典中不存在指定的键，则为新值。</returns>
         /// <exception cref="System.ArgumentNullException">value 为 null。</exception>
         /// <exception cref="System.OverflowException">字典已包含最大数目的元素 (System.Int32.MaxValue)。</exception>
-        public TValue GetOrAdd(TKey key, TValue value)
+        public Task<TValue> GetOrAdd(TKey key, TValue value)
         {
-            var lazyResult = this.Dictionary.GetOrAdd(key, Task.FromResult(value));
-            return lazyResult.Result;
+            return this.Dictionary.GetOrAdd(key, Task.FromResult(value));
         }
 
         /// <summary>
@@ -156,6 +156,20 @@ namespace Tool.Utils.Data
             return Dictionary.TryAdd(key, Task.FromResult(value));
         }
 
+
+        /// <summary>
+        /// 在 <see cref="TaskConcurrentDictionary{TKey, TValue}"/> 中添加一个带有所提供的键和值的元素。
+        /// </summary>
+        /// <param name="key">用作要添加的元素的键的对象。</param>
+        /// <param name="addValueFactory">作为要添加的元素的值的委托。</param>
+        /// <returns>如果该键/值对已成功添加到 <see cref="TaskConcurrentDictionary{TKey, TValue}"/>，则为 true；如果该键已存在，则为 false。</returns>
+        /// <exception cref="System.ArgumentNullException">value 为 null。</exception>
+        /// <exception cref="System.OverflowException">字典已包含最大数目的元素 (System.Int32.MaxValue)。</exception>
+        public bool TryAdd(TKey key, Func<TKey, Task<TValue>> addValueFactory)
+        {
+            return Dictionary.TryAdd(key, addValueFactory(key));
+        }
+
         /// <summary>
         /// 尝试从 <see cref="TaskConcurrentDictionary{TKey, TValue}"/> 中移除。
         /// </summary>
@@ -178,6 +192,68 @@ namespace Tool.Utils.Data
             bool Is = Dictionary.TryRemove(key, out Task<TValue> value1);
             value = Is ? value1.Result : default;
             return Is;
+        }
+
+        /// <summary>
+        /// 尝试从 <see cref="TaskConcurrentDictionary{TKey, TValue}"/> 中修改数据（对比数据不一致时进行修改）
+        /// </summary>
+        /// <param name="key">要修改的元素的键</param>
+        /// <param name="newValue">修改的内容</param>
+        /// <param name="comparisonValue">比较的内容</param>
+        /// <returns>如果已成功修改对象，则为 true；否则为 false。</returns>
+        public bool TryUpdate(TKey key, Task<TValue> newValue, Task<TValue> comparisonValue)
+        {
+            return Dictionary.TryUpdate(key, newValue, comparisonValue);
+        }
+
+        /// <summary>
+        /// 尝试从 <see cref="TaskConcurrentDictionary{TKey, TValue}"/> 中修改数据（对比数据不一致时进行修改）
+        /// </summary>
+        /// <param name="key">要修改的元素的键</param>
+        /// <param name="addValueFactory">修改的内容委托</param>
+        /// <param name="comparisonValue">比较的内容</param>
+        /// <returns>如果已成功修改对象，则为 true；否则为 false。</returns>
+        public bool TryUpdate(TKey key, Func<TKey, Task<TValue>> addValueFactory, Task<TValue> comparisonValue)
+        {
+            return Dictionary.TryUpdate(key,  addValueFactory(key), comparisonValue);
+        }
+
+        /// <summary>
+        /// 使用指定的函数将键/值对添加到 <see cref="TaskConcurrentDictionary{TKey, TValue}"/> 如果密钥已经存在，更新系统中的密钥/值对。如果密钥不存在 则添加进去。
+        /// </summary>
+        /// <param name="key">元素的键</param>
+        /// <param name="addValue">新增的内容</param>
+        /// <param name="updateValueFactory">修改的内容委托</param>
+        /// <returns>返回值</returns>
+        public Task<TValue> AddOrUpdate(TKey key, Task<TValue> addValue, Func<TKey, Task<TValue>, Task<TValue>> updateValueFactory)
+        {
+            return Dictionary.AddOrUpdate(key, addValue, updateValueFactory);
+        }
+
+        /// <summary>
+        /// 使用指定的函数将键/值对添加到 <see cref="TaskConcurrentDictionary{TKey, TValue}"/> 如果密钥已经存在，更新系统中的密钥/值对。如果密钥不存在 则添加进去。
+        /// </summary>
+        /// <param name="key">元素的键</param>
+        /// <param name="addValueFactory">新增的内容委托</param>
+        /// <param name="updateValueFactory">修改的内容委托</param>
+        /// <returns>返回值</returns>
+        public Task<TValue> AddOrUpdate(TKey key, Func<TKey, Task<TValue>> addValueFactory, Func<TKey, Task<TValue>, Task<TValue>> updateValueFactory)
+        {
+            return Dictionary.AddOrUpdate(key, addValueFactory, updateValueFactory);
+        }
+
+        /// <summary>
+        /// 使用指定的函数将键/值对添加到 <see cref="TaskConcurrentDictionary{TKey, TValue}"/> 如果密钥已经存在，更新系统中的密钥/值对。如果密钥不存在 则添加进去。
+        /// </summary>
+        /// <typeparam name="TArg"></typeparam>
+        /// <param name="key">元素的键</param>
+        /// <param name="addValueFactory">新增的内容委托</param>
+        /// <param name="updateValueFactory">修改的内容委托</param>
+        /// <param name="factoryArgument">传入的额外对象</param>
+        /// <returns>返回值</returns>
+        public Task<TValue> AddOrUpdate<TArg>(TKey key, Func<TKey, TArg, Task<TValue>> addValueFactory, Func<TKey, Task<TValue>, TArg, Task<TValue>> updateValueFactory, TArg factoryArgument)
+        {
+            return Dictionary.AddOrUpdate(key, addValueFactory, updateValueFactory, factoryArgument);
         }
 
         /// <summary>

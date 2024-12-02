@@ -7,14 +7,14 @@ namespace Tool.Sockets.Kernels
 {
     internal readonly struct PoolData
     {
-        public PoolData(in UserKey key, Socket socket, IDataPacket packet)
+        public PoolData(in Ipv4Port key, Socket socket, IDataPacket packet)
         {
             Key = key;
             Client = socket;
             Packet = packet;
         }
 
-        public readonly UserKey Key;
+        public readonly Ipv4Port Key;
 
         public readonly Socket Client;
 

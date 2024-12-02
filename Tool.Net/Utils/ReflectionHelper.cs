@@ -5,22 +5,22 @@ using System.Text;
 
 namespace Tool.Utils
 {
-	/// <summary>
-	/// 获取<see cref="Type"/> 对象的封装类
-	/// </summary>
-	public class ReflectionHelper
+    /// <summary>
+    /// 获取<see cref="Type"/> 对象的封装类
+    /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
+    public class ReflectionHelper
 	{
-		/// <summary>
-		/// 根据dll引用名索引dll的type （例如写法：Tool,Tool.Utils.ReflectionHelper）
-		/// </summary>
-		/// <param name="typeAndAssName">引用的绝对路径</param>
-		/// <returns></returns>
-		public static Type GetType(string typeAndAssName)
+        private static readonly char[] separator = new char[]{ ',' };
+
+        /// <summary>
+        /// 根据dll引用名索引dll的type （例如写法：Tool,Tool.Utils.ReflectionHelper）
+        /// </summary>
+        /// <param name="typeAndAssName">引用的绝对路径</param>
+        /// <returns></returns>
+        public static Type GetType(string typeAndAssName)
 		{
-			string[] array = typeAndAssName.Split(new char[]
-			{
-				','
-			});
+			string[] array = typeAndAssName.Split(separator);
 			if (array.Length < 2)
 			{
 				return Type.GetType(typeAndAssName);

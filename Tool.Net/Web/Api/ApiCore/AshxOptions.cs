@@ -7,6 +7,7 @@ namespace Tool.Web.Api.ApiCore
     /// <summary>
     /// Ashx 相关选项，提高使用
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class AshxOptions
     {
         /// <summary>

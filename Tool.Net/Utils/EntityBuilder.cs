@@ -3,12 +3,14 @@ using System.Reflection;
 using System;
 using Tool.Utils.ActionDelegate;
 using System.Linq;
+using Tool.Utils.Data;
 
 namespace Tool.Utils
 {
     /// <summary>
     /// 用于提高，对象构造（只支持无参构造），对象取值，对象赋值。
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class EntityBuilder
     {
         private readonly ClassDispatcher<object> classDispatcher;
@@ -66,7 +68,16 @@ namespace Tool.Utils
             
             classfieldDispatcher = new ClassFieldDispatcher(classtype, ClassField.All);
             Parameters = classfieldDispatcher.Parameters;
-            KeyParameters = Parameters.ToDictionary(p => p.Name, p => p);
+
+            Dictionary<string, PropertyInfo> keyValuePairs = new();
+            foreach (var property in Parameters)
+            {
+                if (!keyValuePairs.TryAdd(property.Name, property))
+                {
+                    keyValuePairs[property.Name] = property;
+                }
+            }
+            KeyParameters = keyValuePairs.AsReadOnly();// Parameters.ToDictionary(p => p.Name, p => p);
         }
 
         /// <summary>

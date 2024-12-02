@@ -31,7 +31,7 @@ namespace WebTestApp.Controllers
             //this.httpClient = httpClient;
         }
 
-        static TaskOueue<string, string> taskOueue = new(func: (a) =>
+        static TaskQueue<string, string> taskOueue = new(func: (a) =>
         {
             if (taskOueue.IsContinueWith)
             {

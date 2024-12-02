@@ -12,6 +12,7 @@ namespace Tool.Web.Api
     /// <summary>
     /// Api的异常处理类
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     [Serializable]
     public class AshxException : Exception
     {

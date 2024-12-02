@@ -258,7 +258,14 @@ namespace Tool //万能属性公有父类
 
         #region JSON
 
-        private static object JsonObject(this string txt, JsonDocumentOptions options = default)
+        /// <summary>
+        /// 转换成<see cref="object"/>对象
+        /// </summary>
+        /// <param name="txt">String</param>
+        /// <param name="options">解析时用到的配置信息</param>
+        /// <returns><see cref="object"/>对象</returns>
+        /// <exception cref="SystemException">该字符串不存在任何内容！</exception>
+        public static object JsonObject(this string txt, JsonDocumentOptions options = default)
         {
             return string.IsNullOrWhiteSpace(txt)
                 ? throw new SystemException("该字符串不存在任何内容！")

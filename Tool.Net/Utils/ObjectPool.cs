@@ -11,6 +11,7 @@ namespace Tool.Utils
     /// 自定义的公共对象（重用模型）
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ObjectPool<T> : IDisposable where T : class, IDisposable, new()
     {
         /// <summary>

@@ -4,10 +4,11 @@ using System.Text;
 
 namespace Tool.Utils
 {
-	/// <summary>
-	/// 文件详情类
-	/// </summary>
-	public class FolderInfo
+    /// <summary>
+    /// 文件详情类
+    /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
+    public class FolderInfo
 	{
 		/// <summary>
 		/// 无参构造

@@ -7,6 +7,7 @@ namespace Tool.SqlCore
     /// <summary>
     /// 根据指定分页信息查询SQL
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class PagerParameters
     {
         /// <summary>

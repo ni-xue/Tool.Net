@@ -12,6 +12,7 @@ namespace Tool.Utils.ActionDelegate
     /// <summary>
     /// 引用对象属性构造器
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class TypePropertyDescriptor
     {
         internal readonly ConcurrentDictionary<string, PropertyDescriptor> Propertys;
@@ -54,8 +55,14 @@ namespace Tool.Utils.ActionDelegate
             var typeProperty = Propertys.GetOrAdd($"Property+{name}", (key) =>
             {
                 var property = GetPropertyInfo(name);
-                if (property == null) return default;
-                return new PropertyDescriptor(ClassType, property);
+                if (property == null) return default; try
+                {
+                    return new PropertyDescriptor(ClassType, property);
+                }
+                catch (Exception)
+                {
+                    return default;
+                }
             });
             property = typeProperty;
             return property is not null;
@@ -73,7 +80,14 @@ namespace Tool.Utils.ActionDelegate
             {
                 var field = GetFieldInfo(name);
                 if (field == null) return default;
-                return new PropertyDescriptor(ClassType, field);
+                try
+                {
+                    return new PropertyDescriptor(ClassType, field);
+                }
+                catch (Exception)
+                {
+                    return default;
+                }
             });
             property = typefield;
             return property is not null;
@@ -182,6 +196,7 @@ namespace Tool.Utils.ActionDelegate
     /// <summary>
     /// 对象财产托管调度器
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class PropertyDescriptor//<T> where T : MemberInfo
     {
         /// <summary>
@@ -264,11 +279,13 @@ namespace Tool.Utils.ActionDelegate
             if (fieldInfo is not null)
             {
                 TypeEnum = PropertyEnum.Field;
-                CanWrite = true;
+                CanWrite = fieldInfo is { IsInitOnly: false, IsLiteral: false };
                 CanRead = true;
                 IsStatic = fieldInfo.IsStatic;
-
-                SetProperty = CreateSetProperty(classtype, fieldInfo, fieldInfo.FieldType, IsStatic);
+                if (CanWrite)
+                {
+                    SetProperty = CreateSetProperty(classtype, fieldInfo, fieldInfo.FieldType, IsStatic);
+                }
                 GetProperty = CreateGetProperty(classtype, fieldInfo, IsStatic);
             }
         }

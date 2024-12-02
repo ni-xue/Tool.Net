@@ -9,6 +9,7 @@ namespace Tool.Utils.ActionDelegate
     /// 调用方法信息
     /// </summary>
     /// <typeparam name="T">类对象</typeparam>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ActionMethod<T>
     {
         private readonly Type ClassType;
@@ -39,6 +40,16 @@ namespace Tool.Utils.ActionDelegate
         /// 是不是继承类方法
         /// </summary>
         public bool IsBase { get { return ClassType != Action.Method.DeclaringType; } }
+
+        /// <summary>
+        /// 是否是 异步函数？
+        /// </summary>
+        public bool IsTask { get { return Action.IsTask; } }
+
+        /// <summary>
+        /// 是否无返回值
+        /// </summary>
+        public bool IsVoid { get { return Action.IsVoid; } }
 
         /// <summary>
         /// 方法的公开类型

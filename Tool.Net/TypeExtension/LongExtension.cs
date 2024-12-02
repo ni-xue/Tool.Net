@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tool
@@ -25,6 +26,20 @@ namespace Tool
             //}
             return BitConverter.GetBytes(txt);
         }
+
+        /// <summary>
+        /// 原子方式+1
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        public static long Increment(this ref long value) => Interlocked.Increment(ref value);
+
+        /// <summary>
+        /// 原子方式-1
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        public static long Decrement(this ref long value) => Interlocked.Decrement(ref value);
 
         /// <summary>
         /// 返回Int类型

@@ -12,6 +12,7 @@ namespace Tool.Utils.Data
     /// </summary>
     /// <typeparam name="TKey">字典中的键的类型。</typeparam>
     /// <typeparam name="TValue">字典中的值的类型。</typeparam>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class LazyConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
         /// <summary>
@@ -113,10 +114,7 @@ namespace Tool.Utils.Data
         /// </summary>
         public void Clear()
         {
-            if (Dictionary != null)
-            {
-                Dictionary.Clear();
-            }
+            Dictionary?.Clear();
         }
 
         /// <summary>
@@ -158,6 +156,19 @@ namespace Tool.Utils.Data
         }
 
         /// <summary>
+        /// 在 <see cref="LazyConcurrentDictionary{TKey, TValue}"/> 中添加一个带有所提供的键和值的元素。
+        /// </summary>
+        /// <param name="key">用作要添加的元素的键的对象。</param>
+        /// <param name="addValueFactory">作为要添加的元素的值的委托。</param>
+        /// <returns>如果该键/值对已成功添加到 <see cref="LazyConcurrentDictionary{TKey, TValue}"/>，则为 true；如果该键已存在，则为 false。</returns>
+        /// <exception cref="System.ArgumentNullException">value 为 null。</exception>
+        /// <exception cref="System.OverflowException">字典已包含最大数目的元素 (System.Int32.MaxValue)。</exception>
+        public bool TryAdd(TKey key, Func<TKey, TValue> addValueFactory)
+        {
+            return Dictionary.TryAdd(key, new Lazy<TValue>(() => addValueFactory(key), LazyThreadSafetyMode.ExecutionAndPublication));
+        }
+
+        /// <summary>
         /// 尝试从 <see cref="LazyConcurrentDictionary{TKey, TValue}"/> 中移除。
         /// </summary>
         /// <param name="key">要移除并返回的元素的键。</param>
@@ -179,6 +190,92 @@ namespace Tool.Utils.Data
             bool Is = Dictionary.TryRemove(key, out Lazy<TValue> value1);
             value = Is ? value1.Value : default;
             return Is;
+        }
+
+        /// <summary>
+        /// 尝试从 <see cref="LazyConcurrentDictionary{TKey, TValue}"/> 中修改数据（对比数据不一致时进行修改）
+        /// </summary>
+        /// <param name="key">要修改的元素的键</param>
+        /// <param name="newValue">修改的内容</param>
+        /// <param name="comparisonValue">比较的内容</param>
+        /// <returns>如果已成功修改对象，则为 true；否则为 false。</returns>
+        public bool TryUpdate(TKey key, TValue newValue, TValue comparisonValue)
+        {
+            return Dictionary.TryUpdate(key, new Lazy<TValue>(newValue), new Lazy<TValue>(comparisonValue));
+        }
+
+        /// <summary>
+        /// 尝试从 <see cref="LazyConcurrentDictionary{TKey, TValue}"/> 中修改数据（对比数据不一致时进行修改）
+        /// </summary>
+        /// <param name="key">要修改的元素的键</param>
+        /// <param name="addValueFactory">修改的内容委托</param>
+        /// <param name="comparisonValue">比较的内容</param>
+        /// <returns>如果已成功修改对象，则为 true；否则为 false。</returns>
+        public bool TryUpdate(TKey key, Func<TKey, TValue> addValueFactory, TValue comparisonValue)
+        {
+            return Dictionary.TryUpdate(key, new Lazy<TValue>(() => addValueFactory(key), LazyThreadSafetyMode.ExecutionAndPublication), new Lazy<TValue>(comparisonValue));
+        }
+
+        /// <summary>
+        /// 使用指定的函数将键/值对添加到 <see cref="LazyConcurrentDictionary{TKey, TValue}"/> 如果密钥已经存在，更新系统中的密钥/值对。如果密钥不存在 则添加进去。
+        /// </summary>
+        /// <param name="key">元素的键</param>
+        /// <param name="addValue">新增的内容</param>
+        /// <param name="updateValueFactory">修改的内容委托</param>
+        /// <returns>返回值</returns>
+        public TValue AddOrUpdate(TKey key, TValue addValue, Func<TKey, TValue, TValue> updateValueFactory)
+        {
+            return Dictionary.AddOrUpdate(key, new Lazy<TValue>(addValue), UpdateValueFactory).Value;
+            Lazy<TValue> UpdateValueFactory(TKey key, Lazy<TValue> old) 
+            {
+               return new Lazy<TValue>(() => updateValueFactory(key, old.Value), LazyThreadSafetyMode.ExecutionAndPublication);
+            }
+        }
+
+        /// <summary>
+        /// 使用指定的函数将键/值对添加到 <see cref="LazyConcurrentDictionary{TKey, TValue}"/> 如果密钥已经存在，更新系统中的密钥/值对。如果密钥不存在 则添加进去。
+        /// </summary>
+        /// <param name="key">元素的键</param>
+        /// <param name="addValueFactory">新增的内容委托</param>
+        /// <param name="updateValueFactory">修改的内容委托</param>
+        /// <returns>返回值</returns>
+        public TValue AddOrUpdate(TKey key, Func<TKey, TValue> addValueFactory, Func<TKey, TValue, TValue> updateValueFactory)
+        {
+            return Dictionary.AddOrUpdate(key, AddValueFactory, UpdateValueFactory).Value;
+
+            Lazy<TValue> AddValueFactory(TKey key)
+            {
+                return new Lazy<TValue>(() => addValueFactory(key), LazyThreadSafetyMode.ExecutionAndPublication);
+            }
+
+            Lazy<TValue> UpdateValueFactory(TKey key, Lazy<TValue> old)
+            {
+                return new Lazy<TValue>(() => updateValueFactory(key, old.Value), LazyThreadSafetyMode.ExecutionAndPublication);
+            }
+        }
+
+        /// <summary>
+        /// 使用指定的函数将键/值对添加到 <see cref="LazyConcurrentDictionary{TKey, TValue}"/> 如果密钥已经存在，更新系统中的密钥/值对。如果密钥不存在 则添加进去。
+        /// </summary>
+        /// <typeparam name="TArg"></typeparam>
+        /// <param name="key">元素的键</param>
+        /// <param name="addValueFactory">新增的内容委托</param>
+        /// <param name="updateValueFactory">修改的内容委托</param>
+        /// <param name="factoryArgument">传入的额外对象</param>
+        /// <returns>返回值</returns>
+        public TValue AddOrUpdate<TArg>(TKey key, Func<TKey, TArg, TValue> addValueFactory, Func<TKey, TValue, TArg, TValue> updateValueFactory, TArg factoryArgument) 
+        {
+            return Dictionary.AddOrUpdate(key, AddValueFactory, UpdateValueFactory, factoryArgument).Value;
+
+            Lazy<TValue> AddValueFactory(TKey key, TArg arg)
+            {
+                return new Lazy<TValue>(() => addValueFactory(key, arg), LazyThreadSafetyMode.ExecutionAndPublication);
+            }
+
+            Lazy<TValue> UpdateValueFactory(TKey key, Lazy<TValue> old, TArg arg)
+            {
+                return new Lazy<TValue>(() => updateValueFactory(key, old.Value, arg), LazyThreadSafetyMode.ExecutionAndPublication);
+            }
         }
 
         /// <summary>

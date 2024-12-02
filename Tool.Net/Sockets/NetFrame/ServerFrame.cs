@@ -13,14 +13,13 @@ namespace Tool.Sockets.NetFrame
     /// <summary>
     /// 封装的一个TCP框架（服务端）
     /// </summary>
-    public class ServerFrame
+    /// <remarks>代码由逆血提供支持</remarks>
+    public class ServerFrame : EnServerEventDrive
     {
-        //private static readonly object Lock = new();
-
         /**
          * 当前要同步等待的线程组信息
          */
-        private readonly ConcurrentDictionary<Guid, ThreadObj> _DataPacketThreads = new();
+        private readonly ThreadKeyObj threadKeyObj;
 
         /**
          * 调用TCP长连接
@@ -50,7 +49,7 @@ namespace Tool.Sockets.NetFrame
         /// <summary>
         /// 服务器创建时的信息
         /// </summary>
-        public string Server => serverAsync.Server;
+        public UserKey Server => serverAsync.Server;
 
         /// <summary>
         /// 标识服务端连接是否关闭
@@ -99,8 +98,11 @@ namespace Tool.Sockets.NetFrame
 
             DataNet.InitDicDataTcps<ServerFrame>();
 
-            serverAsync = new TcpServerAsync(bufferSize, true) { Millisecond = 0, DisabledReceive = true };//这里就必须加回去
+            threadKeyObj = new ThreadKeyObj();
 
+            serverAsync = new TcpServerAsync(bufferSize, true) { Millisecond = 0 };//这里就必须加回去
+            serverAsync.OpenAllEvent().OnInterceptor(EnServer.Receive, true);
+            serverAsync.CloseAllQueue();
             serverAsync.SetCompleted(Server_Completed);
             serverAsync.SetReceived(Server_Received);
         }
@@ -148,7 +150,7 @@ namespace Tool.Sockets.NetFrame
         /// </summary>
         /// <param name="ipv4">IpV4</param>
         /// <returns>成功/失败</returns>
-        public bool ClientClose(Ipv4Port ipv4) 
+        public bool ClientClose(Ipv4Port ipv4)
         {
             bool isOk = serverAsync.TrySocket(ipv4, out var client);
             if (isOk)
@@ -248,7 +250,6 @@ namespace Tool.Sockets.NetFrame
         /// <param name="api">接口调用信息</param>
         public async ValueTask<NetResponse> SendAsync(Ipv4Port key, ApiPacket api)
         {
-            FrameCommon.SetApiPacket(api, true);
             return await OnSendWaitOne(key, api);
             //return await Task.Run(() => OnSendWaitOne(key, api)); 
         }
@@ -260,7 +261,6 @@ namespace Tool.Sockets.NetFrame
         /// <param name="api">接口调用信息</param>
         public NetResponse Send(in Ipv4Port key, ApiPacket api)
         {
-            FrameCommon.SetApiPacket(api, true);
             var task = OnSendWaitOne(key, api);
             task.Wait();
             return task.Result;
@@ -269,31 +269,35 @@ namespace Tool.Sockets.NetFrame
         private async Task<NetResponse> OnSendWaitOne(Ipv4Port key, ApiPacket api)
         {
             Guid clmidmt = Guid.NewGuid();
-            using ThreadObj _threadObj = FrameCommon.TryThreadObj(_DataPacketThreads, clmidmt, api.IsReply);
-
-            try
+            if (threadKeyObj.TryThreadObj(in key, in clmidmt, api.IsReply, out var threadUuIdObj, out var _threadObj, out var response))  //FrameCommon.TryThreadObj(_DataPacketThreads, clmidmt, api.IsReply);
             {
-                IsIpParser ipParser = await OnIpParser(key, Ipv4Port.Empty);
-                if (!ipParser.IsOk) throw new("接收方不存在！");
-
-                using IDataPacket dataPacket = FrameCommon.GetDataPacket(api, clmidmt);
-
-                await SendAsync(dataPacket, ipParser.Client).IsNewTask();
-                if (!_threadObj.WaitOne(api.Millisecond))
+                using (_threadObj)
                 {
-                    _DataPacketThreads.SetTimeout(in clmidmt);
+                    try
+                    {
+                        IsIpParser ipParser = await OnIpParser(key, Ipv4Port.Empty);
+                        if (!ipParser.IsOk) throw new("接收方不存在！");
+
+                        using IDataPacket dataPacket = FrameCommon.GetDataPacket(api, clmidmt, true);
+
+                        await SendAsync(dataPacket, ipParser.Client).IsNewTask();
+                        if (!_threadObj.WaitOne(api.Millisecond))
+                        {
+                            threadUuIdObj.SetTimeout(in clmidmt);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (api.IsReply) threadUuIdObj.SetException(in clmidmt, in ex); else _threadObj.SetSendFail(ex);
+                    }
+
+                    return _threadObj.GetResponse(in clmidmt);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                if (api.IsReply) _DataPacketThreads.SetException(in clmidmt, in ex); else _threadObj.SetSendFail(ex);
+                return response;
             }
-            //finally
-            //{
-            //    _threadObj.Dispose();
-            //}
-
-            return _threadObj.GetResponse(in clmidmt);
         }
 
         /**
@@ -367,7 +371,7 @@ namespace Tool.Sockets.NetFrame
                     //System.Threading.ThreadPool.UnsafeQueueUserWorkItem(SetPool, poolData, false);
                     await SetPool(poolData);
                 }
-                else if (_DataPacketThreads.TryRemove(json.OnlyId, out ThreadObj Threads))
+                else if (threadKeyObj.Complete(in poolData.Key, json.OnlyId, out ThreadObj Threads))  //_DataPacketThreads.TryRemove(json.OnlyId, out ThreadObj Threads)
                 {
                     Threads.Set(in json);
                     return false;
@@ -393,10 +397,21 @@ namespace Tool.Sockets.NetFrame
             }
         }
 
-        private ValueTask Server_Completed(UserKey arg1, EnServer arg2, DateTime arg3)
+        private async ValueTask Server_Completed(UserKey arg1, EnServer arg2, DateTime arg3)
         {
-            if (Completed is null) return ValueTask.CompletedTask;
-            return Completed.Invoke(arg1, arg2, arg3);
+            switch (arg2)
+            {
+                case EnServer.Connect:
+                    threadKeyObj.TryAdd(arg1);
+                    break;
+                case EnServer.ClientClose:
+                    threadKeyObj.Release(arg1);
+                    break;
+            }
+            if (Completed is not null)
+            {
+                await OnComplete(arg1, arg2);
+            }
         }
 
         /**
@@ -406,7 +421,11 @@ namespace Tool.Sockets.NetFrame
          */
         private ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnServer enAction)
         {
-            return serverAsync.OnComplete(in key, enAction);
+            if (IsEvent(enAction))
+            {
+                return EnumEventQueue.OnComplete(in key, enAction, IsQueue(enAction), Completed);
+            }
+            return IGetQueOnEnum.SuccessAsync;
         }
 
         private async ValueTask<IsIpParser> OnIpParser(Ipv4Port key, Ipv4Port SponsorIp)
@@ -430,6 +449,7 @@ namespace Tool.Sockets.NetFrame
         public void Close()
         {
             serverAsync.Stop();
+            threadKeyObj.Dispose();
         }
     }
 }

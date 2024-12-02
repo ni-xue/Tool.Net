@@ -9,37 +9,20 @@ using Tool.Utils;
 namespace Tool.Sockets.Kernels
 {
     /// <summary>
-    /// 一个TCP连接公共的事件消息体
+    /// 一个Net连接公共的事件消息体
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class EnumEventQueue
     {
-        private readonly struct EventState
-        {
-            public EventState(bool IsEvent, bool IsQueue)
-            {
-                this.IsEvent = IsEvent;
-                this.IsQueue = IsQueue;
-            }
-
-            public bool IsEvent { get; }
-
-            public bool IsQueue { get; }
-        }
-
         /// <summary>
         /// Net事件核心
         /// </summary>
-        private static readonly Lazy<EnumEventQueue> _messageQueue = new(() => new EnumEventQueue());
+        private static readonly Lazy<EnumEventQueue> _messageQueue = new(() => new());
 
         /// <summary>
-        /// TCP连接公共的事件线程
+        /// Net连接公共的事件线程
         /// </summary>
         private readonly Thread _eventthread;
-
-        /// <summary>
-        /// 事件拦截器
-        /// </summary>
-        private readonly ConcurrentDictionary<Enum, EventState> _IsEnumOns;
 
         /**
          * 信号
@@ -56,21 +39,26 @@ namespace Tool.Sockets.Kernels
          */
         //private static readonly object _lockobj = new();
 
+        #region 事件拦截器公共枚举
+
+        internal EnClient noEnClient;
+        internal EnClient noQueueEnClient;
+
+        internal EnServer noEnServer;
+        internal EnServer noQueueEnServer;
+
+        #endregion
+
         private EnumEventQueue()
         {
-            _que = new ConcurrentQueue<IGetQueOnEnum>();
-            _mre = new ManualResetEvent(false);
-            _IsEnumOns = new ConcurrentDictionary<Enum, EventState>();
-            _IsEnumOns.TryAdd(EnClient.Connect, new EventState(true, false));
-            _IsEnumOns.TryAdd(EnClient.Close, new EventState(true, false));
-            _IsEnumOns.TryAdd(EnClient.Fail, new EventState(true, false));
+            _que = new();
+            _mre = new(false);
 
-            _IsEnumOns.TryAdd(EnServer.Connect, new EventState(true, false));
-            _IsEnumOns.TryAdd(EnServer.ClientClose, new EventState(true, false));
+            noEnClient = new EnClient();
+            noEnServer = new EnServer();
 
-            _IsEnumOns.TryAdd(EnServer.Create, new EventState(true, false));
-            _IsEnumOns.TryAdd(EnServer.Close, new EventState(true, false));
-            _IsEnumOns.TryAdd(EnServer.Fail, new EventState(true, false));
+            noQueueEnClient = EnClient.Connect | EnClient.Close | EnClient.Fail | EnClient.Reconnect;
+            noQueueEnServer = EnServer.Create | EnServer.Close | EnServer.Fail | EnServer.Connect | EnServer.ClientClose;
 
             _eventthread = new Thread(TaskOnComplete)
             {
@@ -89,7 +77,7 @@ namespace Tool.Sockets.Kernels
         /// <summary>
         /// 实现单例,不建议直接调用。
         /// </summary>
-        private static EnumEventQueue Instance => _messageQueue.Value;
+        internal static EnumEventQueue Instance => _messageQueue.Value;
 
         private async void TaskOnComplete()
         {
@@ -122,108 +110,133 @@ namespace Tool.Sockets.Kernels
         /// </summary>
         /// <param name="key">IP</param>
         /// <param name="enAction">事件枚举</param>
+        /// <param name="isQueue">是否采用队列处理</param>
         /// <param name="action">委托事件</param>
-        public ValueTask<IGetQueOnEnum> Complete<T>(in UserKey key, T enAction, CompletedEvent<T> action) where T : Enum
+        public ValueTask<IGetQueOnEnum> Complete<T>(in UserKey key, T enAction, bool isQueue, CompletedEvent<T> action) where T : Enum
         {
-            try
+            if (action is not null)
             {
-                //lock (_lockobj)
-                //{
-                if (!_mre.SafeWaitHandle.IsClosed)
+                GetQueOnEnum<T> onEnum = new(key, enAction, action);
+                if (isQueue)
                 {
-                    //if (!_logthread.IsAlive)
-                    //{
-                    //    _logthread.Start();
-                    //}
-                    if (action is not null && IsEnumOn(enAction, out bool IsQueue))
+                    try
                     {
-                        GetQueOnEnum<T> onEnum = new(key, enAction, action);
-                        if (IsQueue)
+                        //lock (_lockobj)
+                        //{
+                        if (!_mre.SafeWaitHandle.IsClosed)
                         {
+                            //if (!_logthread.IsAlive)
+                            //{
+                            //    _logthread.Start();
+                            //}
+
                             _que.Enqueue(onEnum);//Completed?.Invoke(key, enAction)
                             _mre.Set();//启动
-                            return ValueTask.FromResult(onEnum as IGetQueOnEnum);
+                            return ValueTask.FromResult<IGetQueOnEnum>(onEnum);
                         }
-                        else
-                        {
-                            return onEnum.WaitAsync();
-                        }
+                        //}
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error("Net事件通道异常", new Exception("自动容错，已将任务移交回当前线程执行，确保业务流程正常进行", e));
                     }
                 }
-                //}
+                return onEnum.WaitAsync();
             }
-            catch (Exception e)
-            {
-                Log.Error("Net事件通道异常", e);
-            }
-            return ValueTask.FromResult(IGetQueOnEnum.Success);
+            return IGetQueOnEnum.SuccessAsync;
         }
 
-        private bool IsEnumOn(Enum enAction, out bool IsQueue)
+        internal static ValueTask<IGetQueOnEnum> OnComplete<T>(in UserKey key, T enAction, bool isQueue, CompletedEvent<T> action) where T : Enum
         {
-            if (_IsEnumOns.IsEmpty is false && _IsEnumOns.TryGetValue(enAction, out EventState value)) { IsQueue = value.IsQueue; return value.IsEvent; }
-            IsQueue = true;
-            return IsQueue;
-        }
-
-        internal static ValueTask<IGetQueOnEnum> OnComplete<T>(in UserKey key, T enAction, CompletedEvent<T> action) where T : Enum
-        {
-            return Instance.Complete(in key, enAction, action);//Unsafe.NullRef<T>();var a = ref Unsafe.AsRef<EnServer>(ref age1);
+            return Instance.Complete(in key, enAction, isQueue, action);//Unsafe.NullRef<T>();var a = ref Unsafe.AsRef<EnServer>(ref age1);
         }
 
         /// <summary>
-        /// 设置开启或关闭不想收到的消息事件
+        /// 设置开启或关闭不想收到的消息事件（当前设置仅在 <see cref="INetworkCore"/> 接口，相关构造对象还未创建之前设置有效，是这些通信的公共默认配置）
         /// </summary>
-        /// <param name="enAction">屏蔽不触发的事件状态（<see cref="EnClient"/> | <see cref="EnServer"/>）</param>
+        /// <param name="enClient"><see cref="EnClient"/></param>
         /// <param name="state">等于true时生效，将关闭一切的相关事件</param>
-        /// <returns>返回是否设置成功</returns>
-        /// /// <exception cref="Exception"></exception>
-        public static bool OnInterceptor(Enum enAction, bool state)
+        /// <returns>返回true时表示设置成功！</returns>
+        public static bool OnInterceptor(EnClient enClient, bool state)
         {
-            if (enAction is EnClient or EnServer) //(typeof(EnClient) == enAction.GetType() || typeof(EnServer) == enAction.GetType())
+            bool isno = (Instance.noEnClient & enClient) != 0;
+            if (state)
             {
-                _ = Instance._IsEnumOns.AddOrUpdate(enAction, enAction =>
-                {
-                    return new EventState(state, true);
-                },
-                (enAction, eventState) =>
-                {
-                    return new EventState(state, eventState.IsQueue);
-                });
-                return true;
+                if (isno) return false;
+                Instance.noEnClient |= enClient;
             }
             else
             {
-                throw new Exception("并不是认可的枚举！");
+                if (!isno) return false;
+                Instance.noEnClient &= enClient;
             }
+            return true;
         }
 
         /// <summary>
-        /// 设置将，特定事件，载入或不载入，队列池
-        /// <list type="table">注意系统默认，提供了合理方案，如果需要更改，请仔细理解设计模式后，改动。</list>
+        /// 设置开启或关闭不想收到的消息事件（当前设置仅在 <see cref="INetworkCore"/> 接口，相关构造对象还未创建之前设置有效，是这些通信的公共默认配置）
         /// </summary>
-        /// <param name="enAction">事件状态（<see cref="EnClient"/> | <see cref="EnServer"/>）</param>
-        /// <param name="state">true时载入队列，false时由当前线程处理</param>
-        /// <returns>返回是否设置成功</returns>
-        /// <exception cref="Exception"></exception>
-        public static bool OnIsQueue(Enum enAction, bool state)
+        /// <param name="enServer"><see cref="EnServer"/></param>
+        /// <param name="state">等于true时生效，将关闭一切的相关事件</param>
+        /// <returns>返回true时表示设置成功！</returns>
+        public static bool OnInterceptor(EnServer enServer, bool state)
         {
-            if (enAction is EnClient or EnServer) //(typeof(EnClient) == enAction.GetType() || typeof(EnServer) == enAction.GetType())
+            bool isno = (Instance.noEnServer & enServer) != 0;
+            if (state)
             {
-                _ = Instance._IsEnumOns.AddOrUpdate(enAction, enAction =>
-                {
-                    return new EventState(true, state);
-                },
-                (enAction, eventState) =>
-                {
-                    return new EventState(eventState.IsEvent, state);
-                });
-                return true;
+                if (isno) return false;
+                Instance.noEnServer |= enServer;
             }
             else
             {
-                throw new Exception("并不是认可的枚举！");
+                if (!isno) return false;
+                Instance.noEnServer &= enServer;
             }
+            return true;
+        }
+
+        /// <summary>
+        /// 设置将<see cref="EnClient"/>事件，载入或不载入，队列池（当前设置仅在 <see cref="INetworkCore"/> 接口，相关构造对象还未创建之前设置有效，是这些通信的公共默认配置）
+        /// </summary>
+        /// <param name="enClient"><see cref="EnClient"/></param>
+        /// <param name="state">等于true时，事件由队列线程完成，false时交由任务线程自行完成</param>
+        /// <returns>返回true时表示设置成功！</returns>
+        public static bool OnIsQueue(EnClient enClient, bool state)
+        {
+            bool isno = (Instance.noQueueEnClient & enClient) != 0;
+            if (state)
+            {
+                if (!isno) return false;
+                Instance.noQueueEnClient &= enClient;
+            }
+            else
+            {
+                if (isno) return false;
+                Instance.noQueueEnClient |= enClient;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 设置将<see cref="EnServer"/>事件，载入或不载入，队列池（当前设置仅在 <see cref="INetworkCore"/> 接口，相关构造对象还未创建之前设置有效，是这些通信的公共默认配置）
+        /// </summary>
+        /// <param name="enServer"><see cref="EnServer"/></param>
+        /// <param name="state">等于true时，事件由队列线程完成，false时交由任务线程自行完成</param>
+        /// <returns>返回true时表示设置成功！</returns>
+        public static bool OnIsQueue(EnServer enServer, bool state)
+        {
+            bool isno = (Instance.noQueueEnServer & enServer) != 0;
+            if (state)
+            {
+                if (!isno) return false;
+                Instance.noQueueEnServer &= enServer;
+            }
+            else
+            {
+                if (isno) return false;
+                Instance.noQueueEnServer |= enServer;
+            }
+            return true;
         }
     }
 }

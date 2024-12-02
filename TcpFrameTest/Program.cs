@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+
 //using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
 //using static System.Net.Mime.MediaTypeNames;
 using System.IO;
@@ -18,6 +20,8 @@ namespace TcpFrameTest
     public class Program
     {
         static string ip = "127.0.0.1";
+
+        static bool isCancell = false;
 
         static int i = 0;
 
@@ -101,10 +105,10 @@ namespace TcpFrameTest
 
         public static async Task Main(string[] args) //http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1
         {
-#if !DEBUG
-            var ipadrs = await Tool.Utils.Utility.GetIPAddressAsync("nixue.top", System.Net.Sockets.AddressFamily.InterNetwork);
-            if (ipadrs is not null) ip = ipadrs.ToString();
-#endif
+//#if !DEBUG
+//            var ipadrs = await Tool.Utils.Utility.GetIPAddressAsync("nixue.top", System.Net.Sockets.AddressFamily.InterNetwork);
+//            if (ipadrs is not null) ip = ipadrs.ToString();
+//#endif
 
             await Console.Out.WriteLineAsync($"IP:{ip}");
 
@@ -453,10 +457,10 @@ namespace TcpFrameTest
             //}
 
             EnumEventQueue.OnInterceptor(EnServer.SendMsg, true);
-            //EnumEventQueue.OnInterceptor(EnServer.Receive, true);
+            EnumEventQueue.OnInterceptor(EnServer.Receive, true);
 
             EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
-            //EnumEventQueue.OnInterceptor(EnClient.Receive, true);
+            EnumEventQueue.OnInterceptor(EnClient.Receive, true);
 
             bool isServer = true;
             //#if DEBUG
@@ -528,6 +532,8 @@ namespace TcpFrameTest
                     tasks[i] = ObjectExtension.RunTask(Client); //Task.Factory.StartNew(Client);
                 }
 
+                while (Console.ReadKey(true).Key is not ConsoleKey.F4) { }
+                isCancell = true;
                 Task.WaitAll(tasks);
             }
 
@@ -561,13 +567,43 @@ namespace TcpFrameTest
 
         private static async Task Server()
         {
+            UserKey userKey = default;
+
             ServerFrame server = new(NetBufferSize.Size512K) { IsAllowRelay = false };
+
+            Func<Task> func = async () =>
+            {
+                while (!isCancell)
+                {
+                    try
+                    {
+                        ApiPacket packet = new(1, 102, 60000, true);
+                        using var netResponse = await server.SendAsync(userKey, packet);
+                        switch (netResponse.State)
+                        {
+                            case not NetFrameState.Success:
+                                Debug.WriteLine("访问状态：{0}，{1}", netResponse.State, netResponse.Error?.Message);
+                                //await Task.Delay(1000);
+                                break;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+            };
 
             server.SetIpParser(GetKey);
 
             server.SetCompleted((a, b, c) =>
             {
-                Console.WriteLine("IP:{0} \t{1} \t{2}", a, b, c.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
+                if (b == EnServer.Connect)
+                {
+                    userKey = a;
+                    //func.RunTask();
+                }
+                Debug.WriteLine("IP:{0} \t{1} \t{2}", a, b, c.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
                 return ValueTask.CompletedTask;
             });
 
@@ -575,8 +611,12 @@ namespace TcpFrameTest
 
             Console.ReadLine();
 
-           ValueTask<Ipv4Port> GetKey(Ipv4Port age0, Ipv4Port age1)
+            ValueTask<Ipv4Port> GetKey(Ipv4Port age0, Ipv4Port age1)
             {
+                if (age0.IsEmpty)
+                {
+                    return ValueTask.FromResult(age1);
+                }
                 IEnumerable<UserKey> strings = server.ListClient.Keys;
                 Interlocked.Increment(ref Class1.e); //统计总转发计数
 
@@ -597,11 +637,11 @@ namespace TcpFrameTest
 
         private static async Task Client()
         {
-            ClientFrame client = new(NetBufferSize.Size512K, true) { IsThreadPool = false };
+            ClientFrame client = new(NetBufferSize.Size512K, true) { IsThreadPool = true };
 
             client.SetCompleted((a1, b1, c1) =>
             {
-                Console.WriteLine("IP:{0} \t{1} \t{2}", a1, b1, c1.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
+                Debug.WriteLine("IP:{0} \t{1} \t{2}", a1, b1, c1.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
                 return ValueTask.CompletedTask;
             });
 
@@ -629,13 +669,19 @@ namespace TcpFrameTest
                 }
 
                 //await Console.Out.WriteLineAsync($"计数{i}");
-                while (true)
+                while (!isCancell)
                 {
                     //Debug.WriteLine($"Thread:{Environment.CurrentManagedThreadId}");
 
 #if true
-                    using var response = await client.SendAsync(packet);
+
                     Interlocked.Increment(ref Class1.d);//模拟发送计数
+                    using var response = await client.SendAsync(packet);
+                    //if (!packet.IsReply)
+                    //{
+                    //    Interlocked.Increment(ref Class1.d);//模拟发送计数
+                    //}
+                    Interlocked.Increment(ref Class1.c);//模拟发送计数
 #else
                     using var response = await client.SendIpIdeaAsync("1.0.0.1:1", packet);
 #endif
@@ -644,7 +690,7 @@ namespace TcpFrameTest
                     switch (response.State)
                     {
                         case not NetFrameState.Success:
-                            Console.WriteLine("访问状态：{0}，{1}", response.State, response.Error?.Message);
+                            Debug.WriteLine("访问状态：{0}，{1}", response.State, response.Error?.Message);
                             await Task.Delay(1000, token);
                             break;
                     }

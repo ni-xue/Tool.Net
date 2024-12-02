@@ -9,6 +9,7 @@ namespace Tool.Net
     /// <summary>
     /// 包相关信息说明类
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class Explains
     {
         /// <summary>

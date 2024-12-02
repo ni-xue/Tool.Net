@@ -11,6 +11,7 @@ namespace Tool.Sockets.NetFrame
     /// <summary>
     /// 用于连接多服务器，分发消息的客户端帮助类，可以保证线程安全，均衡分发数据包。
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ClientFrameList: IDisposable
     {
         /// <summary>

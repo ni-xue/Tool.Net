@@ -6,10 +6,11 @@ using System.Text;
 
 namespace Tool.Utils
 {
-	/// <summary>
-	/// 文件管理器
-	/// </summary>
-	public abstract class FileManager
+    /// <summary>
+    /// 文件管理器
+    /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
+    public abstract class FileManager
 	{
 		/// <summary>
 		/// 复制目录

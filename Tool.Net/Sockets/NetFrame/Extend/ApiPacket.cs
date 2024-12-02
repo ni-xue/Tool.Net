@@ -13,6 +13,7 @@ namespace Tool.Sockets.NetFrame
     /// <summary>
     /// 接口请求数据包
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ApiPacket
     {
         ///// <summary>
@@ -89,9 +90,6 @@ namespace Tool.Sockets.NetFrame
          * 发送的参数
          */
         internal readonly Dictionary<string, string> Data;
-
-        internal Ipv4Port ipPort;
-        internal bool isServer;
 
         /// <summary>
         /// 加入数据（如果有则修改）

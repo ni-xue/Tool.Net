@@ -5,8 +5,9 @@ using System.Text;
 namespace Tool.Sockets.Kernels
 {
     /// <summary>
-    /// ClientFrame类的行为
+    /// Client客户端枚举
     /// </summary>
+    [Flags]
     public enum EnClient : byte
     {
         /// <summary>
@@ -20,18 +21,22 @@ namespace Tool.Sockets.Kernels
         /// <summary>
         /// 向服务器发送数据时发生
         /// </summary>
-        SendMsg = 3,
+        SendMsg = 4,
         /// <summary>
         /// 收到服务器数据时发生
         /// </summary>
-        Receive = 4,
+        Receive = 8,
         /// <summary>
         /// 与服务器断开连接时发生
         /// </summary>
-        Close = 5,
+        Close = 16,
         /// <summary>
         /// 心跳包事件（推送后触发）
         /// </summary>
-        HeartBeat = 10
+        HeartBeat = 32,
+        /// <summary>
+        /// （断线后/连接失败）需要重连时触发
+        /// </summary>
+        Reconnect = 64,
     }
 }

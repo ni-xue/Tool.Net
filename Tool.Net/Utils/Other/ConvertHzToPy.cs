@@ -7,6 +7,7 @@ namespace Tool.Utils.Other
     /// <summary>
     /// 是<see cref="ConvertHzToPzGb2312"/>类的升级版
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ConvertHzToPy
     {
         /// <summary>

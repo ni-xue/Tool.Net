@@ -19,6 +19,11 @@ namespace Tool.Sockets.Kernels
         public static IGetQueOnEnum Success { get; } = new GetQueOnEnum();
 
         /// <summary>
+        /// 获取默认完成的事件结果
+        /// </summary>
+        public static ValueTask<IGetQueOnEnum> SuccessAsync => ValueTask.FromResult(Success);
+
+        /// <summary>
         /// 获取当前任务是否完成
         /// </summary>
         public bool IsSuccess { get; }

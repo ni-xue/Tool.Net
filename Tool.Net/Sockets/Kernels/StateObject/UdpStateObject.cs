@@ -1,29 +1,17 @@
 ﻿using System;
-using System.Buffers;
-
-//using System.Buffers;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO.Pipelines;
 using System.Net;
 using System.Net.Sockets;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 using Tool.Sockets.UdpHelper;
 using Tool.Utils;
-using Tool.Utils.ThreadQueue;
 
 namespace Tool.Sockets.Kernels
 {
     /// <summary>
     /// 对异步接收时的对象状态的封装，将socket与接收到的数据封装在一起
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class UdpStateObject : StateObject
     {
         private readonly ReceiveEvent<IUdpCore> received;

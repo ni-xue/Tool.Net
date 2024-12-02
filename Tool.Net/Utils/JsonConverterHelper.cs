@@ -10,6 +10,7 @@ namespace Tool.Utils
     /// <summary>
     /// 获取 系统中可用的 Json 自定义转换对象
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class JsonConverterHelper
     {
         /// <summary>
@@ -35,6 +36,7 @@ namespace Tool.Utils
     /// <summary>
     /// Json 标准或自定义日期和时间格式字符串。
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class DateConverter : JsonConverter<DateTime>
     {
         /// <summary>
@@ -96,6 +98,7 @@ namespace Tool.Utils
     /// <summary>
     /// Json <see cref="DBNull"/> 将 {} 改Null输出
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class DBNullConverter : JsonConverter<DBNull>
     {
 

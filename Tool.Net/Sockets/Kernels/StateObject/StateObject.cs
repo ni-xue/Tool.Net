@@ -70,6 +70,7 @@ namespace Tool.Sockets.Kernels
     /// <summary>
     /// 通信公共基础类
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public abstract class StateObject
     {
 

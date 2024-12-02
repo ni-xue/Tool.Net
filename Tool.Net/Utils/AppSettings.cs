@@ -36,6 +36,11 @@ namespace Tool.Utils
         public static IConfigurationRoot Configuration { get; }
 
         /// <summary>
+        /// 获取当前配置文件的路径
+        /// </summary>
+        public static string CurrentDirectory { get; }
+
+        /// <summary>
         /// 自动注入
         /// </summary>
         static AppSettings()
@@ -44,10 +49,12 @@ namespace Tool.Utils
             {
                 if (IsBuild(Environment.CurrentDirectory, out IConfigurationRoot configurationRoot))
                 {
+                    CurrentDirectory = Environment.CurrentDirectory;
                     Configuration = configurationRoot;
                 }
                 else if (IsBuild(AppContext.BaseDirectory, out configurationRoot))
                 {
+                    CurrentDirectory = AppContext.BaseDirectory;
                     Configuration = configurationRoot;
                 }
 
@@ -210,7 +217,7 @@ namespace Tool.Utils
 
     internal class WritableJsonConfigurationProvider : JsonConfigurationProvider
     {
-        private readonly TaskOueue<ValueTuple<string, string>> taskOueue;
+        private readonly TaskQueue<ValueTuple<string, string>> taskOueue;
         private readonly string fileFullPath;
 
         public WritableJsonConfigurationProvider(WritableJsonConfigurationSource source) : base(source)
@@ -291,8 +298,7 @@ namespace Tool.Utils
             {
                 if (value.StartsWith('{') || value.StartsWith('['))
                 {
-                    using JsonDocument jsonDocument = JsonDocument.Parse(value);
-                    return JsonHelper.GetReturn(jsonDocument.RootElement);
+                    return value.JsonObject(new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Skip });
                 }
                 else
                 {

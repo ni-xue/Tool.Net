@@ -13,6 +13,7 @@ namespace Tool.Utils
     /// <summary>
     /// 图片压缩帮助类
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ImageHelper
     {
         private static void SaveJpg(MemoryStream stream, string file_name) 

@@ -18,6 +18,7 @@ namespace Tool.SqlCore
     /// <summary>
     /// Sql 核心 操作底层
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class DbHelper
     {
         #region Sql 公开变量
@@ -100,6 +101,7 @@ namespace Tool.SqlCore
         /// <summary>
         /// 打印模式，true = 采用HTML打印模式，false = 采用txt打印模式
         /// </summary>
+        [Obsolete("因模式维护成本较高，且这种方式显示并不美观，将不在维护！", true)]
         public bool IsSqlLogHtml { get; set; } = false;
 
         /// <summary>
@@ -529,8 +531,7 @@ namespace Tool.SqlCore
         /// <returns><see cref="DbTransaction"/> 的新实例。</returns>
         public DbTransaction CreateTransaction()
         {
-            DbConnection dbConnection = CreateConnection();
-            dbConnection.ConnectionString = this.ConnectionString;
+            DbConnection dbConnection = NewDbConnection();
             dbConnection.Open();
             return dbConnection.BeginTransaction();
         }
@@ -549,8 +550,7 @@ namespace Tool.SqlCore
         /// <returns><see cref="DbTransaction"/> 的新实例。</returns>
         public DbTransaction CreateTransaction(IsolationLevel isolationLevel)
         {
-            DbConnection dbConnection = CreateConnection();
-            dbConnection.ConnectionString = this.ConnectionString;
+            DbConnection dbConnection = NewDbConnection();
             dbConnection.Open();
             return dbConnection.BeginTransaction(isolationLevel);
         }
@@ -569,8 +569,7 @@ namespace Tool.SqlCore
         /// <returns><see cref="DbTransaction"/> 的新实例。</returns>
         public async Task<DbTransaction> CreateTransactionAsync()
         {
-            DbConnection dbConnection = CreateConnection();
-            dbConnection.ConnectionString = this.ConnectionString;
+            DbConnection dbConnection = NewDbConnection();
             await dbConnection.OpenAsync();
             return await dbConnection.BeginTransactionAsync();
         }
@@ -589,8 +588,7 @@ namespace Tool.SqlCore
         /// <returns><see cref="DbTransaction"/> 的新实例。</returns>
         public async Task<DbTransaction> CreateTransactionAsync(IsolationLevel isolationLevel)
         {
-            DbConnection dbConnection = CreateConnection();
-            dbConnection.ConnectionString = this.ConnectionString;
+            DbConnection dbConnection = NewDbConnection();
             await dbConnection.OpenAsync();
             return await dbConnection.BeginTransactionAsync(isolationLevel);
         }
@@ -1634,10 +1632,9 @@ namespace Tool.SqlCore
         {
             IsNullConnectionString();
             DataSet result;
-            using (DbConnection dbConnection = CreateConnection())
+            using (DbConnection dbConnection = NewDbConnection())
             {
-                dbConnection.ConnectionString = this.ConnectionString;
-                dbConnection.Open();
+                //dbConnection.Open();
                 result = this.ExecuteDataSet(dbConnection, commandType, commandText, commandParameters);
             }
             return result;
@@ -1741,6 +1738,7 @@ namespace Tool.SqlCore
 
             Stopwatch watch = GetStopwatch();
             bool iserror = false, flag = false;
+            string guid = string.Empty;
             try
             {
                 PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out flag);
@@ -1750,14 +1748,13 @@ namespace Tool.SqlCore
                 dbDataAdapter.Fill(dataSet);
                 return dataSet;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                iserror = true;
-                throw;
+                throw GetException(ex, ref iserror, ref guid);
             }
             finally
             {
-                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror, guid);
                 dbCommand.Parameters.Clear();
                 if (flag && transaction is null) connection.Close();
             }
@@ -1824,15 +1821,14 @@ namespace Tool.SqlCore
             async Task<DataSet> ExecuteDataSetAsync()
             {
                 DataSet result;
-                using (DbConnection dbConnection = CreateConnection())
+                using (DbConnection dbConnection = NewDbConnection())
                 {
-                    dbConnection.ConnectionString = this.ConnectionString;
-                    await dbConnection.OpenAsync();//.Wait()
+                    //await dbConnection.OpenAsync();
                     result = await this.ExecuteDataSetAsync(dbConnection, commandType, commandText, commandParameters);
                 }
                 return result;
             }
-            return await ExecuteDataSetAsync();//Task.Run(ExecuteDataset);
+            return await ExecuteDataSetAsync();
         }
 
         /// <summary>
@@ -2118,10 +2114,9 @@ namespace Tool.SqlCore
         {
             IsNullConnectionString();
             int result;
-            using (DbConnection dbConnection = CreateConnection())
+            using (DbConnection dbConnection = NewDbConnection())
             {
-                dbConnection.ConnectionString = this.ConnectionString;
-                dbConnection.Open();
+                //dbConnection.Open();
                 result = this.ExecuteNonQuery(dbConnection, commandType, commandText, commandParameters);
             }
             return result;
@@ -2225,19 +2220,19 @@ namespace Tool.SqlCore
 
             Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
             bool iserror = false, flag = false;
+            string guid = string.Empty;
             try
             {
                 PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out flag);
                 return dbCommand.ExecuteNonQuery();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                iserror = true;
-                throw;
+                throw GetException(ex, ref iserror, ref guid);
             }
             finally
             {
-                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror, guid);
                 dbCommand.Parameters.Clear();
                 if (flag && transaction is null) connection.Close();
             }
@@ -2263,20 +2258,20 @@ namespace Tool.SqlCore
             {
                 Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
                 bool iserror = false;
+                string guid = string.Empty;
                 try
                 {
                     PrepareCommand(dbCommand, CommandTimeout, transaction.Connection, transaction, sqlText.CommandType, sqlText.CommandText, sqlText.Parameters, out _);
                     result += dbCommand.ExecuteNonQuery();
 
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    iserror = true;
-                    throw;
+                    throw GetException(ex, ref iserror, ref guid);
                 }
                 finally
                 {
-                    AddQueryDetail(dbCommand.CommandText, watch, sqlText.Parameters, iserror);
+                    AddQueryDetail(dbCommand.CommandText, watch, sqlText.Parameters, iserror, guid);
                     dbCommand.Parameters.Clear();
                 }
             }
@@ -2341,9 +2336,8 @@ namespace Tool.SqlCore
         public async Task<int> ExecuteNonQueryAsync(CommandType commandType, string commandText, params DbParameter[] commandParameters)
         {
             IsNullConnectionString();
-            using DbConnection dbConnection = CreateConnection();
-            dbConnection.ConnectionString = this.ConnectionString;
-            await dbConnection.OpenAsync();
+            using DbConnection dbConnection = NewDbConnection();
+            //await dbConnection.OpenAsync();
             return await this.ExecuteNonQueryAsync(dbConnection, commandType, commandText, commandParameters);
         }
 
@@ -2413,20 +2407,20 @@ namespace Tool.SqlCore
 
             Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
             bool iserror = false, flag = false;
+            string guid = string.Empty;
             try
             {
                 flag = await OpenCommandAsync(connection);
                 PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out _);
                 return await dbCommand.ExecuteNonQueryAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                iserror = true;
-                throw;
+                throw GetException(ex, ref iserror, ref guid);
             }
             finally
             {
-                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror, guid);
                 dbCommand.Parameters.Clear();
                 if (flag && transaction is null) await connection.CloseAsync();
             }
@@ -2452,6 +2446,7 @@ namespace Tool.SqlCore
             {
                 Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
                 bool iserror = false;
+                string guid = string.Empty;
                 try
                 {
                     await OpenCommandAsync(transaction.Connection);
@@ -2459,14 +2454,13 @@ namespace Tool.SqlCore
                     result += dbCommand.ExecuteNonQuery();
 
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    iserror = true;
-                    throw;
+                    throw GetException(ex, ref iserror, ref guid);
                 }
                 finally
                 {
-                    AddQueryDetail(dbCommand.CommandText, watch, sqlText.Parameters, iserror);
+                    AddQueryDetail(dbCommand.CommandText, watch, sqlText.Parameters, iserror, guid);
                     dbCommand.Parameters.Clear();
                 }
             }
@@ -2509,8 +2503,7 @@ namespace Tool.SqlCore
         public DbTransResult TransExecuteNonQuery(params SqlTextParameter[] sqlTexts)
         {
             IsNullConnectionString();
-            using DbConnection dbConnection = CreateConnection();
-            dbConnection.ConnectionString = this.ConnectionString;
+            using DbConnection dbConnection = NewDbConnection();
             dbConnection.Open();
 
             DbTransaction transaction = dbConnection.BeginTransaction();
@@ -2554,8 +2547,7 @@ namespace Tool.SqlCore
         public async Task<DbTransResult> TransExecuteNonQueryAsync(params SqlTextParameter[] sqlTexts)
         {
             IsNullConnectionString();
-            using DbConnection dbConnection = CreateConnection();
-            dbConnection.ConnectionString = this.ConnectionString;
+            using DbConnection dbConnection = NewDbConnection();
             await dbConnection.OpenAsync();
 
             DbTransaction transaction = await dbConnection.BeginTransactionAsync();
@@ -2591,10 +2583,9 @@ namespace Tool.SqlCore
         {
             IsNullConnectionString();
             int result;
-            using (DbConnection dbConnection = CreateConnection())
+            using (DbConnection dbConnection = NewDbConnection())
             {
-                dbConnection.ConnectionString = this.ConnectionString;
-                dbConnection.Open();
+                //dbConnection.Open();
                 result = this.ExecuteNonQuery(out id, dbConnection, commandType, commandText, commandParameters);
             }
             return result;
@@ -2678,6 +2669,7 @@ namespace Tool.SqlCore
 
             Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
             bool iserror = false, flag = false;
+            string guid = string.Empty;
             try
             {
                 PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out flag);
@@ -2688,14 +2680,13 @@ namespace Tool.SqlCore
                 reader.Close();
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                iserror = true;
-                throw;
+                throw GetException(ex, ref iserror, ref guid);
             }
             finally
             {
-                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror, guid);
                 dbCommand.Parameters.Clear();
                 if (flag && transaction is null) connection.Close();
             }
@@ -2726,9 +2717,8 @@ namespace Tool.SqlCore
         public async Task<SqlNonQuery> ExecuteNonQueryIdAsync(CommandType commandType, string commandText, params DbParameter[] commandParameters)
         {
             IsNullConnectionString();
-            using DbConnection dbConnection = CreateConnection();
-            dbConnection.ConnectionString = this.ConnectionString;
-            await dbConnection.OpenAsync();
+            using DbConnection dbConnection = NewDbConnection();
+            //await dbConnection.OpenAsync();
             return await this.ExecuteNonQueryIdAsync(dbConnection, commandType, commandText, commandParameters);
         }
 
@@ -2805,6 +2795,7 @@ namespace Tool.SqlCore
 
             Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
             bool iserror = false, flag = false;
+            string guid = string.Empty;
             try
             {
                 flag = await OpenCommandAsync(connection);
@@ -2816,14 +2807,13 @@ namespace Tool.SqlCore
                 await reader.CloseAsync();
                 return nonQuery;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                iserror = true;
-                throw;
+                throw GetException(ex, ref iserror, ref guid);
             }
             finally
             {
-                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror, guid);
                 dbCommand.Parameters.Clear();
                 if (flag && transaction is null) await connection.CloseAsync();
             }
@@ -3013,10 +3003,10 @@ namespace Tool.SqlCore
             DbDataReader result;
             try
             {
-                dbConnection = CreateConnection();
-                dbConnection.ConnectionString = this.ConnectionString;
+                dbConnection = NewDbConnection();
+                var watch = GetStopwatch();
                 dbConnection.Open();
-                result = this.ExecuteReader(dbConnection, null, commandType, commandText, commandParameters, DbHelper.DbConnectionOwnership.Internal);
+                result = this.ExecuteReader(dbConnection, null, commandType, commandText, commandParameters, DbHelper.DbConnectionOwnership.Internal, watch: watch);
             }
             catch
             {
@@ -3117,13 +3107,14 @@ namespace Tool.SqlCore
             return this.ExecuteReader(transaction.Connection, transaction, commandType, commandText, commandParameters, DbHelper.DbConnectionOwnership.External);
         }
 
-        private DbDataReader ExecuteReader(DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DbParameter[] commandParameters, DbHelper.DbConnectionOwnership connectionOwnership)
+        private DbDataReader ExecuteReader(DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DbParameter[] commandParameters, DbHelper.DbConnectionOwnership connectionOwnership, Stopwatch watch = null)
         {
             ThrowIfNull(connection, nameof(connection));
             using DbCommand dbCommand = CreateCommand();
 
-            Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
+            watch ??= GetStopwatch(); //Stopwatch.StartNew();
             bool iserror = false, flag = false, flag1 = true;
+            string guid = string.Empty;
             try
             {
                 PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out flag);
@@ -3143,14 +3134,13 @@ namespace Tool.SqlCore
 
                 return dbDataReader;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                iserror = true;
-                throw;
+                throw GetException(ex, ref iserror, ref guid);
             }
             finally
             {
-                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror, guid);
                 if (flag1) dbCommand.Parameters.Clear();
                 if (flag) connection.Close();
             }
@@ -3213,10 +3203,10 @@ namespace Tool.SqlCore
             DbDataReader result;
             try
             {
-                dbConnection = CreateConnection();
-                dbConnection.ConnectionString = this.ConnectionString;
+                dbConnection = NewDbConnection(); 
+                var watch = GetStopwatch();
                 await dbConnection.OpenAsync();
-                result = await this.ExecuteReaderAsync(dbConnection, null, commandType, commandText, commandParameters, DbHelper.DbConnectionOwnership.Internal);
+                result = await this.ExecuteReaderAsync(dbConnection, null, commandType, commandText, commandParameters, DbHelper.DbConnectionOwnership.Internal, watch: watch);
             }
             catch
             {
@@ -3317,13 +3307,14 @@ namespace Tool.SqlCore
             return this.ExecuteReaderAsync(transaction.Connection, transaction, commandType, commandText, commandParameters, DbHelper.DbConnectionOwnership.External);
         }
 
-        private async Task<DbDataReader> ExecuteReaderAsync(DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DbParameter[] commandParameters, DbHelper.DbConnectionOwnership connectionOwnership)
+        private async Task<DbDataReader> ExecuteReaderAsync(DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DbParameter[] commandParameters, DbHelper.DbConnectionOwnership connectionOwnership, Stopwatch watch = null)
         {
             ThrowIfNull(connection, nameof(connection));
             using DbCommand dbCommand = CreateCommand();
 
-            Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
+            watch ??= GetStopwatch(); //Stopwatch.StartNew();
             bool iserror = false, flag = false, flag1 = true;
+            string guid = string.Empty;
             try
             {
                 flag = await OpenCommandAsync(connection);
@@ -3344,14 +3335,13 @@ namespace Tool.SqlCore
 
                 return dbDataReader;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                iserror = true;
-                throw;
+                throw GetException(ex, ref iserror, ref guid);
             }
             finally
             {
-                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror, guid);
                 if (flag1) dbCommand.Parameters.Clear();
                 if (flag && transaction is null) await connection.CloseAsync();
             }
@@ -3527,10 +3517,9 @@ namespace Tool.SqlCore
         {
             IsNullConnectionString();
             object result;
-            using (DbConnection dbConnection = CreateConnection())
+            using (DbConnection dbConnection = NewDbConnection())
             {
-                dbConnection.ConnectionString = this.ConnectionString;
-                dbConnection.Open();
+                //dbConnection.Open();
                 result = this.ExecuteScalar(dbConnection, commandType, commandText, commandParameters);
             }
             return result;
@@ -3634,19 +3623,19 @@ namespace Tool.SqlCore
 
             Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
             bool iserror = false, flag = false;
+            string guid = string.Empty;
             try
             {
                 PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out flag);
                 return dbCommand.ExecuteScalar();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                iserror = true;
-                throw;
+                throw GetException(ex, ref iserror, ref guid);
             }
             finally
             {
-                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror, guid);
                 dbCommand.Parameters.Clear();
                 if (flag && transaction is null) connection.Close();
             }
@@ -3678,10 +3667,9 @@ namespace Tool.SqlCore
         {
             IsNullConnectionString();
             object result;
-            using (DbConnection dbConnection = CreateConnection())
+            using (DbConnection dbConnection = NewDbConnection())
             {
-                dbConnection.ConnectionString = this.ConnectionString;
-                dbConnection.Open();
+                //dbConnection.Open();
                 result = await this.ExecuteScalarAsync(dbConnection, commandType, commandText, commandParameters);
             }
             return result;
@@ -3785,20 +3773,20 @@ namespace Tool.SqlCore
 
             Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
             bool iserror = false, flag = false;
+            string guid = string.Empty;
             try
             {
                 flag = await OpenCommandAsync(connection);
                 PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out _);
                 return await dbCommand.ExecuteScalarAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                iserror = true;
-                throw;
+                throw GetException(ex, ref iserror, ref guid);
             }
             finally
             {
-                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror, guid);
                 dbCommand.Parameters.Clear();
                 if (flag && transaction is null) await connection.CloseAsync();
             }
@@ -4019,9 +4007,8 @@ namespace Tool.SqlCore
         {
             IsNullConnectionString();
             ThrowIfNull(dataSet, nameof(dataSet));
-            using DbConnection dbConnection = CreateConnection();
-            dbConnection.ConnectionString = this.ConnectionString;
-            dbConnection.Open();
+            using DbConnection dbConnection = NewDbConnection();
+            //dbConnection.Open();
             this.FillDataSet(dbConnection, commandType, commandText, dataSet, tableNames);
         }
 
@@ -4036,9 +4023,8 @@ namespace Tool.SqlCore
         {
             IsNullConnectionString();
             ThrowIfNull(dataSet, nameof(dataSet));
-            using DbConnection dbConnection = CreateConnection();
-            dbConnection.ConnectionString = this.ConnectionString;
-            dbConnection.Open();
+            using DbConnection dbConnection = NewDbConnection();
+            //dbConnection.Open();
             this.FillDataSet(dbConnection, spName, dataSet, tableNames, parameterValues);
         }
 
@@ -4054,9 +4040,8 @@ namespace Tool.SqlCore
         {
             IsNullConnectionString();
             ThrowIfNull(dataSet, nameof(dataSet));
-            using DbConnection dbConnection = CreateConnection();
-            dbConnection.ConnectionString = this.ConnectionString;
-            dbConnection.Open();
+            using DbConnection dbConnection = NewDbConnection();
+            //dbConnection.Open();
             this.FillDataSet(dbConnection, commandType, commandText, dataSet, tableNames, commandParameters);
         }
 
@@ -4168,6 +4153,7 @@ namespace Tool.SqlCore
 
             Stopwatch watch = GetStopwatch(); //Stopwatch.StartNew();
             bool iserror = false, flag = false;
+            string guid = string.Empty;
             try
             {
                 PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out flag);
@@ -4188,14 +4174,13 @@ namespace Tool.SqlCore
                 }
                 dbDataAdapter.Fill(dataSet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                iserror = true;
-                throw;
+                throw GetException(ex, ref iserror, ref guid);
             }
             finally
             {
-                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror);
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror, guid);
                 dbCommand.Parameters.Clear();
                 if (flag && transaction is null) connection.Close();
             }
@@ -4655,14 +4640,10 @@ namespace Tool.SqlCore
             dbCommandBuilder.DataAdapter.InsertCommand = CreateCommand();
             dbCommandBuilder.DataAdapter.UpdateCommand = CreateCommand();
             dbCommandBuilder.DataAdapter.SelectCommand.CommandText = commandText;
-            dbCommandBuilder.DataAdapter.SelectCommand.Connection = CreateConnection();
-            dbCommandBuilder.DataAdapter.DeleteCommand.Connection = CreateConnection();
-            dbCommandBuilder.DataAdapter.InsertCommand.Connection = CreateConnection();
-            dbCommandBuilder.DataAdapter.UpdateCommand.Connection = CreateConnection();
-            dbCommandBuilder.DataAdapter.SelectCommand.Connection.ConnectionString = this.ConnectionString;
-            dbCommandBuilder.DataAdapter.DeleteCommand.Connection.ConnectionString = this.ConnectionString;
-            dbCommandBuilder.DataAdapter.InsertCommand.Connection.ConnectionString = this.ConnectionString;
-            dbCommandBuilder.DataAdapter.UpdateCommand.Connection.ConnectionString = this.ConnectionString;
+            dbCommandBuilder.DataAdapter.SelectCommand.Connection = NewDbConnection();
+            dbCommandBuilder.DataAdapter.DeleteCommand.Connection = NewDbConnection();
+            dbCommandBuilder.DataAdapter.InsertCommand.Connection = NewDbConnection();
+            dbCommandBuilder.DataAdapter.UpdateCommand.Connection = NewDbConnection();
             this.UpdateDataSet(dbCommandBuilder.GetInsertCommand(), dbCommandBuilder.GetDeleteCommand(), dbCommandBuilder.GetUpdateCommand(), dataSet, tableName);
         }
 
@@ -4716,11 +4697,18 @@ namespace Tool.SqlCore
 
         #region 私有其他部分
 
+        internal DbConnection NewDbConnection()
+        {
+            DbConnection dbConnection = CreateConnection();
+            dbConnection.ConnectionString = this.ConnectionString;
+            return dbConnection;
+        }
+
         /// <summary>
         /// 获取执行时间器
         /// </summary>
         /// <returns></returns>
-        private Stopwatch GetStopwatch()
+        internal Stopwatch GetStopwatch()
         {
             Stopwatch watch = null;
             if (IsSqlLog)
@@ -4731,18 +4719,34 @@ namespace Tool.SqlCore
         }
 
         /// <summary>
+        /// 获取执行时间器
+        /// </summary>
+        /// <returns></returns>
+        internal Exception GetException(Exception exception, ref bool iserror, ref string guid)
+        {
+            if (IsSqlLog)
+            {
+                iserror = true;
+                guid = Guid.NewGuid().ToString();
+                return new Exception($"跟踪Id:{guid}", exception);
+            }
+            return exception;
+        }
+
+        /// <summary>
         /// 增加SQL请求日志
         /// </summary>
         /// <param name="commandText">SQL字符串</param>
         /// <param name="watch">时间测量器</param>
         /// <param name="cmdParams">执行参数</param>
         /// <param name="iserror">是否执行时异常</param>
-        private void AddQueryDetail(string commandText, Stopwatch watch, DbParameter[] cmdParams, bool iserror)
+        /// <param name="guid">有guid时异常</param>
+        private void AddQueryDetail(string commandText, Stopwatch watch, DbParameter[] cmdParams, bool iserror, string guid)
         {
             watch.Stop();
             if (IsSqlLog)
             {
-                string sqltext = DbHelper.GetQueryDetail(commandText, watch.ElapsedMilliseconds, cmdParams, IsSqlLogHtml);
+                string sqltext = GetQueryDetail(commandText, watch.ElapsedMilliseconds, cmdParams, guid);// IsSqlLogHtml,
                 string logpath = $"{LogPath}{DbProviderName}{log_subPath}";//{Logger}
                 if (iserror)
                 {
@@ -4760,6 +4764,60 @@ namespace Tool.SqlCore
             //    this.QueryCount++;
             //}
         }
+
+#if NET6_0_OR_GREATER
+        /// <summary>
+        /// 增加SQL请求日志
+        /// </summary>
+        /// <param name="dbBatchCommands">批处理命令</param>
+        /// <param name="watch">时间测量器</param>
+        /// <param name="iserror">是否执行时异常</param>
+        /// <param name="guid">有guid时异常</param>
+        internal void AddQueryDetail(DbBatchCommandCollection dbBatchCommands, Stopwatch watch, bool iserror, string guid)
+        {
+            watch.Stop();
+            if (IsSqlLog)
+            {
+                StringBuilder sqllog = new();
+                sqllog.AppendLine($"SQL执行情况：{guid}");
+                sqllog.Append("  耗时：").Append(watch.ElapsedMilliseconds).AppendLine("毫秒");
+                foreach (var command in dbBatchCommands)
+                {
+                    sqllog.Append(GetSqlLog(command));
+                }
+                string sqltext = sqllog.ToString(0, sqllog.Length - Environment.NewLine.Length);
+                string logpath = $"{LogPath}{DbProviderName}{log_subPath}";//{Logger}
+                if (iserror)
+                {
+                    Log.Error(sqltext, logpath);
+                }
+                else
+                {
+                    Log.Debug(sqltext, logpath);
+                }
+                Info(sqltext, iserror);
+            }
+            m_queryCount.Increment();
+
+            static StringBuilder GetSqlLog(DbBatchCommand batchCommand)
+            {
+                StringBuilder sqllog = new();
+
+                sqllog.Append("  执行命令：").AppendLine(batchCommand.CommandText);
+
+                if (batchCommand.Parameters != null && batchCommand.Parameters.Count > 0)
+                {
+                    sqllog.AppendLine("  执行参数：");
+                    foreach (DbParameter cmdParam in batchCommand.Parameters)
+                    {
+                        sqllog.AppendFormat("  参数名：{0}，类型：{1}，值：{2}{3}", cmdParam.ParameterName, cmdParam.DbType, cmdParam.Value, Environment.NewLine);
+                    }
+                }
+
+                return sqllog;
+            }
+        }
+#endif
 
         private void Info(string sqltext, bool iserror)
         {
@@ -4779,58 +4837,60 @@ namespace Tool.SqlCore
         /// <param name="commandText">SQL字符串</param>
         /// <param name="ElapsedMilliseconds">执行毫秒</param>
         /// <param name="cmdParams">执行参数</param>
-        /// <param name="IsSqlLogHtml">打印模式</param>
+        /// <param name="guid">id</param>
         /// <returns>返回日志</returns>
-        private static string GetQueryDetail(string commandText, long ElapsedMilliseconds, DbParameter[] cmdParams, bool IsSqlLogHtml)
+        private static string GetQueryDetail(string commandText, long ElapsedMilliseconds, DbParameter[] cmdParams, string guid)// bool IsSqlLogHtml,
         {
-            if (IsSqlLogHtml)
+            //if (IsSqlLogHtml)
+            //{
+            //    const string text = "<tr style=\"background: rgb(255, 255, 255) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;\">";
+            //    StringBuilder text2 = new(), text3 = new(), text4 = new();
+            //    string arg = "";
+            //    if (cmdParams != null && cmdParams.Length > 0)
+            //    {
+            //        for (int i = 0; i < cmdParams.Length; i++)
+            //        {
+            //            DbParameter dbParameter = cmdParams[i];
+            //            if (dbParameter != null)
+            //            {
+            //                text2.Append($"<td>{dbParameter.ParameterName}</td>");
+            //                text3.Append($"<td>{dbParameter.DbType}</td>");
+            //                text4.Append($"<td>{dbParameter.Value}</td>");
+            //            }
+            //        }
+            //        arg = string.Format("<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\" style=\"background: rgb(255, 255, 255) none repeat scroll 0%; margin-top: 5px; font-size: 12px; display: block; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;\">{0}{1}</tr>{0}{2}</tr>{0}{3}</tr></table>", new object[]
+            //        {
+            //            text,
+            //            text2,
+            //            text3,
+            //            text4
+            //        });
+            //    }
+            //    if (!string.IsNullOrEmpty(guid))
+            //    {
+            //        guid = $"<div style=\"font-size: 12px; float: right; width: 100px; margin-bottom: 5px;\"><b>UUID:</b>{guid}</div>";
+            //    }
+            //    return string.Concat("<center><div style=\"border: 1px solid black; margin: 2px; padding: 1em; text-align: left; width: 96%; clear: both;\"><div style=\"font-size: 12px; float: right; width: 100px; margin-bottom: 5px;\"><b>TIME:</b> ", ElapsedMilliseconds, " 毫秒</div>", guid, "<span style=\"font-size: 12px;\">", commandText, arg, "</span></div><br /></center>");
+            //}
+            //else
+            //{
+            StringBuilder sqllog = new();
+
+            sqllog.AppendLine($"SQL执行情况：{guid}");
+            sqllog.Append("  耗时：").Append(ElapsedMilliseconds).AppendLine("毫秒");
+            sqllog.Append("  执行命令：").AppendLine(commandText);
+
+            if (cmdParams != null && cmdParams.Length > 0)
             {
-                const string text = "<tr style=\"background: rgb(255, 255, 255) none repeat scroll 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;\">";
-                StringBuilder text2 = new(), text3 = new(), text4 = new();
-                string arg = "";
-                if (cmdParams != null && cmdParams.Length > 0)
+                sqllog.AppendLine("  执行参数：");
+                foreach (DbParameter cmdParam in cmdParams)
                 {
-                    for (int i = 0; i < cmdParams.Length; i++)
-                    {
-                        DbParameter dbParameter = cmdParams[i];
-                        if (dbParameter != null)
-                        {
-                            text2.Append($"<td>{dbParameter.ParameterName}</td>");
-                            text3.Append($"<td>{dbParameter.DbType}</td>");
-                            text4.Append($"<td>{dbParameter.Value}</td>");
-                        }
-                    }
-                    arg = string.Format("<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\" style=\"background: rgb(255, 255, 255) none repeat scroll 0%; margin-top: 5px; font-size: 12px; display: block; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;\">{0}{1}</tr>{0}{2}</tr>{0}{3}</tr></table>", new object[]
-                    {
-                        text,
-                        text2,
-                        text3,
-                        text4
-                    });
+                    sqllog.AppendFormat("  参数名：{0}，类型：{1}，值：{2}{3}", cmdParam.ParameterName, cmdParam.DbType, cmdParam.Value, Environment.NewLine);
                 }
-                return string.Concat("<center><div style=\"border: 1px solid black; margin: 2px; padding: 1em; text-align: left; width: 96%; clear: both;\"><div style=\"font-size: 12px; float: right; width: 100px; margin-bottom: 5px;\"><b>TIME:</b> ", ElapsedMilliseconds, " 毫秒</div><span style=\"font-size: 12px;\">", commandText, arg, "</span></div><br /></center>");
             }
-            else
-            {
-                StringBuilder sqllog = new();
 
-                sqllog.AppendLine("SQL执行情况：");
-                sqllog.Append("  耗时：").Append(ElapsedMilliseconds).AppendLine("毫秒");
-                sqllog.Append("  执行命令：").AppendLine(commandText);
-
-                if (cmdParams != null && cmdParams.Length > 0)
-                {
-                    sqllog.AppendLine("  执行参数：");
-                    foreach (DbParameter cmdParam in cmdParams)
-                    {
-                        sqllog.AppendFormat("  参数名：{0}，类型：{1}，值：{2}{3}", cmdParam.ParameterName, cmdParam.DbType, cmdParam.Value, Environment.NewLine);
-
-                        //sqllog.Append(cmdParam.ParameterName).Append(',').Append(cmdParam.DbType).Append(',').AppendLine(cmdParam.Value.ToString());
-                    }
-                }
-
-                return sqllog.ToString(0, sqllog.Length - Environment.NewLine.Length);
-            }
+            return sqllog.ToString(0, sqllog.Length - Environment.NewLine.Length);
+            //}
         }
 
         /// <summary>
@@ -4867,9 +4927,8 @@ namespace Tool.SqlCore
             IsNullConnectionString();
             ThrowIfNullString(spName, nameof(spName));
             DbParameter[] spParameterSetInternal;
-            using (DbConnection dbConnection = CreateConnection())
+            using (DbConnection dbConnection = NewDbConnection())
             {
-                dbConnection.ConnectionString = this.ConnectionString;
                 spParameterSetInternal = this.GetSpParameterSetInternal(dbConnection, spName, includeReturnValueParameter);
             }
             return spParameterSetInternal;
@@ -4937,8 +4996,7 @@ namespace Tool.SqlCore
         {
             IsNullConnectionString();
             ThrowIfNullString(spName, nameof(spName));
-            using DbConnection dbConnection = CreateConnection();
-            dbConnection.ConnectionString = this.ConnectionString;
+            using DbConnection dbConnection = NewDbConnection();
             return this.GetSpParameterSetInternalAsync(dbConnection, spName, includeReturnValueParameter);
         }
 

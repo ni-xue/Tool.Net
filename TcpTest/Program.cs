@@ -42,9 +42,11 @@ namespace TcpTest
 
         protected static object a4;
 
-        private  static object a5;
+        private static object a5;
 
         public static object a6;
+
+        private readonly string rest;
     }
 
     [SupportedOSPlatform("windows")]
@@ -182,6 +184,12 @@ namespace TcpTest
                 }
                 key.Close();
             }
+        }
+
+        static async Task<int> GetIntAsync()
+        {
+            _ = Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(GetIntAsync).ContinueWith((a) => { a.Dispose(); Console.WriteLine($"{Tool.Utils.ThreadQueue.TaskQueue.Count}\t{Tool.Utils.ThreadQueue.TaskQueue.CompleteCount}\t{Tool.Utils.ThreadQueue.TaskQueue.TotalCount}"); });
+            return await Task.FromResult(123_456);
         }
 
         static async Task Main(string[] args)
@@ -409,39 +417,47 @@ namespace TcpTest
 
 #endif
 
-            var  dic0 = """{ "key": "123" }""".Json();
+            //var re = await Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue<int>(GetIntAsync);
+            //await Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(Main, args);
+            //await GetIntAsync();
+            //await Task.Delay(200000);
+            ////await re;
 
-            //PropertyInfo[]? properties = null;
-            //var asda = Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassFields(typeof(Abc), ref properties);
+            //var dic0 = """{ "key": "123" }""".Json();
 
-            //var dir = asda.Invoke(new Abc());
+            ////PropertyInfo[]? properties = null;
+            ////var asda = Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassFields(typeof(Abc), ref properties);
 
-            Abc abc = new Abc();
+            ////var dir = asda.Invoke(new Abc());
 
-            var dic = abc.GetDictionary();
-            dic["a"] = 999;
-            abc.SetDictionary(dic);
+            //Abc abc = new Abc();
 
-            abc.SetFieldKey("f", 0.1);
+            //abc.GetValue("rest");
 
-            abc.SetPropertyKey("a", 123456);
+            //var dic = abc.GetDictionary();
+            //dic["a"] = 999;
+            //abc.SetDictionary(dic);
 
-            //abc.GetValue("a0");
-            abc.SetValue("a1", 0.1);
-            abc.SetValue("a2", 0.2);
-            abc.SetValue("a3", 0.3);
-            abc.SetValue("a4", 0.4);
-            abc.SetValue("a5", 0.5);
-            abc.SetValue("a6", 0.6);
+            //abc.SetFieldKey("f", 0.1);
 
-            abc.SetPropertyKey("a1", 1);
-            abc.SetPropertyKey("a2", 2);
-            abc.SetPropertyKey("a3", 3);
-            abc.SetFieldKey("a4", 4);
-            abc.SetFieldKey("a5", 5);
-            abc.SetFieldKey("a6", 6);
+            //abc.SetPropertyKey("a", 123456);
 
-            abc.GetPropertyKey("s", out var s);
+            ////abc.GetValue("a0");
+            //abc.SetValue("a1", 0.1);
+            //abc.SetValue("a2", 0.2);
+            //abc.SetValue("a3", 0.3);
+            //abc.SetValue("a4", 0.4);
+            //abc.SetValue("a5", 0.5);
+            //abc.SetValue("a6", 0.6);
+
+            //abc.SetPropertyKey("a1", 1);
+            //abc.SetPropertyKey("a2", 2);
+            //abc.SetPropertyKey("a3", 3);
+            //abc.SetFieldKey("a4", 4);
+            //abc.SetFieldKey("a5", 5);
+            //abc.SetFieldKey("a6", 6);
+
+            //abc.GetPropertyKey("s", out var s);
 
             await NetWorship.OnMain(args);
             //await TcpWorship.OnMain(args);

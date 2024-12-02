@@ -14,6 +14,7 @@ namespace Tool.Web.Routing
     /// <summary>
     /// 封装有关路由的信息。
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class AshxRouteData
     {
         /// <summary>

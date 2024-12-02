@@ -22,6 +22,7 @@ namespace Tool.Sockets.QuicHelper
     /// <summary>
     /// 封装一个底层异步Quic对象（服务端）写了但属于预览物无法使用
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     [SupportedOSPlatform("linux")]
     [SupportedOSPlatform("macOS")]
     [SupportedOSPlatform("OSX")]
@@ -31,10 +32,11 @@ namespace Tool.Sockets.QuicHelper
     /// <summary>
     /// .Net7 以上支持
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
 #endif
     public class QuicServerAsync
 #if NET7_0_OR_GREATER
-        : INetworkListener<QuicSocket>
+        : NetworkListener<QuicSocket>
 #endif
     {
 
@@ -63,24 +65,24 @@ namespace Tool.Sockets.QuicHelper
         /// <summary>
         /// 标识客户端连接是否关闭
         /// </summary>
-        public bool IsClose { get { return isClose; } }
+        public override bool IsClose { get { return isClose; } }
 
         /// <summary>
         /// 服务器的监听信息
         /// </summary>
-        public UserKey Server { get { return server; } }
+        public override UserKey Server { get { return server; } }
 
         /// <summary>
         /// 已建立连接的集合
         /// key:UserKey
         /// value:QuicSocket
         /// </summary>
-        public IReadOnlyDictionary<UserKey, QuicSocket> ListClient => listClient;
+        public override IReadOnlyDictionary<UserKey, QuicSocket> ListClient => listClient;
 
         /// <summary>
         /// 监听控制毫秒
         /// </summary>
-        public int Millisecond
+        public override int Millisecond
         {
             get
             {
@@ -99,17 +101,6 @@ namespace Tool.Sockets.QuicHelper
         /// </summary>
         public bool OnlyData { get; }
 
-        /// <summary>
-        /// 是否使用线程池调度接收后的数据
-        /// 默认 true 开启
-        /// </summary>
-        public bool IsThreadPool { get; set; } = true;
-
-        /// <summary>
-        /// 禁用掉Receive通知事件，方便上层封装
-        /// </summary>
-        public bool DisabledReceive { get; init; } = false;
-
         /**
         * 提供自定义设置证书的服务
         */
@@ -121,11 +112,6 @@ namespace Tool.Sockets.QuicHelper
         public List<SslApplicationProtocol> ApplicationProtocols { get; } = new() { SslApplicationProtocol.Http3 };
 
         /// <summary>
-        /// 表示通讯的包大小
-        /// </summary>
-        public NetBufferSize BufferSize { get; }
-
-        /// <summary>
         /// 当新连接，创建时，返回对应用于验证的证书
         /// </summary>
         /// <param name="InitCertificate"></param>
@@ -135,13 +121,13 @@ namespace Tool.Sockets.QuicHelper
         /// 连接、发送、关闭事件 <see cref="EnServer"/>
         /// </summary>
         /// <param name="Completed"></param>
-        public void SetCompleted(CompletedEvent<EnServer> Completed) => this.Completed ??= Completed;
+        public override void SetCompleted(CompletedEvent<EnServer> Completed) => this.Completed ??= Completed;
 
         /// <summary>
         /// 接收到数据事件
         /// </summary>
         /// <param name="Received"></param>
-        public void SetReceived(ReceiveEvent<QuicSocket> Received)
+        public override void SetReceived(ReceiveEvent<QuicSocket> Received)
         {
             if (isReceive) throw new Exception("当前已无法绑定接收委托了，因为StartAsync()已经调用了");
             this.Received ??= Received;
@@ -153,7 +139,7 @@ namespace Tool.Sockets.QuicHelper
         /// <param name="key">IP:Port</param>
         /// <param name="client">连接对象</param>
         /// <returns>返回成功状态</returns>
-        public bool TrySocket(in UserKey key, out QuicSocket client) => ListClient.TryGetValue(key, out client);
+        public override bool TrySocket(in UserKey key, out QuicSocket client) => ListClient.TryGetValue(key, out client);
 
         #region QuicServerAsync
 
@@ -208,7 +194,7 @@ namespace Tool.Sockets.QuicHelper
         /// </summary>
         /// <param name="ip"></param>
         /// <param name="port"></param>
-        public async Task StartAsync(string ip, int port)
+        public override async Task StartAsync(string ip, int port)
         {
             ThrowIfDisposed();
 
@@ -340,7 +326,7 @@ namespace Tool.Sockets.QuicHelper
         /// <returns></returns>
         /// <exception cref="ArgumentException">OnlyData验证失败</exception>
         /// <exception cref="Exception">连接已断开</exception>
-        public async ValueTask SendAsync(SendBytes<QuicSocket> sendBytes)
+        public override async ValueTask SendAsync(SendBytes<QuicSocket> sendBytes)
         {
             ThrowIfDisposed();
 
@@ -387,7 +373,7 @@ namespace Tool.Sockets.QuicHelper
         /// <param name="quicclient">收数据的对象</param>
         /// <param name="length">数据大小</param>
         /// <returns></returns>
-        public SendBytes<QuicSocket> CreateSendBytes(QuicSocket quicclient, int length = 0)
+        public override SendBytes<QuicSocket> CreateSendBytes(QuicSocket quicclient, int length = 0)
         {
             if (quicclient == null) throw new ArgumentException("QuicSocket不能为空！", nameof(quicclient));
             if (length == 0) length = DataLength;
@@ -483,7 +469,7 @@ namespace Tool.Sockets.QuicHelper
                 }
                 else
                 {
-                    if (!DisabledReceive) await OnComplete(obj.SocketKey, EnServer.Receive);
+                    await OnComplete(obj.SocketKey, EnServer.Receive);
                     await obj.OnReceiveAsync(IsThreadPool, listData);
                 }
             }
@@ -494,7 +480,14 @@ namespace Tool.Sockets.QuicHelper
         /// </summary>
         /// <param name="key">指定发送对象</param>
         /// <param name="enAction">消息类型</param>
-        public virtual ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnServer enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
+        public override ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnServer enAction)
+        {
+            if (IsEvent(enAction))
+            {
+                return EnumEventQueue.OnComplete(key, enAction, IsQueue(enAction), Completed);
+            }
+            return IGetQueOnEnum.SuccessAsync;
+        }
 
         private async ValueTask QuicAbortAsync(UserKey key, QuicSocket _client)
         {
@@ -511,7 +504,15 @@ namespace Tool.Sockets.QuicHelper
         /// <summary>
         /// 不等待异步关闭Ouic
         /// </summary>
-        public async void Stop()
+        public override void Stop()
+        {
+            StopAsync().Wait();
+        }
+
+        /// <summary>
+        /// 异步关闭Ouic
+        /// </summary>
+        public async Task StopAsync()
         {
             try
             {
@@ -537,7 +538,7 @@ namespace Tool.Sockets.QuicHelper
         /// <summary>
         /// 关闭连接，回收相关资源
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             _disposed = true;
             Stop();

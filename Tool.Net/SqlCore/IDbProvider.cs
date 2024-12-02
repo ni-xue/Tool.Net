@@ -167,9 +167,28 @@ namespace Tool.SqlCore
         void GetParam(ref DbParameter paraObj, object paraValue, ParameterDirection direction, Type paraType, string sourceColumn, int size) { /*无需写实现，可被用户实现*/ }
 
         /// <summary>
+        /// 根据键值对生成 Insert 部分语法，和值添加对象
+        /// </summary>
+        /// <param name="database">数据库引擎</param>
+        /// <param name="keyValues">数据集键值对</param>
+        /// <param name="key">返回生成的部分SQL语句</param>
+        /// <param name="value">返回生成的部分SQL语句</param>
+        /// <returns><see cref="List{DbParameter}"/></returns>
+        List<DbParameter> GetInsertParams(DbHelper database, IDictionary<string, object> keyValues, out string key, out string value) { key = null; value = null; return null; }
+
+        /// <summary>
+        /// 根据键值对生成 Update 部分语法，和值添加对象
+        /// </summary>
+        /// <param name="database">数据库引擎</param>
+        /// <param name="keyValues">数据集键值对</param>
+        /// <param name="strsql">返回生成的部分SQL语句</param>
+        /// <returns><see cref="List{DbParameter}"/></returns>
+        List<DbParameter> GetUpdateParams(DbHelper database, IDictionary<string, object> keyValues, out string strsql) { strsql = null; return null; }
+
+        /// <summary>
 		/// 分页核心方法，建议重写，底层默认实现 SqlServer 分页。
 		/// </summary>
-        /// <param name="dbHelper"></param>
+        /// <param name="dbHelper">数据库引擎</param>
 		/// <param name="pramsPager">分页参数</param>
 		/// <returns>返回分页对象实体</returns>
 	    PagerSet GetPagerSet(DbHelper dbHelper, PagerParameters pramsPager)

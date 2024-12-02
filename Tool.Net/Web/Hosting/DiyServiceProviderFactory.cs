@@ -6,6 +6,7 @@ namespace Tool.Web.Hosting
     /// <summary>
     /// Diy 依赖注入工厂
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class DiyServiceProviderFactory : IServiceProviderFactory<DiyContainerBuilder>
     {
         private readonly DiyContainerBuilder _applicationContainerBuilder;

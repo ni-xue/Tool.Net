@@ -153,7 +153,8 @@ namespace TcpTest
 
             FileStream ReadStream = new("D:\\ToDesk0.exe", FileMode.Open, FileAccess.Read);
             sendBytes = webClient.CreateSendBytes((int)ReadStream.Length);
-            await ReadStream.ReadAsync(sendBytes.Memory);
+            int len = await ReadStream.ReadAsync(sendBytes.Memory);
+            if (len > 0) { }
             IsRead = true;
 
             while (Console.ReadKey(true).Key != ConsoleKey.F5) ;

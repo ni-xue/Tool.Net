@@ -7,6 +7,7 @@ namespace Tool.Utils.ThreadQueue
     /// <summary>
     /// 一个原子计数锁，可以确保多线程下，可调用区域内只能调用固定次数
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     [DebuggerDisplay("阈值={InitialCount}, 当前值={CurrentCount}")]
     public class AtomCountLock : IDisposable
     {

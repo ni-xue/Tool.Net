@@ -20,8 +20,13 @@ namespace TcpTest
 
             KeepAlive keepok = new(1, async () =>
             {
-                Console.Clear();
+                Console.Clear(); 
+                int maxThreadNum, portThreadNum, minThreadNum;
+                ThreadPool.GetMaxThreads(out maxThreadNum, out portThreadNum);
+                ThreadPool.GetMinThreads(out minThreadNum, out portThreadNum);
                 Console.WriteLine("情况：{0}，{1}，{2}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount);
+                Console.WriteLine("最大线程数：{0}", maxThreadNum);
+                Console.WriteLine("最小空闲线程数：{0}", minThreadNum);
                 for (int i = 0; i < 20; i++)
                 {
                     await Task.Delay(i);
@@ -29,7 +34,12 @@ namespace TcpTest
                 }
             });
 
-            ClientFrame client = new(NetBufferSize.Default, true);
+            EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
+            EnumEventQueue.OnInterceptor(EnClient.Receive, true);
+
+            ClientFrame client = new(NetBufferSize.Default, true) { IsThreadPool = false };
+
+            //client.OnInterceptor(EnClient.Receive, true);
 
             client.SetCompleted((a1, b1, c1) =>
             {
@@ -44,9 +54,6 @@ namespace TcpTest
             await client.ConnectAsync("127.0.0.1", 444);//120.79.58.17 
             client.AddKeepAlive(5);
 
-            EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
-            EnumEventQueue.OnInterceptor(EnClient.Receive, true);
-
             Thread.Sleep(1000);
             Task[] tasks;
             switch (Console.ReadKey(true).KeyChar)
@@ -59,7 +66,7 @@ namespace TcpTest
                     }
                     break;
                 default:
-                    tasks = new Task[50];
+                    tasks = new Task[Environment.ProcessorCount * 6];
                     for (int i = 0; i < tasks.Length; i++)
                     {
                         tasks[i] = Task.Factory.StartNew(example1);
@@ -161,6 +168,7 @@ namespace TcpTest
                         break;
                     case NetFrameState.Exception:
                         Interlocked.Increment(ref g);
+                        Thread.Sleep(1);
                         break;
                     default:
                         break;

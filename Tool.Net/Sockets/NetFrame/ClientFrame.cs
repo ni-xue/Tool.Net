@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Tool.Sockets.Kernels;
 using Tool.Sockets.TcpHelper;
@@ -12,29 +11,30 @@ namespace Tool.Sockets.NetFrame
     /// <summary>
     /// 封装的一个TCP框架（客户端）
     /// </summary>
-    public class ClientFrame
+    /// <remarks>代码由逆血提供支持</remarks>
+    public class ClientFrame : EnClientEventDrive
     {
         /**
          * 当前要同步等待的线程组信息
          */
-        private readonly ConcurrentDictionary<Guid, ThreadObj> _DataPacketThreads = new();
+        private readonly ThreadUuIdObj threadUuIdObj;
 
         /**
          * 调用TCP长连接
          */
-        private readonly TcpClientAsync clientAsync = null;
+        private readonly TcpClientAsync clientAsync;
 
         private CompletedEvent<EnClient> Completed = null;
 
         /// <summary>
         /// 服务器的连接信息
         /// </summary>
-        public string Server { get { return clientAsync.Server; } }
+        public UserKey Server { get { return clientAsync.Server; } }
 
         /// <summary>
         /// 当前设备的连接信息
         /// </summary>
-        public string LocalPoint { get { return clientAsync.LocalPoint; } }
+        public Ipv4Port LocalPoint { get { return clientAsync.LocalPoint; } }
 
         /// <summary>
         /// 标识客户端是否关闭
@@ -83,8 +83,11 @@ namespace Tool.Sockets.NetFrame
 
             DataNet.InitDicDataTcps<ClientFrame>();
 
-            clientAsync = new TcpClientAsync(bufferSize, true, IsReconnect) { Millisecond = 0, DisabledReceive = true };//这里就必须加回去
+            threadUuIdObj = new();
 
+            clientAsync = new TcpClientAsync(bufferSize, true, IsReconnect) { Millisecond = 0 };//这里就必须加回去
+            clientAsync.OpenAllEvent().OnInterceptor(EnClient.Receive, true);
+            clientAsync.CloseAllQueue();
             clientAsync.SetCompleted(Client_Completed);
             clientAsync.SetReceived(Client_Received);
         }
@@ -189,8 +192,7 @@ namespace Tool.Sockets.NetFrame
 
         private NetResponse Send(Ipv4Port IpPort, ApiPacket api)
         {
-            FrameCommon.SetApiPacket(api, false, IpPort);
-            var task = OnSendWaitOne(api);
+            var task = OnSendWaitOne(api, IpPort);
             task.Wait();
             return task.Result;
         }
@@ -318,8 +320,7 @@ namespace Tool.Sockets.NetFrame
 
         private async ValueTask<NetResponse> SendAsync(Ipv4Port IpPort, ApiPacket api)//bool isIpPort,
         {
-            FrameCommon.SetApiPacket(api, false, IpPort);
-            return await OnSendWaitOne(api);
+            return await OnSendWaitOne(api, IpPort);
             //return await Task.Run(() => OnSendWaitOne(api));
         }
 
@@ -329,7 +330,7 @@ namespace Tool.Sockets.NetFrame
         /// <param name="api">接口调用信息</param>
         public NetResponse Send(ApiPacket api)
         {
-            return Send(Ipv4Port.Empty,api);
+            return Send(Ipv4Port.Empty, api);
         }
 
         /// <summary>
@@ -346,31 +347,34 @@ namespace Tool.Sockets.NetFrame
             return Send(ipunm, api);
         }
 
-        private async Task<NetResponse> OnSendWaitOne(ApiPacket api)
+        private async Task<NetResponse> OnSendWaitOne(ApiPacket api, Ipv4Port ipPort = default)
         {
             Guid clmidmt = Guid.NewGuid();
-            using ThreadObj _threadObj = FrameCommon.TryThreadObj(_DataPacketThreads, clmidmt, api.IsReply);
-
-            try
+            if (threadUuIdObj.TryThreadObj(in clmidmt, api.IsReply, out ThreadObj _threadObj, out var response)) // FrameCommon.TryThreadObj(_DataPacketThreads, clmidmt, api.IsReply);
             {
-                using IDataPacket dataPacket = FrameCommon.GetDataPacket(api, clmidmt);
-               
-                await SendAsync(dataPacket).IsNewTask();
-                if (!_threadObj.WaitOne(api.Millisecond))
+                using (_threadObj)
                 {
-                    _DataPacketThreads.SetTimeout(in clmidmt);
+                    try
+                    {
+                        using IDataPacket dataPacket = FrameCommon.GetDataPacket(api, clmidmt, false, in ipPort);
+
+                        await SendAsync(dataPacket).IsNewTask();
+                        if (!_threadObj.WaitOne(api.Millisecond))
+                        {
+                            threadUuIdObj.SetTimeout(in clmidmt);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (api.IsReply) threadUuIdObj.SetException(in clmidmt, in ex); else _threadObj.SetSendFail(ex);
+                    }
+                    return _threadObj.GetResponse(in clmidmt);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                if (api.IsReply) _DataPacketThreads.SetException(in clmidmt, in ex); else _threadObj.SetSendFail(ex);
+                return response;
             }
-            //finally
-            //{
-            //    _threadObj.Dispose();
-            //}
-
-            return _threadObj.GetResponse(in clmidmt);
         }
 
         /// <summary>
@@ -413,7 +417,7 @@ namespace Tool.Sockets.NetFrame
                     //System.Threading.ThreadPool.UnsafeQueueUserWorkItem(SetPool, poolData, false);
                     await SetPool(poolData);
                 }
-                else if (_DataPacketThreads.TryRemove(json.OnlyId, out ThreadObj Threads))//表示服务器回包
+                else if (threadUuIdObj.Complete(json.OnlyId, out ThreadObj Threads)) //_DataPacketThreads.TryRemove(json.OnlyId, out ThreadObj Threads))//表示服务器回包
                 {
                     Threads.Set(json);
                     return false;
@@ -439,10 +443,28 @@ namespace Tool.Sockets.NetFrame
             }
         }
 
-        private ValueTask Client_Completed(UserKey arg1, EnClient arg2, DateTime arg3)
+        private async ValueTask Client_Completed(UserKey arg1, EnClient arg2, DateTime arg3)
         {
-            if (Completed is null) return ValueTask.CompletedTask;
-            return Completed.Invoke(arg1, arg2, arg3);
+            switch (arg2)
+            {
+                case EnClient.Connect:
+                    threadUuIdObj.protocol = ProtocolStatus.Connect;
+                    break;
+                case EnClient.Fail:
+                    threadUuIdObj.protocol = ProtocolStatus.Fail;
+                    break;
+                case EnClient.Close:
+                    threadUuIdObj.protocol = ProtocolStatus.Close;
+                    threadUuIdObj.AllError();
+                    break;
+                case EnClient.Reconnect:
+                    threadUuIdObj.protocol |= ProtocolStatus.Reconnect;
+                    break;
+            }
+            if (Completed is not null) 
+            {
+                await OnComplete(arg1, arg2);
+            }
         }
 
         /**
@@ -452,7 +474,11 @@ namespace Tool.Sockets.NetFrame
          */
         private ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnClient enAction)
         {
-            return clientAsync.OnComplete(in key, enAction);
+            if (IsEvent(enAction))
+            {
+                return EnumEventQueue.OnComplete(in key, enAction, IsQueue(enAction), Completed);
+            }
+            return IGetQueOnEnum.SuccessAsync;
         }
 
         /// <summary>
@@ -461,6 +487,7 @@ namespace Tool.Sockets.NetFrame
         public void Close()
         {
             clientAsync.Dispose();
+            threadUuIdObj.Dispose();
         }
 
         //~ClientFrame() 

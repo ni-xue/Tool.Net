@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.DataProtection;
-using System;
-using System.Buffers;
-using System.Drawing;
+﻿using System;
 using System.Net.Sockets;
-using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +11,8 @@ namespace Tool.Sockets.UdpHelper
     /// <summary>
     /// 封装一个底层异步Udp对象（客户端）IpV4
     /// </summary>
-    public class UdpClientAsync : INetworkConnect<IUdpCore>
+    /// <remarks>代码由逆血提供支持</remarks>
+    public class UdpClientAsync : NetworkConnect<IUdpCore>
     {
         /// <summary>
         /// 获取当前心跳信息
@@ -41,19 +38,13 @@ namespace Tool.Sockets.UdpHelper
         /// <summary>
         /// 标识服务端连接是否关闭
         /// </summary>
-        public bool IsClose { get { return isClose; } }
+        public override bool IsClose { get { return isClose; } }
 
         private Ipv4Port server;//服务端IP
         private UdpEndPoint endPointServer;
         private int millisecond = 20; //默认20毫秒。
         private int receiveTimeout = 60000; //默认60000毫秒。
         private Memory<byte> arrayData;//一个连续的内存块
-
-        /// <summary>
-        /// 是否使用线程池调度接收后的数据
-        /// 默认 true 开启
-        /// </summary>
-        public bool IsThreadPool { get; set; } = true;
 
         /// <summary>
         /// 回复消息延迟时间（警告：当前设置仅在开启了OnlyData模式生效，超时未回复会重发，重发最大次数10，依然没有回复将抛出异常！）小于20将不生效使用默认值
@@ -77,12 +68,12 @@ namespace Tool.Sockets.UdpHelper
         /// <summary>
         /// 服务器创建时的信息
         /// </summary>
-        public UserKey Server { get { return server; } }
+        public override UserKey Server { get { return server; } }
 
         /// <summary>
         /// 监听控制毫秒
         /// </summary>
-        public int Millisecond
+        public override int Millisecond
         {
             get
             {
@@ -99,7 +90,7 @@ namespace Tool.Sockets.UdpHelper
         /// <summary>
         /// 当前设备的连接信息
         /// </summary>
-        public Ipv4Port LocalPoint => StateObject.GetIpPort(Client?.LocalEndPoint);
+        public override Ipv4Port LocalPoint => StateObject.GetIpPort(Client?.LocalEndPoint);
 
         /// <summary>
         /// UDP 服务对象
@@ -114,17 +105,7 @@ namespace Tool.Sockets.UdpHelper
         /// <summary>
         /// 获取当前是否已连接到远程主机。
         /// </summary>
-        public bool Connected => client.Connected;
-
-        /// <summary>
-        /// 禁用掉Receive通知事件，方便上层封装
-        /// </summary>
-        public bool DisabledReceive { get; init; } = false;
-
-        /// <summary>
-        /// 表示通讯的包大小
-        /// </summary>
-        public NetBufferSize BufferSize { get; }
+        public override bool Connected => client.Connected;
 
         /**
          * 客户端连接完成、发送完成、连接异常或者服务端关闭触发的事件
@@ -145,13 +126,13 @@ namespace Tool.Sockets.UdpHelper
         /// 连接、发送、关闭事件
         /// </summary>
         /// <param name="Completed"></param>
-        public void SetCompleted(CompletedEvent<EnClient> Completed) => this.Completed ??= Completed;
+        public override void SetCompleted(CompletedEvent<EnClient> Completed) => this.Completed ??= Completed;
 
         /// <summary>
         /// 接收到数据事件
         /// </summary>
         /// <param name="Received"></param>
-        public void SetReceived(ReceiveEvent<IUdpCore> Received)
+        public override void SetReceived(ReceiveEvent<IUdpCore> Received)
         {
             if (isReceive) throw new Exception("当前已无法绑定接收委托了，因为ConnectAsync()已经调用了。");
             this.Received ??= Received;
@@ -205,7 +186,7 @@ namespace Tool.Sockets.UdpHelper
         /// <summary>
         /// 重连，返回是否重连，如果没有断开是不会重连的
         /// </summary>
-        public Task<bool> Reconnection() => throw new NotImplementedException("UDP 无有效连接！");
+        public override Task<bool> Reconnection() => throw new NotImplementedException("UDP 无有效连接！");
 
         #endregion
 
@@ -281,7 +262,7 @@ namespace Tool.Sockets.UdpHelper
         /// <param name="port">要连接的服务器的端口</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task ConnectAsync(string ip, int port)
+        public override async Task ConnectAsync(string ip, int port)
         {
             if (!StateObject.IsIpPort($"{ip}:{port}", out Ipv4Port ipv4Port))
             {
@@ -417,7 +398,7 @@ namespace Tool.Sockets.UdpHelper
         /// <param name="sendBytes">数据包对象</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async ValueTask SendAsync(SendBytes<IUdpCore> sendBytes)
+        public override async ValueTask SendAsync(SendBytes<IUdpCore> sendBytes)
         {
             bool ispart = false;
             int i = 0;
@@ -442,7 +423,7 @@ namespace Tool.Sockets.UdpHelper
         /// </summary>
         /// <param name="length">数据包大小</param>
         /// <returns></returns>
-        public SendBytes<IUdpCore> CreateSendBytes(int length = 0)
+        public override SendBytes<IUdpCore> CreateSendBytes(int length = 0)
         {
             if (udp is null) throw new Exception("未调用ConnectAsync函数或未连接！");
             if (!OnlyData && length > DataLength) throw new ArgumentException($"Udp协议下文报只能 最大支持到{DataLength}B！（这与你设置的 NetBufferSize 枚举有关！）", nameof(length));
@@ -477,7 +458,7 @@ namespace Tool.Sockets.UdpHelper
                         await OnComplete(key, EnClient.HeartBeat);
                         break;
                     case 1:
-                        if (!DisabledReceive) await OnComplete(key, EnClient.Receive);
+                        await OnComplete(key, EnClient.Receive);
                         break;
                 }
             }
@@ -550,12 +531,19 @@ namespace Tool.Sockets.UdpHelper
         /// </summary>
         /// <param name="IpPort">IP：端口</param>
         /// <param name="enAction">消息类型</param>
-        public virtual ValueTask<IGetQueOnEnum> OnComplete(in UserKey IpPort, EnClient enAction) => EnumEventQueue.OnComplete(in IpPort, enAction, Completed);
+        public override ValueTask<IGetQueOnEnum> OnComplete(in UserKey IpPort, EnClient enAction)
+        {
+            if (IsEvent(enAction))
+            {
+                return EnumEventQueue.OnComplete(IpPort, enAction, IsQueue(enAction), Completed);
+            }
+            return IGetQueOnEnum.SuccessAsync;
+        }
 
         /// <summary>
         /// UDP关闭
         /// </summary>
-        public void Close()
+        public override void Close()
         {
             isClose = true;
             client?.Close();
@@ -565,7 +553,7 @@ namespace Tool.Sockets.UdpHelper
         /// <summary>
         /// 回收UDP相关资源
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             if (!_disposed)
             {

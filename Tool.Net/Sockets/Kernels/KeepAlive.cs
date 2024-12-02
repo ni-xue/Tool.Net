@@ -10,6 +10,7 @@ namespace Tool.Sockets.Kernels
     /// <summary>
     /// 用于长连接的心跳模型
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class KeepAlive
     {
         /// <summary>

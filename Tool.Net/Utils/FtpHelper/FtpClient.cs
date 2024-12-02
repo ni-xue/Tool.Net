@@ -11,6 +11,7 @@ namespace Tool.Utils.FtpHelper
     /// <summary>
     /// FTP 操作类客户端
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class FtpClient
     {
         private readonly static object obj = new object();

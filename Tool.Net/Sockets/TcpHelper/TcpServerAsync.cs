@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Net.WebSockets;
-using System.Runtime.Intrinsics.Arm;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Tool.Sockets.Kernels;
-using Tool.Utils;
-using Tool.Utils.Data;
 
 namespace Tool.Sockets.TcpHelper
 {
     /// <summary>
     /// 封装一个底层异步TCP对象（服务端）IpV4
     /// </summary>
-    public class TcpServerAsync : INetworkListener<Socket>
+    /// <remarks>代码由逆血提供支持</remarks>
+    public class TcpServerAsync : NetworkListener<Socket>
     {
         private readonly int DataLength = 1024 * 8;
         private Socket listener;
@@ -34,30 +29,14 @@ namespace Tool.Sockets.TcpHelper
         /// <summary>
         /// 标识服务端连接是否关闭
         /// </summary>
-        public bool IsClose { get { return isClose; } }
-
-        /// <summary>
-        /// 是否使用线程池调度接收后的数据
-        /// 默认 true 开启
-        /// </summary>
-        public bool IsThreadPool { get; set; } = true;
-
-        /// <summary>
-        /// 禁用掉Receive通知事件，方便上层封装
-        /// </summary>
-        public bool DisabledReceive { get; init; } = false;
-
-        /// <summary>
-        /// 表示通讯的包大小
-        /// </summary>
-        public NetBufferSize BufferSize { get; }// = NetBufferSize.Size8K;
+        public override bool IsClose { get { return isClose; } }
 
         /// <summary>
         /// 已建立连接的集合
         /// key:UserKey
         /// value:Socket
         /// </summary>
-        public IReadOnlyDictionary<UserKey, Socket> ListClient => listClient;
+        public override IReadOnlyDictionary<UserKey, Socket> ListClient => listClient;
 
         private Ipv4Port server; //服务端IP
         private IPEndPoint endPointServer;
@@ -66,12 +45,12 @@ namespace Tool.Sockets.TcpHelper
         /// <summary>
         /// 服务器创建时的信息
         /// </summary>
-        public UserKey Server { get { return server; } }
+        public override UserKey Server { get { return server; } }
 
         /// <summary>
         /// 监听控制毫秒
         /// </summary>
-        public int Millisecond
+        public override int Millisecond
         {
             get
             {
@@ -99,13 +78,13 @@ namespace Tool.Sockets.TcpHelper
         /// 连接、发送、关闭事件
         /// </summary>
         /// <param name="Completed"></param>
-        public void SetCompleted(CompletedEvent<EnServer> Completed) => this.Completed ??= Completed;
+        public override void SetCompleted(CompletedEvent<EnServer> Completed) => this.Completed ??= Completed;
 
         /// <summary>
         /// 接收到数据事件
         /// </summary>
         /// <param name="Received"></param>
-        public void SetReceived(ReceiveEvent<Socket> Received)
+        public override void SetReceived(ReceiveEvent<Socket> Received)
         {
             if (isReceive) throw new Exception("当前已无法绑定接收委托了，因为StartAsync()已经调用了。");
             this.Received ??= Received;
@@ -117,7 +96,7 @@ namespace Tool.Sockets.TcpHelper
         /// <param name="key">IP:Port</param>
         /// <param name="client">连接对象</param>
         /// <returns>返回成功状态</returns>
-        public bool TrySocket(in UserKey key, out Socket client) => ListClient.TryGetValue(key, out client);
+        public override bool TrySocket(in UserKey key, out Socket client) => ListClient.TryGetValue(key, out client);
 
         #region TcpServerAsync
 
@@ -171,7 +150,7 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         /// <param name="ip"></param>
         /// <param name="port"></param>
-        public async Task StartAsync(string ip, int port)
+        public override async Task StartAsync(string ip, int port)
         {
             ThrowIfDisposed();
 
@@ -314,7 +293,7 @@ namespace Tool.Sockets.TcpHelper
         /// <returns></returns>
         /// <exception cref="ArgumentException">OnlyData验证失败</exception>
         /// <exception cref="Exception">连接已断开</exception>
-        public async ValueTask SendAsync(SendBytes<Socket> sendBytes)
+        public override async ValueTask SendAsync(SendBytes<Socket> sendBytes)
         {
             ThrowIfDisposed();
 
@@ -362,7 +341,7 @@ namespace Tool.Sockets.TcpHelper
         /// <param name="client">收数据的对象</param>
         /// <param name="length">数据大小</param>
         /// <returns></returns>
-        public SendBytes<Socket> CreateSendBytes(Socket client, int length = 0)
+        public override SendBytes<Socket> CreateSendBytes(Socket client, int length = 0)
         {
             if (client is null) throw new ArgumentException("Socket不能为空！", nameof(client));
             if (length == 0) length = DataLength;
@@ -447,7 +426,7 @@ namespace Tool.Sockets.TcpHelper
                 }
                 else
                 {
-                    if (!DisabledReceive) await OnComplete(obj.IpPort, EnServer.Receive);
+                    await OnComplete(obj.IpPort, EnServer.Receive);
                     await obj.OnReceiveAsync(IsThreadPool, listData);
                 }
             }
@@ -456,9 +435,16 @@ namespace Tool.Sockets.TcpHelper
         /// <summary>
         /// 可供开发重写的事件方法
         /// </summary>
-        /// <param name="key">指定发送对象</param>
+        /// <param name="IpPort">指定发送对象</param>
         /// <param name="enAction">消息类型</param>
-        public virtual ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnServer enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
+        public override ValueTask<IGetQueOnEnum> OnComplete(in UserKey IpPort, EnServer enAction)
+        {
+            if (IsEvent(enAction))
+            {
+                return EnumEventQueue.OnComplete(IpPort, enAction, IsQueue(enAction), Completed);
+            }
+            return IGetQueOnEnum.SuccessAsync;
+        }
 
         private async ValueTask SocketAbort(UserKey key, Socket _client)
         {
@@ -469,7 +455,7 @@ namespace Tool.Sockets.TcpHelper
         /// <summary>
         /// TCP关闭
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             isClose = true;
             listener?.Dispose();//当他不在监听，就关闭监听。
@@ -478,7 +464,7 @@ namespace Tool.Sockets.TcpHelper
         /// <summary>
         /// 关闭连接，回收相关资源
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             _disposed = true;
             Stop();

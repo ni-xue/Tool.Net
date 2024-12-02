@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Tool.Utils;
 using Tool.Utils.Data;
@@ -39,6 +42,7 @@ namespace Tool.SqlCore
             return default;
         }
 
+
         /// <summary>
         /// 查询单张表
         /// </summary>
@@ -48,13 +52,26 @@ namespace Tool.SqlCore
         /// <returns></returns>
         public static IList<IDictionary<string, object>> SelectDictionary(this DbHelper dbHelper, string commandText, object prams = null)
         {
+            return dbHelper.SelectDictionary(CommandType.Text, commandText, prams);
+        }
+
+        /// <summary>
+        /// 查询单张表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="command">执行模式</param>
+        /// <param name="commandText">查询语句</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+        /// <returns></returns>
+        public static IList<IDictionary<string, object>> SelectDictionary(this DbHelper dbHelper, CommandType command, string commandText, object prams = null)
+        {
             if (string.IsNullOrWhiteSpace(commandText))
             {
                 throw new Exception("commandText 变量值不能为空。");
             }
 
             IDictionary<string, object> dic = dbHelper.SetDictionaryParam(prams);
-            using var dataReader = dbHelper.ExecuteReader(CommandType.Text, commandText, dbHelper.SetParameterList(dic)?.ToArray());
+            using var dataReader = dbHelper.ExecuteReader(command, commandText, dbHelper.SetParameterList(dic)?.ToArray());
             return dataReader.GetListHash();
         }
 
@@ -67,13 +84,26 @@ namespace Tool.SqlCore
         /// <returns></returns>
         public static System.Collections.ArrayList SelectArray(this DbHelper dbHelper, string commandText, object prams = null)
         {
+            return dbHelper.SelectArray(CommandType.Text, commandText, prams);
+        }
+
+        /// <summary>
+        /// 查询单张表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="command">执行模式</param>
+        /// <param name="commandText">查询语句</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+        /// <returns></returns>
+        public static System.Collections.ArrayList SelectArray(this DbHelper dbHelper, CommandType command, string commandText, object prams = null)
+        {
             if (string.IsNullOrWhiteSpace(commandText))
             {
                 throw new Exception("commandText 变量值不能为空。");
             }
 
             IDictionary<string, object> dic = dbHelper.SetDictionaryParam(prams);
-            using var dataReader = dbHelper.ExecuteReader(CommandType.Text, commandText, dbHelper.SetParameterList(dic)?.ToArray());
+            using var dataReader = dbHelper.ExecuteReader(command, commandText, dbHelper.SetParameterList(dic)?.ToArray());
             return dataReader.GetReaderArray();
         }
 
@@ -112,7 +142,21 @@ namespace Tool.SqlCore
                         continue;
                     }
                     dic[pair.Key] = pair.Value;
-                    @string.AppendFormat(" AND {0}={1}{2}", pair.Key, dbHelper.Provider.ParameterPrefix, pair.Key);
+
+                    switch (dbHelper.DbProviderType)
+                    {
+                        case DbProviderType.Oracle:
+                        case DbProviderType.SqlServer:
+                        case DbProviderType.MySql:
+                            @string.AppendFormat(" AND {0}={1}{2}", pair.Key, dbHelper.Provider.ParameterPrefix, pair.Key);
+                            break;
+                        case DbProviderType.OleDb:
+                            @string.AppendFormat(" AND {0}=?", pair.Key);
+                            break;
+                        default:
+                            @string.Append(pair.Key).Append('=').Append(dbHelper.Provider.ParameterPrefix).Append(pair.Key).Append(',');
+                            break;
+                    }
                 }
 
                 dic1.Clear();
@@ -328,13 +372,26 @@ namespace Tool.SqlCore
         /// <returns></returns>
         public static async Task<IList<IDictionary<string, object>>> SelectDictionaryAsync(this DbHelper dbHelper, string commandText, object prams = null)
         {
+            return await dbHelper.SelectDictionaryAsync(CommandType.Text, commandText, prams);
+        }
+
+        /// <summary>
+        /// 查询单张表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="command">执行模式</param>
+        /// <param name="commandText">查询语句</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+        /// <returns></returns>
+        public static async Task<IList<IDictionary<string, object>>> SelectDictionaryAsync(this DbHelper dbHelper, CommandType command, string commandText, object prams = null)
+        {
             if (string.IsNullOrWhiteSpace(commandText))
             {
                 throw new Exception("commandText 变量值不能为空。");
             }
 
             IDictionary<string, object> dic = dbHelper.SetDictionaryParam(prams);
-            using var dataReader = await dbHelper.ExecuteReaderAsync(CommandType.Text, commandText, dbHelper.SetParameterList(dic)?.ToArray());
+            using var dataReader = await dbHelper.ExecuteReaderAsync(command, commandText, dbHelper.SetParameterList(dic)?.ToArray());
             return await dataReader.GetListHashAsync();
         }
 
@@ -347,13 +404,26 @@ namespace Tool.SqlCore
         /// <returns></returns>
         public static async Task<System.Collections.ArrayList> SelectArrayAsync(this DbHelper dbHelper, string commandText, object prams = null)
         {
+            return await dbHelper.SelectArrayAsync(CommandType.Text, commandText, prams);
+        }
+
+        /// <summary>
+        /// 查询单张表
+        /// </summary>
+        /// <param name="dbHelper">数据库引擎</param>
+        /// <param name="command">执行模式</param>
+        /// <param name="commandText">查询语句</param>
+        /// <param name="prams">实体类，虚构对象,任何类型的键值对</param>
+        /// <returns></returns>
+        public static async Task<System.Collections.ArrayList> SelectArrayAsync(this DbHelper dbHelper, CommandType command, string commandText, object prams = null)
+        {
             if (string.IsNullOrWhiteSpace(commandText))
             {
                 throw new Exception("commandText 变量值不能为空。");
             }
 
             IDictionary<string, object> dic = dbHelper.SetDictionaryParam(prams);
-            using var dataReader = await dbHelper.ExecuteReaderAsync(CommandType.Text, commandText, dbHelper.SetParameterList(dic)?.ToArray());
+            using var dataReader = await dbHelper.ExecuteReaderAsync(command, commandText, dbHelper.SetParameterList(dic)?.ToArray());
             return await dataReader.GetReaderArrayAsync();
         }
 
@@ -392,7 +462,21 @@ namespace Tool.SqlCore
                         continue;
                     }
                     dic[pair.Key] = pair.Value;
-                    @string.AppendFormat(" AND {0}={1}{2}", pair.Key, dbHelper.Provider.ParameterPrefix, pair.Key);
+
+                    switch (dbHelper.DbProviderType)
+                    {
+                        case DbProviderType.Oracle:
+                        case DbProviderType.SqlServer:
+                        case DbProviderType.MySql:
+                            @string.AppendFormat(" AND {0}={1}{2}", pair.Key, dbHelper.Provider.ParameterPrefix, pair.Key);
+                            break;
+                        case DbProviderType.OleDb:
+                            @string.AppendFormat(" AND {0}=?", pair.Key);
+                            break;
+                        default:
+                            @string.Append(pair.Key).Append('=').Append(dbHelper.Provider.ParameterPrefix).Append(pair.Key).Append(',');
+                            break;
+                    }
                 }
 
                 dic1.Clear();
@@ -647,40 +731,44 @@ namespace Tool.SqlCore
         /// <returns><see cref="List{DbParameter}"/></returns>
         public static List<DbParameter> GetInsertParams(this DbHelper database, IDictionary<string, object> keyValues, out string key, out string value)
         {
-            StringBuilder _key = new(), _value = new();
-
-            List<DbParameter> parms = new();
-
-            foreach (KeyValuePair<string, object> keyValue in keyValues)
+            List<DbParameter> parms = database.Provider.GetInsertParams(database, keyValues, out key, out value) ?? new();
+            if (parms.Count == 0)
             {
-                //_key.AppendFormat("[{0}],", keyValue.Key);
+                StringBuilder _key = new(), _value = new();
 
-                if (keyValue.Value == null) continue;
-
-                switch (database.DbProviderType)
+                foreach (KeyValuePair<string, object> keyValue in keyValues)
                 {
-                    case DbProviderType.SqlServer:
-                        _key.Append('[').Append(keyValue.Key).Append("],");
-                        break;
-                    case DbProviderType.MySql:
-                        _key.Append('`').Append(keyValue.Key).Append("`,");
-                        break;
-                    case DbProviderType.Oracle:
-                        _key.Append('[').Append(keyValue.Key).Append("],");
-                        break;
-                    default:
-                        _key.Append(keyValue.Key).Append(',');
-                        break;
+                    if (keyValue.Value == null) continue;
+                    switch (database.DbProviderType)
+                    {
+                        case DbProviderType.Oracle:
+                        case DbProviderType.SqlServer:
+                        case DbProviderType.OleDb:
+                            _key.Append('[').Append(keyValue.Key).Append("],");
+                            break;
+                        case DbProviderType.MySql:
+                            _key.Append('`').Append(keyValue.Key).Append("`,");
+                            break;
+                        default:
+                            _key.Append(keyValue.Key).Append(',');
+                            break;
+                    }
+                    switch (database.DbProviderType)
+                    {
+                        case DbProviderType.OleDb:
+                            _value.Append('?').Append(',');
+                            break;
+                        default:
+                            _value.Append(database.Provider.ParameterPrefix).Append(keyValue.Key).Append(',');
+                            break;
+                    }
+
+                    parms.Add(database.GetInParam(keyValue.Key, keyValue.Value));
                 }
-                //_value.AppendFormat("@{0},", keyValue.Key);
 
-                _value.Append(database.Provider.ParameterPrefix).Append(keyValue.Key).Append(',');
-
-                parms.Add(database.GetInParam(keyValue.Key, keyValue.Value));
+                key = _key.ToString(0, _key.Length - 1);
+                value = _value.ToString(0, _value.Length - 1);
             }
-
-            key = _key.ToString(0, _key.Length - 1);
-            value = _value.ToString(0, _value.Length - 1);
             return parms;
         }
 
@@ -693,38 +781,35 @@ namespace Tool.SqlCore
         /// <returns><see cref="List{DbParameter}"/></returns>
         public static List<DbParameter> GetUpdateParams(this DbHelper database, IDictionary<string, object> keyValues, out string strsql)
         {
-            StringBuilder _value = new();
-
-            List<DbParameter> parms = new();
-
-            foreach (KeyValuePair<string, object> keyValue in keyValues)
+            List<DbParameter> parms = database.Provider.GetUpdateParams(database, keyValues, out strsql) ?? new();
+            if (parms.Count == 0)
             {
-                //_value.AppendFormat("[{0}] = @{0},", keyValue.Key);
+                StringBuilder _value = new();
 
-                if (keyValue.Value == null) continue;
-
-                switch (database.DbProviderType)
+                foreach (KeyValuePair<string, object> keyValue in keyValues)
                 {
-                    case DbProviderType.SqlServer:
-                        _value.Append('[').Append(keyValue.Key).Append(']').Append('=').Append(database.Provider.ParameterPrefix).Append(keyValue.Key).Append(',');
-                        break;
-                    case DbProviderType.MySql:
-                        _value.Append('`').Append(keyValue.Key).Append('`').Append('=').Append(database.Provider.ParameterPrefix).Append(keyValue.Key).Append(',');
-                        break;
-                    case DbProviderType.Oracle:
-                        _value.Append('[').Append(keyValue.Key).Append(']').Append('=').Append(database.Provider.ParameterPrefix).Append(keyValue.Key).Append(',');
-                        break;
-                    default:
-                        _value.Append(keyValue.Key).Append('=').Append(database.Provider.ParameterPrefix).Append(keyValue.Key).Append(',');
-                        break;
+                    if (keyValue.Value == null) continue;
+                    switch (database.DbProviderType)
+                    {
+                        case DbProviderType.Oracle:
+                        case DbProviderType.SqlServer:
+                            _value.Append('[').Append(keyValue.Key).Append(']').Append('=').Append(database.Provider.ParameterPrefix).Append(keyValue.Key).Append(',');
+                            break;
+                        case DbProviderType.MySql:
+                            _value.Append('`').Append(keyValue.Key).Append('`').Append('=').Append(database.Provider.ParameterPrefix).Append(keyValue.Key).Append(',');
+                            break;
+                        case DbProviderType.OleDb:
+                            _value.Append('[').Append(keyValue.Key).Append(']').Append('=').Append('?').Append(',');
+                            break;
+                        default:
+                            _value.Append(keyValue.Key).Append('=').Append(database.Provider.ParameterPrefix).Append(keyValue.Key).Append(',');
+                            break;
+                    }
+                    parms.Add(database.GetInParam(keyValue.Key, keyValue.Value));
                 }
 
-                //_value.Append('[').Append(keyValue.Key).Append(']').Append('=').Append('@').Append(keyValue.Key).Append(',');
-
-                parms.Add(database.GetInParam(keyValue.Key, keyValue.Value));
+                strsql = _value.ToString(0, _value.Length - 1);
             }
-
-            strsql = _value.ToString(0, _value.Length - 1);
             return parms;
         }
 
@@ -1052,6 +1137,411 @@ namespace Tool.SqlCore
             return keys;
         }
     }
+
+#if NET6_0_OR_GREATER
+
+    /// <summary>
+    /// 对<see cref="DbBatch"/> 对象，提供扩展支持
+    /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
+    public static class DbBatchExensions
+    {
+        /// <summary>
+        /// 创建一个新的框架内置<see cref="DiyDbBatch"/>
+        /// </summary>
+        /// <param name="dbHelper">数据db</param>
+        /// <returns>返回<see cref="DiyDbBatch"/></returns>
+        /// <exception cref="Exception">执行脚本为空！</exception>
+        public static DiyDbBatch NewDbBatch(this DbHelper dbHelper)
+        {
+            if (dbHelper is null) throw new Exception("dbHelper 变量值不能为空。");
+            return new DiyDbBatch(dbHelper);
+        }
+
+        /// <summary>
+        /// 创建一个新的框架内置<see cref="DiyDbBatch"/> 带事务版本
+        /// </summary>
+        /// <param name="dbHelper">数据db</param>
+        /// <param name="isolationLevel">指定事务类型</param>
+        /// <returns>返回<see cref="DiyDbBatch"/></returns>
+        /// <exception cref="Exception">执行脚本为空！</exception>
+        public static DiyDbBatch NewDbBatch(this DbHelper dbHelper, IsolationLevel isolationLevel)
+        {
+            if (dbHelper is null) throw new Exception("dbHelper 变量值不能为空。");
+            return new DiyDbBatch(dbHelper, isolationLevel);
+        }
+
+        /// <summary>
+        /// 对批量执行sql提供参数化支持
+        /// </summary>
+        /// <param name="dbHelper">数据db</param>
+        /// <param name="dbBatch">批量操作对象</param>
+        /// <param name="command">命令模式</param>
+        /// <param name="commandText">脚本</param>
+        /// <param name="prams">可能包含的参数</param>
+        /// <returns>返回<see cref="DbBatch"/></returns>
+        /// <exception cref="Exception">执行脚本为空！</exception>
+        public static DbBatch AddDbBatchCommand(this DbHelper dbHelper, DbBatch dbBatch, CommandType command, string commandText, object prams = null)
+        {
+            if (dbHelper is null) throw new Exception("dbHelper 变量值不能为空。");
+            IDictionary<string, object> dic = dbHelper.SetDictionaryParam(prams);
+            return dbBatch.AddDbBatchCommand(command, commandText, dbHelper.SetParameterList(dic)?.ToArray());
+        }
+
+        /// <summary>
+        /// 对批量执行sql提供参数化支持
+        /// </summary>
+        /// <param name="dbBatch">批量操作对象</param>
+        /// <param name="command">命令模式</param>
+        /// <param name="commandText">脚本</param>
+        /// <param name="commandParameters">可能包含的参数</param>
+        /// <returns>返回<see cref="DbBatch"/></returns>
+        /// <exception cref="Exception">执行脚本为空！</exception>
+        public static DbBatch AddDbBatchCommand(this DbBatch dbBatch, CommandType command, string commandText, DbParameter[] commandParameters)
+        {
+            if (dbBatch is null) throw new Exception("dbBatch 变量值不能为空。");
+            if (string.IsNullOrWhiteSpace(commandText)) throw new Exception("commandText 变量值不能为空。");
+            var batchCommand = dbBatch.CreateBatchCommand();
+            batchCommand.CommandText = commandText;
+            batchCommand.CommandType = command;
+            batchCommand.AttachParameters(commandParameters);
+            dbBatch.BatchCommands.Add(batchCommand);
+            return dbBatch;
+        }
+
+        /// <summary>
+        /// 附加参数（批量模式）
+        /// </summary>
+        /// <param name="command">SQL数据对象基类</param>
+        /// <param name="commandParameters">要附加的参数对象数组</param>
+        public static void AttachParameters(this DbBatchCommand command, DbParameter[] commandParameters)
+        {
+            if (command is null) throw new ArgumentNullException(nameof(command));
+            if (commandParameters != null)
+            {
+                foreach (DbParameter dbParameter in commandParameters)
+                {
+                    if (dbParameter != null)
+                    {
+                        if ((dbParameter.Direction == ParameterDirection.InputOutput || dbParameter.Direction == ParameterDirection.Input) && dbParameter.Value == null)
+                        {
+                            dbParameter.Value = DBNull.Value;
+                        }
+                        command.Parameters.Add(dbParameter);
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 框架内置Db批处理公共模型
+    /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
+    public class DiyDbBatch : IDisposable, IAsyncDisposable
+    {
+        private bool disposedValue;
+        private bool isPrepare;
+
+        private readonly IsolationLevel isolationLevel;
+        private readonly bool isTransaction;
+        private DbBatch dbBatch;
+        private DbHelper dbHelper;
+
+        /// <summary>
+        /// 创建批处理DB
+        /// </summary>
+        /// <param name="dbHelper">数据中心</param>
+        public DiyDbBatch(DbHelper dbHelper)
+        {
+            this.dbHelper = dbHelper;
+            this.isTransaction = false;
+
+            var batch = dbHelper.CreateBatch();
+            var connection = dbHelper.NewDbConnection();
+            batch.Connection = connection;
+            dbBatch = batch;
+        }
+
+        /// <summary>
+        /// 创建批处理DB带事务
+        /// </summary>
+        /// <param name="dbHelper">数据中心</param>
+        /// <param name="isolationLevel">事务类型</param>
+        public DiyDbBatch(DbHelper dbHelper, IsolationLevel isolationLevel) : this(dbHelper)
+        {
+            this.isTransaction = true;
+            this.isolationLevel = isolationLevel;
+        }
+
+        /// <summary>
+        /// 超时时间
+        /// </summary>
+        public int Timeout { get => dbBatch.Timeout; set => dbBatch.Timeout = value; }
+
+        /// <summary>
+        /// 批处理任务集合
+        /// </summary>
+        public DbBatchCommandCollection DbBatchCommands => dbBatch.BatchCommands;
+
+        /// <summary>
+        /// 连接对象
+        /// </summary>
+        public DbConnection Connection => dbBatch.Connection;
+
+        /// <summary>
+        /// 事务对象
+        /// </summary>
+        public DbTransaction Transaction => dbBatch.Transaction;
+
+        /// <summary>
+        /// 创建新的批处理任务
+        /// </summary>
+        /// <returns></returns>
+        public DbBatchCommand CreateDbBatchCommand() => dbBatch.CreateBatchCommand();
+
+        /// <summary>
+        /// 对批量执行sql提供参数化支持
+        /// </summary>
+        /// <param name="command">命令模式</param>
+        /// <param name="commandText">脚本</param>
+        /// <param name="prams">可能包含的参数</param>
+        /// <exception cref="Exception">执行脚本为空！</exception>
+        public void AddDbBatchCommand(CommandType command, string commandText, object prams = null)
+        {
+            dbHelper.AddDbBatchCommand(dbBatch, command, commandText, prams);
+        }
+
+        /// <summary>
+        /// 对批量执行sql提供参数化支持
+        /// </summary>
+        /// <param name="command">命令模式</param>
+        /// <param name="commandText">脚本</param>
+        /// <param name="commandParameters">可能包含的参数</param>
+        /// <returns>返回<see cref="DbBatch"/></returns>
+        /// <exception cref="Exception">执行脚本为空！</exception>
+        public void AddDbBatchCommand(CommandType command, string commandText, DbParameter[] commandParameters)
+        {
+            dbHelper.AddDbBatchCommand(dbBatch, command, commandText, commandParameters);
+        }
+
+        private Stopwatch Prepare()
+        {
+            if (isPrepare) throw new Exception("无法重复调用！");
+            isPrepare = true;
+            Stopwatch watch = dbHelper.GetStopwatch();
+            Connection.Open();
+            if (isTransaction)
+            {
+                dbBatch.Transaction = Connection.BeginTransaction(isolationLevel);
+            }
+            dbBatch.Prepare();
+            return watch;
+        }
+
+        private async Task<Stopwatch> PrepareAsync(CancellationToken cancellationToken = default)
+        {
+            if (isPrepare) throw new Exception("无法重复调用！");
+            isPrepare = true;
+            Stopwatch watch = dbHelper.GetStopwatch();
+            await Connection.OpenAsync(cancellationToken);
+            if (isTransaction)
+            {
+                dbBatch.Transaction = await Connection.BeginTransactionAsync(isolationLevel, cancellationToken);
+            }
+            await dbBatch.PrepareAsync(cancellationToken);
+            return watch;
+        }
+
+        /// <summary>
+        /// 取消批处理任务
+        /// </summary>
+        public void Cancel() => dbBatch.Cancel();
+
+        /// <summary>
+        /// 执行批处理任务并返回受影响行数
+        /// </summary>
+        /// <returns>返回受影响行数</returns>
+        public int ExecuteNonQuery()
+        {
+            Stopwatch watch = null;
+            bool iserror = false;
+            string guid = string.Empty;
+            try
+            {
+                watch = Prepare();
+                return dbBatch.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw dbHelper.GetException(ex, ref iserror, ref guid);
+            }
+            finally
+            {
+                if (watch is not null) dbHelper.AddQueryDetail(DbBatchCommands, watch, iserror, guid);
+            }
+        }
+
+        /// <summary>
+        /// 执行批处理任务并返回受影响行数（异步）
+        /// </summary>
+        /// <param name="cancellationToken">可取消</param>
+        /// <returns>返回受影响行数</returns>
+        public async Task<int> ExecuteNonQueryAsync(CancellationToken cancellationToken = default)
+        {
+            Stopwatch watch = null;
+            bool iserror = false;
+            string guid = string.Empty;
+            try
+            {
+                watch = await PrepareAsync(cancellationToken);
+                return await dbBatch.ExecuteNonQueryAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw dbHelper.GetException(ex, ref iserror, ref guid);
+            }
+            finally
+            {
+                if (watch is not null) dbHelper.AddQueryDetail(DbBatchCommands, watch, iserror, guid);
+            }
+        }
+
+        /// <summary>
+        /// 执行批处理任务并返回第一行的第一列
+        /// </summary>
+        /// <returns>返回第一行的第一列</returns>
+        public object ExecuteScalar()
+        {
+            Stopwatch watch = null;
+            bool iserror = false;
+            string guid = string.Empty;
+            try
+            {
+                watch = Prepare();
+                return dbBatch.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                throw dbHelper.GetException(ex, ref iserror, ref guid);
+            }
+            finally
+            {
+                if (watch is not null) dbHelper.AddQueryDetail(DbBatchCommands, watch, iserror, guid);
+            }
+        }
+
+        /// <summary>
+        /// 执行批处理任务并返回第一行的第一列（异步）
+        /// </summary>
+        /// <param name="cancellationToken">可取消</param>
+        /// <returns>返回第一行的第一列</returns>
+        public async Task<object> ExecuteScalarAsync(CancellationToken cancellationToken = default)
+        {
+            Stopwatch watch = null;
+            bool iserror = false;
+            string guid = string.Empty;
+            try
+            {
+                watch = await PrepareAsync(cancellationToken);
+                return await dbBatch.ExecuteScalarAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw dbHelper.GetException(ex, ref iserror, ref guid);
+            }
+            finally
+            {
+                if (watch is not null) dbHelper.AddQueryDetail(DbBatchCommands, watch, iserror, guid);
+            }
+        }
+
+        /// <summary>
+        /// 执行批处理任务并返回<see cref="DbDataReader"/>
+        /// </summary>
+        /// <param name="behavior">提供查询结果及其对数据库影响的描述。</param>
+        /// <returns><see cref="DbDataReader"/></returns>
+        public DbDataReader ExecuteReader(CommandBehavior behavior = CommandBehavior.Default)
+        {
+            Stopwatch watch = null;
+            bool iserror = false;
+            string guid = string.Empty;
+            try
+            {
+                watch = Prepare();
+                return dbBatch.ExecuteReader(behavior);
+            }
+            catch (Exception ex)
+            {
+                throw dbHelper.GetException(ex, ref iserror, ref guid);
+            }
+            finally
+            {
+                if (watch is not null) dbHelper.AddQueryDetail(DbBatchCommands, watch, iserror, guid);
+            }
+        }
+
+        /// <summary>
+        /// 执行批处理任务并返回<see cref="DbDataReader"/>（异步）
+        /// </summary>
+        /// <param name="behavior">提供查询结果及其对数据库影响的描述。</param>
+        /// <param name="cancellationToken">可取消</param>
+        /// <returns><see cref="DbDataReader"/></returns>
+        public async Task<DbDataReader> ExecuteReaderAsync(CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default)
+        {
+            Stopwatch watch = null;
+            bool iserror = false;
+            string guid = string.Empty;
+            try
+            {
+                watch = await PrepareAsync(cancellationToken);
+                return await dbBatch.ExecuteReaderAsync(behavior, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw dbHelper.GetException(ex, ref iserror, ref guid);
+            }
+            finally
+            {
+                if (watch is not null) dbHelper.AddQueryDetail(DbBatchCommands, watch, iserror, guid);
+            }
+        }
+
+        /// <summary>
+        /// 回收相关资源
+        /// </summary>
+        public void Dispose()
+        {
+            if (!disposedValue)
+            {
+                disposedValue = true;
+                dbHelper = null;
+                Connection.Dispose();
+                Transaction?.Dispose();
+                dbBatch.Dispose();
+                dbBatch = null;
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        /// <summary>
+        /// 回收相关资源（异步）
+        /// </summary>
+        public async ValueTask DisposeAsync()
+        {
+            if (!disposedValue)
+            {
+                disposedValue = true;
+                dbHelper = null;
+                await Connection.DisposeAsync();
+                if (Transaction is not null) await Transaction.DisposeAsync();
+                await dbBatch.DisposeAsync();
+                dbBatch = null;
+                GC.SuppressFinalize(this);
+            }
+        }
+    }
+#endif
 
     /// <summary>
     /// 异步返回带有主键的影响信息

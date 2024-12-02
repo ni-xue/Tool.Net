@@ -116,6 +116,7 @@ namespace Tool.Utils
     /// <summary>
     /// 提供 CRC32 算法的实现
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class Crc32 : System.Security.Cryptography.HashAlgorithm
     {
         /// <summary>

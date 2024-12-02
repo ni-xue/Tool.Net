@@ -10,6 +10,7 @@ namespace Tool.Web.Builder
     /// <summary>
     /// URL 拦截器中间件
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class IgnoreUrlMiddleware
     {
         private RequestDelegate Next { get; }

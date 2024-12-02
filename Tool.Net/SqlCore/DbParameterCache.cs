@@ -8,6 +8,7 @@ namespace Tool.SqlCore
     /// <summary>
     /// 本地数据库参数缓存
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class DbParameterCache
     {
         //private readonly Stopwatch cachWatch;

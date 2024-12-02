@@ -8,6 +8,7 @@ namespace Tool.Utils.FtpHelper
     /// <summary>
     /// FTP操作类
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class FtpOperater
     {
         #region 属性

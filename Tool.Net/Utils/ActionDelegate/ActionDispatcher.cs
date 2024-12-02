@@ -526,6 +526,7 @@ namespace Tool.Utils.ActionDelegate
     /// <summary>
     /// 根据 MethodInfo 对象，创建一个委托，实现方法调用，提高性能，支持各种返回值(object)
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ActionDispatcher : ActionDispatcher<object>
     {
         /// <summary>
@@ -539,6 +540,7 @@ namespace Tool.Utils.ActionDelegate
     /// 根据 MethodInfo 对象，创建一个委托，实现方法调用，提高性能，支持各种返回值(object)
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ActionDispatcher<T> : ActionDispatcher<T, object>
     {
         /// <summary>
@@ -585,6 +587,7 @@ namespace Tool.Utils.ActionDelegate
     /// </summary>
     /// <typeparam name="T">调用类</typeparam>
     /// <typeparam name="TResult">返回值</typeparam>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ActionDispatcher<T, TResult> : IActionDispatcher<T>
     {
         private readonly ActionExecutor<T, TResult> _executor;
@@ -596,7 +599,7 @@ namespace Tool.Utils.ActionDelegate
         private readonly VoidTaskActionExecutor<T> _executorVoidAsync;
 
         /// <summary>
-        /// 是否有返回值，默认没有
+        /// 是否无返回值
         /// </summary>
         public bool IsVoid { get; }
 

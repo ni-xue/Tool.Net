@@ -19,7 +19,7 @@ namespace WebTestApp.Controllers
 
         private readonly DbHelper dbHelper;
 
-        static TaskOueue<string, string> taskOueue = new(func: (a) =>
+        static TaskQueue<string, string> taskOueue = new(func: (a) =>
         {
             return ValueTask.FromResult(a);
         });

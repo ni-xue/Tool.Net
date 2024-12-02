@@ -11,6 +11,7 @@ namespace Tool.Utils
     /// <summary>
     /// 数据集帮助类
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class DataHelper
     {
         internal static IList<DataTableProperty> GetTablePropertys(PropertyInfo[] properties, DataColumnCollection columns)
@@ -363,6 +364,7 @@ namespace Tool.Utils
     /// <summary>
     /// 表示一个 实体字段对应的表下标
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class DataTableProperty
     {
         /// <summary>

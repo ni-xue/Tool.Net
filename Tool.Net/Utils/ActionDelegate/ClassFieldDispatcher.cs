@@ -28,6 +28,7 @@ namespace Tool.Utils.ActionDelegate
     /// <summary>
     /// 类中字段赋值，创建一个委托，实现类调用，提高性能 (赋值/取值)
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ClassFieldDispatcher
     {
         private readonly SetClassField _setClassField;
@@ -68,9 +69,9 @@ namespace Tool.Utils.ActionDelegate
         /// </summary>
         /// <param name="classtype">类对象类型</param>
         /// <param name="classField">默认读取所有行为</param>
-        public ClassFieldDispatcher(Type classtype, ClassField classField = ClassField.All): this(classtype, classField, null)
+        public ClassFieldDispatcher(Type classtype, ClassField classField = ClassField.All) : this(classtype, classField, null)
         {
-            
+
         }
 
         /// <summary>
@@ -103,7 +104,10 @@ namespace Tool.Utils.ActionDelegate
         /// <param name="parameters">值集合(字典如标记忽略大小写赋值，就能实现特定行为)</param>
         public void Set(object _class, IDictionary<string, object> parameters)
         {
-            _setClassField?.Invoke(_class, parameters);
+            if (parameters is not null)
+            {
+                _setClassField?.Invoke(_class, parameters);
+            }
         }
 
         /// <summary>

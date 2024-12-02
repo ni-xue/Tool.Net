@@ -17,6 +17,7 @@ namespace Tool.Utils
     /// <para>瞬时（Transient）和单例（Singleton）模式是相反的，每次使用时，DI容器都是创建一个新的实例。</para>
     /// <para>作用域（Scoped），在一个作用域内，会使用同一个实例，像EF Core的DbContext上下文就被注册为作用域服务。</para>
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class IocHelper
     {
         /// <summary>
@@ -42,6 +43,7 @@ namespace Tool.Utils
     /// <summary>
     /// 提供一个完全独立的 Ioc 容器
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class IocCore : IAsyncDisposable, IDisposable
     {
         /// <summary>

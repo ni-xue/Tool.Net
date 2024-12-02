@@ -9,6 +9,7 @@ namespace Tool.SqlCore
     /// <summary>
     /// 分页数据对象
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
 	[Serializable]
     public class PagerSet
     {

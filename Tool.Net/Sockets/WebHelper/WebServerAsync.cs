@@ -15,7 +15,7 @@ namespace Tool.Sockets.WebHelper
     /// <summary>
     /// WebServer长连接对象
     /// </summary>
-    public sealed class WebServerAsync : INetworkListener<WebSocketContext>
+    public sealed class WebServerAsync : NetworkListener<WebSocketContext>
     {
         private readonly int DataLength = 1024 * 8;
         private HttpListener listener;
@@ -31,7 +31,7 @@ namespace Tool.Sockets.WebHelper
         /// <summary>
         /// 标识服务端连接是否关闭
         /// </summary>
-        public bool IsClose { get { return isClose; } }
+        public override bool IsClose { get { return isClose; } }
 
         /// <summary>
         /// 获取指示是否使用安全套接字层 (SSL) 保护 WebSocket 连接的值。
@@ -44,7 +44,7 @@ namespace Tool.Sockets.WebHelper
         /// key:UserKey
         /// value:WebSocketContext
         /// </summary>
-        public IReadOnlyDictionary<UserKey, WebSocketContext> ListClient => listClient;
+        public override IReadOnlyDictionary<UserKey, WebSocketContext> ListClient => listClient;
 
         private UserKey server; //服务端IP
         private int millisecond = 20; //默认20毫秒。
@@ -52,23 +52,12 @@ namespace Tool.Sockets.WebHelper
         /// <summary>
         /// 服务器创建时的信息
         /// </summary>
-        public UserKey Server { get { return server; } }
-
-        /// <summary>
-        /// 是否使用线程池调度接收后的数据
-        /// 默认 true 开启
-        /// </summary>
-        public bool IsThreadPool { get; set; } = true;
-
-        /// <summary>
-        /// 表示通讯的包大小
-        /// </summary>
-        public NetBufferSize BufferSize { get; }
+        public override UserKey Server { get { return server; } }
 
         /// <summary>
         /// 监听控制毫秒
         /// </summary>
-        public int Millisecond
+        public override int Millisecond
         {
             get
             {
@@ -81,11 +70,6 @@ namespace Tool.Sockets.WebHelper
                 else { millisecond = value; }
             }
         }
-
-        /// <summary>
-        /// 禁用掉Receive通知事件，方便上层封装
-        /// </summary>
-        public bool DisabledReceive { get; init; } = false;
 
         /**
          * 提供自定义注册的服务
@@ -112,13 +96,13 @@ namespace Tool.Sockets.WebHelper
         /// 连接、发送、关闭事件 <see cref="EnServer"/>
         /// </summary>
         /// <param name="Completed"></param>
-        public void SetCompleted(CompletedEvent<EnServer> Completed) => this.Completed ??= Completed;
+        public override void SetCompleted(CompletedEvent<EnServer> Completed) => this.Completed ??= Completed;
 
         /// <summary>
         /// 接收到数据事件
         /// </summary>
         /// <param name="Received"></param>
-        public void SetReceived(ReceiveEvent<WebSocketContext> Received)
+        public override void SetReceived(ReceiveEvent<WebSocketContext> Received)
         {
             if (isReceive) throw new Exception("当前已无法绑定接收委托了，因为StartAsync()已经调用了。");
             this.Received ??= Received;
@@ -130,7 +114,7 @@ namespace Tool.Sockets.WebHelper
         /// <param name="key">IP:Port</param>
         /// <param name="client">连接对象</param>
         /// <returns>返回成功状态</returns>
-        public bool TrySocket(in UserKey key, out WebSocketContext client) => ListClient.TryGetValue(key, out client);
+        public override bool TrySocket(in UserKey key, out WebSocketContext client) => ListClient.TryGetValue(key, out client);
 
         #region WebServerAsync
 
@@ -185,7 +169,7 @@ namespace Tool.Sockets.WebHelper
         /// </summary>
         /// <param name="ip">可以使用“*”</param>
         /// <param name="port">端口号</param>
-        public async Task StartAsync(string ip, int port)
+        public override async Task StartAsync(string ip, int port)
         {
             ip = await WebStateObject.IsWebIpEffective(ip);
 
@@ -351,7 +335,7 @@ namespace Tool.Sockets.WebHelper
         /// <param name="sendBytes">数据包</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException">Client空 或 已断开连接</exception>
-        public async ValueTask SendAsync(SendBytes<WebSocketContext> sendBytes)
+        public override async ValueTask SendAsync(SendBytes<WebSocketContext> sendBytes)
         {
             ThrowIfDisposed();
 
@@ -395,7 +379,7 @@ namespace Tool.Sockets.WebHelper
         /// <param name="client">收数据的对象</param>
         /// <param name="length">数据大小</param>
         /// <returns></returns>
-        public SendBytes<WebSocketContext> CreateSendBytes(WebSocketContext client, int length = 0)
+        public override SendBytes<WebSocketContext> CreateSendBytes(WebSocketContext client, int length = 0)
         {
             if (client is null) throw new ArgumentException("WebSocketContext不能为空！", nameof(client));
             if (length == 0) length = DataLength;
@@ -478,7 +462,7 @@ namespace Tool.Sockets.WebHelper
                     }
                     else
                     {
-                        if (!DisabledReceive) await OnComplete(obj.SocketKey, EnServer.Receive);
+                        await OnComplete(obj.SocketKey, EnServer.Receive);
                         await obj.OnReceivedAsync(IsThreadPool, obj.WebSocketContext, Received);
                         //await Received.InvokeAsync(obj.IpPort, ListData);
                     }
@@ -525,7 +509,14 @@ namespace Tool.Sockets.WebHelper
         /// </summary>
         /// <param name="key">指定发送对象</param>
         /// <param name="enAction">消息类型</param>
-        public ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnServer enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
+        public override ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnServer enAction)
+        {
+            if (IsEvent(enAction))
+            {
+                return EnumEventQueue.OnComplete(key, enAction, IsQueue(enAction), Completed);
+            }
+            return IGetQueOnEnum.SuccessAsync;
+        }
 
         /// <summary>
         /// 中断连接并触发事件
@@ -541,7 +532,7 @@ namespace Tool.Sockets.WebHelper
         /// <summary>
         /// HttpListener关闭
         /// </summary>
-        public void Stop()
+        public override void Stop()
         {
             isClose = true;
             if (listener != null && listener.IsListening)
@@ -553,7 +544,7 @@ namespace Tool.Sockets.WebHelper
         /// <summary>
         /// 回收资源，并关闭所有连接
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             _disposed = true;
             Stop();

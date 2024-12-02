@@ -9,6 +9,7 @@ namespace Tool.Utils
     /// <summary>
     /// 关于内存地址读写的操作帮助类
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class IntPtrHelper
     {
         #region API

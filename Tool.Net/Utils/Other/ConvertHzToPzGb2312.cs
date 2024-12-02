@@ -7,6 +7,7 @@ namespace Tool.Utils.Other
     /// <summary>
     /// 文字转拼音类·ConvertHzToPz_Gb2312
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ConvertHzToPzGb2312
     {
         /// <summary>

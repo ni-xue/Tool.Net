@@ -21,6 +21,7 @@ namespace Tool.Sockets.QuicHelper
     /// <summary>
     /// 封装一个底层异步Quic对象（客户端）写了但属于预览物无法使用
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     [SupportedOSPlatform("linux")]
     [SupportedOSPlatform("macOS")]
     [SupportedOSPlatform("OSX")]
@@ -30,10 +31,11 @@ namespace Tool.Sockets.QuicHelper
     /// <summary>
     /// .Net7 以上支持
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
 #endif
     public class QuicClientAsync
 #if NET7_0_OR_GREATER
-        : INetworkConnect<QuicSocket>
+        : NetworkConnect<QuicSocket>
 #endif
     {
 #if NET7_0_OR_GREATER
@@ -65,27 +67,27 @@ namespace Tool.Sockets.QuicHelper
         /// <summary>
         /// 标识客户端连接是否关闭
         /// </summary>
-        public bool IsClose { get { return isClose; } }
+        public override bool IsClose { get { return isClose; } }
 
         /// <summary>
         /// 服务器的连接信息
         /// </summary>
-        public UserKey Server { get { return server; } }
+        public override UserKey Server { get { return server; } }
 
         /// <summary>
         /// 当前设备的连接信息
         /// </summary>
-        public Ipv4Port LocalPoint => StateObject.GetIpPort(quicclient?.LocalEndPoint);
+        public override Ipv4Port LocalPoint => StateObject.GetIpPort(quicclient?.LocalEndPoint);
 
         /// <summary>
         /// 连接状态
         /// </summary>
-        public bool Connected => quicclient.Connected;
+        public override bool Connected => quicclient.Connected;
 
         /// <summary>
         /// 监听控制毫秒
         /// </summary>
-        public int Millisecond
+        public override int Millisecond
         {
             get
             {
@@ -113,38 +115,22 @@ namespace Tool.Sockets.QuicHelper
         /// 连接、发送、关闭事件
         /// </summary>
         /// <param name="Completed"></param>
-        public void SetCompleted(CompletedEvent<EnClient> Completed) => this.Completed ??= Completed;
+        public override void SetCompleted(CompletedEvent<EnClient> Completed) => this.Completed ??= Completed;
 
         /// <summary>
         /// 接收到数据事件
         /// </summary>
         /// <param name="Received"></param>
-        public void SetReceived(ReceiveEvent<QuicSocket> Received)
+        public override void SetReceived(ReceiveEvent<QuicSocket> Received)
         {
             if (isReceive) throw new Exception("当前已无法绑定接收委托了，因为ConnectAsync()已经调用了。");
             this.Received ??= Received;
         }
 
         /// <summary>
-        /// 是否使用线程池调度接收后的数据
-        /// 默认 true 开启
-        /// </summary>
-        public bool IsThreadPool { get; set; } = true;
-
-        /// <summary>
         /// 是否在与服务器断开后主动重连？ 
         /// </summary>
         public bool IsReconnect { get; private set; }
-
-        /// <summary>
-        /// 禁用掉Receive通知事件，方便上层封装
-        /// </summary>
-        public bool DisabledReceive { get; init; } = false;
-
-        /// <summary>
-        /// 表示通讯的包大小
-        /// </summary>
-        public NetBufferSize BufferSize { get; }
 
         #region QuicClientAsync
 
@@ -208,7 +194,7 @@ namespace Tool.Sockets.QuicHelper
         /// </summary>
         /// <param name="ip">要连接的服务器的ip地址</param>
         /// <param name="port">要连接的服务器的端口</param>
-        public async Task ConnectAsync(string ip, int port)
+        public override async Task ConnectAsync(string ip, int port)
         {
             ThrowIfDisposed();
 
@@ -276,7 +262,7 @@ namespace Tool.Sockets.QuicHelper
             }
             finally
             {
-                if (!isAuthex) await ConnectCallBack();
+                if (!isAuthex && !isWhileReconnect) await ConnectCallBack();
             }
         }
 
@@ -330,7 +316,7 @@ namespace Tool.Sockets.QuicHelper
         /// <param name="sendBytes">数据包</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException">OnlyData验证失败</exception>
-        public async ValueTask SendAsync(SendBytes<QuicSocket> sendBytes)
+        public override async ValueTask SendAsync(SendBytes<QuicSocket> sendBytes)
         {
             if (sendBytes.OnlyData != OnlyData) throw new ArgumentException("与当前套接字协议不一致！", nameof(sendBytes.OnlyData));
 
@@ -377,7 +363,7 @@ namespace Tool.Sockets.QuicHelper
                 await InsideClose();
                 await OnComplete(Server, EnClient.Fail);
 
-                StartReconnect();
+                await StartReconnect();
             }
         }
 
@@ -401,7 +387,7 @@ namespace Tool.Sockets.QuicHelper
                     //如果发生异常，说明客户端失去连接，触发关闭事件
                     await InsideClose();
                     await OnComplete(obj.SocketKey, EnClient.Close);
-                    StartReconnect();
+                    await StartReconnect();
                     break;
                 } //Thread.Sleep(Millisecond);
             }
@@ -447,7 +433,7 @@ namespace Tool.Sockets.QuicHelper
 
             async ValueTask OnReceived(ReadOnlySequence<byte> listData, QuicStateObject obj)
             {
-                if (!DisabledReceive) await OnComplete(obj.SocketKey, EnClient.Receive);
+                await OnComplete(obj.SocketKey, EnClient.Receive);
                 Keep?.ResetTime();
                 await obj.OnReceiveAsync(IsThreadPool, listData);
             }
@@ -458,7 +444,7 @@ namespace Tool.Sockets.QuicHelper
         /// <summary>
         /// 重连，返回是否重连，如果没有断开是不会重连的
         /// </summary>
-        public async Task<bool> Reconnection()
+        public override async Task<bool> Reconnection()
         {
             ThrowIfDisposed();
 
@@ -470,39 +456,44 @@ namespace Tool.Sockets.QuicHelper
                     {
                         //client.Abort();
                         //client.Dispose();
+                        await quicclient.Connection.DisposeAsync();
                         await ConnectAsync();
+
+                        return QuicStateObject.IsConnected(quicclient);
+                    }
+                    else
+                    {
+                        return true;
                     }
                 }
-                isWhileReconnect = false;
-                return true;
             }
             catch
             {
                 await InsideClose();
-                return false;
             }
+            return false;
         }
 
         private async Task WhileReconnect()
         {
-            try
+            while (IsReconnect)
             {
-                while (IsReconnect)
+                if (await Reconnection())
                 {
-                    if (await Reconnection()) break;
-                    await Task.Delay(100); //等待一下才继续
+                    isWhileReconnect = false;
+                    await ConnectCallBack();
+                    break;
                 }
-            }
-            catch (Exception)
-            {
+                await Task.Delay(100); //等待一下才继续
             }
         }
 
-        private void StartReconnect()
+        private async Task StartReconnect()
         {
-            if (!isWhileReconnect)
+            if (IsReconnect && !isWhileReconnect)
             {
                 isWhileReconnect = true;
+                await OnComplete(Server, EnClient.Reconnect);
                 StateObject.StartTask("Quic重连", WhileReconnect);
             }
         }
@@ -537,14 +528,21 @@ namespace Tool.Sockets.QuicHelper
         /// </summary>
         /// <param name="key">IP：端口</param>
         /// <param name="enAction">消息类型</param>
-        public virtual ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnClient enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
+        public override ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnClient enAction)
+        {
+            if (IsEvent(enAction))
+            {
+                return EnumEventQueue.OnComplete(key, enAction, IsQueue(enAction), Completed);
+            }
+            return IGetQueOnEnum.SuccessAsync;
+        }
 
         /// <summary>
         /// 创建数据发送空间
         /// </summary>
         /// <param name="length"></param>
         /// <returns></returns>
-        public SendBytes<QuicSocket> CreateSendBytes(int length = 0)
+        public override SendBytes<QuicSocket> CreateSendBytes(int length = 0)
         {
             if (quicclient == null) throw new Exception("未调用ConnectAsync函数！");
             if (length == 0) length = DataLength;
@@ -574,12 +572,12 @@ namespace Tool.Sockets.QuicHelper
         /// <summary>
         /// 关闭Quic
         /// </summary>
-        public void Close() => CloseAsync().Preserve();
+        public override void Close() => CloseAsync().Preserve();
 
         /// <summary>
         /// 关闭连接，回收相关资源
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             _disposed = true;
             Close();

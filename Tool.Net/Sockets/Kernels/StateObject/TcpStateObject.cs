@@ -9,6 +9,7 @@ namespace Tool.Sockets.Kernels
     /// <summary>
     /// 对异步接收时的对象状态的封装，将socket与接收到的数据封装在一起
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class TcpStateObject : StateObject
     {
         private ReceiveEvent<Socket> Received;

@@ -9,6 +9,7 @@ namespace Tool.Utils.Other
     /// INI文件读写类。
     /// Copyright (C) Maticsoft
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class IniFile
     {
         /// <summary>

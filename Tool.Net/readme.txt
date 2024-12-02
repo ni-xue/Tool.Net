@@ -4,7 +4,7 @@
 
 2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils）
 
-3. 当前版本（5.3.2）为正式版，用于任何项目开发使用。 
+3. 当前版本（5.3.4）为正式版，用于任何项目开发使用。 
 
 4. 架构基于 .Net9（兼容 .Net8、.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
 
@@ -757,6 +757,18 @@ GetValue 和 SetValue 新版来临，采用 上面两种模式的自主匹配方
         Console.WriteLine(varobj0.ToString());
     }
 5. JsonVar 类型内部引用优化，性能更强。
+
+  ------------2024/11/21------------
+5.3.4 - 正式版
+1. 本次更新主要是修复 private readonly string text; readonly 关键字时 GetValue 和 SetValue 等相关函数 会报错，因为它是只读的。
+2. 新增 TaskQueue 静态类，该类可以让方法已队列形式排队完成，公共模板，只有一个公共调度队列线程
+相关示例：
+static async Task<int> GetIntAsync()
+{
+    return await Task.FromResult(123_456);
+}
+_ = Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(GetIntAsync).ContinueWith((a) => { a.Dispose(); Console.WriteLine($"{Tool.Utils.ThreadQueue.TaskQueue.Count}\t{Tool.Utils.ThreadQueue.TaskQueue.CompleteCount}\t{Tool.Utils.ThreadQueue.TaskQueue.TotalCount}"); });
+备注：可以直接放方法函数，支持各种函数
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。

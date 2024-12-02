@@ -13,7 +13,7 @@ namespace Tool.Sockets.WebHelper
     /// <summary>
     /// WebSocket连接对象
     /// </summary>
-    public sealed class WebClientAsync : INetworkConnect<WebSocket>
+    public sealed class WebClientAsync : NetworkConnect<WebSocket>
     {
         /// <summary>
         /// 获取当前心跳信息
@@ -33,7 +33,7 @@ namespace Tool.Sockets.WebHelper
         /// <summary>
         /// 标识客户端连接是否关闭
         /// </summary>
-        public bool IsClose { get { return isClose; } }
+        public override bool IsClose { get { return isClose; } }
 
         /// <summary>
         /// 获取指示是否使用安全套接字层 (SSL) 保护 WebSocket 连接的值。
@@ -46,12 +46,6 @@ namespace Tool.Sockets.WebHelper
         private bool isWhileReconnect = false;
 
         /// <summary>
-        /// 是否使用线程池调度接收后的数据
-        /// 默认 true 开启
-        /// </summary>
-        public bool IsThreadPool { get; init; } = true;
-
-        /// <summary>
         /// 是否在与服务器断开后主动重连？ 
         /// </summary>
         public bool IsReconnect { get; private set; }
@@ -59,12 +53,12 @@ namespace Tool.Sockets.WebHelper
         /// <summary>
         /// 服务器创建时的信息
         /// </summary>
-        public UserKey Server { get { return server; } }
+        public override UserKey Server { get { return server; } }
 
         /// <summary>
         /// 监听控制毫秒
         /// </summary>
-        public int Millisecond
+        public override int Millisecond
         {
             get
             {
@@ -81,22 +75,12 @@ namespace Tool.Sockets.WebHelper
         /// <summary>
         /// 当前设备的连接信息
         /// </summary>
-        public Ipv4Port LocalPoint => throw new NotImplementedException("WebSocket无法获取");
+        public override Ipv4Port LocalPoint => throw new NotImplementedException("WebSocket无法获取");
 
         /// <summary>
         /// 获取当前是否已连接到远程主机。
         /// </summary>
-        public bool Connected => client.State == WebSocketState.Open;
-
-        /// <summary>
-        /// 禁用掉Receive通知事件，方便上层封装
-        /// </summary>
-        public bool DisabledReceive { get; set; } = false;
-
-        /// <summary>
-        /// 表示通讯的包大小
-        /// </summary>
-        public NetBufferSize BufferSize { get; }
+        public override bool Connected => client.State == WebSocketState.Open;
 
         /**
          * 提供自定义注册的服务
@@ -133,13 +117,13 @@ namespace Tool.Sockets.WebHelper
         /// 连接、发送、关闭事件 <see cref="EnClient"/>
         /// </summary>
         /// <param name="Completed"></param>
-        public void SetCompleted(CompletedEvent<EnClient> Completed) => this.Completed ??= Completed;
+        public override void SetCompleted(CompletedEvent<EnClient> Completed) => this.Completed ??= Completed;
 
         /// <summary>
         /// 接收到数据事件
         /// </summary>
         /// <param name="Received"></param>
-        public void SetReceived(ReceiveEvent<WebSocket> Received)
+        public override void SetReceived(ReceiveEvent<WebSocket> Received)
         {
             if (isReceive) throw new Exception("当前已无法绑定接收委托了，因为ConnectAsync()已经调用了。");
             this.Received ??= Received;
@@ -170,7 +154,7 @@ namespace Tool.Sockets.WebHelper
         /// </summary>
         /// <param name="bufferSize">包大小枚举(警告：请务必保证服务端的大小和客户端一致)</param>
         /// <param name="IsReconnect">是否在与服务器断开后主动重连？ </param>
-        
+
         ///// <param name="OnlyData">是否启动框架模式</param>
         public WebClientAsync(NetBufferSize bufferSize,/* bool OnlyData, */bool IsReconnect)
         {
@@ -207,7 +191,7 @@ namespace Tool.Sockets.WebHelper
         /// </summary>
         /// <param name="ip">可以使用“*”</param>
         /// <param name="port">端口号</param>
-        public async Task ConnectAsync(string ip, int port)
+        public override async Task ConnectAsync(string ip, int port)
         {
             ip = await WebStateObject.IsWebIpEffective(ip);
 
@@ -255,7 +239,7 @@ namespace Tool.Sockets.WebHelper
             }
             finally
             {
-                ConnectCallBack();
+                if (!isWhileReconnect) await ConnectCallBack();
             }
         }
 
@@ -306,7 +290,7 @@ namespace Tool.Sockets.WebHelper
         /// </summary>
         /// <param name="sendBytes">数据包对象</param>
         /// <returns></returns>
-        public async ValueTask SendAsync(SendBytes<WebSocket> sendBytes)
+        public override async ValueTask SendAsync(SendBytes<WebSocket> sendBytes)
         {
             var buffers = sendBytes.GetMemory();
             await SendAsync(buffers, EnClient.SendMsg);
@@ -317,8 +301,8 @@ namespace Tool.Sockets.WebHelper
         /// </summary>
         /// <param name="length">数据包大小</param>
         /// <returns></returns>
-        public SendBytes<WebSocket> CreateSendBytes(int length = 0)
-        {            
+        public override SendBytes<WebSocket> CreateSendBytes(int length = 0)
+        {
             if (client == null) throw new Exception("未调用ConnectAsync函数！");
             if (length == 0) length = DataLength;
             return new SendBytes<WebSocket>(client, length, false);
@@ -341,7 +325,7 @@ namespace Tool.Sockets.WebHelper
         /// <summary>
         /// 重连，返回是否重连，如果没有断开是不会重连的
         /// </summary>
-        public async Task<bool> Reconnection()
+        public override async Task<bool> Reconnection()
         {
             ThrowIfDisposed();
 
@@ -354,35 +338,41 @@ namespace Tool.Sockets.WebHelper
                         client.Abort();
                         client.Dispose();
                         await ConnectAsync();
+                        return WebStateObject.IsConnected(client);
+                    }
+                    else
+                    {
+                        return true;
                     }
                 }
-                return true;
             }
             catch
             {
                 InsideClose();
-                return false;
             }
+            return false;
         }
 
         private async Task WhileReconnect()
         {
             while (IsReconnect)
             {
-                if (await Reconnection()) 
+                if (await Reconnection())
                 {
                     isWhileReconnect = false;
+                    await ConnectCallBack();
                     break;
                 }
                 await Task.Delay(100); //等待一下才继续
             }
         }
 
-        private void StartReconnect() 
+        private async Task StartReconnect()
         {
-            if (!isWhileReconnect)
+            if (IsReconnect && !isWhileReconnect)
             {
                 isWhileReconnect = true;
+                await OnComplete(Server, EnClient.Reconnect);
                 StateObject.StartTask("Web重连", WhileReconnect);
             }
         }
@@ -413,21 +403,20 @@ namespace Tool.Sockets.WebHelper
         /**
         * 异步接收连接的回调函数
         */
-        private async void ConnectCallBack()
+        private async Task ConnectCallBack()
         {
             if (WebStateObject.IsConnected(client))
             {
                 UserKey key = server;
                 //Debug.WriteLine("服务器：{0},连接成功！ {1}", key, DateTime.Now.ToString());
-                
+
                 StateObject.StartReceive("Web", StartReceive, key); //StartReceive(key);
             }
             else
             {
                 InsideClose();
                 await OnComplete(in server, EnClient.Fail);
-
-                StartReconnect();
+                await StartReconnect();
             }
         }
 
@@ -451,7 +440,7 @@ namespace Tool.Sockets.WebHelper
                     //如果发生异常，说明客户端失去连接，触发关闭事件
                     InsideClose();
                     await OnComplete(in key, EnClient.Close);
-                    StartReconnect();
+                    await StartReconnect();
                     break;
                 }
             }
@@ -471,7 +460,7 @@ namespace Tool.Sockets.WebHelper
 
                 if (await obj.ReceiveAsync())
                 {
-                    if (!DisabledReceive) await OnComplete(obj.SocketKey, EnClient.Receive);
+                    await OnComplete(obj.SocketKey, EnClient.Receive);
                     Keep?.ResetTime();
                     await obj.OnReceivedAsync(IsThreadPool, obj.Client, Received);
                     //await Received.InvokeAsync(obj.IpPort, ListData);
@@ -512,7 +501,14 @@ namespace Tool.Sockets.WebHelper
         /// </summary>
         /// <param name="key">指定发送对象</param>
         /// <param name="enAction">消息类型</param>
-        public ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnClient enAction) => EnumEventQueue.OnComplete(in key, enAction, Completed);
+        public override ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnClient enAction)
+        {
+            if (IsEvent(enAction))
+            {
+                return EnumEventQueue.OnComplete(key, enAction, IsQueue(enAction), Completed);
+            }
+            return IGetQueOnEnum.SuccessAsync;
+        }
 
         /// <summary>
         /// TCP关闭
@@ -525,7 +521,7 @@ namespace Tool.Sockets.WebHelper
         /// <summary>
         /// TCP关闭
         /// </summary>
-        public void Close()
+        public override void Close()
         {
             IsReconnect = false;
             isClose = true;
@@ -536,7 +532,7 @@ namespace Tool.Sockets.WebHelper
         /// <summary>
         /// 回收UDP相关资源
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             _disposed = true;
             Close();

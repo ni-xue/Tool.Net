@@ -28,11 +28,6 @@ namespace Tool.Sockets.Kernels
         bool IsThreadPool { get; }
 
         /// <summary>
-        /// 是否取消内部接收数据事件推送
-        /// </summary>
-        bool DisabledReceive { get; }
-
-        /// <summary>
         /// 表示通讯的包大小
         /// </summary>
         NetBufferSize BufferSize { get; }

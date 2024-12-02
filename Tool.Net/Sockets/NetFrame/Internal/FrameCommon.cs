@@ -34,22 +34,39 @@ namespace Tool.Sockets.NetFrame.Internal
         //    return clmidmt;
         //}
 
-        internal static void SetApiPacket(ApiPacket api, bool isServer, Ipv4Port ipPort = default) //bool isSend, bool isErr, 
+        internal static bool TryProtocolStatus(ProtocolStatus status, in Guid onlyId, bool IsReply, out NetResponse response) 
         {
-            if (api == null) throw new ArgumentException(" ApiPacket 对象不能为空！", nameof(api));
-            api.isServer = isServer;
-            api.ipPort = ipPort;
+            switch (status)
+            {
+                case ProtocolStatus.Unknown:
+                    response = new NetResponse(in onlyId, IsReply, NetFrameState.Exception, new Exception("连接尚未开始，请先创建连接！"));
+                    return false;
+                case ProtocolStatus.Fail:
+                    response = new NetResponse(in onlyId, IsReply, NetFrameState.Exception, new Exception("连接尚未成功，请重新连接！"));
+                    return false;
+                case ProtocolStatus.Close:
+                    response = new NetResponse(in onlyId, IsReply, NetFrameState.Exception, new Exception("连接已经关闭，数据无法送达！"));
+                    return false;
+                case ProtocolStatus.Close | ProtocolStatus.Reconnect:
+                    response = new NetResponse(in onlyId, IsReply, NetFrameState.Exception, new Exception("连接已经关闭，正在重连！"));
+                    return false;
+                case ProtocolStatus.Fail | ProtocolStatus.Reconnect:
+                    response = new NetResponse(in onlyId, IsReply, NetFrameState.Exception, new Exception("连接尚未成功，正在重连！"));
+                    return false;
+            }
+            response = default;
+            return true;
         }
 
-        internal static IDataPacket GetDataPacket(ApiPacket api, in Guid clmidmt)
+        internal static IDataPacket GetDataPacket(ApiPacket api, in Guid clmidmt, bool isServer, in Ipv4Port ipPort = default)
         {
             SendDataPacket dataPacket = new(api.ClassID, api.ActionID, clmidmt)
             {
                 IsSend = true,
                 IsErr = false,
-                IsServer = api.isServer,
+                IsServer = isServer,
                 IsReply = api.IsReply,
-                IpPort = api.ipPort,
+                IpPort = ipPort,
                 Text = api.FormatData(),
             };
             dataPacket.SetBuffer(api.Bytes);
@@ -165,32 +182,32 @@ namespace Tool.Sockets.NetFrame.Internal
             }
         }
 
-        internal static ThreadObj TryThreadObj(ConcurrentDictionary<Guid, ThreadObj> pairs, in Guid clmidmt, bool isreply)
-        {
-            return isreply ? pairs.AddOrUpdate(clmidmt, AddThreadObj, UpdateThreadObj) : AddThreadObj(clmidmt);
+        //internal static ThreadObj TryThreadObj(ConcurrentDictionary<Guid, ThreadObj> pairs, in Guid clmidmt, bool isreply)
+        //{
+        //    return isreply ? pairs.AddOrUpdate(clmidmt, AddThreadObj, UpdateThreadObj) : AddThreadObj(clmidmt);
 
-            //if (pairs.TryRemove(clmidmt, out ThreadObj _threadObj))
-            //{
-            //    _threadObj.Response.OnNetFrame = NetFrameState.OnlyID;
-            //    _threadObj.Set();
-            //}
+        //    //if (pairs.TryRemove(clmidmt, out ThreadObj _threadObj))
+        //    //{
+        //    //    _threadObj.Response.OnNetFrame = NetFrameState.OnlyID;
+        //    //    _threadObj.Set();
+        //    //}
 
-            //pairs.TryAdd(clmidmt, _threadObj = new ThreadObj(clmidmt));
+        //    //pairs.TryAdd(clmidmt, _threadObj = new ThreadObj(clmidmt));
 
-            //return _threadObj;
+        //    //return _threadObj;
 
-            ThreadObj AddThreadObj(Guid clmidmt)
-            {
-                var threadObj = new ThreadObj(isreply);//ThreadObjExtension.ObjPool.Get();
-                //threadObj.Reset();
-                return threadObj;
-            }
+        //    ThreadObj AddThreadObj(Guid clmidmt)
+        //    {
+        //        var threadObj = new ThreadObj(isreply);//ThreadObjExtension.ObjPool.Get();
+        //        //threadObj.Reset();
+        //        return threadObj;
+        //    }
 
-            ThreadObj UpdateThreadObj(Guid clmidmt, ThreadObj removeThreadObj)
-            {
-                removeThreadObj.Set(NetFrameState.OnlyID);
-                return AddThreadObj(clmidmt);
-            }
-        }
+        //    ThreadObj UpdateThreadObj(Guid clmidmt, ThreadObj removeThreadObj)
+        //    {
+        //        removeThreadObj.Set(NetFrameState.OnlyID);
+        //        return AddThreadObj(clmidmt);
+        //    }
+        //}
     }
 }

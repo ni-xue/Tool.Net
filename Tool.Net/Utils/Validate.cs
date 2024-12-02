@@ -204,7 +204,7 @@ namespace Tool.Utils
         /// <summary>
         /// 银行卡信息
         /// </summary>
-        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+        //[System.Runtime.Versioning.SupportedOSPlatform("windows")]
         public class CardDetail
         {
             /// <summary>

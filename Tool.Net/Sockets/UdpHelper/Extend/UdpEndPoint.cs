@@ -12,6 +12,7 @@ namespace Tool.Sockets.UdpHelper
     /// <summary>
     /// Udp通信专属模块
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class UdpEndPoint : EndPoint
     {
         private SocketAddress _cacheAddress; //缓存可重用的对象提高性能

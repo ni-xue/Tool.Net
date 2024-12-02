@@ -488,6 +488,7 @@ namespace Tool.Web
     /// <summary>
     /// 向请求添加指定范围的字节范围标头。
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class Range
     {
         /// <summary>

@@ -7,6 +7,7 @@ namespace Tool.Utils.Other
     /// <summary>
     /// 获取汉子首字母类·StrToPinyin
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class StrToPinyin
     {
         /// <summary>

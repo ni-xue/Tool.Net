@@ -46,6 +46,36 @@ namespace Tool.Sockets.Kernels
         ValueTask<IGetQueOnEnum> OnComplete(in UserKey key, EnClient enAction);
 
         /// <summary>
+        /// 设置开启或关闭不想收到的消息事件
+        /// </summary>
+        /// <param name="enClient"><see cref="EnClient"/></param>
+        /// <param name="state">等于true时生效，将关闭一切的相关事件</param>
+        /// <returns>返回true时表示设置成功！</returns>
+        bool OnInterceptor(EnClient enClient, bool state);
+
+        /// <summary>
+        /// 设置将<see cref="EnClient"/>事件，载入或不载入
+        /// </summary>
+        /// <param name="enClient"><see cref="EnClient"/></param>
+        /// <param name="state">等于true时，事件由队列线程完成，false时交由任务线程自行完成</param>
+        /// <returns>返回true时表示设置成功！</returns>
+        bool OnIsQueue(EnClient enClient, bool state);
+
+        /// <summary>
+        /// 获取该事件是否会触发
+        /// </summary>
+        /// <param name="enClient"><see cref="EnClient"/></param>
+        /// <returns><see cref="bool"/></returns>
+        bool IsEvent(EnClient enClient);
+
+        /// <summary>
+        /// 获取该事件是否在队列任务中运行
+        /// </summary>
+        /// <param name="enClient"><see cref="EnClient"/></param>
+        /// <returns><see cref="bool"/></returns>
+        bool IsQueue(EnClient enClient);
+
+        /// <summary>
         /// 关闭当前连接
         /// </summary>
         void Close();

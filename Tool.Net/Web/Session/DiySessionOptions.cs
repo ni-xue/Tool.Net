@@ -9,6 +9,7 @@ namespace Tool.Web.Session
     /// <summary>
     /// 自定义的Session对象，必须完成的实现方法
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class DiySessionOptions
     {
         /// <summary>

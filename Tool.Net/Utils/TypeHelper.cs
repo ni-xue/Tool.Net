@@ -7,6 +7,7 @@ namespace Tool.Utils
     /// <summary>
     /// 类型助手
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class TypeHelper
     {
         /// <summary>

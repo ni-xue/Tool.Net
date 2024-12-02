@@ -52,8 +52,9 @@ namespace TcpFrameTest
         [DataNet(102)]
         public async Task<IGoOut> C(string path)
         {
+            //await Task.Delay(1);
             //if (!File.Exists(path)) File.WriteAllBytes(path, Bytes.Array ?? throw new());
-            return await OkAsync();
+            return await WriteAsync("Ok");
         }
 
         [DataNet(103)]

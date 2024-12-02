@@ -8,6 +8,7 @@ namespace Tool.Utils.Other
     /// Rmb 的摘要说明。 
     /// 用于转换人民币大小金额
     /// </summary> 
+    /// <remarks>代码由逆血提供支持</remarks>
     public class Rmb
     {
         /// <summary> 
@@ -33,7 +34,7 @@ namespace Tool.Utils.Other
             str4 = ((long)(num * 100)).ToString();        //将num乘100并转换成字符串形式 
             j = str4.Length;      //找出最高位 
             if (j > 15) { return "溢出"; }
-            str2 = str2.Substring(15 - j);   //取出对应位数的str2的值。如：200.55,j为5所以str2=佰拾元角分 
+            str2 = str2[(15 - j)..];   //取出对应位数的str2的值。如：200.55,j为5所以str2=佰拾元角分 
 
             //循环取出每一位需要转换的值 
             for (i = 0; i < j; i++)
@@ -53,7 +54,7 @@ namespace Tool.Utils.Other
                     {
                         if (str3 != "0" && nzero != 0)
                         {
-                            ch1 = "零" + str1.Substring(temp * 1, 1);
+                            ch1 = string.Concat("零", str1.AsSpan(temp * 1, 1));
                             ch2 = str2.Substring(i, 1);
                             nzero = 0;
                         }
@@ -70,7 +71,7 @@ namespace Tool.Utils.Other
                     //该位是万亿，亿，万，元位等关键位 
                     if (str3 != "0" && nzero != 0)
                     {
-                        ch1 = "零" + str1.Substring(temp * 1, 1);
+                        ch1 = string.Concat("零", str1.AsSpan(temp * 1, 1));
                         ch2 = str2.Substring(i, 1);
                         nzero = 0;
                     }
@@ -88,20 +89,20 @@ namespace Tool.Utils.Other
                             {
                                 ch1 = "";
                                 ch2 = "";
-                                nzero = nzero + 1;
+                                nzero++;
                             }
                             else
                             {
                                 if (j >= 11)
                                 {
                                     ch1 = "";
-                                    nzero = nzero + 1;
+                                    nzero++;
                                 }
                                 else
                                 {
                                     ch1 = "";
                                     ch2 = str2.Substring(i, 1);
-                                    nzero = nzero + 1;
+                                    nzero++;
                                 }
                             }
                         }

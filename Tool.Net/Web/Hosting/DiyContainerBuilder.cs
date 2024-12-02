@@ -7,6 +7,7 @@ namespace Tool.Web.Hosting
     /// <summary>
     /// Diy容器数据
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class DiyContainerBuilder
     {
         private readonly Utils.IocCore iocCore;

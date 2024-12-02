@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 using Tool.Web.Api.ApiCore;
 using Tool.Web.Routing;
 using System.Threading;
-using Tool.Utils;
-using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Tool.Web.Api
 {
@@ -225,6 +222,7 @@ namespace Tool.Web.Api
     /// <summary>
     /// 系统默认 <see cref="MinApi"/> Api输出结果 抽象类，用于普通返回值，特殊返回值建议您自己实现。
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public abstract class ApiOut : IApiOut
     {
         /// <summary>
@@ -510,11 +508,51 @@ namespace Tool.Web.Api
             return await Task.FromResult(Redirect(url));
         }
 
+        /// <summary>
+        /// 无输出结果
+        /// </summary>
+        /// <returns>输出对象</returns>
+        public static NoContentOut NoContent()
+        {
+            return new NoContentOut();
+        }
+
+        /// <summary>
+        /// 无输出结果
+        /// </summary>
+        /// <returns>输出对象</returns>
+        public static Task<NoContentOut> NoContentAsync()
+        {
+            return Task.FromResult(NoContent());
+        }
+
+        /// <summary>
+        /// SSE服务器事件流
+        /// </summary>
+        /// <param name="func">流任务</param>
+        /// <param name="retry">超时重连时间</param>
+        /// <returns>输出对象</returns>
+        public static EventStreamOut EventStream(Func<EventStream, Task> func, int retry = 3 * 1000)
+        {
+            return new EventStreamOut(func, retry);
+        }
+
+        /// <summary>
+        /// SSE服务器事件流
+        /// </summary>
+        /// <param name="func">流任务</param>
+        /// <param name="retry">超时重连时间</param>
+        /// <returns>输出对象</returns>
+        public static Task<EventStreamOut> EventStreamAsync(Func<EventStream, Task> func, int retry = 3 * 1000) 
+        {
+            return Task.FromResult(EventStream(func, retry));
+        }
     }
 
     /// <summary>
     /// 系统默认 <see cref="ApiOut"/> 输出对象的实现类，JSON格式处理
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class JsonOut : ApiOut
     {
         /// <summary>
@@ -582,6 +620,7 @@ namespace Tool.Web.Api
     /// <summary>
     /// 系统默认 <see cref="ApiOut"/> 输出对象的实现类，文本格式处理
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class WriteOut : ApiOut
     {
         /// <summary>
@@ -624,6 +663,7 @@ namespace Tool.Web.Api
     /// <summary>
     /// 系统默认 <see cref="ApiOut"/> 输出对象的实现类，视图页面输出处理
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ViewOut : ApiOut
     {
         /// <summary>
@@ -767,6 +807,7 @@ namespace Tool.Web.Api
     /// <summary>
     /// 系统默认 <see cref="ApiOut"/> 输出对象的实现类，文件输出处理
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class FileOut : ApiOut
     {
         /// <summary>
@@ -852,6 +893,7 @@ namespace Tool.Web.Api
     /// <summary>
     /// 系统默认 <see cref="ApiOut"/> 跳转地址的实现类，跳转地址302
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class RedirectOut : ApiOut
     {
         /// <summary>
@@ -888,6 +930,45 @@ namespace Tool.Web.Api
             ashxRoute.HttpContext.Response.Redirect(Url);
 
             await Task.CompletedTask;
+        }
+    }
+
+    /// <summary>
+    /// 无返回结果
+    /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
+    public class NoContentOut : IApiOut
+    {
+        Task IApiOut.HttpOutput(AshxRouteData ashxRoute)
+        {
+            return Task.CompletedTask;
+        }
+    }
+
+    /// <summary>
+    /// SSE服务器事件流
+    /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
+    public class EventStreamOut : IApiOut
+    {
+        private readonly int retry;
+        private readonly Func<EventStream, Task> func;
+
+        /// <summary>
+        /// 创建流任务
+        /// </summary>
+        /// <param name="func">任务</param>
+        /// <param name="retry">超时多久或断线后重连（浏览器行为）</param>
+        public EventStreamOut(Func<EventStream, Task> func, int retry = 3 * 1000)
+        {
+            this.func = func;
+            this.retry = retry;
+        }
+
+        Task IApiOut.HttpOutput(AshxRouteData ashxRoute)
+        {
+            EventStream eventStream = new(func, ashxRoute.HttpContext, retry);
+            return eventStream.ExecuteResultAsync();
         }
     }
 }

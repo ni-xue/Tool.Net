@@ -10,6 +10,7 @@ namespace Tool.SqlCore
     /// <summary>
     /// DbProviderFactory工厂类
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public class ProviderFactory
     {
         private static readonly Dictionary<DbProviderType, string> providerInvariantNames = new();
