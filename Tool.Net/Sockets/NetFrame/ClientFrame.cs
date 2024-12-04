@@ -361,12 +361,12 @@ namespace Tool.Sockets.NetFrame
                         await SendAsync(dataPacket).IsNewTask();
                         if (!_threadObj.WaitOne(api.Millisecond))
                         {
-                            threadUuIdObj.SetTimeout(in clmidmt);
+                            threadUuIdObj.SetTimeout(in clmidmt, _threadObj);
                         }
                     }
                     catch (Exception ex)
                     {
-                        if (api.IsReply) threadUuIdObj.SetException(in clmidmt, in ex); else _threadObj.SetSendFail(ex);
+                        if (api.IsReply) threadUuIdObj.SetException(in clmidmt, _threadObj, ex); else _threadObj.SetSendFail(ex);
                     }
                     return _threadObj.GetResponse(in clmidmt);
                 }

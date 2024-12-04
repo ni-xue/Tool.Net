@@ -1,0 +1,871 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Utils.Data.ListExtension
+  commentId: T:Tool.Utils.Data.ListExtension
+  id: ListExtension
+  parent: Tool.Utils.Data
+  children:
+  - Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList)
+  - Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList,System.Boolean)
+  - Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList,System.Boolean,System.String)
+  - Tool.Utils.Data.ListExtension.GetArrayIndex``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32)
+  - Tool.Utils.Data.ListExtension.GetParamASCII``1(System.Collections.Generic.List{``0})
+  - Tool.Utils.Data.ListExtension.TrueForAll``1(System.Collections.Generic.IList{``0},System.Predicate{``0})
+  langs:
+  - csharp
+  - vb
+  name: ListExtension
+  nameWithType: ListExtension
+  fullName: Tool.Utils.Data.ListExtension
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/ListExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ListExtension
+    path: ../../Tool.Net/Utils/Data/ListExtension.cs
+    startLine: 12
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 对List进行升级
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class ListExtension
+    content.vb: Public Module ListExtension
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList)
+  commentId: M:Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList)
+  id: EntitysToJson(System.Collections.IList)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.ListExtension
+  langs:
+  - csharp
+  - vb
+  name: EntitysToJson(IList)
+  nameWithType: ListExtension.EntitysToJson(IList)
+  fullName: Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/ListExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: EntitysToJson
+    path: ../../Tool.Net/Utils/Data/ListExtension.cs
+    startLine: 19
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 将实体转换为JSON格式字符串 （再三强调，要是实体，而且是实集合必须是<xref href="System.Collections.Generic.List%601" data-throw-if-not-resolved="false"></xref>。）
+  example: []
+  syntax:
+    content: public static string EntitysToJson(this IList list)
+    parameters:
+    - id: list
+      type: System.Collections.IList
+      description: 实体
+    return:
+      type: System.String
+      description: 返回JSON字符串
+    content.vb: Public Shared Function EntitysToJson(list As IList) As String
+  overload: Tool.Utils.Data.ListExtension.EntitysToJson*
+- uid: Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList,System.Boolean)
+  commentId: M:Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList,System.Boolean)
+  id: EntitysToJson(System.Collections.IList,System.Boolean)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.ListExtension
+  langs:
+  - csharp
+  - vb
+  name: EntitysToJson(IList, bool)
+  nameWithType: ListExtension.EntitysToJson(IList, bool)
+  fullName: Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList, bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/ListExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: EntitysToJson
+    path: ../../Tool.Net/Utils/Data/ListExtension.cs
+    startLine: 30
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 将实体转换为JSON格式字符串 （再三强调，要是实体，而且是实集合必须是<xref href="System.Collections.Generic.List%601" data-throw-if-not-resolved="false"></xref>。）
+  example: []
+  syntax:
+    content: public static string EntitysToJson(this IList list, bool IsDate)
+    parameters:
+    - id: list
+      type: System.Collections.IList
+      description: 实体
+    - id: IsDate
+      type: System.Boolean
+      description: ToJson格式时间，启用转字符串
+    return:
+      type: System.String
+      description: 返回JSON字符串
+    content.vb: Public Shared Function EntitysToJson(list As IList, IsDate As Boolean) As String
+  overload: Tool.Utils.Data.ListExtension.EntitysToJson*
+  nameWithType.vb: ListExtension.EntitysToJson(IList, Boolean)
+  fullName.vb: Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList, Boolean)
+  name.vb: EntitysToJson(IList, Boolean)
+- uid: Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList,System.Boolean,System.String)
+  commentId: M:Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList,System.Boolean,System.String)
+  id: EntitysToJson(System.Collections.IList,System.Boolean,System.String)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.ListExtension
+  langs:
+  - csharp
+  - vb
+  name: EntitysToJson(IList, bool, string)
+  nameWithType: ListExtension.EntitysToJson(IList, bool, string)
+  fullName: Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList, bool, string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/ListExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: EntitysToJson
+    path: ../../Tool.Net/Utils/Data/ListExtension.cs
+    startLine: 42
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 将实体转换为JSON格式字符串 （再三强调，要是实体，而且是实集合必须是<xref href="System.Collections.Generic.List%601" data-throw-if-not-resolved="false"></xref>。）
+  example: []
+  syntax:
+    content: public static string EntitysToJson(this IList list, bool IsDate, string ToDateString)
+    parameters:
+    - id: list
+      type: System.Collections.IList
+      description: 实体
+    - id: IsDate
+      type: System.Boolean
+      description: ToJson格式时间，启用转字符串
+    - id: ToDateString
+      type: System.String
+      description: Date.ToString()的写法。
+    return:
+      type: System.String
+      description: 返回JSON字符串
+    content.vb: Public Shared Function EntitysToJson(list As IList, IsDate As Boolean, ToDateString As String) As String
+  overload: Tool.Utils.Data.ListExtension.EntitysToJson*
+  nameWithType.vb: ListExtension.EntitysToJson(IList, Boolean, String)
+  fullName.vb: Tool.Utils.Data.ListExtension.EntitysToJson(System.Collections.IList, Boolean, String)
+  name.vb: EntitysToJson(IList, Boolean, String)
+- uid: Tool.Utils.Data.ListExtension.TrueForAll``1(System.Collections.Generic.IList{``0},System.Predicate{``0})
+  commentId: M:Tool.Utils.Data.ListExtension.TrueForAll``1(System.Collections.Generic.IList{``0},System.Predicate{``0})
+  id: TrueForAll``1(System.Collections.Generic.IList{``0},System.Predicate{``0})
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.ListExtension
+  langs:
+  - csharp
+  - vb
+  name: TrueForAll<T>(IList<T>, Predicate<T>)
+  nameWithType: ListExtension.TrueForAll<T>(IList<T>, Predicate<T>)
+  fullName: Tool.Utils.Data.ListExtension.TrueForAll<T>(System.Collections.Generic.IList<T>, System.Predicate<T>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/ListExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: TrueForAll
+    path: ../../Tool.Net/Utils/Data/ListExtension.cs
+    startLine: 100
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 确定是否 <xref href="System.Collections.Generic.List%601" data-throw-if-not-resolved="false"></xref> 中的每个元素都与指定的谓词所定义的条件相匹配。
+  example: []
+  syntax:
+    content: 'public static bool TrueForAll<T>(this IList<T> routs, Predicate<T> match) where T : new()'
+    parameters:
+    - id: routs
+      type: System.Collections.Generic.IList{{T}}
+      description: List数组
+    - id: match
+      type: System.Predicate{{T}}
+      description: 条件
+    typeParameters:
+    - id: T
+      description: 类型
+    return:
+      type: System.Boolean
+      description: 该方法返回，成功，或失败。
+    content.vb: Public Shared Function TrueForAll(Of T As New)(routs As IList(Of T), match As Predicate(Of T)) As Boolean
+  overload: Tool.Utils.Data.ListExtension.TrueForAll*
+  nameWithType.vb: ListExtension.TrueForAll(Of T)(IList(Of T), Predicate(Of T))
+  fullName.vb: Tool.Utils.Data.ListExtension.TrueForAll(Of T)(System.Collections.Generic.IList(Of T), System.Predicate(Of T))
+  name.vb: TrueForAll(Of T)(IList(Of T), Predicate(Of T))
+- uid: Tool.Utils.Data.ListExtension.GetParamASCII``1(System.Collections.Generic.List{``0})
+  commentId: M:Tool.Utils.Data.ListExtension.GetParamASCII``1(System.Collections.Generic.List{``0})
+  id: GetParamASCII``1(System.Collections.Generic.List{``0})
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.ListExtension
+  langs:
+  - csharp
+  - vb
+  name: GetParamASCII<T>(List<T>)
+  nameWithType: ListExtension.GetParamASCII<T>(List<T>)
+  fullName: Tool.Utils.Data.ListExtension.GetParamASCII<T>(System.Collections.Generic.List<T>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/ListExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetParamASCII
+    path: ../../Tool.Net/Utils/Data/ListExtension.cs
+    startLine: 121
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 按照ASCII码从小到大排序（未实现）（示例： 1, 2, A, B, a, b 这是格式循序）
+  example: []
+  syntax:
+    content: 'public static List<T> GetParamASCII<T>(this List<T> list) where T : new()'
+    parameters:
+    - id: list
+      type: System.Collections.Generic.List{{T}}
+      description: List
+    typeParameters:
+    - id: T
+    return:
+      type: System.Collections.Generic.List{{T}}
+      description: 返回重新排序好的结果
+    content.vb: Public Shared Function GetParamASCII(Of T As New)(list As List(Of T)) As List(Of T)
+  overload: Tool.Utils.Data.ListExtension.GetParamASCII*
+  nameWithType.vb: ListExtension.GetParamASCII(Of T)(List(Of T))
+  fullName.vb: Tool.Utils.Data.ListExtension.GetParamASCII(Of T)(System.Collections.Generic.List(Of T))
+  name.vb: GetParamASCII(Of T)(List(Of T))
+- uid: Tool.Utils.Data.ListExtension.GetArrayIndex``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32)
+  commentId: M:Tool.Utils.Data.ListExtension.GetArrayIndex``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32)
+  id: GetArrayIndex``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.ListExtension
+  langs:
+  - csharp
+  - vb
+  name: GetArrayIndex<T>(IList<T>, int, int)
+  nameWithType: ListExtension.GetArrayIndex<T>(IList<T>, int, int)
+  fullName: Tool.Utils.Data.ListExtension.GetArrayIndex<T>(System.Collections.Generic.IList<T>, int, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/ListExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetArrayIndex
+    path: ../../Tool.Net/Utils/Data/ListExtension.cs
+    startLine: 138
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 同于获取指定部分的内容
+  example: []
+  syntax:
+    content: 'public static List<T> GetArrayIndex<T>(this IList<T> list, int index, int count) where T : new()'
+    parameters:
+    - id: list
+      type: System.Collections.Generic.IList{{T}}
+      description: 对象数组
+    - id: index
+      type: System.Int32
+      description: 从下标N开始
+    - id: count
+      type: System.Int32
+      description: 到下标N结束
+    typeParameters:
+    - id: T
+    return:
+      type: System.Collections.Generic.List{{T}}
+      description: 返回一部分的数组内容
+    content.vb: Public Shared Function GetArrayIndex(Of T As New)(list As IList(Of T), index As Integer, count As Integer) As List(Of T)
+  overload: Tool.Utils.Data.ListExtension.GetArrayIndex*
+  nameWithType.vb: ListExtension.GetArrayIndex(Of T)(IList(Of T), Integer, Integer)
+  fullName.vb: Tool.Utils.Data.ListExtension.GetArrayIndex(Of T)(System.Collections.Generic.IList(Of T), Integer, Integer)
+  name.vb: GetArrayIndex(Of T)(IList(Of T), Integer, Integer)
+references:
+- uid: Tool.Utils.Data
+  commentId: N:Tool.Utils.Data
+  href: Tool.html
+  name: Tool.Utils.Data
+  nameWithType: Tool.Utils.Data
+  fullName: Tool.Utils.Data
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.Data
+    name: Data
+    href: Tool.Utils.Data.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.Data
+    name: Data
+    href: Tool.Utils.Data.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.Data.ListExtension.EntitysToJson*
+  commentId: Overload:Tool.Utils.Data.ListExtension.EntitysToJson
+  href: Tool.Utils.Data.ListExtension.html#Tool_Utils_Data_ListExtension_EntitysToJson_System_Collections_IList_
+  name: EntitysToJson
+  nameWithType: ListExtension.EntitysToJson
+  fullName: Tool.Utils.Data.ListExtension.EntitysToJson
+- uid: System.Collections.IList
+  commentId: T:System.Collections.IList
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ilist
+  name: IList
+  nameWithType: IList
+  fullName: System.Collections.IList
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Tool.Utils.Data.ListExtension.TrueForAll*
+  commentId: Overload:Tool.Utils.Data.ListExtension.TrueForAll
+  href: Tool.Utils.Data.ListExtension.html#Tool_Utils_Data_ListExtension_TrueForAll__1_System_Collections_Generic_IList___0__System_Predicate___0__
+  name: TrueForAll
+  nameWithType: ListExtension.TrueForAll
+  fullName: Tool.Utils.Data.ListExtension.TrueForAll
+- uid: System.Collections.Generic.IList{{T}}
+  commentId: T:System.Collections.Generic.IList{``0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IList`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  name: IList<T>
+  nameWithType: IList<T>
+  fullName: System.Collections.Generic.IList<T>
+  nameWithType.vb: IList(Of T)
+  fullName.vb: System.Collections.Generic.IList(Of T)
+  name.vb: IList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Predicate{{T}}
+  commentId: T:System.Predicate{``0}
+  parent: System
+  definition: System.Predicate`1
+  href: https://learn.microsoft.com/dotnet/api/system.predicate-1
+  name: Predicate<T>
+  nameWithType: Predicate<T>
+  fullName: System.Predicate<T>
+  nameWithType.vb: Predicate(Of T)
+  fullName.vb: System.Predicate(Of T)
+  name.vb: Predicate(Of T)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.predicate-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.predicate-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.IList`1
+  commentId: T:System.Collections.Generic.IList`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  name: IList<T>
+  nameWithType: IList<T>
+  fullName: System.Collections.Generic.IList<T>
+  nameWithType.vb: IList(Of T)
+  fullName.vb: System.Collections.Generic.IList(Of T)
+  name.vb: IList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Predicate`1
+  commentId: T:System.Predicate`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.predicate-1
+  name: Predicate<T>
+  nameWithType: Predicate<T>
+  fullName: System.Predicate<T>
+  nameWithType.vb: Predicate(Of T)
+  fullName.vb: System.Predicate(Of T)
+  name.vb: Predicate(Of T)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.predicate-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.predicate-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.Data.ListExtension.GetParamASCII*
+  commentId: Overload:Tool.Utils.Data.ListExtension.GetParamASCII
+  href: Tool.Utils.Data.ListExtension.html#Tool_Utils_Data_ListExtension_GetParamASCII__1_System_Collections_Generic_List___0__
+  name: GetParamASCII
+  nameWithType: ListExtension.GetParamASCII
+  fullName: Tool.Utils.Data.ListExtension.GetParamASCII
+- uid: System.Collections.Generic.List{{T}}
+  commentId: T:System.Collections.Generic.List{``0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.Data.ListExtension.GetArrayIndex*
+  commentId: Overload:Tool.Utils.Data.ListExtension.GetArrayIndex
+  href: Tool.Utils.Data.ListExtension.html#Tool_Utils_Data_ListExtension_GetArrayIndex__1_System_Collections_Generic_IList___0__System_Int32_System_Int32_
+  name: GetArrayIndex
+  nameWithType: ListExtension.GetArrayIndex
+  fullName: Tool.Utils.Data.ListExtension.GetArrayIndex
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer

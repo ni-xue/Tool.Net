@@ -1,0 +1,559 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.FloatExtension
+  commentId: T:Tool.FloatExtension
+  id: FloatExtension
+  parent: Tool
+  children:
+  - Tool.FloatExtension.Add(System.Single[],System.Single)
+  - Tool.FloatExtension.Contains(System.Single[],System.Single)
+  - Tool.FloatExtension.GetArrayIndex(System.Single[],System.Int32,System.Int32)
+  - Tool.FloatExtension.ToBytes(System.Single)
+  langs:
+  - csharp
+  - vb
+  name: FloatExtension
+  nameWithType: FloatExtension
+  fullName: Tool.FloatExtension
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/FloatExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: FloatExtension
+    path: ../../Tool.Net/TypeExtension/FloatExtension.cs
+    startLine: 12
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对Float进行升级
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class FloatExtension
+    content.vb: Public Module FloatExtension
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.FloatExtension.ToBytes(System.Single)
+  commentId: M:Tool.FloatExtension.ToBytes(System.Single)
+  id: ToBytes(System.Single)
+  isExtensionMethod: true
+  parent: Tool.FloatExtension
+  langs:
+  - csharp
+  - vb
+  name: ToBytes(float)
+  nameWithType: FloatExtension.ToBytes(float)
+  fullName: Tool.FloatExtension.ToBytes(float)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/FloatExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToBytes
+    path: ../../Tool.Net/TypeExtension/FloatExtension.cs
+    startLine: 19
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回二进制流
+  example: []
+  syntax:
+    content: public static byte[] ToBytes(this float txt)
+    parameters:
+    - id: txt
+      type: System.Single
+      description: Double
+    return:
+      type: System.Byte[]
+      description: 返回二进制流
+    content.vb: Public Shared Function ToBytes(txt As Single) As Byte()
+  overload: Tool.FloatExtension.ToBytes*
+  nameWithType.vb: FloatExtension.ToBytes(Single)
+  fullName.vb: Tool.FloatExtension.ToBytes(Single)
+  name.vb: ToBytes(Single)
+- uid: Tool.FloatExtension.Add(System.Single[],System.Single)
+  commentId: M:Tool.FloatExtension.Add(System.Single[],System.Single)
+  id: Add(System.Single[],System.Single)
+  isExtensionMethod: true
+  parent: Tool.FloatExtension
+  langs:
+  - csharp
+  - vb
+  name: Add(float[], float)
+  nameWithType: FloatExtension.Add(float[], float)
+  fullName: Tool.FloatExtension.Add(float[], float)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/FloatExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Add
+    path: ../../Tool.Net/TypeExtension/FloatExtension.cs
+    startLine: 35
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 给数组加新的值
+  example: []
+  syntax:
+    content: public static float[] Add(this float[] txt, float txt1)
+    parameters:
+    - id: txt
+      type: System.Single[]
+      description: Float[]
+    - id: txt1
+      type: System.Single
+      description: 新增的值
+    return:
+      type: System.Single[]
+    content.vb: Public Shared Function Add(txt As Single(), txt1 As Single) As Single()
+  overload: Tool.FloatExtension.Add*
+  nameWithType.vb: FloatExtension.Add(Single(), Single)
+  fullName.vb: Tool.FloatExtension.Add(Single(), Single)
+  name.vb: Add(Single(), Single)
+- uid: Tool.FloatExtension.Contains(System.Single[],System.Single)
+  commentId: M:Tool.FloatExtension.Contains(System.Single[],System.Single)
+  id: Contains(System.Single[],System.Single)
+  isExtensionMethod: true
+  parent: Tool.FloatExtension
+  langs:
+  - csharp
+  - vb
+  name: Contains(float[], float)
+  nameWithType: FloatExtension.Contains(float[], float)
+  fullName: Tool.FloatExtension.Contains(float[], float)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/FloatExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Contains
+    path: ../../Tool.Net/TypeExtension/FloatExtension.cs
+    startLine: 50
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 查找该Float数组中是否存在该值。
+  example: []
+  syntax:
+    content: public static bool Contains(this float[] txt, float txt1)
+    parameters:
+    - id: txt
+      type: System.Single[]
+      description: Float[]
+    - id: txt1
+      type: System.Single
+      description: 查找的字符
+    return:
+      type: System.Boolean
+      description: 方法存在或不存在
+    content.vb: Public Shared Function Contains(txt As Single(), txt1 As Single) As Boolean
+  overload: Tool.FloatExtension.Contains*
+  nameWithType.vb: FloatExtension.Contains(Single(), Single)
+  fullName.vb: Tool.FloatExtension.Contains(Single(), Single)
+  name.vb: Contains(Single(), Single)
+- uid: Tool.FloatExtension.GetArrayIndex(System.Single[],System.Int32,System.Int32)
+  commentId: M:Tool.FloatExtension.GetArrayIndex(System.Single[],System.Int32,System.Int32)
+  id: GetArrayIndex(System.Single[],System.Int32,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.FloatExtension
+  langs:
+  - csharp
+  - vb
+  name: GetArrayIndex(float[], int, int)
+  nameWithType: FloatExtension.GetArrayIndex(float[], int, int)
+  fullName: Tool.FloatExtension.GetArrayIndex(float[], int, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/FloatExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetArrayIndex
+    path: ../../Tool.Net/TypeExtension/FloatExtension.cs
+    startLine: 62
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 同于获取指定部分的内容
+  example: []
+  syntax:
+    content: public static float[] GetArrayIndex(this float[] obj, int index, int count)
+    parameters:
+    - id: obj
+      type: System.Single[]
+      description: 对象数组
+    - id: index
+      type: System.Int32
+      description: 从下标N开始
+    - id: count
+      type: System.Int32
+      description: 到下标N结束
+    return:
+      type: System.Single[]
+      description: 返回一部分的数组内容
+    content.vb: Public Shared Function GetArrayIndex(obj As Single(), index As Integer, count As Integer) As Single()
+  overload: Tool.FloatExtension.GetArrayIndex*
+  nameWithType.vb: FloatExtension.GetArrayIndex(Single(), Integer, Integer)
+  fullName.vb: Tool.FloatExtension.GetArrayIndex(Single(), Integer, Integer)
+  name.vb: GetArrayIndex(Single(), Integer, Integer)
+references:
+- uid: Tool
+  commentId: N:Tool
+  href: Tool.html
+  name: Tool
+  nameWithType: Tool
+  fullName: Tool
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Tool.FloatExtension.ToBytes*
+  commentId: Overload:Tool.FloatExtension.ToBytes
+  href: Tool.FloatExtension.html#Tool_FloatExtension_ToBytes_System_Single_
+  name: ToBytes
+  nameWithType: FloatExtension.ToBytes
+  fullName: Tool.FloatExtension.ToBytes
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: System.Byte[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte[]
+  nameWithType: byte[]
+  fullName: byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+- uid: Tool.FloatExtension.Add*
+  commentId: Overload:Tool.FloatExtension.Add
+  href: Tool.FloatExtension.html#Tool_FloatExtension_Add_System_Single___System_Single_
+  name: Add
+  nameWithType: FloatExtension.Add
+  fullName: Tool.FloatExtension.Add
+- uid: System.Single[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float[]
+  nameWithType: float[]
+  fullName: float[]
+  nameWithType.vb: Single()
+  fullName.vb: Single()
+  name.vb: Single()
+  spec.csharp:
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: (
+  - name: )
+- uid: Tool.FloatExtension.Contains*
+  commentId: Overload:Tool.FloatExtension.Contains
+  href: Tool.FloatExtension.html#Tool_FloatExtension_Contains_System_Single___System_Single_
+  name: Contains
+  nameWithType: FloatExtension.Contains
+  fullName: Tool.FloatExtension.Contains
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Tool.FloatExtension.GetArrayIndex*
+  commentId: Overload:Tool.FloatExtension.GetArrayIndex
+  href: Tool.FloatExtension.html#Tool_FloatExtension_GetArrayIndex_System_Single___System_Int32_System_Int32_
+  name: GetArrayIndex
+  nameWithType: FloatExtension.GetArrayIndex
+  fullName: Tool.FloatExtension.GetArrayIndex
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer

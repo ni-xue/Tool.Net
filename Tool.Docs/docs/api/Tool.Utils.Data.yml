@@ -1,0 +1,179 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Utils.Data
+  commentId: N:Tool.Utils.Data
+  id: Tool.Utils.Data
+  children:
+  - Tool.Utils.Data.ArrayExtension
+  - Tool.Utils.Data.DataRowExtension
+  - Tool.Utils.Data.DataSetExtension
+  - Tool.Utils.Data.DataTableExtension
+  - Tool.Utils.Data.DictionaryExtension
+  - Tool.Utils.Data.Enumerator`1
+  - Tool.Utils.Data.LazyConcurrentDictionary`2
+  - Tool.Utils.Data.ListExtension
+  - Tool.Utils.Data.TaskConcurrentDictionary`2
+  langs:
+  - csharp
+  - vb
+  name: Tool.Utils.Data
+  nameWithType: Tool.Utils.Data
+  fullName: Tool.Utils.Data
+  type: Namespace
+  assemblies:
+  - Tool.Net
+references:
+- uid: Tool.Utils.Data.ArrayExtension
+  commentId: T:Tool.Utils.Data.ArrayExtension
+  href: Tool.Utils.Data.ArrayExtension.html
+  name: ArrayExtension
+  nameWithType: ArrayExtension
+  fullName: Tool.Utils.Data.ArrayExtension
+- uid: Tool.Utils.Data.Enumerator`1
+  commentId: T:Tool.Utils.Data.Enumerator`1
+  href: Tool.Utils.Data.Enumerator-1.html
+  name: Enumerator<T>
+  nameWithType: Enumerator<T>
+  fullName: Tool.Utils.Data.Enumerator<T>
+  nameWithType.vb: Enumerator(Of T)
+  fullName.vb: Tool.Utils.Data.Enumerator(Of T)
+  name.vb: Enumerator(Of T)
+  spec.csharp:
+  - uid: Tool.Utils.Data.Enumerator`1
+    name: Enumerator
+    href: Tool.Utils.Data.Enumerator-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.Data.Enumerator`1
+    name: Enumerator
+    href: Tool.Utils.Data.Enumerator-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.Data.DataRowExtension
+  commentId: T:Tool.Utils.Data.DataRowExtension
+  href: Tool.Utils.Data.DataRowExtension.html
+  name: DataRowExtension
+  nameWithType: DataRowExtension
+  fullName: Tool.Utils.Data.DataRowExtension
+- uid: Tool.Utils.Data.DataSetExtension
+  commentId: T:Tool.Utils.Data.DataSetExtension
+  href: Tool.Utils.Data.DataSetExtension.html
+  name: DataSetExtension
+  nameWithType: DataSetExtension
+  fullName: Tool.Utils.Data.DataSetExtension
+- uid: Tool.Utils.Data.DataTableExtension
+  commentId: T:Tool.Utils.Data.DataTableExtension
+  href: Tool.Utils.Data.DataTableExtension.html
+  name: DataTableExtension
+  nameWithType: DataTableExtension
+  fullName: Tool.Utils.Data.DataTableExtension
+- uid: Tool.Utils.Data.DictionaryExtension
+  commentId: T:Tool.Utils.Data.DictionaryExtension
+  parent: Tool.Utils.Data
+  href: Tool.Utils.Data.DictionaryExtension.html
+  name: DictionaryExtension
+  nameWithType: DictionaryExtension
+  fullName: Tool.Utils.Data.DictionaryExtension
+- uid: Tool.Utils.Data.LazyConcurrentDictionary`2
+  commentId: T:Tool.Utils.Data.LazyConcurrentDictionary`2
+  href: Tool.Utils.Data.LazyConcurrentDictionary-2.html
+  name: LazyConcurrentDictionary<TKey, TValue>
+  nameWithType: LazyConcurrentDictionary<TKey, TValue>
+  fullName: Tool.Utils.Data.LazyConcurrentDictionary<TKey, TValue>
+  nameWithType.vb: LazyConcurrentDictionary(Of TKey, TValue)
+  fullName.vb: Tool.Utils.Data.LazyConcurrentDictionary(Of TKey, TValue)
+  name.vb: LazyConcurrentDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: Tool.Utils.Data.LazyConcurrentDictionary`2
+    name: LazyConcurrentDictionary
+    href: Tool.Utils.Data.LazyConcurrentDictionary-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.Data.LazyConcurrentDictionary`2
+    name: LazyConcurrentDictionary
+    href: Tool.Utils.Data.LazyConcurrentDictionary-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: Tool.Utils.Data.ListExtension
+  commentId: T:Tool.Utils.Data.ListExtension
+  href: Tool.Utils.Data.ListExtension.html
+  name: ListExtension
+  nameWithType: ListExtension
+  fullName: Tool.Utils.Data.ListExtension
+- uid: Tool.Utils.Data.TaskConcurrentDictionary`2
+  commentId: T:Tool.Utils.Data.TaskConcurrentDictionary`2
+  href: Tool.Utils.Data.TaskConcurrentDictionary-2.html
+  name: TaskConcurrentDictionary<TKey, TValue>
+  nameWithType: TaskConcurrentDictionary<TKey, TValue>
+  fullName: Tool.Utils.Data.TaskConcurrentDictionary<TKey, TValue>
+  nameWithType.vb: TaskConcurrentDictionary(Of TKey, TValue)
+  fullName.vb: Tool.Utils.Data.TaskConcurrentDictionary(Of TKey, TValue)
+  name.vb: TaskConcurrentDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: Tool.Utils.Data.TaskConcurrentDictionary`2
+    name: TaskConcurrentDictionary
+    href: Tool.Utils.Data.TaskConcurrentDictionary-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.Data.TaskConcurrentDictionary`2
+    name: TaskConcurrentDictionary
+    href: Tool.Utils.Data.TaskConcurrentDictionary-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: Tool.Utils.Data
+  commentId: N:Tool.Utils.Data
+  href: Tool.html
+  name: Tool.Utils.Data
+  nameWithType: Tool.Utils.Data
+  fullName: Tool.Utils.Data
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.Data
+    name: Data
+    href: Tool.Utils.Data.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.Data
+    name: Data
+    href: Tool.Utils.Data.html

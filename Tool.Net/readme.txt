@@ -4,7 +4,7 @@
 
 2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils）
 
-3. 当前版本（5.3.4）为正式版，用于任何项目开发使用。 
+3. 当前版本（5.4.0）为正式版，用于任何项目开发使用。 
 
 4. 架构基于 .Net9（兼容 .Net8、.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
 
@@ -769,6 +769,18 @@ static async Task<int> GetIntAsync()
 }
 _ = Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(GetIntAsync).ContinueWith((a) => { a.Dispose(); Console.WriteLine($"{Tool.Utils.ThreadQueue.TaskQueue.Count}\t{Tool.Utils.ThreadQueue.TaskQueue.CompleteCount}\t{Tool.Utils.ThreadQueue.TaskQueue.TotalCount}"); });
 备注：可以直接放方法函数，支持各种函数
+
+  ------------2024/12/03------------
+  5.4.0 - 正式版 - 重大改变
+1. Sockets 模块下的所有事件重写，目前最新版已支持给每个构造对象设置事件控制权限。（客户端部分新增重连事件）
+2. ServerFrame/ClientFrame 发起数据时优化，在已经断线的情况下，不会继续等待超时。
+3. Sql 部分优化Log部分为记录到连接耗时部分。
+4. Sql 新增支持 DbHelper.NewDbBatch() 支持批处理模式
+5. Web 部分新增了EventStream 输出模式，为web通信提供了更多可能性。
+7. 对象下GetValue 和 SetValue 在有意隐藏上级变量时，会出现报错，无法使用问题，目前已修复。
+6. 部分功能及实现优化，已知问题修复等。
+8. 隐藏福利，在线文档已就绪初版虽然不完善，但会持续完善维护，http://tool.nixue.top/
+
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。

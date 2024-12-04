@@ -1,0 +1,61 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Web.Hosting
+  commentId: N:Tool.Web.Hosting
+  id: Tool.Web.Hosting
+  children:
+  - Tool.Web.Hosting.DiyContainerBuilder
+  - Tool.Web.Hosting.DiyServiceProviderFactory
+  langs:
+  - csharp
+  - vb
+  name: Tool.Web.Hosting
+  nameWithType: Tool.Web.Hosting
+  fullName: Tool.Web.Hosting
+  type: Namespace
+  assemblies:
+  - Tool.Net
+references:
+- uid: Tool.Web.Hosting.DiyContainerBuilder
+  commentId: T:Tool.Web.Hosting.DiyContainerBuilder
+  parent: Tool.Web.Hosting
+  href: Tool.Web.Hosting.DiyContainerBuilder.html
+  name: DiyContainerBuilder
+  nameWithType: DiyContainerBuilder
+  fullName: Tool.Web.Hosting.DiyContainerBuilder
+- uid: Tool.Web.Hosting.DiyServiceProviderFactory
+  commentId: T:Tool.Web.Hosting.DiyServiceProviderFactory
+  href: Tool.Web.Hosting.DiyServiceProviderFactory.html
+  name: DiyServiceProviderFactory
+  nameWithType: DiyServiceProviderFactory
+  fullName: Tool.Web.Hosting.DiyServiceProviderFactory
+- uid: Tool.Web.Hosting
+  commentId: N:Tool.Web.Hosting
+  href: Tool.html
+  name: Tool.Web.Hosting
+  nameWithType: Tool.Web.Hosting
+  fullName: Tool.Web.Hosting
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Web
+    name: Web
+    href: Tool.Web.html
+  - name: .
+  - uid: Tool.Web.Hosting
+    name: Hosting
+    href: Tool.Web.Hosting.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Web
+    name: Web
+    href: Tool.Web.html
+  - name: .
+  - uid: Tool.Web.Hosting
+    name: Hosting
+    href: Tool.Web.Hosting.html

@@ -1,0 +1,123 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Sockets.NetFrame
+  commentId: N:Tool.Sockets.NetFrame
+  id: Tool.Sockets.NetFrame
+  children:
+  - Tool.Sockets.NetFrame.ApiPacket
+  - Tool.Sockets.NetFrame.ClientFrame
+  - Tool.Sockets.NetFrame.ClientFrameList
+  - Tool.Sockets.NetFrame.DataBase
+  - Tool.Sockets.NetFrame.DataNet
+  - Tool.Sockets.NetFrame.GoOut
+  - Tool.Sockets.NetFrame.IGoOut
+  - Tool.Sockets.NetFrame.NetResponse
+  - Tool.Sockets.NetFrame.ProtocolStatus
+  - Tool.Sockets.NetFrame.ServerFrame
+  langs:
+  - csharp
+  - vb
+  name: Tool.Sockets.NetFrame
+  nameWithType: Tool.Sockets.NetFrame
+  fullName: Tool.Sockets.NetFrame
+  type: Namespace
+  assemblies:
+  - Tool.Net
+references:
+- uid: Tool.Sockets.NetFrame.ClientFrame
+  commentId: T:Tool.Sockets.NetFrame.ClientFrame
+  parent: Tool.Sockets.NetFrame
+  href: Tool.Sockets.NetFrame.ClientFrame.html
+  name: ClientFrame
+  nameWithType: ClientFrame
+  fullName: Tool.Sockets.NetFrame.ClientFrame
+- uid: Tool.Sockets.NetFrame.ClientFrameList
+  commentId: T:Tool.Sockets.NetFrame.ClientFrameList
+  href: Tool.Sockets.NetFrame.ClientFrameList.html
+  name: ClientFrameList
+  nameWithType: ClientFrameList
+  fullName: Tool.Sockets.NetFrame.ClientFrameList
+- uid: Tool.Sockets.NetFrame.ApiPacket
+  commentId: T:Tool.Sockets.NetFrame.ApiPacket
+  parent: Tool.Sockets.NetFrame
+  href: Tool.Sockets.NetFrame.ApiPacket.html
+  name: ApiPacket
+  nameWithType: ApiPacket
+  fullName: Tool.Sockets.NetFrame.ApiPacket
+- uid: Tool.Sockets.NetFrame.DataBase
+  commentId: T:Tool.Sockets.NetFrame.DataBase
+  href: Tool.Sockets.NetFrame.DataBase.html
+  name: DataBase
+  nameWithType: DataBase
+  fullName: Tool.Sockets.NetFrame.DataBase
+- uid: Tool.Sockets.NetFrame.DataNet
+  commentId: T:Tool.Sockets.NetFrame.DataNet
+  parent: Tool.Sockets.NetFrame
+  href: Tool.Sockets.NetFrame.DataNet.html
+  name: DataNet
+  nameWithType: DataNet
+  fullName: Tool.Sockets.NetFrame.DataNet
+- uid: Tool.Sockets.NetFrame.IGoOut
+  commentId: T:Tool.Sockets.NetFrame.IGoOut
+  parent: Tool.Sockets.NetFrame
+  href: Tool.Sockets.NetFrame.IGoOut.html
+  name: IGoOut
+  nameWithType: IGoOut
+  fullName: Tool.Sockets.NetFrame.IGoOut
+- uid: Tool.Sockets.NetFrame.GoOut
+  commentId: T:Tool.Sockets.NetFrame.GoOut
+  parent: Tool.Sockets.NetFrame
+  href: Tool.Sockets.NetFrame.GoOut.html
+  name: GoOut
+  nameWithType: GoOut
+  fullName: Tool.Sockets.NetFrame.GoOut
+- uid: Tool.Sockets.NetFrame.NetResponse
+  commentId: T:Tool.Sockets.NetFrame.NetResponse
+  parent: Tool.Sockets.NetFrame
+  href: Tool.Sockets.NetFrame.NetResponse.html
+  name: NetResponse
+  nameWithType: NetResponse
+  fullName: Tool.Sockets.NetFrame.NetResponse
+- uid: Tool.Sockets.NetFrame.ProtocolStatus
+  commentId: T:Tool.Sockets.NetFrame.ProtocolStatus
+  parent: Tool.Sockets.NetFrame
+  href: Tool.Sockets.NetFrame.ProtocolStatus.html
+  name: ProtocolStatus
+  nameWithType: ProtocolStatus
+  fullName: Tool.Sockets.NetFrame.ProtocolStatus
+- uid: Tool.Sockets.NetFrame.ServerFrame
+  commentId: T:Tool.Sockets.NetFrame.ServerFrame
+  href: Tool.Sockets.NetFrame.ServerFrame.html
+  name: ServerFrame
+  nameWithType: ServerFrame
+  fullName: Tool.Sockets.NetFrame.ServerFrame
+- uid: Tool.Sockets.NetFrame
+  commentId: N:Tool.Sockets.NetFrame
+  href: Tool.html
+  name: Tool.Sockets.NetFrame
+  nameWithType: Tool.Sockets.NetFrame
+  fullName: Tool.Sockets.NetFrame
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Sockets
+    name: Sockets
+    href: Tool.Sockets.html
+  - name: .
+  - uid: Tool.Sockets.NetFrame
+    name: NetFrame
+    href: Tool.Sockets.NetFrame.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Sockets
+    name: Sockets
+    href: Tool.Sockets.html
+  - name: .
+  - uid: Tool.Sockets.NetFrame
+    name: NetFrame
+    href: Tool.Sockets.NetFrame.html

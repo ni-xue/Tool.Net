@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq.Expressions;
 using System.Collections;
+using System.Linq;
 
 namespace Tool.Utils.ActionDelegate
 {
@@ -40,9 +41,14 @@ namespace Tool.Utils.ActionDelegate
         public Type Type { get; }
 
         /// <summary>
-        /// 类成员
+        /// 类成员（只包含公开的成员，如遇到上层类有意隐藏下层类，只使用上层类成员）
         /// </summary>
         public PropertyInfo[] Parameters { get; }
+
+        /// <summary>
+        /// 获取当前类所有字段字典
+        /// </summary>
+        public IDictionary<string, PropertyInfo> KeyParameters { get; }
 
         /// <summary>
         /// 覆盖功能
@@ -85,6 +91,10 @@ namespace Tool.Utils.ActionDelegate
             //this.Parameters = classtype.GetProperties();
             this.Type = classtype ?? throw new ArgumentNullException(nameof(classtype), "参数为空！");
             this.Field = classField;
+
+            properties ??= classtype.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            KeyParameters = GetOnlyPropertys(classtype, properties);
+            properties = KeyParameters.Values.ToArray();
 
             if (classField == ClassField.All || classField == ClassField.Set)
             {
@@ -194,6 +204,7 @@ namespace Tool.Utils.ActionDelegate
             {
                 Expression.Assign(as3, Expression.TypeAs(as0, classtype))//Convert
             };
+
             foreach (var classField in propertyInfos)
             {
                 if (!classField.CanWrite) continue;
@@ -218,7 +229,7 @@ namespace Tool.Utils.ActionDelegate
         /// </summary>
         /// <param name="classtype">类</param>
         /// <param name="propertyInfos">类参数</param>
-        /// <returns>取值委托或无法委托因为不可读</returns>
+        /// <returns>取值委托</returns>
         public static GetClassField GetClassFields(Type classtype, ref PropertyInfo[] propertyInfos)
         {
             if (classtype == null) throw new ArgumentNullException(nameof(classtype), "参数为空！");
@@ -259,6 +270,22 @@ namespace Tool.Utils.ActionDelegate
             var as4 = Expression.Lambda<GetClassField>(as3, as0);
 
             return as4.Compile();
+        }
+
+        internal static Dictionary<string, PropertyInfo> GetOnlyPropertys(Type classtype, PropertyInfo[] propertyInfos)
+        {
+            Dictionary<string, PropertyInfo> keys = new();
+            foreach (var classField in propertyInfos)
+            {
+                if (!keys.TryAdd(classField.Name, classField))
+                {
+                    if (classtype == classField.DeclaringType)
+                    {
+                        keys[classField.Name] = classField;
+                    }
+                }
+            }
+            return keys;
         }
     }
 }

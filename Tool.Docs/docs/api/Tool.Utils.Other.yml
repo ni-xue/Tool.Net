@@ -1,0 +1,104 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Utils.Other
+  commentId: N:Tool.Utils.Other
+  id: Tool.Utils.Other
+  children:
+  - Tool.Utils.Other.CodeTimer
+  - Tool.Utils.Other.ConvertHzToPy
+  - Tool.Utils.Other.ConvertHzToPzGb2312
+  - Tool.Utils.Other.DllInjectionResult
+  - Tool.Utils.Other.DllInjector
+  - Tool.Utils.Other.IniFile
+  - Tool.Utils.Other.Rmb
+  - Tool.Utils.Other.StrToPinyin
+  langs:
+  - csharp
+  - vb
+  name: Tool.Utils.Other
+  nameWithType: Tool.Utils.Other
+  fullName: Tool.Utils.Other
+  type: Namespace
+  assemblies:
+  - Tool.Net
+references:
+- uid: Tool.Utils.Other.CodeTimer
+  commentId: T:Tool.Utils.Other.CodeTimer
+  href: Tool.Utils.Other.CodeTimer.html
+  name: CodeTimer
+  nameWithType: CodeTimer
+  fullName: Tool.Utils.Other.CodeTimer
+- uid: Tool.Utils.Other.ConvertHzToPy
+  commentId: T:Tool.Utils.Other.ConvertHzToPy
+  href: Tool.Utils.Other.ConvertHzToPy.html
+  name: ConvertHzToPy
+  nameWithType: ConvertHzToPy
+  fullName: Tool.Utils.Other.ConvertHzToPy
+- uid: Tool.Utils.Other.ConvertHzToPzGb2312
+  commentId: T:Tool.Utils.Other.ConvertHzToPzGb2312
+  href: Tool.Utils.Other.ConvertHzToPzGb2312.html
+  name: ConvertHzToPzGb2312
+  nameWithType: ConvertHzToPzGb2312
+  fullName: Tool.Utils.Other.ConvertHzToPzGb2312
+- uid: Tool.Utils.Other.DllInjectionResult
+  commentId: T:Tool.Utils.Other.DllInjectionResult
+  parent: Tool.Utils.Other
+  href: Tool.Utils.Other.DllInjectionResult.html
+  name: DllInjectionResult
+  nameWithType: DllInjectionResult
+  fullName: Tool.Utils.Other.DllInjectionResult
+- uid: Tool.Utils.Other.DllInjector
+  commentId: T:Tool.Utils.Other.DllInjector
+  parent: Tool.Utils.Other
+  href: Tool.Utils.Other.DllInjector.html
+  name: DllInjector
+  nameWithType: DllInjector
+  fullName: Tool.Utils.Other.DllInjector
+- uid: Tool.Utils.Other.IniFile
+  commentId: T:Tool.Utils.Other.IniFile
+  href: Tool.Utils.Other.IniFile.html
+  name: IniFile
+  nameWithType: IniFile
+  fullName: Tool.Utils.Other.IniFile
+- uid: Tool.Utils.Other.Rmb
+  commentId: T:Tool.Utils.Other.Rmb
+  href: Tool.Utils.Other.Rmb.html
+  name: Rmb
+  nameWithType: Rmb
+  fullName: Tool.Utils.Other.Rmb
+- uid: Tool.Utils.Other.StrToPinyin
+  commentId: T:Tool.Utils.Other.StrToPinyin
+  href: Tool.Utils.Other.StrToPinyin.html
+  name: StrToPinyin
+  nameWithType: StrToPinyin
+  fullName: Tool.Utils.Other.StrToPinyin
+- uid: Tool.Utils.Other
+  commentId: N:Tool.Utils.Other
+  href: Tool.html
+  name: Tool.Utils.Other
+  nameWithType: Tool.Utils.Other
+  fullName: Tool.Utils.Other
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.Other
+    name: Other
+    href: Tool.Utils.Other.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.Other
+    name: Other
+    href: Tool.Utils.Other.html

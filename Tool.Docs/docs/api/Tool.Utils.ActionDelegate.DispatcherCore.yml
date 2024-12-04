@@ -1,0 +1,1543 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Utils.ActionDelegate.DispatcherCore
+  commentId: T:Tool.Utils.ActionDelegate.DispatcherCore
+  id: DispatcherCore
+  parent: Tool.Utils.ActionDelegate
+  children:
+  - Tool.Utils.ActionDelegate.DispatcherCore.AddMake(System.Reflection.MethodInfo,System.Type[])
+  - Tool.Utils.ActionDelegate.DispatcherCore.AsAction``2(Tool.Utils.ActionDelegate.IActionDispatcher)
+  - Tool.Utils.ActionDelegate.DispatcherCore.AsAction``2(Tool.Utils.ActionDelegate.IActionDispatcher{``0})
+  - Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor(System.Reflection.MethodInfo)
+  - Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor(System.Reflection.MethodInfo,System.Type)
+  - Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor``1(System.Reflection.MethodInfo,System.Type)
+  - Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor``2(System.Reflection.MethodInfo)
+  - Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor``2(System.Reflection.MethodInfo,System.Type)
+  - Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor``2(System.Reflection.MethodInfo,System.Type,System.Type[])
+  - Tool.Utils.ActionDelegate.DispatcherCore.IsAssignableFrom``1(System.Type)
+  - Tool.Utils.ActionDelegate.DispatcherCore.IsTask(System.Type)
+  - Tool.Utils.ActionDelegate.DispatcherCore.IsTaskTuple(System.Type)
+  - Tool.Utils.ActionDelegate.DispatcherCore.IsTask``1(System.Reflection.MethodInfo)
+  - Tool.Utils.ActionDelegate.DispatcherCore.IsVoid(System.Type)
+  - Tool.Utils.ActionDelegate.DispatcherCore.MethodIsTask(System.Type,System.Boolean@)
+  - Tool.Utils.ActionDelegate.DispatcherCore.MethodIsValueTask(System.Type)
+  - Tool.Utils.ActionDelegate.DispatcherCore.ObjectAsync``2(System.Threading.Tasks.Task{``0})
+  - Tool.Utils.ActionDelegate.DispatcherCore.ObjectValueAsync``2(System.Threading.Tasks.ValueTask{``0})
+  langs:
+  - csharp
+  - vb
+  name: DispatcherCore
+  nameWithType: DispatcherCore
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DispatcherCore
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 15
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 创建通用调用函数模型
+  example: []
+  syntax:
+    content: public static class DispatcherCore
+    content.vb: Public Module DispatcherCore
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.AddMake(System.Reflection.MethodInfo,System.Type[])
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.AddMake(System.Reflection.MethodInfo,System.Type[])
+  id: AddMake(System.Reflection.MethodInfo,System.Type[])
+  isExtensionMethod: true
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: AddMake(MethodInfo, params Type[])
+  nameWithType: DispatcherCore.AddMake(MethodInfo, params Type[])
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.AddMake(System.Reflection.MethodInfo, params System.Type[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AddMake
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 51
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 给无形参的方法指定参数类型
+  example: []
+  syntax:
+    content: public static MethodInfo AddMake(this MethodInfo method, params Type[] typeArguments)
+    parameters:
+    - id: method
+      type: System.Reflection.MethodInfo
+      description: 方法
+    - id: typeArguments
+      type: System.Type[]
+      description: 指定形参
+    return:
+      type: System.Reflection.MethodInfo
+      description: 返回具有形参的方法
+    content.vb: Public Shared Function AddMake(method As MethodInfo, ParamArray typeArguments As Type()) As MethodInfo
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.AddMake*
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: 值为空
+  nameWithType.vb: DispatcherCore.AddMake(MethodInfo, ParamArray Type())
+  fullName.vb: Tool.Utils.ActionDelegate.DispatcherCore.AddMake(System.Reflection.MethodInfo, ParamArray System.Type())
+  name.vb: AddMake(MethodInfo, ParamArray Type())
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.ObjectAsync``2(System.Threading.Tasks.Task{``0})
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.ObjectAsync``2(System.Threading.Tasks.Task{``0})
+  id: ObjectAsync``2(System.Threading.Tasks.Task{``0})
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: ObjectAsync<TResult, T>(Task<TResult>)
+  nameWithType: DispatcherCore.ObjectAsync<TResult, T>(Task<TResult>)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.ObjectAsync<TResult, T>(System.Threading.Tasks.Task<TResult>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ObjectAsync
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 71
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 有用转换
+  example: []
+  syntax:
+    content: public static Task<T> ObjectAsync<TResult, T>(Task<TResult> task)
+    parameters:
+    - id: task
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: ''
+    typeParameters:
+    - id: TResult
+      description: ''
+    - id: T
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task{{T}}
+      description: ''
+    content.vb: Public Shared Function ObjectAsync(Of TResult, T)(task As Task(Of TResult)) As Task(Of T)
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.ObjectAsync*
+  nameWithType.vb: DispatcherCore.ObjectAsync(Of TResult, T)(Task(Of TResult))
+  fullName.vb: Tool.Utils.ActionDelegate.DispatcherCore.ObjectAsync(Of TResult, T)(System.Threading.Tasks.Task(Of TResult))
+  name.vb: ObjectAsync(Of TResult, T)(Task(Of TResult))
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.ObjectValueAsync``2(System.Threading.Tasks.ValueTask{``0})
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.ObjectValueAsync``2(System.Threading.Tasks.ValueTask{``0})
+  id: ObjectValueAsync``2(System.Threading.Tasks.ValueTask{``0})
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: ObjectValueAsync<TResult, T>(ValueTask<TResult>)
+  nameWithType: DispatcherCore.ObjectValueAsync<TResult, T>(ValueTask<TResult>)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.ObjectValueAsync<TResult, T>(System.Threading.Tasks.ValueTask<TResult>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ObjectValueAsync
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 102
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 有用转换
+  example: []
+  syntax:
+    content: public static Task<T> ObjectValueAsync<TResult, T>(ValueTask<TResult> task)
+    parameters:
+    - id: task
+      type: System.Threading.Tasks.ValueTask{{TResult}}
+      description: ''
+    typeParameters:
+    - id: TResult
+      description: ''
+    - id: T
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task{{T}}
+      description: ''
+    content.vb: Public Shared Function ObjectValueAsync(Of TResult, T)(task As ValueTask(Of TResult)) As Task(Of T)
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.ObjectValueAsync*
+  nameWithType.vb: DispatcherCore.ObjectValueAsync(Of TResult, T)(ValueTask(Of TResult))
+  fullName.vb: Tool.Utils.ActionDelegate.DispatcherCore.ObjectValueAsync(Of TResult, T)(System.Threading.Tasks.ValueTask(Of TResult))
+  name.vb: ObjectValueAsync(Of TResult, T)(ValueTask(Of TResult))
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor``1(System.Reflection.MethodInfo,System.Type)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor``1(System.Reflection.MethodInfo,System.Type)
+  id: GetExecutor``1(System.Reflection.MethodInfo,System.Type)
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: GetExecutor<TResult>(MethodInfo, Type)
+  nameWithType: DispatcherCore.GetExecutor<TResult>(MethodInfo, Type)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor<TResult>(System.Reflection.MethodInfo, System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetExecutor
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 119
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 创建不同的委托
+  example: []
+  syntax:
+    content: public static Delegate GetExecutor<TResult>(MethodInfo methodInfo, Type classtype)
+    parameters:
+    - id: methodInfo
+      type: System.Reflection.MethodInfo
+      description: 方法对象
+    - id: classtype
+      type: System.Type
+      description: 调用的返回类
+    typeParameters:
+    - id: TResult
+      description: 调用返回类型
+    return:
+      type: System.Delegate
+      description: 调用委托
+    content.vb: Public Shared Function GetExecutor(Of TResult)(methodInfo As MethodInfo, classtype As Type) As [Delegate]
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor*
+  nameWithType.vb: DispatcherCore.GetExecutor(Of TResult)(MethodInfo, Type)
+  fullName.vb: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor(Of TResult)(System.Reflection.MethodInfo, System.Type)
+  name.vb: GetExecutor(Of TResult)(MethodInfo, Type)
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor``2(System.Reflection.MethodInfo)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor``2(System.Reflection.MethodInfo)
+  id: GetExecutor``2(System.Reflection.MethodInfo)
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: GetExecutor<E, TResult>(MethodInfo)
+  nameWithType: DispatcherCore.GetExecutor<E, TResult>(MethodInfo)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor<E, TResult>(System.Reflection.MethodInfo)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetExecutor
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 131
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 创建不同的委托
+  example: []
+  syntax:
+    content: public static Delegate GetExecutor<E, TResult>(MethodInfo methodInfo)
+    parameters:
+    - id: methodInfo
+      type: System.Reflection.MethodInfo
+      description: 方法对象
+    typeParameters:
+    - id: E
+      description: 调用函数使用类
+    - id: TResult
+      description: 调用返回类型
+    return:
+      type: System.Delegate
+      description: 调用委托
+    content.vb: Public Shared Function GetExecutor(Of E, TResult)(methodInfo As MethodInfo) As [Delegate]
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor*
+  nameWithType.vb: DispatcherCore.GetExecutor(Of E, TResult)(MethodInfo)
+  fullName.vb: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor(Of E, TResult)(System.Reflection.MethodInfo)
+  name.vb: GetExecutor(Of E, TResult)(MethodInfo)
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor(System.Reflection.MethodInfo)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor(System.Reflection.MethodInfo)
+  id: GetExecutor(System.Reflection.MethodInfo)
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: GetExecutor(MethodInfo)
+  nameWithType: DispatcherCore.GetExecutor(MethodInfo)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor(System.Reflection.MethodInfo)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetExecutor
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 141
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 创建不同的委托
+  example: []
+  syntax:
+    content: public static Delegate GetExecutor(MethodInfo methodInfo)
+    parameters:
+    - id: methodInfo
+      type: System.Reflection.MethodInfo
+      description: ''
+    return:
+      type: System.Delegate
+      description: 返回委托类型
+    content.vb: Public Shared Function GetExecutor(methodInfo As MethodInfo) As [Delegate]
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor*
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor(System.Reflection.MethodInfo,System.Type)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor(System.Reflection.MethodInfo,System.Type)
+  id: GetExecutor(System.Reflection.MethodInfo,System.Type)
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: GetExecutor(MethodInfo, Type)
+  nameWithType: DispatcherCore.GetExecutor(MethodInfo, Type)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor(System.Reflection.MethodInfo, System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetExecutor
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 152
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 创建不同的委托
+  example: []
+  syntax:
+    content: public static Delegate GetExecutor(MethodInfo methodInfo, Type classtype)
+    parameters:
+    - id: methodInfo
+      type: System.Reflection.MethodInfo
+      description: 方法对象
+    - id: classtype
+      type: System.Type
+      description: 调用的返回类
+    return:
+      type: System.Delegate
+      description: 调用委托
+    content.vb: Public Shared Function GetExecutor(methodInfo As MethodInfo, classtype As Type) As [Delegate]
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor*
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor``2(System.Reflection.MethodInfo,System.Type,System.Type[])
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor``2(System.Reflection.MethodInfo,System.Type,System.Type[])
+  id: GetExecutor``2(System.Reflection.MethodInfo,System.Type,System.Type[])
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: GetExecutor<E, TResult>(MethodInfo, Type, params Type[])
+  nameWithType: DispatcherCore.GetExecutor<E, TResult>(MethodInfo, Type, params Type[])
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor<E, TResult>(System.Reflection.MethodInfo, System.Type, params System.Type[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetExecutor
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 166
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 创建不同的委托（泛型方法版）
+  example: []
+  syntax:
+    content: public static Delegate GetExecutor<E, TResult>(MethodInfo methodInfo, Type classtype, params Type[] typeArguments)
+    parameters:
+    - id: methodInfo
+      type: System.Reflection.MethodInfo
+      description: 方法对象
+    - id: classtype
+      type: System.Type
+      description: 调用的返回类
+    - id: typeArguments
+      type: System.Type[]
+      description: 未泛型方法提供的形参
+    typeParameters:
+    - id: E
+      description: 调用函数使用类
+    - id: TResult
+      description: 调用返回类型
+    return:
+      type: System.Delegate
+      description: 调用委托
+    content.vb: Public Shared Function GetExecutor(Of E, TResult)(methodInfo As MethodInfo, classtype As Type, ParamArray typeArguments As Type()) As [Delegate]
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor*
+  nameWithType.vb: DispatcherCore.GetExecutor(Of E, TResult)(MethodInfo, Type, ParamArray Type())
+  fullName.vb: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor(Of E, TResult)(System.Reflection.MethodInfo, System.Type, ParamArray System.Type())
+  name.vb: GetExecutor(Of E, TResult)(MethodInfo, Type, ParamArray Type())
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor``2(System.Reflection.MethodInfo,System.Type)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor``2(System.Reflection.MethodInfo,System.Type)
+  id: GetExecutor``2(System.Reflection.MethodInfo,System.Type)
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: GetExecutor<E, TResult>(MethodInfo, Type)
+  nameWithType: DispatcherCore.GetExecutor<E, TResult>(MethodInfo, Type)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor<E, TResult>(System.Reflection.MethodInfo, System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetExecutor
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 183
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 创建不同的委托
+  example: []
+  syntax:
+    content: public static Delegate GetExecutor<E, TResult>(MethodInfo methodInfo, Type classtype)
+    parameters:
+    - id: methodInfo
+      type: System.Reflection.MethodInfo
+      description: 方法对象
+    - id: classtype
+      type: System.Type
+      description: 调用的返回类
+    typeParameters:
+    - id: E
+      description: 调用函数使用类
+    - id: TResult
+      description: 调用返回类型
+    return:
+      type: System.Delegate
+      description: 调用委托
+    content.vb: Public Shared Function GetExecutor(Of E, TResult)(methodInfo As MethodInfo, classtype As Type) As [Delegate]
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor*
+  nameWithType.vb: DispatcherCore.GetExecutor(Of E, TResult)(MethodInfo, Type)
+  fullName.vb: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor(Of E, TResult)(System.Reflection.MethodInfo, System.Type)
+  name.vb: GetExecutor(Of E, TResult)(MethodInfo, Type)
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.MethodIsTask(System.Type,System.Boolean@)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.MethodIsTask(System.Type,System.Boolean@)
+  id: MethodIsTask(System.Type,System.Boolean@)
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: MethodIsTask(Type, out bool)
+  nameWithType: DispatcherCore.MethodIsTask(Type, out bool)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.MethodIsTask(System.Type, out bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: MethodIsTask
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 267
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 判断一个类型是是不是 <xref href="System.Threading.Tasks.Task" data-throw-if-not-resolved="false"></xref> or <xref href="System.Threading.Tasks.Task%601" data-throw-if-not-resolved="false"></xref> or <xref href="System.Threading.Tasks.ValueTask" data-throw-if-not-resolved="false"></xref> or <xref href="System.Threading.Tasks.ValueTask%601" data-throw-if-not-resolved="false"></xref>
+  example: []
+  syntax:
+    content: public static bool MethodIsTask(Type ReturnType, out bool isvoid)
+    parameters:
+    - id: ReturnType
+      type: System.Type
+      description: 类型
+    - id: isvoid
+      type: System.Boolean
+      description: 有无返回值
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Shared Function MethodIsTask(ReturnType As Type, isvoid As Boolean) As Boolean
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.MethodIsTask*
+  nameWithType.vb: DispatcherCore.MethodIsTask(Type, Boolean)
+  fullName.vb: Tool.Utils.ActionDelegate.DispatcherCore.MethodIsTask(System.Type, Boolean)
+  name.vb: MethodIsTask(Type, Boolean)
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.MethodIsValueTask(System.Type)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.MethodIsValueTask(System.Type)
+  id: MethodIsValueTask(System.Type)
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: MethodIsValueTask(Type)
+  nameWithType: DispatcherCore.MethodIsValueTask(Type)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.MethodIsValueTask(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: MethodIsValueTask
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 288
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 判断是否是 <xref href="System.Threading.Tasks.ValueTask" data-throw-if-not-resolved="false"></xref> or <xref href="System.Threading.Tasks.ValueTask%601" data-throw-if-not-resolved="false"></xref>
+  example: []
+  syntax:
+    content: public static bool MethodIsValueTask(Type ReturnType)
+    parameters:
+    - id: ReturnType
+      type: System.Type
+      description: ''
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Shared Function MethodIsValueTask(ReturnType As Type) As Boolean
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.MethodIsValueTask*
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.IsAssignableFrom``1(System.Type)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.IsAssignableFrom``1(System.Type)
+  id: IsAssignableFrom``1(System.Type)
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: IsAssignableFrom<T>(Type)
+  nameWithType: DispatcherCore.IsAssignableFrom<T>(Type)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.IsAssignableFrom<T>(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsAssignableFrom
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 296
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 判断是否存在继承关系 -&gt; T=ReturnType
+  example: []
+  syntax:
+    content: public static bool IsAssignableFrom<T>(Type ReturnType)
+    parameters:
+    - id: ReturnType
+      type: System.Type
+      description: 判断类型
+    typeParameters:
+    - id: T
+      description: 原始信息
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Shared Function IsAssignableFrom(Of T)(ReturnType As Type) As Boolean
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.IsAssignableFrom*
+  nameWithType.vb: DispatcherCore.IsAssignableFrom(Of T)(Type)
+  fullName.vb: Tool.Utils.ActionDelegate.DispatcherCore.IsAssignableFrom(Of T)(System.Type)
+  name.vb: IsAssignableFrom(Of T)(Type)
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.IsTaskTuple(System.Type)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.IsTaskTuple(System.Type)
+  id: IsTaskTuple(System.Type)
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: IsTaskTuple(Type)
+  nameWithType: DispatcherCore.IsTaskTuple(Type)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.IsTaskTuple(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsTaskTuple
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 303
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 是否是含返回值异步类型
+  example: []
+  syntax:
+    content: public static bool IsTaskTuple(Type ReturnType)
+    parameters:
+    - id: ReturnType
+      type: System.Type
+      description: ''
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Shared Function IsTaskTuple(ReturnType As Type) As Boolean
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.IsTaskTuple*
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.IsTask(System.Type)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.IsTask(System.Type)
+  id: IsTask(System.Type)
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: IsTask(Type)
+  nameWithType: DispatcherCore.IsTask(Type)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.IsTask(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsTask
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 331
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 判断是否是无返回结果的异步类型
+  example: []
+  syntax:
+    content: public static bool IsTask(Type ReturnType)
+    parameters:
+    - id: ReturnType
+      type: System.Type
+      description: ''
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Shared Function IsTask(ReturnType As Type) As Boolean
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.IsTask*
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.IsTask``1(System.Reflection.MethodInfo)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.IsTask``1(System.Reflection.MethodInfo)
+  id: IsTask``1(System.Reflection.MethodInfo)
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: IsTask<T>(MethodInfo)
+  nameWithType: DispatcherCore.IsTask<T>(MethodInfo)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.IsTask<T>(System.Reflection.MethodInfo)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsTask
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 340
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 判断有返回值的方法
+  example: []
+  syntax:
+    content: public static bool IsTask<T>(MethodInfo method)
+    parameters:
+    - id: method
+      type: System.Reflection.MethodInfo
+      description: 方法信息
+    typeParameters:
+    - id: T
+      description: 返回值是否与他有关
+    return:
+      type: System.Boolean
+      description: 是或否
+    content.vb: Public Shared Function IsTask(Of T)(method As MethodInfo) As Boolean
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.IsTask*
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: ''
+  nameWithType.vb: DispatcherCore.IsTask(Of T)(MethodInfo)
+  fullName.vb: Tool.Utils.ActionDelegate.DispatcherCore.IsTask(Of T)(System.Reflection.MethodInfo)
+  name.vb: IsTask(Of T)(MethodInfo)
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.IsVoid(System.Type)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.IsVoid(System.Type)
+  id: IsVoid(System.Type)
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: IsVoid(Type)
+  nameWithType: DispatcherCore.IsVoid(Type)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.IsVoid(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsVoid
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 384
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 是否是无返回值的方法
+  example: []
+  syntax:
+    content: public static bool IsVoid(Type ReturnType)
+    parameters:
+    - id: ReturnType
+      type: System.Type
+      description: ''
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Shared Function IsVoid(ReturnType As Type) As Boolean
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.IsVoid*
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.AsAction``2(Tool.Utils.ActionDelegate.IActionDispatcher)
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.AsAction``2(Tool.Utils.ActionDelegate.IActionDispatcher)
+  id: AsAction``2(Tool.Utils.ActionDelegate.IActionDispatcher)
+  isExtensionMethod: true
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: AsAction<T, TResult>(IActionDispatcher)
+  nameWithType: DispatcherCore.AsAction<T, TResult>(IActionDispatcher)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.AsAction<T, TResult>(Tool.Utils.ActionDelegate.IActionDispatcher)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AsAction
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 392
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 动态获取通用模型原型
+  example: []
+  syntax:
+    content: public static ActionDispatcher<T, TResult> AsAction<T, TResult>(this IActionDispatcher action)
+    parameters:
+    - id: action
+      type: Tool.Utils.ActionDelegate.IActionDispatcher
+    typeParameters:
+    - id: T
+      description: 类泛型
+    - id: TResult
+      description: 返回值泛型
+    return:
+      type: Tool.Utils.ActionDelegate.ActionDispatcher{{T},{TResult}}
+      description: 原始模型
+    content.vb: Public Shared Function AsAction(Of T, TResult)(action As IActionDispatcher) As ActionDispatcher(Of T, TResult)
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.AsAction*
+  nameWithType.vb: DispatcherCore.AsAction(Of T, TResult)(IActionDispatcher)
+  fullName.vb: Tool.Utils.ActionDelegate.DispatcherCore.AsAction(Of T, TResult)(Tool.Utils.ActionDelegate.IActionDispatcher)
+  name.vb: AsAction(Of T, TResult)(IActionDispatcher)
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.AsAction``2(Tool.Utils.ActionDelegate.IActionDispatcher{``0})
+  commentId: M:Tool.Utils.ActionDelegate.DispatcherCore.AsAction``2(Tool.Utils.ActionDelegate.IActionDispatcher{``0})
+  id: AsAction``2(Tool.Utils.ActionDelegate.IActionDispatcher{``0})
+  isExtensionMethod: true
+  parent: Tool.Utils.ActionDelegate.DispatcherCore
+  langs:
+  - csharp
+  - vb
+  name: AsAction<T, TResult>(IActionDispatcher<T>)
+  nameWithType: DispatcherCore.AsAction<T, TResult>(IActionDispatcher<T>)
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.AsAction<T, TResult>(Tool.Utils.ActionDelegate.IActionDispatcher<T>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AsAction
+    path: ../../Tool.Net/Utils/ActionDelegate/ActionDispatcher.cs
+    startLine: 407
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ActionDelegate
+  summary: 动态获取通用模型原型
+  example: []
+  syntax:
+    content: public static ActionDispatcher<T, TResult> AsAction<T, TResult>(this IActionDispatcher<T> action)
+    parameters:
+    - id: action
+      type: Tool.Utils.ActionDelegate.IActionDispatcher{{T}}
+    typeParameters:
+    - id: T
+      description: 类泛型
+    - id: TResult
+      description: 返回值泛型
+    return:
+      type: Tool.Utils.ActionDelegate.ActionDispatcher{{T},{TResult}}
+      description: 原始模型
+    content.vb: Public Shared Function AsAction(Of T, TResult)(action As IActionDispatcher(Of T)) As ActionDispatcher(Of T, TResult)
+  overload: Tool.Utils.ActionDelegate.DispatcherCore.AsAction*
+  nameWithType.vb: DispatcherCore.AsAction(Of T, TResult)(IActionDispatcher(Of T))
+  fullName.vb: Tool.Utils.ActionDelegate.DispatcherCore.AsAction(Of T, TResult)(Tool.Utils.ActionDelegate.IActionDispatcher(Of T))
+  name.vb: AsAction(Of T, TResult)(IActionDispatcher(Of T))
+references:
+- uid: Tool.Utils.ActionDelegate
+  commentId: N:Tool.Utils.ActionDelegate
+  href: Tool.html
+  name: Tool.Utils.ActionDelegate
+  nameWithType: Tool.Utils.ActionDelegate
+  fullName: Tool.Utils.ActionDelegate
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate
+    name: ActionDelegate
+    href: Tool.Utils.ActionDelegate.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate
+    name: ActionDelegate
+    href: Tool.Utils.ActionDelegate.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.ArgumentNullException
+  commentId: T:System.ArgumentNullException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentnullexception
+  name: ArgumentNullException
+  nameWithType: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.AddMake*
+  commentId: Overload:Tool.Utils.ActionDelegate.DispatcherCore.AddMake
+  href: Tool.Utils.ActionDelegate.DispatcherCore.html#Tool_Utils_ActionDelegate_DispatcherCore_AddMake_System_Reflection_MethodInfo_System_Type___
+  name: AddMake
+  nameWithType: DispatcherCore.AddMake
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.AddMake
+- uid: System.Reflection.MethodInfo
+  commentId: T:System.Reflection.MethodInfo
+  parent: System.Reflection
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.reflection.methodinfo
+  name: MethodInfo
+  nameWithType: MethodInfo
+  fullName: System.Reflection.MethodInfo
+- uid: System.Type[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type[]
+  nameWithType: Type[]
+  fullName: System.Type[]
+  nameWithType.vb: Type()
+  fullName.vb: System.Type()
+  name.vb: Type()
+  spec.csharp:
+  - uid: System.Type
+    name: Type
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.type
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Type
+    name: Type
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.type
+  - name: (
+  - name: )
+- uid: System.Reflection
+  commentId: N:System.Reflection
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Reflection
+  nameWithType: System.Reflection
+  fullName: System.Reflection
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Reflection
+    name: Reflection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.reflection
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Reflection
+    name: Reflection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.reflection
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.ObjectAsync*
+  commentId: Overload:Tool.Utils.ActionDelegate.DispatcherCore.ObjectAsync
+  href: Tool.Utils.ActionDelegate.DispatcherCore.html#Tool_Utils_ActionDelegate_DispatcherCore_ObjectAsync__2_System_Threading_Tasks_Task___0__
+  name: ObjectAsync
+  nameWithType: DispatcherCore.ObjectAsync
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.ObjectAsync
+- uid: System.Threading.Tasks.Task{{TResult}}
+  commentId: T:System.Threading.Tasks.Task{``0}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks.Task{{T}}
+  commentId: T:System.Threading.Tasks.Task{``0}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<T>
+  nameWithType: Task<T>
+  fullName: System.Threading.Tasks.Task<T>
+  nameWithType.vb: Task(Of T)
+  fullName.vb: System.Threading.Tasks.Task(Of T)
+  name.vb: Task(Of T)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.ObjectValueAsync*
+  commentId: Overload:Tool.Utils.ActionDelegate.DispatcherCore.ObjectValueAsync
+  href: Tool.Utils.ActionDelegate.DispatcherCore.html#Tool_Utils_ActionDelegate_DispatcherCore_ObjectValueAsync__2_System_Threading_Tasks_ValueTask___0__
+  name: ObjectValueAsync
+  nameWithType: DispatcherCore.ObjectValueAsync
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.ObjectValueAsync
+- uid: System.Threading.Tasks.ValueTask{{TResult}}
+  commentId: T:System.Threading.Tasks.ValueTask{``0}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.ValueTask`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  name: ValueTask<TResult>
+  nameWithType: ValueTask<TResult>
+  fullName: System.Threading.Tasks.ValueTask<TResult>
+  nameWithType.vb: ValueTask(Of TResult)
+  fullName.vb: System.Threading.Tasks.ValueTask(Of TResult)
+  name.vb: ValueTask(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.ValueTask`1
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.ValueTask`1
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks.ValueTask`1
+  commentId: T:System.Threading.Tasks.ValueTask`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  name: ValueTask<TResult>
+  nameWithType: ValueTask<TResult>
+  fullName: System.Threading.Tasks.ValueTask<TResult>
+  nameWithType.vb: ValueTask(Of TResult)
+  fullName.vb: System.Threading.Tasks.ValueTask(Of TResult)
+  name.vb: ValueTask(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.ValueTask`1
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.ValueTask`1
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor*
+  commentId: Overload:Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor
+  href: Tool.Utils.ActionDelegate.DispatcherCore.html#Tool_Utils_ActionDelegate_DispatcherCore_GetExecutor__1_System_Reflection_MethodInfo_System_Type_
+  name: GetExecutor
+  nameWithType: DispatcherCore.GetExecutor
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.GetExecutor
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: System.Delegate
+  commentId: T:System.Delegate
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.delegate
+  name: Delegate
+  nameWithType: Delegate
+  fullName: System.Delegate
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks.ValueTask
+  commentId: T:System.Threading.Tasks.ValueTask
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask
+  name: ValueTask
+  nameWithType: ValueTask
+  fullName: System.Threading.Tasks.ValueTask
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.MethodIsTask*
+  commentId: Overload:Tool.Utils.ActionDelegate.DispatcherCore.MethodIsTask
+  href: Tool.Utils.ActionDelegate.DispatcherCore.html#Tool_Utils_ActionDelegate_DispatcherCore_MethodIsTask_System_Type_System_Boolean__
+  name: MethodIsTask
+  nameWithType: DispatcherCore.MethodIsTask
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.MethodIsTask
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.MethodIsValueTask*
+  commentId: Overload:Tool.Utils.ActionDelegate.DispatcherCore.MethodIsValueTask
+  href: Tool.Utils.ActionDelegate.DispatcherCore.html#Tool_Utils_ActionDelegate_DispatcherCore_MethodIsValueTask_System_Type_
+  name: MethodIsValueTask
+  nameWithType: DispatcherCore.MethodIsValueTask
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.MethodIsValueTask
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.IsAssignableFrom*
+  commentId: Overload:Tool.Utils.ActionDelegate.DispatcherCore.IsAssignableFrom
+  href: Tool.Utils.ActionDelegate.DispatcherCore.html#Tool_Utils_ActionDelegate_DispatcherCore_IsAssignableFrom__1_System_Type_
+  name: IsAssignableFrom
+  nameWithType: DispatcherCore.IsAssignableFrom
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.IsAssignableFrom
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.IsTaskTuple*
+  commentId: Overload:Tool.Utils.ActionDelegate.DispatcherCore.IsTaskTuple
+  href: Tool.Utils.ActionDelegate.DispatcherCore.html#Tool_Utils_ActionDelegate_DispatcherCore_IsTaskTuple_System_Type_
+  name: IsTaskTuple
+  nameWithType: DispatcherCore.IsTaskTuple
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.IsTaskTuple
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.IsTask*
+  commentId: Overload:Tool.Utils.ActionDelegate.DispatcherCore.IsTask
+  href: Tool.Utils.ActionDelegate.DispatcherCore.html#Tool_Utils_ActionDelegate_DispatcherCore_IsTask_System_Type_
+  name: IsTask
+  nameWithType: DispatcherCore.IsTask
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.IsTask
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.IsVoid*
+  commentId: Overload:Tool.Utils.ActionDelegate.DispatcherCore.IsVoid
+  href: Tool.Utils.ActionDelegate.DispatcherCore.html#Tool_Utils_ActionDelegate_DispatcherCore_IsVoid_System_Type_
+  name: IsVoid
+  nameWithType: DispatcherCore.IsVoid
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.IsVoid
+- uid: Tool.Utils.ActionDelegate.DispatcherCore.AsAction*
+  commentId: Overload:Tool.Utils.ActionDelegate.DispatcherCore.AsAction
+  href: Tool.Utils.ActionDelegate.DispatcherCore.html#Tool_Utils_ActionDelegate_DispatcherCore_AsAction__2_Tool_Utils_ActionDelegate_IActionDispatcher_
+  name: AsAction
+  nameWithType: DispatcherCore.AsAction
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore.AsAction
+- uid: Tool.Utils.ActionDelegate.IActionDispatcher
+  commentId: T:Tool.Utils.ActionDelegate.IActionDispatcher
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.IActionDispatcher.html
+  name: IActionDispatcher
+  nameWithType: IActionDispatcher
+  fullName: Tool.Utils.ActionDelegate.IActionDispatcher
+- uid: Tool.Utils.ActionDelegate.ActionDispatcher{{T},{TResult}}
+  commentId: T:Tool.Utils.ActionDelegate.ActionDispatcher{``0,``1}
+  parent: Tool.Utils.ActionDelegate
+  definition: Tool.Utils.ActionDelegate.ActionDispatcher`2
+  href: Tool.Utils.ActionDelegate.ActionDispatcher-2.html
+  name: ActionDispatcher<T, TResult>
+  nameWithType: ActionDispatcher<T, TResult>
+  fullName: Tool.Utils.ActionDelegate.ActionDispatcher<T, TResult>
+  nameWithType.vb: ActionDispatcher(Of T, TResult)
+  fullName.vb: Tool.Utils.ActionDelegate.ActionDispatcher(Of T, TResult)
+  name.vb: ActionDispatcher(Of T, TResult)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`2
+    name: ActionDispatcher
+    href: Tool.Utils.ActionDelegate.ActionDispatcher-2.html
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`2
+    name: ActionDispatcher
+    href: Tool.Utils.ActionDelegate.ActionDispatcher-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Tool.Utils.ActionDelegate.ActionDispatcher`2
+  commentId: T:Tool.Utils.ActionDelegate.ActionDispatcher`2
+  href: Tool.Utils.ActionDelegate.ActionDispatcher-2.html
+  name: ActionDispatcher<T, TResult>
+  nameWithType: ActionDispatcher<T, TResult>
+  fullName: Tool.Utils.ActionDelegate.ActionDispatcher<T, TResult>
+  nameWithType.vb: ActionDispatcher(Of T, TResult)
+  fullName.vb: Tool.Utils.ActionDelegate.ActionDispatcher(Of T, TResult)
+  name.vb: ActionDispatcher(Of T, TResult)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`2
+    name: ActionDispatcher
+    href: Tool.Utils.ActionDelegate.ActionDispatcher-2.html
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`2
+    name: ActionDispatcher
+    href: Tool.Utils.ActionDelegate.ActionDispatcher-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Tool.Utils.ActionDelegate.IActionDispatcher{{T}}
+  commentId: T:Tool.Utils.ActionDelegate.IActionDispatcher{``0}
+  parent: Tool.Utils.ActionDelegate
+  definition: Tool.Utils.ActionDelegate.IActionDispatcher`1
+  href: Tool.Utils.ActionDelegate.IActionDispatcher-1.html
+  name: IActionDispatcher<T>
+  nameWithType: IActionDispatcher<T>
+  fullName: Tool.Utils.ActionDelegate.IActionDispatcher<T>
+  nameWithType.vb: IActionDispatcher(Of T)
+  fullName.vb: Tool.Utils.ActionDelegate.IActionDispatcher(Of T)
+  name.vb: IActionDispatcher(Of T)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.IActionDispatcher`1
+    name: IActionDispatcher
+    href: Tool.Utils.ActionDelegate.IActionDispatcher-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.IActionDispatcher`1
+    name: IActionDispatcher
+    href: Tool.Utils.ActionDelegate.IActionDispatcher-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.ActionDelegate.IActionDispatcher`1
+  commentId: T:Tool.Utils.ActionDelegate.IActionDispatcher`1
+  href: Tool.Utils.ActionDelegate.IActionDispatcher-1.html
+  name: IActionDispatcher<T>
+  nameWithType: IActionDispatcher<T>
+  fullName: Tool.Utils.ActionDelegate.IActionDispatcher<T>
+  nameWithType.vb: IActionDispatcher(Of T)
+  fullName.vb: Tool.Utils.ActionDelegate.IActionDispatcher(Of T)
+  name.vb: IActionDispatcher(Of T)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.IActionDispatcher`1
+    name: IActionDispatcher
+    href: Tool.Utils.ActionDelegate.IActionDispatcher-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.IActionDispatcher`1
+    name: IActionDispatcher
+    href: Tool.Utils.ActionDelegate.IActionDispatcher-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )

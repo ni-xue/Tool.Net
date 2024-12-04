@@ -37,7 +37,7 @@ namespace TcpTest
             EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
             EnumEventQueue.OnInterceptor(EnClient.Receive, true);
 
-            ClientFrame client = new(NetBufferSize.Default, true) { IsThreadPool = false };
+            ClientFrame client = new(NetBufferSize.Default, true);// { IsThreadPool = false };
 
             //client.OnInterceptor(EnClient.Receive, true);
 

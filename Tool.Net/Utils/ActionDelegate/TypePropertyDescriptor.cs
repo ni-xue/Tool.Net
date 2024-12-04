@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
+using System.Xml.Linq;
 
 namespace Tool.Utils.ActionDelegate
 {
@@ -18,6 +19,26 @@ namespace Tool.Utils.ActionDelegate
         internal readonly ConcurrentDictionary<string, PropertyDescriptor> Propertys;
 
         /// <summary>
+        /// 获取该对象的变量
+        /// </summary>
+        public FieldInfo[] Fields { get; }
+
+        /// <summary>
+        /// 获取当前类所有变量字典
+        /// </summary>
+        public IDictionary<string, FieldInfo> KeyFields { get; }
+
+        /// <summary>
+        /// 获取该对象的成员
+        /// </summary>
+        public PropertyInfo[] PropertyInfos { get; }
+
+        /// <summary>
+        /// 获取当前类所有成员字典
+        /// </summary>
+        public IDictionary<string, PropertyInfo> KeyParameters { get; }
+
+        /// <summary>
         /// 数据源Type
         /// </summary>
         public Type ClassType { get; }
@@ -28,20 +49,40 @@ namespace Tool.Utils.ActionDelegate
         /// <param name="type"></param>
         public TypePropertyDescriptor(Type type)
         {
+            if (type == null) throw new ArgumentNullException(nameof(type));
             ClassType = type;
+            BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
+            Fields = ClassType.GetFields(bindingFlags);
+            PropertyInfos = ClassType.GetProperties(bindingFlags);
+            KeyFields = GetOnlyFieldInfos(ClassType, Fields);
+            KeyParameters = ClassFieldDispatcher.GetOnlyPropertys(ClassType, PropertyInfos);
             Propertys = new();
         }
 
-        private FieldInfo GetFieldInfo(string name)
+        private bool GetFieldInfo(string name, out FieldInfo field)
         {
-            var field = ClassType.GetField(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
-            return field;
+            return KeyFields.TryGetValue(name, out field);
         }
 
-        private PropertyInfo GetPropertyInfo(string name)
+        private bool GetPropertyInfo(string name, out PropertyInfo property)
         {
-            var property = ClassType.GetProperty(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
-            return property;
+            return KeyParameters.TryGetValue(name, out property);
+        }
+
+        private static Dictionary<string, FieldInfo> GetOnlyFieldInfos(Type classType, FieldInfo[] fieldInfos)
+        {
+            Dictionary<string, FieldInfo> keys = new();
+            foreach (var classField in fieldInfos)
+            {
+                if (!keys.TryAdd(classField.Name, classField))
+                {
+                    if (classType == classField.DeclaringType)
+                    {
+                        keys[classField.Name] = classField;
+                    }
+                }
+            }
+            return keys;
         }
 
         /// <summary>
@@ -54,15 +95,18 @@ namespace Tool.Utils.ActionDelegate
         {
             var typeProperty = Propertys.GetOrAdd($"Property+{name}", (key) =>
             {
-                var property = GetPropertyInfo(name);
-                if (property == null) return default; try
+                try
                 {
-                    return new PropertyDescriptor(ClassType, property);
+                    if (GetPropertyInfo(name, out var property))
+                    {
+                        return new PropertyDescriptor(ClassType, property);
+                    }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    return default;
+                    Log.Error("无法获取成员", ex);
                 }
+                return default;
             });
             property = typeProperty;
             return property is not null;
@@ -78,16 +122,18 @@ namespace Tool.Utils.ActionDelegate
         {
             var typefield = Propertys.GetOrAdd($"Field+{name}", (key) =>
             {
-                var field = GetFieldInfo(name);
-                if (field == null) return default;
                 try
                 {
-                    return new PropertyDescriptor(ClassType, field);
+                    if (GetFieldInfo(name, out var field))
+                    {
+                        return new PropertyDescriptor(ClassType, field);
+                    }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    return default;
+                    Log.Error("无法获取变量", ex);
                 }
+                return default;
             });
             property = typefield;
             return property is not null;
@@ -181,7 +227,7 @@ namespace Tool.Utils.ActionDelegate
     /// <summary>
     /// 相关类型枚举描述
     /// </summary>
-    public enum PropertyEnum 
+    public enum PropertyEnum
     {
         /// <summary>
         /// <see cref="PropertyInfo"/> 类属性字段

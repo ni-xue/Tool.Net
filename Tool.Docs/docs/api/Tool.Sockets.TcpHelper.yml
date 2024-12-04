@@ -1,0 +1,61 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Sockets.TcpHelper
+  commentId: N:Tool.Sockets.TcpHelper
+  id: Tool.Sockets.TcpHelper
+  children:
+  - Tool.Sockets.TcpHelper.TcpClientAsync
+  - Tool.Sockets.TcpHelper.TcpServerAsync
+  langs:
+  - csharp
+  - vb
+  name: Tool.Sockets.TcpHelper
+  nameWithType: Tool.Sockets.TcpHelper
+  fullName: Tool.Sockets.TcpHelper
+  type: Namespace
+  assemblies:
+  - Tool.Net
+references:
+- uid: Tool.Sockets.TcpHelper.TcpClientAsync
+  commentId: T:Tool.Sockets.TcpHelper.TcpClientAsync
+  parent: Tool.Sockets.TcpHelper
+  href: Tool.Sockets.TcpHelper.TcpClientAsync.html
+  name: TcpClientAsync
+  nameWithType: TcpClientAsync
+  fullName: Tool.Sockets.TcpHelper.TcpClientAsync
+- uid: Tool.Sockets.TcpHelper.TcpServerAsync
+  commentId: T:Tool.Sockets.TcpHelper.TcpServerAsync
+  href: Tool.Sockets.TcpHelper.TcpServerAsync.html
+  name: TcpServerAsync
+  nameWithType: TcpServerAsync
+  fullName: Tool.Sockets.TcpHelper.TcpServerAsync
+- uid: Tool.Sockets.TcpHelper
+  commentId: N:Tool.Sockets.TcpHelper
+  href: Tool.html
+  name: Tool.Sockets.TcpHelper
+  nameWithType: Tool.Sockets.TcpHelper
+  fullName: Tool.Sockets.TcpHelper
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Sockets
+    name: Sockets
+    href: Tool.Sockets.html
+  - name: .
+  - uid: Tool.Sockets.TcpHelper
+    name: TcpHelper
+    href: Tool.Sockets.TcpHelper.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Sockets
+    name: Sockets
+    href: Tool.Sockets.html
+  - name: .
+  - uid: Tool.Sockets.TcpHelper
+    name: TcpHelper
+    href: Tool.Sockets.TcpHelper.html

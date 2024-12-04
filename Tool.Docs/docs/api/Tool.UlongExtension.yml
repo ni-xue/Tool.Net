@@ -1,0 +1,711 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.UlongExtension
+  commentId: T:Tool.UlongExtension
+  id: UlongExtension
+  parent: Tool
+  children:
+  - Tool.UlongExtension.Add(System.UInt64[],System.UInt64)
+  - Tool.UlongExtension.Ceiling(System.UInt64,System.Decimal)
+  - Tool.UlongExtension.Contains(System.UInt64[],System.UInt64)
+  - Tool.UlongExtension.Decrement(System.UInt64@)
+  - Tool.UlongExtension.GetArrayIndex(System.UInt64[],System.Int32,System.Int32)
+  - Tool.UlongExtension.Increment(System.UInt64@)
+  - Tool.UlongExtension.ToBytes(System.UInt64)
+  langs:
+  - csharp
+  - vb
+  name: UlongExtension
+  nameWithType: UlongExtension
+  fullName: Tool.UlongExtension
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/UlongExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: UlongExtension
+    path: ../../Tool.Net/TypeExtension/UlongExtension.cs
+    startLine: 14
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对ulong进行升级
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class UlongExtension
+    content.vb: Public Module UlongExtension
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.UlongExtension.ToBytes(System.UInt64)
+  commentId: M:Tool.UlongExtension.ToBytes(System.UInt64)
+  id: ToBytes(System.UInt64)
+  isExtensionMethod: true
+  parent: Tool.UlongExtension
+  langs:
+  - csharp
+  - vb
+  name: ToBytes(ulong)
+  nameWithType: UlongExtension.ToBytes(ulong)
+  fullName: Tool.UlongExtension.ToBytes(ulong)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/UlongExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToBytes
+    path: ../../Tool.Net/TypeExtension/UlongExtension.cs
+    startLine: 21
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回二进制流
+  example: []
+  syntax:
+    content: public static byte[] ToBytes(this ulong txt)
+    parameters:
+    - id: txt
+      type: System.UInt64
+      description: Ulong
+    return:
+      type: System.Byte[]
+      description: 返回二进制流
+    content.vb: Public Shared Function ToBytes(txt As ULong) As Byte()
+  overload: Tool.UlongExtension.ToBytes*
+  nameWithType.vb: UlongExtension.ToBytes(ULong)
+  fullName.vb: Tool.UlongExtension.ToBytes(ULong)
+  name.vb: ToBytes(ULong)
+- uid: Tool.UlongExtension.Ceiling(System.UInt64,System.Decimal)
+  commentId: M:Tool.UlongExtension.Ceiling(System.UInt64,System.Decimal)
+  id: Ceiling(System.UInt64,System.Decimal)
+  isExtensionMethod: true
+  parent: Tool.UlongExtension
+  langs:
+  - csharp
+  - vb
+  name: Ceiling(ulong, decimal)
+  nameWithType: UlongExtension.Ceiling(ulong, decimal)
+  fullName: Tool.UlongExtension.Ceiling(ulong, decimal)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/UlongExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Ceiling
+    path: ../../Tool.Net/TypeExtension/UlongExtension.cs
+    startLine: 36
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 当前数除以一个整数，返回一个向上取整的倍数
+  example: []
+  syntax:
+    content: public static ulong Ceiling(this ulong txt, decimal txt1)
+    parameters:
+    - id: txt
+      type: System.UInt64
+      description: int
+    - id: txt1
+      type: System.Decimal
+      description: 除数
+    return:
+      type: System.UInt64
+      description: ''
+    content.vb: Public Shared Function Ceiling(txt As ULong, txt1 As Decimal) As ULong
+  overload: Tool.UlongExtension.Ceiling*
+  nameWithType.vb: UlongExtension.Ceiling(ULong, Decimal)
+  fullName.vb: Tool.UlongExtension.Ceiling(ULong, Decimal)
+  name.vb: Ceiling(ULong, Decimal)
+- uid: Tool.UlongExtension.Increment(System.UInt64@)
+  commentId: M:Tool.UlongExtension.Increment(System.UInt64@)
+  id: Increment(System.UInt64@)
+  isExtensionMethod: true
+  parent: Tool.UlongExtension
+  langs:
+  - csharp
+  - vb
+  name: Increment(ref ulong)
+  nameWithType: UlongExtension.Increment(ref ulong)
+  fullName: Tool.UlongExtension.Increment(ref ulong)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/UlongExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Increment
+    path: ../../Tool.Net/TypeExtension/UlongExtension.cs
+    startLine: 47
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 原子方式+1
+  example: []
+  syntax:
+    content: public static ulong Increment(this ref ulong value)
+    parameters:
+    - id: value
+      type: System.UInt64
+      description: 值
+    return:
+      type: System.UInt64
+      description: ''
+    content.vb: Public Shared Function Increment(value As ULong) As ULong
+  overload: Tool.UlongExtension.Increment*
+  nameWithType.vb: UlongExtension.Increment(ULong)
+  fullName.vb: Tool.UlongExtension.Increment(ULong)
+  name.vb: Increment(ULong)
+- uid: Tool.UlongExtension.Decrement(System.UInt64@)
+  commentId: M:Tool.UlongExtension.Decrement(System.UInt64@)
+  id: Decrement(System.UInt64@)
+  isExtensionMethod: true
+  parent: Tool.UlongExtension
+  langs:
+  - csharp
+  - vb
+  name: Decrement(ref ulong)
+  nameWithType: UlongExtension.Decrement(ref ulong)
+  fullName: Tool.UlongExtension.Decrement(ref ulong)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/UlongExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Decrement
+    path: ../../Tool.Net/TypeExtension/UlongExtension.cs
+    startLine: 54
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 原子方式-1
+  example: []
+  syntax:
+    content: public static ulong Decrement(this ref ulong value)
+    parameters:
+    - id: value
+      type: System.UInt64
+      description: 值
+    return:
+      type: System.UInt64
+      description: ''
+    content.vb: Public Shared Function Decrement(value As ULong) As ULong
+  overload: Tool.UlongExtension.Decrement*
+  nameWithType.vb: UlongExtension.Decrement(ULong)
+  fullName.vb: Tool.UlongExtension.Decrement(ULong)
+  name.vb: Decrement(ULong)
+- uid: Tool.UlongExtension.Add(System.UInt64[],System.UInt64)
+  commentId: M:Tool.UlongExtension.Add(System.UInt64[],System.UInt64)
+  id: Add(System.UInt64[],System.UInt64)
+  isExtensionMethod: true
+  parent: Tool.UlongExtension
+  langs:
+  - csharp
+  - vb
+  name: Add(ulong[], ulong)
+  nameWithType: UlongExtension.Add(ulong[], ulong)
+  fullName: Tool.UlongExtension.Add(ulong[], ulong)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/UlongExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Add
+    path: ../../Tool.Net/TypeExtension/UlongExtension.cs
+    startLine: 63
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 给数组加新的值
+  example: []
+  syntax:
+    content: public static ulong[] Add(this ulong[] txt, ulong txt1)
+    parameters:
+    - id: txt
+      type: System.UInt64[]
+      description: Ulong[]
+    - id: txt1
+      type: System.UInt64
+      description: 新增的值
+    return:
+      type: System.UInt64[]
+    content.vb: Public Shared Function Add(txt As ULong(), txt1 As ULong) As ULong()
+  overload: Tool.UlongExtension.Add*
+  nameWithType.vb: UlongExtension.Add(ULong(), ULong)
+  fullName.vb: Tool.UlongExtension.Add(ULong(), ULong)
+  name.vb: Add(ULong(), ULong)
+- uid: Tool.UlongExtension.Contains(System.UInt64[],System.UInt64)
+  commentId: M:Tool.UlongExtension.Contains(System.UInt64[],System.UInt64)
+  id: Contains(System.UInt64[],System.UInt64)
+  isExtensionMethod: true
+  parent: Tool.UlongExtension
+  langs:
+  - csharp
+  - vb
+  name: Contains(ulong[], ulong)
+  nameWithType: UlongExtension.Contains(ulong[], ulong)
+  fullName: Tool.UlongExtension.Contains(ulong[], ulong)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/UlongExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Contains
+    path: ../../Tool.Net/TypeExtension/UlongExtension.cs
+    startLine: 78
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 查找该Ulong数组中是否存在该值。
+  example: []
+  syntax:
+    content: public static bool Contains(this ulong[] txt, ulong txt1)
+    parameters:
+    - id: txt
+      type: System.UInt64[]
+      description: Ulong[]
+    - id: txt1
+      type: System.UInt64
+      description: 查找的字符
+    return:
+      type: System.Boolean
+      description: 方法存在或不存在
+    content.vb: Public Shared Function Contains(txt As ULong(), txt1 As ULong) As Boolean
+  overload: Tool.UlongExtension.Contains*
+  nameWithType.vb: UlongExtension.Contains(ULong(), ULong)
+  fullName.vb: Tool.UlongExtension.Contains(ULong(), ULong)
+  name.vb: Contains(ULong(), ULong)
+- uid: Tool.UlongExtension.GetArrayIndex(System.UInt64[],System.Int32,System.Int32)
+  commentId: M:Tool.UlongExtension.GetArrayIndex(System.UInt64[],System.Int32,System.Int32)
+  id: GetArrayIndex(System.UInt64[],System.Int32,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.UlongExtension
+  langs:
+  - csharp
+  - vb
+  name: GetArrayIndex(ulong[], int, int)
+  nameWithType: UlongExtension.GetArrayIndex(ulong[], int, int)
+  fullName: Tool.UlongExtension.GetArrayIndex(ulong[], int, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/UlongExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetArrayIndex
+    path: ../../Tool.Net/TypeExtension/UlongExtension.cs
+    startLine: 90
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 同于获取指定部分的内容
+  example: []
+  syntax:
+    content: public static ulong[] GetArrayIndex(this ulong[] obj, int index, int count)
+    parameters:
+    - id: obj
+      type: System.UInt64[]
+      description: 对象数组
+    - id: index
+      type: System.Int32
+      description: 从下标N开始
+    - id: count
+      type: System.Int32
+      description: 到下标N结束
+    return:
+      type: System.UInt64[]
+      description: 返回一部分的数组内容
+    content.vb: Public Shared Function GetArrayIndex(obj As ULong(), index As Integer, count As Integer) As ULong()
+  overload: Tool.UlongExtension.GetArrayIndex*
+  nameWithType.vb: UlongExtension.GetArrayIndex(ULong(), Integer, Integer)
+  fullName.vb: Tool.UlongExtension.GetArrayIndex(ULong(), Integer, Integer)
+  name.vb: GetArrayIndex(ULong(), Integer, Integer)
+references:
+- uid: Tool
+  commentId: N:Tool
+  href: Tool.html
+  name: Tool
+  nameWithType: Tool
+  fullName: Tool
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Tool.UlongExtension.ToBytes*
+  commentId: Overload:Tool.UlongExtension.ToBytes
+  href: Tool.UlongExtension.html#Tool_UlongExtension_ToBytes_System_UInt64_
+  name: ToBytes
+  nameWithType: UlongExtension.ToBytes
+  fullName: Tool.UlongExtension.ToBytes
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: System.Byte[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte[]
+  nameWithType: byte[]
+  fullName: byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+- uid: Tool.UlongExtension.Ceiling*
+  commentId: Overload:Tool.UlongExtension.Ceiling
+  href: Tool.UlongExtension.html#Tool_UlongExtension_Ceiling_System_UInt64_System_Decimal_
+  name: Ceiling
+  nameWithType: UlongExtension.Ceiling
+  fullName: Tool.UlongExtension.Ceiling
+- uid: System.Decimal
+  commentId: T:System.Decimal
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.decimal
+  name: decimal
+  nameWithType: decimal
+  fullName: decimal
+  nameWithType.vb: Decimal
+  fullName.vb: Decimal
+  name.vb: Decimal
+- uid: Tool.UlongExtension.Increment*
+  commentId: Overload:Tool.UlongExtension.Increment
+  href: Tool.UlongExtension.html#Tool_UlongExtension_Increment_System_UInt64__
+  name: Increment
+  nameWithType: UlongExtension.Increment
+  fullName: Tool.UlongExtension.Increment
+- uid: Tool.UlongExtension.Decrement*
+  commentId: Overload:Tool.UlongExtension.Decrement
+  href: Tool.UlongExtension.html#Tool_UlongExtension_Decrement_System_UInt64__
+  name: Decrement
+  nameWithType: UlongExtension.Decrement
+  fullName: Tool.UlongExtension.Decrement
+- uid: Tool.UlongExtension.Add*
+  commentId: Overload:Tool.UlongExtension.Add
+  href: Tool.UlongExtension.html#Tool_UlongExtension_Add_System_UInt64___System_UInt64_
+  name: Add
+  nameWithType: UlongExtension.Add
+  fullName: Tool.UlongExtension.Add
+- uid: System.UInt64[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong[]
+  nameWithType: ulong[]
+  fullName: ulong[]
+  nameWithType.vb: ULong()
+  fullName.vb: ULong()
+  name.vb: ULong()
+  spec.csharp:
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: (
+  - name: )
+- uid: Tool.UlongExtension.Contains*
+  commentId: Overload:Tool.UlongExtension.Contains
+  href: Tool.UlongExtension.html#Tool_UlongExtension_Contains_System_UInt64___System_UInt64_
+  name: Contains
+  nameWithType: UlongExtension.Contains
+  fullName: Tool.UlongExtension.Contains
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Tool.UlongExtension.GetArrayIndex*
+  commentId: Overload:Tool.UlongExtension.GetArrayIndex
+  href: Tool.UlongExtension.html#Tool_UlongExtension_GetArrayIndex_System_UInt64___System_Int32_System_Int32_
+  name: GetArrayIndex
+  nameWithType: UlongExtension.GetArrayIndex
+  fullName: Tool.UlongExtension.GetArrayIndex
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer

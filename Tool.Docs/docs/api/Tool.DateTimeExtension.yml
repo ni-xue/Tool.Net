@@ -1,0 +1,901 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.DateTimeExtension
+  commentId: T:Tool.DateTimeExtension
+  id: DateTimeExtension
+  parent: Tool
+  children:
+  - Tool.DateTimeExtension.Add(System.DateTime[],System.DateTime)
+  - Tool.DateTimeExtension.Contains(System.DateTime[],System.DateTime)
+  - Tool.DateTimeExtension.DateMonday(System.DateTime,System.DayOfWeek)
+  - Tool.DateTimeExtension.GetArrayIndex(System.DateTime[],System.Int32,System.Int32)
+  - Tool.DateTimeExtension.GetDaysOfMonth(System.DateTime)
+  - Tool.DateTimeExtension.GetDaysOfYear(System.DateTime)
+  - Tool.DateTimeExtension.GetMilliseconds(System.DateTime)
+  - Tool.DateTimeExtension.GetWeekNameOfDay(System.DateTime)
+  - Tool.DateTimeExtension.GetWeekNumberOfDay(System.DateTime)
+  - Tool.DateTimeExtension.ToLocalTime(System.DateTime,System.Boolean)
+  - Tool.DateTimeExtension.ToLocalTime(System.Double,System.Boolean)
+  langs:
+  - csharp
+  - vb
+  name: DateTimeExtension
+  nameWithType: DateTimeExtension
+  fullName: Tool.DateTimeExtension
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/DateTimeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DateTimeExtension
+    path: ../../Tool.Net/TypeExtension/DateTimeExtension.cs
+    startLine: 12
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对DateTime进行升级
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class DateTimeExtension
+    content.vb: Public Module DateTimeExtension
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.DateTimeExtension.GetMilliseconds(System.DateTime)
+  commentId: M:Tool.DateTimeExtension.GetMilliseconds(System.DateTime)
+  id: GetMilliseconds(System.DateTime)
+  isExtensionMethod: true
+  parent: Tool.DateTimeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetMilliseconds(DateTime)
+  nameWithType: DateTimeExtension.GetMilliseconds(DateTime)
+  fullName: Tool.DateTimeExtension.GetMilliseconds(System.DateTime)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/DateTimeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetMilliseconds
+    path: ../../Tool.Net/TypeExtension/DateTimeExtension.cs
+    startLine: 44
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 根据实力，计算与当前时间的毫秒差
+  example: []
+  syntax:
+    content: public static double GetMilliseconds(this DateTime dateTime)
+    parameters:
+    - id: dateTime
+      type: System.DateTime
+      description: DateTime
+    return:
+      type: System.Double
+      description: 适用于获取代码执行时的耗时
+    content.vb: Public Shared Function GetMilliseconds(dateTime As Date) As Double
+  overload: Tool.DateTimeExtension.GetMilliseconds*
+  nameWithType.vb: DateTimeExtension.GetMilliseconds(Date)
+  fullName.vb: Tool.DateTimeExtension.GetMilliseconds(Date)
+  name.vb: GetMilliseconds(Date)
+- uid: Tool.DateTimeExtension.DateMonday(System.DateTime,System.DayOfWeek)
+  commentId: M:Tool.DateTimeExtension.DateMonday(System.DateTime,System.DayOfWeek)
+  id: DateMonday(System.DateTime,System.DayOfWeek)
+  isExtensionMethod: true
+  parent: Tool.DateTimeExtension
+  langs:
+  - csharp
+  - vb
+  name: DateMonday(DateTime, DayOfWeek)
+  nameWithType: DateTimeExtension.DateMonday(DateTime, DayOfWeek)
+  fullName: Tool.DateTimeExtension.DateMonday(System.DateTime, System.DayOfWeek)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/DateTimeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DateMonday
+    path: ../../Tool.Net/TypeExtension/DateTimeExtension.cs
+    startLine: 55
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回当前日期指定的星期几
+  example: []
+  syntax:
+    content: public static DateTime DateMonday(this DateTime dateTime, DayOfWeek Week)
+    parameters:
+    - id: dateTime
+      type: System.DateTime
+      description: DateTime
+    - id: Week
+      type: System.DayOfWeek
+      description: 指定星期几
+    return:
+      type: System.DateTime
+      description: 返回当前日期指定的星期几
+    content.vb: Public Shared Function DateMonday(dateTime As Date, Week As DayOfWeek) As Date
+  overload: Tool.DateTimeExtension.DateMonday*
+  nameWithType.vb: DateTimeExtension.DateMonday(Date, DayOfWeek)
+  fullName.vb: Tool.DateTimeExtension.DateMonday(Date, System.DayOfWeek)
+  name.vb: DateMonday(Date, DayOfWeek)
+- uid: Tool.DateTimeExtension.GetDaysOfYear(System.DateTime)
+  commentId: M:Tool.DateTimeExtension.GetDaysOfYear(System.DateTime)
+  id: GetDaysOfYear(System.DateTime)
+  isExtensionMethod: true
+  parent: Tool.DateTimeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetDaysOfYear(DateTime)
+  nameWithType: DateTimeExtension.GetDaysOfYear(DateTime)
+  fullName: Tool.DateTimeExtension.GetDaysOfYear(System.DateTime)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/DateTimeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetDaysOfYear
+    path: ../../Tool.Net/TypeExtension/DateTimeExtension.cs
+    startLine: 148
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 本年有多少天
+  example: []
+  syntax:
+    content: public static int GetDaysOfYear(this DateTime idt)
+    parameters:
+    - id: idt
+      type: System.DateTime
+      description: 日期
+    return:
+      type: System.Int32
+      description: 本天在当年的天数
+    content.vb: Public Shared Function GetDaysOfYear(idt As Date) As Integer
+  overload: Tool.DateTimeExtension.GetDaysOfYear*
+  nameWithType.vb: DateTimeExtension.GetDaysOfYear(Date)
+  fullName.vb: Tool.DateTimeExtension.GetDaysOfYear(Date)
+  name.vb: GetDaysOfYear(Date)
+- uid: Tool.DateTimeExtension.GetDaysOfMonth(System.DateTime)
+  commentId: M:Tool.DateTimeExtension.GetDaysOfMonth(System.DateTime)
+  id: GetDaysOfMonth(System.DateTime)
+  isExtensionMethod: true
+  parent: Tool.DateTimeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetDaysOfMonth(DateTime)
+  nameWithType: DateTimeExtension.GetDaysOfMonth(DateTime)
+  fullName: Tool.DateTimeExtension.GetDaysOfMonth(System.DateTime)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/DateTimeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetDaysOfMonth
+    path: ../../Tool.Net/TypeExtension/DateTimeExtension.cs
+    startLine: 170
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 本月有多少天
+  example: []
+  syntax:
+    content: public static int GetDaysOfMonth(this DateTime dt)
+    parameters:
+    - id: dt
+      type: System.DateTime
+      description: 日期
+    return:
+      type: System.Int32
+      description: 天数
+    content.vb: Public Shared Function GetDaysOfMonth(dt As Date) As Integer
+  overload: Tool.DateTimeExtension.GetDaysOfMonth*
+  nameWithType.vb: DateTimeExtension.GetDaysOfMonth(Date)
+  fullName.vb: Tool.DateTimeExtension.GetDaysOfMonth(Date)
+  name.vb: GetDaysOfMonth(Date)
+- uid: Tool.DateTimeExtension.GetWeekNameOfDay(System.DateTime)
+  commentId: M:Tool.DateTimeExtension.GetWeekNameOfDay(System.DateTime)
+  id: GetWeekNameOfDay(System.DateTime)
+  isExtensionMethod: true
+  parent: Tool.DateTimeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetWeekNameOfDay(DateTime)
+  nameWithType: DateTimeExtension.GetWeekNameOfDay(DateTime)
+  fullName: Tool.DateTimeExtension.GetWeekNameOfDay(System.DateTime)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/DateTimeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetWeekNameOfDay
+    path: ../../Tool.Net/TypeExtension/DateTimeExtension.cs
+    startLine: 237
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回当前日期的星期名称
+  example: []
+  syntax:
+    content: public static string GetWeekNameOfDay(this DateTime idt)
+    parameters:
+    - id: idt
+      type: System.DateTime
+      description: 日期
+    return:
+      type: System.String
+      description: 星期名称
+    content.vb: Public Shared Function GetWeekNameOfDay(idt As Date) As String
+  overload: Tool.DateTimeExtension.GetWeekNameOfDay*
+  nameWithType.vb: DateTimeExtension.GetWeekNameOfDay(Date)
+  fullName.vb: Tool.DateTimeExtension.GetWeekNameOfDay(Date)
+  name.vb: GetWeekNameOfDay(Date)
+- uid: Tool.DateTimeExtension.GetWeekNumberOfDay(System.DateTime)
+  commentId: M:Tool.DateTimeExtension.GetWeekNumberOfDay(System.DateTime)
+  id: GetWeekNumberOfDay(System.DateTime)
+  isExtensionMethod: true
+  parent: Tool.DateTimeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetWeekNumberOfDay(DateTime)
+  nameWithType: DateTimeExtension.GetWeekNumberOfDay(DateTime)
+  fullName: Tool.DateTimeExtension.GetWeekNumberOfDay(System.DateTime)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/DateTimeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetWeekNumberOfDay
+    path: ../../Tool.Net/TypeExtension/DateTimeExtension.cs
+    startLine: 274
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回当前日期的星期编号
+  example: []
+  syntax:
+    content: public static string GetWeekNumberOfDay(this DateTime idt)
+    parameters:
+    - id: idt
+      type: System.DateTime
+      description: 日期
+    return:
+      type: System.String
+      description: 星期数字编号
+    content.vb: Public Shared Function GetWeekNumberOfDay(idt As Date) As String
+  overload: Tool.DateTimeExtension.GetWeekNumberOfDay*
+  nameWithType.vb: DateTimeExtension.GetWeekNumberOfDay(Date)
+  fullName.vb: Tool.DateTimeExtension.GetWeekNumberOfDay(Date)
+  name.vb: GetWeekNumberOfDay(Date)
+- uid: Tool.DateTimeExtension.ToLocalTime(System.Double,System.Boolean)
+  commentId: M:Tool.DateTimeExtension.ToLocalTime(System.Double,System.Boolean)
+  id: ToLocalTime(System.Double,System.Boolean)
+  parent: Tool.DateTimeExtension
+  langs:
+  - csharp
+  - vb
+  name: ToLocalTime(double, bool)
+  nameWithType: DateTimeExtension.ToLocalTime(double, bool)
+  fullName: Tool.DateTimeExtension.ToLocalTime(double, bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/DateTimeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToLocalTime
+    path: ../../Tool.Net/TypeExtension/DateTimeExtension.cs
+    startLine: 314
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回 <xref href="System.DateTime" data-throw-if-not-resolved="false"></xref> 类型 ，根据指定时间数字转换
+  example: []
+  syntax:
+    content: public static DateTime ToLocalTime(double Localtime, bool tal)
+    parameters:
+    - id: Localtime
+      type: System.Double
+      description: 指定的时间数字
+    - id: tal
+      type: System.Boolean
+      description: true 毫秒, false 秒。
+    return:
+      type: System.DateTime
+      description: 返回时间类型
+    content.vb: Public Shared Function ToLocalTime(Localtime As Double, tal As Boolean) As Date
+  overload: Tool.DateTimeExtension.ToLocalTime*
+  nameWithType.vb: DateTimeExtension.ToLocalTime(Double, Boolean)
+  fullName.vb: Tool.DateTimeExtension.ToLocalTime(Double, Boolean)
+  name.vb: ToLocalTime(Double, Boolean)
+- uid: Tool.DateTimeExtension.ToLocalTime(System.DateTime,System.Boolean)
+  commentId: M:Tool.DateTimeExtension.ToLocalTime(System.DateTime,System.Boolean)
+  id: ToLocalTime(System.DateTime,System.Boolean)
+  isExtensionMethod: true
+  parent: Tool.DateTimeExtension
+  langs:
+  - csharp
+  - vb
+  name: ToLocalTime(DateTime, bool)
+  nameWithType: DateTimeExtension.ToLocalTime(DateTime, bool)
+  fullName: Tool.DateTimeExtension.ToLocalTime(System.DateTime, bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/DateTimeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToLocalTime
+    path: ../../Tool.Net/TypeExtension/DateTimeExtension.cs
+    startLine: 337
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回 <xref href="System.DateTime" data-throw-if-not-resolved="false"></xref> 类型 ，根据指定时间数字转换
+  example: []
+  syntax:
+    content: public static long ToLocalTime(this DateTime dateTime, bool tal)
+    parameters:
+    - id: dateTime
+      type: System.DateTime
+      description: 时间类型
+    - id: tal
+      type: System.Boolean
+      description: 返回 true 毫秒, false 秒。
+    return:
+      type: System.Int64
+      description: 返回64位时间数字
+    content.vb: Public Shared Function ToLocalTime(dateTime As Date, tal As Boolean) As Long
+  overload: Tool.DateTimeExtension.ToLocalTime*
+  nameWithType.vb: DateTimeExtension.ToLocalTime(Date, Boolean)
+  fullName.vb: Tool.DateTimeExtension.ToLocalTime(Date, Boolean)
+  name.vb: ToLocalTime(Date, Boolean)
+- uid: Tool.DateTimeExtension.Add(System.DateTime[],System.DateTime)
+  commentId: M:Tool.DateTimeExtension.Add(System.DateTime[],System.DateTime)
+  id: Add(System.DateTime[],System.DateTime)
+  isExtensionMethod: true
+  parent: Tool.DateTimeExtension
+  langs:
+  - csharp
+  - vb
+  name: Add(DateTime[], DateTime)
+  nameWithType: DateTimeExtension.Add(DateTime[], DateTime)
+  fullName: Tool.DateTimeExtension.Add(System.DateTime[], System.DateTime)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/DateTimeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Add
+    path: ../../Tool.Net/TypeExtension/DateTimeExtension.cs
+    startLine: 381
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 给数组加新的值
+  example: []
+  syntax:
+    content: public static DateTime[] Add(this DateTime[] txt, DateTime txt1)
+    parameters:
+    - id: txt
+      type: System.DateTime[]
+      description: DateTime[]
+    - id: txt1
+      type: System.DateTime
+      description: 新增的值
+    return:
+      type: System.DateTime[]
+    content.vb: Public Shared Function Add(txt As Date(), txt1 As Date) As Date()
+  overload: Tool.DateTimeExtension.Add*
+  nameWithType.vb: DateTimeExtension.Add(Date(), Date)
+  fullName.vb: Tool.DateTimeExtension.Add(Date(), Date)
+  name.vb: Add(Date(), Date)
+- uid: Tool.DateTimeExtension.Contains(System.DateTime[],System.DateTime)
+  commentId: M:Tool.DateTimeExtension.Contains(System.DateTime[],System.DateTime)
+  id: Contains(System.DateTime[],System.DateTime)
+  isExtensionMethod: true
+  parent: Tool.DateTimeExtension
+  langs:
+  - csharp
+  - vb
+  name: Contains(DateTime[], DateTime)
+  nameWithType: DateTimeExtension.Contains(DateTime[], DateTime)
+  fullName: Tool.DateTimeExtension.Contains(System.DateTime[], System.DateTime)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/DateTimeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Contains
+    path: ../../Tool.Net/TypeExtension/DateTimeExtension.cs
+    startLine: 396
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 查找该char数组中是否存在该值。
+  example: []
+  syntax:
+    content: public static bool Contains(this DateTime[] txt, DateTime txt1)
+    parameters:
+    - id: txt
+      type: System.DateTime[]
+      description: DateTime[]
+    - id: txt1
+      type: System.DateTime
+      description: 查找的字符
+    return:
+      type: System.Boolean
+      description: 方法存在或不存在
+    content.vb: Public Shared Function Contains(txt As Date(), txt1 As Date) As Boolean
+  overload: Tool.DateTimeExtension.Contains*
+  nameWithType.vb: DateTimeExtension.Contains(Date(), Date)
+  fullName.vb: Tool.DateTimeExtension.Contains(Date(), Date)
+  name.vb: Contains(Date(), Date)
+- uid: Tool.DateTimeExtension.GetArrayIndex(System.DateTime[],System.Int32,System.Int32)
+  commentId: M:Tool.DateTimeExtension.GetArrayIndex(System.DateTime[],System.Int32,System.Int32)
+  id: GetArrayIndex(System.DateTime[],System.Int32,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.DateTimeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetArrayIndex(DateTime[], int, int)
+  nameWithType: DateTimeExtension.GetArrayIndex(DateTime[], int, int)
+  fullName: Tool.DateTimeExtension.GetArrayIndex(System.DateTime[], int, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/DateTimeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetArrayIndex
+    path: ../../Tool.Net/TypeExtension/DateTimeExtension.cs
+    startLine: 408
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 同于获取指定部分的内容
+  example: []
+  syntax:
+    content: public static DateTime[] GetArrayIndex(this DateTime[] obj, int index, int count)
+    parameters:
+    - id: obj
+      type: System.DateTime[]
+      description: 对象数组
+    - id: index
+      type: System.Int32
+      description: 从下标N开始
+    - id: count
+      type: System.Int32
+      description: 到下标N结束
+    return:
+      type: System.DateTime[]
+      description: 返回一部分的数组内容
+    content.vb: Public Shared Function GetArrayIndex(obj As Date(), index As Integer, count As Integer) As Date()
+  overload: Tool.DateTimeExtension.GetArrayIndex*
+  nameWithType.vb: DateTimeExtension.GetArrayIndex(Date(), Integer, Integer)
+  fullName.vb: Tool.DateTimeExtension.GetArrayIndex(Date(), Integer, Integer)
+  name.vb: GetArrayIndex(Date(), Integer, Integer)
+references:
+- uid: Tool
+  commentId: N:Tool
+  href: Tool.html
+  name: Tool
+  nameWithType: Tool
+  fullName: Tool
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Tool.DateTimeExtension.GetMilliseconds*
+  commentId: Overload:Tool.DateTimeExtension.GetMilliseconds
+  href: Tool.DateTimeExtension.html#Tool_DateTimeExtension_GetMilliseconds_System_DateTime_
+  name: GetMilliseconds
+  nameWithType: DateTimeExtension.GetMilliseconds
+  fullName: Tool.DateTimeExtension.GetMilliseconds
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+  nameWithType.vb: Date
+  fullName.vb: Date
+  name.vb: Date
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: Tool.DateTimeExtension.DateMonday*
+  commentId: Overload:Tool.DateTimeExtension.DateMonday
+  href: Tool.DateTimeExtension.html#Tool_DateTimeExtension_DateMonday_System_DateTime_System_DayOfWeek_
+  name: DateMonday
+  nameWithType: DateTimeExtension.DateMonday
+  fullName: Tool.DateTimeExtension.DateMonday
+- uid: System.DayOfWeek
+  commentId: T:System.DayOfWeek
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.dayofweek
+  name: DayOfWeek
+  nameWithType: DayOfWeek
+  fullName: System.DayOfWeek
+- uid: Tool.DateTimeExtension.GetDaysOfYear*
+  commentId: Overload:Tool.DateTimeExtension.GetDaysOfYear
+  href: Tool.DateTimeExtension.html#Tool_DateTimeExtension_GetDaysOfYear_System_DateTime_
+  name: GetDaysOfYear
+  nameWithType: DateTimeExtension.GetDaysOfYear
+  fullName: Tool.DateTimeExtension.GetDaysOfYear
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Tool.DateTimeExtension.GetDaysOfMonth*
+  commentId: Overload:Tool.DateTimeExtension.GetDaysOfMonth
+  href: Tool.DateTimeExtension.html#Tool_DateTimeExtension_GetDaysOfMonth_System_DateTime_
+  name: GetDaysOfMonth
+  nameWithType: DateTimeExtension.GetDaysOfMonth
+  fullName: Tool.DateTimeExtension.GetDaysOfMonth
+- uid: Tool.DateTimeExtension.GetWeekNameOfDay*
+  commentId: Overload:Tool.DateTimeExtension.GetWeekNameOfDay
+  href: Tool.DateTimeExtension.html#Tool_DateTimeExtension_GetWeekNameOfDay_System_DateTime_
+  name: GetWeekNameOfDay
+  nameWithType: DateTimeExtension.GetWeekNameOfDay
+  fullName: Tool.DateTimeExtension.GetWeekNameOfDay
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Tool.DateTimeExtension.GetWeekNumberOfDay*
+  commentId: Overload:Tool.DateTimeExtension.GetWeekNumberOfDay
+  href: Tool.DateTimeExtension.html#Tool_DateTimeExtension_GetWeekNumberOfDay_System_DateTime_
+  name: GetWeekNumberOfDay
+  nameWithType: DateTimeExtension.GetWeekNumberOfDay
+  fullName: Tool.DateTimeExtension.GetWeekNumberOfDay
+- uid: Tool.DateTimeExtension.ToLocalTime*
+  commentId: Overload:Tool.DateTimeExtension.ToLocalTime
+  href: Tool.DateTimeExtension.html#Tool_DateTimeExtension_ToLocalTime_System_Double_System_Boolean_
+  name: ToLocalTime
+  nameWithType: DateTimeExtension.ToLocalTime
+  fullName: Tool.DateTimeExtension.ToLocalTime
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System.Int64
+  commentId: T:System.Int64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int64
+  name: long
+  nameWithType: long
+  fullName: long
+  nameWithType.vb: Long
+  fullName.vb: Long
+  name.vb: Long
+- uid: Tool.DateTimeExtension.Add*
+  commentId: Overload:Tool.DateTimeExtension.Add
+  href: Tool.DateTimeExtension.html#Tool_DateTimeExtension_Add_System_DateTime___System_DateTime_
+  name: Add
+  nameWithType: DateTimeExtension.Add
+  fullName: Tool.DateTimeExtension.Add
+- uid: System.DateTime[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime[]
+  nameWithType: DateTime[]
+  fullName: System.DateTime[]
+  nameWithType.vb: Date()
+  fullName.vb: Date()
+  name.vb: Date()
+  spec.csharp:
+  - uid: System.DateTime
+    name: DateTime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.datetime
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.DateTime
+    name: Date
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.datetime
+  - name: (
+  - name: )
+- uid: Tool.DateTimeExtension.Contains*
+  commentId: Overload:Tool.DateTimeExtension.Contains
+  href: Tool.DateTimeExtension.html#Tool_DateTimeExtension_Contains_System_DateTime___System_DateTime_
+  name: Contains
+  nameWithType: DateTimeExtension.Contains
+  fullName: Tool.DateTimeExtension.Contains
+- uid: Tool.DateTimeExtension.GetArrayIndex*
+  commentId: Overload:Tool.DateTimeExtension.GetArrayIndex
+  href: Tool.DateTimeExtension.html#Tool_DateTimeExtension_GetArrayIndex_System_DateTime___System_Int32_System_Int32_
+  name: GetArrayIndex
+  nameWithType: DateTimeExtension.GetArrayIndex
+  fullName: Tool.DateTimeExtension.GetArrayIndex

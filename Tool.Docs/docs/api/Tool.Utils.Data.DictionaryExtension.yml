@@ -1,0 +1,1390 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Utils.Data.DictionaryExtension
+  commentId: T:Tool.Utils.Data.DictionaryExtension
+  id: DictionaryExtension
+  parent: Tool.Utils.Data
+  children:
+  - Tool.Utils.Data.DictionaryExtension.AsReadOnly``2(System.Collections.Generic.IDictionary{``0,``1})
+  - Tool.Utils.Data.DictionaryExtension.GetArrayIndex``2(System.Collections.Generic.Dictionary{``0,``1},System.Int32,System.Int32)
+  - Tool.Utils.Data.DictionaryExtension.GetDictionary(System.Object)
+  - Tool.Utils.Data.DictionaryExtension.GetParamAscii``2(System.Collections.Generic.Dictionary{``0,``1})
+  - Tool.Utils.Data.DictionaryExtension.NewDictionary``2(System.Collections.Generic.IDictionary{``0,``1})
+  - Tool.Utils.Data.DictionaryExtension.Remove``2(System.Collections.Generic.IDictionary{``0,``1},``0[])
+  - Tool.Utils.Data.DictionaryExtension.SetDictionary(System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})
+  - Tool.Utils.Data.DictionaryExtension.ToDictionary(System.Object)
+  - Tool.Utils.Data.DictionaryExtension.ToDictionary``1(System.Object)
+  - Tool.Utils.Data.DictionaryExtension.ToIDictionary(System.Object)
+  - Tool.Utils.Data.DictionaryExtension.ToIDictionary``1(System.Object)
+  - Tool.Utils.Data.DictionaryExtension.TryRemove``2(System.Collections.Generic.IDictionary{``0,``1},``0[]@,``0[])
+  langs:
+  - csharp
+  - vb
+  name: DictionaryExtension
+  nameWithType: DictionaryExtension
+  fullName: Tool.Utils.Data.DictionaryExtension
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DictionaryExtension
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 14
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 对Dictionary进行升级
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class DictionaryExtension
+    content.vb: Public Module DictionaryExtension
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.Utils.Data.DictionaryExtension.NewDictionary``2(System.Collections.Generic.IDictionary{``0,``1})
+  commentId: M:Tool.Utils.Data.DictionaryExtension.NewDictionary``2(System.Collections.Generic.IDictionary{``0,``1})
+  id: NewDictionary``2(System.Collections.Generic.IDictionary{``0,``1})
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DictionaryExtension
+  langs:
+  - csharp
+  - vb
+  name: NewDictionary<TKey, TValue>(IDictionary<TKey, TValue>)
+  nameWithType: DictionaryExtension.NewDictionary<TKey, TValue>(IDictionary<TKey, TValue>)
+  fullName: Tool.Utils.Data.DictionaryExtension.NewDictionary<TKey, TValue>(System.Collections.Generic.IDictionary<TKey, TValue>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: NewDictionary
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 23
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 将 <xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>对象 拷贝创建新 <xref href="System.Collections.Generic.Dictionary%602" data-throw-if-not-resolved="false"></xref>对象
+  example: []
+  syntax:
+    content: public static Dictionary<TKey, TValue> NewDictionary<TKey, TValue>(this IDictionary<TKey, TValue> oldDictionary)
+    parameters:
+    - id: oldDictionary
+      type: System.Collections.Generic.IDictionary{{TKey},{TValue}}
+      description: <xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>对象
+    typeParameters:
+    - id: TKey
+      description: 键
+    - id: TValue
+      description: 值
+    return:
+      type: System.Collections.Generic.Dictionary{{TKey},{TValue}}
+      description: <xref href="System.Collections.Generic.Dictionary%602" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function NewDictionary(Of TKey, TValue)(oldDictionary As IDictionary(Of TKey, TValue)) As Dictionary(Of TKey, TValue)
+  overload: Tool.Utils.Data.DictionaryExtension.NewDictionary*
+  nameWithType.vb: DictionaryExtension.NewDictionary(Of TKey, TValue)(IDictionary(Of TKey, TValue))
+  fullName.vb: Tool.Utils.Data.DictionaryExtension.NewDictionary(Of TKey, TValue)(System.Collections.Generic.IDictionary(Of TKey, TValue))
+  name.vb: NewDictionary(Of TKey, TValue)(IDictionary(Of TKey, TValue))
+- uid: Tool.Utils.Data.DictionaryExtension.ToIDictionary(System.Object)
+  commentId: M:Tool.Utils.Data.DictionaryExtension.ToIDictionary(System.Object)
+  id: ToIDictionary(System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DictionaryExtension
+  langs:
+  - csharp
+  - vb
+  name: ToIDictionary(object)
+  nameWithType: DictionaryExtension.ToIDictionary(object)
+  fullName: Tool.Utils.Data.DictionaryExtension.ToIDictionary(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToIDictionary
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 33
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 将对象转换成<xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>
+  example: []
+  syntax:
+    content: public static IDictionary<string, object> ToIDictionary(this object source)
+    parameters:
+    - id: source
+      type: System.Object
+      description: 对象
+    return:
+      type: System.Collections.Generic.IDictionary{System.String,System.Object}
+      description: <xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function ToIDictionary(source As Object) As IDictionary(Of String, Object)
+  overload: Tool.Utils.Data.DictionaryExtension.ToIDictionary*
+  nameWithType.vb: DictionaryExtension.ToIDictionary(Object)
+  fullName.vb: Tool.Utils.Data.DictionaryExtension.ToIDictionary(Object)
+  name.vb: ToIDictionary(Object)
+- uid: Tool.Utils.Data.DictionaryExtension.ToDictionary(System.Object)
+  commentId: M:Tool.Utils.Data.DictionaryExtension.ToDictionary(System.Object)
+  id: ToDictionary(System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DictionaryExtension
+  langs:
+  - csharp
+  - vb
+  name: ToDictionary(object)
+  nameWithType: DictionaryExtension.ToDictionary(object)
+  fullName: Tool.Utils.Data.DictionaryExtension.ToDictionary(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToDictionary
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 43
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 将对象转换成<xref href="System.Collections.Generic.Dictionary%602" data-throw-if-not-resolved="false"></xref>
+  example: []
+  syntax:
+    content: public static Dictionary<string, object> ToDictionary(this object source)
+    parameters:
+    - id: source
+      type: System.Object
+      description: 对象
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.Object}
+      description: <xref href="System.Collections.Generic.Dictionary%602" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function ToDictionary(source As Object) As Dictionary(Of String, Object)
+  overload: Tool.Utils.Data.DictionaryExtension.ToDictionary*
+  nameWithType.vb: DictionaryExtension.ToDictionary(Object)
+  fullName.vb: Tool.Utils.Data.DictionaryExtension.ToDictionary(Object)
+  name.vb: ToDictionary(Object)
+- uid: Tool.Utils.Data.DictionaryExtension.ToIDictionary``1(System.Object)
+  commentId: M:Tool.Utils.Data.DictionaryExtension.ToIDictionary``1(System.Object)
+  id: ToIDictionary``1(System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DictionaryExtension
+  langs:
+  - csharp
+  - vb
+  name: ToIDictionary<T>(object)
+  nameWithType: DictionaryExtension.ToIDictionary<T>(object)
+  fullName: Tool.Utils.Data.DictionaryExtension.ToIDictionary<T>(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToIDictionary
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 53
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 将对象转换成<xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>
+  example: []
+  syntax:
+    content: public static IDictionary<string, T> ToIDictionary<T>(this object source)
+    parameters:
+    - id: source
+      type: System.Object
+      description: 对象
+    typeParameters:
+    - id: T
+    return:
+      type: System.Collections.Generic.IDictionary{System.String,{T}}
+      description: <xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function ToIDictionary(Of T)(source As Object) As IDictionary(Of String, T)
+  overload: Tool.Utils.Data.DictionaryExtension.ToIDictionary*
+  nameWithType.vb: DictionaryExtension.ToIDictionary(Of T)(Object)
+  fullName.vb: Tool.Utils.Data.DictionaryExtension.ToIDictionary(Of T)(Object)
+  name.vb: ToIDictionary(Of T)(Object)
+- uid: Tool.Utils.Data.DictionaryExtension.ToDictionary``1(System.Object)
+  commentId: M:Tool.Utils.Data.DictionaryExtension.ToDictionary``1(System.Object)
+  id: ToDictionary``1(System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DictionaryExtension
+  langs:
+  - csharp
+  - vb
+  name: ToDictionary<T>(object)
+  nameWithType: DictionaryExtension.ToDictionary<T>(object)
+  fullName: Tool.Utils.Data.DictionaryExtension.ToDictionary<T>(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToDictionary
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 64
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 将对象转换成<xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>
+  example: []
+  syntax:
+    content: public static Dictionary<string, T> ToDictionary<T>(this object source)
+    parameters:
+    - id: source
+      type: System.Object
+      description: 对象
+    typeParameters:
+    - id: T
+      description: ''
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,{T}}
+      description: <xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function ToDictionary(Of T)(source As Object) As Dictionary(Of String, T)
+  overload: Tool.Utils.Data.DictionaryExtension.ToDictionary*
+  nameWithType.vb: DictionaryExtension.ToDictionary(Of T)(Object)
+  fullName.vb: Tool.Utils.Data.DictionaryExtension.ToDictionary(Of T)(Object)
+  name.vb: ToDictionary(Of T)(Object)
+- uid: Tool.Utils.Data.DictionaryExtension.GetDictionary(System.Object)
+  commentId: M:Tool.Utils.Data.DictionaryExtension.GetDictionary(System.Object)
+  id: GetDictionary(System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DictionaryExtension
+  langs:
+  - csharp
+  - vb
+  name: GetDictionary(object)
+  nameWithType: DictionaryExtension.GetDictionary(object)
+  fullName: Tool.Utils.Data.DictionaryExtension.GetDictionary(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetDictionary
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 110
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 获取对象结果集<xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>
+  example: []
+  syntax:
+    content: public static IDictionary<string, object> GetDictionary(this object source)
+    parameters:
+    - id: source
+      type: System.Object
+      description: 对象
+    return:
+      type: System.Collections.Generic.IDictionary{System.String,System.Object}
+      description: <xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>对象结果集
+    content.vb: Public Shared Function GetDictionary(source As Object) As IDictionary(Of String, Object)
+  overload: Tool.Utils.Data.DictionaryExtension.GetDictionary*
+  nameWithType.vb: DictionaryExtension.GetDictionary(Object)
+  fullName.vb: Tool.Utils.Data.DictionaryExtension.GetDictionary(Object)
+  name.vb: GetDictionary(Object)
+- uid: Tool.Utils.Data.DictionaryExtension.SetDictionary(System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})
+  commentId: M:Tool.Utils.Data.DictionaryExtension.SetDictionary(System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})
+  id: SetDictionary(System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DictionaryExtension
+  langs:
+  - csharp
+  - vb
+  name: SetDictionary(object, IDictionary<string, object>)
+  nameWithType: DictionaryExtension.SetDictionary(object, IDictionary<string, object>)
+  fullName: Tool.Utils.Data.DictionaryExtension.SetDictionary(object, System.Collections.Generic.IDictionary<string, object>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SetDictionary
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 123
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 给对象赋值，使用字典赋值
+  example: []
+  syntax:
+    content: public static void SetDictionary(this object source, IDictionary<string, object> parameters)
+    parameters:
+    - id: source
+      type: System.Object
+      description: 对象
+    - id: parameters
+      type: System.Collections.Generic.IDictionary{System.String,System.Object}
+      description: 赋值键值对
+    content.vb: Public Shared Sub SetDictionary(source As Object, parameters As IDictionary(Of String, Object))
+  overload: Tool.Utils.Data.DictionaryExtension.SetDictionary*
+  nameWithType.vb: DictionaryExtension.SetDictionary(Object, IDictionary(Of String, Object))
+  fullName.vb: Tool.Utils.Data.DictionaryExtension.SetDictionary(Object, System.Collections.Generic.IDictionary(Of String, Object))
+  name.vb: SetDictionary(Object, IDictionary(Of String, Object))
+- uid: Tool.Utils.Data.DictionaryExtension.Remove``2(System.Collections.Generic.IDictionary{``0,``1},``0[])
+  commentId: M:Tool.Utils.Data.DictionaryExtension.Remove``2(System.Collections.Generic.IDictionary{``0,``1},``0[])
+  id: Remove``2(System.Collections.Generic.IDictionary{``0,``1},``0[])
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DictionaryExtension
+  langs:
+  - csharp
+  - vb
+  name: Remove<TKey, TValue>(IDictionary<TKey, TValue>, params TKey[])
+  nameWithType: DictionaryExtension.Remove<TKey, TValue>(IDictionary<TKey, TValue>, params TKey[])
+  fullName: Tool.Utils.Data.DictionaryExtension.Remove<TKey, TValue>(System.Collections.Generic.IDictionary<TKey, TValue>, params TKey[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Remove
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 139
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 批量删除 <xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>对象 出现不包含的会返回 false
+  example: []
+  syntax:
+    content: public static bool Remove<TKey, TValue>(this IDictionary<TKey, TValue> keys, params TKey[] key)
+    parameters:
+    - id: keys
+      type: System.Collections.Generic.IDictionary{{TKey},{TValue}}
+      description: <xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>对象
+    - id: key
+      type: '{TKey}[]'
+      description: 需要删除的键值集合
+    typeParameters:
+    - id: TKey
+      description: 键
+    - id: TValue
+      description: 值
+    return:
+      type: System.Boolean
+      description: <xref href="System.Collections.Generic.Dictionary%602" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function Remove(Of TKey, TValue)(keys As IDictionary(Of TKey, TValue), ParamArray key As TKey()) As Boolean
+  overload: Tool.Utils.Data.DictionaryExtension.Remove*
+  nameWithType.vb: DictionaryExtension.Remove(Of TKey, TValue)(IDictionary(Of TKey, TValue), ParamArray TKey())
+  fullName.vb: Tool.Utils.Data.DictionaryExtension.Remove(Of TKey, TValue)(System.Collections.Generic.IDictionary(Of TKey, TValue), ParamArray TKey())
+  name.vb: Remove(Of TKey, TValue)(IDictionary(Of TKey, TValue), ParamArray TKey())
+- uid: Tool.Utils.Data.DictionaryExtension.TryRemove``2(System.Collections.Generic.IDictionary{``0,``1},``0[]@,``0[])
+  commentId: M:Tool.Utils.Data.DictionaryExtension.TryRemove``2(System.Collections.Generic.IDictionary{``0,``1},``0[]@,``0[])
+  id: TryRemove``2(System.Collections.Generic.IDictionary{``0,``1},``0[]@,``0[])
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DictionaryExtension
+  langs:
+  - csharp
+  - vb
+  name: TryRemove<TKey, TValue>(IDictionary<TKey, TValue>, out TKey[], params TKey[])
+  nameWithType: DictionaryExtension.TryRemove<TKey, TValue>(IDictionary<TKey, TValue>, out TKey[], params TKey[])
+  fullName: Tool.Utils.Data.DictionaryExtension.TryRemove<TKey, TValue>(System.Collections.Generic.IDictionary<TKey, TValue>, out TKey[], params TKey[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: TryRemove
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 167
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 批量删除 <xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>对象 中的值
+  example: []
+  syntax:
+    content: public static bool TryRemove<TKey, TValue>(this IDictionary<TKey, TValue> keys, out TKey[] trykey, params TKey[] key)
+    parameters:
+    - id: keys
+      type: System.Collections.Generic.IDictionary{{TKey},{TValue}}
+      description: <xref href="System.Collections.Generic.IDictionary%602" data-throw-if-not-resolved="false"></xref>对象
+    - id: trykey
+      type: '{TKey}[]'
+      description: 删除失败时返回无法删除的哪些项。
+    - id: key
+      type: '{TKey}[]'
+      description: 需要删除的键值集合
+    typeParameters:
+    - id: TKey
+      description: 键
+    - id: TValue
+      description: 值
+    return:
+      type: System.Boolean
+      description: <xref href="System.Collections.Generic.Dictionary%602" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function TryRemove(Of TKey, TValue)(keys As IDictionary(Of TKey, TValue), trykey As TKey(), ParamArray key As TKey()) As Boolean
+  overload: Tool.Utils.Data.DictionaryExtension.TryRemove*
+  nameWithType.vb: DictionaryExtension.TryRemove(Of TKey, TValue)(IDictionary(Of TKey, TValue), TKey(), ParamArray TKey())
+  fullName.vb: Tool.Utils.Data.DictionaryExtension.TryRemove(Of TKey, TValue)(System.Collections.Generic.IDictionary(Of TKey, TValue), TKey(), ParamArray TKey())
+  name.vb: TryRemove(Of TKey, TValue)(IDictionary(Of TKey, TValue), TKey(), ParamArray TKey())
+- uid: Tool.Utils.Data.DictionaryExtension.AsReadOnly``2(System.Collections.Generic.IDictionary{``0,``1})
+  commentId: M:Tool.Utils.Data.DictionaryExtension.AsReadOnly``2(System.Collections.Generic.IDictionary{``0,``1})
+  id: AsReadOnly``2(System.Collections.Generic.IDictionary{``0,``1})
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DictionaryExtension
+  langs:
+  - csharp
+  - vb
+  name: AsReadOnly<TKey, TValue>(IDictionary<TKey, TValue>)
+  nameWithType: DictionaryExtension.AsReadOnly<TKey, TValue>(IDictionary<TKey, TValue>)
+  fullName: Tool.Utils.Data.DictionaryExtension.AsReadOnly<TKey, TValue>(System.Collections.Generic.IDictionary<TKey, TValue>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AsReadOnly
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 198
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 将键值对转换成只读类型键值对
+  example: []
+  syntax:
+    content: public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> keys)
+    parameters:
+    - id: keys
+      type: System.Collections.Generic.IDictionary{{TKey},{TValue}}
+      description: 原本键值对
+    typeParameters:
+    - id: TKey
+      description: 键
+    - id: TValue
+      description: 值
+    return:
+      type: System.Collections.ObjectModel.ReadOnlyDictionary{{TKey},{TValue}}
+      description: 只读键值对
+    content.vb: Public Shared Function AsReadOnly(Of TKey, TValue)(keys As IDictionary(Of TKey, TValue)) As ReadOnlyDictionary(Of TKey, TValue)
+  overload: Tool.Utils.Data.DictionaryExtension.AsReadOnly*
+  nameWithType.vb: DictionaryExtension.AsReadOnly(Of TKey, TValue)(IDictionary(Of TKey, TValue))
+  fullName.vb: Tool.Utils.Data.DictionaryExtension.AsReadOnly(Of TKey, TValue)(System.Collections.Generic.IDictionary(Of TKey, TValue))
+  name.vb: AsReadOnly(Of TKey, TValue)(IDictionary(Of TKey, TValue))
+- uid: Tool.Utils.Data.DictionaryExtension.GetParamAscii``2(System.Collections.Generic.Dictionary{``0,``1})
+  commentId: M:Tool.Utils.Data.DictionaryExtension.GetParamAscii``2(System.Collections.Generic.Dictionary{``0,``1})
+  id: GetParamAscii``2(System.Collections.Generic.Dictionary{``0,``1})
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DictionaryExtension
+  langs:
+  - csharp
+  - vb
+  name: GetParamAscii<TKey, TValue>(Dictionary<TKey, TValue>)
+  nameWithType: DictionaryExtension.GetParamAscii<TKey, TValue>(Dictionary<TKey, TValue>)
+  fullName: Tool.Utils.Data.DictionaryExtension.GetParamAscii<TKey, TValue>(System.Collections.Generic.Dictionary<TKey, TValue>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetParamAscii
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 210
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 按照ASCII码从小到大排序（示例： 1, 2, A, B, a, b 这是格式循序）
+  example: []
+  syntax:
+    content: public static Dictionary<TKey, TValue> GetParamAscii<TKey, TValue>(this Dictionary<TKey, TValue> keyValuePairs)
+    parameters:
+    - id: keyValuePairs
+      type: System.Collections.Generic.Dictionary{{TKey},{TValue}}
+      description: Dictionary
+    typeParameters:
+    - id: TKey
+    - id: TValue
+    return:
+      type: System.Collections.Generic.Dictionary{{TKey},{TValue}}
+      description: 返回重新排序好的结果
+    content.vb: Public Shared Function GetParamAscii(Of TKey, TValue)(keyValuePairs As Dictionary(Of TKey, TValue)) As Dictionary(Of TKey, TValue)
+  overload: Tool.Utils.Data.DictionaryExtension.GetParamAscii*
+  nameWithType.vb: DictionaryExtension.GetParamAscii(Of TKey, TValue)(Dictionary(Of TKey, TValue))
+  fullName.vb: Tool.Utils.Data.DictionaryExtension.GetParamAscii(Of TKey, TValue)(System.Collections.Generic.Dictionary(Of TKey, TValue))
+  name.vb: GetParamAscii(Of TKey, TValue)(Dictionary(Of TKey, TValue))
+- uid: Tool.Utils.Data.DictionaryExtension.GetArrayIndex``2(System.Collections.Generic.Dictionary{``0,``1},System.Int32,System.Int32)
+  commentId: M:Tool.Utils.Data.DictionaryExtension.GetArrayIndex``2(System.Collections.Generic.Dictionary{``0,``1},System.Int32,System.Int32)
+  id: GetArrayIndex``2(System.Collections.Generic.Dictionary{``0,``1},System.Int32,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DictionaryExtension
+  langs:
+  - csharp
+  - vb
+  name: GetArrayIndex<TKey, TValue>(Dictionary<TKey, TValue>, int, int)
+  nameWithType: DictionaryExtension.GetArrayIndex<TKey, TValue>(Dictionary<TKey, TValue>, int, int)
+  fullName: Tool.Utils.Data.DictionaryExtension.GetArrayIndex<TKey, TValue>(System.Collections.Generic.Dictionary<TKey, TValue>, int, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DictionaryExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetArrayIndex
+    path: ../../Tool.Net/Utils/Data/DictionaryExtension.cs
+    startLine: 226
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 同于获取指定部分的内容
+  example: []
+  syntax:
+    content: 'public static Dictionary<TKey, TValue> GetArrayIndex<TKey, TValue>(this Dictionary<TKey, TValue> keyValuePairs, int index, int count) where TKey : new() where TValue : new()'
+    parameters:
+    - id: keyValuePairs
+      type: System.Collections.Generic.Dictionary{{TKey},{TValue}}
+      description: 对象数组
+    - id: index
+      type: System.Int32
+      description: 从下标N开始
+    - id: count
+      type: System.Int32
+      description: 到下标N结束
+    typeParameters:
+    - id: TKey
+    - id: TValue
+    return:
+      type: System.Collections.Generic.Dictionary{{TKey},{TValue}}
+      description: 返回一部分的数组内容
+    content.vb: Public Shared Function GetArrayIndex(Of TKey As New, TValue As New)(keyValuePairs As Dictionary(Of TKey, TValue), index As Integer, count As Integer) As Dictionary(Of TKey, TValue)
+  overload: Tool.Utils.Data.DictionaryExtension.GetArrayIndex*
+  nameWithType.vb: DictionaryExtension.GetArrayIndex(Of TKey, TValue)(Dictionary(Of TKey, TValue), Integer, Integer)
+  fullName.vb: Tool.Utils.Data.DictionaryExtension.GetArrayIndex(Of TKey, TValue)(System.Collections.Generic.Dictionary(Of TKey, TValue), Integer, Integer)
+  name.vb: GetArrayIndex(Of TKey, TValue)(Dictionary(Of TKey, TValue), Integer, Integer)
+references:
+- uid: Tool.Utils.Data
+  commentId: N:Tool.Utils.Data
+  href: Tool.html
+  name: Tool.Utils.Data
+  nameWithType: Tool.Utils.Data
+  fullName: Tool.Utils.Data
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.Data
+    name: Data
+    href: Tool.Utils.Data.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.Data
+    name: Data
+    href: Tool.Utils.Data.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IDictionary`2
+  commentId: T:System.Collections.Generic.IDictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<TKey, TValue>
+  nameWithType: IDictionary<TKey, TValue>
+  fullName: System.Collections.Generic.IDictionary<TKey, TValue>
+  nameWithType.vb: IDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TValue)
+  name.vb: IDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: Tool.Utils.Data.DictionaryExtension.NewDictionary*
+  commentId: Overload:Tool.Utils.Data.DictionaryExtension.NewDictionary
+  href: Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_NewDictionary__2_System_Collections_Generic_IDictionary___0___1__
+  name: NewDictionary
+  nameWithType: DictionaryExtension.NewDictionary
+  fullName: Tool.Utils.Data.DictionaryExtension.NewDictionary
+- uid: System.Collections.Generic.IDictionary{{TKey},{TValue}}
+  commentId: T:System.Collections.Generic.IDictionary{``0,``1}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<TKey, TValue>
+  nameWithType: IDictionary<TKey, TValue>
+  fullName: System.Collections.Generic.IDictionary<TKey, TValue>
+  nameWithType.vb: IDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TValue)
+  name.vb: IDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic.Dictionary{{TKey},{TValue}}
+  commentId: T:System.Collections.Generic.Dictionary{``0,``1}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Tool.Utils.Data.DictionaryExtension.ToIDictionary*
+  commentId: Overload:Tool.Utils.Data.DictionaryExtension.ToIDictionary
+  href: Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToIDictionary_System_Object_
+  name: ToIDictionary
+  nameWithType: DictionaryExtension.ToIDictionary
+  fullName: Tool.Utils.Data.DictionaryExtension.ToIDictionary
+- uid: System.Collections.Generic.IDictionary{System.String,System.Object}
+  commentId: T:System.Collections.Generic.IDictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<string, object>
+  nameWithType: IDictionary<string, object>
+  fullName: System.Collections.Generic.IDictionary<string, object>
+  nameWithType.vb: IDictionary(Of String, Object)
+  fullName.vb: System.Collections.Generic.IDictionary(Of String, Object)
+  name.vb: IDictionary(Of String, Object)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: Tool.Utils.Data.DictionaryExtension.ToDictionary*
+  commentId: Overload:Tool.Utils.Data.DictionaryExtension.ToDictionary
+  href: Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToDictionary_System_Object_
+  name: ToDictionary
+  nameWithType: DictionaryExtension.ToDictionary
+  fullName: Tool.Utils.Data.DictionaryExtension.ToDictionary
+- uid: System.Collections.Generic.Dictionary{System.String,System.Object}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, object>
+  nameWithType: Dictionary<string, object>
+  fullName: System.Collections.Generic.Dictionary<string, object>
+  nameWithType.vb: Dictionary(Of String, Object)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, Object)
+  name.vb: Dictionary(Of String, Object)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Collections.Generic.IDictionary{System.String,{T}}
+  commentId: T:System.Collections.Generic.IDictionary{System.String,``0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<string, T>
+  nameWithType: IDictionary<string, T>
+  fullName: System.Collections.Generic.IDictionary<string, T>
+  nameWithType.vb: IDictionary(Of String, T)
+  fullName.vb: System.Collections.Generic.IDictionary(Of String, T)
+  name.vb: IDictionary(Of String, T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.Dictionary{System.String,{T}}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,``0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, T>
+  nameWithType: Dictionary<string, T>
+  fullName: System.Collections.Generic.Dictionary<string, T>
+  nameWithType.vb: Dictionary(Of String, T)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, T)
+  name.vb: Dictionary(Of String, T)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.Data.DictionaryExtension.GetDictionary*
+  commentId: Overload:Tool.Utils.Data.DictionaryExtension.GetDictionary
+  href: Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_GetDictionary_System_Object_
+  name: GetDictionary
+  nameWithType: DictionaryExtension.GetDictionary
+  fullName: Tool.Utils.Data.DictionaryExtension.GetDictionary
+- uid: Tool.Utils.Data.DictionaryExtension.SetDictionary*
+  commentId: Overload:Tool.Utils.Data.DictionaryExtension.SetDictionary
+  href: Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_SetDictionary_System_Object_System_Collections_Generic_IDictionary_System_String_System_Object__
+  name: SetDictionary
+  nameWithType: DictionaryExtension.SetDictionary
+  fullName: Tool.Utils.Data.DictionaryExtension.SetDictionary
+- uid: Tool.Utils.Data.DictionaryExtension.Remove*
+  commentId: Overload:Tool.Utils.Data.DictionaryExtension.Remove
+  href: Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_Remove__2_System_Collections_Generic_IDictionary___0___1____0___
+  name: Remove
+  nameWithType: DictionaryExtension.Remove
+  fullName: Tool.Utils.Data.DictionaryExtension.Remove
+- uid: '{TKey}[]'
+  isExternal: true
+  name: TKey[]
+  nameWithType: TKey[]
+  fullName: TKey[]
+  nameWithType.vb: TKey()
+  fullName.vb: TKey()
+  name.vb: TKey()
+  spec.csharp:
+  - name: TKey
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: TKey
+  - name: (
+  - name: )
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Tool.Utils.Data.DictionaryExtension.TryRemove*
+  commentId: Overload:Tool.Utils.Data.DictionaryExtension.TryRemove
+  href: Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_TryRemove__2_System_Collections_Generic_IDictionary___0___1____0______0___
+  name: TryRemove
+  nameWithType: DictionaryExtension.TryRemove
+  fullName: Tool.Utils.Data.DictionaryExtension.TryRemove
+- uid: Tool.Utils.Data.DictionaryExtension.AsReadOnly*
+  commentId: Overload:Tool.Utils.Data.DictionaryExtension.AsReadOnly
+  href: Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_AsReadOnly__2_System_Collections_Generic_IDictionary___0___1__
+  name: AsReadOnly
+  nameWithType: DictionaryExtension.AsReadOnly
+  fullName: Tool.Utils.Data.DictionaryExtension.AsReadOnly
+- uid: System.Collections.ObjectModel.ReadOnlyDictionary{{TKey},{TValue}}
+  commentId: T:System.Collections.ObjectModel.ReadOnlyDictionary{``0,``1}
+  parent: System.Collections.ObjectModel
+  definition: System.Collections.ObjectModel.ReadOnlyDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlydictionary-2
+  name: ReadOnlyDictionary<TKey, TValue>
+  nameWithType: ReadOnlyDictionary<TKey, TValue>
+  fullName: System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>
+  nameWithType.vb: ReadOnlyDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.ObjectModel.ReadOnlyDictionary(Of TKey, TValue)
+  name.vb: ReadOnlyDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
+    name: ReadOnlyDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlydictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
+    name: ReadOnlyDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlydictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
+  commentId: T:System.Collections.ObjectModel.ReadOnlyDictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlydictionary-2
+  name: ReadOnlyDictionary<TKey, TValue>
+  nameWithType: ReadOnlyDictionary<TKey, TValue>
+  fullName: System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>
+  nameWithType.vb: ReadOnlyDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.ObjectModel.ReadOnlyDictionary(Of TKey, TValue)
+  name.vb: ReadOnlyDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
+    name: ReadOnlyDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlydictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
+    name: ReadOnlyDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlydictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.ObjectModel
+  commentId: N:System.Collections.ObjectModel
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.ObjectModel
+  nameWithType: System.Collections.ObjectModel
+  fullName: System.Collections.ObjectModel
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.ObjectModel
+    name: ObjectModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.ObjectModel
+    name: ObjectModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel
+- uid: Tool.Utils.Data.DictionaryExtension.GetParamAscii*
+  commentId: Overload:Tool.Utils.Data.DictionaryExtension.GetParamAscii
+  href: Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_GetParamAscii__2_System_Collections_Generic_Dictionary___0___1__
+  name: GetParamAscii
+  nameWithType: DictionaryExtension.GetParamAscii
+  fullName: Tool.Utils.Data.DictionaryExtension.GetParamAscii
+- uid: Tool.Utils.Data.DictionaryExtension.GetArrayIndex*
+  commentId: Overload:Tool.Utils.Data.DictionaryExtension.GetArrayIndex
+  href: Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_GetArrayIndex__2_System_Collections_Generic_Dictionary___0___1__System_Int32_System_Int32_
+  name: GetArrayIndex
+  nameWithType: DictionaryExtension.GetArrayIndex
+  fullName: Tool.Utils.Data.DictionaryExtension.GetArrayIndex
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer

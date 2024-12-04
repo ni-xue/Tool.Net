@@ -1,0 +1,107 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Web.Api.ApiCore
+  commentId: N:Tool.Web.Api.ApiCore
+  id: Tool.Web.Api.ApiCore
+  children:
+  - Tool.Web.Api.ApiCore.ApiParameter
+  - Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+  - Tool.Web.Api.ApiCore.AshxOptions
+  - Tool.Web.Api.ApiCore.IHttpApi
+  - Tool.Web.Api.ApiCore.IHttpAsynApi
+  - Tool.Web.Api.ApiCore.IMinHttpApi
+  - Tool.Web.Api.ApiCore.IMinHttpAsynApi
+  langs:
+  - csharp
+  - vb
+  name: Tool.Web.Api.ApiCore
+  nameWithType: Tool.Web.Api.ApiCore
+  fullName: Tool.Web.Api.ApiCore
+  type: Namespace
+  assemblies:
+  - Tool.Net
+references:
+- uid: Tool.Web.Api.ApiCore.ApiParameter
+  commentId: T:Tool.Web.Api.ApiCore.ApiParameter
+  href: Tool.Web.Api.ApiCore.ApiParameter.html
+  name: ApiParameter
+  nameWithType: ApiParameter
+  fullName: Tool.Web.Api.ApiCore.ApiParameter
+- uid: Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+  commentId: T:Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+  href: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.html
+  name: AshxHandlerOrAsync
+  nameWithType: AshxHandlerOrAsync
+  fullName: Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+- uid: Tool.Web.Api.ApiCore.AshxOptions
+  commentId: T:Tool.Web.Api.ApiCore.AshxOptions
+  href: Tool.Web.Api.ApiCore.AshxOptions.html
+  name: AshxOptions
+  nameWithType: AshxOptions
+  fullName: Tool.Web.Api.ApiCore.AshxOptions
+- uid: Tool.Web.Api.ApiCore.IHttpApi
+  commentId: T:Tool.Web.Api.ApiCore.IHttpApi
+  parent: Tool.Web.Api.ApiCore
+  href: Tool.Web.Api.ApiCore.IHttpApi.html
+  name: IHttpApi
+  nameWithType: IHttpApi
+  fullName: Tool.Web.Api.ApiCore.IHttpApi
+- uid: Tool.Web.Api.ApiCore.IHttpAsynApi
+  commentId: T:Tool.Web.Api.ApiCore.IHttpAsynApi
+  parent: Tool.Web.Api.ApiCore
+  href: Tool.Web.Api.ApiCore.IHttpAsynApi.html
+  name: IHttpAsynApi
+  nameWithType: IHttpAsynApi
+  fullName: Tool.Web.Api.ApiCore.IHttpAsynApi
+- uid: Tool.Web.Api.ApiCore.IMinHttpApi
+  commentId: T:Tool.Web.Api.ApiCore.IMinHttpApi
+  parent: Tool.Web.Api.ApiCore
+  href: Tool.Web.Api.ApiCore.IMinHttpApi.html
+  name: IMinHttpApi
+  nameWithType: IMinHttpApi
+  fullName: Tool.Web.Api.ApiCore.IMinHttpApi
+- uid: Tool.Web.Api.ApiCore.IMinHttpAsynApi
+  commentId: T:Tool.Web.Api.ApiCore.IMinHttpAsynApi
+  parent: Tool.Web.Api.ApiCore
+  href: Tool.Web.Api.ApiCore.IMinHttpAsynApi.html
+  name: IMinHttpAsynApi
+  nameWithType: IMinHttpAsynApi
+  fullName: Tool.Web.Api.ApiCore.IMinHttpAsynApi
+- uid: Tool.Web.Api.ApiCore
+  commentId: N:Tool.Web.Api.ApiCore
+  href: Tool.html
+  name: Tool.Web.Api.ApiCore
+  nameWithType: Tool.Web.Api.ApiCore
+  fullName: Tool.Web.Api.ApiCore
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Web
+    name: Web
+    href: Tool.Web.html
+  - name: .
+  - uid: Tool.Web.Api
+    name: Api
+    href: Tool.Web.Api.html
+  - name: .
+  - uid: Tool.Web.Api.ApiCore
+    name: ApiCore
+    href: Tool.Web.Api.ApiCore.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Web
+    name: Web
+    href: Tool.Web.html
+  - name: .
+  - uid: Tool.Web.Api
+    name: Api
+    href: Tool.Web.Api.html
+  - name: .
+  - uid: Tool.Web.Api.ApiCore
+    name: ApiCore
+    href: Tool.Web.Api.ApiCore.html

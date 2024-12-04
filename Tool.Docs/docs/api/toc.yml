@@ -1,0 +1,850 @@
+### YamlMime:TableOfContent
+items:
+- uid: Microsoft.AspNetCore.Builder
+  name: Microsoft.AspNetCore.Builder
+  type: Namespace
+  items:
+  - uid: Microsoft.AspNetCore.Builder.ApiRouteBuilderExtensions
+    name: ApiRouteBuilderExtensions
+    type: Class
+  - uid: Microsoft.AspNetCore.Builder.ApiRouteEndpointBuilderExtensions
+    name: ApiRouteEndpointBuilderExtensions
+    type: Class
+  - uid: Microsoft.AspNetCore.Builder.AshxActionEndpointConventionBuilder
+    name: AshxActionEndpointConventionBuilder
+    type: Class
+  - uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions
+    name: AshxApplicationBuilderExtensions
+    type: Class
+  - uid: Microsoft.AspNetCore.Builder.AshxEndpointDataSource
+    name: AshxEndpointDataSource
+    type: Class
+  - uid: Microsoft.AspNetCore.Builder.AshxEndpointRouteBuilderExtensions
+    name: AshxEndpointRouteBuilderExtensions
+    type: Class
+- uid: Microsoft.Extensions.DependencyInjection
+  name: Microsoft.Extensions.DependencyInjection
+  type: Namespace
+  items:
+  - uid: Microsoft.Extensions.DependencyInjection.AshxServiceExtensions
+    name: AshxServiceExtensions
+    type: Class
+  - uid: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions
+    name: SessionServiceExtensions
+    type: Class
+- uid: Microsoft.Extensions.Hosting
+  name: Microsoft.Extensions.Hosting
+  type: Namespace
+  items:
+  - uid: Microsoft.Extensions.Hosting.HostBuilderExtensions
+    name: HostBuilderExtensions
+    type: Class
+- uid: Tool
+  name: Tool
+  type: Namespace
+  items:
+  - uid: Tool.BoolExtension
+    name: BoolExtension
+    type: Class
+  - uid: Tool.ByteExtension
+    name: ByteExtension
+    type: Class
+  - uid: Tool.CharExtension
+    name: CharExtension
+    type: Class
+  - uid: Tool.DateTimeExtension
+    name: DateTimeExtension
+    type: Class
+  - uid: Tool.DecimalExtension
+    name: DecimalExtension
+    type: Class
+  - uid: Tool.DoubleExtension
+    name: DoubleExtension
+    type: Class
+  - uid: Tool.FloatExtension
+    name: FloatExtension
+    type: Class
+  - uid: Tool.GlobalObj
+    name: GlobalObj
+    type: Struct
+  - uid: Tool.IntExtension
+    name: IntExtension
+    type: Class
+  - uid: Tool.LongExtension
+    name: LongExtension
+    type: Class
+  - uid: Tool.ObjectExtension
+    name: ObjectExtension
+    type: Class
+  - uid: Tool.ObjectExtension.ThreadStart
+    name: ObjectExtension.ThreadStart
+    type: Delegate
+  - uid: Tool.ShortExtension
+    name: ShortExtension
+    type: Class
+  - uid: Tool.StringExtension
+    name: StringExtension
+    type: Class
+  - uid: Tool.UintExtension
+    name: UintExtension
+    type: Class
+  - uid: Tool.UlongExtension
+    name: UlongExtension
+    type: Class
+  - uid: Tool.UshortExtension
+    name: UshortExtension
+    type: Class
+- uid: Tool.Net
+  name: Tool.Net
+  type: Namespace
+  items:
+  - uid: Tool.Net.Explains
+    name: Explains
+    type: Class
+- uid: Tool.Sockets.Kernels
+  name: Tool.Sockets.Kernels
+  type: Namespace
+  items:
+  - uid: Tool.Sockets.Kernels.ApiValue
+    name: ApiValue
+    type: Struct
+  - uid: Tool.Sockets.Kernels.ApiValue.ValueType
+    name: ApiValue.ValueType
+    type: Enum
+  - uid: Tool.Sockets.Kernels.BytesCore
+    name: BytesCore
+    type: Struct
+  - uid: Tool.Sockets.Kernels.CompletedEvent`1
+    name: CompletedEvent<T>
+    type: Delegate
+  - uid: Tool.Sockets.Kernels.EnClient
+    name: EnClient
+    type: Enum
+  - uid: Tool.Sockets.Kernels.EnClientEventDrive
+    name: EnClientEventDrive
+    type: Class
+  - uid: Tool.Sockets.Kernels.EnServer
+    name: EnServer
+    type: Enum
+  - uid: Tool.Sockets.Kernels.EnServerEventDrive
+    name: EnServerEventDrive
+    type: Class
+  - uid: Tool.Sockets.Kernels.EnumEventQueue
+    name: EnumEventQueue
+    type: Class
+  - uid: Tool.Sockets.Kernels.IApiResult
+    name: IApiResult
+    type: Interface
+  - uid: Tool.Sockets.Kernels.IBytesCore
+    name: IBytesCore
+    type: Interface
+  - uid: Tool.Sockets.Kernels.IDataPacket
+    name: IDataPacket
+    type: Interface
+  - uid: Tool.Sockets.Kernels.IGetQueOnEnum
+    name: IGetQueOnEnum
+    type: Interface
+  - uid: Tool.Sockets.Kernels.INetworkConnect
+    name: INetworkConnect
+    type: Interface
+  - uid: Tool.Sockets.Kernels.INetworkConnect`1
+    name: INetworkConnect<ISocket>
+    type: Interface
+  - uid: Tool.Sockets.Kernels.INetworkCore
+    name: INetworkCore
+    type: Interface
+  - uid: Tool.Sockets.Kernels.INetworkListener
+    name: INetworkListener
+    type: Interface
+  - uid: Tool.Sockets.Kernels.INetworkListener`1
+    name: INetworkListener<ISocket>
+    type: Interface
+  - uid: Tool.Sockets.Kernels.IpParserEvent
+    name: IpParserEvent
+    type: Delegate
+  - uid: Tool.Sockets.Kernels.Ipv4Port
+    name: Ipv4Port
+    type: Struct
+  - uid: Tool.Sockets.Kernels.KeepAlive
+    name: KeepAlive
+    type: Class
+  - uid: Tool.Sockets.Kernels.MemoryWriteHeap
+    name: MemoryWriteHeap
+    type: Struct
+  - uid: Tool.Sockets.Kernels.NetBufferSize
+    name: NetBufferSize
+    type: Enum
+  - uid: Tool.Sockets.Kernels.NetFrameState
+    name: NetFrameState
+    type: Enum
+  - uid: Tool.Sockets.Kernels.NetworkConnect`1
+    name: NetworkConnect<ISocket>
+    type: Class
+  - uid: Tool.Sockets.Kernels.NetworkListener`1
+    name: NetworkListener<ISocket>
+    type: Class
+  - uid: Tool.Sockets.Kernels.QuicSocket
+    name: QuicSocket
+    type: Class
+  - uid: Tool.Sockets.Kernels.QuicStateObject
+    name: QuicStateObject
+    type: Class
+  - uid: Tool.Sockets.Kernels.ReceiveBytes`1
+    name: ReceiveBytes<ISocket>
+    type: Struct
+  - uid: Tool.Sockets.Kernels.ReceiveEvent`1
+    name: ReceiveEvent<T>
+    type: Delegate
+  - uid: Tool.Sockets.Kernels.SendBytes`1
+    name: SendBytes<ISocket>
+    type: Struct
+  - uid: Tool.Sockets.Kernels.SocketEventPool
+    name: SocketEventPool
+    type: Class
+  - uid: Tool.Sockets.Kernels.StateObject
+    name: StateObject
+    type: Class
+  - uid: Tool.Sockets.Kernels.TcpStateObject
+    name: TcpStateObject
+    type: Class
+  - uid: Tool.Sockets.Kernels.UdpStateObject
+    name: UdpStateObject
+    type: Class
+  - uid: Tool.Sockets.Kernels.UserKey
+    name: UserKey
+    type: Struct
+  - uid: Tool.Sockets.Kernels.WebStateObject
+    name: WebStateObject
+    type: Class
+- uid: Tool.Sockets.NetFrame
+  name: Tool.Sockets.NetFrame
+  type: Namespace
+  items:
+  - uid: Tool.Sockets.NetFrame.ApiPacket
+    name: ApiPacket
+    type: Class
+  - uid: Tool.Sockets.NetFrame.ClientFrame
+    name: ClientFrame
+    type: Class
+  - uid: Tool.Sockets.NetFrame.ClientFrameList
+    name: ClientFrameList
+    type: Class
+  - uid: Tool.Sockets.NetFrame.DataBase
+    name: DataBase
+    type: Class
+  - uid: Tool.Sockets.NetFrame.DataNet
+    name: DataNet
+    type: Class
+  - uid: Tool.Sockets.NetFrame.GoOut
+    name: GoOut
+    type: Struct
+  - uid: Tool.Sockets.NetFrame.IGoOut
+    name: IGoOut
+    type: Interface
+  - uid: Tool.Sockets.NetFrame.NetResponse
+    name: NetResponse
+    type: Struct
+  - uid: Tool.Sockets.NetFrame.ProtocolStatus
+    name: ProtocolStatus
+    type: Enum
+  - uid: Tool.Sockets.NetFrame.ServerFrame
+    name: ServerFrame
+    type: Class
+- uid: Tool.Sockets.P2PHelpr
+  name: Tool.Sockets.P2PHelpr
+  type: Namespace
+  items:
+  - uid: Tool.Sockets.P2PHelpr.P2pClientAsync
+    name: P2pClientAsync
+    type: Class
+  - uid: Tool.Sockets.P2PHelpr.P2pServerAsync
+    name: P2pServerAsync
+    type: Class
+- uid: Tool.Sockets.QuicHelper
+  name: Tool.Sockets.QuicHelper
+  type: Namespace
+  items:
+  - uid: Tool.Sockets.QuicHelper.QuicClientAsync
+    name: QuicClientAsync
+    type: Class
+  - uid: Tool.Sockets.QuicHelper.QuicServerAsync
+    name: QuicServerAsync
+    type: Class
+- uid: Tool.Sockets.TcpHelper
+  name: Tool.Sockets.TcpHelper
+  type: Namespace
+  items:
+  - uid: Tool.Sockets.TcpHelper.TcpClientAsync
+    name: TcpClientAsync
+    type: Class
+  - uid: Tool.Sockets.TcpHelper.TcpServerAsync
+    name: TcpServerAsync
+    type: Class
+- uid: Tool.Sockets.UdpHelper
+  name: Tool.Sockets.UdpHelper
+  type: Namespace
+  items:
+  - uid: Tool.Sockets.UdpHelper.IUdpCore
+    name: IUdpCore
+    type: Interface
+  - uid: Tool.Sockets.UdpHelper.UdpClientAsync
+    name: UdpClientAsync
+    type: Class
+  - uid: Tool.Sockets.UdpHelper.UdpEndPoint
+    name: UdpEndPoint
+    type: Class
+  - uid: Tool.Sockets.UdpHelper.UdpServerAsync
+    name: UdpServerAsync
+    type: Class
+- uid: Tool.Sockets.WebHelper
+  name: Tool.Sockets.WebHelper
+  type: Namespace
+  items:
+  - uid: Tool.Sockets.WebHelper.WebClientAsync
+    name: WebClientAsync
+    type: Class
+  - uid: Tool.Sockets.WebHelper.WebServerAsync
+    name: WebServerAsync
+    type: Class
+- uid: Tool.SqlCore
+  name: Tool.SqlCore
+  type: Namespace
+  items:
+  - uid: Tool.SqlCore.BaseDataProvider
+    name: BaseDataProvider
+    type: Class
+  - uid: Tool.SqlCore.DbHelper
+    name: DbHelper
+    type: Class
+  - uid: Tool.SqlCore.DbHelperExensions
+    name: DbHelperExensions
+    type: Class
+  - uid: Tool.SqlCore.DbParameterCache
+    name: DbParameterCache
+    type: Class
+  - uid: Tool.SqlCore.DbProviderType
+    name: DbProviderType
+    type: Enum
+  - uid: Tool.SqlCore.DbTransResult
+    name: DbTransResult
+    type: Class
+  - uid: Tool.SqlCore.DbTransactionExensions
+    name: DbTransactionExensions
+    type: Class
+  - uid: Tool.SqlCore.IDbProvider
+    name: IDbProvider
+    type: Interface
+  - uid: Tool.SqlCore.IDbProvider`1
+    name: IDbProvider<T>
+    type: Interface
+  - uid: Tool.SqlCore.IMessage
+    name: IMessage
+    type: Interface
+  - uid: Tool.SqlCore.ITableProvider
+    name: ITableProvider
+    type: Interface
+  - uid: Tool.SqlCore.Message
+    name: Message
+    type: Class
+  - uid: Tool.SqlCore.MessageHelper
+    name: MessageHelper
+    type: Class
+  - uid: Tool.SqlCore.PagerManager
+    name: PagerManager
+    type: Class
+  - uid: Tool.SqlCore.PagerParameters
+    name: PagerParameters
+    type: Class
+  - uid: Tool.SqlCore.PagerSet
+    name: PagerSet
+    type: Class
+  - uid: Tool.SqlCore.ProviderFactory
+    name: ProviderFactory
+    type: Class
+  - uid: Tool.SqlCore.ProxyFactory
+    name: ProxyFactory
+    type: Class
+  - uid: Tool.SqlCore.ProxyFactory.CreateInstanceHandler
+    name: ProxyFactory.CreateInstanceHandler
+    type: Delegate
+  - uid: Tool.SqlCore.SqlNonQuery
+    name: SqlNonQuery
+    type: Class
+  - uid: Tool.SqlCore.SqlTextParameter
+    name: SqlTextParameter
+    type: Class
+  - uid: Tool.SqlCore.TableProvider
+    name: TableProvider
+    type: Class
+- uid: Tool.Utils
+  name: Tool.Utils
+  type: Namespace
+  items:
+  - uid: Tool.Utils.AppSettings
+    name: AppSettings
+    type: Class
+  - uid: Tool.Utils.Crc32
+    name: Crc32
+    type: Class
+  - uid: Tool.Utils.DBNullConverter
+    name: DBNullConverter
+    type: Class
+  - uid: Tool.Utils.DataHelper
+    name: DataHelper
+    type: Class
+  - uid: Tool.Utils.DataTableProperty
+    name: DataTableProperty
+    type: Class
+  - uid: Tool.Utils.DateConverter
+    name: DateConverter
+    type: Class
+  - uid: Tool.Utils.EntityBuilder
+    name: EntityBuilder
+    type: Class
+  - uid: Tool.Utils.FileManager
+    name: FileManager
+    type: Class
+  - uid: Tool.Utils.FlashLogLevel
+    name: FlashLogLevel
+    type: Enum
+  - uid: Tool.Utils.FlashLogMessage
+    name: FlashLogMessage
+    type: Class
+  - uid: Tool.Utils.FolderInfo
+    name: FolderInfo
+    type: Class
+  - uid: Tool.Utils.FsoMethod
+    name: FsoMethod
+    type: Enum
+  - uid: Tool.Utils.HashHelper
+    name: HashHelper
+    type: Class
+  - uid: Tool.Utils.HttpHelpers
+    name: HttpHelpers
+    type: Class
+  - uid: Tool.Utils.IntPtrHelper
+    name: IntPtrHelper
+    type: Class
+  - uid: Tool.Utils.IocCore
+    name: IocCore
+    type: Class
+  - uid: Tool.Utils.IocHelper
+    name: IocHelper
+    type: Class
+  - uid: Tool.Utils.JsonConverterHelper
+    name: JsonConverterHelper
+    type: Class
+  - uid: Tool.Utils.JsonHelper
+    name: JsonHelper
+    type: Class
+  - uid: Tool.Utils.JsonVar
+    name: JsonVar
+    type: Struct
+  - uid: Tool.Utils.Log
+    name: Log
+    type: Class
+  - uid: Tool.Utils.MemorySegment`1
+    name: MemorySegment<T>
+    type: Class
+  - uid: Tool.Utils.ObjectPool`1
+    name: ObjectPool<T>
+    type: Class
+  - uid: Tool.Utils.ReflectionHelper
+    name: ReflectionHelper
+    type: Class
+  - uid: Tool.Utils.TextUtility
+    name: TextUtility
+    type: Class
+  - uid: Tool.Utils.TypeExtension
+    name: TypeExtension
+    type: Class
+  - uid: Tool.Utils.TypeHelper
+    name: TypeHelper
+    type: Class
+  - uid: Tool.Utils.TypeParse
+    name: TypeParse
+    type: Class
+  - uid: Tool.Utils.UserSystem
+    name: UserSystem
+    type: Enum
+  - uid: Tool.Utils.Utility
+    name: Utility
+    type: Class
+  - uid: Tool.Utils.Validate
+    name: Validate
+    type: Class
+  - uid: Tool.Utils.Validate.CardDetail
+    name: Validate.CardDetail
+    type: Class
+  - uid: Tool.Utils.Validator
+    name: Validator
+    type: Class
+- uid: Tool.Utils.ActionDelegate
+  name: Tool.Utils.ActionDelegate
+  type: Namespace
+  items:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher
+    name: ActionDispatcher
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`1
+    name: ActionDispatcher<T>
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`2
+    name: ActionDispatcher<T, TResult>
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.ActionExecutor`2
+    name: ActionExecutor<E, TResult>
+    type: Delegate
+  - uid: Tool.Utils.ActionDelegate.ActionHelper`1
+    name: ActionHelper<T>
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.ActionMethod`1
+    name: ActionMethod<T>
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.ClassDispatcher
+    name: ClassDispatcher
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.ClassDispatcher`1
+    name: ClassDispatcher<T>
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.ClassField
+    name: ClassField
+    type: Enum
+  - uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher
+    name: ClassFieldDispatcher
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassField
+    name: ClassFieldDispatcher.GetClassField
+    type: Delegate
+  - uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassField
+    name: ClassFieldDispatcher.SetClassField
+    type: Delegate
+  - uid: Tool.Utils.ActionDelegate.DispatcherCore
+    name: DispatcherCore
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.IActionDispatcher
+    name: IActionDispatcher
+    type: Interface
+  - uid: Tool.Utils.ActionDelegate.IActionDispatcher`1
+    name: IActionDispatcher<T>
+    type: Interface
+  - uid: Tool.Utils.ActionDelegate.Method
+    name: Method
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.MethodFlags
+    name: MethodFlags
+    type: Enum
+  - uid: Tool.Utils.ActionDelegate.NewClass`1
+    name: NewClass<E>
+    type: Delegate
+  - uid: Tool.Utils.ActionDelegate.Parameter
+    name: Parameter
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.PropertyDescriptor
+    name: PropertyDescriptor
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.PropertyDescriptor.GetClassProperty
+    name: PropertyDescriptor.GetClassProperty
+    type: Delegate
+  - uid: Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty
+    name: PropertyDescriptor.SetClassProperty
+    type: Delegate
+  - uid: Tool.Utils.ActionDelegate.PropertyEnum
+    name: PropertyEnum
+    type: Enum
+  - uid: Tool.Utils.ActionDelegate.TaskActionExecutor`2
+    name: TaskActionExecutor<E, TResult>
+    type: Delegate
+  - uid: Tool.Utils.ActionDelegate.TypeInvoke
+    name: TypeInvoke
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.TypePropertyDescriptor
+    name: TypePropertyDescriptor
+    type: Class
+  - uid: Tool.Utils.ActionDelegate.VoidActionExecutor`1
+    name: VoidActionExecutor<E>
+    type: Delegate
+  - uid: Tool.Utils.ActionDelegate.VoidTaskActionExecutor`1
+    name: VoidTaskActionExecutor<E>
+    type: Delegate
+- uid: Tool.Utils.Data
+  name: Tool.Utils.Data
+  type: Namespace
+  items:
+  - uid: Tool.Utils.Data.ArrayExtension
+    name: ArrayExtension
+    type: Class
+  - uid: Tool.Utils.Data.DataRowExtension
+    name: DataRowExtension
+    type: Class
+  - uid: Tool.Utils.Data.DataSetExtension
+    name: DataSetExtension
+    type: Class
+  - uid: Tool.Utils.Data.DataTableExtension
+    name: DataTableExtension
+    type: Class
+  - uid: Tool.Utils.Data.DictionaryExtension
+    name: DictionaryExtension
+    type: Class
+  - uid: Tool.Utils.Data.Enumerator`1
+    name: Enumerator<T>
+    type: Struct
+  - uid: Tool.Utils.Data.LazyConcurrentDictionary`2
+    name: LazyConcurrentDictionary<TKey, TValue>
+    type: Class
+  - uid: Tool.Utils.Data.ListExtension
+    name: ListExtension
+    type: Class
+  - uid: Tool.Utils.Data.TaskConcurrentDictionary`2
+    name: TaskConcurrentDictionary<TKey, TValue>
+    type: Class
+- uid: Tool.Utils.Encryption
+  name: Tool.Utils.Encryption
+  type: Namespace
+  items:
+  - uid: Tool.Utils.Encryption.AES
+    name: AES
+    type: Class
+  - uid: Tool.Utils.Encryption.DES
+    name: DES
+    type: Class
+  - uid: Tool.Utils.Encryption.MD5ResultMode
+    name: MD5ResultMode
+    type: Enum
+  - uid: Tool.Utils.Encryption.TextEncrypt
+    name: TextEncrypt
+    type: Class
+- uid: Tool.Utils.FtpHelper
+  name: Tool.Utils.FtpHelper
+  type: Namespace
+  items:
+  - uid: Tool.Utils.FtpHelper.FTPHelper
+    name: FTPHelper
+    type: Class
+  - uid: Tool.Utils.FtpHelper.FtpClient
+    name: FtpClient
+    type: Class
+  - uid: Tool.Utils.FtpHelper.FtpClient.TransferType
+    name: FtpClient.TransferType
+    type: Enum
+  - uid: Tool.Utils.FtpHelper.FtpOperater
+    name: FtpOperater
+    type: Class
+- uid: Tool.Utils.Other
+  name: Tool.Utils.Other
+  type: Namespace
+  items:
+  - uid: Tool.Utils.Other.CodeTimer
+    name: CodeTimer
+    type: Class
+  - uid: Tool.Utils.Other.ConvertHzToPy
+    name: ConvertHzToPy
+    type: Class
+  - uid: Tool.Utils.Other.ConvertHzToPzGb2312
+    name: ConvertHzToPzGb2312
+    type: Class
+  - uid: Tool.Utils.Other.DllInjectionResult
+    name: DllInjectionResult
+    type: Enum
+  - uid: Tool.Utils.Other.DllInjector
+    name: DllInjector
+    type: Class
+  - uid: Tool.Utils.Other.IniFile
+    name: IniFile
+    type: Class
+  - uid: Tool.Utils.Other.Rmb
+    name: Rmb
+    type: Class
+  - uid: Tool.Utils.Other.StrToPinyin
+    name: StrToPinyin
+    type: Class
+- uid: Tool.Utils.TaskHelper
+  name: Tool.Utils.TaskHelper
+  type: Namespace
+  items:
+  - uid: Tool.Utils.TaskHelper.TaskAsyncHelper
+    name: TaskAsyncHelper
+    type: Class
+- uid: Tool.Utils.ThreadQueue
+  name: Tool.Utils.ThreadQueue
+  type: Namespace
+  items:
+  - uid: Tool.Utils.ThreadQueue.ActionLock
+    name: ActionLock
+    type: Class
+  - uid: Tool.Utils.ThreadQueue.ActionQueue`2
+    name: ActionQueue<T, TResult>
+    type: Class
+  - uid: Tool.Utils.ThreadQueue.AtomCountLock
+    name: AtomCountLock
+    type: Class
+  - uid: Tool.Utils.ThreadQueue.TaskQueue
+    name: TaskQueue
+    type: Class
+  - uid: Tool.Utils.ThreadQueue.TaskQueue`1
+    name: TaskQueue<T>
+    type: Class
+  - uid: Tool.Utils.ThreadQueue.TaskQueue`2
+    name: TaskQueue<T, TResult>
+    type: Class
+  - uid: Tool.Utils.ThreadQueue.WaitAction`2
+    name: WaitAction<T, TResult>
+    type: Class
+- uid: Tool.Web
+  name: Tool.Web
+  type: Namespace
+  items:
+  - uid: Tool.Web.EventStream
+    name: EventStream
+    type: Class
+  - uid: Tool.Web.HttpContextExtension
+    name: HttpContextExtension
+    type: Class
+  - uid: Tool.Web.HttpRequestExtension
+    name: HttpRequestExtension
+    type: Class
+  - uid: Tool.Web.HttpResponseExtension
+    name: HttpResponseExtension
+    type: Class
+  - uid: Tool.Web.IEventStream
+    name: IEventStream
+    type: Interface
+  - uid: Tool.Web.Range
+    name: Range
+    type: Class
+  - uid: Tool.Web.SessionExtension
+    name: SessionExtension
+    type: Class
+- uid: Tool.Web.Api
+  name: Tool.Web.Api
+  type: Namespace
+  items:
+  - uid: Tool.Web.Api.ApiAshx
+    name: ApiAshx
+    type: Class
+  - uid: Tool.Web.Api.ApiOut
+    name: ApiOut
+    type: Class
+  - uid: Tool.Web.Api.ApiVal
+    name: ApiVal
+    type: Class
+  - uid: Tool.Web.Api.Ashx
+    name: Ashx
+    type: Class
+  - uid: Tool.Web.Api.AshxException
+    name: AshxException
+    type: Class
+  - uid: Tool.Web.Api.AshxState
+    name: AshxState
+    type: Enum
+  - uid: Tool.Web.Api.CrossDomain
+    name: CrossDomain
+    type: Class
+  - uid: Tool.Web.Api.EventStreamOut
+    name: EventStreamOut
+    type: Class
+  - uid: Tool.Web.Api.FileOut
+    name: FileOut
+    type: Class
+  - uid: Tool.Web.Api.IApiOut
+    name: IApiOut
+    type: Interface
+  - uid: Tool.Web.Api.JsonOut
+    name: JsonOut
+    type: Class
+  - uid: Tool.Web.Api.MinApi
+    name: MinApi
+    type: Class
+  - uid: Tool.Web.Api.NoContentOut
+    name: NoContentOut
+    type: Class
+  - uid: Tool.Web.Api.OnAshxEvent
+    name: OnAshxEvent
+    type: Class
+  - uid: Tool.Web.Api.OnAshxEventState
+    name: OnAshxEventState
+    type: Enum
+  - uid: Tool.Web.Api.RedirectOut
+    name: RedirectOut
+    type: Class
+  - uid: Tool.Web.Api.Val
+    name: Val
+    type: Enum
+  - uid: Tool.Web.Api.ViewOut
+    name: ViewOut
+    type: Class
+  - uid: Tool.Web.Api.WriteOut
+    name: WriteOut
+    type: Class
+  - uid: Tool.Web.Api.WriteType
+    name: WriteType
+    type: Enum
+- uid: Tool.Web.Api.ApiCore
+  name: Tool.Web.Api.ApiCore
+  type: Namespace
+  items:
+  - uid: Tool.Web.Api.ApiCore.ApiParameter
+    name: ApiParameter
+    type: Class
+  - uid: Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+    name: AshxHandlerOrAsync
+    type: Class
+  - uid: Tool.Web.Api.ApiCore.AshxOptions
+    name: AshxOptions
+    type: Class
+  - uid: Tool.Web.Api.ApiCore.IHttpApi
+    name: IHttpApi
+    type: Interface
+  - uid: Tool.Web.Api.ApiCore.IHttpAsynApi
+    name: IHttpAsynApi
+    type: Interface
+  - uid: Tool.Web.Api.ApiCore.IMinHttpApi
+    name: IMinHttpApi
+    type: Interface
+  - uid: Tool.Web.Api.ApiCore.IMinHttpAsynApi
+    name: IMinHttpAsynApi
+    type: Interface
+- uid: Tool.Web.Builder
+  name: Tool.Web.Builder
+  type: Namespace
+  items:
+  - uid: Tool.Web.Builder.IAshxBuilder
+    name: IAshxBuilder
+    type: Interface
+  - uid: Tool.Web.Builder.IgnoreUrlMiddleware
+    name: IgnoreUrlMiddleware
+    type: Class
+- uid: Tool.Web.Hosting
+  name: Tool.Web.Hosting
+  type: Namespace
+  items:
+  - uid: Tool.Web.Hosting.DiyContainerBuilder
+    name: DiyContainerBuilder
+    type: Class
+  - uid: Tool.Web.Hosting.DiyServiceProviderFactory
+    name: DiyServiceProviderFactory
+    type: Class
+- uid: Tool.Web.Routing
+  name: Tool.Web.Routing
+  type: Namespace
+  items:
+  - uid: Tool.Web.Routing.AshxRouteAttribute
+    name: AshxRouteAttribute
+    type: Class
+  - uid: Tool.Web.Routing.AshxRouteData
+    name: AshxRouteData
+    type: Class
+- uid: Tool.Web.Session
+  name: Tool.Web.Session
+  type: Namespace
+  items:
+  - uid: Tool.Web.Session.DiySession
+    name: DiySession
+    type: Class
+  - uid: Tool.Web.Session.DiySessionMiddleware
+    name: DiySessionMiddleware
+    type: Class
+  - uid: Tool.Web.Session.DiySessionOptions
+    name: DiySessionOptions
+    type: Class
+memberLayout: SamePage

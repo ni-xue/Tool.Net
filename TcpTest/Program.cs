@@ -22,11 +22,22 @@ using Tool.Utils.Data;
 
 namespace TcpTest
 {
-    public class Abc
+    public class Def
     {
         public int? a { get; init; }
         public string? b { get; set; }
         public DateTime? c { get; init; } = DateTime.Now;
+
+        public string b1;
+    }
+
+    public class Abc : Def
+    {
+        public new string b1;
+
+        public new int? a { get; init; }
+        public new string? b { get; set; }
+        public new DateTime? c { get; init; } = DateTime.Now;
         public bool? d { get; set; }
         public byte? e { get; init; }
         public double? f;
@@ -430,7 +441,10 @@ namespace TcpTest
 
             ////var dir = asda.Invoke(new Abc());
 
-            //Abc abc = new Abc();
+            Abc abc = new Abc() { a = 20, b1 = "我在" };
+
+            var b1 = abc.GetValue("b1");
+            var a = abc.GetValue("a");
 
             //abc.GetValue("rest");
 

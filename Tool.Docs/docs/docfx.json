@@ -1,0 +1,47 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "D:\\NixueStudio\\Tool.Net\\Tool.Net",
+          "files": [
+            "**/*.csproj"
+          ]
+        }
+      ],
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "output": "D:\\NixueStudio\\Tool.Net\\Tool.Docs\\docs\\Tool.Docs\\wwwroot",
+    "template": [
+      "default(zh-cn)",
+      "default",
+      "modern"
+    ],
+    "globalMetadata": {
+      "_appName": "Tool.Net",
+      "_appTitle": "Tool.Net",
+      "_enableSearch": true,
+      "pdf": true
+    }
+  }
+}

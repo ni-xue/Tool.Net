@@ -1,0 +1,3782 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.ObjectExtension
+  commentId: T:Tool.ObjectExtension
+  id: ObjectExtension
+  parent: Tool
+  children:
+  - Tool.ObjectExtension.Add(System.Object[],System.Object)
+  - Tool.ObjectExtension.Add``1(System.Object,System.Object,System.Object)
+  - Tool.ObjectExtension.BuildProvider
+  - Tool.ObjectExtension.Contains(System.Object[],System.Object)
+  - Tool.ObjectExtension.CopyEntity(System.Object,System.Object,System.String[])
+  - Tool.ObjectExtension.Dynamic
+  - Tool.ObjectExtension.DynamicAdd(System.String,System.Object,System.Boolean)
+  - Tool.ObjectExtension.DynamicCount
+  - Tool.ObjectExtension.DynamicKeys
+  - Tool.ObjectExtension.DynamicObjectkey(System.String)
+  - Tool.ObjectExtension.DynamicRemove
+  - Tool.ObjectExtension.DynamicRemove(System.String)
+  - Tool.ObjectExtension.DynamicValues
+  - Tool.ObjectExtension.Dynamickey(System.String)
+  - Tool.ObjectExtension.Dynamickey``1(System.String)
+  - Tool.ObjectExtension.EntityToJson(System.Object)
+  - Tool.ObjectExtension.EntityToJson(System.Object,System.Boolean)
+  - Tool.ObjectExtension.EntityToJson(System.Object,System.Boolean,System.String)
+  - Tool.ObjectExtension.GetArrayIndex(System.Object[],System.Int32,System.Int32)
+  - Tool.ObjectExtension.GetIntPtr(System.Object)
+  - Tool.ObjectExtension.GetIntPtrInt(System.Object)
+  - Tool.ObjectExtension.IsNewTask(System.Threading.Tasks.Task)
+  - Tool.ObjectExtension.IsNewTask(System.Threading.Tasks.ValueTask)
+  - Tool.ObjectExtension.IsNewTask``1(System.Threading.Tasks.Task{``0})
+  - Tool.ObjectExtension.IsNewTask``1(System.Threading.Tasks.ValueTask{``0})
+  - Tool.ObjectExtension.IsPropertyExist(System.String)
+  - Tool.ObjectExtension.MapTo(System.Object,System.String,System.Object[])
+  - Tool.ObjectExtension.MapTo(Tool.ObjectExtension.ThreadStart)
+  - Tool.ObjectExtension.MapTo``1(System.String)
+  - Tool.ObjectExtension.ProcessThreadCollection
+  - Tool.ObjectExtension.Provider
+  - Tool.ObjectExtension.Read``1(System.Int32)
+  - Tool.ObjectExtension.Read``1(System.IntPtr)
+  - Tool.ObjectExtension.Read``1(System.Object,System.Int32,System.Object,System.Int32,System.Int32)
+  - Tool.ObjectExtension.Read``1(System.Object,System.Object,System.Int32,System.Int32)
+  - Tool.ObjectExtension.RunTask(System.Func{System.Threading.Tasks.Task},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  - Tool.ObjectExtension.RunTask(System.Func{System.Threading.Tasks.ValueTask},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  - Tool.ObjectExtension.RunTask``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  - Tool.ObjectExtension.RunTask``1(System.Func{System.Threading.Tasks.ValueTask{``0}},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  - Tool.ObjectExtension.Services
+  - Tool.ObjectExtension.Static
+  - Tool.ObjectExtension.Thread
+  - Tool.ObjectExtension.ToBase64String(System.Object)
+  - Tool.ObjectExtension.ToBytes(System.Object)
+  - Tool.ObjectExtension.ToBytes(System.Object,System.Type@)
+  - Tool.ObjectExtension.ToJson(System.Object)
+  - Tool.ObjectExtension.ToJson(System.Object,System.Text.Json.JsonSerializerOptions)
+  - Tool.ObjectExtension.ToJsonWeb(System.Object)
+  - Tool.ObjectExtension.ToJsonWeb(System.Object,System.Action{System.Text.Json.JsonSerializerOptions})
+  - Tool.ObjectExtension.ToTryVar``1(System.Object,``0)
+  - Tool.ObjectExtension.ToVar(System.Object,System.String)
+  - Tool.ObjectExtension.ToVar(System.Object,System.Type,System.Boolean)
+  - Tool.ObjectExtension.ToVar``1(System.Object)
+  - Tool.ObjectExtension.ToXml(System.Object)
+  langs:
+  - csharp
+  - vb
+  name: ObjectExtension
+  nameWithType: ObjectExtension
+  fullName: Tool.ObjectExtension
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ObjectExtension
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 26
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对object类进行升级
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class ObjectExtension
+    content.vb: Public Module ObjectExtension
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.ObjectExtension.Services
+  commentId: P:Tool.ObjectExtension.Services
+  id: Services
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Services
+  nameWithType: ObjectExtension.Services
+  fullName: Tool.ObjectExtension.Services
+  type: Property
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Services
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 33
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 提供用于添加对象服务
+  example: []
+  syntax:
+    content: public static IServiceCollection Services { get; }
+    parameters: []
+    return:
+      type: Microsoft.Extensions.DependencyInjection.IServiceCollection
+    content.vb: Public Shared ReadOnly Property Services As IServiceCollection
+  overload: Tool.ObjectExtension.Services*
+- uid: Tool.ObjectExtension.Provider
+  commentId: P:Tool.ObjectExtension.Provider
+  id: Provider
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Provider
+  nameWithType: ObjectExtension.Provider
+  fullName: Tool.ObjectExtension.Provider
+  type: Property
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Provider
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 38
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 提供用于获取注入对象的服务
+  example: []
+  syntax:
+    content: public static IServiceProvider Provider { get; }
+    parameters: []
+    return:
+      type: System.IServiceProvider
+    content.vb: Public Shared ReadOnly Property Provider As IServiceProvider
+  overload: Tool.ObjectExtension.Provider*
+- uid: Tool.ObjectExtension.BuildProvider
+  commentId: M:Tool.ObjectExtension.BuildProvider
+  id: BuildProvider
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: BuildProvider()
+  nameWithType: ObjectExtension.BuildProvider()
+  fullName: Tool.ObjectExtension.BuildProvider()
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: BuildProvider
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 44
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: >-
+    创建用于获取服务对象
+
+    <p>调用该函数，将会释放掉原本的服务</p>
+  example: []
+  syntax:
+    content: public static void BuildProvider()
+    content.vb: Public Shared Sub BuildProvider()
+  overload: Tool.ObjectExtension.BuildProvider*
+- uid: Tool.ObjectExtension.Static
+  commentId: P:Tool.ObjectExtension.Static
+  id: Static
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Static
+  nameWithType: ObjectExtension.Static
+  fullName: Tool.ObjectExtension.Static
+  type: Property
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Static
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 49
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 全局公共对象 可以用于 存放任何对象 管理，存在拆箱装箱行为
+  example: []
+  syntax:
+    content: public static GlobalObj Static { get; }
+    parameters: []
+    return:
+      type: Tool.GlobalObj
+    content.vb: Public Shared ReadOnly Property [Static] As GlobalObj
+  overload: Tool.ObjectExtension.Static*
+- uid: Tool.ObjectExtension.Thread
+  commentId: P:Tool.ObjectExtension.Thread
+  id: Thread
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Thread
+  nameWithType: ObjectExtension.Thread
+  fullName: Tool.ObjectExtension.Thread
+  type: Property
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Thread
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 54
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取当前上下文正在运行的当前线程
+  example: []
+  syntax:
+    content: public static Thread Thread { get; }
+    parameters: []
+    return:
+      type: System.Threading.Thread
+    content.vb: Public Shared ReadOnly Property Thread As Thread
+  overload: Tool.ObjectExtension.Thread*
+- uid: Tool.ObjectExtension.ProcessThreadCollection
+  commentId: P:Tool.ObjectExtension.ProcessThreadCollection
+  id: ProcessThreadCollection
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ProcessThreadCollection
+  nameWithType: ObjectExtension.ProcessThreadCollection
+  fullName: Tool.ObjectExtension.ProcessThreadCollection
+  type: Property
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ProcessThreadCollection
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 59
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取当前进程中的所有线程
+  example: []
+  syntax:
+    content: public static ProcessThreadCollection ProcessThreadCollection { get; }
+    parameters: []
+    return:
+      type: System.Diagnostics.ProcessThreadCollection
+    content.vb: Public Shared ReadOnly Property ProcessThreadCollection As ProcessThreadCollection
+  overload: Tool.ObjectExtension.ProcessThreadCollection*
+- uid: Tool.ObjectExtension.Dynamic
+  commentId: P:Tool.ObjectExtension.Dynamic
+  id: Dynamic
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Dynamic
+  nameWithType: ObjectExtension.Dynamic
+  fullName: Tool.ObjectExtension.Dynamic
+  type: Property
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Dynamic
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 74
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 虚拟参数(备注：要引用 <xref href="Microsoft.CSharp" data-throw-if-not-resolved="false"></xref> .dll 方可使用)
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
+
+      public static dynamic Dynamic { get; }
+    parameters: []
+    return:
+      type: dynamic
+    content.vb: >-
+      <Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")>
+
+      Public Shared ReadOnly Property Dynamic As Object
+  overload: Tool.ObjectExtension.Dynamic*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: 当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式
+- uid: Tool.ObjectExtension.DynamicAdd(System.String,System.Object,System.Boolean)
+  commentId: M:Tool.ObjectExtension.DynamicAdd(System.String,System.Object,System.Boolean)
+  id: DynamicAdd(System.String,System.Object,System.Boolean)
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: DynamicAdd(string, object, bool)
+  nameWithType: ObjectExtension.DynamicAdd(string, object, bool)
+  fullName: Tool.ObjectExtension.DynamicAdd(string, object, bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DynamicAdd
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 80
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 添加虚拟参数(备注：如果对象名存在则会在直接修改原对象名内的数据，type字段默认为true，为false时则不进行修改),注明：如果存在多线程添加同一个键值的情况，请自己使用锁解决
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
+
+      public static void DynamicAdd(string key, object value, bool type = true)
+    parameters:
+    - id: key
+      type: System.String
+    - id: value
+      type: System.Object
+    - id: type
+      type: System.Boolean
+    content.vb: >-
+      <Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")>
+
+      Public Shared Sub DynamicAdd(key As String, value As Object, type As Boolean = True)
+  overload: Tool.ObjectExtension.DynamicAdd*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: 当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式
+  nameWithType.vb: ObjectExtension.DynamicAdd(String, Object, Boolean)
+  fullName.vb: Tool.ObjectExtension.DynamicAdd(String, Object, Boolean)
+  name.vb: DynamicAdd(String, Object, Boolean)
+- uid: Tool.ObjectExtension.DynamicRemove
+  commentId: M:Tool.ObjectExtension.DynamicRemove
+  id: DynamicRemove
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: DynamicRemove()
+  nameWithType: ObjectExtension.DynamicRemove()
+  fullName: Tool.ObjectExtension.DynamicRemove()
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DynamicRemove
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 103
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 删除全部虚拟参数
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
+
+      public static void DynamicRemove()
+    content.vb: >-
+      <Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")>
+
+      Public Shared Sub DynamicRemove()
+  overload: Tool.ObjectExtension.DynamicRemove*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: 当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式
+- uid: Tool.ObjectExtension.DynamicRemove(System.String)
+  commentId: M:Tool.ObjectExtension.DynamicRemove(System.String)
+  id: DynamicRemove(System.String)
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: DynamicRemove(string)
+  nameWithType: ObjectExtension.DynamicRemove(string)
+  fullName: Tool.ObjectExtension.DynamicRemove(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DynamicRemove
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 117
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 删除指定名称的虚拟参数（备注：如果键值不存在则不会删除任何键值，不抛出异常）
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
+
+      public static void DynamicRemove(string key)
+    parameters:
+    - id: key
+      type: System.String
+      description: 简直名称
+    content.vb: >-
+      <Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")>
+
+      Public Shared Sub DynamicRemove(key As String)
+  overload: Tool.ObjectExtension.DynamicRemove*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: 当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式
+  nameWithType.vb: ObjectExtension.DynamicRemove(String)
+  fullName.vb: Tool.ObjectExtension.DynamicRemove(String)
+  name.vb: DynamicRemove(String)
+- uid: Tool.ObjectExtension.Dynamickey(System.String)
+  commentId: M:Tool.ObjectExtension.Dynamickey(System.String)
+  id: Dynamickey(System.String)
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Dynamickey(string)
+  nameWithType: ObjectExtension.Dynamickey(string)
+  fullName: Tool.ObjectExtension.Dynamickey(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Dynamickey
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 135
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取指定键值的内容（备注：如果键值不存在则返回null）
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
+
+      public static dynamic Dynamickey(string key)
+    parameters:
+    - id: key
+      type: System.String
+      description: 简直名称
+    return:
+      type: dynamic
+      description: 返回结果
+    content.vb: >-
+      <Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")>
+
+      Public Shared Function Dynamickey(key As String) As Object
+  overload: Tool.ObjectExtension.Dynamickey*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: 当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式
+  nameWithType.vb: ObjectExtension.Dynamickey(String)
+  fullName.vb: Tool.ObjectExtension.Dynamickey(String)
+  name.vb: Dynamickey(String)
+- uid: Tool.ObjectExtension.Dynamickey``1(System.String)
+  commentId: M:Tool.ObjectExtension.Dynamickey``1(System.String)
+  id: Dynamickey``1(System.String)
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Dynamickey<T>(string)
+  nameWithType: ObjectExtension.Dynamickey<T>(string)
+  fullName: Tool.ObjectExtension.Dynamickey<T>(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Dynamickey
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 146
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取指定键值的内容（备注：如果键值不存在则返回null）
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
+
+      public static T Dynamickey<T>(string key)
+    parameters:
+    - id: key
+      type: System.String
+      description: 简直名称
+    typeParameters:
+    - id: T
+    return:
+      type: '{T}'
+      description: 返回结果
+    content.vb: >-
+      <Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")>
+
+      Public Shared Function Dynamickey(Of T)(key As String) As T
+  overload: Tool.ObjectExtension.Dynamickey*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: 当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式
+  nameWithType.vb: ObjectExtension.Dynamickey(Of T)(String)
+  fullName.vb: Tool.ObjectExtension.Dynamickey(Of T)(String)
+  name.vb: Dynamickey(Of T)(String)
+- uid: Tool.ObjectExtension.DynamicObjectkey(System.String)
+  commentId: M:Tool.ObjectExtension.DynamicObjectkey(System.String)
+  id: DynamicObjectkey(System.String)
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: DynamicObjectkey(string)
+  nameWithType: ObjectExtension.DynamicObjectkey(string)
+  fullName: Tool.ObjectExtension.DynamicObjectkey(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DynamicObjectkey
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 170
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取指定键值的内容（备注：如果键值不存在则返回null）
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
+
+      public static object DynamicObjectkey(string key)
+    parameters:
+    - id: key
+      type: System.String
+      description: 简直名称
+    return:
+      type: System.Object
+      description: 返回结果
+    content.vb: >-
+      <Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")>
+
+      Public Shared Function DynamicObjectkey(key As String) As Object
+  overload: Tool.ObjectExtension.DynamicObjectkey*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: 当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式
+  nameWithType.vb: ObjectExtension.DynamicObjectkey(String)
+  fullName.vb: Tool.ObjectExtension.DynamicObjectkey(String)
+  name.vb: DynamicObjectkey(String)
+- uid: Tool.ObjectExtension.DynamicKeys
+  commentId: P:Tool.ObjectExtension.DynamicKeys
+  id: DynamicKeys
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: DynamicKeys
+  nameWithType: ObjectExtension.DynamicKeys
+  fullName: Tool.ObjectExtension.DynamicKeys
+  type: Property
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DynamicKeys
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 192
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取虚拟键值下面的所有名称
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
+
+      public static string[] DynamicKeys { get; }
+    parameters: []
+    return:
+      type: System.String[]
+    content.vb: >-
+      <Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")>
+
+      Public Shared ReadOnly Property DynamicKeys As String()
+  overload: Tool.ObjectExtension.DynamicKeys*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: 当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式
+- uid: Tool.ObjectExtension.DynamicValues
+  commentId: P:Tool.ObjectExtension.DynamicValues
+  id: DynamicValues
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: DynamicValues
+  nameWithType: ObjectExtension.DynamicValues
+  fullName: Tool.ObjectExtension.DynamicValues
+  type: Property
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DynamicValues
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 204
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取虚拟键值下面的所有内容
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
+
+      public static dynamic[] DynamicValues { get; }
+    parameters: []
+    return:
+      type: dynamic[]
+    content.vb: >-
+      <Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")>
+
+      Public Shared ReadOnly Property DynamicValues As Object()
+  overload: Tool.ObjectExtension.DynamicValues*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: 当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式
+- uid: Tool.ObjectExtension.DynamicCount
+  commentId: P:Tool.ObjectExtension.DynamicCount
+  id: DynamicCount
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: DynamicCount
+  nameWithType: ObjectExtension.DynamicCount
+  fullName: Tool.ObjectExtension.DynamicCount
+  type: Property
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DynamicCount
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 216
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取当前包含的虚拟参数数量
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
+
+      public static int DynamicCount { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")>
+
+      Public Shared ReadOnly Property DynamicCount As Integer
+  overload: Tool.ObjectExtension.DynamicCount*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: 当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式
+- uid: Tool.ObjectExtension.IsPropertyExist(System.String)
+  commentId: M:Tool.ObjectExtension.IsPropertyExist(System.String)
+  id: IsPropertyExist(System.String)
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: IsPropertyExist(string)
+  nameWithType: ObjectExtension.IsPropertyExist(string)
+  fullName: Tool.ObjectExtension.IsPropertyExist(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsPropertyExist
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 230
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 判断当前虚拟对象下面是否有该参数
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")]
+
+      public static bool IsPropertyExist(string propertyname)
+    parameters:
+    - id: propertyname
+      type: System.String
+      description: 参数名
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: >-
+      <Obsolete("当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式")>
+
+      Public Shared Function IsPropertyExist(propertyname As String) As Boolean
+  overload: Tool.ObjectExtension.IsPropertyExist*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: 当前变量，已过时，请考虑使用 ObjectExtension.Services 使用 IOC 模式
+  nameWithType.vb: ObjectExtension.IsPropertyExist(String)
+  fullName.vb: Tool.ObjectExtension.IsPropertyExist(String)
+  name.vb: IsPropertyExist(String)
+- uid: Tool.ObjectExtension.ToVar``1(System.Object)
+  commentId: M:Tool.ObjectExtension.ToVar``1(System.Object)
+  id: ToVar``1(System.Object)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ToVar<T>(object)
+  nameWithType: ObjectExtension.ToVar<T>(object)
+  fullName: Tool.ObjectExtension.ToVar<T>(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToVar
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 251
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 实现万能的转换(备注：包含数据类型的转换也包含as的功能和(类型)的功能)
+  example: []
+  syntax:
+    content: public static T ToVar<T>(this object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: object实体，参数，对象
+    typeParameters:
+    - id: T
+      description: 对象
+    return:
+      type: '{T}'
+      description: 返回被指定强转的类型。（异常：存在于强转无效）
+    content.vb: Public Shared Function ToVar(Of T)(obj As Object) As T
+  overload: Tool.ObjectExtension.ToVar*
+  nameWithType.vb: ObjectExtension.ToVar(Of T)(Object)
+  fullName.vb: Tool.ObjectExtension.ToVar(Of T)(Object)
+  name.vb: ToVar(Of T)(Object)
+- uid: Tool.ObjectExtension.ToTryVar``1(System.Object,``0)
+  commentId: M:Tool.ObjectExtension.ToTryVar``1(System.Object,``0)
+  id: ToTryVar``1(System.Object,``0)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ToTryVar<T>(object, T)
+  nameWithType: ObjectExtension.ToTryVar<T>(object, T)
+  fullName: Tool.ObjectExtension.ToTryVar<T>(object, T)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToTryVar
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 299
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 实现万能的转换(备注：包含数据类型的转换也包含as的功能和(类型)的功能)（T:适用于转换失败，无法转换时系统返回的默认结果，用于容错）
+  example: []
+  syntax:
+    content: public static T ToTryVar<T>(this object obj, T devalue)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: object实体，参数，对象
+    - id: devalue
+      type: '{T}'
+      description: 转换失败时使用默认值
+    typeParameters:
+    - id: T
+      description: 对象
+    return:
+      type: '{T}'
+      description: 返回被指定强转的类型。（异常：存在于强转无效）
+    content.vb: Public Shared Function ToTryVar(Of T)(obj As Object, devalue As T) As T
+  overload: Tool.ObjectExtension.ToTryVar*
+  nameWithType.vb: ObjectExtension.ToTryVar(Of T)(Object, T)
+  fullName.vb: Tool.ObjectExtension.ToTryVar(Of T)(Object, T)
+  name.vb: ToTryVar(Of T)(Object, T)
+- uid: Tool.ObjectExtension.ToVar(System.Object,System.Type,System.Boolean)
+  commentId: M:Tool.ObjectExtension.ToVar(System.Object,System.Type,System.Boolean)
+  id: ToVar(System.Object,System.Type,System.Boolean)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ToVar(object, Type, bool)
+  nameWithType: ObjectExtension.ToVar(object, Type, bool)
+  fullName: Tool.ObjectExtension.ToVar(object, System.Type, bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToVar
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 333
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 实现万能的转换(备注：包含数据类型的转换也包含as的功能和(类型)的功能)
+  example: []
+  syntax:
+    content: public static object ToVar(this object obj, Type type, bool istype = true)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: object实体，参数，对象
+    - id: type
+      type: System.Type
+      description: 指定类型的<xref href="System.Type" data-throw-if-not-resolved="false"></xref>
+    - id: istype
+      type: System.Boolean
+      description: 表示强转失败时是否抛异常。返回null
+    return:
+      type: System.Object
+      description: 返回被指定强转的类型。（异常：存在于强转无效）
+    content.vb: Public Shared Function ToVar(obj As Object, type As Type, istype As Boolean = True) As Object
+  overload: Tool.ObjectExtension.ToVar*
+  nameWithType.vb: ObjectExtension.ToVar(Object, Type, Boolean)
+  fullName.vb: Tool.ObjectExtension.ToVar(Object, System.Type, Boolean)
+  name.vb: ToVar(Object, Type, Boolean)
+- uid: Tool.ObjectExtension.ToVar(System.Object,System.String)
+  commentId: M:Tool.ObjectExtension.ToVar(System.Object,System.String)
+  id: ToVar(System.Object,System.String)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ToVar(object, string)
+  nameWithType: ObjectExtension.ToVar(object, string)
+  fullName: Tool.ObjectExtension.ToVar(object, string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToVar
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 374
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 实现万能的转换(备注：包含数据类型的转换也包含as的功能和(类型)的功能)
+  example: []
+  syntax:
+    content: public static dynamic ToVar(this object obj, string type = null)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: object实体，参数，对象
+    - id: type
+      type: System.String
+      description: 强转类型,如果为空，默认强转成该对象的Type类型(必须要是当前程序集下的对象，才能转换)
+    return:
+      type: dynamic
+      description: 返回被指定强转的类型。（异常：存在于强转无效）
+    content.vb: Public Shared Function ToVar(obj As Object, type As String = Nothing) As Object
+  overload: Tool.ObjectExtension.ToVar*
+  nameWithType.vb: ObjectExtension.ToVar(Object, String)
+  fullName.vb: Tool.ObjectExtension.ToVar(Object, String)
+  name.vb: ToVar(Object, String)
+- uid: Tool.ObjectExtension.MapTo(Tool.ObjectExtension.ThreadStart)
+  commentId: M:Tool.ObjectExtension.MapTo(Tool.ObjectExtension.ThreadStart)
+  id: MapTo(Tool.ObjectExtension.ThreadStart)
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: MapTo(ThreadStart)
+  nameWithType: ObjectExtension.MapTo(ObjectExtension.ThreadStart)
+  fullName: Tool.ObjectExtension.MapTo(Tool.ObjectExtension.ThreadStart)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: MapTo
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 474
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 实现单线程的访问 (示例：new ThreadStart(delegate (){}) )
+  example: []
+  syntax:
+    content: public static object MapTo(ObjectExtension.ThreadStart API)
+    parameters:
+    - id: API
+      type: Tool.ObjectExtension.ThreadStart
+      description: ''
+    return:
+      type: System.Object
+      description: ''
+    content.vb: Public Shared Function MapTo(API As ObjectExtension.ThreadStart) As Object
+  overload: Tool.ObjectExtension.MapTo*
+- uid: Tool.ObjectExtension.MapTo(System.Object,System.String,System.Object[])
+  commentId: M:Tool.ObjectExtension.MapTo(System.Object,System.String,System.Object[])
+  id: MapTo(System.Object,System.String,System.Object[])
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: MapTo(object, string, params object[])
+  nameWithType: ObjectExtension.MapTo(object, string, params object[])
+  fullName: Tool.ObjectExtension.MapTo(object, string, params object[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: MapTo
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 488
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 实现单线程的访问
+  example: []
+  syntax:
+    content: public static object MapTo(object obj_T, string Methods, params object[] parameter)
+    parameters:
+    - id: obj_T
+      type: System.Object
+      description: 表示一个类对象实力
+    - id: Methods
+      type: System.String
+      description: 表示调用的对象的一个方法名(注意该方法必须是非静态方法)
+    - id: parameter
+      type: System.Object[]
+      description: 该方法的参数,如果该方法没有参数可以为null，如有参数必须和方法参数一致
+    return:
+      type: System.Object
+      description: ''
+    content.vb: Public Shared Function MapTo(obj_T As Object, Methods As String, ParamArray parameter As Object()) As Object
+  overload: Tool.ObjectExtension.MapTo*
+  nameWithType.vb: ObjectExtension.MapTo(Object, String, ParamArray Object())
+  fullName.vb: Tool.ObjectExtension.MapTo(Object, String, ParamArray Object())
+  name.vb: MapTo(Object, String, ParamArray Object())
+- uid: Tool.ObjectExtension.MapTo``1(System.String)
+  commentId: M:Tool.ObjectExtension.MapTo``1(System.String)
+  id: MapTo``1(System.String)
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: MapTo<T>(string)
+  nameWithType: ObjectExtension.MapTo<T>(string)
+  fullName: Tool.ObjectExtension.MapTo<T>(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: MapTo
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 511
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取某个类下面的方法，方法对应的委托参数
+  example: []
+  syntax:
+    content: public static ActionDispatcher<T> MapTo<T>(string Methods)
+    parameters:
+    - id: Methods
+      type: System.String
+      description: 表示调用的对象的方法名
+    typeParameters:
+    - id: T
+    return:
+      type: Tool.Utils.ActionDelegate.ActionDispatcher{{T}}
+      description: ''
+    content.vb: Public Shared Function MapTo(Of T)(Methods As String) As ActionDispatcher(Of T)
+  overload: Tool.ObjectExtension.MapTo*
+  nameWithType.vb: ObjectExtension.MapTo(Of T)(String)
+  fullName.vb: Tool.ObjectExtension.MapTo(Of T)(String)
+  name.vb: MapTo(Of T)(String)
+- uid: Tool.ObjectExtension.ToXml(System.Object)
+  commentId: M:Tool.ObjectExtension.ToXml(System.Object)
+  id: ToXml(System.Object)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ToXml(object)
+  nameWithType: ObjectExtension.ToXml(object)
+  fullName: Tool.ObjectExtension.ToXml(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToXml
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 532
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为Xml格式字符串
+  example: []
+  syntax:
+    content: public static string ToXml(this object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: object
+    return:
+      type: System.String
+      description: Xml字符串
+    content.vb: Public Shared Function ToXml(obj As Object) As String
+  overload: Tool.ObjectExtension.ToXml*
+  nameWithType.vb: ObjectExtension.ToXml(Object)
+  fullName.vb: Tool.ObjectExtension.ToXml(Object)
+  name.vb: ToXml(Object)
+- uid: Tool.ObjectExtension.ToJson(System.Object)
+  commentId: M:Tool.ObjectExtension.ToJson(System.Object)
+  id: ToJson(System.Object)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ToJson(object)
+  nameWithType: ObjectExtension.ToJson(object)
+  fullName: Tool.ObjectExtension.ToJson(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToJson
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 546
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为JSON格式字符串
+  example: []
+  syntax:
+    content: public static string ToJson(this object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: object
+    return:
+      type: System.String
+      description: JSON字符串
+    content.vb: Public Shared Function ToJson(obj As Object) As String
+  overload: Tool.ObjectExtension.ToJson*
+  nameWithType.vb: ObjectExtension.ToJson(Object)
+  fullName.vb: Tool.ObjectExtension.ToJson(Object)
+  name.vb: ToJson(Object)
+- uid: Tool.ObjectExtension.ToJsonWeb(System.Object)
+  commentId: M:Tool.ObjectExtension.ToJsonWeb(System.Object)
+  id: ToJsonWeb(System.Object)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ToJsonWeb(object)
+  nameWithType: ObjectExtension.ToJsonWeb(object)
+  fullName: Tool.ObjectExtension.ToJsonWeb(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToJsonWeb
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 556
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为JSON格式字符串，针对Web场景定制Json格式
+  example: []
+  syntax:
+    content: public static string ToJsonWeb(this object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: object
+    return:
+      type: System.String
+      description: JSON字符串
+    content.vb: Public Shared Function ToJsonWeb(obj As Object) As String
+  overload: Tool.ObjectExtension.ToJsonWeb*
+  nameWithType.vb: ObjectExtension.ToJsonWeb(Object)
+  fullName.vb: Tool.ObjectExtension.ToJsonWeb(Object)
+  name.vb: ToJsonWeb(Object)
+- uid: Tool.ObjectExtension.ToJsonWeb(System.Object,System.Action{System.Text.Json.JsonSerializerOptions})
+  commentId: M:Tool.ObjectExtension.ToJsonWeb(System.Object,System.Action{System.Text.Json.JsonSerializerOptions})
+  id: ToJsonWeb(System.Object,System.Action{System.Text.Json.JsonSerializerOptions})
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ToJsonWeb(object, Action<JsonSerializerOptions>)
+  nameWithType: ObjectExtension.ToJsonWeb(object, Action<JsonSerializerOptions>)
+  fullName: Tool.ObjectExtension.ToJsonWeb(object, System.Action<System.Text.Json.JsonSerializerOptions>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToJsonWeb
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 567
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为JSON格式字符串，针对Web场景定制Json格式
+  example: []
+  syntax:
+    content: public static string ToJsonWeb(this object obj, Action<JsonSerializerOptions> action)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: object
+    - id: action
+      type: System.Action{System.Text.Json.JsonSerializerOptions}
+      description: 委托Json任务
+    return:
+      type: System.String
+      description: JSON字符串
+    content.vb: Public Shared Function ToJsonWeb(obj As Object, action As Action(Of JsonSerializerOptions)) As String
+  overload: Tool.ObjectExtension.ToJsonWeb*
+  nameWithType.vb: ObjectExtension.ToJsonWeb(Object, Action(Of JsonSerializerOptions))
+  fullName.vb: Tool.ObjectExtension.ToJsonWeb(Object, System.Action(Of System.Text.Json.JsonSerializerOptions))
+  name.vb: ToJsonWeb(Object, Action(Of JsonSerializerOptions))
+- uid: Tool.ObjectExtension.ToJson(System.Object,System.Text.Json.JsonSerializerOptions)
+  commentId: M:Tool.ObjectExtension.ToJson(System.Object,System.Text.Json.JsonSerializerOptions)
+  id: ToJson(System.Object,System.Text.Json.JsonSerializerOptions)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ToJson(object, JsonSerializerOptions)
+  nameWithType: ObjectExtension.ToJson(object, JsonSerializerOptions)
+  fullName: Tool.ObjectExtension.ToJson(object, System.Text.Json.JsonSerializerOptions)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToJson
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 582
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为JSON格式字符串
+  example: []
+  syntax:
+    content: public static string ToJson(this object obj, JsonSerializerOptions jsonSerializerOptions)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: object
+    - id: jsonSerializerOptions
+      type: System.Text.Json.JsonSerializerOptions
+      description: 需要的序列化条件
+    return:
+      type: System.String
+      description: JSON字符串
+    content.vb: Public Shared Function ToJson(obj As Object, jsonSerializerOptions As JsonSerializerOptions) As String
+  overload: Tool.ObjectExtension.ToJson*
+  nameWithType.vb: ObjectExtension.ToJson(Object, JsonSerializerOptions)
+  fullName.vb: Tool.ObjectExtension.ToJson(Object, System.Text.Json.JsonSerializerOptions)
+  name.vb: ToJson(Object, JsonSerializerOptions)
+- uid: Tool.ObjectExtension.EntityToJson(System.Object)
+  commentId: M:Tool.ObjectExtension.EntityToJson(System.Object)
+  id: EntityToJson(System.Object)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: EntityToJson(object)
+  nameWithType: ObjectExtension.EntityToJson(object)
+  fullName: Tool.ObjectExtension.EntityToJson(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: EntityToJson
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 596
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将实体转换为JSON格式字符串 （再三强调，要是实体，而且是单个实体。）
+  example: []
+  syntax:
+    content: public static string EntityToJson(this object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 实体
+    return:
+      type: System.String
+      description: 返回JSON字符串
+    content.vb: Public Shared Function EntityToJson(obj As Object) As String
+  overload: Tool.ObjectExtension.EntityToJson*
+  nameWithType.vb: ObjectExtension.EntityToJson(Object)
+  fullName.vb: Tool.ObjectExtension.EntityToJson(Object)
+  name.vb: EntityToJson(Object)
+- uid: Tool.ObjectExtension.EntityToJson(System.Object,System.Boolean)
+  commentId: M:Tool.ObjectExtension.EntityToJson(System.Object,System.Boolean)
+  id: EntityToJson(System.Object,System.Boolean)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: EntityToJson(object, bool)
+  nameWithType: ObjectExtension.EntityToJson(object, bool)
+  fullName: Tool.ObjectExtension.EntityToJson(object, bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: EntityToJson
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 607
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将实体转换为JSON格式字符串 （再三强调，要是实体，而且是单个实体。）
+  example: []
+  syntax:
+    content: public static string EntityToJson(this object obj, bool IsDate)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 实体
+    - id: IsDate
+      type: System.Boolean
+      description: ToJson格式时间，启用转字符串
+    return:
+      type: System.String
+      description: 返回JSON字符串
+    content.vb: Public Shared Function EntityToJson(obj As Object, IsDate As Boolean) As String
+  overload: Tool.ObjectExtension.EntityToJson*
+  nameWithType.vb: ObjectExtension.EntityToJson(Object, Boolean)
+  fullName.vb: Tool.ObjectExtension.EntityToJson(Object, Boolean)
+  name.vb: EntityToJson(Object, Boolean)
+- uid: Tool.ObjectExtension.EntityToJson(System.Object,System.Boolean,System.String)
+  commentId: M:Tool.ObjectExtension.EntityToJson(System.Object,System.Boolean,System.String)
+  id: EntityToJson(System.Object,System.Boolean,System.String)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: EntityToJson(object, bool, string)
+  nameWithType: ObjectExtension.EntityToJson(object, bool, string)
+  fullName: Tool.ObjectExtension.EntityToJson(object, bool, string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: EntityToJson
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 619
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将实体转换为JSON格式字符串 （再三强调，要是实体，而且是单个实体。）
+  example: []
+  syntax:
+    content: public static string EntityToJson(this object obj, bool IsDate, string ToDateString)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 实体
+    - id: IsDate
+      type: System.Boolean
+      description: ToJson格式时间，启用转字符串
+    - id: ToDateString
+      type: System.String
+      description: Date.ToString()的写法。
+    return:
+      type: System.String
+      description: 返回JSON字符串
+    content.vb: Public Shared Function EntityToJson(obj As Object, IsDate As Boolean, ToDateString As String) As String
+  overload: Tool.ObjectExtension.EntityToJson*
+  nameWithType.vb: ObjectExtension.EntityToJson(Object, Boolean, String)
+  fullName.vb: Tool.ObjectExtension.EntityToJson(Object, Boolean, String)
+  name.vb: EntityToJson(Object, Boolean, String)
+- uid: Tool.ObjectExtension.ToBase64String(System.Object)
+  commentId: M:Tool.ObjectExtension.ToBase64String(System.Object)
+  id: ToBase64String(System.Object)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ToBase64String(object)
+  nameWithType: ObjectExtension.ToBase64String(object)
+  fullName: Tool.ObjectExtension.ToBase64String(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToBase64String
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 664
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将对象转换成Base64字符串（编码）
+  example: []
+  syntax:
+    content: public static string ToBase64String(this object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: ''
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Shared Function ToBase64String(obj As Object) As String
+  overload: Tool.ObjectExtension.ToBase64String*
+  nameWithType.vb: ObjectExtension.ToBase64String(Object)
+  fullName.vb: Tool.ObjectExtension.ToBase64String(Object)
+  name.vb: ToBase64String(Object)
+- uid: Tool.ObjectExtension.ToBytes(System.Object)
+  commentId: M:Tool.ObjectExtension.ToBytes(System.Object)
+  id: ToBytes(System.Object)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ToBytes(object)
+  nameWithType: ObjectExtension.ToBytes(object)
+  fullName: Tool.ObjectExtension.ToBytes(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToBytes
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 679
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将一个object对象序列化，返回一个byte[]（重要说明：被序列化的对象必须实现 [Serializable] <xref href="System.Runtime.Serialization.ISerializable" data-throw-if-not-resolved="false"></xref>特性的结构）
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("BinaryFormatter serialization is obsolete and should not be used. See https://aka.ms/binaryformatter for more information.", DiagnosticId = "SYSLIB0011", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
+
+      public static byte[] ToBytes(this object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 能序列化的对象
+    return:
+      type: System.Byte[]
+      description: 返回一个byte[]
+    content.vb: >-
+      <Obsolete("BinaryFormatter serialization is obsolete and should not be used. See https://aka.ms/binaryformatter for more information.", DiagnosticId:="SYSLIB0011", UrlFormat:="https://aka.ms/dotnet-warnings/{0}")>
+
+      Public Shared Function ToBytes(obj As Object) As Byte()
+  overload: Tool.ObjectExtension.ToBytes*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: BinaryFormatter serialization is obsolete and should not be used. See https://aka.ms/binaryformatter for more information.
+    namedArguments:
+    - name: DiagnosticId
+      type: System.String
+      value: SYSLIB0011
+    - name: UrlFormat
+      type: System.String
+      value: https://aka.ms/dotnet-warnings/{0}
+  nameWithType.vb: ObjectExtension.ToBytes(Object)
+  fullName.vb: Tool.ObjectExtension.ToBytes(Object)
+  name.vb: ToBytes(Object)
+- uid: Tool.ObjectExtension.ToBytes(System.Object,System.Type@)
+  commentId: M:Tool.ObjectExtension.ToBytes(System.Object,System.Type@)
+  id: ToBytes(System.Object,System.Type@)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: ToBytes(object, out Type)
+  nameWithType: ObjectExtension.ToBytes(object, out Type)
+  fullName: Tool.ObjectExtension.ToBytes(object, out System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToBytes
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 698
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将一个object对象序列化，返回一个byte[] （升级版，有效降低内存消耗）（重要说明：被序列化的对象必须实现 struct 标记）示例：public struct 类名称
+  example: []
+  syntax:
+    content: public static byte[] ToBytes(this object obj, out Type type)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 能序列化的对象
+    - id: type
+      type: System.Type
+      description: 转换为原来类的Type
+    return:
+      type: System.Byte[]
+      description: 返回一个byte[]
+    content.vb: Public Shared Function ToBytes(obj As Object, type As Type) As Byte()
+  overload: Tool.ObjectExtension.ToBytes*
+  nameWithType.vb: ObjectExtension.ToBytes(Object, Type)
+  fullName.vb: Tool.ObjectExtension.ToBytes(Object, System.Type)
+  name.vb: ToBytes(Object, Type)
+- uid: Tool.ObjectExtension.Read``1(System.IntPtr)
+  commentId: M:Tool.ObjectExtension.Read``1(System.IntPtr)
+  id: Read``1(System.IntPtr)
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Read<T>(IntPtr)
+  nameWithType: ObjectExtension.Read<T>(IntPtr)
+  fullName: Tool.ObjectExtension.Read<T>(System.IntPtr)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Read
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 717
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将指定的内存空间内容转换成类型
+  example: []
+  syntax:
+    content: public static T Read<T>(IntPtr address)
+    parameters:
+    - id: address
+      type: System.IntPtr
+      description: 内存空间
+    typeParameters:
+    - id: T
+      description: 类型对象
+    return:
+      type: '{T}'
+      description: 返回类型对象
+    content.vb: Public Shared Function Read(Of T)(address As IntPtr) As T
+  overload: Tool.ObjectExtension.Read*
+  nameWithType.vb: ObjectExtension.Read(Of T)(IntPtr)
+  fullName.vb: Tool.ObjectExtension.Read(Of T)(System.IntPtr)
+  name.vb: Read(Of T)(IntPtr)
+- uid: Tool.ObjectExtension.Read``1(System.Int32)
+  commentId: M:Tool.ObjectExtension.Read``1(System.Int32)
+  id: Read``1(System.Int32)
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Read<T>(int)
+  nameWithType: ObjectExtension.Read<T>(int)
+  fullName: Tool.ObjectExtension.Read<T>(int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Read
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 732
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将指定的内存空间内容转换成类型
+  example: []
+  syntax:
+    content: public static T Read<T>(int address)
+    parameters:
+    - id: address
+      type: System.Int32
+      description: 内存空间值
+    typeParameters:
+    - id: T
+      description: 类型对象
+    return:
+      type: '{T}'
+      description: 返回类型对象
+    content.vb: Public Shared Function Read(Of T)(address As Integer) As T
+  overload: Tool.ObjectExtension.Read*
+  nameWithType.vb: ObjectExtension.Read(Of T)(Integer)
+  fullName.vb: Tool.ObjectExtension.Read(Of T)(Integer)
+  name.vb: Read(Of T)(Integer)
+- uid: Tool.ObjectExtension.GetIntPtr(System.Object)
+  commentId: M:Tool.ObjectExtension.GetIntPtr(System.Object)
+  id: GetIntPtr(System.Object)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: GetIntPtr(object)
+  nameWithType: ObjectExtension.GetIntPtr(object)
+  fullName: Tool.ObjectExtension.GetIntPtr(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetIntPtr
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 767
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取当前对象的内存空间
+  example: []
+  syntax:
+    content: public static IntPtr GetIntPtr(this object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象
+    return:
+      type: System.IntPtr
+      description: 返回指针
+    content.vb: Public Shared Function GetIntPtr(obj As Object) As IntPtr
+  overload: Tool.ObjectExtension.GetIntPtr*
+  nameWithType.vb: ObjectExtension.GetIntPtr(Object)
+  fullName.vb: Tool.ObjectExtension.GetIntPtr(Object)
+  name.vb: GetIntPtr(Object)
+- uid: Tool.ObjectExtension.GetIntPtrInt(System.Object)
+  commentId: M:Tool.ObjectExtension.GetIntPtrInt(System.Object)
+  id: GetIntPtrInt(System.Object)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: GetIntPtrInt(object)
+  nameWithType: ObjectExtension.GetIntPtrInt(object)
+  fullName: Tool.ObjectExtension.GetIntPtrInt(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetIntPtrInt
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 796
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取当前对象的内存空间
+  example: []
+  syntax:
+    content: public static int GetIntPtrInt(this object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象
+    return:
+      type: System.Int32
+      description: 返回指针
+    content.vb: Public Shared Function GetIntPtrInt(obj As Object) As Integer
+  overload: Tool.ObjectExtension.GetIntPtrInt*
+  nameWithType.vb: ObjectExtension.GetIntPtrInt(Object)
+  fullName.vb: Tool.ObjectExtension.GetIntPtrInt(Object)
+  name.vb: GetIntPtrInt(Object)
+- uid: Tool.ObjectExtension.CopyEntity(System.Object,System.Object,System.String[])
+  commentId: M:Tool.ObjectExtension.CopyEntity(System.Object,System.Object,System.String[])
+  id: CopyEntity(System.Object,System.Object,System.String[])
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: CopyEntity(object, object, params string[])
+  nameWithType: ObjectExtension.CopyEntity(object, object, params string[])
+  fullName: Tool.ObjectExtension.CopyEntity(object, object, params string[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: CopyEntity
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 826
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将对象拷贝，值类型拷贝，引用类型赋值。
+  example: []
+  syntax:
+    content: public static bool CopyEntity(this object obj, object origobj, params string[] keys)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象
+    - id: origobj
+      type: System.Object
+      description: 拷贝对象
+    - id: keys
+      type: System.String[]
+      description: 拷贝参数，空，为全拷贝 支持赋值语法 ?=? 注意不支持'空格'
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Shared Function CopyEntity(obj As Object, origobj As Object, ParamArray keys As String()) As Boolean
+  overload: Tool.ObjectExtension.CopyEntity*
+  nameWithType.vb: ObjectExtension.CopyEntity(Object, Object, ParamArray String())
+  fullName.vb: Tool.ObjectExtension.CopyEntity(Object, Object, ParamArray String())
+  name.vb: CopyEntity(Object, Object, ParamArray String())
+- uid: Tool.ObjectExtension.Add(System.Object[],System.Object)
+  commentId: M:Tool.ObjectExtension.Add(System.Object[],System.Object)
+  id: Add(System.Object[],System.Object)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Add(object[], object)
+  nameWithType: ObjectExtension.Add(object[], object)
+  fullName: Tool.ObjectExtension.Add(object[], object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Add
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 875
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 给数组加新的值
+  example: []
+  syntax:
+    content: public static object[] Add(this object[] txt, object txt1)
+    parameters:
+    - id: txt
+      type: System.Object[]
+      description: Object[]
+    - id: txt1
+      type: System.Object
+      description: 新增的值
+    return:
+      type: System.Object[]
+      description: 由于不能直接赋值，采取间接赋值方式
+    content.vb: Public Shared Function Add(txt As Object(), txt1 As Object) As Object()
+  overload: Tool.ObjectExtension.Add*
+  nameWithType.vb: ObjectExtension.Add(Object(), Object)
+  fullName.vb: Tool.ObjectExtension.Add(Object(), Object)
+  name.vb: Add(Object(), Object)
+- uid: Tool.ObjectExtension.Add``1(System.Object,System.Object,System.Object)
+  commentId: M:Tool.ObjectExtension.Add``1(System.Object,System.Object,System.Object)
+  id: Add``1(System.Object,System.Object,System.Object)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Add<T>(object, object, object)
+  nameWithType: ObjectExtension.Add<T>(object, object, object)
+  fullName: Tool.ObjectExtension.Add<T>(object, object, object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Add
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 892
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 给数组加新的值(适用于任何数组对象)
+  example: []
+  syntax:
+    content: public static void Add<T>(this object obj, object _obj, object T_obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: Object[]源数组
+    - id: _obj
+      type: System.Object
+      description: 新数组（为空，但是必须大于原数组一个下标以上）
+    - id: T_obj
+      type: System.Object
+      description: 加入的新值
+    typeParameters:
+    - id: T
+      description: 数组原类型
+    content.vb: Public Shared Sub Add(Of T)(obj As Object, _obj As Object, T_obj As Object)
+  overload: Tool.ObjectExtension.Add*
+  nameWithType.vb: ObjectExtension.Add(Of T)(Object, Object, Object)
+  fullName.vb: Tool.ObjectExtension.Add(Of T)(Object, Object, Object)
+  name.vb: Add(Of T)(Object, Object, Object)
+- uid: Tool.ObjectExtension.Contains(System.Object[],System.Object)
+  commentId: M:Tool.ObjectExtension.Contains(System.Object[],System.Object)
+  id: Contains(System.Object[],System.Object)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Contains(object[], object)
+  nameWithType: ObjectExtension.Contains(object[], object)
+  fullName: Tool.ObjectExtension.Contains(object[], object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Contains
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 916
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 查找该Object数组中是否存在该值。
+  example: []
+  syntax:
+    content: public static bool Contains(this object[] txt, object txt1)
+    parameters:
+    - id: txt
+      type: System.Object[]
+      description: Object[]
+    - id: txt1
+      type: System.Object
+      description: 查找的字符
+    return:
+      type: System.Boolean
+      description: 方法存在或不存在
+    content.vb: Public Shared Function Contains(txt As Object(), txt1 As Object) As Boolean
+  overload: Tool.ObjectExtension.Contains*
+  nameWithType.vb: ObjectExtension.Contains(Object(), Object)
+  fullName.vb: Tool.ObjectExtension.Contains(Object(), Object)
+  name.vb: Contains(Object(), Object)
+- uid: Tool.ObjectExtension.Read``1(System.Object,System.Object,System.Int32,System.Int32)
+  commentId: M:Tool.ObjectExtension.Read``1(System.Object,System.Object,System.Int32,System.Int32)
+  id: Read``1(System.Object,System.Object,System.Int32,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Read<T>(object, object, int, int)
+  nameWithType: ObjectExtension.Read<T>(object, object, int, int)
+  fullName: Tool.ObjectExtension.Read<T>(object, object, int, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Read
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 929
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 重写封装的Copy方法 (读取原数组中指定位置的内容)
+  example: []
+  syntax:
+    content: public static int Read<T>(this object sourceArray, object destinationArray, int sourceIndex, int length)
+    parameters:
+    - id: sourceArray
+      type: System.Object
+      description: 源数组对象
+    - id: destinationArray
+      type: System.Object
+      description: 新数组对象
+    - id: sourceIndex
+      type: System.Int32
+      description: 源数据开始读取的位置
+    - id: length
+      type: System.Int32
+      description: 从源数组取多少？(是指从读取位置开始往后读的数量)
+    typeParameters:
+    - id: T
+    return:
+      type: System.Int32
+      description: 返回当前新的数组中复制了多少个下标的值
+    content.vb: Public Shared Function Read(Of T)(sourceArray As Object, destinationArray As Object, sourceIndex As Integer, length As Integer) As Integer
+  overload: Tool.ObjectExtension.Read*
+  nameWithType.vb: ObjectExtension.Read(Of T)(Object, Object, Integer, Integer)
+  fullName.vb: Tool.ObjectExtension.Read(Of T)(Object, Object, Integer, Integer)
+  name.vb: Read(Of T)(Object, Object, Integer, Integer)
+- uid: Tool.ObjectExtension.Read``1(System.Object,System.Int32,System.Object,System.Int32,System.Int32)
+  commentId: M:Tool.ObjectExtension.Read``1(System.Object,System.Int32,System.Object,System.Int32,System.Int32)
+  id: Read``1(System.Object,System.Int32,System.Object,System.Int32,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: Read<T>(object, int, object, int, int)
+  nameWithType: ObjectExtension.Read<T>(object, int, object, int, int)
+  fullName: Tool.ObjectExtension.Read<T>(object, int, object, int, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Read
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 943
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 重写封装的Copy方法 (读取原数组中指定位置的内容)
+  example: []
+  syntax:
+    content: public static int Read<T>(this object sourceArray, int sourceIndex, object destinationArray, int destinationIndex, int length)
+    parameters:
+    - id: sourceArray
+      type: System.Object
+      description: 源数组对象
+    - id: sourceIndex
+      type: System.Int32
+      description: 源数据开始读取的位置
+    - id: destinationArray
+      type: System.Object
+      description: 新数组对象
+    - id: destinationIndex
+      type: System.Int32
+      description: 开始存储的位置
+    - id: length
+      type: System.Int32
+      description: 从源数组取多少？(是指从读取位置开始往后读的数量)
+    typeParameters:
+    - id: T
+    return:
+      type: System.Int32
+      description: 返回当前新的数组中复制了多少个下标的值
+    content.vb: Public Shared Function Read(Of T)(sourceArray As Object, sourceIndex As Integer, destinationArray As Object, destinationIndex As Integer, length As Integer) As Integer
+  overload: Tool.ObjectExtension.Read*
+  nameWithType.vb: ObjectExtension.Read(Of T)(Object, Integer, Object, Integer, Integer)
+  fullName.vb: Tool.ObjectExtension.Read(Of T)(Object, Integer, Object, Integer, Integer)
+  name.vb: Read(Of T)(Object, Integer, Object, Integer, Integer)
+- uid: Tool.ObjectExtension.GetArrayIndex(System.Object[],System.Int32,System.Int32)
+  commentId: M:Tool.ObjectExtension.GetArrayIndex(System.Object[],System.Int32,System.Int32)
+  id: GetArrayIndex(System.Object[],System.Int32,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: GetArrayIndex(object[], int, int)
+  nameWithType: ObjectExtension.GetArrayIndex(object[], int, int)
+  fullName: Tool.ObjectExtension.GetArrayIndex(object[], int, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetArrayIndex
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 985
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 同于获取指定部分的内容
+  example: []
+  syntax:
+    content: public static object[] GetArrayIndex(this object[] obj, int index, int count)
+    parameters:
+    - id: obj
+      type: System.Object[]
+      description: 对象数组
+    - id: index
+      type: System.Int32
+      description: 从下标N开始
+    - id: count
+      type: System.Int32
+      description: 到下标N结束
+    return:
+      type: System.Object[]
+      description: 返回一部分的数组内容
+    content.vb: Public Shared Function GetArrayIndex(obj As Object(), index As Integer, count As Integer) As Object()
+  overload: Tool.ObjectExtension.GetArrayIndex*
+  nameWithType.vb: ObjectExtension.GetArrayIndex(Object(), Integer, Integer)
+  fullName.vb: Tool.ObjectExtension.GetArrayIndex(Object(), Integer, Integer)
+  name.vb: GetArrayIndex(Object(), Integer, Integer)
+- uid: Tool.ObjectExtension.RunTask(System.Func{System.Threading.Tasks.Task},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  commentId: M:Tool.ObjectExtension.RunTask(System.Func{System.Threading.Tasks.Task},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  id: RunTask(System.Func{System.Threading.Tasks.Task},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: RunTask(Func<Task>, TaskCreationOptions, CancellationToken)
+  nameWithType: ObjectExtension.RunTask(Func<Task>, TaskCreationOptions, CancellationToken)
+  fullName: Tool.ObjectExtension.RunTask(System.Func<System.Threading.Tasks.Task>, System.Threading.Tasks.TaskCreationOptions, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: RunTask
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 1027
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 原 StartNew 方法的封装·支持对异步模型的线程创建
+  example: []
+  syntax:
+    content: public static Task RunTask(this Func<Task> task, TaskCreationOptions creationOptions = TaskCreationOptions.None, CancellationToken token = default)
+    parameters:
+    - id: task
+      type: System.Func{System.Threading.Tasks.Task}
+    - id: creationOptions
+      type: System.Threading.Tasks.TaskCreationOptions
+    - id: token
+      type: System.Threading.CancellationToken
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Shared Function RunTask(task As Func(Of Task), creationOptions As TaskCreationOptions = TaskCreationOptions.None, token As CancellationToken = Nothing) As Task
+  overload: Tool.ObjectExtension.RunTask*
+  nameWithType.vb: ObjectExtension.RunTask(Func(Of Task), TaskCreationOptions, CancellationToken)
+  fullName.vb: Tool.ObjectExtension.RunTask(System.Func(Of System.Threading.Tasks.Task), System.Threading.Tasks.TaskCreationOptions, System.Threading.CancellationToken)
+  name.vb: RunTask(Func(Of Task), TaskCreationOptions, CancellationToken)
+- uid: Tool.ObjectExtension.RunTask(System.Func{System.Threading.Tasks.ValueTask},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  commentId: M:Tool.ObjectExtension.RunTask(System.Func{System.Threading.Tasks.ValueTask},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  id: RunTask(System.Func{System.Threading.Tasks.ValueTask},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: RunTask(Func<ValueTask>, TaskCreationOptions, CancellationToken)
+  nameWithType: ObjectExtension.RunTask(Func<ValueTask>, TaskCreationOptions, CancellationToken)
+  fullName: Tool.ObjectExtension.RunTask(System.Func<System.Threading.Tasks.ValueTask>, System.Threading.Tasks.TaskCreationOptions, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: RunTask
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 1037
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 原 StartNew 方法的封装·支持对异步模型的线程创建
+  example: []
+  syntax:
+    content: public static ValueTask RunTask(this Func<ValueTask> task, TaskCreationOptions creationOptions = TaskCreationOptions.None, CancellationToken token = default)
+    parameters:
+    - id: task
+      type: System.Func{System.Threading.Tasks.ValueTask}
+    - id: creationOptions
+      type: System.Threading.Tasks.TaskCreationOptions
+    - id: token
+      type: System.Threading.CancellationToken
+    return:
+      type: System.Threading.Tasks.ValueTask
+      description: ''
+    content.vb: Public Shared Function RunTask(task As Func(Of ValueTask), creationOptions As TaskCreationOptions = TaskCreationOptions.None, token As CancellationToken = Nothing) As ValueTask
+  overload: Tool.ObjectExtension.RunTask*
+  nameWithType.vb: ObjectExtension.RunTask(Func(Of ValueTask), TaskCreationOptions, CancellationToken)
+  fullName.vb: Tool.ObjectExtension.RunTask(System.Func(Of System.Threading.Tasks.ValueTask), System.Threading.Tasks.TaskCreationOptions, System.Threading.CancellationToken)
+  name.vb: RunTask(Func(Of ValueTask), TaskCreationOptions, CancellationToken)
+- uid: Tool.ObjectExtension.RunTask``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  commentId: M:Tool.ObjectExtension.RunTask``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  id: RunTask``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: RunTask<T>(Func<Task<T>>, TaskCreationOptions, CancellationToken)
+  nameWithType: ObjectExtension.RunTask<T>(Func<Task<T>>, TaskCreationOptions, CancellationToken)
+  fullName: Tool.ObjectExtension.RunTask<T>(System.Func<System.Threading.Tasks.Task<T>>, System.Threading.Tasks.TaskCreationOptions, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: RunTask
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 1051
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 原 StartNew 方法的封装·支持对异步模型的线程创建
+  example: []
+  syntax:
+    content: public static Task<T> RunTask<T>(this Func<Task<T>> task, TaskCreationOptions creationOptions = TaskCreationOptions.None, CancellationToken token = default)
+    parameters:
+    - id: task
+      type: System.Func{System.Threading.Tasks.Task{{T}}}
+    - id: creationOptions
+      type: System.Threading.Tasks.TaskCreationOptions
+    - id: token
+      type: System.Threading.CancellationToken
+    typeParameters:
+    - id: T
+    return:
+      type: System.Threading.Tasks.Task{{T}}
+      description: 返回结果
+    content.vb: Public Shared Function RunTask(Of T)(task As Func(Of Task(Of T)), creationOptions As TaskCreationOptions = TaskCreationOptions.None, token As CancellationToken = Nothing) As Task(Of T)
+  overload: Tool.ObjectExtension.RunTask*
+  nameWithType.vb: ObjectExtension.RunTask(Of T)(Func(Of Task(Of T)), TaskCreationOptions, CancellationToken)
+  fullName.vb: Tool.ObjectExtension.RunTask(Of T)(System.Func(Of System.Threading.Tasks.Task(Of T)), System.Threading.Tasks.TaskCreationOptions, System.Threading.CancellationToken)
+  name.vb: RunTask(Of T)(Func(Of Task(Of T)), TaskCreationOptions, CancellationToken)
+- uid: Tool.ObjectExtension.RunTask``1(System.Func{System.Threading.Tasks.ValueTask{``0}},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  commentId: M:Tool.ObjectExtension.RunTask``1(System.Func{System.Threading.Tasks.ValueTask{``0}},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  id: RunTask``1(System.Func{System.Threading.Tasks.ValueTask{``0}},System.Threading.Tasks.TaskCreationOptions,System.Threading.CancellationToken)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: RunTask<T>(Func<ValueTask<T>>, TaskCreationOptions, CancellationToken)
+  nameWithType: ObjectExtension.RunTask<T>(Func<ValueTask<T>>, TaskCreationOptions, CancellationToken)
+  fullName: Tool.ObjectExtension.RunTask<T>(System.Func<System.Threading.Tasks.ValueTask<T>>, System.Threading.Tasks.TaskCreationOptions, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: RunTask
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 1066
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 原 StartNew 方法的封装·支持对异步模型的线程创建
+  example: []
+  syntax:
+    content: public static ValueTask<T> RunTask<T>(this Func<ValueTask<T>> task, TaskCreationOptions creationOptions = TaskCreationOptions.None, CancellationToken token = default)
+    parameters:
+    - id: task
+      type: System.Func{System.Threading.Tasks.ValueTask{{T}}}
+    - id: creationOptions
+      type: System.Threading.Tasks.TaskCreationOptions
+    - id: token
+      type: System.Threading.CancellationToken
+    typeParameters:
+    - id: T
+    return:
+      type: System.Threading.Tasks.ValueTask{{T}}
+      description: 返回结果
+    content.vb: Public Shared Function RunTask(Of T)(task As Func(Of ValueTask(Of T)), creationOptions As TaskCreationOptions = TaskCreationOptions.None, token As CancellationToken = Nothing) As ValueTask(Of T)
+  overload: Tool.ObjectExtension.RunTask*
+  nameWithType.vb: ObjectExtension.RunTask(Of T)(Func(Of ValueTask(Of T)), TaskCreationOptions, CancellationToken)
+  fullName.vb: Tool.ObjectExtension.RunTask(Of T)(System.Func(Of System.Threading.Tasks.ValueTask(Of T)), System.Threading.Tasks.TaskCreationOptions, System.Threading.CancellationToken)
+  name.vb: RunTask(Of T)(Func(Of ValueTask(Of T)), TaskCreationOptions, CancellationToken)
+- uid: Tool.ObjectExtension.IsNewTask(System.Threading.Tasks.Task)
+  commentId: M:Tool.ObjectExtension.IsNewTask(System.Threading.Tasks.Task)
+  id: IsNewTask(System.Threading.Tasks.Task)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: IsNewTask(Task)
+  nameWithType: ObjectExtension.IsNewTask(Task)
+  fullName: Tool.ObjectExtension.IsNewTask(System.Threading.Tasks.Task)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsNewTask
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 1081
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 判断当前任务是否是使用了新线程完成，如果使用的是当前线程完成任务，将在返回前，启用新线程继续后续任务
+  example: []
+  syntax:
+    content: public static Task IsNewTask(this Task task)
+    parameters:
+    - id: task
+      type: System.Threading.Tasks.Task
+      description: 需要完成的任务
+    return:
+      type: System.Threading.Tasks.Task
+      description: 返回与原线程不一样的继续线程
+    content.vb: Public Shared Function IsNewTask(task As Task) As Task
+  overload: Tool.ObjectExtension.IsNewTask*
+- uid: Tool.ObjectExtension.IsNewTask(System.Threading.Tasks.ValueTask)
+  commentId: M:Tool.ObjectExtension.IsNewTask(System.Threading.Tasks.ValueTask)
+  id: IsNewTask(System.Threading.Tasks.ValueTask)
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: IsNewTask(ValueTask)
+  nameWithType: ObjectExtension.IsNewTask(ValueTask)
+  fullName: Tool.ObjectExtension.IsNewTask(System.Threading.Tasks.ValueTask)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsNewTask
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 1094
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 判断当前任务是否是使用了新线程完成，如果使用的是当前线程完成任务，将在返回前，启用新线程继续后续任务
+  example: []
+  syntax:
+    content: public static ValueTask IsNewTask(this ValueTask task)
+    parameters:
+    - id: task
+      type: System.Threading.Tasks.ValueTask
+      description: 需要完成的任务
+    return:
+      type: System.Threading.Tasks.ValueTask
+      description: 返回与原线程不一样的继续线程
+    content.vb: Public Shared Function IsNewTask(task As ValueTask) As ValueTask
+  overload: Tool.ObjectExtension.IsNewTask*
+- uid: Tool.ObjectExtension.IsNewTask``1(System.Threading.Tasks.Task{``0})
+  commentId: M:Tool.ObjectExtension.IsNewTask``1(System.Threading.Tasks.Task{``0})
+  id: IsNewTask``1(System.Threading.Tasks.Task{``0})
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: IsNewTask<TResult>(Task<TResult>)
+  nameWithType: ObjectExtension.IsNewTask<TResult>(Task<TResult>)
+  fullName: Tool.ObjectExtension.IsNewTask<TResult>(System.Threading.Tasks.Task<TResult>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsNewTask
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 1101
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 判断当前任务是否是使用了新线程完成，如果使用的是当前线程完成任务，将在返回前，启用新线程继续后续任务
+  example: []
+  syntax:
+    content: public static Task<TResult> IsNewTask<TResult>(this Task<TResult> task)
+    parameters:
+    - id: task
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: 需要完成的任务
+    typeParameters:
+    - id: TResult
+    return:
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: 返回与原线程不一样的继续线程
+    content.vb: Public Shared Function IsNewTask(Of TResult)(task As Task(Of TResult)) As Task(Of TResult)
+  overload: Tool.ObjectExtension.IsNewTask*
+  nameWithType.vb: ObjectExtension.IsNewTask(Of TResult)(Task(Of TResult))
+  fullName.vb: Tool.ObjectExtension.IsNewTask(Of TResult)(System.Threading.Tasks.Task(Of TResult))
+  name.vb: IsNewTask(Of TResult)(Task(Of TResult))
+- uid: Tool.ObjectExtension.IsNewTask``1(System.Threading.Tasks.ValueTask{``0})
+  commentId: M:Tool.ObjectExtension.IsNewTask``1(System.Threading.Tasks.ValueTask{``0})
+  id: IsNewTask``1(System.Threading.Tasks.ValueTask{``0})
+  isExtensionMethod: true
+  parent: Tool.ObjectExtension
+  langs:
+  - csharp
+  - vb
+  name: IsNewTask<TResult>(ValueTask<TResult>)
+  nameWithType: ObjectExtension.IsNewTask<TResult>(ValueTask<TResult>)
+  fullName: Tool.ObjectExtension.IsNewTask<TResult>(System.Threading.Tasks.ValueTask<TResult>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ObjectExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsNewTask
+    path: ../../Tool.Net/TypeExtension/ObjectExtension.cs
+    startLine: 1115
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 判断当前任务是否是使用了新线程完成，如果使用的是当前线程完成任务，将在返回前，启用新线程继续后续任务
+  example: []
+  syntax:
+    content: public static ValueTask<TResult> IsNewTask<TResult>(this ValueTask<TResult> task)
+    parameters:
+    - id: task
+      type: System.Threading.Tasks.ValueTask{{TResult}}
+      description: 需要完成的任务
+    typeParameters:
+    - id: TResult
+    return:
+      type: System.Threading.Tasks.ValueTask{{TResult}}
+      description: 返回与原线程不一样的继续线程
+    content.vb: Public Shared Function IsNewTask(Of TResult)(task As ValueTask(Of TResult)) As ValueTask(Of TResult)
+  overload: Tool.ObjectExtension.IsNewTask*
+  nameWithType.vb: ObjectExtension.IsNewTask(Of TResult)(ValueTask(Of TResult))
+  fullName.vb: Tool.ObjectExtension.IsNewTask(Of TResult)(System.Threading.Tasks.ValueTask(Of TResult))
+  name.vb: IsNewTask(Of TResult)(ValueTask(Of TResult))
+references:
+- uid: Tool
+  commentId: N:Tool
+  href: Tool.html
+  name: Tool
+  nameWithType: Tool
+  fullName: Tool
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Tool.ObjectExtension.Services*
+  commentId: Overload:Tool.ObjectExtension.Services
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_Services
+  name: Services
+  nameWithType: ObjectExtension.Services
+  fullName: Tool.ObjectExtension.Services
+- uid: Microsoft.Extensions.DependencyInjection.IServiceCollection
+  commentId: T:Microsoft.Extensions.DependencyInjection.IServiceCollection
+  parent: Microsoft.Extensions.DependencyInjection
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.iservicecollection
+  name: IServiceCollection
+  nameWithType: IServiceCollection
+  fullName: Microsoft.Extensions.DependencyInjection.IServiceCollection
+- uid: Microsoft.Extensions.DependencyInjection
+  commentId: N:Microsoft.Extensions.DependencyInjection
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.Extensions.DependencyInjection
+  nameWithType: Microsoft.Extensions.DependencyInjection
+  fullName: Microsoft.Extensions.DependencyInjection
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.DependencyInjection
+    name: DependencyInjection
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.DependencyInjection
+    name: DependencyInjection
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection
+- uid: Tool.ObjectExtension.Provider*
+  commentId: Overload:Tool.ObjectExtension.Provider
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_Provider
+  name: Provider
+  nameWithType: ObjectExtension.Provider
+  fullName: Tool.ObjectExtension.Provider
+- uid: System.IServiceProvider
+  commentId: T:System.IServiceProvider
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iserviceprovider
+  name: IServiceProvider
+  nameWithType: IServiceProvider
+  fullName: System.IServiceProvider
+- uid: Tool.ObjectExtension.BuildProvider*
+  commentId: Overload:Tool.ObjectExtension.BuildProvider
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_BuildProvider
+  name: BuildProvider
+  nameWithType: ObjectExtension.BuildProvider
+  fullName: Tool.ObjectExtension.BuildProvider
+- uid: Tool.ObjectExtension.Static*
+  commentId: Overload:Tool.ObjectExtension.Static
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_Static
+  name: Static
+  nameWithType: ObjectExtension.Static
+  fullName: Tool.ObjectExtension.Static
+- uid: Tool.GlobalObj
+  commentId: T:Tool.GlobalObj
+  parent: Tool
+  href: Tool.GlobalObj.html
+  name: GlobalObj
+  nameWithType: GlobalObj
+  fullName: Tool.GlobalObj
+- uid: Tool.ObjectExtension.Thread*
+  commentId: Overload:Tool.ObjectExtension.Thread
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_Thread
+  name: Thread
+  nameWithType: ObjectExtension.Thread
+  fullName: Tool.ObjectExtension.Thread
+- uid: System.Threading.Thread
+  commentId: T:System.Threading.Thread
+  parent: System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.thread
+  name: Thread
+  nameWithType: Thread
+  fullName: System.Threading.Thread
+- uid: System.Threading
+  commentId: N:System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading
+  nameWithType: System.Threading
+  fullName: System.Threading
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+- uid: Tool.ObjectExtension.ProcessThreadCollection*
+  commentId: Overload:Tool.ObjectExtension.ProcessThreadCollection
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_ProcessThreadCollection
+  name: ProcessThreadCollection
+  nameWithType: ObjectExtension.ProcessThreadCollection
+  fullName: Tool.ObjectExtension.ProcessThreadCollection
+- uid: System.Diagnostics.ProcessThreadCollection
+  commentId: T:System.Diagnostics.ProcessThreadCollection
+  parent: System.Diagnostics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.diagnostics.processthreadcollection
+  name: ProcessThreadCollection
+  nameWithType: ProcessThreadCollection
+  fullName: System.Diagnostics.ProcessThreadCollection
+- uid: System.Diagnostics
+  commentId: N:System.Diagnostics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Diagnostics
+  nameWithType: System.Diagnostics
+  fullName: System.Diagnostics
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Diagnostics
+    name: Diagnostics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.diagnostics
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Diagnostics
+    name: Diagnostics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.diagnostics
+- uid: Microsoft.CSharp
+  commentId: N:Microsoft.CSharp
+  isExternal: true
+  name: Microsoft.CSharp
+  nameWithType: Microsoft.CSharp
+  fullName: Microsoft.CSharp
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+  - name: .
+  - uid: Microsoft.CSharp
+    name: CSharp
+    isExternal: true
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+  - name: .
+  - uid: Microsoft.CSharp
+    name: CSharp
+    isExternal: true
+- uid: Tool.ObjectExtension.Dynamic*
+  commentId: Overload:Tool.ObjectExtension.Dynamic
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_Dynamic
+  name: Dynamic
+  nameWithType: ObjectExtension.Dynamic
+  fullName: Tool.ObjectExtension.Dynamic
+- uid: dynamic
+  commentId: T:System.Object
+  isExternal: true
+  name: dynamic
+  nameWithType: dynamic
+  fullName: dynamic
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Tool.ObjectExtension.DynamicAdd*
+  commentId: Overload:Tool.ObjectExtension.DynamicAdd
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_DynamicAdd_System_String_System_Object_System_Boolean_
+  name: DynamicAdd
+  nameWithType: ObjectExtension.DynamicAdd
+  fullName: Tool.ObjectExtension.DynamicAdd
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Tool.ObjectExtension.DynamicRemove*
+  commentId: Overload:Tool.ObjectExtension.DynamicRemove
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_DynamicRemove
+  name: DynamicRemove
+  nameWithType: ObjectExtension.DynamicRemove
+  fullName: Tool.ObjectExtension.DynamicRemove
+- uid: Tool.ObjectExtension.Dynamickey*
+  commentId: Overload:Tool.ObjectExtension.Dynamickey
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_Dynamickey_System_String_
+  name: Dynamickey
+  nameWithType: ObjectExtension.Dynamickey
+  fullName: Tool.ObjectExtension.Dynamickey
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Tool.ObjectExtension.DynamicObjectkey*
+  commentId: Overload:Tool.ObjectExtension.DynamicObjectkey
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_DynamicObjectkey_System_String_
+  name: DynamicObjectkey
+  nameWithType: ObjectExtension.DynamicObjectkey
+  fullName: Tool.ObjectExtension.DynamicObjectkey
+- uid: Tool.ObjectExtension.DynamicKeys*
+  commentId: Overload:Tool.ObjectExtension.DynamicKeys
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_DynamicKeys
+  name: DynamicKeys
+  nameWithType: ObjectExtension.DynamicKeys
+  fullName: Tool.ObjectExtension.DynamicKeys
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: Tool.ObjectExtension.DynamicValues*
+  commentId: Overload:Tool.ObjectExtension.DynamicValues
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_DynamicValues
+  name: DynamicValues
+  nameWithType: ObjectExtension.DynamicValues
+  fullName: Tool.ObjectExtension.DynamicValues
+- uid: dynamic[]
+  isExternal: true
+  name: dynamic[]
+  nameWithType: dynamic[]
+  fullName: dynamic[]
+  nameWithType.vb: Object()
+  fullName.vb: Object()
+  name.vb: Object()
+  spec.csharp:
+  - uid: dynamic
+    name: dynamic
+    isExternal: true
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: Object
+  - name: (
+  - name: )
+- uid: Tool.ObjectExtension.DynamicCount*
+  commentId: Overload:Tool.ObjectExtension.DynamicCount
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_DynamicCount
+  name: DynamicCount
+  nameWithType: ObjectExtension.DynamicCount
+  fullName: Tool.ObjectExtension.DynamicCount
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Tool.ObjectExtension.IsPropertyExist*
+  commentId: Overload:Tool.ObjectExtension.IsPropertyExist
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_IsPropertyExist_System_String_
+  name: IsPropertyExist
+  nameWithType: ObjectExtension.IsPropertyExist
+  fullName: Tool.ObjectExtension.IsPropertyExist
+- uid: Tool.ObjectExtension.ToVar*
+  commentId: Overload:Tool.ObjectExtension.ToVar
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar__1_System_Object_
+  name: ToVar
+  nameWithType: ObjectExtension.ToVar
+  fullName: Tool.ObjectExtension.ToVar
+- uid: Tool.ObjectExtension.ToTryVar*
+  commentId: Overload:Tool.ObjectExtension.ToTryVar
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_ToTryVar__1_System_Object___0_
+  name: ToTryVar
+  nameWithType: ObjectExtension.ToTryVar
+  fullName: Tool.ObjectExtension.ToTryVar
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: Tool.ObjectExtension.MapTo*
+  commentId: Overload:Tool.ObjectExtension.MapTo
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_MapTo_Tool_ObjectExtension_ThreadStart_
+  name: MapTo
+  nameWithType: ObjectExtension.MapTo
+  fullName: Tool.ObjectExtension.MapTo
+- uid: Tool.ObjectExtension.ThreadStart
+  commentId: T:Tool.ObjectExtension.ThreadStart
+  parent: Tool
+  href: Tool.ObjectExtension.html
+  name: ObjectExtension.ThreadStart
+  nameWithType: ObjectExtension.ThreadStart
+  fullName: Tool.ObjectExtension.ThreadStart
+  spec.csharp:
+  - uid: Tool.ObjectExtension
+    name: ObjectExtension
+    href: Tool.ObjectExtension.html
+  - name: .
+  - uid: Tool.ObjectExtension.ThreadStart
+    name: ThreadStart
+    href: Tool.ObjectExtension.ThreadStart.html
+  spec.vb:
+  - uid: Tool.ObjectExtension
+    name: ObjectExtension
+    href: Tool.ObjectExtension.html
+  - name: .
+  - uid: Tool.ObjectExtension.ThreadStart
+    name: ThreadStart
+    href: Tool.ObjectExtension.ThreadStart.html
+- uid: System.Object[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object[]
+  nameWithType: object[]
+  fullName: object[]
+  nameWithType.vb: Object()
+  fullName.vb: Object()
+  name.vb: Object()
+  spec.csharp:
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+- uid: Tool.Utils.ActionDelegate.ActionDispatcher{{T}}
+  commentId: T:Tool.Utils.ActionDelegate.ActionDispatcher{``0}
+  parent: Tool.Utils.ActionDelegate
+  definition: Tool.Utils.ActionDelegate.ActionDispatcher`1
+  href: Tool.Utils.ActionDelegate.ActionDispatcher-1.html
+  name: ActionDispatcher<T>
+  nameWithType: ActionDispatcher<T>
+  fullName: Tool.Utils.ActionDelegate.ActionDispatcher<T>
+  nameWithType.vb: ActionDispatcher(Of T)
+  fullName.vb: Tool.Utils.ActionDelegate.ActionDispatcher(Of T)
+  name.vb: ActionDispatcher(Of T)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`1
+    name: ActionDispatcher
+    href: Tool.Utils.ActionDelegate.ActionDispatcher-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`1
+    name: ActionDispatcher
+    href: Tool.Utils.ActionDelegate.ActionDispatcher-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.ActionDelegate.ActionDispatcher`1
+  commentId: T:Tool.Utils.ActionDelegate.ActionDispatcher`1
+  href: Tool.Utils.ActionDelegate.ActionDispatcher-1.html
+  name: ActionDispatcher<T>
+  nameWithType: ActionDispatcher<T>
+  fullName: Tool.Utils.ActionDelegate.ActionDispatcher<T>
+  nameWithType.vb: ActionDispatcher(Of T)
+  fullName.vb: Tool.Utils.ActionDelegate.ActionDispatcher(Of T)
+  name.vb: ActionDispatcher(Of T)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`1
+    name: ActionDispatcher
+    href: Tool.Utils.ActionDelegate.ActionDispatcher-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`1
+    name: ActionDispatcher
+    href: Tool.Utils.ActionDelegate.ActionDispatcher-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.ActionDelegate
+  commentId: N:Tool.Utils.ActionDelegate
+  href: Tool.html
+  name: Tool.Utils.ActionDelegate
+  nameWithType: Tool.Utils.ActionDelegate
+  fullName: Tool.Utils.ActionDelegate
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate
+    name: ActionDelegate
+    href: Tool.Utils.ActionDelegate.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate
+    name: ActionDelegate
+    href: Tool.Utils.ActionDelegate.html
+- uid: Tool.ObjectExtension.ToXml*
+  commentId: Overload:Tool.ObjectExtension.ToXml
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_ToXml_System_Object_
+  name: ToXml
+  nameWithType: ObjectExtension.ToXml
+  fullName: Tool.ObjectExtension.ToXml
+- uid: Tool.ObjectExtension.ToJson*
+  commentId: Overload:Tool.ObjectExtension.ToJson
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_ToJson_System_Object_
+  name: ToJson
+  nameWithType: ObjectExtension.ToJson
+  fullName: Tool.ObjectExtension.ToJson
+- uid: Tool.ObjectExtension.ToJsonWeb*
+  commentId: Overload:Tool.ObjectExtension.ToJsonWeb
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_ToJsonWeb_System_Object_
+  name: ToJsonWeb
+  nameWithType: ObjectExtension.ToJsonWeb
+  fullName: Tool.ObjectExtension.ToJsonWeb
+- uid: System.Action{System.Text.Json.JsonSerializerOptions}
+  commentId: T:System.Action{System.Text.Json.JsonSerializerOptions}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<JsonSerializerOptions>
+  nameWithType: Action<JsonSerializerOptions>
+  fullName: System.Action<System.Text.Json.JsonSerializerOptions>
+  nameWithType.vb: Action(Of JsonSerializerOptions)
+  fullName.vb: System.Action(Of System.Text.Json.JsonSerializerOptions)
+  name.vb: Action(Of JsonSerializerOptions)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.Text.Json.JsonSerializerOptions
+    name: JsonSerializerOptions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text.json.jsonserializeroptions
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Text.Json.JsonSerializerOptions
+    name: JsonSerializerOptions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text.json.jsonserializeroptions
+  - name: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Text.Json.JsonSerializerOptions
+  commentId: T:System.Text.Json.JsonSerializerOptions
+  parent: System.Text.Json
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.text.json.jsonserializeroptions
+  name: JsonSerializerOptions
+  nameWithType: JsonSerializerOptions
+  fullName: System.Text.Json.JsonSerializerOptions
+- uid: System.Text.Json
+  commentId: N:System.Text.Json
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Text.Json
+  nameWithType: System.Text.Json
+  fullName: System.Text.Json
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Text
+    name: Text
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text
+  - name: .
+  - uid: System.Text.Json
+    name: Json
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text.json
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Text
+    name: Text
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text
+  - name: .
+  - uid: System.Text.Json
+    name: Json
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text.json
+- uid: Tool.ObjectExtension.EntityToJson*
+  commentId: Overload:Tool.ObjectExtension.EntityToJson
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_
+  name: EntityToJson
+  nameWithType: ObjectExtension.EntityToJson
+  fullName: Tool.ObjectExtension.EntityToJson
+- uid: Tool.ObjectExtension.ToBase64String*
+  commentId: Overload:Tool.ObjectExtension.ToBase64String
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_ToBase64String_System_Object_
+  name: ToBase64String
+  nameWithType: ObjectExtension.ToBase64String
+  fullName: Tool.ObjectExtension.ToBase64String
+- uid: System.Runtime.Serialization.ISerializable
+  commentId: T:System.Runtime.Serialization.ISerializable
+  parent: System.Runtime.Serialization
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization.iserializable
+  name: ISerializable
+  nameWithType: ISerializable
+  fullName: System.Runtime.Serialization.ISerializable
+- uid: Tool.ObjectExtension.ToBytes*
+  commentId: Overload:Tool.ObjectExtension.ToBytes
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_ToBytes_System_Object_
+  name: ToBytes
+  nameWithType: ObjectExtension.ToBytes
+  fullName: Tool.ObjectExtension.ToBytes
+- uid: System.Byte[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte[]
+  nameWithType: byte[]
+  fullName: byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+- uid: System.Runtime.Serialization
+  commentId: N:System.Runtime.Serialization
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Runtime.Serialization
+  nameWithType: System.Runtime.Serialization
+  fullName: System.Runtime.Serialization
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Runtime
+    name: Runtime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime
+  - name: .
+  - uid: System.Runtime.Serialization
+    name: Serialization
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Runtime
+    name: Runtime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime
+  - name: .
+  - uid: System.Runtime.Serialization
+    name: Serialization
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.serialization
+- uid: Tool.ObjectExtension.Read*
+  commentId: Overload:Tool.ObjectExtension.Read
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_Read__1_System_IntPtr_
+  name: Read
+  nameWithType: ObjectExtension.Read
+  fullName: Tool.ObjectExtension.Read
+- uid: System.IntPtr
+  commentId: T:System.IntPtr
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.intptr
+  name: IntPtr
+  nameWithType: IntPtr
+  fullName: System.IntPtr
+- uid: Tool.ObjectExtension.GetIntPtr*
+  commentId: Overload:Tool.ObjectExtension.GetIntPtr
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_GetIntPtr_System_Object_
+  name: GetIntPtr
+  nameWithType: ObjectExtension.GetIntPtr
+  fullName: Tool.ObjectExtension.GetIntPtr
+- uid: Tool.ObjectExtension.GetIntPtrInt*
+  commentId: Overload:Tool.ObjectExtension.GetIntPtrInt
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_GetIntPtrInt_System_Object_
+  name: GetIntPtrInt
+  nameWithType: ObjectExtension.GetIntPtrInt
+  fullName: Tool.ObjectExtension.GetIntPtrInt
+- uid: Tool.ObjectExtension.CopyEntity*
+  commentId: Overload:Tool.ObjectExtension.CopyEntity
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_CopyEntity_System_Object_System_Object_System_String___
+  name: CopyEntity
+  nameWithType: ObjectExtension.CopyEntity
+  fullName: Tool.ObjectExtension.CopyEntity
+- uid: Tool.ObjectExtension.Add*
+  commentId: Overload:Tool.ObjectExtension.Add
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_Add_System_Object___System_Object_
+  name: Add
+  nameWithType: ObjectExtension.Add
+  fullName: Tool.ObjectExtension.Add
+- uid: Tool.ObjectExtension.Contains*
+  commentId: Overload:Tool.ObjectExtension.Contains
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_Contains_System_Object___System_Object_
+  name: Contains
+  nameWithType: ObjectExtension.Contains
+  fullName: Tool.ObjectExtension.Contains
+- uid: Tool.ObjectExtension.GetArrayIndex*
+  commentId: Overload:Tool.ObjectExtension.GetArrayIndex
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_GetArrayIndex_System_Object___System_Int32_System_Int32_
+  name: GetArrayIndex
+  nameWithType: ObjectExtension.GetArrayIndex
+  fullName: Tool.ObjectExtension.GetArrayIndex
+- uid: Tool.ObjectExtension.RunTask*
+  commentId: Overload:Tool.ObjectExtension.RunTask
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_RunTask_System_Func_System_Threading_Tasks_Task__System_Threading_Tasks_TaskCreationOptions_System_Threading_CancellationToken_
+  name: RunTask
+  nameWithType: ObjectExtension.RunTask
+  fullName: Tool.ObjectExtension.RunTask
+- uid: System.Func{System.Threading.Tasks.Task}
+  commentId: T:System.Func{System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`1
+  href: https://learn.microsoft.com/dotnet/api/system.func-1
+  name: Func<Task>
+  nameWithType: Func<Task>
+  fullName: System.Func<System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of Task)
+  fullName.vb: System.Func(Of System.Threading.Tasks.Task)
+  name.vb: Func(Of Task)
+  spec.csharp:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: <
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: System.Threading.Tasks.TaskCreationOptions
+  commentId: T:System.Threading.Tasks.TaskCreationOptions
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcreationoptions
+  name: TaskCreationOptions
+  nameWithType: TaskCreationOptions
+  fullName: System.Threading.Tasks.TaskCreationOptions
+- uid: System.Threading.CancellationToken
+  commentId: T:System.Threading.CancellationToken
+  parent: System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  name: CancellationToken
+  nameWithType: CancellationToken
+  fullName: System.Threading.CancellationToken
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Func`1
+  commentId: T:System.Func`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-1
+  name: Func<TResult>
+  nameWithType: Func<TResult>
+  fullName: System.Func<TResult>
+  nameWithType.vb: Func(Of TResult)
+  fullName.vb: System.Func(Of TResult)
+  name.vb: Func(Of TResult)
+  spec.csharp:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: System.Func{System.Threading.Tasks.ValueTask}
+  commentId: T:System.Func{System.Threading.Tasks.ValueTask}
+  parent: System
+  definition: System.Func`1
+  href: https://learn.microsoft.com/dotnet/api/system.func-1
+  name: Func<ValueTask>
+  nameWithType: Func<ValueTask>
+  fullName: System.Func<System.Threading.Tasks.ValueTask>
+  nameWithType.vb: Func(Of ValueTask)
+  fullName.vb: System.Func(Of System.Threading.Tasks.ValueTask)
+  name.vb: Func(Of ValueTask)
+  spec.csharp:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: <
+  - uid: System.Threading.Tasks.ValueTask
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Threading.Tasks.ValueTask
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask
+  - name: )
+- uid: System.Threading.Tasks.ValueTask
+  commentId: T:System.Threading.Tasks.ValueTask
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask
+  name: ValueTask
+  nameWithType: ValueTask
+  fullName: System.Threading.Tasks.ValueTask
+- uid: System.Func{System.Threading.Tasks.Task{{T}}}
+  commentId: T:System.Func{System.Threading.Tasks.Task{``0}}
+  parent: System
+  definition: System.Func`1
+  href: https://learn.microsoft.com/dotnet/api/system.func-1
+  name: Func<Task<T>>
+  nameWithType: Func<Task<T>>
+  fullName: System.Func<System.Threading.Tasks.Task<T>>
+  nameWithType.vb: Func(Of Task(Of T))
+  fullName.vb: System.Func(Of System.Threading.Tasks.Task(Of T))
+  name.vb: Func(Of Task(Of T))
+  spec.csharp:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: <
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Threading.Tasks.Task{{T}}
+  commentId: T:System.Threading.Tasks.Task{``0}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<T>
+  nameWithType: Task<T>
+  fullName: System.Threading.Tasks.Task<T>
+  nameWithType.vb: Task(Of T)
+  fullName.vb: System.Threading.Tasks.Task(Of T)
+  name.vb: Task(Of T)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{System.Threading.Tasks.ValueTask{{T}}}
+  commentId: T:System.Func{System.Threading.Tasks.ValueTask{``0}}
+  parent: System
+  definition: System.Func`1
+  href: https://learn.microsoft.com/dotnet/api/system.func-1
+  name: Func<ValueTask<T>>
+  nameWithType: Func<ValueTask<T>>
+  fullName: System.Func<System.Threading.Tasks.ValueTask<T>>
+  nameWithType.vb: Func(Of ValueTask(Of T))
+  fullName.vb: System.Func(Of System.Threading.Tasks.ValueTask(Of T))
+  name.vb: Func(Of ValueTask(Of T))
+  spec.csharp:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: <
+  - uid: System.Threading.Tasks.ValueTask`1
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Threading.Tasks.ValueTask`1
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Threading.Tasks.ValueTask{{T}}
+  commentId: T:System.Threading.Tasks.ValueTask{``0}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.ValueTask`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  name: ValueTask<T>
+  nameWithType: ValueTask<T>
+  fullName: System.Threading.Tasks.ValueTask<T>
+  nameWithType.vb: ValueTask(Of T)
+  fullName.vb: System.Threading.Tasks.ValueTask(Of T)
+  name.vb: ValueTask(Of T)
+  spec.csharp:
+  - uid: System.Threading.Tasks.ValueTask`1
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.ValueTask`1
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Threading.Tasks.ValueTask`1
+  commentId: T:System.Threading.Tasks.ValueTask`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  name: ValueTask<TResult>
+  nameWithType: ValueTask<TResult>
+  fullName: System.Threading.Tasks.ValueTask<TResult>
+  nameWithType.vb: ValueTask(Of TResult)
+  fullName.vb: System.Threading.Tasks.ValueTask(Of TResult)
+  name.vb: ValueTask(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.ValueTask`1
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.ValueTask`1
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Tool.ObjectExtension.IsNewTask*
+  commentId: Overload:Tool.ObjectExtension.IsNewTask
+  href: Tool.ObjectExtension.html#Tool_ObjectExtension_IsNewTask_System_Threading_Tasks_Task_
+  name: IsNewTask
+  nameWithType: ObjectExtension.IsNewTask
+  fullName: Tool.ObjectExtension.IsNewTask
+- uid: System.Threading.Tasks.Task{{TResult}}
+  commentId: T:System.Threading.Tasks.Task{``0}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks.ValueTask{{TResult}}
+  commentId: T:System.Threading.Tasks.ValueTask{``0}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.ValueTask`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  name: ValueTask<TResult>
+  nameWithType: ValueTask<TResult>
+  fullName: System.Threading.Tasks.ValueTask<TResult>
+  nameWithType.vb: ValueTask(Of TResult)
+  fullName.vb: System.Threading.Tasks.ValueTask(Of TResult)
+  name.vb: ValueTask(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.ValueTask`1
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.ValueTask`1
+    name: ValueTask
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )

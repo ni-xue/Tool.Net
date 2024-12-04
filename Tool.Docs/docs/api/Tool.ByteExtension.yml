@@ -1,0 +1,1768 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.ByteExtension
+  commentId: T:Tool.ByteExtension
+  id: ByteExtension
+  parent: Tool
+  children:
+  - Tool.ByteExtension.Add(System.Byte[],System.Byte)
+  - Tool.ByteExtension.AsArraySegment``1(System.Memory{``0})
+  - Tool.ByteExtension.AsArraySegment``1(System.ReadOnlyMemory{``0})
+  - Tool.ByteExtension.BytesToObject(System.Byte[])
+  - Tool.ByteExtension.BytesToObject(System.Byte[],System.Type)
+  - Tool.ByteExtension.BytesToObject``1(System.Byte[])
+  - Tool.ByteExtension.Contains(System.Byte[],System.Byte)
+  - Tool.ByteExtension.Decrement(System.Byte@)
+  - Tool.ByteExtension.GetArrayIndex(System.Byte[],System.Int32,System.Int32)
+  - Tool.ByteExtension.Increment(System.Byte@)
+  - Tool.ByteExtension.Read(System.Byte[],System.Byte[],System.Int32,System.Int32)
+  - Tool.ByteExtension.Read(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32)
+  - Tool.ByteExtension.ToBase64(System.Byte[])
+  - Tool.ByteExtension.ToBool(System.Byte[])
+  - Tool.ByteExtension.ToByteString(System.Byte[])
+  - Tool.ByteExtension.ToByteString(System.Byte[],System.Text.Encoding)
+  - Tool.ByteExtension.ToBytesFile(System.Byte[],System.String)
+  - Tool.ByteExtension.ToChar(System.Byte[])
+  - Tool.ByteExtension.ToDouble(System.Byte[])
+  - Tool.ByteExtension.ToFloat(System.Byte[])
+  - Tool.ByteExtension.ToInt(System.Byte[])
+  - Tool.ByteExtension.ToLong(System.Byte[])
+  - Tool.ByteExtension.ToShort(System.Byte[])
+  - Tool.ByteExtension.ToStrings(System.Byte[])
+  langs:
+  - csharp
+  - vb
+  name: ByteExtension
+  nameWithType: ByteExtension
+  fullName: Tool.ByteExtension
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ByteExtension
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 17
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对Byte进行升级
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class ByteExtension
+    content.vb: Public Module ByteExtension
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.ByteExtension.Increment(System.Byte@)
+  commentId: M:Tool.ByteExtension.Increment(System.Byte@)
+  id: Increment(System.Byte@)
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: Increment(ref byte)
+  nameWithType: ByteExtension.Increment(ref byte)
+  fullName: Tool.ByteExtension.Increment(ref byte)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Increment
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 28
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 原子方式+1
+  example: []
+  syntax:
+    content: public static byte Increment(this ref byte value)
+    parameters:
+    - id: value
+      type: System.Byte
+      description: 值
+    return:
+      type: System.Byte
+      description: ''
+    content.vb: Public Shared Function Increment(value As Byte) As Byte
+  overload: Tool.ByteExtension.Increment*
+  nameWithType.vb: ByteExtension.Increment(Byte)
+  fullName.vb: Tool.ByteExtension.Increment(Byte)
+  name.vb: Increment(Byte)
+- uid: Tool.ByteExtension.Decrement(System.Byte@)
+  commentId: M:Tool.ByteExtension.Decrement(System.Byte@)
+  id: Decrement(System.Byte@)
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: Decrement(ref byte)
+  nameWithType: ByteExtension.Decrement(ref byte)
+  fullName: Tool.ByteExtension.Decrement(ref byte)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Decrement
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 35
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 原子方式-1
+  example: []
+  syntax:
+    content: public static byte Decrement(this ref byte value)
+    parameters:
+    - id: value
+      type: System.Byte
+      description: 值
+    return:
+      type: System.Byte
+      description: ''
+    content.vb: Public Shared Function Decrement(value As Byte) As Byte
+  overload: Tool.ByteExtension.Decrement*
+  nameWithType.vb: ByteExtension.Decrement(Byte)
+  fullName.vb: Tool.ByteExtension.Decrement(Byte)
+  name.vb: Decrement(Byte)
+- uid: Tool.ByteExtension.BytesToObject(System.Byte[])
+  commentId: M:Tool.ByteExtension.BytesToObject(System.Byte[])
+  id: BytesToObject(System.Byte[])
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: BytesToObject(byte[])
+  nameWithType: ByteExtension.BytesToObject(byte[])
+  fullName: Tool.ByteExtension.BytesToObject(byte[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: BytesToObject
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 44
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将一个序列化后的byte[]数组还原
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("BinaryFormatter serialization is obsolete and should not be used. See https://aka.ms/binaryformatter for more information.", DiagnosticId = "SYSLIB0011", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
+
+      public static object BytesToObject(this byte[] Bytes)
+    parameters:
+    - id: Bytes
+      type: System.Byte[]
+      description: ''
+    return:
+      type: System.Object
+      description: 返回一个原对象
+    content.vb: >-
+      <Obsolete("BinaryFormatter serialization is obsolete and should not be used. See https://aka.ms/binaryformatter for more information.", DiagnosticId:="SYSLIB0011", UrlFormat:="https://aka.ms/dotnet-warnings/{0}")>
+
+      Public Shared Function BytesToObject(Bytes As Byte()) As Object
+  overload: Tool.ByteExtension.BytesToObject*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: BinaryFormatter serialization is obsolete and should not be used. See https://aka.ms/binaryformatter for more information.
+    namedArguments:
+    - name: DiagnosticId
+      type: System.String
+      value: SYSLIB0011
+    - name: UrlFormat
+      type: System.String
+      value: https://aka.ms/dotnet-warnings/{0}
+  nameWithType.vb: ByteExtension.BytesToObject(Byte())
+  fullName.vb: Tool.ByteExtension.BytesToObject(Byte())
+  name.vb: BytesToObject(Byte())
+- uid: Tool.ByteExtension.BytesToObject``1(System.Byte[])
+  commentId: M:Tool.ByteExtension.BytesToObject``1(System.Byte[])
+  id: BytesToObject``1(System.Byte[])
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: BytesToObject<T>(byte[])
+  nameWithType: ByteExtension.BytesToObject<T>(byte[])
+  fullName: Tool.ByteExtension.BytesToObject<T>(byte[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: BytesToObject
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 63
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将一个序列化后的byte[]数组还原 （升级版，有效降低内存消耗）
+  example: []
+  syntax:
+    content: public static T BytesToObject<T>(this byte[] Bytes)
+    parameters:
+    - id: Bytes
+      type: System.Byte[]
+      description: 数据流
+    typeParameters:
+    - id: T
+    return:
+      type: '{T}'
+      description: 返回一个原对象
+    content.vb: Public Shared Function BytesToObject(Of T)(Bytes As Byte()) As T
+  overload: Tool.ByteExtension.BytesToObject*
+  nameWithType.vb: ByteExtension.BytesToObject(Of T)(Byte())
+  fullName.vb: Tool.ByteExtension.BytesToObject(Of T)(Byte())
+  name.vb: BytesToObject(Of T)(Byte())
+- uid: Tool.ByteExtension.BytesToObject(System.Byte[],System.Type)
+  commentId: M:Tool.ByteExtension.BytesToObject(System.Byte[],System.Type)
+  id: BytesToObject(System.Byte[],System.Type)
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: BytesToObject(byte[], Type)
+  nameWithType: ByteExtension.BytesToObject(byte[], Type)
+  fullName: Tool.ByteExtension.BytesToObject(byte[], System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: BytesToObject
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 79
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将一个序列化后的byte[]数组还原 （升级版，有效降低内存消耗）
+  example: []
+  syntax:
+    content: public static object BytesToObject(this byte[] Bytes, Type type)
+    parameters:
+    - id: Bytes
+      type: System.Byte[]
+      description: 数据流
+    - id: type
+      type: System.Type
+      description: 转换为原来类的Type
+    return:
+      type: System.Object
+      description: 返回一个原对象
+    content.vb: Public Shared Function BytesToObject(Bytes As Byte(), type As Type) As Object
+  overload: Tool.ByteExtension.BytesToObject*
+  nameWithType.vb: ByteExtension.BytesToObject(Byte(), Type)
+  fullName.vb: Tool.ByteExtension.BytesToObject(Byte(), System.Type)
+  name.vb: BytesToObject(Byte(), Type)
+- uid: Tool.ByteExtension.ToBytesFile(System.Byte[],System.String)
+  commentId: M:Tool.ByteExtension.ToBytesFile(System.Byte[],System.String)
+  id: ToBytesFile(System.Byte[],System.String)
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: ToBytesFile(byte[], string)
+  nameWithType: ByteExtension.ToBytesFile(byte[], string)
+  fullName: Tool.ByteExtension.ToBytesFile(byte[], string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToBytesFile
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 94
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将byte数组转换为文件并保存到指定地址(绝对路径)（备注：如果该文件存在，将会被替换）
+  example: []
+  syntax:
+    content: public static void ToBytesFile(this byte[] buff, string savepath)
+    parameters:
+    - id: buff
+      type: System.Byte[]
+      description: byte数组
+    - id: savepath
+      type: System.String
+      description: 保存地址
+    content.vb: Public Shared Sub ToBytesFile(buff As Byte(), savepath As String)
+  overload: Tool.ByteExtension.ToBytesFile*
+  nameWithType.vb: ByteExtension.ToBytesFile(Byte(), String)
+  fullName.vb: Tool.ByteExtension.ToBytesFile(Byte(), String)
+  name.vb: ToBytesFile(Byte(), String)
+- uid: Tool.ByteExtension.ToBase64(System.Byte[])
+  commentId: M:Tool.ByteExtension.ToBase64(System.Byte[])
+  id: ToBase64(System.Byte[])
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: ToBase64(byte[])
+  nameWithType: ByteExtension.ToBase64(byte[])
+  fullName: Tool.ByteExtension.ToBase64(byte[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToBase64
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 110
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将对象转换成Base64字符串（编码）
+  example: []
+  syntax:
+    content: public static string ToBase64(this byte[] obj)
+    parameters:
+    - id: obj
+      type: System.Byte[]
+      description: ''
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Shared Function ToBase64(obj As Byte()) As String
+  overload: Tool.ByteExtension.ToBase64*
+  nameWithType.vb: ByteExtension.ToBase64(Byte())
+  fullName.vb: Tool.ByteExtension.ToBase64(Byte())
+  name.vb: ToBase64(Byte())
+- uid: Tool.ByteExtension.ToInt(System.Byte[])
+  commentId: M:Tool.ByteExtension.ToInt(System.Byte[])
+  id: ToInt(System.Byte[])
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: ToInt(byte[])
+  nameWithType: ByteExtension.ToInt(byte[])
+  fullName: Tool.ByteExtension.ToInt(byte[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToInt
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 125
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为Int类型
+  example: []
+  syntax:
+    content: public static int ToInt(this byte[] bt)
+    parameters:
+    - id: bt
+      type: System.Byte[]
+      description: byte[]
+    return:
+      type: System.Int32
+      description: 转换为Int类型
+    content.vb: Public Shared Function ToInt(bt As Byte()) As Integer
+  overload: Tool.ByteExtension.ToInt*
+  nameWithType.vb: ByteExtension.ToInt(Byte())
+  fullName.vb: Tool.ByteExtension.ToInt(Byte())
+  name.vb: ToInt(Byte())
+- uid: Tool.ByteExtension.ToDouble(System.Byte[])
+  commentId: M:Tool.ByteExtension.ToDouble(System.Byte[])
+  id: ToDouble(System.Byte[])
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: ToDouble(byte[])
+  nameWithType: ByteExtension.ToDouble(byte[])
+  fullName: Tool.ByteExtension.ToDouble(byte[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToDouble
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 139
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为Double类型
+  example: []
+  syntax:
+    content: public static double ToDouble(this byte[] bt)
+    parameters:
+    - id: bt
+      type: System.Byte[]
+      description: byte[]
+    return:
+      type: System.Double
+      description: 转换为Double类型
+    content.vb: Public Shared Function ToDouble(bt As Byte()) As Double
+  overload: Tool.ByteExtension.ToDouble*
+  nameWithType.vb: ByteExtension.ToDouble(Byte())
+  fullName.vb: Tool.ByteExtension.ToDouble(Byte())
+  name.vb: ToDouble(Byte())
+- uid: Tool.ByteExtension.ToStrings(System.Byte[])
+  commentId: M:Tool.ByteExtension.ToStrings(System.Byte[])
+  id: ToStrings(System.Byte[])
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: ToStrings(byte[])
+  nameWithType: ByteExtension.ToStrings(byte[])
+  fullName: Tool.ByteExtension.ToStrings(byte[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToStrings
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 153
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为16进制 例如“7F-2C-4A”。
+  example: []
+  syntax:
+    content: public static string ToStrings(this byte[] bt)
+    parameters:
+    - id: bt
+      type: System.Byte[]
+      description: byte[]
+    return:
+      type: System.String
+      description: 转换为16进制
+    content.vb: Public Shared Function ToStrings(bt As Byte()) As String
+  overload: Tool.ByteExtension.ToStrings*
+  nameWithType.vb: ByteExtension.ToStrings(Byte())
+  fullName.vb: Tool.ByteExtension.ToStrings(Byte())
+  name.vb: ToStrings(Byte())
+- uid: Tool.ByteExtension.ToByteString(System.Byte[])
+  commentId: M:Tool.ByteExtension.ToByteString(System.Byte[])
+  id: ToByteString(System.Byte[])
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: ToByteString(byte[])
+  nameWithType: ByteExtension.ToByteString(byte[])
+  fullName: Tool.ByteExtension.ToByteString(byte[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToByteString
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 167
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为String类型
+  example: []
+  syntax:
+    content: public static string ToByteString(this byte[] bt)
+    parameters:
+    - id: bt
+      type: System.Byte[]
+      description: byte[]
+    return:
+      type: System.String
+      description: 转换为String类型
+    content.vb: Public Shared Function ToByteString(bt As Byte()) As String
+  overload: Tool.ByteExtension.ToByteString*
+  nameWithType.vb: ByteExtension.ToByteString(Byte())
+  fullName.vb: Tool.ByteExtension.ToByteString(Byte())
+  name.vb: ToByteString(Byte())
+- uid: Tool.ByteExtension.ToByteString(System.Byte[],System.Text.Encoding)
+  commentId: M:Tool.ByteExtension.ToByteString(System.Byte[],System.Text.Encoding)
+  id: ToByteString(System.Byte[],System.Text.Encoding)
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: ToByteString(byte[], Encoding)
+  nameWithType: ByteExtension.ToByteString(byte[], Encoding)
+  fullName: Tool.ByteExtension.ToByteString(byte[], System.Text.Encoding)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToByteString
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 182
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为String类型
+  example: []
+  syntax:
+    content: public static string ToByteString(this byte[] bt, Encoding encoding)
+    parameters:
+    - id: bt
+      type: System.Byte[]
+      description: byte[]
+    - id: encoding
+      type: System.Text.Encoding
+      description: 编码格式
+    return:
+      type: System.String
+      description: 转换为String类型
+    content.vb: Public Shared Function ToByteString(bt As Byte(), encoding As Encoding) As String
+  overload: Tool.ByteExtension.ToByteString*
+  nameWithType.vb: ByteExtension.ToByteString(Byte(), Encoding)
+  fullName.vb: Tool.ByteExtension.ToByteString(Byte(), System.Text.Encoding)
+  name.vb: ToByteString(Byte(), Encoding)
+- uid: Tool.ByteExtension.ToBool(System.Byte[])
+  commentId: M:Tool.ByteExtension.ToBool(System.Byte[])
+  id: ToBool(System.Byte[])
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: ToBool(byte[])
+  nameWithType: ByteExtension.ToBool(byte[])
+  fullName: Tool.ByteExtension.ToBool(byte[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToBool
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 196
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为Bool类型
+  example: []
+  syntax:
+    content: public static bool ToBool(this byte[] bt)
+    parameters:
+    - id: bt
+      type: System.Byte[]
+      description: byte[]
+    return:
+      type: System.Boolean
+      description: 转换为Bool类型
+    content.vb: Public Shared Function ToBool(bt As Byte()) As Boolean
+  overload: Tool.ByteExtension.ToBool*
+  nameWithType.vb: ByteExtension.ToBool(Byte())
+  fullName.vb: Tool.ByteExtension.ToBool(Byte())
+  name.vb: ToBool(Byte())
+- uid: Tool.ByteExtension.ToChar(System.Byte[])
+  commentId: M:Tool.ByteExtension.ToChar(System.Byte[])
+  id: ToChar(System.Byte[])
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: ToChar(byte[])
+  nameWithType: ByteExtension.ToChar(byte[])
+  fullName: Tool.ByteExtension.ToChar(byte[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToChar
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 210
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为Char类型
+  example: []
+  syntax:
+    content: public static char ToChar(this byte[] bt)
+    parameters:
+    - id: bt
+      type: System.Byte[]
+      description: byte[]
+    return:
+      type: System.Char
+      description: 转换为Char类型
+    content.vb: Public Shared Function ToChar(bt As Byte()) As Char
+  overload: Tool.ByteExtension.ToChar*
+  nameWithType.vb: ByteExtension.ToChar(Byte())
+  fullName.vb: Tool.ByteExtension.ToChar(Byte())
+  name.vb: ToChar(Byte())
+- uid: Tool.ByteExtension.ToShort(System.Byte[])
+  commentId: M:Tool.ByteExtension.ToShort(System.Byte[])
+  id: ToShort(System.Byte[])
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: ToShort(byte[])
+  nameWithType: ByteExtension.ToShort(byte[])
+  fullName: Tool.ByteExtension.ToShort(byte[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToShort
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 224
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为Short类型
+  example: []
+  syntax:
+    content: public static short ToShort(this byte[] bt)
+    parameters:
+    - id: bt
+      type: System.Byte[]
+      description: byte[]
+    return:
+      type: System.Int16
+      description: 转换为Short类型
+    content.vb: Public Shared Function ToShort(bt As Byte()) As Short
+  overload: Tool.ByteExtension.ToShort*
+  nameWithType.vb: ByteExtension.ToShort(Byte())
+  fullName.vb: Tool.ByteExtension.ToShort(Byte())
+  name.vb: ToShort(Byte())
+- uid: Tool.ByteExtension.ToLong(System.Byte[])
+  commentId: M:Tool.ByteExtension.ToLong(System.Byte[])
+  id: ToLong(System.Byte[])
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: ToLong(byte[])
+  nameWithType: ByteExtension.ToLong(byte[])
+  fullName: Tool.ByteExtension.ToLong(byte[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToLong
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 238
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为Long类型
+  example: []
+  syntax:
+    content: public static long ToLong(this byte[] bt)
+    parameters:
+    - id: bt
+      type: System.Byte[]
+      description: byte[]
+    return:
+      type: System.Int64
+      description: 转换为Long类型
+    content.vb: Public Shared Function ToLong(bt As Byte()) As Long
+  overload: Tool.ByteExtension.ToLong*
+  nameWithType.vb: ByteExtension.ToLong(Byte())
+  fullName.vb: Tool.ByteExtension.ToLong(Byte())
+  name.vb: ToLong(Byte())
+- uid: Tool.ByteExtension.ToFloat(System.Byte[])
+  commentId: M:Tool.ByteExtension.ToFloat(System.Byte[])
+  id: ToFloat(System.Byte[])
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: ToFloat(byte[])
+  nameWithType: ByteExtension.ToFloat(byte[])
+  fullName: Tool.ByteExtension.ToFloat(byte[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToFloat
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 252
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换为Float类型
+  example: []
+  syntax:
+    content: public static float ToFloat(this byte[] bt)
+    parameters:
+    - id: bt
+      type: System.Byte[]
+      description: byte[]
+    return:
+      type: System.Single
+      description: 转换为Float类型
+    content.vb: Public Shared Function ToFloat(bt As Byte()) As Single
+  overload: Tool.ByteExtension.ToFloat*
+  nameWithType.vb: ByteExtension.ToFloat(Byte())
+  fullName.vb: Tool.ByteExtension.ToFloat(Byte())
+  name.vb: ToFloat(Byte())
+- uid: Tool.ByteExtension.Add(System.Byte[],System.Byte)
+  commentId: M:Tool.ByteExtension.Add(System.Byte[],System.Byte)
+  id: Add(System.Byte[],System.Byte)
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: Add(byte[], byte)
+  nameWithType: ByteExtension.Add(byte[], byte)
+  fullName: Tool.ByteExtension.Add(byte[], byte)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Add
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 266
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 给数组加新的值
+  example: []
+  syntax:
+    content: public static byte[] Add(this byte[] txt, byte txt1)
+    parameters:
+    - id: txt
+      type: System.Byte[]
+      description: bool[]
+    - id: txt1
+      type: System.Byte
+      description: 新增的值
+    return:
+      type: System.Byte[]
+    content.vb: Public Shared Function Add(txt As Byte(), txt1 As Byte) As Byte()
+  overload: Tool.ByteExtension.Add*
+  nameWithType.vb: ByteExtension.Add(Byte(), Byte)
+  fullName.vb: Tool.ByteExtension.Add(Byte(), Byte)
+  name.vb: Add(Byte(), Byte)
+- uid: Tool.ByteExtension.Contains(System.Byte[],System.Byte)
+  commentId: M:Tool.ByteExtension.Contains(System.Byte[],System.Byte)
+  id: Contains(System.Byte[],System.Byte)
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: Contains(byte[], byte)
+  nameWithType: ByteExtension.Contains(byte[], byte)
+  fullName: Tool.ByteExtension.Contains(byte[], byte)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Contains
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 281
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 查找该byte数组中是否存在该值。
+  example: []
+  syntax:
+    content: public static bool Contains(this byte[] txt, byte txt1)
+    parameters:
+    - id: txt
+      type: System.Byte[]
+      description: byte[]
+    - id: txt1
+      type: System.Byte
+      description: 查找的字符
+    return:
+      type: System.Boolean
+      description: 方法存在或不存在
+    content.vb: Public Shared Function Contains(txt As Byte(), txt1 As Byte) As Boolean
+  overload: Tool.ByteExtension.Contains*
+  nameWithType.vb: ByteExtension.Contains(Byte(), Byte)
+  fullName.vb: Tool.ByteExtension.Contains(Byte(), Byte)
+  name.vb: Contains(Byte(), Byte)
+- uid: Tool.ByteExtension.Read(System.Byte[],System.Byte[],System.Int32,System.Int32)
+  commentId: M:Tool.ByteExtension.Read(System.Byte[],System.Byte[],System.Int32,System.Int32)
+  id: Read(System.Byte[],System.Byte[],System.Int32,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: Read(byte[], byte[], int, int)
+  nameWithType: ByteExtension.Read(byte[], byte[], int, int)
+  fullName: Tool.ByteExtension.Read(byte[], byte[], int, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Read
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 294
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 重写封装的Copy方法
+  example: []
+  syntax:
+    content: public static int Read(this byte[] sourceArray, byte[] destinationArray, int sourceIndex, int length)
+    parameters:
+    - id: sourceArray
+      type: System.Byte[]
+      description: 源数组对象
+    - id: destinationArray
+      type: System.Byte[]
+      description: 新数组对象
+    - id: sourceIndex
+      type: System.Int32
+      description: 源数据开始读取的位置
+    - id: length
+      type: System.Int32
+      description: 从源数组取多少？(是指从读取位置开始往后读的数量)
+    return:
+      type: System.Int32
+      description: 返回当前新的数组中复制了多少个下标的值
+    content.vb: Public Shared Function Read(sourceArray As Byte(), destinationArray As Byte(), sourceIndex As Integer, length As Integer) As Integer
+  overload: Tool.ByteExtension.Read*
+  nameWithType.vb: ByteExtension.Read(Byte(), Byte(), Integer, Integer)
+  fullName.vb: Tool.ByteExtension.Read(Byte(), Byte(), Integer, Integer)
+  name.vb: Read(Byte(), Byte(), Integer, Integer)
+- uid: Tool.ByteExtension.Read(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32)
+  commentId: M:Tool.ByteExtension.Read(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32)
+  id: Read(System.Byte[],System.Int32,System.Byte[],System.Int32,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: Read(byte[], int, byte[], int, int)
+  nameWithType: ByteExtension.Read(byte[], int, byte[], int, int)
+  fullName: Tool.ByteExtension.Read(byte[], int, byte[], int, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Read
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 308
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 重写封装的Copy方法
+  example: []
+  syntax:
+    content: public static int Read(this byte[] sourceArray, int sourceIndex, byte[] destinationArray, int destinationIndex, int length)
+    parameters:
+    - id: sourceArray
+      type: System.Byte[]
+      description: 源数组对象
+    - id: sourceIndex
+      type: System.Int32
+      description: 源数据开始读取的位置
+    - id: destinationArray
+      type: System.Byte[]
+      description: 新数组对象
+    - id: destinationIndex
+      type: System.Int32
+      description: 开始存储的位置
+    - id: length
+      type: System.Int32
+      description: 从源数组取多少？(是指从读取位置开始往后读的数量)
+    return:
+      type: System.Int32
+      description: 返回当前新的数组中复制了多少个下标的值
+    content.vb: Public Shared Function Read(sourceArray As Byte(), sourceIndex As Integer, destinationArray As Byte(), destinationIndex As Integer, length As Integer) As Integer
+  overload: Tool.ByteExtension.Read*
+  nameWithType.vb: ByteExtension.Read(Byte(), Integer, Byte(), Integer, Integer)
+  fullName.vb: Tool.ByteExtension.Read(Byte(), Integer, Byte(), Integer, Integer)
+  name.vb: Read(Byte(), Integer, Byte(), Integer, Integer)
+- uid: Tool.ByteExtension.GetArrayIndex(System.Byte[],System.Int32,System.Int32)
+  commentId: M:Tool.ByteExtension.GetArrayIndex(System.Byte[],System.Int32,System.Int32)
+  id: GetArrayIndex(System.Byte[],System.Int32,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: GetArrayIndex(byte[], int, int)
+  nameWithType: ByteExtension.GetArrayIndex(byte[], int, int)
+  fullName: Tool.ByteExtension.GetArrayIndex(byte[], int, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetArrayIndex
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 346
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 同于获取指定部分的内容
+  example: []
+  syntax:
+    content: public static byte[] GetArrayIndex(this byte[] obj, int index, int count)
+    parameters:
+    - id: obj
+      type: System.Byte[]
+      description: 对象数组
+    - id: index
+      type: System.Int32
+      description: 从下标N开始
+    - id: count
+      type: System.Int32
+      description: 到下标N结束
+    return:
+      type: System.Byte[]
+      description: 返回一部分的数组内容
+    content.vb: Public Shared Function GetArrayIndex(obj As Byte(), index As Integer, count As Integer) As Byte()
+  overload: Tool.ByteExtension.GetArrayIndex*
+  nameWithType.vb: ByteExtension.GetArrayIndex(Byte(), Integer, Integer)
+  fullName.vb: Tool.ByteExtension.GetArrayIndex(Byte(), Integer, Integer)
+  name.vb: GetArrayIndex(Byte(), Integer, Integer)
+- uid: Tool.ByteExtension.AsArraySegment``1(System.Memory{``0})
+  commentId: M:Tool.ByteExtension.AsArraySegment``1(System.Memory{``0})
+  id: AsArraySegment``1(System.Memory{``0})
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: AsArraySegment<T>(Memory<T>)
+  nameWithType: ByteExtension.AsArraySegment<T>(Memory<T>)
+  fullName: Tool.ByteExtension.AsArraySegment<T>(System.Memory<T>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AsArraySegment
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 389
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将<xref href="System.Memory%601" data-throw-if-not-resolved="false"></xref>转换成<xref href="System.ArraySegment%601" data-throw-if-not-resolved="false"></xref>（不是拷贝）
+  example: []
+  syntax:
+    content: public static ArraySegment<T> AsArraySegment<T>(this Memory<T> memory)
+    parameters:
+    - id: memory
+      type: System.Memory{{T}}
+      description: 数据流
+    typeParameters:
+    - id: T
+    return:
+      type: System.ArraySegment{{T}}
+      description: 返回<xref href="System.ArraySegment%601" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function AsArraySegment(Of T)(memory As Memory(Of T)) As ArraySegment(Of T)
+  overload: Tool.ByteExtension.AsArraySegment*
+  nameWithType.vb: ByteExtension.AsArraySegment(Of T)(Memory(Of T))
+  fullName.vb: Tool.ByteExtension.AsArraySegment(Of T)(System.Memory(Of T))
+  name.vb: AsArraySegment(Of T)(Memory(Of T))
+- uid: Tool.ByteExtension.AsArraySegment``1(System.ReadOnlyMemory{``0})
+  commentId: M:Tool.ByteExtension.AsArraySegment``1(System.ReadOnlyMemory{``0})
+  id: AsArraySegment``1(System.ReadOnlyMemory{``0})
+  isExtensionMethod: true
+  parent: Tool.ByteExtension
+  langs:
+  - csharp
+  - vb
+  name: AsArraySegment<T>(ReadOnlyMemory<T>)
+  nameWithType: ByteExtension.AsArraySegment<T>(ReadOnlyMemory<T>)
+  fullName: Tool.ByteExtension.AsArraySegment<T>(System.ReadOnlyMemory<T>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/ByteExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AsArraySegment
+    path: ../../Tool.Net/TypeExtension/ByteExtension.cs
+    startLine: 396
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将<xref href="System.Memory%601" data-throw-if-not-resolved="false"></xref>转换成<xref href="System.ArraySegment%601" data-throw-if-not-resolved="false"></xref>（不是拷贝）
+  example: []
+  syntax:
+    content: public static ArraySegment<T> AsArraySegment<T>(this ReadOnlyMemory<T> memory)
+    parameters:
+    - id: memory
+      type: System.ReadOnlyMemory{{T}}
+      description: 数据流
+    typeParameters:
+    - id: T
+    return:
+      type: System.ArraySegment{{T}}
+      description: 返回<xref href="System.ArraySegment%601" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function AsArraySegment(Of T)(memory As ReadOnlyMemory(Of T)) As ArraySegment(Of T)
+  overload: Tool.ByteExtension.AsArraySegment*
+  nameWithType.vb: ByteExtension.AsArraySegment(Of T)(ReadOnlyMemory(Of T))
+  fullName.vb: Tool.ByteExtension.AsArraySegment(Of T)(System.ReadOnlyMemory(Of T))
+  name.vb: AsArraySegment(Of T)(ReadOnlyMemory(Of T))
+references:
+- uid: Tool
+  commentId: N:Tool
+  href: Tool.html
+  name: Tool
+  nameWithType: Tool
+  fullName: Tool
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Tool.ByteExtension.Increment*
+  commentId: Overload:Tool.ByteExtension.Increment
+  href: Tool.ByteExtension.html#Tool_ByteExtension_Increment_System_Byte__
+  name: Increment
+  nameWithType: ByteExtension.Increment
+  fullName: Tool.ByteExtension.Increment
+- uid: System.Byte
+  commentId: T:System.Byte
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte
+  nameWithType: byte
+  fullName: byte
+  nameWithType.vb: Byte
+  fullName.vb: Byte
+  name.vb: Byte
+- uid: Tool.ByteExtension.Decrement*
+  commentId: Overload:Tool.ByteExtension.Decrement
+  href: Tool.ByteExtension.html#Tool_ByteExtension_Decrement_System_Byte__
+  name: Decrement
+  nameWithType: ByteExtension.Decrement
+  fullName: Tool.ByteExtension.Decrement
+- uid: Tool.ByteExtension.BytesToObject*
+  commentId: Overload:Tool.ByteExtension.BytesToObject
+  href: Tool.ByteExtension.html#Tool_ByteExtension_BytesToObject_System_Byte___
+  name: BytesToObject
+  nameWithType: ByteExtension.BytesToObject
+  fullName: Tool.ByteExtension.BytesToObject
+- uid: System.Byte[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte[]
+  nameWithType: byte[]
+  fullName: byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: Tool.ByteExtension.ToBytesFile*
+  commentId: Overload:Tool.ByteExtension.ToBytesFile
+  href: Tool.ByteExtension.html#Tool_ByteExtension_ToBytesFile_System_Byte___System_String_
+  name: ToBytesFile
+  nameWithType: ByteExtension.ToBytesFile
+  fullName: Tool.ByteExtension.ToBytesFile
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Tool.ByteExtension.ToBase64*
+  commentId: Overload:Tool.ByteExtension.ToBase64
+  href: Tool.ByteExtension.html#Tool_ByteExtension_ToBase64_System_Byte___
+  name: ToBase64
+  nameWithType: ByteExtension.ToBase64
+  fullName: Tool.ByteExtension.ToBase64
+- uid: Tool.ByteExtension.ToInt*
+  commentId: Overload:Tool.ByteExtension.ToInt
+  href: Tool.ByteExtension.html#Tool_ByteExtension_ToInt_System_Byte___
+  name: ToInt
+  nameWithType: ByteExtension.ToInt
+  fullName: Tool.ByteExtension.ToInt
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Tool.ByteExtension.ToDouble*
+  commentId: Overload:Tool.ByteExtension.ToDouble
+  href: Tool.ByteExtension.html#Tool_ByteExtension_ToDouble_System_Byte___
+  name: ToDouble
+  nameWithType: ByteExtension.ToDouble
+  fullName: Tool.ByteExtension.ToDouble
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: Tool.ByteExtension.ToStrings*
+  commentId: Overload:Tool.ByteExtension.ToStrings
+  href: Tool.ByteExtension.html#Tool_ByteExtension_ToStrings_System_Byte___
+  name: ToStrings
+  nameWithType: ByteExtension.ToStrings
+  fullName: Tool.ByteExtension.ToStrings
+- uid: Tool.ByteExtension.ToByteString*
+  commentId: Overload:Tool.ByteExtension.ToByteString
+  href: Tool.ByteExtension.html#Tool_ByteExtension_ToByteString_System_Byte___
+  name: ToByteString
+  nameWithType: ByteExtension.ToByteString
+  fullName: Tool.ByteExtension.ToByteString
+- uid: System.Text.Encoding
+  commentId: T:System.Text.Encoding
+  parent: System.Text
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.text.encoding
+  name: Encoding
+  nameWithType: Encoding
+  fullName: System.Text.Encoding
+- uid: System.Text
+  commentId: N:System.Text
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Text
+  nameWithType: System.Text
+  fullName: System.Text
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Text
+    name: Text
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Text
+    name: Text
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text
+- uid: Tool.ByteExtension.ToBool*
+  commentId: Overload:Tool.ByteExtension.ToBool
+  href: Tool.ByteExtension.html#Tool_ByteExtension_ToBool_System_Byte___
+  name: ToBool
+  nameWithType: ByteExtension.ToBool
+  fullName: Tool.ByteExtension.ToBool
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Tool.ByteExtension.ToChar*
+  commentId: Overload:Tool.ByteExtension.ToChar
+  href: Tool.ByteExtension.html#Tool_ByteExtension_ToChar_System_Byte___
+  name: ToChar
+  nameWithType: ByteExtension.ToChar
+  fullName: Tool.ByteExtension.ToChar
+- uid: System.Char
+  commentId: T:System.Char
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.char
+  name: char
+  nameWithType: char
+  fullName: char
+  nameWithType.vb: Char
+  fullName.vb: Char
+  name.vb: Char
+- uid: Tool.ByteExtension.ToShort*
+  commentId: Overload:Tool.ByteExtension.ToShort
+  href: Tool.ByteExtension.html#Tool_ByteExtension_ToShort_System_Byte___
+  name: ToShort
+  nameWithType: ByteExtension.ToShort
+  fullName: Tool.ByteExtension.ToShort
+- uid: System.Int16
+  commentId: T:System.Int16
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int16
+  name: short
+  nameWithType: short
+  fullName: short
+  nameWithType.vb: Short
+  fullName.vb: Short
+  name.vb: Short
+- uid: Tool.ByteExtension.ToLong*
+  commentId: Overload:Tool.ByteExtension.ToLong
+  href: Tool.ByteExtension.html#Tool_ByteExtension_ToLong_System_Byte___
+  name: ToLong
+  nameWithType: ByteExtension.ToLong
+  fullName: Tool.ByteExtension.ToLong
+- uid: System.Int64
+  commentId: T:System.Int64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int64
+  name: long
+  nameWithType: long
+  fullName: long
+  nameWithType.vb: Long
+  fullName.vb: Long
+  name.vb: Long
+- uid: Tool.ByteExtension.ToFloat*
+  commentId: Overload:Tool.ByteExtension.ToFloat
+  href: Tool.ByteExtension.html#Tool_ByteExtension_ToFloat_System_Byte___
+  name: ToFloat
+  nameWithType: ByteExtension.ToFloat
+  fullName: Tool.ByteExtension.ToFloat
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: Tool.ByteExtension.Add*
+  commentId: Overload:Tool.ByteExtension.Add
+  href: Tool.ByteExtension.html#Tool_ByteExtension_Add_System_Byte___System_Byte_
+  name: Add
+  nameWithType: ByteExtension.Add
+  fullName: Tool.ByteExtension.Add
+- uid: Tool.ByteExtension.Contains*
+  commentId: Overload:Tool.ByteExtension.Contains
+  href: Tool.ByteExtension.html#Tool_ByteExtension_Contains_System_Byte___System_Byte_
+  name: Contains
+  nameWithType: ByteExtension.Contains
+  fullName: Tool.ByteExtension.Contains
+- uid: Tool.ByteExtension.Read*
+  commentId: Overload:Tool.ByteExtension.Read
+  href: Tool.ByteExtension.html#Tool_ByteExtension_Read_System_Byte___System_Byte___System_Int32_System_Int32_
+  name: Read
+  nameWithType: ByteExtension.Read
+  fullName: Tool.ByteExtension.Read
+- uid: Tool.ByteExtension.GetArrayIndex*
+  commentId: Overload:Tool.ByteExtension.GetArrayIndex
+  href: Tool.ByteExtension.html#Tool_ByteExtension_GetArrayIndex_System_Byte___System_Int32_System_Int32_
+  name: GetArrayIndex
+  nameWithType: ByteExtension.GetArrayIndex
+  fullName: Tool.ByteExtension.GetArrayIndex
+- uid: System.Memory`1
+  commentId: T:System.Memory`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.memory-1
+  name: Memory<T>
+  nameWithType: Memory<T>
+  fullName: System.Memory<T>
+  nameWithType.vb: Memory(Of T)
+  fullName.vb: System.Memory(Of T)
+  name.vb: Memory(Of T)
+  spec.csharp:
+  - uid: System.Memory`1
+    name: Memory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.memory-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Memory`1
+    name: Memory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.memory-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.ArraySegment`1
+  commentId: T:System.ArraySegment`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.arraysegment-1
+  name: ArraySegment<T>
+  nameWithType: ArraySegment<T>
+  fullName: System.ArraySegment<T>
+  nameWithType.vb: ArraySegment(Of T)
+  fullName.vb: System.ArraySegment(Of T)
+  name.vb: ArraySegment(Of T)
+  spec.csharp:
+  - uid: System.ArraySegment`1
+    name: ArraySegment
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.arraysegment-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ArraySegment`1
+    name: ArraySegment
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.arraysegment-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.ByteExtension.AsArraySegment*
+  commentId: Overload:Tool.ByteExtension.AsArraySegment
+  href: Tool.ByteExtension.html#Tool_ByteExtension_AsArraySegment__1_System_Memory___0__
+  name: AsArraySegment
+  nameWithType: ByteExtension.AsArraySegment
+  fullName: Tool.ByteExtension.AsArraySegment
+- uid: System.Memory{{T}}
+  commentId: T:System.Memory{``0}
+  parent: System
+  definition: System.Memory`1
+  href: https://learn.microsoft.com/dotnet/api/system.memory-1
+  name: Memory<T>
+  nameWithType: Memory<T>
+  fullName: System.Memory<T>
+  nameWithType.vb: Memory(Of T)
+  fullName.vb: System.Memory(Of T)
+  name.vb: Memory(Of T)
+  spec.csharp:
+  - uid: System.Memory`1
+    name: Memory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.memory-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Memory`1
+    name: Memory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.memory-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.ArraySegment{{T}}
+  commentId: T:System.ArraySegment{``0}
+  parent: System
+  definition: System.ArraySegment`1
+  href: https://learn.microsoft.com/dotnet/api/system.arraysegment-1
+  name: ArraySegment<T>
+  nameWithType: ArraySegment<T>
+  fullName: System.ArraySegment<T>
+  nameWithType.vb: ArraySegment(Of T)
+  fullName.vb: System.ArraySegment(Of T)
+  name.vb: ArraySegment(Of T)
+  spec.csharp:
+  - uid: System.ArraySegment`1
+    name: ArraySegment
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.arraysegment-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ArraySegment`1
+    name: ArraySegment
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.arraysegment-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.ReadOnlyMemory{{T}}
+  commentId: T:System.ReadOnlyMemory{``0}
+  parent: System
+  definition: System.ReadOnlyMemory`1
+  href: https://learn.microsoft.com/dotnet/api/system.readonlymemory-1
+  name: ReadOnlyMemory<T>
+  nameWithType: ReadOnlyMemory<T>
+  fullName: System.ReadOnlyMemory<T>
+  nameWithType.vb: ReadOnlyMemory(Of T)
+  fullName.vb: System.ReadOnlyMemory(Of T)
+  name.vb: ReadOnlyMemory(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlyMemory`1
+    name: ReadOnlyMemory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlymemory-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlyMemory`1
+    name: ReadOnlyMemory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlymemory-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.ReadOnlyMemory`1
+  commentId: T:System.ReadOnlyMemory`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.readonlymemory-1
+  name: ReadOnlyMemory<T>
+  nameWithType: ReadOnlyMemory<T>
+  fullName: System.ReadOnlyMemory<T>
+  nameWithType.vb: ReadOnlyMemory(Of T)
+  fullName.vb: System.ReadOnlyMemory(Of T)
+  name.vb: ReadOnlyMemory(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlyMemory`1
+    name: ReadOnlyMemory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlymemory-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlyMemory`1
+    name: ReadOnlyMemory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlymemory-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )

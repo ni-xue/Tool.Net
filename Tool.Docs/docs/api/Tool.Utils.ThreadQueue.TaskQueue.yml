@@ -1,0 +1,850 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Utils.ThreadQueue.TaskQueue
+  commentId: T:Tool.Utils.ThreadQueue.TaskQueue
+  id: TaskQueue
+  parent: Tool.Utils.ThreadQueue
+  children:
+  - Tool.Utils.ThreadQueue.TaskQueue.CompleteCount
+  - Tool.Utils.ThreadQueue.TaskQueue.Count
+  - Tool.Utils.ThreadQueue.TaskQueue.Enqueue(System.Object,System.Delegate,System.Object[])
+  - Tool.Utils.ThreadQueue.TaskQueue.Enqueue``1(System.Object,System.Delegate,System.Object[])
+  - Tool.Utils.ThreadQueue.TaskQueue.GetOrAdd(System.Delegate)
+  - Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(System.Delegate,System.Object[])
+  - Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue``1(System.Delegate,System.Object[])
+  - Tool.Utils.ThreadQueue.TaskQueue.TotalCount
+  langs:
+  - csharp
+  - vb
+  name: TaskQueue
+  nameWithType: TaskQueue
+  fullName: Tool.Utils.ThreadQueue.TaskQueue
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: TaskQueue
+    path: ../../Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+    startLine: 17
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ThreadQueue
+  summary: >-
+    一个消息队列任务模型（异步处理任务·线程安全）
+
+    <table><tbody></tbody></table><table><tbody></tbody></table>
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class TaskQueue
+    content.vb: Public Module TaskQueue
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.Utils.ThreadQueue.TaskQueue.Count
+  commentId: P:Tool.Utils.ThreadQueue.TaskQueue.Count
+  id: Count
+  parent: Tool.Utils.ThreadQueue.TaskQueue
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: TaskQueue.Count
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.Count
+  type: Property
+  source:
+    remote:
+      path: Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Count
+    path: ../../Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+    startLine: 114
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ThreadQueue
+  summary: 当前活动的任务数
+  example: []
+  syntax:
+    content: public static int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Shared ReadOnly Property Count As Integer
+  overload: Tool.Utils.ThreadQueue.TaskQueue.Count*
+- uid: Tool.Utils.ThreadQueue.TaskQueue.TotalCount
+  commentId: P:Tool.Utils.ThreadQueue.TaskQueue.TotalCount
+  id: TotalCount
+  parent: Tool.Utils.ThreadQueue.TaskQueue
+  langs:
+  - csharp
+  - vb
+  name: TotalCount
+  nameWithType: TaskQueue.TotalCount
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.TotalCount
+  type: Property
+  source:
+    remote:
+      path: Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: TotalCount
+    path: ../../Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+    startLine: 119
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ThreadQueue
+  summary: 累计已有的任务数
+  example: []
+  syntax:
+    content: public static ulong TotalCount { get; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public Shared ReadOnly Property TotalCount As ULong
+  overload: Tool.Utils.ThreadQueue.TaskQueue.TotalCount*
+- uid: Tool.Utils.ThreadQueue.TaskQueue.CompleteCount
+  commentId: P:Tool.Utils.ThreadQueue.TaskQueue.CompleteCount
+  id: CompleteCount
+  parent: Tool.Utils.ThreadQueue.TaskQueue
+  langs:
+  - csharp
+  - vb
+  name: CompleteCount
+  nameWithType: TaskQueue.CompleteCount
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.CompleteCount
+  type: Property
+  source:
+    remote:
+      path: Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: CompleteCount
+    path: ../../Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+    startLine: 124
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ThreadQueue
+  summary: 累计已完成的任务数
+  example: []
+  syntax:
+    content: public static ulong CompleteCount { get; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public Shared ReadOnly Property CompleteCount As ULong
+  overload: Tool.Utils.ThreadQueue.TaskQueue.CompleteCount*
+- uid: Tool.Utils.ThreadQueue.TaskQueue.Enqueue(System.Object,System.Delegate,System.Object[])
+  commentId: M:Tool.Utils.ThreadQueue.TaskQueue.Enqueue(System.Object,System.Delegate,System.Object[])
+  id: Enqueue(System.Object,System.Delegate,System.Object[])
+  parent: Tool.Utils.ThreadQueue.TaskQueue
+  langs:
+  - csharp
+  - vb
+  name: Enqueue(object, Delegate, params object[])
+  nameWithType: TaskQueue.Enqueue(object, Delegate, params object[])
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.Enqueue(object, System.Delegate, params object[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Enqueue
+    path: ../../Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+    startLine: 150
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ThreadQueue
+  summary: 添加一个新的任务（他会排队一个一个完成）
+  remarks: 可等待的结果
+  example: []
+  syntax:
+    content: public static Task Enqueue(object callClass, Delegate action, params object[] args)
+    parameters:
+    - id: callClass
+      type: System.Object
+      description: 调用类信息
+    - id: action
+      type: System.Delegate
+      description: 任务
+    - id: args
+      type: System.Object[]
+      description: 任务需要的参数
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Shared Function Enqueue(callClass As Object, action As [Delegate], ParamArray args As Object()) As Task
+  overload: Tool.Utils.ThreadQueue.TaskQueue.Enqueue*
+  nameWithType.vb: TaskQueue.Enqueue(Object, Delegate, ParamArray Object())
+  fullName.vb: Tool.Utils.ThreadQueue.TaskQueue.Enqueue(Object, System.Delegate, ParamArray Object())
+  name.vb: Enqueue(Object, Delegate, ParamArray Object())
+- uid: Tool.Utils.ThreadQueue.TaskQueue.Enqueue``1(System.Object,System.Delegate,System.Object[])
+  commentId: M:Tool.Utils.ThreadQueue.TaskQueue.Enqueue``1(System.Object,System.Delegate,System.Object[])
+  id: Enqueue``1(System.Object,System.Delegate,System.Object[])
+  parent: Tool.Utils.ThreadQueue.TaskQueue
+  langs:
+  - csharp
+  - vb
+  name: Enqueue<T>(object, Delegate, params object[])
+  nameWithType: TaskQueue.Enqueue<T>(object, Delegate, params object[])
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.Enqueue<T>(object, System.Delegate, params object[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Enqueue
+    path: ../../Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+    startLine: 164
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ThreadQueue
+  summary: 添加一个新的任务（他会排队一个一个完成）
+  remarks: 可等待的结果
+  example: []
+  syntax:
+    content: public static Task<T> Enqueue<T>(object callClass, Delegate func, params object[] args)
+    parameters:
+    - id: callClass
+      type: System.Object
+      description: 调用类信息
+    - id: func
+      type: System.Delegate
+      description: 任务
+    - id: args
+      type: System.Object[]
+      description: 任务需要的参数
+    typeParameters:
+    - id: T
+    return:
+      type: System.Threading.Tasks.Task{{T}}
+    content.vb: Public Shared Function Enqueue(Of T)(callClass As Object, func As [Delegate], ParamArray args As Object()) As Task(Of T)
+  overload: Tool.Utils.ThreadQueue.TaskQueue.Enqueue*
+  nameWithType.vb: TaskQueue.Enqueue(Of T)(Object, Delegate, ParamArray Object())
+  fullName.vb: Tool.Utils.ThreadQueue.TaskQueue.Enqueue(Of T)(Object, System.Delegate, ParamArray Object())
+  name.vb: Enqueue(Of T)(Object, Delegate, ParamArray Object())
+- uid: Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(System.Delegate,System.Object[])
+  commentId: M:Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(System.Delegate,System.Object[])
+  id: StaticEnqueue(System.Delegate,System.Object[])
+  parent: Tool.Utils.ThreadQueue.TaskQueue
+  langs:
+  - csharp
+  - vb
+  name: StaticEnqueue(Delegate, params object[])
+  nameWithType: TaskQueue.StaticEnqueue(Delegate, params object[])
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(System.Delegate, params object[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: StaticEnqueue
+    path: ../../Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+    startLine: 177
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ThreadQueue
+  summary: 添加一个新的任务（他会排队一个一个完成）
+  remarks: 可等待的结果
+  example: []
+  syntax:
+    content: public static Task StaticEnqueue(Delegate action, params object[] args)
+    parameters:
+    - id: action
+      type: System.Delegate
+      description: 任务
+    - id: args
+      type: System.Object[]
+      description: 任务需要的参数
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Shared Function StaticEnqueue(action As [Delegate], ParamArray args As Object()) As Task
+  overload: Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue*
+  nameWithType.vb: TaskQueue.StaticEnqueue(Delegate, ParamArray Object())
+  fullName.vb: Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(System.Delegate, ParamArray Object())
+  name.vb: StaticEnqueue(Delegate, ParamArray Object())
+- uid: Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue``1(System.Delegate,System.Object[])
+  commentId: M:Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue``1(System.Delegate,System.Object[])
+  id: StaticEnqueue``1(System.Delegate,System.Object[])
+  parent: Tool.Utils.ThreadQueue.TaskQueue
+  langs:
+  - csharp
+  - vb
+  name: StaticEnqueue<T>(Delegate, params object[])
+  nameWithType: TaskQueue.StaticEnqueue<T>(Delegate, params object[])
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue<T>(System.Delegate, params object[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: StaticEnqueue
+    path: ../../Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+    startLine: 188
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ThreadQueue
+  summary: 添加一个新的任务（他会排队一个一个完成）
+  remarks: 可等待的结果
+  example: []
+  syntax:
+    content: public static Task<T> StaticEnqueue<T>(Delegate func, params object[] args)
+    parameters:
+    - id: func
+      type: System.Delegate
+      description: 任务
+    - id: args
+      type: System.Object[]
+      description: 任务需要的参数
+    typeParameters:
+    - id: T
+    return:
+      type: System.Threading.Tasks.Task{{T}}
+    content.vb: Public Shared Function StaticEnqueue(Of T)(func As [Delegate], ParamArray args As Object()) As Task(Of T)
+  overload: Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue*
+  nameWithType.vb: TaskQueue.StaticEnqueue(Of T)(Delegate, ParamArray Object())
+  fullName.vb: Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(Of T)(System.Delegate, ParamArray Object())
+  name.vb: StaticEnqueue(Of T)(Delegate, ParamArray Object())
+- uid: Tool.Utils.ThreadQueue.TaskQueue.GetOrAdd(System.Delegate)
+  commentId: M:Tool.Utils.ThreadQueue.TaskQueue.GetOrAdd(System.Delegate)
+  id: GetOrAdd(System.Delegate)
+  parent: Tool.Utils.ThreadQueue.TaskQueue
+  langs:
+  - csharp
+  - vb
+  name: GetOrAdd(Delegate)
+  nameWithType: TaskQueue.GetOrAdd(Delegate)
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.GetOrAdd(System.Delegate)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetOrAdd
+    path: ../../Tool.Net/Utils/ThreadQueue/TaskQueue.cs
+    startLine: 198
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.ThreadQueue
+  summary: 获取一个可以动态传递的委托（可复用保证线程安全）
+  remarks: <xref href="Tool.Utils.ActionDelegate.IActionDispatcher" data-throw-if-not-resolved="false"></xref>
+  example: []
+  syntax:
+    content: public static IActionDispatcher GetOrAdd(Delegate func)
+    parameters:
+    - id: func
+      type: System.Delegate
+      description: 任务需要的参数
+    return:
+      type: Tool.Utils.ActionDelegate.IActionDispatcher
+    content.vb: Public Shared Function GetOrAdd(func As [Delegate]) As IActionDispatcher
+  overload: Tool.Utils.ThreadQueue.TaskQueue.GetOrAdd*
+references:
+- uid: Tool.Utils.ThreadQueue
+  commentId: N:Tool.Utils.ThreadQueue
+  href: Tool.html
+  name: Tool.Utils.ThreadQueue
+  nameWithType: Tool.Utils.ThreadQueue
+  fullName: Tool.Utils.ThreadQueue
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.ThreadQueue
+    name: ThreadQueue
+    href: Tool.Utils.ThreadQueue.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.ThreadQueue
+    name: ThreadQueue
+    href: Tool.Utils.ThreadQueue.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Tool.Utils.ThreadQueue.TaskQueue.Count*
+  commentId: Overload:Tool.Utils.ThreadQueue.TaskQueue.Count
+  href: Tool.Utils.ThreadQueue.TaskQueue.html#Tool_Utils_ThreadQueue_TaskQueue_Count
+  name: Count
+  nameWithType: TaskQueue.Count
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Tool.Utils.ThreadQueue.TaskQueue.TotalCount*
+  commentId: Overload:Tool.Utils.ThreadQueue.TaskQueue.TotalCount
+  href: Tool.Utils.ThreadQueue.TaskQueue.html#Tool_Utils_ThreadQueue_TaskQueue_TotalCount
+  name: TotalCount
+  nameWithType: TaskQueue.TotalCount
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.TotalCount
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: Tool.Utils.ThreadQueue.TaskQueue.CompleteCount*
+  commentId: Overload:Tool.Utils.ThreadQueue.TaskQueue.CompleteCount
+  href: Tool.Utils.ThreadQueue.TaskQueue.html#Tool_Utils_ThreadQueue_TaskQueue_CompleteCount
+  name: CompleteCount
+  nameWithType: TaskQueue.CompleteCount
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.CompleteCount
+- uid: Tool.Utils.ThreadQueue.TaskQueue.Enqueue*
+  commentId: Overload:Tool.Utils.ThreadQueue.TaskQueue.Enqueue
+  href: Tool.Utils.ThreadQueue.TaskQueue.html#Tool_Utils_ThreadQueue_TaskQueue_Enqueue_System_Object_System_Delegate_System_Object___
+  name: Enqueue
+  nameWithType: TaskQueue.Enqueue
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.Enqueue
+- uid: System.Delegate
+  commentId: T:System.Delegate
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.delegate
+  name: Delegate
+  nameWithType: Delegate
+  fullName: System.Delegate
+- uid: System.Object[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object[]
+  nameWithType: object[]
+  fullName: object[]
+  nameWithType.vb: Object()
+  fullName.vb: Object()
+  name.vb: Object()
+  spec.csharp:
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: System.Threading.Tasks.Task{{T}}
+  commentId: T:System.Threading.Tasks.Task{``0}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<T>
+  nameWithType: Task<T>
+  fullName: System.Threading.Tasks.Task<T>
+  nameWithType.vb: Task(Of T)
+  fullName.vb: System.Threading.Tasks.Task(Of T)
+  name.vb: Task(Of T)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue*
+  commentId: Overload:Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue
+  href: Tool.Utils.ThreadQueue.TaskQueue.html#Tool_Utils_ThreadQueue_TaskQueue_StaticEnqueue_System_Delegate_System_Object___
+  name: StaticEnqueue
+  nameWithType: TaskQueue.StaticEnqueue
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue
+- uid: Tool.Utils.ActionDelegate.IActionDispatcher
+  commentId: T:Tool.Utils.ActionDelegate.IActionDispatcher
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.IActionDispatcher.html
+  name: IActionDispatcher
+  nameWithType: IActionDispatcher
+  fullName: Tool.Utils.ActionDelegate.IActionDispatcher
+- uid: Tool.Utils.ThreadQueue.TaskQueue.GetOrAdd*
+  commentId: Overload:Tool.Utils.ThreadQueue.TaskQueue.GetOrAdd
+  href: Tool.Utils.ThreadQueue.TaskQueue.html#Tool_Utils_ThreadQueue_TaskQueue_GetOrAdd_System_Delegate_
+  name: GetOrAdd
+  nameWithType: TaskQueue.GetOrAdd
+  fullName: Tool.Utils.ThreadQueue.TaskQueue.GetOrAdd
+- uid: Tool.Utils.ActionDelegate
+  commentId: N:Tool.Utils.ActionDelegate
+  href: Tool.html
+  name: Tool.Utils.ActionDelegate
+  nameWithType: Tool.Utils.ActionDelegate
+  fullName: Tool.Utils.ActionDelegate
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate
+    name: ActionDelegate
+    href: Tool.Utils.ActionDelegate.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate
+    name: ActionDelegate
+    href: Tool.Utils.ActionDelegate.html

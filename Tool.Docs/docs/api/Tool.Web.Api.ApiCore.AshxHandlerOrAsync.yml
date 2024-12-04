@@ -1,0 +1,633 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+  commentId: T:Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+  id: AshxHandlerOrAsync
+  parent: Tool.Web.Api.ApiCore
+  children:
+  - Tool.Web.Api.ApiCore.AshxHandlerOrAsync.AshxVersion
+  - Tool.Web.Api.ApiCore.AshxHandlerOrAsync.AshxVersionHeaderAsyncName
+  - Tool.Web.Api.ApiCore.AshxHandlerOrAsync.AshxVersionHeaderName
+  - Tool.Web.Api.ApiCore.AshxHandlerOrAsync.CustomOutput(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,System.Int32)
+  - Tool.Web.Api.ApiCore.AshxHandlerOrAsync.MinAshxVersionHeaderAsyncName
+  - Tool.Web.Api.ApiCore.AshxHandlerOrAsync.MinAshxVersionHeaderName
+  langs:
+  - csharp
+  - vb
+  name: AshxHandlerOrAsync
+  nameWithType: AshxHandlerOrAsync
+  fullName: Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AshxHandlerOrAsync
+    path: ../../Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+    startLine: 13
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Web.Api.ApiCore
+  summary: 同步Ashx的请求实现或异步Ashx的请求实现
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class AshxHandlerOrAsync
+    content.vb: Public Module AshxHandlerOrAsync
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.AshxVersion
+  commentId: F:Tool.Web.Api.ApiCore.AshxHandlerOrAsync.AshxVersion
+  id: AshxVersion
+  parent: Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+  langs:
+  - csharp
+  - vb
+  name: AshxVersion
+  nameWithType: AshxHandlerOrAsync.AshxVersion
+  fullName: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.AshxVersion
+  type: Field
+  source:
+    remote:
+      path: Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AshxVersion
+    path: ../../Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+    startLine: 18
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Web.Api.ApiCore
+  summary: 当前Ashx版本号
+  example: []
+  syntax:
+    content: public const string AshxVersion = "3.9.0"
+    return:
+      type: System.String
+    content.vb: Public Const AshxVersion As String = "3.9.0"
+- uid: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.AshxVersionHeaderName
+  commentId: F:Tool.Web.Api.ApiCore.AshxHandlerOrAsync.AshxVersionHeaderName
+  id: AshxVersionHeaderName
+  parent: Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+  langs:
+  - csharp
+  - vb
+  name: AshxVersionHeaderName
+  nameWithType: AshxHandlerOrAsync.AshxVersionHeaderName
+  fullName: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.AshxVersionHeaderName
+  type: Field
+  source:
+    remote:
+      path: Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AshxVersionHeaderName
+    path: ../../Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+    startLine: 23
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Web.Api.ApiCore
+  summary: Ashx路由模式的表头 同步
+  example: []
+  syntax:
+    content: public const string AshxVersionHeaderName = "X-AshxApi-Version"
+    return:
+      type: System.String
+    content.vb: Public Const AshxVersionHeaderName As String = "X-AshxApi-Version"
+- uid: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.AshxVersionHeaderAsyncName
+  commentId: F:Tool.Web.Api.ApiCore.AshxHandlerOrAsync.AshxVersionHeaderAsyncName
+  id: AshxVersionHeaderAsyncName
+  parent: Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+  langs:
+  - csharp
+  - vb
+  name: AshxVersionHeaderAsyncName
+  nameWithType: AshxHandlerOrAsync.AshxVersionHeaderAsyncName
+  fullName: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.AshxVersionHeaderAsyncName
+  type: Field
+  source:
+    remote:
+      path: Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AshxVersionHeaderAsyncName
+    path: ../../Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+    startLine: 28
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Web.Api.ApiCore
+  summary: Ashx路由模式的表头 异步
+  example: []
+  syntax:
+    content: public const string AshxVersionHeaderAsyncName = "X-AshxApi-Async-Version"
+    return:
+      type: System.String
+    content.vb: Public Const AshxVersionHeaderAsyncName As String = "X-AshxApi-Async-Version"
+- uid: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.MinAshxVersionHeaderName
+  commentId: F:Tool.Web.Api.ApiCore.AshxHandlerOrAsync.MinAshxVersionHeaderName
+  id: MinAshxVersionHeaderName
+  parent: Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+  langs:
+  - csharp
+  - vb
+  name: MinAshxVersionHeaderName
+  nameWithType: AshxHandlerOrAsync.MinAshxVersionHeaderName
+  fullName: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.MinAshxVersionHeaderName
+  type: Field
+  source:
+    remote:
+      path: Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: MinAshxVersionHeaderName
+    path: ../../Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+    startLine: 33
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Web.Api.ApiCore
+  summary: Ashx路由模式的表头 同步（极小）
+  example: []
+  syntax:
+    content: public const string MinAshxVersionHeaderName = "X-MinApi-Version"
+    return:
+      type: System.String
+    content.vb: Public Const MinAshxVersionHeaderName As String = "X-MinApi-Version"
+- uid: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.MinAshxVersionHeaderAsyncName
+  commentId: F:Tool.Web.Api.ApiCore.AshxHandlerOrAsync.MinAshxVersionHeaderAsyncName
+  id: MinAshxVersionHeaderAsyncName
+  parent: Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+  langs:
+  - csharp
+  - vb
+  name: MinAshxVersionHeaderAsyncName
+  nameWithType: AshxHandlerOrAsync.MinAshxVersionHeaderAsyncName
+  fullName: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.MinAshxVersionHeaderAsyncName
+  type: Field
+  source:
+    remote:
+      path: Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: MinAshxVersionHeaderAsyncName
+    path: ../../Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+    startLine: 38
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Web.Api.ApiCore
+  summary: Ashx路由模式的表头 异步 （极小）
+  example: []
+  syntax:
+    content: public const string MinAshxVersionHeaderAsyncName = "X-MinApi-Async-Version"
+    return:
+      type: System.String
+    content.vb: Public Const MinAshxVersionHeaderAsyncName As String = "X-MinApi-Async-Version"
+- uid: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.CustomOutput(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,System.Int32)
+  commentId: M:Tool.Web.Api.ApiCore.AshxHandlerOrAsync.CustomOutput(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,System.Int32)
+  id: CustomOutput(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,System.Int32)
+  parent: Tool.Web.Api.ApiCore.AshxHandlerOrAsync
+  langs:
+  - csharp
+  - vb
+  name: CustomOutput(HttpContext, string, string, int)
+  nameWithType: AshxHandlerOrAsync.CustomOutput(HttpContext, string, string, int)
+  fullName: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.CustomOutput(Microsoft.AspNetCore.Http.HttpContext, string, string, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: CustomOutput
+    path: ../../Tool.Net/Web/Api/ApiCore/AshxHandlerOrAsync.cs
+    startLine: 255
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Web.Api.ApiCore
+  summary: 设置失败，请求错误状态，自定义输出结果
+  example: []
+  syntax:
+    content: public static Task CustomOutput(HttpContext HttpContext, string ContentType, string test, int StatusCode)
+    parameters:
+    - id: HttpContext
+      type: Microsoft.AspNetCore.Http.HttpContext
+      description: ''
+    - id: ContentType
+      type: System.String
+      description: ''
+    - id: test
+      type: System.String
+      description: ''
+    - id: StatusCode
+      type: System.Int32
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Shared Function CustomOutput(HttpContext As HttpContext, ContentType As String, test As String, StatusCode As Integer) As Task
+  overload: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.CustomOutput*
+  nameWithType.vb: AshxHandlerOrAsync.CustomOutput(HttpContext, String, String, Integer)
+  fullName.vb: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.CustomOutput(Microsoft.AspNetCore.Http.HttpContext, String, String, Integer)
+  name.vb: CustomOutput(HttpContext, String, String, Integer)
+references:
+- uid: Tool.Web.Api.ApiCore
+  commentId: N:Tool.Web.Api.ApiCore
+  href: Tool.html
+  name: Tool.Web.Api.ApiCore
+  nameWithType: Tool.Web.Api.ApiCore
+  fullName: Tool.Web.Api.ApiCore
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Web
+    name: Web
+    href: Tool.Web.html
+  - name: .
+  - uid: Tool.Web.Api
+    name: Api
+    href: Tool.Web.Api.html
+  - name: .
+  - uid: Tool.Web.Api.ApiCore
+    name: ApiCore
+    href: Tool.Web.Api.ApiCore.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Web
+    name: Web
+    href: Tool.Web.html
+  - name: .
+  - uid: Tool.Web.Api
+    name: Api
+    href: Tool.Web.Api.html
+  - name: .
+  - uid: Tool.Web.Api.ApiCore
+    name: ApiCore
+    href: Tool.Web.Api.ApiCore.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.CustomOutput*
+  commentId: Overload:Tool.Web.Api.ApiCore.AshxHandlerOrAsync.CustomOutput
+  href: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.html#Tool_Web_Api_ApiCore_AshxHandlerOrAsync_CustomOutput_Microsoft_AspNetCore_Http_HttpContext_System_String_System_String_System_Int32_
+  name: CustomOutput
+  nameWithType: AshxHandlerOrAsync.CustomOutput
+  fullName: Tool.Web.Api.ApiCore.AshxHandlerOrAsync.CustomOutput
+- uid: Microsoft.AspNetCore.Http.HttpContext
+  commentId: T:Microsoft.AspNetCore.Http.HttpContext
+  parent: Microsoft.AspNetCore.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http.httpcontext
+  name: HttpContext
+  nameWithType: HttpContext
+  fullName: Microsoft.AspNetCore.Http.HttpContext
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: Microsoft.AspNetCore.Http
+  commentId: N:Microsoft.AspNetCore.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.AspNetCore.Http
+  nameWithType: Microsoft.AspNetCore.Http
+  fullName: Microsoft.AspNetCore.Http
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.AspNetCore
+    name: AspNetCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore
+  - name: .
+  - uid: Microsoft.AspNetCore.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.AspNetCore
+    name: AspNetCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore
+  - name: .
+  - uid: Microsoft.AspNetCore.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks

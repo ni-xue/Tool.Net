@@ -1,0 +1,508 @@
+### YamlMime:ManagedReference
+items:
+- uid: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions
+  commentId: T:Microsoft.Extensions.DependencyInjection.SessionServiceExtensions
+  id: SessionServiceExtensions
+  parent: Microsoft.Extensions.DependencyInjection
+  children:
+  - Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.AddDiySession(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Tool.Web.Session.DiySessionOptions})
+  - Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.UseDiySession(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  langs:
+  - csharp
+  - vb
+  name: SessionServiceExtensions
+  nameWithType: SessionServiceExtensions
+  fullName: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/Web/Session/SessionServiceExtensions.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SessionServiceExtensions
+    path: ../../Tool.Net/Web/Session/SessionServiceExtensions.cs
+    startLine: 13
+  assemblies:
+  - Tool.Net
+  namespace: Microsoft.Extensions.DependencyInjection
+  summary: AsSession服务的注册帮助类
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class SessionServiceExtensions
+    content.vb: Public Module SessionServiceExtensions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.AddDiySession(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Tool.Web.Session.DiySessionOptions})
+  commentId: M:Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.AddDiySession(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Tool.Web.Session.DiySessionOptions})
+  id: AddDiySession(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Tool.Web.Session.DiySessionOptions})
+  isExtensionMethod: true
+  parent: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions
+  langs:
+  - csharp
+  - vb
+  name: AddDiySession(IServiceCollection, Action<DiySessionOptions>)
+  nameWithType: SessionServiceExtensions.AddDiySession(IServiceCollection, Action<DiySessionOptions>)
+  fullName: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.AddDiySession(Microsoft.Extensions.DependencyInjection.IServiceCollection, System.Action<Tool.Web.Session.DiySessionOptions>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Web/Session/SessionServiceExtensions.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AddDiySession
+    path: ../../Tool.Net/Web/Session/SessionServiceExtensions.cs
+    startLine: 21
+  assemblies:
+  - Tool.Net
+  namespace: Microsoft.Extensions.DependencyInjection
+  summary: 添加AsSession，暂时可以不需要写，目前还没实现长连接数据绑定，采用内存处理。
+  example: []
+  syntax:
+    content: public static IServiceCollection AddDiySession(this IServiceCollection services, Action<DiySessionOptions> action)
+    parameters:
+    - id: services
+      type: Microsoft.Extensions.DependencyInjection.IServiceCollection
+      description: ''
+    - id: action
+      type: System.Action{Tool.Web.Session.DiySessionOptions}
+      description: 必须实现的条件
+    return:
+      type: Microsoft.Extensions.DependencyInjection.IServiceCollection
+      description: IServiceCollection
+    content.vb: Public Shared Function AddDiySession(services As IServiceCollection, action As Action(Of DiySessionOptions)) As IServiceCollection
+  overload: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.AddDiySession*
+  nameWithType.vb: SessionServiceExtensions.AddDiySession(IServiceCollection, Action(Of DiySessionOptions))
+  fullName.vb: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.AddDiySession(Microsoft.Extensions.DependencyInjection.IServiceCollection, System.Action(Of Tool.Web.Session.DiySessionOptions))
+  name.vb: AddDiySession(IServiceCollection, Action(Of DiySessionOptions))
+- uid: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.UseDiySession(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  commentId: M:Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.UseDiySession(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  id: UseDiySession(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  isExtensionMethod: true
+  parent: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions
+  langs:
+  - csharp
+  - vb
+  name: UseDiySession(IApplicationBuilder)
+  nameWithType: SessionServiceExtensions.UseDiySession(IApplicationBuilder)
+  fullName: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.UseDiySession(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Web/Session/SessionServiceExtensions.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: UseDiySession
+    path: ../../Tool.Net/Web/Session/SessionServiceExtensions.cs
+    startLine: 42
+  assemblies:
+  - Tool.Net
+  namespace: Microsoft.Extensions.DependencyInjection
+  summary: 注册AsSession
+  example: []
+  syntax:
+    content: public static IApplicationBuilder UseDiySession(this IApplicationBuilder app)
+    parameters:
+    - id: app
+      type: Microsoft.AspNetCore.Builder.IApplicationBuilder
+      description: IApplicationBuilder框架对象
+    return:
+      type: Microsoft.AspNetCore.Builder.IApplicationBuilder
+      description: IApplicationBuilder
+    content.vb: Public Shared Function UseDiySession(app As IApplicationBuilder) As IApplicationBuilder
+  overload: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.UseDiySession*
+references:
+- uid: Microsoft.Extensions.DependencyInjection
+  commentId: N:Microsoft.Extensions.DependencyInjection
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.Extensions.DependencyInjection
+  nameWithType: Microsoft.Extensions.DependencyInjection
+  fullName: Microsoft.Extensions.DependencyInjection
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.DependencyInjection
+    name: DependencyInjection
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.DependencyInjection
+    name: DependencyInjection
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.AddDiySession*
+  commentId: Overload:Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.AddDiySession
+  href: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.html#Microsoft_Extensions_DependencyInjection_SessionServiceExtensions_AddDiySession_Microsoft_Extensions_DependencyInjection_IServiceCollection_System_Action_Tool_Web_Session_DiySessionOptions__
+  name: AddDiySession
+  nameWithType: SessionServiceExtensions.AddDiySession
+  fullName: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.AddDiySession
+- uid: Microsoft.Extensions.DependencyInjection.IServiceCollection
+  commentId: T:Microsoft.Extensions.DependencyInjection.IServiceCollection
+  parent: Microsoft.Extensions.DependencyInjection
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.iservicecollection
+  name: IServiceCollection
+  nameWithType: IServiceCollection
+  fullName: Microsoft.Extensions.DependencyInjection.IServiceCollection
+- uid: System.Action{Tool.Web.Session.DiySessionOptions}
+  commentId: T:System.Action{Tool.Web.Session.DiySessionOptions}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<DiySessionOptions>
+  nameWithType: Action<DiySessionOptions>
+  fullName: System.Action<Tool.Web.Session.DiySessionOptions>
+  nameWithType.vb: Action(Of DiySessionOptions)
+  fullName.vb: System.Action(Of Tool.Web.Session.DiySessionOptions)
+  name.vb: Action(Of DiySessionOptions)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: Tool.Web.Session.DiySessionOptions
+    name: DiySessionOptions
+    href: Tool.Web.Session.DiySessionOptions.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Tool.Web.Session.DiySessionOptions
+    name: DiySessionOptions
+    href: Tool.Web.Session.DiySessionOptions.html
+  - name: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.UseDiySession*
+  commentId: Overload:Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.UseDiySession
+  href: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.html#Microsoft_Extensions_DependencyInjection_SessionServiceExtensions_UseDiySession_Microsoft_AspNetCore_Builder_IApplicationBuilder_
+  name: UseDiySession
+  nameWithType: SessionServiceExtensions.UseDiySession
+  fullName: Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.UseDiySession
+- uid: Microsoft.AspNetCore.Builder.IApplicationBuilder
+  commentId: T:Microsoft.AspNetCore.Builder.IApplicationBuilder
+  parent: Microsoft.AspNetCore.Builder
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.builder.iapplicationbuilder
+  name: IApplicationBuilder
+  nameWithType: IApplicationBuilder
+  fullName: Microsoft.AspNetCore.Builder.IApplicationBuilder
+- uid: Microsoft.AspNetCore.Builder
+  commentId: N:Microsoft.AspNetCore.Builder
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.AspNetCore.Builder
+  nameWithType: Microsoft.AspNetCore.Builder
+  fullName: Microsoft.AspNetCore.Builder
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.AspNetCore
+    name: AspNetCore
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore
+  - name: .
+  - uid: Microsoft.AspNetCore.Builder
+    name: Builder
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.builder
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.AspNetCore
+    name: AspNetCore
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore
+  - name: .
+  - uid: Microsoft.AspNetCore.Builder
+    name: Builder
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.builder

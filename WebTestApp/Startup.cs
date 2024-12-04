@@ -31,6 +31,7 @@ using System.Data;
 using Tool.Utils.Data;
 using System.Collections;
 using Microsoft.Data.SqlClient;
+using System.Data.Common;
 
 namespace WebTestApp
 {
@@ -271,6 +272,14 @@ namespace WebTestApp
             DbHelper dbHelper = app.GetObject<DbHelper>();
             dbHelper.CommandTimeout = 1800;
             dbHelper.SetLogger(loggerFactory.CreateLogger("sql"));
+
+            var batch = dbHelper.CreateBatch();
+            var batchdic = batch.GetDictionary();
+
+            var s = batch.GetValue("Commands");
+
+            //var s0 = batch.Commands;
+            //batch.BatchCommands;
 
             //var dic = dbHelper.SelectDictionaryAsync("SELECT TOP (10000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];").Result;
 

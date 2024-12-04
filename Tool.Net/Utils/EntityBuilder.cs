@@ -20,12 +20,12 @@ namespace Tool.Utils
         /// <summary>
         /// 对象下公开的字段
         /// </summary>
-        public PropertyInfo[] Parameters { get; }
+        public PropertyInfo[] Parameters => classfieldDispatcher.Parameters;
 
         /// <summary>
         /// 获取当前类所有字段字典
         /// </summary>
-        public IDictionary<string, PropertyInfo> KeyParameters { get; }
+        public IDictionary<string, PropertyInfo> KeyParameters => classfieldDispatcher.KeyParameters;
 
         /// <summary>
         /// 是否可以构造
@@ -46,7 +46,7 @@ namespace Tool.Utils
             ClassType = classtype ?? throw new ArgumentNullException(nameof(classtype), "参数为空！");
             try
             {
-                var constructorInfos = classtype.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+                var constructorInfos = classtype.GetConstructors(BindingFlags.Public | BindingFlags.Instance);//| BindingFlags.NonPublic
                 if (constructorInfos.Length == 0) throw new();
 
                 for (int i = 0; i < constructorInfos.Length; i++)
@@ -67,17 +67,6 @@ namespace Tool.Utils
             }
             
             classfieldDispatcher = new ClassFieldDispatcher(classtype, ClassField.All);
-            Parameters = classfieldDispatcher.Parameters;
-
-            Dictionary<string, PropertyInfo> keyValuePairs = new();
-            foreach (var property in Parameters)
-            {
-                if (!keyValuePairs.TryAdd(property.Name, property))
-                {
-                    keyValuePairs[property.Name] = property;
-                }
-            }
-            KeyParameters = keyValuePairs.AsReadOnly();// Parameters.ToDictionary(p => p.Name, p => p);
         }
 
         /// <summary>

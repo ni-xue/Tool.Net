@@ -1,0 +1,3241 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.StringExtension
+  commentId: T:Tool.StringExtension
+  id: StringExtension
+  parent: Tool
+  children:
+  - Tool.StringExtension.Add(System.String[],System.String[],System.String)
+  - Tool.StringExtension.Change(System.String[],System.String,System.Int32)
+  - Tool.StringExtension.Contains(System.String[],System.String)
+  - Tool.StringExtension.ConvertHzToPz_Gb2312(System.String)
+  - Tool.StringExtension.DirtyContainsAny(System.String,System.String)
+  - Tool.StringExtension.DirtyContainsAny(System.String,System.String[])
+  - Tool.StringExtension.DirtyContainsAnys(System.String,System.String)
+  - Tool.StringExtension.DirtyContainsAnys(System.String,System.String[])
+  - Tool.StringExtension.DirtyDetection(System.String,System.String)
+  - Tool.StringExtension.DirtyDetection(System.String,System.String,System.Char)
+  - Tool.StringExtension.DirtyDetection(System.String,System.String[])
+  - Tool.StringExtension.DirtyDetection(System.String,System.String[],System.Char)
+  - Tool.StringExtension.EqualsNotCase(System.String,System.String)
+  - Tool.StringExtension.GetArrayIndex(System.String[],System.Int32,System.Int32)
+  - Tool.StringExtension.GetGuid(System.Boolean)
+  - Tool.StringExtension.GuidTo16String
+  - Tool.StringExtension.GuidToLongID
+  - Tool.StringExtension.Json(System.String)
+  - Tool.StringExtension.Json(System.String,System.Text.Json.JsonDocumentOptions)
+  - Tool.StringExtension.JsonDynamic(System.String,System.Text.Json.JsonDocumentOptions)
+  - Tool.StringExtension.JsonList(System.String)
+  - Tool.StringExtension.JsonList(System.String,System.Text.Json.JsonDocumentOptions)
+  - Tool.StringExtension.JsonList``1(System.String)
+  - Tool.StringExtension.JsonList``1(System.String,System.Text.Json.JsonSerializerOptions)
+  - Tool.StringExtension.JsonObject(System.String,System.Text.Json.JsonDocumentOptions)
+  - Tool.StringExtension.JsonVar(System.String,System.Text.Json.JsonDocumentOptions)
+  - Tool.StringExtension.Json``1(System.String)
+  - Tool.StringExtension.Json``1(System.String,System.Text.Json.JsonSerializerOptions)
+  - Tool.StringExtension.MD5Lower(System.String,System.Boolean)
+  - Tool.StringExtension.MD5Upper(System.String,System.Boolean)
+  - Tool.StringExtension.SHA1(System.String)
+  - Tool.StringExtension.SHA256(System.String)
+  - Tool.StringExtension.SQLFilter(System.String)
+  - Tool.StringExtension.SQLFilter(System.String,System.String)
+  - Tool.StringExtension.SQLFilter(System.String,System.String[])
+  - Tool.StringExtension.Split(System.String,System.String[])
+  - Tool.StringExtension.StrToPinyin(System.String)
+  - Tool.StringExtension.StringDecode(System.String)
+  - Tool.StringExtension.StringDecode(System.String,System.Text.Encoding)
+  - Tool.StringExtension.StringEncode(System.String)
+  - Tool.StringExtension.StringEncode(System.String,System.Text.Encoding)
+  - Tool.StringExtension.ToBytes(System.String)
+  - Tool.StringExtension.ToBytes(System.String,System.Text.Encoding)
+  - Tool.StringExtension.ToDateTime(System.String)
+  - Tool.StringExtension.ToDecimal(System.String)
+  - Tool.StringExtension.ToDouble(System.String)
+  - Tool.StringExtension.ToFileBytes(System.String)
+  - Tool.StringExtension.ToInt(System.String)
+  - Tool.StringExtension.ToInts(System.String[])
+  - Tool.StringExtension.ToLong(System.String)
+  - Tool.StringExtension.UnBase64String(System.String)
+  - Tool.StringExtension.Xml``1(System.String)
+  - Tool.StringExtension.sqlStr
+  langs:
+  - csharp
+  - vb
+  name: StringExtension
+  nameWithType: StringExtension
+  fullName: Tool.StringExtension
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: StringExtension
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 19
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对string类进行升级
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class StringExtension
+    content.vb: Public Module StringExtension
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.StringExtension.SHA256(System.String)
+  commentId: M:Tool.StringExtension.SHA256(System.String)
+  id: SHA256(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: SHA256(string)
+  nameWithType: StringExtension.SHA256(string)
+  fullName: Tool.StringExtension.SHA256(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SHA256
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 28
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将字符串进行SHA256加密
+  example: []
+  syntax:
+    content: public static string SHA256(this string sha256_txt)
+    parameters:
+    - id: sha256_txt
+      type: System.String
+      description: String
+    return:
+      type: System.String
+      description: 返回SHA256
+    content.vb: Public Shared Function SHA256(sha256_txt As String) As String
+  overload: Tool.StringExtension.SHA256*
+  nameWithType.vb: StringExtension.SHA256(String)
+  fullName.vb: Tool.StringExtension.SHA256(String)
+  name.vb: SHA256(String)
+- uid: Tool.StringExtension.SHA1(System.String)
+  commentId: M:Tool.StringExtension.SHA1(System.String)
+  id: SHA1(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: SHA1(string)
+  nameWithType: StringExtension.SHA1(string)
+  fullName: Tool.StringExtension.SHA1(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SHA1
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 38
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将字符串进行SHA1加密
+  example: []
+  syntax:
+    content: public static string SHA1(this string sha_txt)
+    parameters:
+    - id: sha_txt
+      type: System.String
+      description: String
+    return:
+      type: System.String
+      description: 返回SHA1
+    content.vb: Public Shared Function SHA1(sha_txt As String) As String
+  overload: Tool.StringExtension.SHA1*
+  nameWithType.vb: StringExtension.SHA1(String)
+  fullName.vb: Tool.StringExtension.SHA1(String)
+  name.vb: SHA1(String)
+- uid: Tool.StringExtension.MD5Upper(System.String,System.Boolean)
+  commentId: M:Tool.StringExtension.MD5Upper(System.String,System.Boolean)
+  id: MD5Upper(System.String,System.Boolean)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: MD5Upper(string, bool)
+  nameWithType: StringExtension.MD5Upper(string, bool)
+  fullName: Tool.StringExtension.MD5Upper(string, bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: MD5Upper
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 49
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取加密的MD5，大写的（特意备注：这里是指将你输入的字符串加密成MD5后转为大写，有些傻子以为是先将字符串转大写后加密）
+  example: []
+  syntax:
+    content: public static string MD5Upper(this string md5_txt, bool IsMD5 = true)
+    parameters:
+    - id: md5_txt
+      type: System.String
+      description: String
+    - id: IsMD5
+      type: System.Boolean
+      description: 表示加密为：32位或者16位（默认32位）
+    return:
+      type: System.String
+      description: 返回MD5
+    content.vb: Public Shared Function MD5Upper(md5_txt As String, IsMD5 As Boolean = True) As String
+  overload: Tool.StringExtension.MD5Upper*
+  nameWithType.vb: StringExtension.MD5Upper(String, Boolean)
+  fullName.vb: Tool.StringExtension.MD5Upper(String, Boolean)
+  name.vb: MD5Upper(String, Boolean)
+- uid: Tool.StringExtension.MD5Lower(System.String,System.Boolean)
+  commentId: M:Tool.StringExtension.MD5Lower(System.String,System.Boolean)
+  id: MD5Lower(System.String,System.Boolean)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: MD5Lower(string, bool)
+  nameWithType: StringExtension.MD5Lower(string, bool)
+  fullName: Tool.StringExtension.MD5Lower(string, bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: MD5Lower
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 79
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获取加密的MD5，小写的（特意备注：这里是指将你输入的字符串加密成MD5后转为小写，有些傻子以为是先将字符串转小写后加密）
+  example: []
+  syntax:
+    content: public static string MD5Lower(this string md5_txt, bool IsMD5 = true)
+    parameters:
+    - id: md5_txt
+      type: System.String
+      description: String
+    - id: IsMD5
+      type: System.Boolean
+      description: 表示加密为：32位或者16位（默认32位）
+    return:
+      type: System.String
+      description: 返回MD5
+    content.vb: Public Shared Function MD5Lower(md5_txt As String, IsMD5 As Boolean = True) As String
+  overload: Tool.StringExtension.MD5Lower*
+  nameWithType.vb: StringExtension.MD5Lower(String, Boolean)
+  fullName.vb: Tool.StringExtension.MD5Lower(String, Boolean)
+  name.vb: MD5Lower(String, Boolean)
+- uid: Tool.StringExtension.Split(System.String,System.String[])
+  commentId: M:Tool.StringExtension.Split(System.String,System.String[])
+  id: Split(System.String,System.String[])
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: Split(string, params string[])
+  nameWithType: StringExtension.Split(string, params string[])
+  fullName: Tool.StringExtension.Split(string, params string[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Split
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 104
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回的字符串数组包含此字符串中的子字符串（由指定字符串数组的元素分隔）。 参数指定是否返回空数组元素。
+  example: []
+  syntax:
+    content: public static string[] Split(this string txt, params string[] separator)
+    parameters:
+    - id: txt
+      type: System.String
+      description: 字符串
+    - id: separator
+      type: System.String[]
+      description: 指定字符串数组的元素分隔
+    return:
+      type: System.String[]
+      description: 返回一个数组
+    content.vb: Public Shared Function Split(txt As String, ParamArray separator As String()) As String()
+  overload: Tool.StringExtension.Split*
+  nameWithType.vb: StringExtension.Split(String, ParamArray String())
+  fullName.vb: Tool.StringExtension.Split(String, ParamArray String())
+  name.vb: Split(String, ParamArray String())
+- uid: Tool.StringExtension.EqualsNotCase(System.String,System.String)
+  commentId: M:Tool.StringExtension.EqualsNotCase(System.String,System.String)
+  id: EqualsNotCase(System.String,System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: EqualsNotCase(string, string)
+  nameWithType: StringExtension.EqualsNotCase(string, string)
+  fullName: Tool.StringExtension.EqualsNotCase(string, string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: EqualsNotCase
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 119
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对吧字符串是否相同，注明：不区分大小写的。
+  example: []
+  syntax:
+    content: public static bool EqualsNotCase(this string txt, string txt1)
+    parameters:
+    - id: txt
+      type: System.String
+      description: 字符串
+    - id: txt1
+      type: System.String
+      description: 对比字符串
+    return:
+      type: System.Boolean
+      description: 返回bool类型
+    content.vb: Public Shared Function EqualsNotCase(txt As String, txt1 As String) As Boolean
+  overload: Tool.StringExtension.EqualsNotCase*
+  nameWithType.vb: StringExtension.EqualsNotCase(String, String)
+  fullName.vb: Tool.StringExtension.EqualsNotCase(String, String)
+  name.vb: EqualsNotCase(String, String)
+- uid: Tool.StringExtension.ToInt(System.String)
+  commentId: M:Tool.StringExtension.ToInt(System.String)
+  id: ToInt(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: ToInt(string)
+  nameWithType: StringExtension.ToInt(string)
+  fullName: Tool.StringExtension.ToInt(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToInt
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 129
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回Int类型
+  example: []
+  syntax:
+    content: public static int ToInt(this string txt)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    return:
+      type: System.Int32
+      description: 返回Int类型
+    content.vb: Public Shared Function ToInt(txt As String) As Integer
+  overload: Tool.StringExtension.ToInt*
+  nameWithType.vb: StringExtension.ToInt(String)
+  fullName.vb: Tool.StringExtension.ToInt(String)
+  name.vb: ToInt(String)
+- uid: Tool.StringExtension.ToLong(System.String)
+  commentId: M:Tool.StringExtension.ToLong(System.String)
+  id: ToLong(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: ToLong(string)
+  nameWithType: StringExtension.ToLong(string)
+  fullName: Tool.StringExtension.ToLong(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToLong
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 150
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回Int类型
+  example: []
+  syntax:
+    content: public static long ToLong(this string txt)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    return:
+      type: System.Int64
+      description: 返回Int类型
+    content.vb: Public Shared Function ToLong(txt As String) As Long
+  overload: Tool.StringExtension.ToLong*
+  nameWithType.vb: StringExtension.ToLong(String)
+  fullName.vb: Tool.StringExtension.ToLong(String)
+  name.vb: ToLong(String)
+- uid: Tool.StringExtension.ToDateTime(System.String)
+  commentId: M:Tool.StringExtension.ToDateTime(System.String)
+  id: ToDateTime(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: ToDateTime(string)
+  nameWithType: StringExtension.ToDateTime(string)
+  fullName: Tool.StringExtension.ToDateTime(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToDateTime
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 171
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回时间类型
+  example: []
+  syntax:
+    content: public static DateTime ToDateTime(this string txt)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    return:
+      type: System.DateTime
+      description: 返回时间类型
+    content.vb: Public Shared Function ToDateTime(txt As String) As Date
+  overload: Tool.StringExtension.ToDateTime*
+  nameWithType.vb: StringExtension.ToDateTime(String)
+  fullName.vb: Tool.StringExtension.ToDateTime(String)
+  name.vb: ToDateTime(String)
+- uid: Tool.StringExtension.ToDecimal(System.String)
+  commentId: M:Tool.StringExtension.ToDecimal(System.String)
+  id: ToDecimal(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: ToDecimal(string)
+  nameWithType: StringExtension.ToDecimal(string)
+  fullName: Tool.StringExtension.ToDecimal(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToDecimal
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 192
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回十进制数
+  example: []
+  syntax:
+    content: public static decimal ToDecimal(this string txt)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    return:
+      type: System.Decimal
+      description: 返回十进制数
+    content.vb: Public Shared Function ToDecimal(txt As String) As Decimal
+  overload: Tool.StringExtension.ToDecimal*
+  nameWithType.vb: StringExtension.ToDecimal(String)
+  fullName.vb: Tool.StringExtension.ToDecimal(String)
+  name.vb: ToDecimal(String)
+- uid: Tool.StringExtension.ToDouble(System.String)
+  commentId: M:Tool.StringExtension.ToDouble(System.String)
+  id: ToDouble(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: ToDouble(string)
+  nameWithType: StringExtension.ToDouble(string)
+  fullName: Tool.StringExtension.ToDouble(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToDouble
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 213
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回双精度浮点数
+  example: []
+  syntax:
+    content: public static double ToDouble(this string txt)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    return:
+      type: System.Double
+      description: 返回双精度浮点数
+    content.vb: Public Shared Function ToDouble(txt As String) As Double
+  overload: Tool.StringExtension.ToDouble*
+  nameWithType.vb: StringExtension.ToDouble(String)
+  fullName.vb: Tool.StringExtension.ToDouble(String)
+  name.vb: ToDouble(String)
+- uid: Tool.StringExtension.ToBytes(System.String)
+  commentId: M:Tool.StringExtension.ToBytes(System.String)
+  id: ToBytes(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: ToBytes(string)
+  nameWithType: StringExtension.ToBytes(string)
+  fullName: Tool.StringExtension.ToBytes(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToBytes
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 234
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回二进制流
+  example: []
+  syntax:
+    content: public static byte[] ToBytes(this string txt)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    return:
+      type: System.Byte[]
+      description: 返回二进制流
+    content.vb: Public Shared Function ToBytes(txt As String) As Byte()
+  overload: Tool.StringExtension.ToBytes*
+  nameWithType.vb: StringExtension.ToBytes(String)
+  fullName.vb: Tool.StringExtension.ToBytes(String)
+  name.vb: ToBytes(String)
+- uid: Tool.StringExtension.ToBytes(System.String,System.Text.Encoding)
+  commentId: M:Tool.StringExtension.ToBytes(System.String,System.Text.Encoding)
+  id: ToBytes(System.String,System.Text.Encoding)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: ToBytes(string, Encoding)
+  nameWithType: StringExtension.ToBytes(string, Encoding)
+  fullName: Tool.StringExtension.ToBytes(string, System.Text.Encoding)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToBytes
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 249
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 返回二进制流
+  example: []
+  syntax:
+    content: public static byte[] ToBytes(this string txt, Encoding encoding)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    - id: encoding
+      type: System.Text.Encoding
+      description: 指定格式
+    return:
+      type: System.Byte[]
+      description: 返回二进制流
+    content.vb: Public Shared Function ToBytes(txt As String, encoding As Encoding) As Byte()
+  overload: Tool.StringExtension.ToBytes*
+  nameWithType.vb: StringExtension.ToBytes(String, Encoding)
+  fullName.vb: Tool.StringExtension.ToBytes(String, System.Text.Encoding)
+  name.vb: ToBytes(String, Encoding)
+- uid: Tool.StringExtension.JsonObject(System.String,System.Text.Json.JsonDocumentOptions)
+  commentId: M:Tool.StringExtension.JsonObject(System.String,System.Text.Json.JsonDocumentOptions)
+  id: JsonObject(System.String,System.Text.Json.JsonDocumentOptions)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: JsonObject(string, JsonDocumentOptions)
+  nameWithType: StringExtension.JsonObject(string, JsonDocumentOptions)
+  fullName: Tool.StringExtension.JsonObject(string, System.Text.Json.JsonDocumentOptions)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: JsonObject
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 267
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换成<xref href="System.Object" data-throw-if-not-resolved="false"></xref>对象
+  example: []
+  syntax:
+    content: public static object JsonObject(this string txt, JsonDocumentOptions options = default)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    - id: options
+      type: System.Text.Json.JsonDocumentOptions
+      description: 解析时用到的配置信息
+    return:
+      type: System.Object
+      description: <xref href="System.Object" data-throw-if-not-resolved="false"></xref>对象
+    content.vb: Public Shared Function JsonObject(txt As String, options As JsonDocumentOptions = Nothing) As Object
+  overload: Tool.StringExtension.JsonObject*
+  exceptions:
+  - type: System.SystemException
+    commentId: T:System.SystemException
+    description: 该字符串不存在任何内容！
+  nameWithType.vb: StringExtension.JsonObject(String, JsonDocumentOptions)
+  fullName.vb: Tool.StringExtension.JsonObject(String, System.Text.Json.JsonDocumentOptions)
+  name.vb: JsonObject(String, JsonDocumentOptions)
+- uid: Tool.StringExtension.JsonDynamic(System.String,System.Text.Json.JsonDocumentOptions)
+  commentId: M:Tool.StringExtension.JsonDynamic(System.String,System.Text.Json.JsonDocumentOptions)
+  id: JsonDynamic(System.String,System.Text.Json.JsonDocumentOptions)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: JsonDynamic(string, JsonDocumentOptions)
+  nameWithType: StringExtension.JsonDynamic(string, JsonDocumentOptions)
+  fullName: Tool.StringExtension.JsonDynamic(string, System.Text.Json.JsonDocumentOptions)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: JsonDynamic
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 289
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换成虚构实体对象
+  example: []
+  syntax:
+    content: public static dynamic JsonDynamic(this string txt, JsonDocumentOptions options = default)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    - id: options
+      type: System.Text.Json.JsonDocumentOptions
+      description: 解析时用到的配置信息
+    return:
+      type: dynamic
+      description: 转换成虚构实体对象
+    content.vb: Public Shared Function JsonDynamic(txt As String, options As JsonDocumentOptions = Nothing) As Object
+  overload: Tool.StringExtension.JsonDynamic*
+  nameWithType.vb: StringExtension.JsonDynamic(String, JsonDocumentOptions)
+  fullName.vb: Tool.StringExtension.JsonDynamic(String, System.Text.Json.JsonDocumentOptions)
+  name.vb: JsonDynamic(String, JsonDocumentOptions)
+- uid: Tool.StringExtension.JsonVar(System.String,System.Text.Json.JsonDocumentOptions)
+  commentId: M:Tool.StringExtension.JsonVar(System.String,System.Text.Json.JsonDocumentOptions)
+  id: JsonVar(System.String,System.Text.Json.JsonDocumentOptions)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: JsonVar(string, JsonDocumentOptions)
+  nameWithType: StringExtension.JsonVar(string, JsonDocumentOptions)
+  fullName: Tool.StringExtension.JsonVar(string, System.Text.Json.JsonDocumentOptions)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: JsonVar
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 300
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 一种获取 Json 格式数据的实现
+  example: []
+  syntax:
+    content: public static JsonVar JsonVar(this string txt, JsonDocumentOptions options = default)
+    parameters:
+    - id: txt
+      type: System.String
+      description: Json 格式字符串
+    - id: options
+      type: System.Text.Json.JsonDocumentOptions
+      description: 解析时用到的配置信息
+    return:
+      type: Tool.Utils.JsonVar
+      description: 转换成特殊结构对象，用于获取值
+    content.vb: Public Shared Function JsonVar(txt As String, options As JsonDocumentOptions = Nothing) As JsonVar
+  overload: Tool.StringExtension.JsonVar*
+  nameWithType.vb: StringExtension.JsonVar(String, JsonDocumentOptions)
+  fullName.vb: Tool.StringExtension.JsonVar(String, System.Text.Json.JsonDocumentOptions)
+  name.vb: JsonVar(String, JsonDocumentOptions)
+- uid: Tool.StringExtension.Json(System.String)
+  commentId: M:Tool.StringExtension.Json(System.String)
+  id: Json(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: Json(string)
+  nameWithType: StringExtension.Json(string)
+  fullName: Tool.StringExtension.Json(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Json
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 310
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换成<xref href="System.Collections.Generic.Dictionary%602" data-throw-if-not-resolved="false"></xref>对象 （默认允许Json中包含注释）
+  example: []
+  syntax:
+    content: public static Dictionary<string, object> Json(this string txt)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.Object}
+      description: 转换成Dictionary对象
+    content.vb: Public Shared Function Json(txt As String) As Dictionary(Of String, Object)
+  overload: Tool.StringExtension.Json*
+  nameWithType.vb: StringExtension.Json(String)
+  fullName.vb: Tool.StringExtension.Json(String)
+  name.vb: Json(String)
+- uid: Tool.StringExtension.Json(System.String,System.Text.Json.JsonDocumentOptions)
+  commentId: M:Tool.StringExtension.Json(System.String,System.Text.Json.JsonDocumentOptions)
+  id: Json(System.String,System.Text.Json.JsonDocumentOptions)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: Json(string, JsonDocumentOptions)
+  nameWithType: StringExtension.Json(string, JsonDocumentOptions)
+  fullName: Tool.StringExtension.Json(string, System.Text.Json.JsonDocumentOptions)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Json
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 321
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换成<xref href="System.Collections.Generic.Dictionary%602" data-throw-if-not-resolved="false"></xref>对象
+  example: []
+  syntax:
+    content: public static Dictionary<string, object> Json(this string txt, JsonDocumentOptions options = default)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    - id: options
+      type: System.Text.Json.JsonDocumentOptions
+      description: 解析时用到的配置信息
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.Object}
+      description: 转换成Dictionary对象
+    content.vb: Public Shared Function Json(txt As String, options As JsonDocumentOptions = Nothing) As Dictionary(Of String, Object)
+  overload: Tool.StringExtension.Json*
+  nameWithType.vb: StringExtension.Json(String, JsonDocumentOptions)
+  fullName.vb: Tool.StringExtension.Json(String, System.Text.Json.JsonDocumentOptions)
+  name.vb: Json(String, JsonDocumentOptions)
+- uid: Tool.StringExtension.JsonList(System.String)
+  commentId: M:Tool.StringExtension.JsonList(System.String)
+  id: JsonList(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: JsonList(string)
+  nameWithType: StringExtension.JsonList(string)
+  fullName: Tool.StringExtension.JsonList(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: JsonList
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 348
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换成 List{Dictionary{string, object}} 对象 （默认允许Json中包含注释）
+  example: []
+  syntax:
+    content: public static List<Dictionary<string, object>> JsonList(this string txt)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    return:
+      type: System.Collections.Generic.List{System.Collections.Generic.Dictionary{System.String,System.Object}}
+      description: 转换成Dictionary对象
+    content.vb: Public Shared Function JsonList(txt As String) As List(Of Dictionary(Of String, Object))
+  overload: Tool.StringExtension.JsonList*
+  nameWithType.vb: StringExtension.JsonList(String)
+  fullName.vb: Tool.StringExtension.JsonList(String)
+  name.vb: JsonList(String)
+- uid: Tool.StringExtension.JsonList(System.String,System.Text.Json.JsonDocumentOptions)
+  commentId: M:Tool.StringExtension.JsonList(System.String,System.Text.Json.JsonDocumentOptions)
+  id: JsonList(System.String,System.Text.Json.JsonDocumentOptions)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: JsonList(string, JsonDocumentOptions)
+  nameWithType: StringExtension.JsonList(string, JsonDocumentOptions)
+  fullName: Tool.StringExtension.JsonList(string, System.Text.Json.JsonDocumentOptions)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: JsonList
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 359
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换成 List{Dictionary{string, object}} 对象
+  example: []
+  syntax:
+    content: public static List<Dictionary<string, object>> JsonList(this string txt, JsonDocumentOptions options = default)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    - id: options
+      type: System.Text.Json.JsonDocumentOptions
+      description: 解析时用到的配置信息
+    return:
+      type: System.Collections.Generic.List{System.Collections.Generic.Dictionary{System.String,System.Object}}
+      description: 转换成Dictionary对象
+    content.vb: Public Shared Function JsonList(txt As String, options As JsonDocumentOptions = Nothing) As List(Of Dictionary(Of String, Object))
+  overload: Tool.StringExtension.JsonList*
+  nameWithType.vb: StringExtension.JsonList(String, JsonDocumentOptions)
+  fullName.vb: Tool.StringExtension.JsonList(String, System.Text.Json.JsonDocumentOptions)
+  name.vb: JsonList(String, JsonDocumentOptions)
+- uid: Tool.StringExtension.Json``1(System.String)
+  commentId: M:Tool.StringExtension.Json``1(System.String)
+  id: Json``1(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: Json<T>(string)
+  nameWithType: StringExtension.Json<T>(string)
+  fullName: Tool.StringExtension.Json<T>(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Json
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 389
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换成实体类
+  example: []
+  syntax:
+    content: public static T Json<T>(this string txt)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    typeParameters:
+    - id: T
+      description: 转换的实体
+    return:
+      type: '{T}'
+      description: 转换成实体类
+    content.vb: Public Shared Function Json(Of T)(txt As String) As T
+  overload: Tool.StringExtension.Json*
+  nameWithType.vb: StringExtension.Json(Of T)(String)
+  fullName.vb: Tool.StringExtension.Json(Of T)(String)
+  name.vb: Json(Of T)(String)
+- uid: Tool.StringExtension.Json``1(System.String,System.Text.Json.JsonSerializerOptions)
+  commentId: M:Tool.StringExtension.Json``1(System.String,System.Text.Json.JsonSerializerOptions)
+  id: Json``1(System.String,System.Text.Json.JsonSerializerOptions)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: Json<T>(string, JsonSerializerOptions)
+  nameWithType: StringExtension.Json<T>(string, JsonSerializerOptions)
+  fullName: Tool.StringExtension.Json<T>(string, System.Text.Json.JsonSerializerOptions)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Json
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 401
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换成实体类
+  example: []
+  syntax:
+    content: public static T Json<T>(this string txt, JsonSerializerOptions jsonSerializerOptions)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    - id: jsonSerializerOptions
+      type: System.Text.Json.JsonSerializerOptions
+      description: 需要的序列化条件
+    typeParameters:
+    - id: T
+      description: 转换的实体
+    return:
+      type: '{T}'
+      description: 转换成实体类
+    content.vb: Public Shared Function Json(Of T)(txt As String, jsonSerializerOptions As JsonSerializerOptions) As T
+  overload: Tool.StringExtension.Json*
+  nameWithType.vb: StringExtension.Json(Of T)(String, JsonSerializerOptions)
+  fullName.vb: Tool.StringExtension.Json(Of T)(String, System.Text.Json.JsonSerializerOptions)
+  name.vb: Json(Of T)(String, JsonSerializerOptions)
+- uid: Tool.StringExtension.JsonList``1(System.String)
+  commentId: M:Tool.StringExtension.JsonList``1(System.String)
+  id: JsonList``1(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: JsonList<T>(string)
+  nameWithType: StringExtension.JsonList<T>(string)
+  fullName: Tool.StringExtension.JsonList<T>(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: JsonList
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 418
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换成实体数组
+  example: []
+  syntax:
+    content: public static List<T> JsonList<T>(this string txt)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    typeParameters:
+    - id: T
+      description: 转换的实体
+    return:
+      type: System.Collections.Generic.List{{T}}
+      description: 转换成实体数组
+    content.vb: Public Shared Function JsonList(Of T)(txt As String) As List(Of T)
+  overload: Tool.StringExtension.JsonList*
+  nameWithType.vb: StringExtension.JsonList(Of T)(String)
+  fullName.vb: Tool.StringExtension.JsonList(Of T)(String)
+  name.vb: JsonList(Of T)(String)
+- uid: Tool.StringExtension.JsonList``1(System.String,System.Text.Json.JsonSerializerOptions)
+  commentId: M:Tool.StringExtension.JsonList``1(System.String,System.Text.Json.JsonSerializerOptions)
+  id: JsonList``1(System.String,System.Text.Json.JsonSerializerOptions)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: JsonList<T>(string, JsonSerializerOptions)
+  nameWithType: StringExtension.JsonList<T>(string, JsonSerializerOptions)
+  fullName: Tool.StringExtension.JsonList<T>(string, System.Text.Json.JsonSerializerOptions)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: JsonList
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 430
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 转换成实体数组
+  example: []
+  syntax:
+    content: public static List<T> JsonList<T>(this string txt, JsonSerializerOptions jsonSerializerOptions)
+    parameters:
+    - id: txt
+      type: System.String
+      description: String
+    - id: jsonSerializerOptions
+      type: System.Text.Json.JsonSerializerOptions
+      description: 需要的序列化条件
+    typeParameters:
+    - id: T
+      description: 转换的实体
+    return:
+      type: System.Collections.Generic.List{{T}}
+      description: 转换成实体数组
+    content.vb: Public Shared Function JsonList(Of T)(txt As String, jsonSerializerOptions As JsonSerializerOptions) As List(Of T)
+  overload: Tool.StringExtension.JsonList*
+  nameWithType.vb: StringExtension.JsonList(Of T)(String, JsonSerializerOptions)
+  fullName.vb: Tool.StringExtension.JsonList(Of T)(String, System.Text.Json.JsonSerializerOptions)
+  name.vb: JsonList(Of T)(String, JsonSerializerOptions)
+- uid: Tool.StringExtension.Xml``1(System.String)
+  commentId: M:Tool.StringExtension.Xml``1(System.String)
+  id: Xml``1(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: Xml<T>(string)
+  nameWithType: StringExtension.Xml<T>(string)
+  fullName: Tool.StringExtension.Xml<T>(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Xml
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 450
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将Xml格式字符串转换为对象
+  example: []
+  syntax:
+    content: 'public static T Xml<T>(this string txt) where T : class'
+    parameters:
+    - id: txt
+      type: System.String
+      description: 要转类型XML字符串
+    typeParameters:
+    - id: T
+    return:
+      type: '{T}'
+      description: 对象
+    content.vb: Public Shared Function Xml(Of T As Class)(txt As String) As T
+  overload: Tool.StringExtension.Xml*
+  nameWithType.vb: StringExtension.Xml(Of T)(String)
+  fullName.vb: Tool.StringExtension.Xml(Of T)(String)
+  name.vb: Xml(Of T)(String)
+- uid: Tool.StringExtension.StringEncode(System.String)
+  commentId: M:Tool.StringExtension.StringEncode(System.String)
+  id: StringEncode(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: StringEncode(string)
+  nameWithType: StringExtension.StringEncode(string)
+  fullName: Tool.StringExtension.StringEncode(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: StringEncode
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 471
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 使用指定的编码对象对 string 字符串进行编码。
+  example: []
+  syntax:
+    content: public static string StringEncode(this string txt)
+    parameters:
+    - id: txt
+      type: System.String
+      description: string
+    return:
+      type: System.String
+      description: 返回编码结果
+    content.vb: Public Shared Function StringEncode(txt As String) As String
+  overload: Tool.StringExtension.StringEncode*
+  nameWithType.vb: StringExtension.StringEncode(String)
+  fullName.vb: Tool.StringExtension.StringEncode(String)
+  name.vb: StringEncode(String)
+- uid: Tool.StringExtension.StringEncode(System.String,System.Text.Encoding)
+  commentId: M:Tool.StringExtension.StringEncode(System.String,System.Text.Encoding)
+  id: StringEncode(System.String,System.Text.Encoding)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: StringEncode(string, Encoding)
+  nameWithType: StringExtension.StringEncode(string, Encoding)
+  fullName: Tool.StringExtension.StringEncode(string, System.Text.Encoding)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: StringEncode
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 482
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 使用指定的编码对象对 string 字符串进行编码。
+  example: []
+  syntax:
+    content: public static string StringEncode(this string txt, Encoding encoding)
+    parameters:
+    - id: txt
+      type: System.String
+      description: string
+    - id: encoding
+      type: System.Text.Encoding
+      description: 指定编码格式
+    return:
+      type: System.String
+      description: 返回编码结果
+    content.vb: Public Shared Function StringEncode(txt As String, encoding As Encoding) As String
+  overload: Tool.StringExtension.StringEncode*
+  nameWithType.vb: StringExtension.StringEncode(String, Encoding)
+  fullName.vb: Tool.StringExtension.StringEncode(String, System.Text.Encoding)
+  name.vb: StringEncode(String, Encoding)
+- uid: Tool.StringExtension.StringDecode(System.String)
+  commentId: M:Tool.StringExtension.StringDecode(System.String)
+  id: StringDecode(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: StringDecode(string)
+  nameWithType: StringExtension.StringDecode(string)
+  fullName: Tool.StringExtension.StringDecode(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: StringDecode
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 492
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 使用指定的编码对象对 string 字符串进行解码。
+  example: []
+  syntax:
+    content: public static string StringDecode(this string txt)
+    parameters:
+    - id: txt
+      type: System.String
+      description: string
+    return:
+      type: System.String
+      description: 返回解码结果
+    content.vb: Public Shared Function StringDecode(txt As String) As String
+  overload: Tool.StringExtension.StringDecode*
+  nameWithType.vb: StringExtension.StringDecode(String)
+  fullName.vb: Tool.StringExtension.StringDecode(String)
+  name.vb: StringDecode(String)
+- uid: Tool.StringExtension.StringDecode(System.String,System.Text.Encoding)
+  commentId: M:Tool.StringExtension.StringDecode(System.String,System.Text.Encoding)
+  id: StringDecode(System.String,System.Text.Encoding)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: StringDecode(string, Encoding)
+  nameWithType: StringExtension.StringDecode(string, Encoding)
+  fullName: Tool.StringExtension.StringDecode(string, System.Text.Encoding)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: StringDecode
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 503
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 使用指定的编码对象对 string 字符串进行解码。
+  example: []
+  syntax:
+    content: public static string StringDecode(this string txt, Encoding encoding)
+    parameters:
+    - id: txt
+      type: System.String
+      description: ''
+    - id: encoding
+      type: System.Text.Encoding
+      description: 指定编码格式
+    return:
+      type: System.String
+      description: 返回解码结果
+    content.vb: Public Shared Function StringDecode(txt As String, encoding As Encoding) As String
+  overload: Tool.StringExtension.StringDecode*
+  nameWithType.vb: StringExtension.StringDecode(String, Encoding)
+  fullName.vb: Tool.StringExtension.StringDecode(String, System.Text.Encoding)
+  name.vb: StringDecode(String, Encoding)
+- uid: Tool.StringExtension.DirtyContainsAny(System.String,System.String[])
+  commentId: M:Tool.StringExtension.DirtyContainsAny(System.String,System.String[])
+  id: DirtyContainsAny(System.String,System.String[])
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: DirtyContainsAny(string, params string[])
+  nameWithType: StringExtension.DirtyContainsAny(string, params string[])
+  fullName: Tool.StringExtension.DirtyContainsAny(string, params string[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DirtyContainsAny
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 514
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对当前字符串进行脏字验证
+  example: []
+  syntax:
+    content: public static bool DirtyContainsAny(this string text, params string[] texts)
+    parameters:
+    - id: text
+      type: System.String
+      description: String
+    - id: texts
+      type: System.String[]
+      description: 自定义脏字数组
+    return:
+      type: System.Boolean
+      description: 存在返回，true否则为false
+    content.vb: Public Shared Function DirtyContainsAny(text As String, ParamArray texts As String()) As Boolean
+  overload: Tool.StringExtension.DirtyContainsAny*
+  nameWithType.vb: StringExtension.DirtyContainsAny(String, ParamArray String())
+  fullName.vb: Tool.StringExtension.DirtyContainsAny(String, ParamArray String())
+  name.vb: DirtyContainsAny(String, ParamArray String())
+- uid: Tool.StringExtension.DirtyContainsAny(System.String,System.String)
+  commentId: M:Tool.StringExtension.DirtyContainsAny(System.String,System.String)
+  id: DirtyContainsAny(System.String,System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: DirtyContainsAny(string, string)
+  nameWithType: StringExtension.DirtyContainsAny(string, string)
+  fullName: Tool.StringExtension.DirtyContainsAny(string, string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DirtyContainsAny
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 535
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对当前字符串进行脏字验证
+  example: []
+  syntax:
+    content: public static bool DirtyContainsAny(this string text, string dirty)
+    parameters:
+    - id: text
+      type: System.String
+      description: String
+    - id: dirty
+      type: System.String
+      description: 自定义脏字字符串以“|”分割
+    return:
+      type: System.Boolean
+      description: 存在返回，true否则为false
+    content.vb: Public Shared Function DirtyContainsAny(text As String, dirty As String) As Boolean
+  overload: Tool.StringExtension.DirtyContainsAny*
+  nameWithType.vb: StringExtension.DirtyContainsAny(String, String)
+  fullName.vb: Tool.StringExtension.DirtyContainsAny(String, String)
+  name.vb: DirtyContainsAny(String, String)
+- uid: Tool.StringExtension.DirtyContainsAnys(System.String,System.String[])
+  commentId: M:Tool.StringExtension.DirtyContainsAnys(System.String,System.String[])
+  id: DirtyContainsAnys(System.String,System.String[])
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: DirtyContainsAnys(string, params string[])
+  nameWithType: StringExtension.DirtyContainsAnys(string, params string[])
+  fullName: Tool.StringExtension.DirtyContainsAnys(string, params string[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DirtyContainsAnys
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 559
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对当前字符串进行脏字验证，返回存在的所有脏字，及下标
+  example: []
+  syntax:
+    content: public static object DirtyContainsAnys(this string text, params string[] texts)
+    parameters:
+    - id: text
+      type: System.String
+      description: String
+    - id: texts
+      type: System.String[]
+      description: 自定义脏字数组
+    return:
+      type: System.Object
+      description: 返回存在的所有脏字，及下标
+    content.vb: Public Shared Function DirtyContainsAnys(text As String, ParamArray texts As String()) As Object
+  overload: Tool.StringExtension.DirtyContainsAnys*
+  nameWithType.vb: StringExtension.DirtyContainsAnys(String, ParamArray String())
+  fullName.vb: Tool.StringExtension.DirtyContainsAnys(String, ParamArray String())
+  name.vb: DirtyContainsAnys(String, ParamArray String())
+- uid: Tool.StringExtension.DirtyContainsAnys(System.String,System.String)
+  commentId: M:Tool.StringExtension.DirtyContainsAnys(System.String,System.String)
+  id: DirtyContainsAnys(System.String,System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: DirtyContainsAnys(string, string)
+  nameWithType: StringExtension.DirtyContainsAnys(string, string)
+  fullName: Tool.StringExtension.DirtyContainsAnys(string, string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DirtyContainsAnys
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 581
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对当前字符串进行脏字验证，返回存在的所有脏字，及下标
+  example: []
+  syntax:
+    content: public static object DirtyContainsAnys(this string text, string dirty)
+    parameters:
+    - id: text
+      type: System.String
+      description: String
+    - id: dirty
+      type: System.String
+      description: 自定义脏字字符串以“|”分割
+    return:
+      type: System.Object
+      description: 返回存在的所有脏字，及下标
+    content.vb: Public Shared Function DirtyContainsAnys(text As String, dirty As String) As Object
+  overload: Tool.StringExtension.DirtyContainsAnys*
+  nameWithType.vb: StringExtension.DirtyContainsAnys(String, String)
+  fullName.vb: Tool.StringExtension.DirtyContainsAnys(String, String)
+  name.vb: DirtyContainsAnys(String, String)
+- uid: Tool.StringExtension.DirtyDetection(System.String,System.String[],System.Char)
+  commentId: M:Tool.StringExtension.DirtyDetection(System.String,System.String[],System.Char)
+  id: DirtyDetection(System.String,System.String[],System.Char)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: DirtyDetection(string, string[], char)
+  nameWithType: StringExtension.DirtyDetection(string, string[], char)
+  fullName: Tool.StringExtension.DirtyDetection(string, string[], char)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DirtyDetection
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 606
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对当前字符串进行脏字检测，并净化
+  example: []
+  syntax:
+    content: public static string DirtyDetection(this string text, string[] texts, char symbol)
+    parameters:
+    - id: text
+      type: System.String
+      description: String
+    - id: texts
+      type: System.String[]
+      description: 自定义脏字数组
+    - id: symbol
+      type: System.Char
+      description: 将存在的脏字替换为？？？
+    return:
+      type: System.String
+      description: 返回被净化后字符串
+    content.vb: Public Shared Function DirtyDetection(text As String, texts As String(), symbol As Char) As String
+  overload: Tool.StringExtension.DirtyDetection*
+  nameWithType.vb: StringExtension.DirtyDetection(String, String(), Char)
+  fullName.vb: Tool.StringExtension.DirtyDetection(String, String(), Char)
+  name.vb: DirtyDetection(String, String(), Char)
+- uid: Tool.StringExtension.DirtyDetection(System.String,System.String[])
+  commentId: M:Tool.StringExtension.DirtyDetection(System.String,System.String[])
+  id: DirtyDetection(System.String,System.String[])
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: DirtyDetection(string, string[])
+  nameWithType: StringExtension.DirtyDetection(string, string[])
+  fullName: Tool.StringExtension.DirtyDetection(string, string[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DirtyDetection
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 627
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对当前字符串进行脏字检测，并净化
+  example: []
+  syntax:
+    content: public static string DirtyDetection(this string text, string[] texts)
+    parameters:
+    - id: text
+      type: System.String
+      description: String
+    - id: texts
+      type: System.String[]
+      description: 自定义脏字数组
+    return:
+      type: System.String
+      description: 返回被净化后字符串
+    content.vb: Public Shared Function DirtyDetection(text As String, texts As String()) As String
+  overload: Tool.StringExtension.DirtyDetection*
+  nameWithType.vb: StringExtension.DirtyDetection(String, String())
+  fullName.vb: Tool.StringExtension.DirtyDetection(String, String())
+  name.vb: DirtyDetection(String, String())
+- uid: Tool.StringExtension.DirtyDetection(System.String,System.String)
+  commentId: M:Tool.StringExtension.DirtyDetection(System.String,System.String)
+  id: DirtyDetection(System.String,System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: DirtyDetection(string, string)
+  nameWithType: StringExtension.DirtyDetection(string, string)
+  fullName: Tool.StringExtension.DirtyDetection(string, string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DirtyDetection
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 646
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对当前字符串进行脏字检测，并净化
+  example: []
+  syntax:
+    content: public static string DirtyDetection(this string text, string dirty)
+    parameters:
+    - id: text
+      type: System.String
+      description: String
+    - id: dirty
+      type: System.String
+      description: 自定义脏字字符串以“|”分割
+    return:
+      type: System.String
+      description: 返回被净化后字符串
+    content.vb: Public Shared Function DirtyDetection(text As String, dirty As String) As String
+  overload: Tool.StringExtension.DirtyDetection*
+  nameWithType.vb: StringExtension.DirtyDetection(String, String)
+  fullName.vb: Tool.StringExtension.DirtyDetection(String, String)
+  name.vb: DirtyDetection(String, String)
+- uid: Tool.StringExtension.DirtyDetection(System.String,System.String,System.Char)
+  commentId: M:Tool.StringExtension.DirtyDetection(System.String,System.String,System.Char)
+  id: DirtyDetection(System.String,System.String,System.Char)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: DirtyDetection(string, string, char)
+  nameWithType: StringExtension.DirtyDetection(string, string, char)
+  fullName: Tool.StringExtension.DirtyDetection(string, string, char)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DirtyDetection
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 671
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 对当前字符串进行脏字检测，并净化
+  example: []
+  syntax:
+    content: public static string DirtyDetection(this string text, string dirty, char symbol)
+    parameters:
+    - id: text
+      type: System.String
+      description: String
+    - id: dirty
+      type: System.String
+      description: 自定义脏字字符串以“|”分割
+    - id: symbol
+      type: System.Char
+      description: 将存在的脏字替换为？？？
+    return:
+      type: System.String
+      description: 返回被净化后字符串
+    content.vb: Public Shared Function DirtyDetection(text As String, dirty As String, symbol As Char) As String
+  overload: Tool.StringExtension.DirtyDetection*
+  nameWithType.vb: StringExtension.DirtyDetection(String, String, Char)
+  fullName.vb: Tool.StringExtension.DirtyDetection(String, String, Char)
+  name.vb: DirtyDetection(String, String, Char)
+- uid: Tool.StringExtension.sqlStr
+  commentId: F:Tool.StringExtension.sqlStr
+  id: sqlStr
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: sqlStr
+  nameWithType: StringExtension.sqlStr
+  fullName: Tool.StringExtension.sqlStr
+  type: Field
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: sqlStr
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 692
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 默认包含的（防止注入类型）
+  example: []
+  syntax:
+    content: public const string sqlStr = "dbo.|.dbo.|break;|case |when |between |then |chr |add |alter |create |net |cmd=|while |count |union |from |use |and |top |or |iframe |script |insert |delete |select |update |exec |char |varchar |mid |drop |declare |commit |rollback | tran|truncate | where | in |cursor |exec |begin |open |xp_|sp_|master |--|0x"
+    return:
+      type: System.String
+    content.vb: Public Const sqlStr As String = "dbo.|.dbo.|break;|case |when |between |then |chr |add |alter |create |net |cmd=|while |count |union |from |use |and |top |or |iframe |script |insert |delete |select |update |exec |char |varchar |mid |drop |declare |commit |rollback | tran|truncate | where | in |cursor |exec |begin |open |xp_|sp_|master |--|0x"
+- uid: Tool.StringExtension.SQLFilter(System.String)
+  commentId: M:Tool.StringExtension.SQLFilter(System.String)
+  id: SQLFilter(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: SQLFilter(string)
+  nameWithType: StringExtension.SQLFilter(string)
+  fullName: Tool.StringExtension.SQLFilter(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SQLFilter
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 699
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 过滤非法关键字（使用自带常量）
+  example: []
+  syntax:
+    content: public static bool SQLFilter(this string keyword)
+    parameters:
+    - id: keyword
+      type: System.String
+      description: 带验证的SQL
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Shared Function SQLFilter(keyword As String) As Boolean
+  overload: Tool.StringExtension.SQLFilter*
+  nameWithType.vb: StringExtension.SQLFilter(String)
+  fullName.vb: Tool.StringExtension.SQLFilter(String)
+  name.vb: SQLFilter(String)
+- uid: Tool.StringExtension.SQLFilter(System.String,System.String)
+  commentId: M:Tool.StringExtension.SQLFilter(System.String,System.String)
+  id: SQLFilter(System.String,System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: SQLFilter(string, string)
+  nameWithType: StringExtension.SQLFilter(string, string)
+  fullName: Tool.StringExtension.SQLFilter(string, string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SQLFilter
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 730
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 过滤非法关键字，这个可以按照项目灵活配置
+  example: []
+  syntax:
+    content: public static bool SQLFilter(this string keyword, string sqlStr)
+    parameters:
+    - id: keyword
+      type: System.String
+      description: 带验证的SQL
+    - id: sqlStr
+      type: System.String
+      description: 验证的防注入类型字符串，以“|”区分
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Shared Function SQLFilter(keyword As String, sqlStr As String) As Boolean
+  overload: Tool.StringExtension.SQLFilter*
+  nameWithType.vb: StringExtension.SQLFilter(String, String)
+  fullName.vb: Tool.StringExtension.SQLFilter(String, String)
+  name.vb: SQLFilter(String, String)
+- uid: Tool.StringExtension.SQLFilter(System.String,System.String[])
+  commentId: M:Tool.StringExtension.SQLFilter(System.String,System.String[])
+  id: SQLFilter(System.String,System.String[])
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: SQLFilter(string, params string[])
+  nameWithType: StringExtension.SQLFilter(string, params string[])
+  fullName: Tool.StringExtension.SQLFilter(string, params string[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SQLFilter
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 761
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 过滤非法关键字，这个可以按照项目灵活配置
+  example: []
+  syntax:
+    content: public static bool SQLFilter(this string keyword, params string[] sqlStr)
+    parameters:
+    - id: keyword
+      type: System.String
+      description: 带验证的SQL
+    - id: sqlStr
+      type: System.String[]
+      description: 验证的防注入类型（必须大写）
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Shared Function SQLFilter(keyword As String, ParamArray sqlStr As String()) As Boolean
+  overload: Tool.StringExtension.SQLFilter*
+  nameWithType.vb: StringExtension.SQLFilter(String, ParamArray String())
+  fullName.vb: Tool.StringExtension.SQLFilter(String, ParamArray String())
+  name.vb: SQLFilter(String, ParamArray String())
+- uid: Tool.StringExtension.UnBase64String(System.String)
+  commentId: M:Tool.StringExtension.UnBase64String(System.String)
+  id: UnBase64String(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: UnBase64String(string)
+  nameWithType: StringExtension.UnBase64String(string)
+  fullName: Tool.StringExtension.UnBase64String(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: UnBase64String
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 792
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将对Base64字符串换成象转（解码）
+  example: []
+  syntax:
+    content: public static byte[] UnBase64String(this string value)
+    parameters:
+    - id: value
+      type: System.String
+      description: Base64字符串
+    return:
+      type: System.Byte[]
+      description: 返回一个源对象
+    content.vb: Public Shared Function UnBase64String(value As String) As Byte()
+  overload: Tool.StringExtension.UnBase64String*
+  nameWithType.vb: StringExtension.UnBase64String(String)
+  fullName.vb: Tool.StringExtension.UnBase64String(String)
+  name.vb: UnBase64String(String)
+- uid: Tool.StringExtension.ConvertHzToPz_Gb2312(System.String)
+  commentId: M:Tool.StringExtension.ConvertHzToPz_Gb2312(System.String)
+  id: ConvertHzToPz_Gb2312(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: ConvertHzToPz_Gb2312(string)
+  nameWithType: StringExtension.ConvertHzToPz_Gb2312(string)
+  fullName: Tool.StringExtension.ConvertHzToPz_Gb2312(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ConvertHzToPz_Gb2312
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 806
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将字符串中的中文转成拼音
+  example: []
+  syntax:
+    content: public static string ConvertHzToPz_Gb2312(this string value)
+    parameters:
+    - id: value
+      type: System.String
+      description: 字符串
+    return:
+      type: System.String
+      description: 返回完整的拼音
+    content.vb: Public Shared Function ConvertHzToPz_Gb2312(value As String) As String
+  overload: Tool.StringExtension.ConvertHzToPz_Gb2312*
+  nameWithType.vb: StringExtension.ConvertHzToPz_Gb2312(String)
+  fullName.vb: Tool.StringExtension.ConvertHzToPz_Gb2312(String)
+  name.vb: ConvertHzToPz_Gb2312(String)
+- uid: Tool.StringExtension.StrToPinyin(System.String)
+  commentId: M:Tool.StringExtension.StrToPinyin(System.String)
+  id: StrToPinyin(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: StrToPinyin(string)
+  nameWithType: StringExtension.StrToPinyin(string)
+  fullName: Tool.StringExtension.StrToPinyin(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: StrToPinyin
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 816
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 获得一个字符串的汉语拼音码 (首字母)
+  example: []
+  syntax:
+    content: public static string StrToPinyin(this string value)
+    parameters:
+    - id: value
+      type: System.String
+      description: 字符串
+    return:
+      type: System.String
+      description: 汉语拼音码,该字符串只包含大写的英文字母
+    content.vb: Public Shared Function StrToPinyin(value As String) As String
+  overload: Tool.StringExtension.StrToPinyin*
+  nameWithType.vb: StringExtension.StrToPinyin(String)
+  fullName.vb: Tool.StringExtension.StrToPinyin(String)
+  name.vb: StrToPinyin(String)
+- uid: Tool.StringExtension.ToInts(System.String[])
+  commentId: M:Tool.StringExtension.ToInts(System.String[])
+  id: ToInts(System.String[])
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: ToInts(string[])
+  nameWithType: StringExtension.ToInts(string[])
+  fullName: Tool.StringExtension.ToInts(string[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToInts
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 841
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将String数组转成Int数组
+  example: []
+  syntax:
+    content: public static int[] ToInts(this string[] txt)
+    parameters:
+    - id: txt
+      type: System.String[]
+      description: String[]
+    return:
+      type: System.Int32[]
+      description: 注释：如出现无法转换的，这抛出异常
+    content.vb: Public Shared Function ToInts(txt As String()) As Integer()
+  overload: Tool.StringExtension.ToInts*
+  nameWithType.vb: StringExtension.ToInts(String())
+  fullName.vb: Tool.StringExtension.ToInts(String())
+  name.vb: ToInts(String())
+- uid: Tool.StringExtension.Change(System.String[],System.String,System.Int32)
+  commentId: M:Tool.StringExtension.Change(System.String[],System.String,System.Int32)
+  id: Change(System.String[],System.String,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: Change(string[], string, int)
+  nameWithType: StringExtension.Change(string[], string, int)
+  fullName: Tool.StringExtension.Change(string[], string, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Change
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 873
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 修改当前数组的某个下标的内容
+  example: []
+  syntax:
+    content: public static void Change(this string[] txts, string ChangeTxt, int length)
+    parameters:
+    - id: txts
+      type: System.String[]
+      description: 源数据
+    - id: ChangeTxt
+      type: System.String
+      description: 修改的内容
+    - id: length
+      type: System.Int32
+      description: 下标位置
+    content.vb: Public Shared Sub Change(txts As String(), ChangeTxt As String, length As Integer)
+  overload: Tool.StringExtension.Change*
+  nameWithType.vb: StringExtension.Change(String(), String, Integer)
+  fullName.vb: Tool.StringExtension.Change(String(), String, Integer)
+  name.vb: Change(String(), String, Integer)
+- uid: Tool.StringExtension.Add(System.String[],System.String[],System.String)
+  commentId: M:Tool.StringExtension.Add(System.String[],System.String[],System.String)
+  id: Add(System.String[],System.String[],System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: Add(string[], string[], string)
+  nameWithType: StringExtension.Add(string[], string[], string)
+  fullName: Tool.StringExtension.Add(string[], string[], string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Add
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 932
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 给数组加新的值
+  example: []
+  syntax:
+    content: public static void Add(this string[] txts, string[] _txts, string txt)
+    parameters:
+    - id: txts
+      type: System.String[]
+      description: string[]
+    - id: _txts
+      type: System.String[]
+      description: 新数组（为空，但是必须大于原数组一个下标以上）
+    - id: txt
+      type: System.String
+      description: 新增的值
+    content.vb: Public Shared Sub Add(txts As String(), _txts As String(), txt As String)
+  overload: Tool.StringExtension.Add*
+  nameWithType.vb: StringExtension.Add(String(), String(), String)
+  fullName.vb: Tool.StringExtension.Add(String(), String(), String)
+  name.vb: Add(String(), String(), String)
+- uid: Tool.StringExtension.Contains(System.String[],System.String)
+  commentId: M:Tool.StringExtension.Contains(System.String[],System.String)
+  id: Contains(System.String[],System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: Contains(string[], string)
+  nameWithType: StringExtension.Contains(string[], string)
+  fullName: Tool.StringExtension.Contains(string[], string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: Contains
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 950
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 查找该string数组中是否存在该值。
+  example: []
+  syntax:
+    content: public static bool Contains(this string[] txt, string txt1)
+    parameters:
+    - id: txt
+      type: System.String[]
+      description: string[]
+    - id: txt1
+      type: System.String
+      description: 查找的字符
+    return:
+      type: System.Boolean
+      description: 方法存在或不存在
+    content.vb: Public Shared Function Contains(txt As String(), txt1 As String) As Boolean
+  overload: Tool.StringExtension.Contains*
+  nameWithType.vb: StringExtension.Contains(String(), String)
+  fullName.vb: Tool.StringExtension.Contains(String(), String)
+  name.vb: Contains(String(), String)
+- uid: Tool.StringExtension.GetArrayIndex(System.String[],System.Int32,System.Int32)
+  commentId: M:Tool.StringExtension.GetArrayIndex(System.String[],System.Int32,System.Int32)
+  id: GetArrayIndex(System.String[],System.Int32,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: GetArrayIndex(string[], int, int)
+  nameWithType: StringExtension.GetArrayIndex(string[], int, int)
+  fullName: Tool.StringExtension.GetArrayIndex(string[], int, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetArrayIndex
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 962
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 同于获取指定部分的内容
+  example: []
+  syntax:
+    content: public static string[] GetArrayIndex(this string[] obj, int index, int count)
+    parameters:
+    - id: obj
+      type: System.String[]
+      description: 对象数组
+    - id: index
+      type: System.Int32
+      description: 从下标N开始
+    - id: count
+      type: System.Int32
+      description: 到下标N结束
+    return:
+      type: System.String[]
+      description: 返回一部分的数组内容
+    content.vb: Public Shared Function GetArrayIndex(obj As String(), index As Integer, count As Integer) As String()
+  overload: Tool.StringExtension.GetArrayIndex*
+  nameWithType.vb: StringExtension.GetArrayIndex(String(), Integer, Integer)
+  fullName.vb: Tool.StringExtension.GetArrayIndex(String(), Integer, Integer)
+  name.vb: GetArrayIndex(String(), Integer, Integer)
+- uid: Tool.StringExtension.ToFileBytes(System.String)
+  commentId: M:Tool.StringExtension.ToFileBytes(System.String)
+  id: ToFileBytes(System.String)
+  isExtensionMethod: true
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: ToFileBytes(string)
+  nameWithType: StringExtension.ToFileBytes(string)
+  fullName: Tool.StringExtension.ToFileBytes(string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToFileBytes
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 1002
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 将文件转换为byte数组（如果没有找到则返回零的数组）
+  example: []
+  syntax:
+    content: public static byte[] ToFileBytes(this string path)
+    parameters:
+    - id: path
+      type: System.String
+      description: 文件地址(绝对路径)
+    return:
+      type: System.Byte[]
+      description: 转换后的byte数组（如果没有找到则返回零的数组）
+    content.vb: Public Shared Function ToFileBytes(path As String) As Byte()
+  overload: Tool.StringExtension.ToFileBytes*
+  nameWithType.vb: StringExtension.ToFileBytes(String)
+  fullName.vb: Tool.StringExtension.ToFileBytes(String)
+  name.vb: ToFileBytes(String)
+- uid: Tool.StringExtension.GetGuid(System.Boolean)
+  commentId: M:Tool.StringExtension.GetGuid(System.Boolean)
+  id: GetGuid(System.Boolean)
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: GetGuid(bool)
+  nameWithType: StringExtension.GetGuid(bool)
+  fullName: Tool.StringExtension.GetGuid(bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetGuid
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 1028
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 由连字符分隔的32位随机数
+  example: []
+  syntax:
+    content: public static string GetGuid(bool type = true)
+    parameters:
+    - id: type
+      type: System.Boolean
+      description: 返回两个结果，true是去掉分隔符的，false是未去掉的
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Shared Function GetGuid(type As Boolean = True) As String
+  overload: Tool.StringExtension.GetGuid*
+  nameWithType.vb: StringExtension.GetGuid(Boolean)
+  fullName.vb: Tool.StringExtension.GetGuid(Boolean)
+  name.vb: GetGuid(Boolean)
+- uid: Tool.StringExtension.GuidTo16String
+  commentId: M:Tool.StringExtension.GuidTo16String
+  id: GuidTo16String
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: GuidTo16String()
+  nameWithType: StringExtension.GuidTo16String()
+  fullName: Tool.StringExtension.GuidTo16String()
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GuidTo16String
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 1059
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 根据GUID获取16位的唯一字符串
+  example: []
+  syntax:
+    content: public static string GuidTo16String()
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Shared Function GuidTo16String() As String
+  overload: Tool.StringExtension.GuidTo16String*
+- uid: Tool.StringExtension.GuidToLongID
+  commentId: M:Tool.StringExtension.GuidToLongID
+  id: GuidToLongID
+  parent: Tool.StringExtension
+  langs:
+  - csharp
+  - vb
+  name: GuidToLongID()
+  nameWithType: StringExtension.GuidToLongID()
+  fullName: Tool.StringExtension.GuidToLongID()
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/TypeExtension/StringExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GuidToLongID
+    path: ../../Tool.Net/TypeExtension/StringExtension.cs
+    startLine: 1076
+  assemblies:
+  - Tool.Net
+  namespace: Tool
+  summary: 根据GUID获取19位的唯一数字序列
+  example: []
+  syntax:
+    content: public static long GuidToLongID()
+    return:
+      type: System.Int64
+      description: ''
+    content.vb: Public Shared Function GuidToLongID() As Long
+  overload: Tool.StringExtension.GuidToLongID*
+references:
+- uid: Tool
+  commentId: N:Tool
+  href: Tool.html
+  name: Tool
+  nameWithType: Tool
+  fullName: Tool
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Tool.StringExtension.SHA256*
+  commentId: Overload:Tool.StringExtension.SHA256
+  href: Tool.StringExtension.html#Tool_StringExtension_SHA256_System_String_
+  name: SHA256
+  nameWithType: StringExtension.SHA256
+  fullName: Tool.StringExtension.SHA256
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Tool.StringExtension.SHA1*
+  commentId: Overload:Tool.StringExtension.SHA1
+  href: Tool.StringExtension.html#Tool_StringExtension_SHA1_System_String_
+  name: SHA1
+  nameWithType: StringExtension.SHA1
+  fullName: Tool.StringExtension.SHA1
+- uid: Tool.StringExtension.MD5Upper*
+  commentId: Overload:Tool.StringExtension.MD5Upper
+  href: Tool.StringExtension.html#Tool_StringExtension_MD5Upper_System_String_System_Boolean_
+  name: MD5Upper
+  nameWithType: StringExtension.MD5Upper
+  fullName: Tool.StringExtension.MD5Upper
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Tool.StringExtension.MD5Lower*
+  commentId: Overload:Tool.StringExtension.MD5Lower
+  href: Tool.StringExtension.html#Tool_StringExtension_MD5Lower_System_String_System_Boolean_
+  name: MD5Lower
+  nameWithType: StringExtension.MD5Lower
+  fullName: Tool.StringExtension.MD5Lower
+- uid: Tool.StringExtension.Split*
+  commentId: Overload:Tool.StringExtension.Split
+  href: Tool.StringExtension.html#Tool_StringExtension_Split_System_String_System_String___
+  name: Split
+  nameWithType: StringExtension.Split
+  fullName: Tool.StringExtension.Split
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: Tool.StringExtension.EqualsNotCase*
+  commentId: Overload:Tool.StringExtension.EqualsNotCase
+  href: Tool.StringExtension.html#Tool_StringExtension_EqualsNotCase_System_String_System_String_
+  name: EqualsNotCase
+  nameWithType: StringExtension.EqualsNotCase
+  fullName: Tool.StringExtension.EqualsNotCase
+- uid: Tool.StringExtension.ToInt*
+  commentId: Overload:Tool.StringExtension.ToInt
+  href: Tool.StringExtension.html#Tool_StringExtension_ToInt_System_String_
+  name: ToInt
+  nameWithType: StringExtension.ToInt
+  fullName: Tool.StringExtension.ToInt
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Tool.StringExtension.ToLong*
+  commentId: Overload:Tool.StringExtension.ToLong
+  href: Tool.StringExtension.html#Tool_StringExtension_ToLong_System_String_
+  name: ToLong
+  nameWithType: StringExtension.ToLong
+  fullName: Tool.StringExtension.ToLong
+- uid: System.Int64
+  commentId: T:System.Int64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int64
+  name: long
+  nameWithType: long
+  fullName: long
+  nameWithType.vb: Long
+  fullName.vb: Long
+  name.vb: Long
+- uid: Tool.StringExtension.ToDateTime*
+  commentId: Overload:Tool.StringExtension.ToDateTime
+  href: Tool.StringExtension.html#Tool_StringExtension_ToDateTime_System_String_
+  name: ToDateTime
+  nameWithType: StringExtension.ToDateTime
+  fullName: Tool.StringExtension.ToDateTime
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+  nameWithType.vb: Date
+  fullName.vb: Date
+  name.vb: Date
+- uid: Tool.StringExtension.ToDecimal*
+  commentId: Overload:Tool.StringExtension.ToDecimal
+  href: Tool.StringExtension.html#Tool_StringExtension_ToDecimal_System_String_
+  name: ToDecimal
+  nameWithType: StringExtension.ToDecimal
+  fullName: Tool.StringExtension.ToDecimal
+- uid: System.Decimal
+  commentId: T:System.Decimal
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.decimal
+  name: decimal
+  nameWithType: decimal
+  fullName: decimal
+  nameWithType.vb: Decimal
+  fullName.vb: Decimal
+  name.vb: Decimal
+- uid: Tool.StringExtension.ToDouble*
+  commentId: Overload:Tool.StringExtension.ToDouble
+  href: Tool.StringExtension.html#Tool_StringExtension_ToDouble_System_String_
+  name: ToDouble
+  nameWithType: StringExtension.ToDouble
+  fullName: Tool.StringExtension.ToDouble
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: Tool.StringExtension.ToBytes*
+  commentId: Overload:Tool.StringExtension.ToBytes
+  href: Tool.StringExtension.html#Tool_StringExtension_ToBytes_System_String_
+  name: ToBytes
+  nameWithType: StringExtension.ToBytes
+  fullName: Tool.StringExtension.ToBytes
+- uid: System.Byte[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte[]
+  nameWithType: byte[]
+  fullName: byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+- uid: System.Text.Encoding
+  commentId: T:System.Text.Encoding
+  parent: System.Text
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.text.encoding
+  name: Encoding
+  nameWithType: Encoding
+  fullName: System.Text.Encoding
+- uid: System.Text
+  commentId: N:System.Text
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Text
+  nameWithType: System.Text
+  fullName: System.Text
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Text
+    name: Text
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Text
+    name: Text
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text
+- uid: System.SystemException
+  commentId: T:System.SystemException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.systemexception
+  name: SystemException
+  nameWithType: SystemException
+  fullName: System.SystemException
+- uid: Tool.StringExtension.JsonObject*
+  commentId: Overload:Tool.StringExtension.JsonObject
+  href: Tool.StringExtension.html#Tool_StringExtension_JsonObject_System_String_System_Text_Json_JsonDocumentOptions_
+  name: JsonObject
+  nameWithType: StringExtension.JsonObject
+  fullName: Tool.StringExtension.JsonObject
+- uid: System.Text.Json.JsonDocumentOptions
+  commentId: T:System.Text.Json.JsonDocumentOptions
+  parent: System.Text.Json
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.text.json.jsondocumentoptions
+  name: JsonDocumentOptions
+  nameWithType: JsonDocumentOptions
+  fullName: System.Text.Json.JsonDocumentOptions
+- uid: System.Text.Json
+  commentId: N:System.Text.Json
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Text.Json
+  nameWithType: System.Text.Json
+  fullName: System.Text.Json
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Text
+    name: Text
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text
+  - name: .
+  - uid: System.Text.Json
+    name: Json
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text.json
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Text
+    name: Text
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text
+  - name: .
+  - uid: System.Text.Json
+    name: Json
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text.json
+- uid: Tool.StringExtension.JsonDynamic*
+  commentId: Overload:Tool.StringExtension.JsonDynamic
+  href: Tool.StringExtension.html#Tool_StringExtension_JsonDynamic_System_String_System_Text_Json_JsonDocumentOptions_
+  name: JsonDynamic
+  nameWithType: StringExtension.JsonDynamic
+  fullName: Tool.StringExtension.JsonDynamic
+- uid: dynamic
+  commentId: T:System.Object
+  isExternal: true
+  name: dynamic
+  nameWithType: dynamic
+  fullName: dynamic
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Tool.StringExtension.JsonVar*
+  commentId: Overload:Tool.StringExtension.JsonVar
+  href: Tool.StringExtension.html#Tool_StringExtension_JsonVar_System_String_System_Text_Json_JsonDocumentOptions_
+  name: JsonVar
+  nameWithType: StringExtension.JsonVar
+  fullName: Tool.StringExtension.JsonVar
+- uid: Tool.Utils.JsonVar
+  commentId: T:Tool.Utils.JsonVar
+  parent: Tool.Utils
+  href: Tool.Utils.JsonVar.html
+  name: JsonVar
+  nameWithType: JsonVar
+  fullName: Tool.Utils.JsonVar
+- uid: Tool.Utils
+  commentId: N:Tool.Utils
+  href: Tool.html
+  name: Tool.Utils
+  nameWithType: Tool.Utils
+  fullName: Tool.Utils
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: Tool.StringExtension.Json*
+  commentId: Overload:Tool.StringExtension.Json
+  href: Tool.StringExtension.html#Tool_StringExtension_Json_System_String_
+  name: Json
+  nameWithType: StringExtension.Json
+  fullName: Tool.StringExtension.Json
+- uid: System.Collections.Generic.Dictionary{System.String,System.Object}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, object>
+  nameWithType: Dictionary<string, object>
+  fullName: System.Collections.Generic.Dictionary<string, object>
+  nameWithType.vb: Dictionary(Of String, Object)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, Object)
+  name.vb: Dictionary(Of String, Object)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Tool.StringExtension.JsonList*
+  commentId: Overload:Tool.StringExtension.JsonList
+  href: Tool.StringExtension.html#Tool_StringExtension_JsonList_System_String_
+  name: JsonList
+  nameWithType: StringExtension.JsonList
+  fullName: Tool.StringExtension.JsonList
+- uid: System.Collections.Generic.List{System.Collections.Generic.Dictionary{System.String,System.Object}}
+  commentId: T:System.Collections.Generic.List{System.Collections.Generic.Dictionary{System.String,System.Object}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Dictionary<string, object>>
+  nameWithType: List<Dictionary<string, object>>
+  fullName: System.Collections.Generic.List<System.Collections.Generic.Dictionary<string, object>>
+  nameWithType.vb: List(Of Dictionary(Of String, Object))
+  fullName.vb: System.Collections.Generic.List(Of System.Collections.Generic.Dictionary(Of String, Object))
+  name.vb: List(Of Dictionary(Of String, Object))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System.Text.Json.JsonSerializerOptions
+  commentId: T:System.Text.Json.JsonSerializerOptions
+  parent: System.Text.Json
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.text.json.jsonserializeroptions
+  name: JsonSerializerOptions
+  nameWithType: JsonSerializerOptions
+  fullName: System.Text.Json.JsonSerializerOptions
+- uid: System.Collections.Generic.List{{T}}
+  commentId: T:System.Collections.Generic.List{``0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.StringExtension.Xml*
+  commentId: Overload:Tool.StringExtension.Xml
+  href: Tool.StringExtension.html#Tool_StringExtension_Xml__1_System_String_
+  name: Xml
+  nameWithType: StringExtension.Xml
+  fullName: Tool.StringExtension.Xml
+- uid: Tool.StringExtension.StringEncode*
+  commentId: Overload:Tool.StringExtension.StringEncode
+  href: Tool.StringExtension.html#Tool_StringExtension_StringEncode_System_String_
+  name: StringEncode
+  nameWithType: StringExtension.StringEncode
+  fullName: Tool.StringExtension.StringEncode
+- uid: Tool.StringExtension.StringDecode*
+  commentId: Overload:Tool.StringExtension.StringDecode
+  href: Tool.StringExtension.html#Tool_StringExtension_StringDecode_System_String_
+  name: StringDecode
+  nameWithType: StringExtension.StringDecode
+  fullName: Tool.StringExtension.StringDecode
+- uid: Tool.StringExtension.DirtyContainsAny*
+  commentId: Overload:Tool.StringExtension.DirtyContainsAny
+  href: Tool.StringExtension.html#Tool_StringExtension_DirtyContainsAny_System_String_System_String___
+  name: DirtyContainsAny
+  nameWithType: StringExtension.DirtyContainsAny
+  fullName: Tool.StringExtension.DirtyContainsAny
+- uid: Tool.StringExtension.DirtyContainsAnys*
+  commentId: Overload:Tool.StringExtension.DirtyContainsAnys
+  href: Tool.StringExtension.html#Tool_StringExtension_DirtyContainsAnys_System_String_System_String___
+  name: DirtyContainsAnys
+  nameWithType: StringExtension.DirtyContainsAnys
+  fullName: Tool.StringExtension.DirtyContainsAnys
+- uid: Tool.StringExtension.DirtyDetection*
+  commentId: Overload:Tool.StringExtension.DirtyDetection
+  href: Tool.StringExtension.html#Tool_StringExtension_DirtyDetection_System_String_System_String___System_Char_
+  name: DirtyDetection
+  nameWithType: StringExtension.DirtyDetection
+  fullName: Tool.StringExtension.DirtyDetection
+- uid: System.Char
+  commentId: T:System.Char
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.char
+  name: char
+  nameWithType: char
+  fullName: char
+  nameWithType.vb: Char
+  fullName.vb: Char
+  name.vb: Char
+- uid: Tool.StringExtension.SQLFilter*
+  commentId: Overload:Tool.StringExtension.SQLFilter
+  href: Tool.StringExtension.html#Tool_StringExtension_SQLFilter_System_String_
+  name: SQLFilter
+  nameWithType: StringExtension.SQLFilter
+  fullName: Tool.StringExtension.SQLFilter
+- uid: Tool.StringExtension.UnBase64String*
+  commentId: Overload:Tool.StringExtension.UnBase64String
+  href: Tool.StringExtension.html#Tool_StringExtension_UnBase64String_System_String_
+  name: UnBase64String
+  nameWithType: StringExtension.UnBase64String
+  fullName: Tool.StringExtension.UnBase64String
+- uid: Tool.StringExtension.ConvertHzToPz_Gb2312*
+  commentId: Overload:Tool.StringExtension.ConvertHzToPz_Gb2312
+  href: Tool.StringExtension.html#Tool_StringExtension_ConvertHzToPz_Gb2312_System_String_
+  name: ConvertHzToPz_Gb2312
+  nameWithType: StringExtension.ConvertHzToPz_Gb2312
+  fullName: Tool.StringExtension.ConvertHzToPz_Gb2312
+- uid: Tool.StringExtension.StrToPinyin*
+  commentId: Overload:Tool.StringExtension.StrToPinyin
+  href: Tool.StringExtension.html#Tool_StringExtension_StrToPinyin_System_String_
+  name: StrToPinyin
+  nameWithType: StringExtension.StrToPinyin
+  fullName: Tool.StringExtension.StrToPinyin
+- uid: Tool.StringExtension.ToInts*
+  commentId: Overload:Tool.StringExtension.ToInts
+  href: Tool.StringExtension.html#Tool_StringExtension_ToInts_System_String___
+  name: ToInts
+  nameWithType: StringExtension.ToInts
+  fullName: Tool.StringExtension.ToInts
+- uid: System.Int32[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int[]
+  nameWithType: int[]
+  fullName: int[]
+  nameWithType.vb: Integer()
+  fullName.vb: Integer()
+  name.vb: Integer()
+  spec.csharp:
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: (
+  - name: )
+- uid: Tool.StringExtension.Change*
+  commentId: Overload:Tool.StringExtension.Change
+  href: Tool.StringExtension.html#Tool_StringExtension_Change_System_String___System_String_System_Int32_
+  name: Change
+  nameWithType: StringExtension.Change
+  fullName: Tool.StringExtension.Change
+- uid: Tool.StringExtension.Add*
+  commentId: Overload:Tool.StringExtension.Add
+  href: Tool.StringExtension.html#Tool_StringExtension_Add_System_String___System_String___System_String_
+  name: Add
+  nameWithType: StringExtension.Add
+  fullName: Tool.StringExtension.Add
+- uid: Tool.StringExtension.Contains*
+  commentId: Overload:Tool.StringExtension.Contains
+  href: Tool.StringExtension.html#Tool_StringExtension_Contains_System_String___System_String_
+  name: Contains
+  nameWithType: StringExtension.Contains
+  fullName: Tool.StringExtension.Contains
+- uid: Tool.StringExtension.GetArrayIndex*
+  commentId: Overload:Tool.StringExtension.GetArrayIndex
+  href: Tool.StringExtension.html#Tool_StringExtension_GetArrayIndex_System_String___System_Int32_System_Int32_
+  name: GetArrayIndex
+  nameWithType: StringExtension.GetArrayIndex
+  fullName: Tool.StringExtension.GetArrayIndex
+- uid: Tool.StringExtension.ToFileBytes*
+  commentId: Overload:Tool.StringExtension.ToFileBytes
+  href: Tool.StringExtension.html#Tool_StringExtension_ToFileBytes_System_String_
+  name: ToFileBytes
+  nameWithType: StringExtension.ToFileBytes
+  fullName: Tool.StringExtension.ToFileBytes
+- uid: Tool.StringExtension.GetGuid*
+  commentId: Overload:Tool.StringExtension.GetGuid
+  href: Tool.StringExtension.html#Tool_StringExtension_GetGuid_System_Boolean_
+  name: GetGuid
+  nameWithType: StringExtension.GetGuid
+  fullName: Tool.StringExtension.GetGuid
+- uid: Tool.StringExtension.GuidTo16String*
+  commentId: Overload:Tool.StringExtension.GuidTo16String
+  href: Tool.StringExtension.html#Tool_StringExtension_GuidTo16String
+  name: GuidTo16String
+  nameWithType: StringExtension.GuidTo16String
+  fullName: Tool.StringExtension.GuidTo16String
+- uid: Tool.StringExtension.GuidToLongID*
+  commentId: Overload:Tool.StringExtension.GuidToLongID
+  href: Tool.StringExtension.html#Tool_StringExtension_GuidToLongID
+  name: GuidToLongID
+  nameWithType: StringExtension.GuidToLongID
+  fullName: Tool.StringExtension.GuidToLongID

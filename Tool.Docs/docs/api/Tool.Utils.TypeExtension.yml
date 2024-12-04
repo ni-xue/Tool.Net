@@ -1,0 +1,5239 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Utils.TypeExtension
+  commentId: T:Tool.Utils.TypeExtension
+  id: TypeExtension
+  parent: Tool.Utils
+  children:
+  - Tool.Utils.TypeExtension.DefaultForType(System.Type)
+  - Tool.Utils.TypeExtension.GetFieldKey(System.Object,System.String,System.Boolean@)
+  - Tool.Utils.TypeExtension.GetFieldKey(System.Object,System.Type,System.String,System.Boolean@)
+  - Tool.Utils.TypeExtension.GetFieldKey``1(System.Object,System.String,System.Boolean@)
+  - Tool.Utils.TypeExtension.GetPropertieFind(System.Object,System.String,System.Boolean)
+  - Tool.Utils.TypeExtension.GetProperties(System.Object)
+  - Tool.Utils.TypeExtension.GetProperties(System.Type)
+  - Tool.Utils.TypeExtension.GetPropertyKey(System.Object,System.String,System.Boolean@)
+  - Tool.Utils.TypeExtension.GetPropertyKey(System.Object,System.Type,System.String,System.Boolean@)
+  - Tool.Utils.TypeExtension.GetPropertyKey``1(System.Object,System.String,System.Boolean@)
+  - Tool.Utils.TypeExtension.GetPropertys(System.Type)
+  - Tool.Utils.TypeExtension.GetValue(System.Object,System.ComponentModel.PropertyDescriptor)
+  - Tool.Utils.TypeExtension.GetValue(System.Object,System.String)
+  - Tool.Utils.TypeExtension.GetValue(System.Object,System.String,System.Boolean)
+  - Tool.Utils.TypeExtension.InvokeAsync(System.Action)
+  - Tool.Utils.TypeExtension.InvokeAsync``1(System.Action{``0},``0)
+  - Tool.Utils.TypeExtension.InvokeAsync``1(System.Func{``0})
+  - Tool.Utils.TypeExtension.InvokeAsync``10(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9},``0,``1,``2,``3,``4,``5,``6,``7,``8)
+  - Tool.Utils.TypeExtension.InvokeAsync``2(System.Action{``0,``1},``0,``1)
+  - Tool.Utils.TypeExtension.InvokeAsync``2(System.Func{``0,``1},``0)
+  - Tool.Utils.TypeExtension.InvokeAsync``3(System.Action{``0,``1,``2},``0,``1,``2)
+  - Tool.Utils.TypeExtension.InvokeAsync``3(System.Func{``0,``1,``2},``0,``1)
+  - Tool.Utils.TypeExtension.InvokeAsync``4(System.Action{``0,``1,``2,``3},``0,``1,``2,``3)
+  - Tool.Utils.TypeExtension.InvokeAsync``4(System.Func{``0,``1,``2,``3},``0,``1,``2)
+  - Tool.Utils.TypeExtension.InvokeAsync``5(System.Action{``0,``1,``2,``3,``4},``0,``1,``2,``3,``4)
+  - Tool.Utils.TypeExtension.InvokeAsync``5(System.Func{``0,``1,``2,``3,``4},``0,``1,``2,``3)
+  - Tool.Utils.TypeExtension.InvokeAsync``6(System.Action{``0,``1,``2,``3,``4,``5},``0,``1,``2,``3,``4,``5)
+  - Tool.Utils.TypeExtension.InvokeAsync``6(System.Func{``0,``1,``2,``3,``4,``5},``0,``1,``2,``3,``4)
+  - Tool.Utils.TypeExtension.InvokeAsync``7(System.Action{``0,``1,``2,``3,``4,``5,``6},``0,``1,``2,``3,``4,``5,``6)
+  - Tool.Utils.TypeExtension.InvokeAsync``7(System.Func{``0,``1,``2,``3,``4,``5,``6},``0,``1,``2,``3,``4,``5)
+  - Tool.Utils.TypeExtension.InvokeAsync``8(System.Action{``0,``1,``2,``3,``4,``5,``6,``7},``0,``1,``2,``3,``4,``5,``6,``7)
+  - Tool.Utils.TypeExtension.InvokeAsync``8(System.Func{``0,``1,``2,``3,``4,``5,``6,``7},``0,``1,``2,``3,``4,``5,``6)
+  - Tool.Utils.TypeExtension.InvokeAsync``9(System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8},``0,``1,``2,``3,``4,``5,``6,``7,``8)
+  - Tool.Utils.TypeExtension.InvokeAsync``9(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8},``0,``1,``2,``3,``4,``5,``6,``7)
+  - Tool.Utils.TypeExtension.IsDictionary(System.Type)
+  - Tool.Utils.TypeExtension.IsNumber(System.Type)
+  - Tool.Utils.TypeExtension.IsString(System.Type)
+  - Tool.Utils.TypeExtension.IsType(System.Type)
+  - Tool.Utils.TypeExtension.SetFieldKey(System.Object,System.String,System.Object)
+  - Tool.Utils.TypeExtension.SetFieldKey(System.Object,System.Type,System.String,System.Object)
+  - Tool.Utils.TypeExtension.SetFieldKey``1(System.Object,System.String,System.Object)
+  - Tool.Utils.TypeExtension.SetPropertyKey(System.Object,System.String,System.Object)
+  - Tool.Utils.TypeExtension.SetPropertyKey(System.Object,System.Type,System.String,System.Object)
+  - Tool.Utils.TypeExtension.SetPropertyKey``1(System.Object,System.String,System.Object)
+  - Tool.Utils.TypeExtension.SetValue(System.Object,System.ComponentModel.PropertyDescriptor,System.Object)
+  - Tool.Utils.TypeExtension.SetValue(System.Object,System.String,System.Object)
+  - Tool.Utils.TypeExtension.SetValue(System.Object,System.String,System.Object,System.Boolean)
+  langs:
+  - csharp
+  - vb
+  name: TypeExtension
+  nameWithType: TypeExtension
+  fullName: Tool.Utils.TypeExtension
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: TypeExtension
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 18
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 对Type进行升级
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class TypeExtension
+    content.vb: Public Module TypeExtension
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.Utils.TypeExtension.InvokeAsync(System.Action)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync(System.Action)
+  id: InvokeAsync(System.Action)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync(Action)
+  nameWithType: TypeExtension.InvokeAsync(Action)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync(System.Action)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 27
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步返回模式
+  example: []
+  syntax:
+    content: public static Task InvokeAsync(this Action @delegate)
+    parameters:
+    - id: delegate
+      type: System.Action
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Shared Function InvokeAsync([delegate] As Action) As Task
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+- uid: Tool.Utils.TypeExtension.InvokeAsync``1(System.Action{``0},``0)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``1(System.Action{``0},``0)
+  id: InvokeAsync``1(System.Action{``0},``0)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1>(Action<T1>, T1)
+  nameWithType: TypeExtension.InvokeAsync<T1>(Action<T1>, T1)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1>(System.Action<T1>, T1)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 40
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步模式
+  example: []
+  syntax:
+    content: public static Task InvokeAsync<T1>(this Action<T1> @delegate, T1 arg1)
+    parameters:
+    - id: delegate
+      type: System.Action{{T1}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1)([delegate] As Action(Of T1), arg1 As T1) As Task
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1)(Action(Of T1), T1)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1)(System.Action(Of T1), T1)
+  name.vb: InvokeAsync(Of T1)(Action(Of T1), T1)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``2(System.Action{``0,``1},``0,``1)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``2(System.Action{``0,``1},``0,``1)
+  id: InvokeAsync``2(System.Action{``0,``1},``0,``1)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2>(Action<T1, T2>, T1, T2)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2>(Action<T1, T2>, T1, T2)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2>(System.Action<T1, T2>, T1, T2)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 55
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步模式
+  example: []
+  syntax:
+    content: public static Task InvokeAsync<T1, T2>(this Action<T1, T2> @delegate, T1 arg1, T2 arg2)
+    parameters:
+    - id: delegate
+      type: System.Action{{T1},{T2}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2)([delegate] As Action(Of T1, T2), arg1 As T1, arg2 As T2) As Task
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2)(Action(Of T1, T2), T1, T2)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2)(System.Action(Of T1, T2), T1, T2)
+  name.vb: InvokeAsync(Of T1, T2)(Action(Of T1, T2), T1, T2)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``3(System.Action{``0,``1,``2},``0,``1,``2)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``3(System.Action{``0,``1,``2},``0,``1,``2)
+  id: InvokeAsync``3(System.Action{``0,``1,``2},``0,``1,``2)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3>(Action<T1, T2, T3>, T1, T2, T3)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3>(Action<T1, T2, T3>, T1, T2, T3)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3>(System.Action<T1, T2, T3>, T1, T2, T3)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 72
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步模式
+  example: []
+  syntax:
+    content: public static Task InvokeAsync<T1, T2, T3>(this Action<T1, T2, T3> @delegate, T1 arg1, T2 arg2, T3 arg3)
+    parameters:
+    - id: delegate
+      type: System.Action{{T1},{T2},{T3}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3)([delegate] As Action(Of T1, T2, T3), arg1 As T1, arg2 As T2, arg3 As T3) As Task
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3)(Action(Of T1, T2, T3), T1, T2, T3)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3)(System.Action(Of T1, T2, T3), T1, T2, T3)
+  name.vb: InvokeAsync(Of T1, T2, T3)(Action(Of T1, T2, T3), T1, T2, T3)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``4(System.Action{``0,``1,``2,``3},``0,``1,``2,``3)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``4(System.Action{``0,``1,``2,``3},``0,``1,``2,``3)
+  id: InvokeAsync``4(System.Action{``0,``1,``2,``3},``0,``1,``2,``3)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, T4>(Action<T1, T2, T3, T4>, T1, T2, T3, T4)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, T4>(Action<T1, T2, T3, T4>, T1, T2, T3, T4)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, T4>(System.Action<T1, T2, T3, T4>, T1, T2, T3, T4)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 91
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步模式
+  example: []
+  syntax:
+    content: public static Task InvokeAsync<T1, T2, T3, T4>(this Action<T1, T2, T3, T4> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+    parameters:
+    - id: delegate
+      type: System.Action{{T1},{T2},{T3},{T4}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    - id: arg4
+      type: '{T4}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: T4
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, T4)([delegate] As Action(Of T1, T2, T3, T4), arg1 As T1, arg2 As T2, arg3 As T3, arg4 As T4) As Task
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, T4)(Action(Of T1, T2, T3, T4), T1, T2, T3, T4)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, T4)(System.Action(Of T1, T2, T3, T4), T1, T2, T3, T4)
+  name.vb: InvokeAsync(Of T1, T2, T3, T4)(Action(Of T1, T2, T3, T4), T1, T2, T3, T4)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``5(System.Action{``0,``1,``2,``3,``4},``0,``1,``2,``3,``4)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``5(System.Action{``0,``1,``2,``3,``4},``0,``1,``2,``3,``4)
+  id: InvokeAsync``5(System.Action{``0,``1,``2,``3,``4},``0,``1,``2,``3,``4)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5>, T1, T2, T3, T4, T5)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5>, T1, T2, T3, T4, T5)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, T4, T5>(System.Action<T1, T2, T3, T4, T5>, T1, T2, T3, T4, T5)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 112
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步模式
+  example: []
+  syntax:
+    content: public static Task InvokeAsync<T1, T2, T3, T4, T5>(this Action<T1, T2, T3, T4, T5> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+    parameters:
+    - id: delegate
+      type: System.Action{{T1},{T2},{T3},{T4},{T5}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    - id: arg4
+      type: '{T4}'
+      description: ''
+    - id: arg5
+      type: '{T5}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: T4
+      description: ''
+    - id: T5
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, T4, T5)([delegate] As Action(Of T1, T2, T3, T4, T5), arg1 As T1, arg2 As T2, arg3 As T3, arg4 As T4, arg5 As T5) As Task
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5)(Action(Of T1, T2, T3, T4, T5), T1, T2, T3, T4, T5)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5)(System.Action(Of T1, T2, T3, T4, T5), T1, T2, T3, T4, T5)
+  name.vb: InvokeAsync(Of T1, T2, T3, T4, T5)(Action(Of T1, T2, T3, T4, T5), T1, T2, T3, T4, T5)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``6(System.Action{``0,``1,``2,``3,``4,``5},``0,``1,``2,``3,``4,``5)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``6(System.Action{``0,``1,``2,``3,``4,``5},``0,``1,``2,``3,``4,``5)
+  id: InvokeAsync``6(System.Action{``0,``1,``2,``3,``4,``5},``0,``1,``2,``3,``4,``5)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6>, T1, T2, T3, T4, T5, T6)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6>, T1, T2, T3, T4, T5, T6)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6>(System.Action<T1, T2, T3, T4, T5, T6>, T1, T2, T3, T4, T5, T6)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 135
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步模式
+  example: []
+  syntax:
+    content: public static Task InvokeAsync<T1, T2, T3, T4, T5, T6>(this Action<T1, T2, T3, T4, T5, T6> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+    parameters:
+    - id: delegate
+      type: System.Action{{T1},{T2},{T3},{T4},{T5},{T6}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    - id: arg4
+      type: '{T4}'
+      description: ''
+    - id: arg5
+      type: '{T5}'
+      description: ''
+    - id: arg6
+      type: '{T6}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: T4
+      description: ''
+    - id: T5
+      description: ''
+    - id: T6
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, T4, T5, T6)([delegate] As Action(Of T1, T2, T3, T4, T5, T6), arg1 As T1, arg2 As T2, arg3 As T3, arg4 As T4, arg5 As T5, arg6 As T6) As Task
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6)(Action(Of T1, T2, T3, T4, T5, T6), T1, T2, T3, T4, T5, T6)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6)(System.Action(Of T1, T2, T3, T4, T5, T6), T1, T2, T3, T4, T5, T6)
+  name.vb: InvokeAsync(Of T1, T2, T3, T4, T5, T6)(Action(Of T1, T2, T3, T4, T5, T6), T1, T2, T3, T4, T5, T6)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``7(System.Action{``0,``1,``2,``3,``4,``5,``6},``0,``1,``2,``3,``4,``5,``6)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``7(System.Action{``0,``1,``2,``3,``4,``5,``6},``0,``1,``2,``3,``4,``5,``6)
+  id: InvokeAsync``7(System.Action{``0,``1,``2,``3,``4,``5,``6},``0,``1,``2,``3,``4,``5,``6)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7>, T1, T2, T3, T4, T5, T6, T7)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7>, T1, T2, T3, T4, T5, T6, T7)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, T7>(System.Action<T1, T2, T3, T4, T5, T6, T7>, T1, T2, T3, T4, T5, T6, T7)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 160
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步模式
+  example: []
+  syntax:
+    content: public static Task InvokeAsync<T1, T2, T3, T4, T5, T6, T7>(this Action<T1, T2, T3, T4, T5, T6, T7> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+    parameters:
+    - id: delegate
+      type: System.Action{{T1},{T2},{T3},{T4},{T5},{T6},{T7}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    - id: arg4
+      type: '{T4}'
+      description: ''
+    - id: arg5
+      type: '{T5}'
+      description: ''
+    - id: arg6
+      type: '{T6}'
+      description: ''
+    - id: arg7
+      type: '{T7}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: T4
+      description: ''
+    - id: T5
+      description: ''
+    - id: T6
+      description: ''
+    - id: T7
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7)([delegate] As Action(Of T1, T2, T3, T4, T5, T6, T7), arg1 As T1, arg2 As T2, arg3 As T3, arg4 As T4, arg5 As T5, arg6 As T6, arg7 As T7) As Task
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7)(Action(Of T1, T2, T3, T4, T5, T6, T7), T1, T2, T3, T4, T5, T6, T7)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7)(System.Action(Of T1, T2, T3, T4, T5, T6, T7), T1, T2, T3, T4, T5, T6, T7)
+  name.vb: InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7)(Action(Of T1, T2, T3, T4, T5, T6, T7), T1, T2, T3, T4, T5, T6, T7)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``8(System.Action{``0,``1,``2,``3,``4,``5,``6,``7},``0,``1,``2,``3,``4,``5,``6,``7)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``8(System.Action{``0,``1,``2,``3,``4,``5,``6,``7},``0,``1,``2,``3,``4,``5,``6,``7)
+  id: InvokeAsync``8(System.Action{``0,``1,``2,``3,``4,``5,``6,``7},``0,``1,``2,``3,``4,``5,``6,``7)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8>, T1, T2, T3, T4, T5, T6, T7, T8)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8>, T1, T2, T3, T4, T5, T6, T7, T8)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8>(System.Action<T1, T2, T3, T4, T5, T6, T7, T8>, T1, T2, T3, T4, T5, T6, T7, T8)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 187
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步模式
+  example: []
+  syntax:
+    content: public static Task InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this Action<T1, T2, T3, T4, T5, T6, T7, T8> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+    parameters:
+    - id: delegate
+      type: System.Action{{T1},{T2},{T3},{T4},{T5},{T6},{T7},{T8}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    - id: arg4
+      type: '{T4}'
+      description: ''
+    - id: arg5
+      type: '{T5}'
+      description: ''
+    - id: arg6
+      type: '{T6}'
+      description: ''
+    - id: arg7
+      type: '{T7}'
+      description: ''
+    - id: arg8
+      type: '{T8}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: T4
+      description: ''
+    - id: T5
+      description: ''
+    - id: T6
+      description: ''
+    - id: T7
+      description: ''
+    - id: T8
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8)([delegate] As Action(Of T1, T2, T3, T4, T5, T6, T7, T8), arg1 As T1, arg2 As T2, arg3 As T3, arg4 As T4, arg5 As T5, arg6 As T6, arg7 As T7, arg8 As T8) As Task
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8)(Action(Of T1, T2, T3, T4, T5, T6, T7, T8), T1, T2, T3, T4, T5, T6, T7, T8)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8)(System.Action(Of T1, T2, T3, T4, T5, T6, T7, T8), T1, T2, T3, T4, T5, T6, T7, T8)
+  name.vb: InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8)(Action(Of T1, T2, T3, T4, T5, T6, T7, T8), T1, T2, T3, T4, T5, T6, T7, T8)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``9(System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8},``0,``1,``2,``3,``4,``5,``6,``7,``8)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``9(System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8},``0,``1,``2,``3,``4,``5,``6,``7,``8)
+  id: InvokeAsync``9(System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8},``0,``1,``2,``3,``4,``5,``6,``7,``8)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9>(System.Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 216
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步模式
+  example: []
+  syntax:
+    content: public static Task InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+    parameters:
+    - id: delegate
+      type: System.Action{{T1},{T2},{T3},{T4},{T5},{T6},{T7},{T8},{T9}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    - id: arg4
+      type: '{T4}'
+      description: ''
+    - id: arg5
+      type: '{T5}'
+      description: ''
+    - id: arg6
+      type: '{T6}'
+      description: ''
+    - id: arg7
+      type: '{T7}'
+      description: ''
+    - id: arg8
+      type: '{T8}'
+      description: ''
+    - id: arg9
+      type: '{T9}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: T4
+      description: ''
+    - id: T5
+      description: ''
+    - id: T6
+      description: ''
+    - id: T7
+      description: ''
+    - id: T8
+      description: ''
+    - id: T9
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)([delegate] As Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9), arg1 As T1, arg2 As T2, arg3 As T3, arg4 As T4, arg5 As T5, arg6 As T6, arg7 As T7, arg8 As T8, arg9 As T9) As Task
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)(Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9), T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)(System.Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9), T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  name.vb: InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)(Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9), T1, T2, T3, T4, T5, T6, T7, T8, T9)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``1(System.Func{``0})
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``1(System.Func{``0})
+  id: InvokeAsync``1(System.Func{``0})
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<TResult>(Func<TResult>)
+  nameWithType: TypeExtension.InvokeAsync<TResult>(Func<TResult>)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<TResult>(System.Func<TResult>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 231
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步返回模式
+  example: []
+  syntax:
+    content: public static Task<TResult> InvokeAsync<TResult>(this Func<TResult> @delegate)
+    parameters:
+    - id: delegate
+      type: System.Func{{TResult}}
+      description: ''
+    typeParameters:
+    - id: TResult
+    return:
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of TResult)([delegate] As Func(Of TResult)) As Task(Of TResult)
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of TResult)(Func(Of TResult))
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of TResult)(System.Func(Of TResult))
+  name.vb: InvokeAsync(Of TResult)(Func(Of TResult))
+- uid: Tool.Utils.TypeExtension.InvokeAsync``2(System.Func{``0,``1},``0)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``2(System.Func{``0,``1},``0)
+  id: InvokeAsync``2(System.Func{``0,``1},``0)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, TResult>(Func<T1, TResult>, T1)
+  nameWithType: TypeExtension.InvokeAsync<T1, TResult>(Func<T1, TResult>, T1)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, TResult>(System.Func<T1, TResult>, T1)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 245
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步返回模式
+  example: []
+  syntax:
+    content: public static Task<TResult> InvokeAsync<T1, TResult>(this Func<T1, TResult> @delegate, T1 arg1)
+    parameters:
+    - id: delegate
+      type: System.Func{{T1},{TResult}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: TResult
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, TResult)([delegate] As Func(Of T1, TResult), arg1 As T1) As Task(Of TResult)
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, TResult)(Func(Of T1, TResult), T1)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, TResult)(System.Func(Of T1, TResult), T1)
+  name.vb: InvokeAsync(Of T1, TResult)(Func(Of T1, TResult), T1)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``3(System.Func{``0,``1,``2},``0,``1)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``3(System.Func{``0,``1,``2},``0,``1)
+  id: InvokeAsync``3(System.Func{``0,``1,``2},``0,``1)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, TResult>(Func<T1, T2, TResult>, T1, T2)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, TResult>(Func<T1, T2, TResult>, T1, T2)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, TResult>(System.Func<T1, T2, TResult>, T1, T2)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 261
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步返回模式
+  example: []
+  syntax:
+    content: public static Task<TResult> InvokeAsync<T1, T2, TResult>(this Func<T1, T2, TResult> @delegate, T1 arg1, T2 arg2)
+    parameters:
+    - id: delegate
+      type: System.Func{{T1},{T2},{TResult}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: TResult
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, TResult)([delegate] As Func(Of T1, T2, TResult), arg1 As T1, arg2 As T2) As Task(Of TResult)
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, TResult)(Func(Of T1, T2, TResult), T1, T2)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, TResult)(System.Func(Of T1, T2, TResult), T1, T2)
+  name.vb: InvokeAsync(Of T1, T2, TResult)(Func(Of T1, T2, TResult), T1, T2)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``4(System.Func{``0,``1,``2,``3},``0,``1,``2)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``4(System.Func{``0,``1,``2,``3},``0,``1,``2)
+  id: InvokeAsync``4(System.Func{``0,``1,``2,``3},``0,``1,``2)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult>, T1, T2, T3)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult>, T1, T2, T3)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, TResult>(System.Func<T1, T2, T3, TResult>, T1, T2, T3)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 279
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步返回模式
+  example: []
+  syntax:
+    content: public static Task<TResult> InvokeAsync<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3)
+    parameters:
+    - id: delegate
+      type: System.Func{{T1},{T2},{T3},{TResult}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: TResult
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, TResult)([delegate] As Func(Of T1, T2, T3, TResult), arg1 As T1, arg2 As T2, arg3 As T3) As Task(Of TResult)
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, TResult)(Func(Of T1, T2, T3, TResult), T1, T2, T3)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, TResult)(System.Func(Of T1, T2, T3, TResult), T1, T2, T3)
+  name.vb: InvokeAsync(Of T1, T2, T3, TResult)(Func(Of T1, T2, T3, TResult), T1, T2, T3)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``5(System.Func{``0,``1,``2,``3,``4},``0,``1,``2,``3)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``5(System.Func{``0,``1,``2,``3,``4},``0,``1,``2,``3)
+  id: InvokeAsync``5(System.Func{``0,``1,``2,``3,``4},``0,``1,``2,``3)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, T4, TResult>(Func<T1, T2, T3, T4, TResult>, T1, T2, T3, T4)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, T4, TResult>(Func<T1, T2, T3, T4, TResult>, T1, T2, T3, T4)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, T4, TResult>(System.Func<T1, T2, T3, T4, TResult>, T1, T2, T3, T4)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 299
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步返回模式
+  example: []
+  syntax:
+    content: public static Task<TResult> InvokeAsync<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+    parameters:
+    - id: delegate
+      type: System.Func{{T1},{T2},{T3},{T4},{TResult}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    - id: arg4
+      type: '{T4}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: T4
+      description: ''
+    - id: TResult
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, T4, TResult)([delegate] As Func(Of T1, T2, T3, T4, TResult), arg1 As T1, arg2 As T2, arg3 As T3, arg4 As T4) As Task(Of TResult)
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, T4, TResult)(Func(Of T1, T2, T3, T4, TResult), T1, T2, T3, T4)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, T4, TResult)(System.Func(Of T1, T2, T3, T4, TResult), T1, T2, T3, T4)
+  name.vb: InvokeAsync(Of T1, T2, T3, T4, TResult)(Func(Of T1, T2, T3, T4, TResult), T1, T2, T3, T4)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``6(System.Func{``0,``1,``2,``3,``4,``5},``0,``1,``2,``3,``4)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``6(System.Func{``0,``1,``2,``3,``4,``5},``0,``1,``2,``3,``4)
+  id: InvokeAsync``6(System.Func{``0,``1,``2,``3,``4,``5},``0,``1,``2,``3,``4)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, T4, T5, TResult>(Func<T1, T2, T3, T4, T5, TResult>, T1, T2, T3, T4, T5)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, TResult>(Func<T1, T2, T3, T4, T5, TResult>, T1, T2, T3, T4, T5)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, TResult>(System.Func<T1, T2, T3, T4, T5, TResult>, T1, T2, T3, T4, T5)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 321
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步返回模式
+  example: []
+  syntax:
+    content: public static Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, TResult>(this Func<T1, T2, T3, T4, T5, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+    parameters:
+    - id: delegate
+      type: System.Func{{T1},{T2},{T3},{T4},{T5},{TResult}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    - id: arg4
+      type: '{T4}'
+      description: ''
+    - id: arg5
+      type: '{T5}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: T4
+      description: ''
+    - id: T5
+      description: ''
+    - id: TResult
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, T4, T5, TResult)([delegate] As Func(Of T1, T2, T3, T4, T5, TResult), arg1 As T1, arg2 As T2, arg3 As T3, arg4 As T4, arg5 As T5) As Task(Of TResult)
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, TResult)(Func(Of T1, T2, T3, T4, T5, TResult), T1, T2, T3, T4, T5)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, TResult)(System.Func(Of T1, T2, T3, T4, T5, TResult), T1, T2, T3, T4, T5)
+  name.vb: InvokeAsync(Of T1, T2, T3, T4, T5, TResult)(Func(Of T1, T2, T3, T4, T5, TResult), T1, T2, T3, T4, T5)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``7(System.Func{``0,``1,``2,``3,``4,``5,``6},``0,``1,``2,``3,``4,``5)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``7(System.Func{``0,``1,``2,``3,``4,``5,``6},``0,``1,``2,``3,``4,``5)
+  id: InvokeAsync``7(System.Func{``0,``1,``2,``3,``4,``5,``6},``0,``1,``2,``3,``4,``5)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, T4, T5, T6, TResult>(Func<T1, T2, T3, T4, T5, T6, TResult>, T1, T2, T3, T4, T5, T6)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, TResult>(Func<T1, T2, T3, T4, T5, T6, TResult>, T1, T2, T3, T4, T5, T6)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, TResult>(System.Func<T1, T2, T3, T4, T5, T6, TResult>, T1, T2, T3, T4, T5, T6)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 345
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步返回模式
+  example: []
+  syntax:
+    content: public static Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, T6, TResult>(this Func<T1, T2, T3, T4, T5, T6, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+    parameters:
+    - id: delegate
+      type: System.Func{{T1},{T2},{T3},{T4},{T5},{T6},{TResult}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    - id: arg4
+      type: '{T4}'
+      description: ''
+    - id: arg5
+      type: '{T5}'
+      description: ''
+    - id: arg6
+      type: '{T6}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: T4
+      description: ''
+    - id: T5
+      description: ''
+    - id: T6
+      description: ''
+    - id: TResult
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, T4, T5, T6, TResult)([delegate] As Func(Of T1, T2, T3, T4, T5, T6, TResult), arg1 As T1, arg2 As T2, arg3 As T3, arg4 As T4, arg5 As T5, arg6 As T6) As Task(Of TResult)
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, TResult)(Func(Of T1, T2, T3, T4, T5, T6, TResult), T1, T2, T3, T4, T5, T6)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, TResult)(System.Func(Of T1, T2, T3, T4, T5, T6, TResult), T1, T2, T3, T4, T5, T6)
+  name.vb: InvokeAsync(Of T1, T2, T3, T4, T5, T6, TResult)(Func(Of T1, T2, T3, T4, T5, T6, TResult), T1, T2, T3, T4, T5, T6)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``8(System.Func{``0,``1,``2,``3,``4,``5,``6,``7},``0,``1,``2,``3,``4,``5,``6)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``8(System.Func{``0,``1,``2,``3,``4,``5,``6,``7},``0,``1,``2,``3,``4,``5,``6)
+  id: InvokeAsync``8(System.Func{``0,``1,``2,``3,``4,``5,``6,``7},``0,``1,``2,``3,``4,``5,``6)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, T4, T5, T6, T7, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, TResult>, T1, T2, T3, T4, T5, T6, T7)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, T7, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, TResult>, T1, T2, T3, T4, T5, T6, T7)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, T7, TResult>(System.Func<T1, T2, T3, T4, T5, T6, T7, TResult>, T1, T2, T3, T4, T5, T6, T7)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 371
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步返回模式
+  example: []
+  syntax:
+    content: public static Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, T6, T7, TResult>(this Func<T1, T2, T3, T4, T5, T6, T7, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+    parameters:
+    - id: delegate
+      type: System.Func{{T1},{T2},{T3},{T4},{T5},{T6},{T7},{TResult}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    - id: arg4
+      type: '{T4}'
+      description: ''
+    - id: arg5
+      type: '{T5}'
+      description: ''
+    - id: arg6
+      type: '{T6}'
+      description: ''
+    - id: arg7
+      type: '{T7}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: T4
+      description: ''
+    - id: T5
+      description: ''
+    - id: T6
+      description: ''
+    - id: T7
+      description: ''
+    - id: TResult
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, TResult)([delegate] As Func(Of T1, T2, T3, T4, T5, T6, T7, TResult), arg1 As T1, arg2 As T2, arg3 As T3, arg4 As T4, arg5 As T5, arg6 As T6, arg7 As T7) As Task(Of TResult)
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, TResult)(Func(Of T1, T2, T3, T4, T5, T6, T7, TResult), T1, T2, T3, T4, T5, T6, T7)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, TResult)(System.Func(Of T1, T2, T3, T4, T5, T6, T7, TResult), T1, T2, T3, T4, T5, T6, T7)
+  name.vb: InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, TResult)(Func(Of T1, T2, T3, T4, T5, T6, T7, TResult), T1, T2, T3, T4, T5, T6, T7)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``9(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8},``0,``1,``2,``3,``4,``5,``6,``7)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``9(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8},``0,``1,``2,``3,``4,``5,``6,``7)
+  id: InvokeAsync``9(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8},``0,``1,``2,``3,``4,``5,``6,``7)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>, T1, T2, T3, T4, T5, T6, T7, T8)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>, T1, T2, T3, T4, T5, T6, T7, T8)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(System.Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>, T1, T2, T3, T4, T5, T6, T7, T8)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 399
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步返回模式
+  example: []
+  syntax:
+    content: public static Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(this Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+    parameters:
+    - id: delegate
+      type: System.Func{{T1},{T2},{T3},{T4},{T5},{T6},{T7},{T8},{TResult}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    - id: arg4
+      type: '{T4}'
+      description: ''
+    - id: arg5
+      type: '{T5}'
+      description: ''
+    - id: arg6
+      type: '{T6}'
+      description: ''
+    - id: arg7
+      type: '{T7}'
+      description: ''
+    - id: arg8
+      type: '{T8}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: T4
+      description: ''
+    - id: T5
+      description: ''
+    - id: T6
+      description: ''
+    - id: T7
+      description: ''
+    - id: T8
+      description: ''
+    - id: TResult
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)([delegate] As Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult), arg1 As T1, arg2 As T2, arg3 As T3, arg4 As T4, arg5 As T5, arg6 As T6, arg7 As T7, arg8 As T8) As Task(Of TResult)
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)(Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult), T1, T2, T3, T4, T5, T6, T7, T8)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)(System.Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult), T1, T2, T3, T4, T5, T6, T7, T8)
+  name.vb: InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)(Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult), T1, T2, T3, T4, T5, T6, T7, T8)
+- uid: Tool.Utils.TypeExtension.InvokeAsync``10(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9},``0,``1,``2,``3,``4,``5,``6,``7,``8)
+  commentId: M:Tool.Utils.TypeExtension.InvokeAsync``10(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9},``0,``1,``2,``3,``4,``5,``6,``7,``8)
+  id: InvokeAsync``10(System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9},``0,``1,``2,``3,``4,``5,``6,``7,``8)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  nameWithType: TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  fullName: Tool.Utils.TypeExtension.InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(System.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: InvokeAsync
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 429
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 创建异步返回模式
+  example: []
+  syntax:
+    content: public static Task<TResult> InvokeAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> @delegate, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+    parameters:
+    - id: delegate
+      type: System.Func{{T1},{T2},{T3},{T4},{T5},{T6},{T7},{T8},{T9},{TResult}}
+      description: ''
+    - id: arg1
+      type: '{T1}'
+      description: ''
+    - id: arg2
+      type: '{T2}'
+      description: ''
+    - id: arg3
+      type: '{T3}'
+      description: ''
+    - id: arg4
+      type: '{T4}'
+      description: ''
+    - id: arg5
+      type: '{T5}'
+      description: ''
+    - id: arg6
+      type: '{T6}'
+      description: ''
+    - id: arg7
+      type: '{T7}'
+      description: ''
+    - id: arg8
+      type: '{T8}'
+      description: ''
+    - id: arg9
+      type: '{T9}'
+      description: ''
+    typeParameters:
+    - id: T1
+      description: ''
+    - id: T2
+      description: ''
+    - id: T3
+      description: ''
+    - id: T4
+      description: ''
+    - id: T5
+      description: ''
+    - id: T6
+      description: ''
+    - id: T7
+      description: ''
+    - id: T8
+      description: ''
+    - id: T9
+      description: ''
+    - id: TResult
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task{{TResult}}
+      description: ''
+    content.vb: Public Shared Function InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)([delegate] As Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult), arg1 As T1, arg2 As T2, arg3 As T3, arg4 As T4, arg5 As T5, arg6 As T6, arg7 As T7, arg8 As T8, arg9 As T9) As Task(Of TResult)
+  overload: Tool.Utils.TypeExtension.InvokeAsync*
+  nameWithType.vb: TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)(Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult), T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  fullName.vb: Tool.Utils.TypeExtension.InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)(System.Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult), T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  name.vb: InvokeAsync(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)(Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult), T1, T2, T3, T4, T5, T6, T7, T8, T9)
+- uid: Tool.Utils.TypeExtension.DefaultForType(System.Type)
+  commentId: M:Tool.Utils.TypeExtension.DefaultForType(System.Type)
+  id: DefaultForType(System.Type)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: DefaultForType(Type)
+  nameWithType: TypeExtension.DefaultForType(Type)
+  fullName: Tool.Utils.TypeExtension.DefaultForType(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DefaultForType
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 442
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取当前类型的默认值
+  example: []
+  syntax:
+    content: public static object DefaultForType(this Type type)
+    parameters:
+    - id: type
+      type: System.Type
+      description: ''
+    return:
+      type: System.Object
+      description: ''
+    content.vb: Public Shared Function DefaultForType(type As Type) As Object
+  overload: Tool.Utils.TypeExtension.DefaultForType*
+- uid: Tool.Utils.TypeExtension.IsString(System.Type)
+  commentId: M:Tool.Utils.TypeExtension.IsString(System.Type)
+  id: IsString(System.Type)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: IsString(Type)
+  nameWithType: TypeExtension.IsString(Type)
+  fullName: Tool.Utils.TypeExtension.IsString(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsString
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 452
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 验证是否是字符类型
+  example: []
+  syntax:
+    content: public static bool IsString(this Type type)
+    parameters:
+    - id: type
+      type: System.Type
+      description: ''
+    return:
+      type: System.Boolean
+      description: <xref href="System.Boolean" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function IsString(type As Type) As Boolean
+  overload: Tool.Utils.TypeExtension.IsString*
+- uid: Tool.Utils.TypeExtension.IsNumber(System.Type)
+  commentId: M:Tool.Utils.TypeExtension.IsNumber(System.Type)
+  id: IsNumber(System.Type)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: IsNumber(Type)
+  nameWithType: TypeExtension.IsNumber(Type)
+  fullName: Tool.Utils.TypeExtension.IsNumber(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsNumber
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 466
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 验证是否是数字类型
+  example: []
+  syntax:
+    content: public static bool IsNumber(this Type type)
+    parameters:
+    - id: type
+      type: System.Type
+      description: ''
+    return:
+      type: System.Boolean
+      description: <xref href="System.Boolean" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function IsNumber(type As Type) As Boolean
+  overload: Tool.Utils.TypeExtension.IsNumber*
+- uid: Tool.Utils.TypeExtension.IsType(System.Type)
+  commentId: M:Tool.Utils.TypeExtension.IsType(System.Type)
+  id: IsType(System.Type)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: IsType(Type)
+  nameWithType: TypeExtension.IsType(Type)
+  fullName: Tool.Utils.TypeExtension.IsType(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsType
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 489
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 验证是否是系统变量
+  example: []
+  syntax:
+    content: public static bool IsType(this Type type)
+    parameters:
+    - id: type
+      type: System.Type
+      description: ''
+    return:
+      type: System.Boolean
+      description: <xref href="System.Boolean" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function IsType(type As Type) As Boolean
+  overload: Tool.Utils.TypeExtension.IsType*
+- uid: Tool.Utils.TypeExtension.IsDictionary(System.Type)
+  commentId: M:Tool.Utils.TypeExtension.IsDictionary(System.Type)
+  id: IsDictionary(System.Type)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: IsDictionary(Type)
+  nameWithType: TypeExtension.IsDictionary(Type)
+  fullName: Tool.Utils.TypeExtension.IsDictionary(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsDictionary
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 506
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 判断是否是字典类型
+  example: []
+  syntax:
+    content: public static bool IsDictionary(this Type type)
+    parameters:
+    - id: type
+      type: System.Type
+      description: 类型
+    return:
+      type: System.Boolean
+      description: <xref href="System.Boolean" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function IsDictionary(type As Type) As Boolean
+  overload: Tool.Utils.TypeExtension.IsDictionary*
+- uid: Tool.Utils.TypeExtension.GetProperties(System.Object)
+  commentId: M:Tool.Utils.TypeExtension.GetProperties(System.Object)
+  id: GetProperties(System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetProperties(object)
+  nameWithType: TypeExtension.GetProperties(object)
+  fullName: Tool.Utils.TypeExtension.GetProperties(object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetProperties
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 525
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取当前对象下所有属性集合
+  example: []
+  syntax:
+    content: public static PropertyDescriptorCollection GetProperties(this object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    return:
+      type: System.ComponentModel.PropertyDescriptorCollection
+      description: 属性集合
+    content.vb: Public Shared Function GetProperties(obj As Object) As PropertyDescriptorCollection
+  overload: Tool.Utils.TypeExtension.GetProperties*
+  nameWithType.vb: TypeExtension.GetProperties(Object)
+  fullName.vb: Tool.Utils.TypeExtension.GetProperties(Object)
+  name.vb: GetProperties(Object)
+- uid: Tool.Utils.TypeExtension.GetProperties(System.Type)
+  commentId: M:Tool.Utils.TypeExtension.GetProperties(System.Type)
+  id: GetProperties(System.Type)
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetProperties(Type)
+  nameWithType: TypeExtension.GetProperties(Type)
+  fullName: Tool.Utils.TypeExtension.GetProperties(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetProperties
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 536
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取当前对象下所有属性集合
+  example: []
+  syntax:
+    content: public static PropertyDescriptorCollection GetProperties(Type componentType)
+    parameters:
+    - id: componentType
+      type: System.Type
+      description: 对象源类型
+    return:
+      type: System.ComponentModel.PropertyDescriptorCollection
+      description: 属性集合
+    content.vb: Public Shared Function GetProperties(componentType As Type) As PropertyDescriptorCollection
+  overload: Tool.Utils.TypeExtension.GetProperties*
+- uid: Tool.Utils.TypeExtension.GetPropertieFind(System.Object,System.String,System.Boolean)
+  commentId: M:Tool.Utils.TypeExtension.GetPropertieFind(System.Object,System.String,System.Boolean)
+  id: GetPropertieFind(System.Object,System.String,System.Boolean)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetPropertieFind(object, string, bool)
+  nameWithType: TypeExtension.GetPropertieFind(object, string, bool)
+  fullName: Tool.Utils.TypeExtension.GetPropertieFind(object, string, bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetPropertieFind
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 549
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取当前对象下指定名称的属性对象
+  example: []
+  syntax:
+    content: public static PropertyDescriptor GetPropertieFind(this object obj, string name, bool ignoreCase = false)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 属性名称
+    - id: ignoreCase
+      type: System.Boolean
+      description: 是否忽略大小写
+    return:
+      type: System.ComponentModel.PropertyDescriptor
+      description: ''
+    content.vb: Public Shared Function GetPropertieFind(obj As Object, name As String, ignoreCase As Boolean = False) As PropertyDescriptor
+  overload: Tool.Utils.TypeExtension.GetPropertieFind*
+  nameWithType.vb: TypeExtension.GetPropertieFind(Object, String, Boolean)
+  fullName.vb: Tool.Utils.TypeExtension.GetPropertieFind(Object, String, Boolean)
+  name.vb: GetPropertieFind(Object, String, Boolean)
+- uid: Tool.Utils.TypeExtension.GetValue(System.Object,System.ComponentModel.PropertyDescriptor)
+  commentId: M:Tool.Utils.TypeExtension.GetValue(System.Object,System.ComponentModel.PropertyDescriptor)
+  id: GetValue(System.Object,System.ComponentModel.PropertyDescriptor)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetValue(object, PropertyDescriptor)
+  nameWithType: TypeExtension.GetValue(object, PropertyDescriptor)
+  fullName: Tool.Utils.TypeExtension.GetValue(object, System.ComponentModel.PropertyDescriptor)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetValue
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 561
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 根据属性对象获取属性的值
+  example: []
+  syntax:
+    content: public static object GetValue(this object obj, PropertyDescriptor descriptor)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: descriptor
+      type: System.ComponentModel.PropertyDescriptor
+      description: 属性对象
+    return:
+      type: System.Object
+      description: 属性值
+    content.vb: Public Shared Function GetValue(obj As Object, descriptor As PropertyDescriptor) As Object
+  overload: Tool.Utils.TypeExtension.GetValue*
+  nameWithType.vb: TypeExtension.GetValue(Object, PropertyDescriptor)
+  fullName.vb: Tool.Utils.TypeExtension.GetValue(Object, System.ComponentModel.PropertyDescriptor)
+  name.vb: GetValue(Object, PropertyDescriptor)
+- uid: Tool.Utils.TypeExtension.SetValue(System.Object,System.ComponentModel.PropertyDescriptor,System.Object)
+  commentId: M:Tool.Utils.TypeExtension.SetValue(System.Object,System.ComponentModel.PropertyDescriptor,System.Object)
+  id: SetValue(System.Object,System.ComponentModel.PropertyDescriptor,System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: SetValue(object, PropertyDescriptor, object)
+  nameWithType: TypeExtension.SetValue(object, PropertyDescriptor, object)
+  fullName: Tool.Utils.TypeExtension.SetValue(object, System.ComponentModel.PropertyDescriptor, object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SetValue
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 572
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 根据属性对象修改属性的值
+  example: []
+  syntax:
+    content: public static void SetValue(this object obj, PropertyDescriptor descriptor, object value)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: descriptor
+      type: System.ComponentModel.PropertyDescriptor
+      description: 属性对象
+    - id: value
+      type: System.Object
+      description: 修改属性的值
+    content.vb: Public Shared Sub SetValue(obj As Object, descriptor As PropertyDescriptor, value As Object)
+  overload: Tool.Utils.TypeExtension.SetValue*
+  nameWithType.vb: TypeExtension.SetValue(Object, PropertyDescriptor, Object)
+  fullName.vb: Tool.Utils.TypeExtension.SetValue(Object, System.ComponentModel.PropertyDescriptor, Object)
+  name.vb: SetValue(Object, PropertyDescriptor, Object)
+- uid: Tool.Utils.TypeExtension.GetValue(System.Object,System.String,System.Boolean)
+  commentId: M:Tool.Utils.TypeExtension.GetValue(System.Object,System.String,System.Boolean)
+  id: GetValue(System.Object,System.String,System.Boolean)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetValue(object, string, bool)
+  nameWithType: TypeExtension.GetValue(object, string, bool)
+  fullName: Tool.Utils.TypeExtension.GetValue(object, string, bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetValue
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 584
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取指定属性值
+  example: []
+  syntax:
+    content: public static object GetValue(this object obj, string name, bool ignoreCase)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 属性名称
+    - id: ignoreCase
+      type: System.Boolean
+      description: 是否忽略大小写
+    return:
+      type: System.Object
+      description: 返回属性值
+    content.vb: Public Shared Function GetValue(obj As Object, name As String, ignoreCase As Boolean) As Object
+  overload: Tool.Utils.TypeExtension.GetValue*
+  nameWithType.vb: TypeExtension.GetValue(Object, String, Boolean)
+  fullName.vb: Tool.Utils.TypeExtension.GetValue(Object, String, Boolean)
+  name.vb: GetValue(Object, String, Boolean)
+- uid: Tool.Utils.TypeExtension.SetValue(System.Object,System.String,System.Object,System.Boolean)
+  commentId: M:Tool.Utils.TypeExtension.SetValue(System.Object,System.String,System.Object,System.Boolean)
+  id: SetValue(System.Object,System.String,System.Object,System.Boolean)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: SetValue(object, string, object, bool)
+  nameWithType: TypeExtension.SetValue(object, string, object, bool)
+  fullName: Tool.Utils.TypeExtension.SetValue(object, string, object, bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SetValue
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 603
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 修改指定属性值
+  example: []
+  syntax:
+    content: public static bool SetValue(this object obj, string name, object value, bool ignoreCase)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 属性名称
+    - id: value
+      type: System.Object
+      description: 修改的值
+    - id: ignoreCase
+      type: System.Boolean
+      description: 是否忽略大小写
+    return:
+      type: System.Boolean
+      description: 返回是否查找到并进行修改
+    content.vb: Public Shared Function SetValue(obj As Object, name As String, value As Object, ignoreCase As Boolean) As Boolean
+  overload: Tool.Utils.TypeExtension.SetValue*
+  nameWithType.vb: TypeExtension.SetValue(Object, String, Object, Boolean)
+  fullName.vb: Tool.Utils.TypeExtension.SetValue(Object, String, Object, Boolean)
+  name.vb: SetValue(Object, String, Object, Boolean)
+- uid: Tool.Utils.TypeExtension.GetValue(System.Object,System.String)
+  commentId: M:Tool.Utils.TypeExtension.GetValue(System.Object,System.String)
+  id: GetValue(System.Object,System.String)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetValue(object, string)
+  nameWithType: TypeExtension.GetValue(object, string)
+  fullName: Tool.Utils.TypeExtension.GetValue(object, string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetValue
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 621
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取指定属性值（新模式）获取不到时 会抛出异常
+  example: []
+  syntax:
+    content: public static object GetValue(this object obj, string name)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 属性名称
+    return:
+      type: System.Object
+      description: 返回属性值
+    content.vb: Public Shared Function GetValue(obj As Object, name As String) As Object
+  overload: Tool.Utils.TypeExtension.GetValue*
+  exceptions:
+  - type: System.Exception
+    commentId: T:System.Exception
+    description: 字段不存在时会报错！
+  nameWithType.vb: TypeExtension.GetValue(Object, String)
+  fullName.vb: Tool.Utils.TypeExtension.GetValue(Object, String)
+  name.vb: GetValue(Object, String)
+- uid: Tool.Utils.TypeExtension.SetValue(System.Object,System.String,System.Object)
+  commentId: M:Tool.Utils.TypeExtension.SetValue(System.Object,System.String,System.Object)
+  id: SetValue(System.Object,System.String,System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: SetValue(object, string, object)
+  nameWithType: TypeExtension.SetValue(object, string, object)
+  fullName: Tool.Utils.TypeExtension.SetValue(object, string, object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SetValue
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 643
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 修改指定属性值（新模式）
+  example: []
+  syntax:
+    content: public static bool SetValue(this object obj, string name, object value)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 属性名称
+    - id: value
+      type: System.Object
+      description: 修改的值
+    return:
+      type: System.Boolean
+      description: 返回是否查找到并进行修改
+    content.vb: Public Shared Function SetValue(obj As Object, name As String, value As Object) As Boolean
+  overload: Tool.Utils.TypeExtension.SetValue*
+  nameWithType.vb: TypeExtension.SetValue(Object, String, Object)
+  fullName.vb: Tool.Utils.TypeExtension.SetValue(Object, String, Object)
+  name.vb: SetValue(Object, String, Object)
+- uid: Tool.Utils.TypeExtension.GetFieldKey(System.Object,System.String,System.Boolean@)
+  commentId: M:Tool.Utils.TypeExtension.GetFieldKey(System.Object,System.String,System.Boolean@)
+  id: GetFieldKey(System.Object,System.String,System.Boolean@)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetFieldKey(object, string, out bool)
+  nameWithType: TypeExtension.GetFieldKey(object, string, out bool)
+  fullName: Tool.Utils.TypeExtension.GetFieldKey(object, string, out bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetFieldKey
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 660
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取指定变量值 (支持 public/private/protected) 静态时obj为null
+  example: []
+  syntax:
+    content: public static object GetFieldKey(this object obj, string name, out bool isexist)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 变量名称
+    - id: isexist
+      type: System.Boolean
+      description: 是否可以获取
+    return:
+      type: System.Object
+      description: 返回变量值
+    content.vb: Public Shared Function GetFieldKey(obj As Object, name As String, isexist As Boolean) As Object
+  overload: Tool.Utils.TypeExtension.GetFieldKey*
+  nameWithType.vb: TypeExtension.GetFieldKey(Object, String, Boolean)
+  fullName.vb: Tool.Utils.TypeExtension.GetFieldKey(Object, String, Boolean)
+  name.vb: GetFieldKey(Object, String, Boolean)
+- uid: Tool.Utils.TypeExtension.SetFieldKey(System.Object,System.String,System.Object)
+  commentId: M:Tool.Utils.TypeExtension.SetFieldKey(System.Object,System.String,System.Object)
+  id: SetFieldKey(System.Object,System.String,System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: SetFieldKey(object, string, object)
+  nameWithType: TypeExtension.SetFieldKey(object, string, object)
+  fullName: Tool.Utils.TypeExtension.SetFieldKey(object, string, object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SetFieldKey
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 669
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 修改指定变量值 (支持 public/private/protected) 静态时obj为null
+  example: []
+  syntax:
+    content: public static bool SetFieldKey(this object obj, string name, object value)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 变量名称
+    - id: value
+      type: System.Object
+      description: 修改的值
+    return:
+      type: System.Boolean
+      description: 返回是否查找到并进行修改
+    content.vb: Public Shared Function SetFieldKey(obj As Object, name As String, value As Object) As Boolean
+  overload: Tool.Utils.TypeExtension.SetFieldKey*
+  nameWithType.vb: TypeExtension.SetFieldKey(Object, String, Object)
+  fullName.vb: Tool.Utils.TypeExtension.SetFieldKey(Object, String, Object)
+  name.vb: SetFieldKey(Object, String, Object)
+- uid: Tool.Utils.TypeExtension.GetFieldKey``1(System.Object,System.String,System.Boolean@)
+  commentId: M:Tool.Utils.TypeExtension.GetFieldKey``1(System.Object,System.String,System.Boolean@)
+  id: GetFieldKey``1(System.Object,System.String,System.Boolean@)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetFieldKey<T>(object, string, out bool)
+  nameWithType: TypeExtension.GetFieldKey<T>(object, string, out bool)
+  fullName: Tool.Utils.TypeExtension.GetFieldKey<T>(object, string, out bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetFieldKey
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 678
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取指定变量值 (支持 public/private/protected) 静态时obj为null
+  example: []
+  syntax:
+    content: public static object GetFieldKey<T>(this object obj, string name, out bool isexist)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 变量名称
+    - id: isexist
+      type: System.Boolean
+      description: 是否可以获取
+    typeParameters:
+    - id: T
+    return:
+      type: System.Object
+      description: 返回变量值
+    content.vb: Public Shared Function GetFieldKey(Of T)(obj As Object, name As String, isexist As Boolean) As Object
+  overload: Tool.Utils.TypeExtension.GetFieldKey*
+  nameWithType.vb: TypeExtension.GetFieldKey(Of T)(Object, String, Boolean)
+  fullName.vb: Tool.Utils.TypeExtension.GetFieldKey(Of T)(Object, String, Boolean)
+  name.vb: GetFieldKey(Of T)(Object, String, Boolean)
+- uid: Tool.Utils.TypeExtension.SetFieldKey``1(System.Object,System.String,System.Object)
+  commentId: M:Tool.Utils.TypeExtension.SetFieldKey``1(System.Object,System.String,System.Object)
+  id: SetFieldKey``1(System.Object,System.String,System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: SetFieldKey<T>(object, string, object)
+  nameWithType: TypeExtension.SetFieldKey<T>(object, string, object)
+  fullName: Tool.Utils.TypeExtension.SetFieldKey<T>(object, string, object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SetFieldKey
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 687
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 修改指定变量值 (支持 public/private/protected) 静态时obj为null
+  example: []
+  syntax:
+    content: public static bool SetFieldKey<T>(this object obj, string name, object value)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 变量名称
+    - id: value
+      type: System.Object
+      description: 修改的值
+    typeParameters:
+    - id: T
+    return:
+      type: System.Boolean
+      description: 返回是否查找到并进行修改
+    content.vb: Public Shared Function SetFieldKey(Of T)(obj As Object, name As String, value As Object) As Boolean
+  overload: Tool.Utils.TypeExtension.SetFieldKey*
+  nameWithType.vb: TypeExtension.SetFieldKey(Of T)(Object, String, Object)
+  fullName.vb: Tool.Utils.TypeExtension.SetFieldKey(Of T)(Object, String, Object)
+  name.vb: SetFieldKey(Of T)(Object, String, Object)
+- uid: Tool.Utils.TypeExtension.GetFieldKey(System.Object,System.Type,System.String,System.Boolean@)
+  commentId: M:Tool.Utils.TypeExtension.GetFieldKey(System.Object,System.Type,System.String,System.Boolean@)
+  id: GetFieldKey(System.Object,System.Type,System.String,System.Boolean@)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetFieldKey(object, Type, string, out bool)
+  nameWithType: TypeExtension.GetFieldKey(object, Type, string, out bool)
+  fullName: Tool.Utils.TypeExtension.GetFieldKey(object, System.Type, string, out bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetFieldKey
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 697
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取指定变量值 (支持 public/private/protected) 静态时obj为null
+  example: []
+  syntax:
+    content: public static object GetFieldKey(this object obj, Type type, string name, out bool isexist)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: type
+      type: System.Type
+      description: 类型
+    - id: name
+      type: System.String
+      description: 变量名称
+    - id: isexist
+      type: System.Boolean
+      description: 是否可以获取
+    return:
+      type: System.Object
+      description: 返回变量值
+    content.vb: Public Shared Function GetFieldKey(obj As Object, type As Type, name As String, isexist As Boolean) As Object
+  overload: Tool.Utils.TypeExtension.GetFieldKey*
+  nameWithType.vb: TypeExtension.GetFieldKey(Object, Type, String, Boolean)
+  fullName.vb: Tool.Utils.TypeExtension.GetFieldKey(Object, System.Type, String, Boolean)
+  name.vb: GetFieldKey(Object, Type, String, Boolean)
+- uid: Tool.Utils.TypeExtension.SetFieldKey(System.Object,System.Type,System.String,System.Object)
+  commentId: M:Tool.Utils.TypeExtension.SetFieldKey(System.Object,System.Type,System.String,System.Object)
+  id: SetFieldKey(System.Object,System.Type,System.String,System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: SetFieldKey(object, Type, string, object)
+  nameWithType: TypeExtension.SetFieldKey(object, Type, string, object)
+  fullName: Tool.Utils.TypeExtension.SetFieldKey(object, System.Type, string, object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SetFieldKey
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 711
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 修改指定变量值 (支持 public/private/protected) 静态时obj为null
+  example: []
+  syntax:
+    content: public static bool SetFieldKey(this object obj, Type type, string name, object value)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: type
+      type: System.Type
+      description: 类型
+    - id: name
+      type: System.String
+      description: 变量名称
+    - id: value
+      type: System.Object
+      description: 修改的值
+    return:
+      type: System.Boolean
+      description: 返回是否查找到并进行修改
+    content.vb: Public Shared Function SetFieldKey(obj As Object, type As Type, name As String, value As Object) As Boolean
+  overload: Tool.Utils.TypeExtension.SetFieldKey*
+  nameWithType.vb: TypeExtension.SetFieldKey(Object, Type, String, Object)
+  fullName.vb: Tool.Utils.TypeExtension.SetFieldKey(Object, System.Type, String, Object)
+  name.vb: SetFieldKey(Object, Type, String, Object)
+- uid: Tool.Utils.TypeExtension.GetPropertyKey(System.Object,System.String,System.Boolean@)
+  commentId: M:Tool.Utils.TypeExtension.GetPropertyKey(System.Object,System.String,System.Boolean@)
+  id: GetPropertyKey(System.Object,System.String,System.Boolean@)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetPropertyKey(object, string, out bool)
+  nameWithType: TypeExtension.GetPropertyKey(object, string, out bool)
+  fullName: Tool.Utils.TypeExtension.GetPropertyKey(object, string, out bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetPropertyKey
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 724
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取指定变量值 (支持 public/private/protected) 静态时obj为null
+  example: []
+  syntax:
+    content: public static object GetPropertyKey(this object obj, string name, out bool isexist)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 变量名称
+    - id: isexist
+      type: System.Boolean
+      description: 是否可以获取
+    return:
+      type: System.Object
+      description: 返回变量值
+    content.vb: Public Shared Function GetPropertyKey(obj As Object, name As String, isexist As Boolean) As Object
+  overload: Tool.Utils.TypeExtension.GetPropertyKey*
+  nameWithType.vb: TypeExtension.GetPropertyKey(Object, String, Boolean)
+  fullName.vb: Tool.Utils.TypeExtension.GetPropertyKey(Object, String, Boolean)
+  name.vb: GetPropertyKey(Object, String, Boolean)
+- uid: Tool.Utils.TypeExtension.SetPropertyKey(System.Object,System.String,System.Object)
+  commentId: M:Tool.Utils.TypeExtension.SetPropertyKey(System.Object,System.String,System.Object)
+  id: SetPropertyKey(System.Object,System.String,System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: SetPropertyKey(object, string, object)
+  nameWithType: TypeExtension.SetPropertyKey(object, string, object)
+  fullName: Tool.Utils.TypeExtension.SetPropertyKey(object, string, object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SetPropertyKey
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 733
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 修改指定变量值 (支持 public/private/protected) 静态时obj为null
+  example: []
+  syntax:
+    content: public static bool SetPropertyKey(this object obj, string name, object value)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 变量名称
+    - id: value
+      type: System.Object
+      description: 修改的值
+    return:
+      type: System.Boolean
+      description: 返回是否查找到并进行修改
+    content.vb: Public Shared Function SetPropertyKey(obj As Object, name As String, value As Object) As Boolean
+  overload: Tool.Utils.TypeExtension.SetPropertyKey*
+  nameWithType.vb: TypeExtension.SetPropertyKey(Object, String, Object)
+  fullName.vb: Tool.Utils.TypeExtension.SetPropertyKey(Object, String, Object)
+  name.vb: SetPropertyKey(Object, String, Object)
+- uid: Tool.Utils.TypeExtension.GetPropertyKey``1(System.Object,System.String,System.Boolean@)
+  commentId: M:Tool.Utils.TypeExtension.GetPropertyKey``1(System.Object,System.String,System.Boolean@)
+  id: GetPropertyKey``1(System.Object,System.String,System.Boolean@)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetPropertyKey<T>(object, string, out bool)
+  nameWithType: TypeExtension.GetPropertyKey<T>(object, string, out bool)
+  fullName: Tool.Utils.TypeExtension.GetPropertyKey<T>(object, string, out bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetPropertyKey
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 742
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取指定变量值 (支持 public/private/protected) 静态时obj为null
+  example: []
+  syntax:
+    content: public static object GetPropertyKey<T>(this object obj, string name, out bool isexist)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 变量名称
+    - id: isexist
+      type: System.Boolean
+      description: 是否可以获取
+    typeParameters:
+    - id: T
+    return:
+      type: System.Object
+      description: 返回变量值
+    content.vb: Public Shared Function GetPropertyKey(Of T)(obj As Object, name As String, isexist As Boolean) As Object
+  overload: Tool.Utils.TypeExtension.GetPropertyKey*
+  nameWithType.vb: TypeExtension.GetPropertyKey(Of T)(Object, String, Boolean)
+  fullName.vb: Tool.Utils.TypeExtension.GetPropertyKey(Of T)(Object, String, Boolean)
+  name.vb: GetPropertyKey(Of T)(Object, String, Boolean)
+- uid: Tool.Utils.TypeExtension.SetPropertyKey``1(System.Object,System.String,System.Object)
+  commentId: M:Tool.Utils.TypeExtension.SetPropertyKey``1(System.Object,System.String,System.Object)
+  id: SetPropertyKey``1(System.Object,System.String,System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: SetPropertyKey<T>(object, string, object)
+  nameWithType: TypeExtension.SetPropertyKey<T>(object, string, object)
+  fullName: Tool.Utils.TypeExtension.SetPropertyKey<T>(object, string, object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SetPropertyKey
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 751
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 修改指定变量值 (支持 public/private/protected) 静态时obj为null
+  example: []
+  syntax:
+    content: public static bool SetPropertyKey<T>(this object obj, string name, object value)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: name
+      type: System.String
+      description: 变量名称
+    - id: value
+      type: System.Object
+      description: 修改的值
+    typeParameters:
+    - id: T
+    return:
+      type: System.Boolean
+      description: 返回是否查找到并进行修改
+    content.vb: Public Shared Function SetPropertyKey(Of T)(obj As Object, name As String, value As Object) As Boolean
+  overload: Tool.Utils.TypeExtension.SetPropertyKey*
+  nameWithType.vb: TypeExtension.SetPropertyKey(Of T)(Object, String, Object)
+  fullName.vb: Tool.Utils.TypeExtension.SetPropertyKey(Of T)(Object, String, Object)
+  name.vb: SetPropertyKey(Of T)(Object, String, Object)
+- uid: Tool.Utils.TypeExtension.GetPropertyKey(System.Object,System.Type,System.String,System.Boolean@)
+  commentId: M:Tool.Utils.TypeExtension.GetPropertyKey(System.Object,System.Type,System.String,System.Boolean@)
+  id: GetPropertyKey(System.Object,System.Type,System.String,System.Boolean@)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetPropertyKey(object, Type, string, out bool)
+  nameWithType: TypeExtension.GetPropertyKey(object, Type, string, out bool)
+  fullName: Tool.Utils.TypeExtension.GetPropertyKey(object, System.Type, string, out bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetPropertyKey
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 761
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取指定变量值 (支持 public/private/protected) 静态时obj为null
+  example: []
+  syntax:
+    content: public static object GetPropertyKey(this object obj, Type type, string name, out bool isexist)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: type
+      type: System.Type
+      description: 类型
+    - id: name
+      type: System.String
+      description: 变量名称
+    - id: isexist
+      type: System.Boolean
+      description: 是否可以获取
+    return:
+      type: System.Object
+      description: 返回变量值
+    content.vb: Public Shared Function GetPropertyKey(obj As Object, type As Type, name As String, isexist As Boolean) As Object
+  overload: Tool.Utils.TypeExtension.GetPropertyKey*
+  nameWithType.vb: TypeExtension.GetPropertyKey(Object, Type, String, Boolean)
+  fullName.vb: Tool.Utils.TypeExtension.GetPropertyKey(Object, System.Type, String, Boolean)
+  name.vb: GetPropertyKey(Object, Type, String, Boolean)
+- uid: Tool.Utils.TypeExtension.SetPropertyKey(System.Object,System.Type,System.String,System.Object)
+  commentId: M:Tool.Utils.TypeExtension.SetPropertyKey(System.Object,System.Type,System.String,System.Object)
+  id: SetPropertyKey(System.Object,System.Type,System.String,System.Object)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: SetPropertyKey(object, Type, string, object)
+  nameWithType: TypeExtension.SetPropertyKey(object, Type, string, object)
+  fullName: Tool.Utils.TypeExtension.SetPropertyKey(object, System.Type, string, object)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: SetPropertyKey
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 775
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 修改指定变量值 (支持 public/private/protected) 静态时obj为null
+  example: []
+  syntax:
+    content: public static bool SetPropertyKey(this object obj, Type type, string name, object value)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: 对象源
+    - id: type
+      type: System.Type
+      description: 类型
+    - id: name
+      type: System.String
+      description: 变量名称
+    - id: value
+      type: System.Object
+      description: 修改的值
+    return:
+      type: System.Boolean
+      description: 返回是否查找到并进行修改
+    content.vb: Public Shared Function SetPropertyKey(obj As Object, type As Type, name As String, value As Object) As Boolean
+  overload: Tool.Utils.TypeExtension.SetPropertyKey*
+  nameWithType.vb: TypeExtension.SetPropertyKey(Object, Type, String, Object)
+  fullName.vb: Tool.Utils.TypeExtension.SetPropertyKey(Object, System.Type, String, Object)
+  name.vb: SetPropertyKey(Object, Type, String, Object)
+- uid: Tool.Utils.TypeExtension.GetPropertys(System.Type)
+  commentId: M:Tool.Utils.TypeExtension.GetPropertys(System.Type)
+  id: GetPropertys(System.Type)
+  isExtensionMethod: true
+  parent: Tool.Utils.TypeExtension
+  langs:
+  - csharp
+  - vb
+  name: GetPropertys(Type)
+  nameWithType: TypeExtension.GetPropertys(Type)
+  fullName: Tool.Utils.TypeExtension.GetPropertys(System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/TypeExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetPropertys
+    path: ../../Tool.Net/Utils/TypeExtension.cs
+    startLine: 786
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils
+  summary: 获取公共管理的属性构造器
+  example: []
+  syntax:
+    content: public static TypePropertyDescriptor GetPropertys(this Type type)
+    parameters:
+    - id: type
+      type: System.Type
+      description: 类型
+    return:
+      type: Tool.Utils.ActionDelegate.TypePropertyDescriptor
+      description: 属性构造器
+    content.vb: Public Shared Function GetPropertys(type As Type) As TypePropertyDescriptor
+  overload: Tool.Utils.TypeExtension.GetPropertys*
+references:
+- uid: Tool.Utils
+  commentId: N:Tool.Utils
+  href: Tool.html
+  name: Tool.Utils
+  nameWithType: Tool.Utils
+  fullName: Tool.Utils
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Tool.Utils.TypeExtension.InvokeAsync*
+  commentId: Overload:Tool.Utils.TypeExtension.InvokeAsync
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_InvokeAsync_System_Action_
+  name: InvokeAsync
+  nameWithType: TypeExtension.InvokeAsync
+  fullName: Tool.Utils.TypeExtension.InvokeAsync
+- uid: System.Action
+  commentId: T:System.Action
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action
+  name: Action
+  nameWithType: Action
+  fullName: System.Action
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: System.Action{{T1}}
+  commentId: T:System.Action{``0}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<T1>
+  nameWithType: Action<T1>
+  fullName: System.Action<T1>
+  nameWithType.vb: Action(Of T1)
+  fullName.vb: System.Action(Of T1)
+  name.vb: Action(Of T1)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T1
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: )
+- uid: '{T1}'
+  commentId: '!:T1'
+  definition: T1
+  name: T1
+  nameWithType: T1
+  fullName: T1
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: T1
+  name: T1
+  nameWithType: T1
+  fullName: T1
+- uid: System.Action{{T1},{T2}}
+  commentId: T:System.Action{``0,``1}
+  parent: System
+  definition: System.Action`2
+  href: https://learn.microsoft.com/dotnet/api/system.action-2
+  name: Action<T1, T2>
+  nameWithType: Action<T1, T2>
+  fullName: System.Action<T1, T2>
+  nameWithType.vb: Action(Of T1, T2)
+  fullName.vb: System.Action(Of T1, T2)
+  name.vb: Action(Of T1, T2)
+  spec.csharp:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
+- uid: '{T2}'
+  commentId: '!:T2'
+  definition: T2
+  name: T2
+  nameWithType: T2
+  fullName: T2
+- uid: System.Action`2
+  commentId: T:System.Action`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-2
+  name: Action<T1, T2>
+  nameWithType: Action<T1, T2>
+  fullName: System.Action<T1, T2>
+  nameWithType.vb: Action(Of T1, T2)
+  fullName.vb: System.Action(Of T1, T2)
+  name.vb: Action(Of T1, T2)
+  spec.csharp:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
+- uid: T2
+  name: T2
+  nameWithType: T2
+  fullName: T2
+- uid: System.Action{{T1},{T2},{T3}}
+  commentId: T:System.Action{``0,``1,``2}
+  parent: System
+  definition: System.Action`3
+  href: https://learn.microsoft.com/dotnet/api/system.action-3
+  name: Action<T1, T2, T3>
+  nameWithType: Action<T1, T2, T3>
+  fullName: System.Action<T1, T2, T3>
+  nameWithType.vb: Action(Of T1, T2, T3)
+  fullName.vb: System.Action(Of T1, T2, T3)
+  name.vb: Action(Of T1, T2, T3)
+  spec.csharp:
+  - uid: System.Action`3
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`3
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: )
+- uid: '{T3}'
+  commentId: '!:T3'
+  definition: T3
+  name: T3
+  nameWithType: T3
+  fullName: T3
+- uid: System.Action`3
+  commentId: T:System.Action`3
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-3
+  name: Action<T1, T2, T3>
+  nameWithType: Action<T1, T2, T3>
+  fullName: System.Action<T1, T2, T3>
+  nameWithType.vb: Action(Of T1, T2, T3)
+  fullName.vb: System.Action(Of T1, T2, T3)
+  name.vb: Action(Of T1, T2, T3)
+  spec.csharp:
+  - uid: System.Action`3
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`3
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: )
+- uid: T3
+  name: T3
+  nameWithType: T3
+  fullName: T3
+- uid: System.Action{{T1},{T2},{T3},{T4}}
+  commentId: T:System.Action{``0,``1,``2,``3}
+  parent: System
+  definition: System.Action`4
+  href: https://learn.microsoft.com/dotnet/api/system.action-4
+  name: Action<T1, T2, T3, T4>
+  nameWithType: Action<T1, T2, T3, T4>
+  fullName: System.Action<T1, T2, T3, T4>
+  nameWithType.vb: Action(Of T1, T2, T3, T4)
+  fullName.vb: System.Action(Of T1, T2, T3, T4)
+  name.vb: Action(Of T1, T2, T3, T4)
+  spec.csharp:
+  - uid: System.Action`4
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-4
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`4
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-4
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: )
+- uid: '{T4}'
+  commentId: '!:T4'
+  definition: T4
+  name: T4
+  nameWithType: T4
+  fullName: T4
+- uid: System.Action`4
+  commentId: T:System.Action`4
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-4
+  name: Action<T1, T2, T3, T4>
+  nameWithType: Action<T1, T2, T3, T4>
+  fullName: System.Action<T1, T2, T3, T4>
+  nameWithType.vb: Action(Of T1, T2, T3, T4)
+  fullName.vb: System.Action(Of T1, T2, T3, T4)
+  name.vb: Action(Of T1, T2, T3, T4)
+  spec.csharp:
+  - uid: System.Action`4
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-4
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`4
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-4
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: )
+- uid: T4
+  name: T4
+  nameWithType: T4
+  fullName: T4
+- uid: System.Action{{T1},{T2},{T3},{T4},{T5}}
+  commentId: T:System.Action{``0,``1,``2,``3,``4}
+  parent: System
+  definition: System.Action`5
+  href: https://learn.microsoft.com/dotnet/api/system.action-5
+  name: Action<T1, T2, T3, T4, T5>
+  nameWithType: Action<T1, T2, T3, T4, T5>
+  fullName: System.Action<T1, T2, T3, T4, T5>
+  nameWithType.vb: Action(Of T1, T2, T3, T4, T5)
+  fullName.vb: System.Action(Of T1, T2, T3, T4, T5)
+  name.vb: Action(Of T1, T2, T3, T4, T5)
+  spec.csharp:
+  - uid: System.Action`5
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-5
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`5
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-5
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: )
+- uid: '{T5}'
+  commentId: '!:T5'
+  definition: T5
+  name: T5
+  nameWithType: T5
+  fullName: T5
+- uid: System.Action`5
+  commentId: T:System.Action`5
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-5
+  name: Action<T1, T2, T3, T4, T5>
+  nameWithType: Action<T1, T2, T3, T4, T5>
+  fullName: System.Action<T1, T2, T3, T4, T5>
+  nameWithType.vb: Action(Of T1, T2, T3, T4, T5)
+  fullName.vb: System.Action(Of T1, T2, T3, T4, T5)
+  name.vb: Action(Of T1, T2, T3, T4, T5)
+  spec.csharp:
+  - uid: System.Action`5
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-5
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`5
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-5
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: )
+- uid: T5
+  name: T5
+  nameWithType: T5
+  fullName: T5
+- uid: System.Action{{T1},{T2},{T3},{T4},{T5},{T6}}
+  commentId: T:System.Action{``0,``1,``2,``3,``4,``5}
+  parent: System
+  definition: System.Action`6
+  href: https://learn.microsoft.com/dotnet/api/system.action-6
+  name: Action<T1, T2, T3, T4, T5, T6>
+  nameWithType: Action<T1, T2, T3, T4, T5, T6>
+  fullName: System.Action<T1, T2, T3, T4, T5, T6>
+  nameWithType.vb: Action(Of T1, T2, T3, T4, T5, T6)
+  fullName.vb: System.Action(Of T1, T2, T3, T4, T5, T6)
+  name.vb: Action(Of T1, T2, T3, T4, T5, T6)
+  spec.csharp:
+  - uid: System.Action`6
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-6
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`6
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-6
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: )
+- uid: '{T6}'
+  commentId: '!:T6'
+  definition: T6
+  name: T6
+  nameWithType: T6
+  fullName: T6
+- uid: System.Action`6
+  commentId: T:System.Action`6
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-6
+  name: Action<T1, T2, T3, T4, T5, T6>
+  nameWithType: Action<T1, T2, T3, T4, T5, T6>
+  fullName: System.Action<T1, T2, T3, T4, T5, T6>
+  nameWithType.vb: Action(Of T1, T2, T3, T4, T5, T6)
+  fullName.vb: System.Action(Of T1, T2, T3, T4, T5, T6)
+  name.vb: Action(Of T1, T2, T3, T4, T5, T6)
+  spec.csharp:
+  - uid: System.Action`6
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-6
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`6
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-6
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: )
+- uid: T6
+  name: T6
+  nameWithType: T6
+  fullName: T6
+- uid: System.Action{{T1},{T2},{T3},{T4},{T5},{T6},{T7}}
+  commentId: T:System.Action{``0,``1,``2,``3,``4,``5,``6}
+  parent: System
+  definition: System.Action`7
+  href: https://learn.microsoft.com/dotnet/api/system.action-7
+  name: Action<T1, T2, T3, T4, T5, T6, T7>
+  nameWithType: Action<T1, T2, T3, T4, T5, T6, T7>
+  fullName: System.Action<T1, T2, T3, T4, T5, T6, T7>
+  nameWithType.vb: Action(Of T1, T2, T3, T4, T5, T6, T7)
+  fullName.vb: System.Action(Of T1, T2, T3, T4, T5, T6, T7)
+  name.vb: Action(Of T1, T2, T3, T4, T5, T6, T7)
+  spec.csharp:
+  - uid: System.Action`7
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-7
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`7
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-7
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: )
+- uid: '{T7}'
+  commentId: '!:T7'
+  definition: T7
+  name: T7
+  nameWithType: T7
+  fullName: T7
+- uid: System.Action`7
+  commentId: T:System.Action`7
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-7
+  name: Action<T1, T2, T3, T4, T5, T6, T7>
+  nameWithType: Action<T1, T2, T3, T4, T5, T6, T7>
+  fullName: System.Action<T1, T2, T3, T4, T5, T6, T7>
+  nameWithType.vb: Action(Of T1, T2, T3, T4, T5, T6, T7)
+  fullName.vb: System.Action(Of T1, T2, T3, T4, T5, T6, T7)
+  name.vb: Action(Of T1, T2, T3, T4, T5, T6, T7)
+  spec.csharp:
+  - uid: System.Action`7
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-7
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`7
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-7
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: )
+- uid: T7
+  name: T7
+  nameWithType: T7
+  fullName: T7
+- uid: System.Action{{T1},{T2},{T3},{T4},{T5},{T6},{T7},{T8}}
+  commentId: T:System.Action{``0,``1,``2,``3,``4,``5,``6,``7}
+  parent: System
+  definition: System.Action`8
+  href: https://learn.microsoft.com/dotnet/api/system.action-8
+  name: Action<T1, T2, T3, T4, T5, T6, T7, T8>
+  nameWithType: Action<T1, T2, T3, T4, T5, T6, T7, T8>
+  fullName: System.Action<T1, T2, T3, T4, T5, T6, T7, T8>
+  nameWithType.vb: Action(Of T1, T2, T3, T4, T5, T6, T7, T8)
+  fullName.vb: System.Action(Of T1, T2, T3, T4, T5, T6, T7, T8)
+  name.vb: Action(Of T1, T2, T3, T4, T5, T6, T7, T8)
+  spec.csharp:
+  - uid: System.Action`8
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-8
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`8
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-8
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: )
+- uid: '{T8}'
+  commentId: '!:T8'
+  definition: T8
+  name: T8
+  nameWithType: T8
+  fullName: T8
+- uid: System.Action`8
+  commentId: T:System.Action`8
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-8
+  name: Action<T1, T2, T3, T4, T5, T6, T7, T8>
+  nameWithType: Action<T1, T2, T3, T4, T5, T6, T7, T8>
+  fullName: System.Action<T1, T2, T3, T4, T5, T6, T7, T8>
+  nameWithType.vb: Action(Of T1, T2, T3, T4, T5, T6, T7, T8)
+  fullName.vb: System.Action(Of T1, T2, T3, T4, T5, T6, T7, T8)
+  name.vb: Action(Of T1, T2, T3, T4, T5, T6, T7, T8)
+  spec.csharp:
+  - uid: System.Action`8
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-8
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`8
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-8
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: )
+- uid: T8
+  name: T8
+  nameWithType: T8
+  fullName: T8
+- uid: System.Action{{T1},{T2},{T3},{T4},{T5},{T6},{T7},{T8},{T9}}
+  commentId: T:System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8}
+  parent: System
+  definition: System.Action`9
+  href: https://learn.microsoft.com/dotnet/api/system.action-9
+  name: Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>
+  nameWithType: Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>
+  fullName: System.Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>
+  nameWithType.vb: Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  fullName.vb: System.Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  name.vb: Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  spec.csharp:
+  - uid: System.Action`9
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-9
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: ','
+  - name: " "
+  - name: T9
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`9
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-9
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: ','
+  - name: " "
+  - name: T9
+  - name: )
+- uid: '{T9}'
+  commentId: '!:T9'
+  definition: T9
+  name: T9
+  nameWithType: T9
+  fullName: T9
+- uid: System.Action`9
+  commentId: T:System.Action`9
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-9
+  name: Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>
+  nameWithType: Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>
+  fullName: System.Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>
+  nameWithType.vb: Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  fullName.vb: System.Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  name.vb: Action(Of T1, T2, T3, T4, T5, T6, T7, T8, T9)
+  spec.csharp:
+  - uid: System.Action`9
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-9
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: ','
+  - name: " "
+  - name: T9
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`9
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-9
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: ','
+  - name: " "
+  - name: T9
+  - name: )
+- uid: T9
+  name: T9
+  nameWithType: T9
+  fullName: T9
+- uid: System.Func{{TResult}}
+  commentId: T:System.Func{``0}
+  parent: System
+  definition: System.Func`1
+  href: https://learn.microsoft.com/dotnet/api/system.func-1
+  name: Func<TResult>
+  nameWithType: Func<TResult>
+  fullName: System.Func<TResult>
+  nameWithType.vb: Func(Of TResult)
+  fullName.vb: System.Func(Of TResult)
+  name.vb: Func(Of TResult)
+  spec.csharp:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks.Task{{TResult}}
+  commentId: T:System.Threading.Tasks.Task{``0}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func`1
+  commentId: T:System.Func`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-1
+  name: Func<TResult>
+  nameWithType: Func<TResult>
+  fullName: System.Func<TResult>
+  nameWithType.vb: Func(Of TResult)
+  fullName.vb: System.Func(Of TResult)
+  name.vb: Func(Of TResult)
+  spec.csharp:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{{T1},{TResult}}
+  commentId: T:System.Func{``0,``1}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T1, TResult>
+  nameWithType: Func<T1, TResult>
+  fullName: System.Func<T1, TResult>
+  nameWithType.vb: Func(Of T1, TResult)
+  fullName.vb: System.Func(Of T1, TResult)
+  name.vb: Func(Of T1, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{{T1},{T2},{TResult}}
+  commentId: T:System.Func{``0,``1,``2}
+  parent: System
+  definition: System.Func`3
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<T1, T2, TResult>
+  nameWithType: Func<T1, T2, TResult>
+  fullName: System.Func<T1, T2, TResult>
+  nameWithType.vb: Func(Of T1, T2, TResult)
+  fullName.vb: System.Func(Of T1, T2, TResult)
+  name.vb: Func(Of T1, T2, TResult)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func`3
+  commentId: T:System.Func`3
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<T1, T2, TResult>
+  nameWithType: Func<T1, T2, TResult>
+  fullName: System.Func<T1, T2, TResult>
+  nameWithType.vb: Func(Of T1, T2, TResult)
+  fullName.vb: System.Func(Of T1, T2, TResult)
+  name.vb: Func(Of T1, T2, TResult)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{{T1},{T2},{T3},{TResult}}
+  commentId: T:System.Func{``0,``1,``2,``3}
+  parent: System
+  definition: System.Func`4
+  href: https://learn.microsoft.com/dotnet/api/system.func-4
+  name: Func<T1, T2, T3, TResult>
+  nameWithType: Func<T1, T2, T3, TResult>
+  fullName: System.Func<T1, T2, T3, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, TResult)
+  name.vb: Func(Of T1, T2, T3, TResult)
+  spec.csharp:
+  - uid: System.Func`4
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-4
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`4
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-4
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func`4
+  commentId: T:System.Func`4
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-4
+  name: Func<T1, T2, T3, TResult>
+  nameWithType: Func<T1, T2, T3, TResult>
+  fullName: System.Func<T1, T2, T3, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, TResult)
+  name.vb: Func(Of T1, T2, T3, TResult)
+  spec.csharp:
+  - uid: System.Func`4
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-4
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`4
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-4
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{{T1},{T2},{T3},{T4},{TResult}}
+  commentId: T:System.Func{``0,``1,``2,``3,``4}
+  parent: System
+  definition: System.Func`5
+  href: https://learn.microsoft.com/dotnet/api/system.func-5
+  name: Func<T1, T2, T3, T4, TResult>
+  nameWithType: Func<T1, T2, T3, T4, TResult>
+  fullName: System.Func<T1, T2, T3, T4, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, TResult)
+  spec.csharp:
+  - uid: System.Func`5
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-5
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`5
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-5
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func`5
+  commentId: T:System.Func`5
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-5
+  name: Func<T1, T2, T3, T4, TResult>
+  nameWithType: Func<T1, T2, T3, T4, TResult>
+  fullName: System.Func<T1, T2, T3, T4, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, TResult)
+  spec.csharp:
+  - uid: System.Func`5
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-5
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`5
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-5
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{{T1},{T2},{T3},{T4},{T5},{TResult}}
+  commentId: T:System.Func{``0,``1,``2,``3,``4,``5}
+  parent: System
+  definition: System.Func`6
+  href: https://learn.microsoft.com/dotnet/api/system.func-6
+  name: Func<T1, T2, T3, T4, T5, TResult>
+  nameWithType: Func<T1, T2, T3, T4, T5, TResult>
+  fullName: System.Func<T1, T2, T3, T4, T5, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, T5, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, T5, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, T5, TResult)
+  spec.csharp:
+  - uid: System.Func`6
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-6
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`6
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-6
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func`6
+  commentId: T:System.Func`6
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-6
+  name: Func<T1, T2, T3, T4, T5, TResult>
+  nameWithType: Func<T1, T2, T3, T4, T5, TResult>
+  fullName: System.Func<T1, T2, T3, T4, T5, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, T5, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, T5, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, T5, TResult)
+  spec.csharp:
+  - uid: System.Func`6
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-6
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`6
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-6
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{{T1},{T2},{T3},{T4},{T5},{T6},{TResult}}
+  commentId: T:System.Func{``0,``1,``2,``3,``4,``5,``6}
+  parent: System
+  definition: System.Func`7
+  href: https://learn.microsoft.com/dotnet/api/system.func-7
+  name: Func<T1, T2, T3, T4, T5, T6, TResult>
+  nameWithType: Func<T1, T2, T3, T4, T5, T6, TResult>
+  fullName: System.Func<T1, T2, T3, T4, T5, T6, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, T5, T6, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, T5, T6, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, T5, T6, TResult)
+  spec.csharp:
+  - uid: System.Func`7
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-7
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`7
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-7
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func`7
+  commentId: T:System.Func`7
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-7
+  name: Func<T1, T2, T3, T4, T5, T6, TResult>
+  nameWithType: Func<T1, T2, T3, T4, T5, T6, TResult>
+  fullName: System.Func<T1, T2, T3, T4, T5, T6, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, T5, T6, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, T5, T6, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, T5, T6, TResult)
+  spec.csharp:
+  - uid: System.Func`7
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-7
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`7
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-7
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{{T1},{T2},{T3},{T4},{T5},{T6},{T7},{TResult}}
+  commentId: T:System.Func{``0,``1,``2,``3,``4,``5,``6,``7}
+  parent: System
+  definition: System.Func`8
+  href: https://learn.microsoft.com/dotnet/api/system.func-8
+  name: Func<T1, T2, T3, T4, T5, T6, T7, TResult>
+  nameWithType: Func<T1, T2, T3, T4, T5, T6, T7, TResult>
+  fullName: System.Func<T1, T2, T3, T4, T5, T6, T7, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, T5, T6, T7, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, T5, T6, T7, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, T5, T6, T7, TResult)
+  spec.csharp:
+  - uid: System.Func`8
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-8
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`8
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-8
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func`8
+  commentId: T:System.Func`8
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-8
+  name: Func<T1, T2, T3, T4, T5, T6, T7, TResult>
+  nameWithType: Func<T1, T2, T3, T4, T5, T6, T7, TResult>
+  fullName: System.Func<T1, T2, T3, T4, T5, T6, T7, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, T5, T6, T7, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, T5, T6, T7, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, T5, T6, T7, TResult)
+  spec.csharp:
+  - uid: System.Func`8
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-8
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`8
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-8
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{{T1},{T2},{T3},{T4},{T5},{T6},{T7},{T8},{TResult}}
+  commentId: T:System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8}
+  parent: System
+  definition: System.Func`9
+  href: https://learn.microsoft.com/dotnet/api/system.func-9
+  name: Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>
+  nameWithType: Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>
+  fullName: System.Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)
+  spec.csharp:
+  - uid: System.Func`9
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-9
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`9
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-9
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func`9
+  commentId: T:System.Func`9
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-9
+  name: Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>
+  nameWithType: Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>
+  fullName: System.Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, T5, T6, T7, T8, TResult)
+  spec.csharp:
+  - uid: System.Func`9
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-9
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`9
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-9
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{{T1},{T2},{T3},{T4},{T5},{T6},{T7},{T8},{T9},{TResult}}
+  commentId: T:System.Func{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9}
+  parent: System
+  definition: System.Func`10
+  href: https://learn.microsoft.com/dotnet/api/system.func-10
+  name: Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>
+  nameWithType: Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>
+  fullName: System.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)
+  spec.csharp:
+  - uid: System.Func`10
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-10
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: ','
+  - name: " "
+  - name: T9
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`10
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-10
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: ','
+  - name: " "
+  - name: T9
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func`10
+  commentId: T:System.Func`10
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-10
+  name: Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>
+  nameWithType: Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>
+  fullName: System.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult)
+  spec.csharp:
+  - uid: System.Func`10
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-10
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: ','
+  - name: " "
+  - name: T9
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`10
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-10
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: T5
+  - name: ','
+  - name: " "
+  - name: T6
+  - name: ','
+  - name: " "
+  - name: T7
+  - name: ','
+  - name: " "
+  - name: T8
+  - name: ','
+  - name: " "
+  - name: T9
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Tool.Utils.TypeExtension.DefaultForType*
+  commentId: Overload:Tool.Utils.TypeExtension.DefaultForType
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_DefaultForType_System_Type_
+  name: DefaultForType
+  nameWithType: TypeExtension.DefaultForType
+  fullName: Tool.Utils.TypeExtension.DefaultForType
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Tool.Utils.TypeExtension.IsString*
+  commentId: Overload:Tool.Utils.TypeExtension.IsString
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_IsString_System_Type_
+  name: IsString
+  nameWithType: TypeExtension.IsString
+  fullName: Tool.Utils.TypeExtension.IsString
+- uid: Tool.Utils.TypeExtension.IsNumber*
+  commentId: Overload:Tool.Utils.TypeExtension.IsNumber
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_IsNumber_System_Type_
+  name: IsNumber
+  nameWithType: TypeExtension.IsNumber
+  fullName: Tool.Utils.TypeExtension.IsNumber
+- uid: Tool.Utils.TypeExtension.IsType*
+  commentId: Overload:Tool.Utils.TypeExtension.IsType
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_IsType_System_Type_
+  name: IsType
+  nameWithType: TypeExtension.IsType
+  fullName: Tool.Utils.TypeExtension.IsType
+- uid: Tool.Utils.TypeExtension.IsDictionary*
+  commentId: Overload:Tool.Utils.TypeExtension.IsDictionary
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_IsDictionary_System_Type_
+  name: IsDictionary
+  nameWithType: TypeExtension.IsDictionary
+  fullName: Tool.Utils.TypeExtension.IsDictionary
+- uid: Tool.Utils.TypeExtension.GetProperties*
+  commentId: Overload:Tool.Utils.TypeExtension.GetProperties
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetProperties_System_Object_
+  name: GetProperties
+  nameWithType: TypeExtension.GetProperties
+  fullName: Tool.Utils.TypeExtension.GetProperties
+- uid: System.ComponentModel.PropertyDescriptorCollection
+  commentId: T:System.ComponentModel.PropertyDescriptorCollection
+  parent: System.ComponentModel
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.propertydescriptorcollection
+  name: PropertyDescriptorCollection
+  nameWithType: PropertyDescriptorCollection
+  fullName: System.ComponentModel.PropertyDescriptorCollection
+- uid: System.ComponentModel
+  commentId: N:System.ComponentModel
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.ComponentModel
+  nameWithType: System.ComponentModel
+  fullName: System.ComponentModel
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.ComponentModel
+    name: ComponentModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.componentmodel
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.ComponentModel
+    name: ComponentModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.componentmodel
+- uid: Tool.Utils.TypeExtension.GetPropertieFind*
+  commentId: Overload:Tool.Utils.TypeExtension.GetPropertieFind
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertieFind_System_Object_System_String_System_Boolean_
+  name: GetPropertieFind
+  nameWithType: TypeExtension.GetPropertieFind
+  fullName: Tool.Utils.TypeExtension.GetPropertieFind
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.ComponentModel.PropertyDescriptor
+  commentId: T:System.ComponentModel.PropertyDescriptor
+  parent: System.ComponentModel
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.componentmodel.propertydescriptor
+  name: PropertyDescriptor
+  nameWithType: PropertyDescriptor
+  fullName: System.ComponentModel.PropertyDescriptor
+- uid: Tool.Utils.TypeExtension.GetValue*
+  commentId: Overload:Tool.Utils.TypeExtension.GetValue
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_ComponentModel_PropertyDescriptor_
+  name: GetValue
+  nameWithType: TypeExtension.GetValue
+  fullName: Tool.Utils.TypeExtension.GetValue
+- uid: Tool.Utils.TypeExtension.SetValue*
+  commentId: Overload:Tool.Utils.TypeExtension.SetValue
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_ComponentModel_PropertyDescriptor_System_Object_
+  name: SetValue
+  nameWithType: TypeExtension.SetValue
+  fullName: Tool.Utils.TypeExtension.SetValue
+- uid: System.Exception
+  commentId: T:System.Exception
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.exception
+  name: Exception
+  nameWithType: Exception
+  fullName: System.Exception
+- uid: Tool.Utils.TypeExtension.GetFieldKey*
+  commentId: Overload:Tool.Utils.TypeExtension.GetFieldKey
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey_System_Object_System_String_System_Boolean__
+  name: GetFieldKey
+  nameWithType: TypeExtension.GetFieldKey
+  fullName: Tool.Utils.TypeExtension.GetFieldKey
+- uid: Tool.Utils.TypeExtension.SetFieldKey*
+  commentId: Overload:Tool.Utils.TypeExtension.SetFieldKey
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey_System_Object_System_String_System_Object_
+  name: SetFieldKey
+  nameWithType: TypeExtension.SetFieldKey
+  fullName: Tool.Utils.TypeExtension.SetFieldKey
+- uid: Tool.Utils.TypeExtension.GetPropertyKey*
+  commentId: Overload:Tool.Utils.TypeExtension.GetPropertyKey
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey_System_Object_System_String_System_Boolean__
+  name: GetPropertyKey
+  nameWithType: TypeExtension.GetPropertyKey
+  fullName: Tool.Utils.TypeExtension.GetPropertyKey
+- uid: Tool.Utils.TypeExtension.SetPropertyKey*
+  commentId: Overload:Tool.Utils.TypeExtension.SetPropertyKey
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey_System_Object_System_String_System_Object_
+  name: SetPropertyKey
+  nameWithType: TypeExtension.SetPropertyKey
+  fullName: Tool.Utils.TypeExtension.SetPropertyKey
+- uid: Tool.Utils.TypeExtension.GetPropertys*
+  commentId: Overload:Tool.Utils.TypeExtension.GetPropertys
+  href: Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertys_System_Type_
+  name: GetPropertys
+  nameWithType: TypeExtension.GetPropertys
+  fullName: Tool.Utils.TypeExtension.GetPropertys
+- uid: Tool.Utils.ActionDelegate.TypePropertyDescriptor
+  commentId: T:Tool.Utils.ActionDelegate.TypePropertyDescriptor
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.TypePropertyDescriptor.html
+  name: TypePropertyDescriptor
+  nameWithType: TypePropertyDescriptor
+  fullName: Tool.Utils.ActionDelegate.TypePropertyDescriptor
+- uid: Tool.Utils.ActionDelegate
+  commentId: N:Tool.Utils.ActionDelegate
+  href: Tool.html
+  name: Tool.Utils.ActionDelegate
+  nameWithType: Tool.Utils.ActionDelegate
+  fullName: Tool.Utils.ActionDelegate
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate
+    name: ActionDelegate
+    href: Tool.Utils.ActionDelegate.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate
+    name: ActionDelegate
+    href: Tool.Utils.ActionDelegate.html

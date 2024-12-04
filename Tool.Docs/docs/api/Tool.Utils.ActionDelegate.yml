@@ -1,0 +1,545 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Utils.ActionDelegate
+  commentId: N:Tool.Utils.ActionDelegate
+  id: Tool.Utils.ActionDelegate
+  children:
+  - Tool.Utils.ActionDelegate.ActionDispatcher
+  - Tool.Utils.ActionDelegate.ActionDispatcher`1
+  - Tool.Utils.ActionDelegate.ActionDispatcher`2
+  - Tool.Utils.ActionDelegate.ActionExecutor`2
+  - Tool.Utils.ActionDelegate.ActionHelper`1
+  - Tool.Utils.ActionDelegate.ActionMethod`1
+  - Tool.Utils.ActionDelegate.ClassDispatcher
+  - Tool.Utils.ActionDelegate.ClassDispatcher`1
+  - Tool.Utils.ActionDelegate.ClassField
+  - Tool.Utils.ActionDelegate.ClassFieldDispatcher
+  - Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassField
+  - Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassField
+  - Tool.Utils.ActionDelegate.DispatcherCore
+  - Tool.Utils.ActionDelegate.IActionDispatcher
+  - Tool.Utils.ActionDelegate.IActionDispatcher`1
+  - Tool.Utils.ActionDelegate.Method
+  - Tool.Utils.ActionDelegate.MethodFlags
+  - Tool.Utils.ActionDelegate.NewClass`1
+  - Tool.Utils.ActionDelegate.Parameter
+  - Tool.Utils.ActionDelegate.PropertyDescriptor
+  - Tool.Utils.ActionDelegate.PropertyDescriptor.GetClassProperty
+  - Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty
+  - Tool.Utils.ActionDelegate.PropertyEnum
+  - Tool.Utils.ActionDelegate.TaskActionExecutor`2
+  - Tool.Utils.ActionDelegate.TypeInvoke
+  - Tool.Utils.ActionDelegate.TypePropertyDescriptor
+  - Tool.Utils.ActionDelegate.VoidActionExecutor`1
+  - Tool.Utils.ActionDelegate.VoidTaskActionExecutor`1
+  langs:
+  - csharp
+  - vb
+  name: Tool.Utils.ActionDelegate
+  nameWithType: Tool.Utils.ActionDelegate
+  fullName: Tool.Utils.ActionDelegate
+  type: Namespace
+  assemblies:
+  - Tool.Net
+references:
+- uid: Tool.Utils.ActionDelegate.DispatcherCore
+  commentId: T:Tool.Utils.ActionDelegate.DispatcherCore
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.DispatcherCore.html
+  name: DispatcherCore
+  nameWithType: DispatcherCore
+  fullName: Tool.Utils.ActionDelegate.DispatcherCore
+- uid: Tool.Utils.ActionDelegate.IActionDispatcher
+  commentId: T:Tool.Utils.ActionDelegate.IActionDispatcher
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.IActionDispatcher.html
+  name: IActionDispatcher
+  nameWithType: IActionDispatcher
+  fullName: Tool.Utils.ActionDelegate.IActionDispatcher
+- uid: Tool.Utils.ActionDelegate.IActionDispatcher`1
+  commentId: T:Tool.Utils.ActionDelegate.IActionDispatcher`1
+  href: Tool.Utils.ActionDelegate.IActionDispatcher-1.html
+  name: IActionDispatcher<T>
+  nameWithType: IActionDispatcher<T>
+  fullName: Tool.Utils.ActionDelegate.IActionDispatcher<T>
+  nameWithType.vb: IActionDispatcher(Of T)
+  fullName.vb: Tool.Utils.ActionDelegate.IActionDispatcher(Of T)
+  name.vb: IActionDispatcher(Of T)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.IActionDispatcher`1
+    name: IActionDispatcher
+    href: Tool.Utils.ActionDelegate.IActionDispatcher-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.IActionDispatcher`1
+    name: IActionDispatcher
+    href: Tool.Utils.ActionDelegate.IActionDispatcher-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.ActionDelegate.ActionExecutor`2
+  commentId: T:Tool.Utils.ActionDelegate.ActionExecutor`2
+  href: Tool.Utils.ActionDelegate.ActionExecutor-2.html
+  name: ActionExecutor<E, TResult>
+  nameWithType: ActionExecutor<E, TResult>
+  fullName: Tool.Utils.ActionDelegate.ActionExecutor<E, TResult>
+  nameWithType.vb: ActionExecutor(Of E, TResult)
+  fullName.vb: Tool.Utils.ActionDelegate.ActionExecutor(Of E, TResult)
+  name.vb: ActionExecutor(Of E, TResult)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.ActionExecutor`2
+    name: ActionExecutor
+    href: Tool.Utils.ActionDelegate.ActionExecutor-2.html
+  - name: <
+  - name: E
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.ActionExecutor`2
+    name: ActionExecutor
+    href: Tool.Utils.ActionDelegate.ActionExecutor-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: E
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Tool.Utils.ActionDelegate.VoidActionExecutor`1
+  commentId: T:Tool.Utils.ActionDelegate.VoidActionExecutor`1
+  href: Tool.Utils.ActionDelegate.VoidActionExecutor-1.html
+  name: VoidActionExecutor<E>
+  nameWithType: VoidActionExecutor<E>
+  fullName: Tool.Utils.ActionDelegate.VoidActionExecutor<E>
+  nameWithType.vb: VoidActionExecutor(Of E)
+  fullName.vb: Tool.Utils.ActionDelegate.VoidActionExecutor(Of E)
+  name.vb: VoidActionExecutor(Of E)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.VoidActionExecutor`1
+    name: VoidActionExecutor
+    href: Tool.Utils.ActionDelegate.VoidActionExecutor-1.html
+  - name: <
+  - name: E
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.VoidActionExecutor`1
+    name: VoidActionExecutor
+    href: Tool.Utils.ActionDelegate.VoidActionExecutor-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: E
+  - name: )
+- uid: Tool.Utils.ActionDelegate.TaskActionExecutor`2
+  commentId: T:Tool.Utils.ActionDelegate.TaskActionExecutor`2
+  href: Tool.Utils.ActionDelegate.TaskActionExecutor-2.html
+  name: TaskActionExecutor<E, TResult>
+  nameWithType: TaskActionExecutor<E, TResult>
+  fullName: Tool.Utils.ActionDelegate.TaskActionExecutor<E, TResult>
+  nameWithType.vb: TaskActionExecutor(Of E, TResult)
+  fullName.vb: Tool.Utils.ActionDelegate.TaskActionExecutor(Of E, TResult)
+  name.vb: TaskActionExecutor(Of E, TResult)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.TaskActionExecutor`2
+    name: TaskActionExecutor
+    href: Tool.Utils.ActionDelegate.TaskActionExecutor-2.html
+  - name: <
+  - name: E
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.TaskActionExecutor`2
+    name: TaskActionExecutor
+    href: Tool.Utils.ActionDelegate.TaskActionExecutor-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: E
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Tool.Utils.ActionDelegate.VoidTaskActionExecutor`1
+  commentId: T:Tool.Utils.ActionDelegate.VoidTaskActionExecutor`1
+  href: Tool.Utils.ActionDelegate.VoidTaskActionExecutor-1.html
+  name: VoidTaskActionExecutor<E>
+  nameWithType: VoidTaskActionExecutor<E>
+  fullName: Tool.Utils.ActionDelegate.VoidTaskActionExecutor<E>
+  nameWithType.vb: VoidTaskActionExecutor(Of E)
+  fullName.vb: Tool.Utils.ActionDelegate.VoidTaskActionExecutor(Of E)
+  name.vb: VoidTaskActionExecutor(Of E)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.VoidTaskActionExecutor`1
+    name: VoidTaskActionExecutor
+    href: Tool.Utils.ActionDelegate.VoidTaskActionExecutor-1.html
+  - name: <
+  - name: E
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.VoidTaskActionExecutor`1
+    name: VoidTaskActionExecutor
+    href: Tool.Utils.ActionDelegate.VoidTaskActionExecutor-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: E
+  - name: )
+- uid: Tool.Utils.ActionDelegate.ActionDispatcher
+  commentId: T:Tool.Utils.ActionDelegate.ActionDispatcher
+  href: Tool.Utils.ActionDelegate.ActionDispatcher.html
+  name: ActionDispatcher
+  nameWithType: ActionDispatcher
+  fullName: Tool.Utils.ActionDelegate.ActionDispatcher
+- uid: Tool.Utils.ActionDelegate.ActionDispatcher`1
+  commentId: T:Tool.Utils.ActionDelegate.ActionDispatcher`1
+  href: Tool.Utils.ActionDelegate.ActionDispatcher-1.html
+  name: ActionDispatcher<T>
+  nameWithType: ActionDispatcher<T>
+  fullName: Tool.Utils.ActionDelegate.ActionDispatcher<T>
+  nameWithType.vb: ActionDispatcher(Of T)
+  fullName.vb: Tool.Utils.ActionDelegate.ActionDispatcher(Of T)
+  name.vb: ActionDispatcher(Of T)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`1
+    name: ActionDispatcher
+    href: Tool.Utils.ActionDelegate.ActionDispatcher-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`1
+    name: ActionDispatcher
+    href: Tool.Utils.ActionDelegate.ActionDispatcher-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.ActionDelegate.ActionDispatcher`2
+  commentId: T:Tool.Utils.ActionDelegate.ActionDispatcher`2
+  href: Tool.Utils.ActionDelegate.ActionDispatcher-2.html
+  name: ActionDispatcher<T, TResult>
+  nameWithType: ActionDispatcher<T, TResult>
+  fullName: Tool.Utils.ActionDelegate.ActionDispatcher<T, TResult>
+  nameWithType.vb: ActionDispatcher(Of T, TResult)
+  fullName.vb: Tool.Utils.ActionDelegate.ActionDispatcher(Of T, TResult)
+  name.vb: ActionDispatcher(Of T, TResult)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`2
+    name: ActionDispatcher
+    href: Tool.Utils.ActionDelegate.ActionDispatcher-2.html
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.ActionDispatcher`2
+    name: ActionDispatcher
+    href: Tool.Utils.ActionDelegate.ActionDispatcher-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Tool.Utils.ActionDelegate.ActionHelper`1
+  commentId: T:Tool.Utils.ActionDelegate.ActionHelper`1
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.ActionHelper-1.html
+  name: ActionHelper<T>
+  nameWithType: ActionHelper<T>
+  fullName: Tool.Utils.ActionDelegate.ActionHelper<T>
+  nameWithType.vb: ActionHelper(Of T)
+  fullName.vb: Tool.Utils.ActionDelegate.ActionHelper(Of T)
+  name.vb: ActionHelper(Of T)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.ActionHelper`1
+    name: ActionHelper
+    href: Tool.Utils.ActionDelegate.ActionHelper-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.ActionHelper`1
+    name: ActionHelper
+    href: Tool.Utils.ActionDelegate.ActionHelper-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.ActionDelegate.ActionMethod`1
+  commentId: T:Tool.Utils.ActionDelegate.ActionMethod`1
+  href: Tool.Utils.ActionDelegate.ActionMethod-1.html
+  name: ActionMethod<T>
+  nameWithType: ActionMethod<T>
+  fullName: Tool.Utils.ActionDelegate.ActionMethod<T>
+  nameWithType.vb: ActionMethod(Of T)
+  fullName.vb: Tool.Utils.ActionDelegate.ActionMethod(Of T)
+  name.vb: ActionMethod(Of T)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.ActionMethod`1
+    name: ActionMethod
+    href: Tool.Utils.ActionDelegate.ActionMethod-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.ActionMethod`1
+    name: ActionMethod
+    href: Tool.Utils.ActionDelegate.ActionMethod-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.ActionDelegate.NewClass`1
+  commentId: T:Tool.Utils.ActionDelegate.NewClass`1
+  href: Tool.Utils.ActionDelegate.NewClass-1.html
+  name: NewClass<E>
+  nameWithType: NewClass<E>
+  fullName: Tool.Utils.ActionDelegate.NewClass<E>
+  nameWithType.vb: NewClass(Of E)
+  fullName.vb: Tool.Utils.ActionDelegate.NewClass(Of E)
+  name.vb: NewClass(Of E)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.NewClass`1
+    name: NewClass
+    href: Tool.Utils.ActionDelegate.NewClass-1.html
+  - name: <
+  - name: E
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.NewClass`1
+    name: NewClass
+    href: Tool.Utils.ActionDelegate.NewClass-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: E
+  - name: )
+- uid: Tool.Utils.ActionDelegate.ClassDispatcher
+  commentId: T:Tool.Utils.ActionDelegate.ClassDispatcher
+  href: Tool.Utils.ActionDelegate.ClassDispatcher.html
+  name: ClassDispatcher
+  nameWithType: ClassDispatcher
+  fullName: Tool.Utils.ActionDelegate.ClassDispatcher
+- uid: Tool.Utils.ActionDelegate.ClassDispatcher`1
+  commentId: T:Tool.Utils.ActionDelegate.ClassDispatcher`1
+  href: Tool.Utils.ActionDelegate.ClassDispatcher-1.html
+  name: ClassDispatcher<T>
+  nameWithType: ClassDispatcher<T>
+  fullName: Tool.Utils.ActionDelegate.ClassDispatcher<T>
+  nameWithType.vb: ClassDispatcher(Of T)
+  fullName.vb: Tool.Utils.ActionDelegate.ClassDispatcher(Of T)
+  name.vb: ClassDispatcher(Of T)
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.ClassDispatcher`1
+    name: ClassDispatcher
+    href: Tool.Utils.ActionDelegate.ClassDispatcher-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.ClassDispatcher`1
+    name: ClassDispatcher
+    href: Tool.Utils.ActionDelegate.ClassDispatcher-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.ActionDelegate.ClassField
+  commentId: T:Tool.Utils.ActionDelegate.ClassField
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.ClassField.html
+  name: ClassField
+  nameWithType: ClassField
+  fullName: Tool.Utils.ActionDelegate.ClassField
+- uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher
+  commentId: T:Tool.Utils.ActionDelegate.ClassFieldDispatcher
+  href: Tool.Utils.ActionDelegate.ClassFieldDispatcher.html
+  name: ClassFieldDispatcher
+  nameWithType: ClassFieldDispatcher
+  fullName: Tool.Utils.ActionDelegate.ClassFieldDispatcher
+- uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassField
+  commentId: T:Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassField
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.ClassFieldDispatcher.html
+  name: ClassFieldDispatcher.SetClassField
+  nameWithType: ClassFieldDispatcher.SetClassField
+  fullName: Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassField
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher
+    name: ClassFieldDispatcher
+    href: Tool.Utils.ActionDelegate.ClassFieldDispatcher.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassField
+    name: SetClassField
+    href: Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassField.html
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher
+    name: ClassFieldDispatcher
+    href: Tool.Utils.ActionDelegate.ClassFieldDispatcher.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassField
+    name: SetClassField
+    href: Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassField.html
+- uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassField
+  commentId: T:Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassField
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.ClassFieldDispatcher.html
+  name: ClassFieldDispatcher.GetClassField
+  nameWithType: ClassFieldDispatcher.GetClassField
+  fullName: Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassField
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher
+    name: ClassFieldDispatcher
+    href: Tool.Utils.ActionDelegate.ClassFieldDispatcher.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassField
+    name: GetClassField
+    href: Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassField.html
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher
+    name: ClassFieldDispatcher
+    href: Tool.Utils.ActionDelegate.ClassFieldDispatcher.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassField
+    name: GetClassField
+    href: Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassField.html
+- uid: Tool.Utils.ActionDelegate.MethodFlags
+  commentId: T:Tool.Utils.ActionDelegate.MethodFlags
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.MethodFlags.html
+  name: MethodFlags
+  nameWithType: MethodFlags
+  fullName: Tool.Utils.ActionDelegate.MethodFlags
+- uid: Tool.Utils.ActionDelegate.Parameter
+  commentId: T:Tool.Utils.ActionDelegate.Parameter
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.Parameter.html
+  name: Parameter
+  nameWithType: Parameter
+  fullName: Tool.Utils.ActionDelegate.Parameter
+- uid: Tool.Utils.ActionDelegate.TypeInvoke
+  commentId: T:Tool.Utils.ActionDelegate.TypeInvoke
+  href: Tool.Utils.ActionDelegate.TypeInvoke.html
+  name: TypeInvoke
+  nameWithType: TypeInvoke
+  fullName: Tool.Utils.ActionDelegate.TypeInvoke
+- uid: Tool.Utils.ActionDelegate.Method
+  commentId: T:Tool.Utils.ActionDelegate.Method
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.Method.html
+  name: Method
+  nameWithType: Method
+  fullName: Tool.Utils.ActionDelegate.Method
+- uid: Tool.Utils.ActionDelegate.TypePropertyDescriptor
+  commentId: T:Tool.Utils.ActionDelegate.TypePropertyDescriptor
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.TypePropertyDescriptor.html
+  name: TypePropertyDescriptor
+  nameWithType: TypePropertyDescriptor
+  fullName: Tool.Utils.ActionDelegate.TypePropertyDescriptor
+- uid: Tool.Utils.ActionDelegate.PropertyEnum
+  commentId: T:Tool.Utils.ActionDelegate.PropertyEnum
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.PropertyEnum.html
+  name: PropertyEnum
+  nameWithType: PropertyEnum
+  fullName: Tool.Utils.ActionDelegate.PropertyEnum
+- uid: Tool.Utils.ActionDelegate.PropertyDescriptor
+  commentId: T:Tool.Utils.ActionDelegate.PropertyDescriptor
+  parent: Tool.Utils.ActionDelegate
+  href: Tool.Utils.ActionDelegate.PropertyDescriptor.html
+  name: PropertyDescriptor
+  nameWithType: PropertyDescriptor
+  fullName: Tool.Utils.ActionDelegate.PropertyDescriptor
+- uid: Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty
+  commentId: T:Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty
+  href: Tool.Utils.ActionDelegate.PropertyDescriptor.html
+  name: PropertyDescriptor.SetClassProperty
+  nameWithType: PropertyDescriptor.SetClassProperty
+  fullName: Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.PropertyDescriptor
+    name: PropertyDescriptor
+    href: Tool.Utils.ActionDelegate.PropertyDescriptor.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty
+    name: SetClassProperty
+    href: Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty.html
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.PropertyDescriptor
+    name: PropertyDescriptor
+    href: Tool.Utils.ActionDelegate.PropertyDescriptor.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty
+    name: SetClassProperty
+    href: Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty.html
+- uid: Tool.Utils.ActionDelegate.PropertyDescriptor.GetClassProperty
+  commentId: T:Tool.Utils.ActionDelegate.PropertyDescriptor.GetClassProperty
+  href: Tool.Utils.ActionDelegate.PropertyDescriptor.html
+  name: PropertyDescriptor.GetClassProperty
+  nameWithType: PropertyDescriptor.GetClassProperty
+  fullName: Tool.Utils.ActionDelegate.PropertyDescriptor.GetClassProperty
+  spec.csharp:
+  - uid: Tool.Utils.ActionDelegate.PropertyDescriptor
+    name: PropertyDescriptor
+    href: Tool.Utils.ActionDelegate.PropertyDescriptor.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate.PropertyDescriptor.GetClassProperty
+    name: GetClassProperty
+    href: Tool.Utils.ActionDelegate.PropertyDescriptor.GetClassProperty.html
+  spec.vb:
+  - uid: Tool.Utils.ActionDelegate.PropertyDescriptor
+    name: PropertyDescriptor
+    href: Tool.Utils.ActionDelegate.PropertyDescriptor.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate.PropertyDescriptor.GetClassProperty
+    name: GetClassProperty
+    href: Tool.Utils.ActionDelegate.PropertyDescriptor.GetClassProperty.html
+- uid: Tool.Utils.ActionDelegate
+  commentId: N:Tool.Utils.ActionDelegate
+  href: Tool.html
+  name: Tool.Utils.ActionDelegate
+  nameWithType: Tool.Utils.ActionDelegate
+  fullName: Tool.Utils.ActionDelegate
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate
+    name: ActionDelegate
+    href: Tool.Utils.ActionDelegate.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.ActionDelegate
+    name: ActionDelegate
+    href: Tool.Utils.ActionDelegate.html

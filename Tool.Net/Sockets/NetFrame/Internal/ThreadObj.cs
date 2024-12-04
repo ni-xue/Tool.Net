@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using Tool.Sockets.Kernels;
 using Tool.Utils;
 using Tool.Utils.Data;
+using System.Collections.Generic;
 
 namespace Tool.Sockets.NetFrame.Internal
 {
@@ -182,17 +183,16 @@ namespace Tool.Sockets.NetFrame.Internal
             }
         }
 
-        internal void SetTimeout(in Guid onlyId)
+        internal void SetTimeout(in Guid onlyId, ThreadObj threadObj)
         {
-            if (pairs.TryRemove(onlyId, out var threadObj))
-            {
-                threadObj.State = NetFrameState.Timeout;
-            }
+            //if (pairs.TryRemove(onlyId, out var threadObj)) threadObj.State = NetFrameState.Timeout;
+            if (pairs.TryRemove(new(onlyId, threadObj))) threadObj.State = NetFrameState.Timeout;
         }
 
-        internal void SetException(in Guid onlyId, in Exception ex)
+        internal void SetException(in Guid onlyId, ThreadObj threadObj, Exception ex)
         {
-            if (pairs.TryRemove(onlyId, out var threadObj)) threadObj.SetSendFail(ex);
+            //if (pairs.TryRemove(onlyId, out var threadObj)) threadObj.SetSendFail(ex);
+            if (pairs.TryRemove(new(onlyId, threadObj))) threadObj.SetSendFail(ex);
         }
 
         internal bool Complete(in Guid clmidmt, out ThreadObj Threads)
@@ -204,10 +204,11 @@ namespace Tool.Sockets.NetFrame.Internal
         {
             while (!pairs.IsEmpty)
             {
-                foreach (var pair in pairs.Keys)
+                foreach (var pair in pairs)
                 {
-                    if (pairs.TryRemove(pair, out var threadobj))
+                    if (pairs.TryRemove(pair))
                     {
+                        var threadobj = pair.Value;
                         threadobj.Error = new Exception("等待回复时与服务器已断开连接！");
                         threadobj.Set(NetFrameState.Exception);
                     }
@@ -280,22 +281,27 @@ namespace Tool.Sockets.NetFrame.Internal
             }
         }
 
+        private void AllError() //广播所有错误
+        {
+            while (!pairs.IsEmpty)
+            {
+                foreach (var pair in pairs)
+                {
+                    if (pairs.TryRemove(pair))
+                    {
+                        var threadUuIdObj = pair.Value;
+                        threadUuIdObj.Dispose();
+                    }
+                }
+            }
+        }
+
         public void Dispose()
         {
             if (!disposedValue)
             {
                 disposedValue = true;
-
-                while (!pairs.IsEmpty)
-                {
-                    foreach (var pair in pairs.Keys)
-                    {
-                        if (pairs.TryRemove(pair, out var threadUuIdObj))
-                        {
-                            threadUuIdObj.Dispose();
-                        }
-                    }
-                }
+                AllError();
             }
             GC.SuppressFinalize(this);
         }

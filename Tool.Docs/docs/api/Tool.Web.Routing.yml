@@ -1,0 +1,61 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Web.Routing
+  commentId: N:Tool.Web.Routing
+  id: Tool.Web.Routing
+  children:
+  - Tool.Web.Routing.AshxRouteAttribute
+  - Tool.Web.Routing.AshxRouteData
+  langs:
+  - csharp
+  - vb
+  name: Tool.Web.Routing
+  nameWithType: Tool.Web.Routing
+  fullName: Tool.Web.Routing
+  type: Namespace
+  assemblies:
+  - Tool.Net
+references:
+- uid: Tool.Web.Routing.AshxRouteAttribute
+  commentId: T:Tool.Web.Routing.AshxRouteAttribute
+  href: Tool.Web.Routing.AshxRouteAttribute.html
+  name: AshxRouteAttribute
+  nameWithType: AshxRouteAttribute
+  fullName: Tool.Web.Routing.AshxRouteAttribute
+- uid: Tool.Web.Routing.AshxRouteData
+  commentId: T:Tool.Web.Routing.AshxRouteData
+  parent: Tool.Web.Routing
+  href: Tool.Web.Routing.AshxRouteData.html
+  name: AshxRouteData
+  nameWithType: AshxRouteData
+  fullName: Tool.Web.Routing.AshxRouteData
+- uid: Tool.Web.Routing
+  commentId: N:Tool.Web.Routing
+  href: Tool.html
+  name: Tool.Web.Routing
+  nameWithType: Tool.Web.Routing
+  fullName: Tool.Web.Routing
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Web
+    name: Web
+    href: Tool.Web.html
+  - name: .
+  - uid: Tool.Web.Routing
+    name: Routing
+    href: Tool.Web.Routing.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Web
+    name: Web
+    href: Tool.Web.html
+  - name: .
+  - uid: Tool.Web.Routing
+    name: Routing
+    href: Tool.Web.Routing.html

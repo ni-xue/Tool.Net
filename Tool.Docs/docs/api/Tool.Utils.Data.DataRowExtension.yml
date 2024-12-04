@@ -1,0 +1,1210 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Utils.Data.DataRowExtension
+  commentId: T:Tool.Utils.Data.DataRowExtension
+  id: DataRowExtension
+  parent: Tool.Utils.Data
+  children:
+  - Tool.Utils.Data.DataRowExtension.DataRowToEntity``1(System.Data.DataRow)
+  - Tool.Utils.Data.DataRowExtension.IsEmpty(System.Data.DataRow)
+  - Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow)
+  - Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow,System.Boolean)
+  - Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow,System.Boolean,System.String)
+  - Tool.Utils.Data.DataRowExtension.ToDictionary(System.Data.DataRow)
+  - Tool.Utils.Data.DataRowExtension.ToDictionary(System.Data.DataRow[])
+  - Tool.Utils.Data.DataRowExtension.ToEntityList``1(System.Data.DataRowCollection)
+  - Tool.Utils.Data.DataRowExtension.ToEntity``1(System.Data.DataRow)
+  - Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRow)
+  - Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection)
+  - Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection,System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: DataRowExtension
+  nameWithType: DataRowExtension
+  fullName: Tool.Utils.Data.DataRowExtension
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DataRowExtension
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 13
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 对DataRow进行升级
+  remarks: 代码由逆血提供支持
+  example: []
+  syntax:
+    content: public static class DataRowExtension
+    content.vb: Public Module DataRowExtension
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Tool.Utils.Data.DataRowExtension.IsEmpty(System.Data.DataRow)
+  commentId: M:Tool.Utils.Data.DataRowExtension.IsEmpty(System.Data.DataRow)
+  id: IsEmpty(System.Data.DataRow)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DataRowExtension
+  langs:
+  - csharp
+  - vb
+  name: IsEmpty(DataRow)
+  nameWithType: DataRowExtension.IsEmpty(DataRow)
+  fullName: Tool.Utils.Data.DataRowExtension.IsEmpty(System.Data.DataRow)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: IsEmpty
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 20
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 判断<xref href="System.Data.DataRow" data-throw-if-not-resolved="false"></xref>对象中的是否为空，行为空，对象为空
+  example: []
+  syntax:
+    content: public static bool IsEmpty(this DataRow dataRow)
+    parameters:
+    - id: dataRow
+      type: System.Data.DataRow
+      description: <xref href="System.Data.DataRow" data-throw-if-not-resolved="false"></xref>对象
+    return:
+      type: System.Boolean
+      description: 返回<xref href="System.Boolean" data-throw-if-not-resolved="false"></xref>类型
+    content.vb: Public Shared Function IsEmpty(dataRow As DataRow) As Boolean
+  overload: Tool.Utils.Data.DataRowExtension.IsEmpty*
+- uid: Tool.Utils.Data.DataRowExtension.ToDictionary(System.Data.DataRow)
+  commentId: M:Tool.Utils.Data.DataRowExtension.ToDictionary(System.Data.DataRow)
+  id: ToDictionary(System.Data.DataRow)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DataRowExtension
+  langs:
+  - csharp
+  - vb
+  name: ToDictionary(DataRow)
+  nameWithType: DataRowExtension.ToDictionary(DataRow)
+  fullName: Tool.Utils.Data.DataRowExtension.ToDictionary(System.Data.DataRow)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToDictionary
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 44
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: （DataRow）转换 <xref href="System.Collections.Generic.Dictionary%602" data-throw-if-not-resolved="false"></xref> 集合
+  example: []
+  syntax:
+    content: public static Dictionary<string, object> ToDictionary(this DataRow dataRow)
+    parameters:
+    - id: dataRow
+      type: System.Data.DataRow
+      description: DataRow
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.Object}
+      description: 返回Dictionary
+    content.vb: Public Shared Function ToDictionary(dataRow As DataRow) As Dictionary(Of String, Object)
+  overload: Tool.Utils.Data.DataRowExtension.ToDictionary*
+- uid: Tool.Utils.Data.DataRowExtension.DataRowToEntity``1(System.Data.DataRow)
+  commentId: M:Tool.Utils.Data.DataRowExtension.DataRowToEntity``1(System.Data.DataRow)
+  id: DataRowToEntity``1(System.Data.DataRow)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DataRowExtension
+  langs:
+  - csharp
+  - vb
+  name: DataRowToEntity<T>(DataRow)
+  nameWithType: DataRowExtension.DataRowToEntity<T>(DataRow)
+  fullName: Tool.Utils.Data.DataRowExtension.DataRowToEntity<T>(System.Data.DataRow)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: DataRowToEntity
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 62
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 将<xref href="System.Data.DataRow" data-throw-if-not-resolved="false"></xref>对象 转换为 实体对象（旧版本）
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("当前方法，已被弃用，有更新的方法，请使用（ToEntity<T>）方法", false)]
+
+      public static T DataRowToEntity<T>(this DataRow dataRow) where T : new()
+    parameters:
+    - id: dataRow
+      type: System.Data.DataRow
+      description: 数据源
+    typeParameters:
+    - id: T
+      description: 实体对象
+    return:
+      type: '{T}'
+      description: 返回实体对象
+    content.vb: >-
+      <Obsolete("当前方法，已被弃用，有更新的方法，请使用（ToEntity<T>）方法", False)>
+
+      Public Shared Function DataRowToEntity(Of T As New)(dataRow As DataRow) As T
+  overload: Tool.Utils.Data.DataRowExtension.DataRowToEntity*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String,System.Boolean)
+    arguments:
+    - type: System.String
+      value: 当前方法，已被弃用，有更新的方法，请使用（ToEntity<T>）方法
+    - type: System.Boolean
+      value: false
+  nameWithType.vb: DataRowExtension.DataRowToEntity(Of T)(DataRow)
+  fullName.vb: Tool.Utils.Data.DataRowExtension.DataRowToEntity(Of T)(System.Data.DataRow)
+  name.vb: DataRowToEntity(Of T)(DataRow)
+- uid: Tool.Utils.Data.DataRowExtension.ToEntity``1(System.Data.DataRow)
+  commentId: M:Tool.Utils.Data.DataRowExtension.ToEntity``1(System.Data.DataRow)
+  id: ToEntity``1(System.Data.DataRow)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DataRowExtension
+  langs:
+  - csharp
+  - vb
+  name: ToEntity<T>(DataRow)
+  nameWithType: DataRowExtension.ToEntity<T>(DataRow)
+  fullName: Tool.Utils.Data.DataRowExtension.ToEntity<T>(System.Data.DataRow)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToEntity
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 75
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 将<xref href="System.Data.DataRow" data-throw-if-not-resolved="false"></xref>对象 转换为 实体对象（新版本）
+  example: []
+  syntax:
+    content: 'public static T ToEntity<T>(this DataRow dataRow) where T : new()'
+    parameters:
+    - id: dataRow
+      type: System.Data.DataRow
+      description: 数据源
+    typeParameters:
+    - id: T
+      description: 实体对象
+    return:
+      type: '{T}'
+      description: 返回实体对象
+    content.vb: Public Shared Function ToEntity(Of T As New)(dataRow As DataRow) As T
+  overload: Tool.Utils.Data.DataRowExtension.ToEntity*
+  nameWithType.vb: DataRowExtension.ToEntity(Of T)(DataRow)
+  fullName.vb: Tool.Utils.Data.DataRowExtension.ToEntity(Of T)(System.Data.DataRow)
+  name.vb: ToEntity(Of T)(DataRow)
+- uid: Tool.Utils.Data.DataRowExtension.ToEntityList``1(System.Data.DataRowCollection)
+  commentId: M:Tool.Utils.Data.DataRowExtension.ToEntityList``1(System.Data.DataRowCollection)
+  id: ToEntityList``1(System.Data.DataRowCollection)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DataRowExtension
+  langs:
+  - csharp
+  - vb
+  name: ToEntityList<T>(DataRowCollection)
+  nameWithType: DataRowExtension.ToEntityList<T>(DataRowCollection)
+  fullName: Tool.Utils.Data.DataRowExtension.ToEntityList<T>(System.Data.DataRowCollection)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToEntityList
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 136
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 将<xref href="System.Data.DataRowCollection" data-throw-if-not-resolved="false"></xref> 对象 转换为 实体对象数组 (优化版)
+  example: []
+  syntax:
+    content: 'public static T[] ToEntityList<T>(this DataRowCollection dataRows) where T : new()'
+    parameters:
+    - id: dataRows
+      type: System.Data.DataRowCollection
+      description: 数据源
+    typeParameters:
+    - id: T
+      description: 实体对象
+    return:
+      type: '{T}[]'
+      description: 返回实体对象数组
+    content.vb: Public Shared Function ToEntityList(Of T As New)(dataRows As DataRowCollection) As T()
+  overload: Tool.Utils.Data.DataRowExtension.ToEntityList*
+  nameWithType.vb: DataRowExtension.ToEntityList(Of T)(DataRowCollection)
+  fullName.vb: Tool.Utils.Data.DataRowExtension.ToEntityList(Of T)(System.Data.DataRowCollection)
+  name.vb: ToEntityList(Of T)(DataRowCollection)
+- uid: Tool.Utils.Data.DataRowExtension.ToDictionary(System.Data.DataRow[])
+  commentId: M:Tool.Utils.Data.DataRowExtension.ToDictionary(System.Data.DataRow[])
+  id: ToDictionary(System.Data.DataRow[])
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DataRowExtension
+  langs:
+  - csharp
+  - vb
+  name: ToDictionary(DataRow[])
+  nameWithType: DataRowExtension.ToDictionary(DataRow[])
+  fullName: Tool.Utils.Data.DataRowExtension.ToDictionary(System.Data.DataRow[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToDictionary
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 279
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: （DataRow[]）转换 <xref href="System.Collections.Generic.Dictionary%602" data-throw-if-not-resolved="false"></xref> 集合
+  example: []
+  syntax:
+    content: public static List<Dictionary<string, object>> ToDictionary(this DataRow[] dataRows)
+    parameters:
+    - id: dataRows
+      type: System.Data.DataRow[]
+      description: DataRow[]
+    return:
+      type: System.Collections.Generic.List{System.Collections.Generic.Dictionary{System.String,System.Object}}
+      description: 返回List{Dictionary{string, object}}
+    content.vb: Public Shared Function ToDictionary(dataRows As DataRow()) As List(Of Dictionary(Of String, Object))
+  overload: Tool.Utils.Data.DataRowExtension.ToDictionary*
+  nameWithType.vb: DataRowExtension.ToDictionary(DataRow())
+  fullName.vb: Tool.Utils.Data.DataRowExtension.ToDictionary(System.Data.DataRow())
+  name.vb: ToDictionary(DataRow())
+- uid: Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRow)
+  commentId: M:Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRow)
+  id: ToObject(System.Data.DataRow)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DataRowExtension
+  langs:
+  - csharp
+  - vb
+  name: ToObject(DataRow)
+  nameWithType: DataRowExtension.ToObject(DataRow)
+  fullName: Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRow)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToObject
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 301
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: （DataRow）转换 <xref href="System.Object" data-throw-if-not-resolved="false"></xref> 对象
+  example: []
+  syntax:
+    content: public static dynamic ToObject(this DataRow dataRow)
+    parameters:
+    - id: dataRow
+      type: System.Data.DataRow
+      description: DataRow
+    return:
+      type: dynamic
+      description: 返回dynamic
+    content.vb: Public Shared Function ToObject(dataRow As DataRow) As Object
+  overload: Tool.Utils.Data.DataRowExtension.ToObject*
+- uid: Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection)
+  commentId: M:Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection)
+  id: ToObject(System.Data.DataRowCollection)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DataRowExtension
+  langs:
+  - csharp
+  - vb
+  name: ToObject(DataRowCollection)
+  nameWithType: DataRowExtension.ToObject(DataRowCollection)
+  fullName: Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToObject
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 326
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: （DataRowCollection）转换 <xref href="System.Object" data-throw-if-not-resolved="false"></xref> 集合
+  example: []
+  syntax:
+    content: public static dynamic[] ToObject(this DataRowCollection dataRows)
+    parameters:
+    - id: dataRows
+      type: System.Data.DataRowCollection
+      description: DataRowCollection
+    return:
+      type: dynamic[]
+      description: 返回dynamic[]
+    content.vb: Public Shared Function ToObject(dataRows As DataRowCollection) As Object()
+  overload: Tool.Utils.Data.DataRowExtension.ToObject*
+- uid: Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection,System.Int32)
+  commentId: M:Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection,System.Int32)
+  id: ToObject(System.Data.DataRowCollection,System.Int32)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DataRowExtension
+  langs:
+  - csharp
+  - vb
+  name: ToObject(DataRowCollection, int)
+  nameWithType: DataRowExtension.ToObject(DataRowCollection, int)
+  fullName: Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection, int)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: ToObject
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 345
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: （DataRowCollection）转换 <xref href="System.Object" data-throw-if-not-resolved="false"></xref>
+  example: []
+  syntax:
+    content: public static dynamic ToObject(this DataRowCollection dataRows, int index)
+    parameters:
+    - id: dataRows
+      type: System.Data.DataRowCollection
+      description: DataRowCollection
+    - id: index
+      type: System.Int32
+      description: 要读取的那一条数组的下标
+    return:
+      type: dynamic
+      description: 返回dynamic
+    content.vb: Public Shared Function ToObject(dataRows As DataRowCollection, index As Integer) As Object
+  overload: Tool.Utils.Data.DataRowExtension.ToObject*
+  nameWithType.vb: DataRowExtension.ToObject(DataRowCollection, Integer)
+  fullName.vb: Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection, Integer)
+  name.vb: ToObject(DataRowCollection, Integer)
+- uid: Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow)
+  commentId: M:Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow)
+  id: RowToJson(System.Data.DataRow)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DataRowExtension
+  langs:
+  - csharp
+  - vb
+  name: RowToJson(DataRow)
+  nameWithType: DataRowExtension.RowToJson(DataRow)
+  fullName: Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: RowToJson
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 357
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 序列化AjaxJson（DataRow）
+  example: []
+  syntax:
+    content: public static string RowToJson(this DataRow dataRow)
+    parameters:
+    - id: dataRow
+      type: System.Data.DataRow
+      description: DataRow
+    return:
+      type: System.String
+      description: 返回JSON字符串
+    content.vb: Public Shared Function RowToJson(dataRow As DataRow) As String
+  overload: Tool.Utils.Data.DataRowExtension.RowToJson*
+- uid: Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow,System.Boolean)
+  commentId: M:Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow,System.Boolean)
+  id: RowToJson(System.Data.DataRow,System.Boolean)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DataRowExtension
+  langs:
+  - csharp
+  - vb
+  name: RowToJson(DataRow, bool)
+  nameWithType: DataRowExtension.RowToJson(DataRow, bool)
+  fullName: Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow, bool)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: RowToJson
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 368
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 序列化AjaxJson（DataRow）
+  example: []
+  syntax:
+    content: public static string RowToJson(this DataRow dataRow, bool IsDate)
+    parameters:
+    - id: dataRow
+      type: System.Data.DataRow
+      description: DataRow
+    - id: IsDate
+      type: System.Boolean
+      description: ToJson格式时间，启用转字符串
+    return:
+      type: System.String
+      description: 返回JSON字符串
+    content.vb: Public Shared Function RowToJson(dataRow As DataRow, IsDate As Boolean) As String
+  overload: Tool.Utils.Data.DataRowExtension.RowToJson*
+  nameWithType.vb: DataRowExtension.RowToJson(DataRow, Boolean)
+  fullName.vb: Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow, Boolean)
+  name.vb: RowToJson(DataRow, Boolean)
+- uid: Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow,System.Boolean,System.String)
+  commentId: M:Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow,System.Boolean,System.String)
+  id: RowToJson(System.Data.DataRow,System.Boolean,System.String)
+  isExtensionMethod: true
+  parent: Tool.Utils.Data.DataRowExtension
+  langs:
+  - csharp
+  - vb
+  name: RowToJson(DataRow, bool, string)
+  nameWithType: DataRowExtension.RowToJson(DataRow, bool, string)
+  fullName: Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow, bool, string)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Utils/Data/DataRowExtension.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: RowToJson
+    path: ../../Tool.Net/Utils/Data/DataRowExtension.cs
+    startLine: 380
+  assemblies:
+  - Tool.Net
+  namespace: Tool.Utils.Data
+  summary: 序列化AjaxJson（DataRow）
+  example: []
+  syntax:
+    content: public static string RowToJson(this DataRow dataRow, bool IsDate, string ToDateString)
+    parameters:
+    - id: dataRow
+      type: System.Data.DataRow
+      description: DataRow
+    - id: IsDate
+      type: System.Boolean
+      description: ToJson格式时间，启用转字符串
+    - id: ToDateString
+      type: System.String
+      description: Date.ToString()的写法。
+    return:
+      type: System.String
+      description: 返回JSON字符串
+    content.vb: Public Shared Function RowToJson(dataRow As DataRow, IsDate As Boolean, ToDateString As String) As String
+  overload: Tool.Utils.Data.DataRowExtension.RowToJson*
+  nameWithType.vb: DataRowExtension.RowToJson(DataRow, Boolean, String)
+  fullName.vb: Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow, Boolean, String)
+  name.vb: RowToJson(DataRow, Boolean, String)
+references:
+- uid: Tool.Utils.Data
+  commentId: N:Tool.Utils.Data
+  href: Tool.html
+  name: Tool.Utils.Data
+  nameWithType: Tool.Utils.Data
+  fullName: Tool.Utils.Data
+  spec.csharp:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.Data
+    name: Data
+    href: Tool.Utils.Data.html
+  spec.vb:
+  - uid: Tool
+    name: Tool
+    href: Tool.html
+  - name: .
+  - uid: Tool.Utils
+    name: Utils
+    href: Tool.Utils.html
+  - name: .
+  - uid: Tool.Utils.Data
+    name: Data
+    href: Tool.Utils.Data.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Data.DataRow
+  commentId: T:System.Data.DataRow
+  parent: System.Data
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.data.datarow
+  name: DataRow
+  nameWithType: DataRow
+  fullName: System.Data.DataRow
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Tool.Utils.Data.DataRowExtension.IsEmpty*
+  commentId: Overload:Tool.Utils.Data.DataRowExtension.IsEmpty
+  href: Tool.Utils.Data.DataRowExtension.html#Tool_Utils_Data_DataRowExtension_IsEmpty_System_Data_DataRow_
+  name: IsEmpty
+  nameWithType: DataRowExtension.IsEmpty
+  fullName: Tool.Utils.Data.DataRowExtension.IsEmpty
+- uid: System.Data
+  commentId: N:System.Data
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Data
+  nameWithType: System.Data
+  fullName: System.Data
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Data
+    name: Data
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.data
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Data
+    name: Data
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.data
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: Tool.Utils.Data.DataRowExtension.ToDictionary*
+  commentId: Overload:Tool.Utils.Data.DataRowExtension.ToDictionary
+  href: Tool.Utils.Data.DataRowExtension.html#Tool_Utils_Data_DataRowExtension_ToDictionary_System_Data_DataRow_
+  name: ToDictionary
+  nameWithType: DataRowExtension.ToDictionary
+  fullName: Tool.Utils.Data.DataRowExtension.ToDictionary
+- uid: System.Collections.Generic.Dictionary{System.String,System.Object}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, object>
+  nameWithType: Dictionary<string, object>
+  fullName: System.Collections.Generic.Dictionary<string, object>
+  nameWithType.vb: Dictionary(Of String, Object)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, Object)
+  name.vb: Dictionary(Of String, Object)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Tool.Utils.Data.DataRowExtension.DataRowToEntity*
+  commentId: Overload:Tool.Utils.Data.DataRowExtension.DataRowToEntity
+  href: Tool.Utils.Data.DataRowExtension.html#Tool_Utils_Data_DataRowExtension_DataRowToEntity__1_System_Data_DataRow_
+  name: DataRowToEntity
+  nameWithType: DataRowExtension.DataRowToEntity
+  fullName: Tool.Utils.Data.DataRowExtension.DataRowToEntity
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Tool.Utils.Data.DataRowExtension.ToEntity*
+  commentId: Overload:Tool.Utils.Data.DataRowExtension.ToEntity
+  href: Tool.Utils.Data.DataRowExtension.html#Tool_Utils_Data_DataRowExtension_ToEntity__1_System_Data_DataRow_
+  name: ToEntity
+  nameWithType: DataRowExtension.ToEntity
+  fullName: Tool.Utils.Data.DataRowExtension.ToEntity
+- uid: System.Data.DataRowCollection
+  commentId: T:System.Data.DataRowCollection
+  parent: System.Data
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.data.datarowcollection
+  name: DataRowCollection
+  nameWithType: DataRowCollection
+  fullName: System.Data.DataRowCollection
+- uid: Tool.Utils.Data.DataRowExtension.ToEntityList*
+  commentId: Overload:Tool.Utils.Data.DataRowExtension.ToEntityList
+  href: Tool.Utils.Data.DataRowExtension.html#Tool_Utils_Data_DataRowExtension_ToEntityList__1_System_Data_DataRowCollection_
+  name: ToEntityList
+  nameWithType: DataRowExtension.ToEntityList
+  fullName: Tool.Utils.Data.DataRowExtension.ToEntityList
+- uid: '{T}[]'
+  isExternal: true
+  name: T[]
+  nameWithType: T[]
+  fullName: T[]
+  nameWithType.vb: T()
+  fullName.vb: T()
+  name.vb: T()
+  spec.csharp:
+  - name: T
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: T
+  - name: (
+  - name: )
+- uid: System.Data.DataRow[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.data.datarow
+  name: DataRow[]
+  nameWithType: DataRow[]
+  fullName: System.Data.DataRow[]
+  nameWithType.vb: DataRow()
+  fullName.vb: System.Data.DataRow()
+  name.vb: DataRow()
+  spec.csharp:
+  - uid: System.Data.DataRow
+    name: DataRow
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.data.datarow
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Data.DataRow
+    name: DataRow
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.data.datarow
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.List{System.Collections.Generic.Dictionary{System.String,System.Object}}
+  commentId: T:System.Collections.Generic.List{System.Collections.Generic.Dictionary{System.String,System.Object}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Dictionary<string, object>>
+  nameWithType: List<Dictionary<string, object>>
+  fullName: System.Collections.Generic.List<System.Collections.Generic.Dictionary<string, object>>
+  nameWithType.vb: List(Of Dictionary(Of String, Object))
+  fullName.vb: System.Collections.Generic.List(Of System.Collections.Generic.Dictionary(Of String, Object))
+  name.vb: List(Of Dictionary(Of String, Object))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Tool.Utils.Data.DataRowExtension.ToObject*
+  commentId: Overload:Tool.Utils.Data.DataRowExtension.ToObject
+  href: Tool.Utils.Data.DataRowExtension.html#Tool_Utils_Data_DataRowExtension_ToObject_System_Data_DataRow_
+  name: ToObject
+  nameWithType: DataRowExtension.ToObject
+  fullName: Tool.Utils.Data.DataRowExtension.ToObject
+- uid: dynamic
+  commentId: T:System.Object
+  isExternal: true
+  name: dynamic
+  nameWithType: dynamic
+  fullName: dynamic
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: dynamic[]
+  isExternal: true
+  name: dynamic[]
+  nameWithType: dynamic[]
+  fullName: dynamic[]
+  nameWithType.vb: Object()
+  fullName.vb: Object()
+  name.vb: Object()
+  spec.csharp:
+  - uid: dynamic
+    name: dynamic
+    isExternal: true
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: Object
+  - name: (
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Tool.Utils.Data.DataRowExtension.RowToJson*
+  commentId: Overload:Tool.Utils.Data.DataRowExtension.RowToJson
+  href: Tool.Utils.Data.DataRowExtension.html#Tool_Utils_Data_DataRowExtension_RowToJson_System_Data_DataRow_
+  name: RowToJson
+  nameWithType: DataRowExtension.RowToJson
+  fullName: Tool.Utils.Data.DataRowExtension.RowToJson
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String

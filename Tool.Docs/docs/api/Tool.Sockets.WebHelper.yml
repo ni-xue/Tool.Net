@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: Tool.Sockets.WebHelper
+  commentId: N:Tool.Sockets.WebHelper
+  id: Tool.Sockets.WebHelper
+  children:
+  - Tool.Sockets.WebHelper.WebClientAsync
+  - Tool.Sockets.WebHelper.WebServerAsync
+  langs:
+  - csharp
+  - vb
+  name: Tool.Sockets.WebHelper
+  nameWithType: Tool.Sockets.WebHelper
+  fullName: Tool.Sockets.WebHelper
+  type: Namespace
+  assemblies:
+  - Tool.Net
+references:
+- uid: Tool.Sockets.WebHelper.WebClientAsync
+  commentId: T:Tool.Sockets.WebHelper.WebClientAsync
+  href: Tool.Sockets.WebHelper.WebClientAsync.html
+  name: WebClientAsync
+  nameWithType: WebClientAsync
+  fullName: Tool.Sockets.WebHelper.WebClientAsync
+- uid: Tool.Sockets.WebHelper.WebServerAsync
+  commentId: T:Tool.Sockets.WebHelper.WebServerAsync
+  href: Tool.Sockets.WebHelper.WebServerAsync.html
+  name: WebServerAsync
+  nameWithType: WebServerAsync
+  fullName: Tool.Sockets.WebHelper.WebServerAsync

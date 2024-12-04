@@ -1,0 +1,888 @@
+### YamlMime:ManagedReference
+items:
+- uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions
+  commentId: T:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions
+  id: AshxApplicationBuilderExtensions
+  parent: Microsoft.AspNetCore.Builder
+  children:
+  - Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.AddHttpContext(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  - Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Type)
+  - Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  - Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseAshx(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{Microsoft.AspNetCore.Routing.IRouteBuilder})
+  - Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Func{Microsoft.AspNetCore.Http.HttpContext,System.Exception,System.Threading.Tasks.Task})
+  - Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseIgnoreUrl(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String[])
+  langs:
+  - csharp
+  - vb
+  name: AshxApplicationBuilderExtensions
+  nameWithType: AshxApplicationBuilderExtensions
+  fullName: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions
+  type: Class
+  source:
+    remote:
+      path: Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AshxApplicationBuilderExtensions
+    path: ../../Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+    startLine: 22
+  assemblies:
+  - Tool.Net
+  namespace: Microsoft.AspNetCore.Builder
+  summary: Ashx 核心路由 扩展类
+  example: []
+  syntax:
+    content: public static class AshxApplicationBuilderExtensions
+    content.vb: Public Module AshxApplicationBuilderExtensions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseAshx(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{Microsoft.AspNetCore.Routing.IRouteBuilder})
+  commentId: M:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseAshx(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{Microsoft.AspNetCore.Routing.IRouteBuilder})
+  id: UseAshx(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{Microsoft.AspNetCore.Routing.IRouteBuilder})
+  isExtensionMethod: true
+  parent: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions
+  langs:
+  - csharp
+  - vb
+  name: UseAshx(IApplicationBuilder, Action<IRouteBuilder>)
+  nameWithType: AshxApplicationBuilderExtensions.UseAshx(IApplicationBuilder, Action<IRouteBuilder>)
+  fullName: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseAshx(Microsoft.AspNetCore.Builder.IApplicationBuilder, System.Action<Microsoft.AspNetCore.Routing.IRouteBuilder>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: UseAshx
+    path: ../../Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+    startLine: 30
+  assemblies:
+  - Tool.Net
+  namespace: Microsoft.AspNetCore.Builder
+  summary: Ashx路由
+  example: []
+  syntax:
+    content: public static IApplicationBuilder UseAshx(this IApplicationBuilder app, Action<IRouteBuilder> configureRoutes)
+    parameters:
+    - id: app
+      type: Microsoft.AspNetCore.Builder.IApplicationBuilder
+      description: <xref href="Microsoft.AspNetCore.Builder.IApplicationBuilder" data-throw-if-not-resolved="false"></xref>
+    - id: configureRoutes
+      type: System.Action{Microsoft.AspNetCore.Routing.IRouteBuilder}
+      description: <xref href="Microsoft.AspNetCore.Routing.IRouteBuilder" data-throw-if-not-resolved="false"></xref>
+    return:
+      type: Microsoft.AspNetCore.Builder.IApplicationBuilder
+      description: IApplicationBuilder
+    content.vb: Public Shared Function UseAshx(app As IApplicationBuilder, configureRoutes As Action(Of IRouteBuilder)) As IApplicationBuilder
+  overload: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseAshx*
+  nameWithType.vb: AshxApplicationBuilderExtensions.UseAshx(IApplicationBuilder, Action(Of IRouteBuilder))
+  fullName.vb: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseAshx(Microsoft.AspNetCore.Builder.IApplicationBuilder, System.Action(Of Microsoft.AspNetCore.Routing.IRouteBuilder))
+  name.vb: UseAshx(IApplicationBuilder, Action(Of IRouteBuilder))
+- uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Func{Microsoft.AspNetCore.Http.HttpContext,System.Exception,System.Threading.Tasks.Task})
+  commentId: M:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Func{Microsoft.AspNetCore.Http.HttpContext,System.Exception,System.Threading.Tasks.Task})
+  id: UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Func{Microsoft.AspNetCore.Http.HttpContext,System.Exception,System.Threading.Tasks.Task})
+  isExtensionMethod: true
+  parent: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions
+  langs:
+  - csharp
+  - vb
+  name: UseExceptionHandler(IApplicationBuilder, Func<HttpContext, Exception, Task>)
+  nameWithType: AshxApplicationBuilderExtensions.UseExceptionHandler(IApplicationBuilder, Func<HttpContext, Exception, Task>)
+  fullName: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder, System.Func<Microsoft.AspNetCore.Http.HttpContext, System.Exception, System.Threading.Tasks.Task>)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: UseExceptionHandler
+    path: ../../Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+    startLine: 103
+  assemblies:
+  - Tool.Net
+  namespace: Microsoft.AspNetCore.Builder
+  summary: 注入 捕获全局异常 对象
+  example: []
+  syntax:
+    content: public static IApplicationBuilder UseExceptionHandler(this IApplicationBuilder app, Func<HttpContext, Exception, Task> action)
+    parameters:
+    - id: app
+      type: Microsoft.AspNetCore.Builder.IApplicationBuilder
+      description: IApplicationBuilder框架对象
+    - id: action
+      type: System.Func{Microsoft.AspNetCore.Http.HttpContext,System.Exception,System.Threading.Tasks.Task}
+      description: 需要提供处理这些异常的委托函数
+    return:
+      type: Microsoft.AspNetCore.Builder.IApplicationBuilder
+      description: IApplicationBuilder
+    content.vb: Public Shared Function UseExceptionHandler(app As IApplicationBuilder, action As Func(Of HttpContext, Exception, Task)) As IApplicationBuilder
+  overload: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler*
+  nameWithType.vb: AshxApplicationBuilderExtensions.UseExceptionHandler(IApplicationBuilder, Func(Of HttpContext, Exception, Task))
+  fullName.vb: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder, System.Func(Of Microsoft.AspNetCore.Http.HttpContext, System.Exception, System.Threading.Tasks.Task))
+  name.vb: UseExceptionHandler(IApplicationBuilder, Func(Of HttpContext, Exception, Task))
+- uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  commentId: M:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  id: GetObject``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  isExtensionMethod: true
+  parent: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions
+  langs:
+  - csharp
+  - vb
+  name: GetObject<T>(IApplicationBuilder)
+  nameWithType: AshxApplicationBuilderExtensions.GetObject<T>(IApplicationBuilder)
+  fullName: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject<T>(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetObject
+    path: ../../Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+    startLine: 139
+  assemblies:
+  - Tool.Net
+  namespace: Microsoft.AspNetCore.Builder
+  summary: 获取 已经注册的 服务或数据
+  example: []
+  syntax:
+    content: public static T GetObject<T>(this IApplicationBuilder app)
+    parameters:
+    - id: app
+      type: Microsoft.AspNetCore.Builder.IApplicationBuilder
+      description: IApplicationBuilder框架对象
+    typeParameters:
+    - id: T
+      description: 获取的服务类型
+    return:
+      type: '{T}'
+      description: IApplicationBuilder
+    content.vb: Public Shared Function GetObject(Of T)(app As IApplicationBuilder) As T
+  overload: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject*
+  nameWithType.vb: AshxApplicationBuilderExtensions.GetObject(Of T)(IApplicationBuilder)
+  fullName.vb: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject(Of T)(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  name.vb: GetObject(Of T)(IApplicationBuilder)
+- uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Type)
+  commentId: M:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Type)
+  id: GetObject(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Type)
+  isExtensionMethod: true
+  parent: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions
+  langs:
+  - csharp
+  - vb
+  name: GetObject(IApplicationBuilder, Type)
+  nameWithType: AshxApplicationBuilderExtensions.GetObject(IApplicationBuilder, Type)
+  fullName: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject(Microsoft.AspNetCore.Builder.IApplicationBuilder, System.Type)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: GetObject
+    path: ../../Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+    startLine: 150
+  assemblies:
+  - Tool.Net
+  namespace: Microsoft.AspNetCore.Builder
+  summary: 获取 已经注册的 服务或数据
+  example: []
+  syntax:
+    content: public static object GetObject(this IApplicationBuilder app, Type type)
+    parameters:
+    - id: app
+      type: Microsoft.AspNetCore.Builder.IApplicationBuilder
+      description: IApplicationBuilder框架对象
+    - id: type
+      type: System.Type
+      description: 获取的服务类型
+    return:
+      type: System.Object
+      description: IApplicationBuilder
+    content.vb: Public Shared Function GetObject(app As IApplicationBuilder, type As Type) As Object
+  overload: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject*
+- uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.AddHttpContext(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  commentId: M:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.AddHttpContext(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  id: AddHttpContext(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  isExtensionMethod: true
+  parent: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions
+  langs:
+  - csharp
+  - vb
+  name: AddHttpContext(IApplicationBuilder)
+  nameWithType: AshxApplicationBuilderExtensions.AddHttpContext(IApplicationBuilder)
+  fullName: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.AddHttpContext(Microsoft.AspNetCore.Builder.IApplicationBuilder)
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: AddHttpContext
+    path: ../../Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+    startLine: 165
+  assemblies:
+  - Tool.Net
+  namespace: Microsoft.AspNetCore.Builder
+  summary: 注入HttpContext对象，实现静态获取
+  example: []
+  syntax:
+    content: public static IHttpContextAccessor AddHttpContext(this IApplicationBuilder app)
+    parameters:
+    - id: app
+      type: Microsoft.AspNetCore.Builder.IApplicationBuilder
+      description: IApplicationBuilder框架对象
+    return:
+      type: Microsoft.AspNetCore.Http.IHttpContextAccessor
+      description: IHttpContextAccessor
+    content.vb: Public Shared Function AddHttpContext(app As IApplicationBuilder) As IHttpContextAccessor
+  overload: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.AddHttpContext*
+- uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseIgnoreUrl(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String[])
+  commentId: M:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseIgnoreUrl(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String[])
+  id: UseIgnoreUrl(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String[])
+  isExtensionMethod: true
+  parent: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions
+  langs:
+  - csharp
+  - vb
+  name: UseIgnoreUrl(IApplicationBuilder, params string[])
+  nameWithType: AshxApplicationBuilderExtensions.UseIgnoreUrl(IApplicationBuilder, params string[])
+  fullName: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseIgnoreUrl(Microsoft.AspNetCore.Builder.IApplicationBuilder, params string[])
+  type: Method
+  source:
+    remote:
+      path: Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+      branch: master
+      repo: https://github.com/ni-xue/Tool.Net
+    id: UseIgnoreUrl
+    path: ../../Tool.Net/Web/Builder/AshxApplicationBuilderExtensions.cs
+    startLine: 181
+  assemblies:
+  - Tool.Net
+  namespace: Microsoft.AspNetCore.Builder
+  summary: 注册 IgnoreUrl （忽略请求地址）
+  example: []
+  syntax:
+    content: public static IApplicationBuilder UseIgnoreUrl(this IApplicationBuilder app, params string[] urls)
+    parameters:
+    - id: app
+      type: Microsoft.AspNetCore.Builder.IApplicationBuilder
+      description: IApplicationBuilder框架对象
+    - id: urls
+      type: System.String[]
+      description: 需要忽略的地址，必填项
+    return:
+      type: Microsoft.AspNetCore.Builder.IApplicationBuilder
+      description: IApplicationBuilder
+    content.vb: Public Shared Function UseIgnoreUrl(app As IApplicationBuilder, ParamArray urls As String()) As IApplicationBuilder
+  overload: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseIgnoreUrl*
+  nameWithType.vb: AshxApplicationBuilderExtensions.UseIgnoreUrl(IApplicationBuilder, ParamArray String())
+  fullName.vb: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseIgnoreUrl(Microsoft.AspNetCore.Builder.IApplicationBuilder, ParamArray String())
+  name.vb: UseIgnoreUrl(IApplicationBuilder, ParamArray String())
+references:
+- uid: Microsoft.AspNetCore.Builder
+  commentId: N:Microsoft.AspNetCore.Builder
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.AspNetCore.Builder
+  nameWithType: Microsoft.AspNetCore.Builder
+  fullName: Microsoft.AspNetCore.Builder
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.AspNetCore
+    name: AspNetCore
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore
+  - name: .
+  - uid: Microsoft.AspNetCore.Builder
+    name: Builder
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.builder
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.AspNetCore
+    name: AspNetCore
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore
+  - name: .
+  - uid: Microsoft.AspNetCore.Builder
+    name: Builder
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.builder
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Microsoft.AspNetCore.Builder.IApplicationBuilder
+  commentId: T:Microsoft.AspNetCore.Builder.IApplicationBuilder
+  parent: Microsoft.AspNetCore.Builder
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.builder.iapplicationbuilder
+  name: IApplicationBuilder
+  nameWithType: IApplicationBuilder
+  fullName: Microsoft.AspNetCore.Builder.IApplicationBuilder
+- uid: Microsoft.AspNetCore.Routing.IRouteBuilder
+  commentId: T:Microsoft.AspNetCore.Routing.IRouteBuilder
+  parent: Microsoft.AspNetCore.Routing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.routing.iroutebuilder
+  name: IRouteBuilder
+  nameWithType: IRouteBuilder
+  fullName: Microsoft.AspNetCore.Routing.IRouteBuilder
+- uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseAshx*
+  commentId: Overload:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseAshx
+  href: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.html#Microsoft_AspNetCore_Builder_AshxApplicationBuilderExtensions_UseAshx_Microsoft_AspNetCore_Builder_IApplicationBuilder_System_Action_Microsoft_AspNetCore_Routing_IRouteBuilder__
+  name: UseAshx
+  nameWithType: AshxApplicationBuilderExtensions.UseAshx
+  fullName: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseAshx
+- uid: System.Action{Microsoft.AspNetCore.Routing.IRouteBuilder}
+  commentId: T:System.Action{Microsoft.AspNetCore.Routing.IRouteBuilder}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<IRouteBuilder>
+  nameWithType: Action<IRouteBuilder>
+  fullName: System.Action<Microsoft.AspNetCore.Routing.IRouteBuilder>
+  nameWithType.vb: Action(Of IRouteBuilder)
+  fullName.vb: System.Action(Of Microsoft.AspNetCore.Routing.IRouteBuilder)
+  name.vb: Action(Of IRouteBuilder)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: Microsoft.AspNetCore.Routing.IRouteBuilder
+    name: IRouteBuilder
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.routing.iroutebuilder
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Microsoft.AspNetCore.Routing.IRouteBuilder
+    name: IRouteBuilder
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.routing.iroutebuilder
+  - name: )
+- uid: Microsoft.AspNetCore.Routing
+  commentId: N:Microsoft.AspNetCore.Routing
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.AspNetCore.Routing
+  nameWithType: Microsoft.AspNetCore.Routing
+  fullName: Microsoft.AspNetCore.Routing
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.AspNetCore
+    name: AspNetCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore
+  - name: .
+  - uid: Microsoft.AspNetCore.Routing
+    name: Routing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.routing
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.AspNetCore
+    name: AspNetCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore
+  - name: .
+  - uid: Microsoft.AspNetCore.Routing
+    name: Routing
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.routing
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler*
+  commentId: Overload:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler
+  href: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.html#Microsoft_AspNetCore_Builder_AshxApplicationBuilderExtensions_UseExceptionHandler_Microsoft_AspNetCore_Builder_IApplicationBuilder_System_Func_Microsoft_AspNetCore_Http_HttpContext_System_Exception_System_Threading_Tasks_Task__
+  name: UseExceptionHandler
+  nameWithType: AshxApplicationBuilderExtensions.UseExceptionHandler
+  fullName: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseExceptionHandler
+- uid: System.Func{Microsoft.AspNetCore.Http.HttpContext,System.Exception,System.Threading.Tasks.Task}
+  commentId: T:System.Func{Microsoft.AspNetCore.Http.HttpContext,System.Exception,System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`3
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<HttpContext, Exception, Task>
+  nameWithType: Func<HttpContext, Exception, Task>
+  fullName: System.Func<Microsoft.AspNetCore.Http.HttpContext, System.Exception, System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of HttpContext, Exception, Task)
+  fullName.vb: System.Func(Of Microsoft.AspNetCore.Http.HttpContext, System.Exception, System.Threading.Tasks.Task)
+  name.vb: Func(Of HttpContext, Exception, Task)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - uid: Microsoft.AspNetCore.Http.HttpContext
+    name: HttpContext
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http.httpcontext
+  - name: ','
+  - name: " "
+  - uid: System.Exception
+    name: Exception
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Microsoft.AspNetCore.Http.HttpContext
+    name: HttpContext
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http.httpcontext
+  - name: ','
+  - name: " "
+  - uid: System.Exception
+    name: Exception
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.exception
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: System.Func`3
+  commentId: T:System.Func`3
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<T1, T2, TResult>
+  nameWithType: Func<T1, T2, TResult>
+  fullName: System.Func<T1, T2, TResult>
+  nameWithType.vb: Func(Of T1, T2, TResult)
+  fullName.vb: System.Func(Of T1, T2, TResult)
+  name.vb: Func(Of T1, T2, TResult)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject*
+  commentId: Overload:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject
+  href: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.html#Microsoft_AspNetCore_Builder_AshxApplicationBuilderExtensions_GetObject__1_Microsoft_AspNetCore_Builder_IApplicationBuilder_
+  name: GetObject
+  nameWithType: AshxApplicationBuilderExtensions.GetObject
+  fullName: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.GetObject
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.AddHttpContext*
+  commentId: Overload:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.AddHttpContext
+  href: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.html#Microsoft_AspNetCore_Builder_AshxApplicationBuilderExtensions_AddHttpContext_Microsoft_AspNetCore_Builder_IApplicationBuilder_
+  name: AddHttpContext
+  nameWithType: AshxApplicationBuilderExtensions.AddHttpContext
+  fullName: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.AddHttpContext
+- uid: Microsoft.AspNetCore.Http.IHttpContextAccessor
+  commentId: T:Microsoft.AspNetCore.Http.IHttpContextAccessor
+  parent: Microsoft.AspNetCore.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http.ihttpcontextaccessor
+  name: IHttpContextAccessor
+  nameWithType: IHttpContextAccessor
+  fullName: Microsoft.AspNetCore.Http.IHttpContextAccessor
+- uid: Microsoft.AspNetCore.Http
+  commentId: N:Microsoft.AspNetCore.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.AspNetCore.Http
+  nameWithType: Microsoft.AspNetCore.Http
+  fullName: Microsoft.AspNetCore.Http
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.AspNetCore
+    name: AspNetCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore
+  - name: .
+  - uid: Microsoft.AspNetCore.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.AspNetCore
+    name: AspNetCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore
+  - name: .
+  - uid: Microsoft.AspNetCore.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http
+- uid: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseIgnoreUrl*
+  commentId: Overload:Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseIgnoreUrl
+  href: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.html#Microsoft_AspNetCore_Builder_AshxApplicationBuilderExtensions_UseIgnoreUrl_Microsoft_AspNetCore_Builder_IApplicationBuilder_System_String___
+  name: UseIgnoreUrl
+  nameWithType: AshxApplicationBuilderExtensions.UseIgnoreUrl
+  fullName: Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.UseIgnoreUrl
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
