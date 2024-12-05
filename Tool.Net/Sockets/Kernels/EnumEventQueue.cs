@@ -155,20 +155,20 @@ namespace Tool.Sockets.Kernels
         /// 设置开启或关闭不想收到的消息事件（当前设置仅在 <see cref="INetworkCore"/> 接口，相关构造对象还未创建之前设置有效，是这些通信的公共默认配置）
         /// </summary>
         /// <param name="enClient"><see cref="EnClient"/></param>
-        /// <param name="state">等于true时生效，将关闭一切的相关事件</param>
+        /// <param name="state">等于true时生效，false将关闭一切的相关事件</param>
         /// <returns>返回true时表示设置成功！</returns>
         public static bool OnInterceptor(EnClient enClient, bool state)
         {
             bool isno = (Instance.noEnClient & enClient) != 0;
             if (state)
             {
-                if (isno) return false;
-                Instance.noEnClient |= enClient;
+                if (!isno) return false;
+                Instance.noEnClient &= enClient;
             }
             else
             {
-                if (!isno) return false;
-                Instance.noEnClient &= enClient;
+                if (isno) return false;
+                Instance.noEnClient |= enClient;
             }
             return true;
         }
@@ -177,20 +177,20 @@ namespace Tool.Sockets.Kernels
         /// 设置开启或关闭不想收到的消息事件（当前设置仅在 <see cref="INetworkCore"/> 接口，相关构造对象还未创建之前设置有效，是这些通信的公共默认配置）
         /// </summary>
         /// <param name="enServer"><see cref="EnServer"/></param>
-        /// <param name="state">等于true时生效，将关闭一切的相关事件</param>
+        /// <param name="state">等于true时生效，false将关闭一切的相关事件</param>
         /// <returns>返回true时表示设置成功！</returns>
         public static bool OnInterceptor(EnServer enServer, bool state)
         {
             bool isno = (Instance.noEnServer & enServer) != 0;
             if (state)
             {
-                if (isno) return false;
-                Instance.noEnServer |= enServer;
+                if (!isno) return false;
+                Instance.noEnServer &= enServer;
             }
             else
             {
-                if (!isno) return false;
-                Instance.noEnServer &= enServer;
+                if (isno) return false;
+                Instance.noEnServer |= enServer;
             }
             return true;
         }

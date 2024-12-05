@@ -22,7 +22,7 @@
 
 5.1 大致包含： 委托，反射，Log，验证码生成，正则验证，DataSet/DataTable/DataRow（验证，To实体？ToJson?），AppSettings（获取Core下面的配置文件：appsettings.json），等等
 
-6. 目前功能基本满足小规模开发。
+6. 目前功能基本满足中大型规模开发。
 -------------------------------------历史功能-----------------------------------------
 
 1. MinApi 增加ApiOut.View(); ApiOut.ViewAsyn(); 结果重新调整
@@ -770,7 +770,7 @@ static async Task<int> GetIntAsync()
 _ = Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(GetIntAsync).ContinueWith((a) => { a.Dispose(); Console.WriteLine($"{Tool.Utils.ThreadQueue.TaskQueue.Count}\t{Tool.Utils.ThreadQueue.TaskQueue.CompleteCount}\t{Tool.Utils.ThreadQueue.TaskQueue.TotalCount}"); });
 备注：可以直接放方法函数，支持各种函数
 
-  ------------2024/12/03------------
+  ------------2024/12/04------------
   5.4.0 - 正式版 - 重大改变
 1. Sockets 模块下的所有事件重写，目前最新版已支持给每个构造对象设置事件控制权限。（客户端部分新增重连事件）
 2. ServerFrame/ClientFrame 发起数据时优化，在已经断线的情况下，不会继续等待超时。
@@ -780,7 +780,8 @@ _ = Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(GetIntAsync).ContinueWith((a)
 7. 对象下GetValue 和 SetValue 在有意隐藏上级变量时，会出现报错，无法使用问题，目前已修复。
 6. 部分功能及实现优化，已知问题修复等。
 8. 隐藏福利，在线文档已就绪初版虽然不完善，但会持续完善维护，http://tool.nixue.top/
-
+  5.4.1 - 正式版 - 重大改变
+1. 主要是修复 EnumEventQueue.OnInterceptor(EnServer.Receive, true); 设置后行为是颠倒的
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。

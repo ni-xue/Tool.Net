@@ -28,7 +28,7 @@
         /// 设置开启或关闭不想收到的消息事件
         /// </summary>
         /// <param name="enClient"><see cref="EnClient"/></param>
-        /// <param name="state">等于true时生效，将关闭一切的相关事件</param>
+        /// <param name="state">等于true时生效，false将关闭一切的相关事件</param>
         /// <returns>返回true时表示设置成功！</returns>
         public virtual bool OnInterceptor(EnClient enClient, bool state)
         {

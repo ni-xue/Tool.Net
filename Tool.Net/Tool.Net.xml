@@ -41,7 +41,7 @@
             设置开启或关闭不想收到的消息事件
             </summary>
             <param name="enClient"><see cref="T:Tool.Sockets.Kernels.EnClient"/></param>
-            <param name="state">等于true时生效，将关闭一切的相关事件</param>
+            <param name="state">等于true时生效，false将关闭一切的相关事件</param>
             <returns>返回true时表示设置成功！</returns>
         </member>
         <member name="M:Tool.Sockets.Kernels.EnClientEventDrive.OnIsQueue(Tool.Sockets.Kernels.EnClient,System.Boolean)">
@@ -106,7 +106,7 @@
             设置开启或关闭不想收到的消息事件
             </summary>
             <param name="enServer"><see cref="T:Tool.Sockets.Kernels.EnServer"/></param>
-            <param name="state">等于true时生效，将关闭一切的相关事件</param>
+            <param name="state">等于true时生效，false将关闭一切的相关事件</param>
             <returns>返回true时表示设置成功！</returns>
         </member>
         <member name="M:Tool.Sockets.Kernels.EnServerEventDrive.OnIsQueue(Tool.Sockets.Kernels.EnServer,System.Boolean)">
@@ -406,7 +406,7 @@
             设置开启或关闭不想收到的消息事件（当前设置仅在 <see cref="T:Tool.Sockets.Kernels.INetworkCore"/> 接口，相关构造对象还未创建之前设置有效，是这些通信的公共默认配置）
             </summary>
             <param name="enClient"><see cref="T:Tool.Sockets.Kernels.EnClient"/></param>
-            <param name="state">等于true时生效，将关闭一切的相关事件</param>
+            <param name="state">等于true时生效，false将关闭一切的相关事件</param>
             <returns>返回true时表示设置成功！</returns>
         </member>
         <member name="M:Tool.Sockets.Kernels.EnumEventQueue.OnInterceptor(Tool.Sockets.Kernels.EnServer,System.Boolean)">
@@ -414,7 +414,7 @@
             设置开启或关闭不想收到的消息事件（当前设置仅在 <see cref="T:Tool.Sockets.Kernels.INetworkCore"/> 接口，相关构造对象还未创建之前设置有效，是这些通信的公共默认配置）
             </summary>
             <param name="enServer"><see cref="T:Tool.Sockets.Kernels.EnServer"/></param>
-            <param name="state">等于true时生效，将关闭一切的相关事件</param>
+            <param name="state">等于true时生效，false将关闭一切的相关事件</param>
             <returns>返回true时表示设置成功！</returns>
         </member>
         <member name="M:Tool.Sockets.Kernels.EnumEventQueue.OnIsQueue(Tool.Sockets.Kernels.EnClient,System.Boolean)">
@@ -13186,7 +13186,12 @@
         </member>
         <member name="P:Tool.Utils.ActionDelegate.ClassFieldDispatcher.Parameters">
             <summary>
-            类成员
+            类成员（只包含公开的成员，如遇到上层类有意隐藏下层类，只使用上层类成员）
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.ClassFieldDispatcher.KeyParameters">
+            <summary>
+            获取当前类所有字段字典
             </summary>
         </member>
         <member name="P:Tool.Utils.ActionDelegate.ClassFieldDispatcher.Field">
@@ -13252,7 +13257,7 @@
             </summary>
             <param name="classtype">类</param>
             <param name="propertyInfos">类参数</param>
-            <returns>取值委托或无法委托因为不可读</returns>
+            <returns>取值委托</returns>
         </member>
         <member name="T:Tool.Utils.ActionDelegate.MethodFlags">
             <summary>
@@ -13632,6 +13637,26 @@
             引用对象属性构造器
             </summary>
             <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.TypePropertyDescriptor.Fields">
+            <summary>
+            获取该对象的变量
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.TypePropertyDescriptor.KeyFields">
+            <summary>
+            获取当前类所有变量字典
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.TypePropertyDescriptor.PropertyInfos">
+            <summary>
+            获取该对象的成员
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.ActionDelegate.TypePropertyDescriptor.KeyParameters">
+            <summary>
+            获取当前类所有成员字典
+            </summary>
         </member>
         <member name="P:Tool.Utils.ActionDelegate.TypePropertyDescriptor.ClassType">
             <summary>
@@ -20066,10 +20091,10 @@
                             ○ 4th capture group.<br/>
                                 ○ Match with 2 alternative expressions.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match '1'.<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a character in the set [6-9].<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match a character in the set [2-9].<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a Unicode digit.<br/>
                             ○ Match a Unicode digit exactly 2 times.<br/>
                         ○ Match '-'.<br/>
@@ -20098,10 +20123,10 @@
                             ○ 9th capture group.<br/>
                                 ○ Match with 2 alternative expressions.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match '1'.<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a character in the set [6-9].<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match a character in the set [2-9].<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a Unicode digit.<br/>
                             ○ Match a Unicode digit exactly 2 times.<br/>
                         ○ Match '-'.<br/>
@@ -20128,10 +20153,10 @@
                             ○ 14th capture group.<br/>
                                 ○ Match with 2 alternative expressions.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match '1'.<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a character in the set [6-9].<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match a character in the set [2-9].<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a Unicode digit.<br/>
                             ○ Match a Unicode digit exactly 2 times.<br/>
                         ○ Match '-'.<br/>
@@ -20155,31 +20180,31 @@
                                     ○ 18th capture group.<br/>
                                         ○ Match with 2 alternative expressions.<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match '1'.<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [6-9].<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [2-9].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a Unicode digit.<br/>
                                     ○ 19th capture group.<br/>
                                         ○ Match with 3 alternative expressions.<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match '0'.<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [48].<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [2468].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [048].<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [13579].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [26].<br/>
                                 ○ 20th capture group.<br/>
                                     ○ 21st capture group.<br/>
                                         ○ Match with 3 alternative expressions.<br/>
                                             ○ Match the string "16".<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [2468].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [048].<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [3579].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [26].<br/>
                                     ○ Match the string "00".<br/>
                         ○ Match '-'.<br/>
@@ -20414,10 +20439,10 @@
                                 ○ Match '2'.<br/>
                                 ○ Match with 2 alternative expressions.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match a character in the set [0-4].<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a Unicode digit.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match '5'.<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a character in the set [0-5].<br/>
                             ○ Match a sequence of expressions.<br/>
                                 ○ Match a character in the set [01] greedily, optionally.<br/>
@@ -20429,10 +20454,10 @@
                         ○ Match '2'.<br/>
                         ○ Match with 2 alternative expressions.<br/>
                             ○ Match a sequence of expressions.<br/>
-                                ○ Match a character in the set [0-4].<br/>
+                                ○ Match an empty string.<br/>
                                 ○ Match a Unicode digit.<br/>
                             ○ Match a sequence of expressions.<br/>
-                                ○ Match '5'.<br/>
+                                ○ Match an empty string.<br/>
                                 ○ Match a character in the set [0-5].<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [01] greedily, optionally.<br/>
@@ -20454,10 +20479,10 @@
                         ○ Match '2'.<br/>
                         ○ Match with 2 alternative expressions.<br/>
                             ○ Match a sequence of expressions.<br/>
-                                ○ Match '5'.<br/>
+                                ○ Match an empty string.<br/>
                                 ○ Match a character in the set [0-5].<br/>
                             ○ Match a sequence of expressions.<br/>
-                                ○ Match a character in the set [0-4].<br/>
+                                ○ Match an empty string.<br/>
                                 ○ Match a character in the set [0-9].<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [01].<br/>
@@ -20473,10 +20498,10 @@
                         ○ Match '2'.<br/>
                         ○ Match with 2 alternative expressions.<br/>
                             ○ Match a sequence of expressions.<br/>
-                                ○ Match '5'.<br/>
+                                ○ Match an empty string.<br/>
                                 ○ Match a character in the set [0-5].<br/>
                             ○ Match a sequence of expressions.<br/>
-                                ○ Match a character in the set [0-4].<br/>
+                                ○ Match an empty string.<br/>
                                 ○ Match a character in the set [0-9].<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [01].<br/>
@@ -20492,10 +20517,10 @@
                         ○ Match '2'.<br/>
                         ○ Match with 2 alternative expressions.<br/>
                             ○ Match a sequence of expressions.<br/>
-                                ○ Match '5'.<br/>
+                                ○ Match an empty string.<br/>
                                 ○ Match a character in the set [0-5].<br/>
                             ○ Match a sequence of expressions.<br/>
-                                ○ Match a character in the set [0-4].<br/>
+                                ○ Match an empty string.<br/>
                                 ○ Match a character in the set [0-9].<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [01].<br/>
@@ -20511,10 +20536,10 @@
                         ○ Match '2'.<br/>
                         ○ Match with 2 alternative expressions.<br/>
                             ○ Match a sequence of expressions.<br/>
-                                ○ Match '5'.<br/>
+                                ○ Match an empty string.<br/>
                                 ○ Match a character in the set [0-5].<br/>
                             ○ Match a sequence of expressions.<br/>
-                                ○ Match a character in the set [0-4].<br/>
+                                ○ Match an empty string.<br/>
                                 ○ Match a character in the set [0-9].<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [01].<br/>
@@ -20544,10 +20569,10 @@
                                 ○ Match '2'.<br/>
                                 ○ Match with 2 alternative expressions.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match a character in the set [0-4].<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a Unicode digit.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match '5'.<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a character in the set [0-5].<br/>
                             ○ Match a sequence of expressions.<br/>
                                 ○ Match a character in the set [01] greedily, optionally.<br/>
@@ -20560,10 +20585,10 @@
                             ○ Match '2'.<br/>
                             ○ Match with 2 alternative expressions.<br/>
                                 ○ Match a sequence of expressions.<br/>
-                                    ○ Match a character in the set [0-4].<br/>
+                                    ○ Match an empty string.<br/>
                                     ○ Match a Unicode digit.<br/>
                                 ○ Match a sequence of expressions.<br/>
-                                    ○ Match '5'.<br/>
+                                    ○ Match an empty string.<br/>
                                     ○ Match a character in the set [0-5].<br/>
                         ○ Match a sequence of expressions.<br/>
                             ○ Match a character in the set [01] greedily, optionally.<br/>
@@ -20576,10 +20601,10 @@
                         ○ Match '2'.<br/>
                         ○ Match with 2 alternative expressions.<br/>
                             ○ Match a sequence of expressions.<br/>
-                                ○ Match a character in the set [0-4].<br/>
+                                ○ Match an empty string.<br/>
                                 ○ Match a Unicode digit.<br/>
                             ○ Match a sequence of expressions.<br/>
-                                ○ Match '5'.<br/>
+                                ○ Match an empty string.<br/>
                                 ○ Match a character in the set [0-5].<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [01] greedily, optionally.<br/>
@@ -20605,10 +20630,10 @@
                             ○ 4th capture group.<br/>
                                 ○ Match with 2 alternative expressions.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match '1'.<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a character in the set [6-9].<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match a character in the set [2-9].<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a Unicode digit.<br/>
                             ○ Match a Unicode digit exactly 2 times.<br/>
                         ○ Match '-'.<br/>
@@ -20637,10 +20662,10 @@
                             ○ 9th capture group.<br/>
                                 ○ Match with 2 alternative expressions.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match '1'.<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a character in the set [6-9].<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match a character in the set [2-9].<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a Unicode digit.<br/>
                             ○ Match a Unicode digit exactly 2 times.<br/>
                         ○ Match '-'.<br/>
@@ -20667,10 +20692,10 @@
                             ○ 14th capture group.<br/>
                                 ○ Match with 2 alternative expressions.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match '1'.<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a character in the set [6-9].<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match a character in the set [2-9].<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a Unicode digit.<br/>
                             ○ Match a Unicode digit exactly 2 times.<br/>
                         ○ Match '-'.<br/>
@@ -20694,31 +20719,31 @@
                                     ○ 18th capture group.<br/>
                                         ○ Match with 2 alternative expressions.<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match '1'.<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [6-9].<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [2-9].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a Unicode digit.<br/>
                                     ○ 19th capture group.<br/>
                                         ○ Match with 3 alternative expressions.<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match '0'.<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [48].<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [2468].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [048].<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [13579].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [26].<br/>
                                 ○ 20th capture group.<br/>
                                     ○ 21st capture group.<br/>
                                         ○ Match with 3 alternative expressions.<br/>
                                             ○ Match the string "16".<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [2468].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [048].<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [3579].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [26].<br/>
                                     ○ Match the string "00".<br/>
                         ○ Match '-'.<br/>
@@ -21122,10 +21147,10 @@
                             ○ 4th capture group.<br/>
                                 ○ Match with 2 alternative expressions.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match '1'.<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a character in the set [6-9].<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match a character in the set [2-9].<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a Unicode digit.<br/>
                             ○ Match a Unicode digit exactly 2 times.<br/>
                         ○ Match '-'.<br/>
@@ -21154,10 +21179,10 @@
                             ○ 9th capture group.<br/>
                                 ○ Match with 2 alternative expressions.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match '1'.<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a character in the set [6-9].<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match a character in the set [2-9].<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a Unicode digit.<br/>
                             ○ Match a Unicode digit exactly 2 times.<br/>
                         ○ Match '-'.<br/>
@@ -21184,10 +21209,10 @@
                             ○ 14th capture group.<br/>
                                 ○ Match with 2 alternative expressions.<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match '1'.<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a character in the set [6-9].<br/>
                                     ○ Match a sequence of expressions.<br/>
-                                        ○ Match a character in the set [2-9].<br/>
+                                        ○ Match an empty string.<br/>
                                         ○ Match a Unicode digit.<br/>
                             ○ Match a Unicode digit exactly 2 times.<br/>
                         ○ Match '-'.<br/>
@@ -21211,31 +21236,31 @@
                                     ○ 18th capture group.<br/>
                                         ○ Match with 2 alternative expressions.<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match '1'.<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [6-9].<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [2-9].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a Unicode digit.<br/>
                                     ○ 19th capture group.<br/>
                                         ○ Match with 3 alternative expressions.<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match '0'.<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [48].<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [2468].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [048].<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [13579].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [26].<br/>
                                 ○ 20th capture group.<br/>
                                     ○ 21st capture group.<br/>
                                         ○ Match with 3 alternative expressions.<br/>
                                             ○ Match the string "16".<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [2468].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [048].<br/>
                                             ○ Match a sequence of expressions.<br/>
-                                                ○ Match a character in the set [3579].<br/>
+                                                ○ Match an empty string.<br/>
                                                 ○ Match a character in the set [26].<br/>
                                     ○ Match the string "00".<br/>
                         ○ Match '-'.<br/>
@@ -21412,10 +21437,10 @@
                                     ○ Match '2'.<br/>
                                     ○ Match with 2 alternative expressions.<br/>
                                         ○ Match a sequence of expressions.<br/>
-                                            ○ Match '5'.<br/>
+                                            ○ Match an empty string.<br/>
                                             ○ Match a character in the set [0-5].<br/>
                                         ○ Match a sequence of expressions.<br/>
-                                            ○ Match a character in the set [0-4].<br/>
+                                            ○ Match an empty string.<br/>
                                             ○ Match a character in the set [0-9].<br/>
                                 ○ Match a sequence of expressions.<br/>
                                     ○ Match a character in the set [01].<br/>
@@ -21431,10 +21456,10 @@
                                     ○ Match '2'.<br/>
                                     ○ Match with 2 alternative expressions.<br/>
                                         ○ Match a sequence of expressions.<br/>
-                                            ○ Match '5'.<br/>
+                                            ○ Match an empty string.<br/>
                                             ○ Match a character in the set [0-5].<br/>
                                         ○ Match a sequence of expressions.<br/>
-                                            ○ Match a character in the set [0-4].<br/>
+                                            ○ Match an empty string.<br/>
                                             ○ Match a character in the set [0-9].<br/>
                                 ○ Match a sequence of expressions.<br/>
                                     ○ Match a character in the set [01].<br/>
@@ -21450,10 +21475,10 @@
                                     ○ Match '2'.<br/>
                                     ○ Match with 2 alternative expressions.<br/>
                                         ○ Match a sequence of expressions.<br/>
-                                            ○ Match '5'.<br/>
+                                            ○ Match an empty string.<br/>
                                             ○ Match a character in the set [0-5].<br/>
                                         ○ Match a sequence of expressions.<br/>
-                                            ○ Match a character in the set [0-4].<br/>
+                                            ○ Match an empty string.<br/>
                                             ○ Match a character in the set [0-9].<br/>
                                 ○ Match a sequence of expressions.<br/>
                                     ○ Match a character in the set [01].<br/>
@@ -21469,10 +21494,10 @@
                                     ○ Match '2'.<br/>
                                     ○ Match with 2 alternative expressions.<br/>
                                         ○ Match a sequence of expressions.<br/>
-                                            ○ Match '5'.<br/>
+                                            ○ Match an empty string.<br/>
                                             ○ Match a character in the set [0-5].<br/>
                                         ○ Match a sequence of expressions.<br/>
-                                            ○ Match a character in the set [0-4].<br/>
+                                            ○ Match an empty string.<br/>
                                             ○ Match a character in the set [0-9].<br/>
                                 ○ Match a sequence of expressions.<br/>
                                     ○ Match a character in the set [01].<br/>
@@ -26531,9 +26556,6 @@
         <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_hasTimeout">
             <summary>Whether <see cref="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout"/> is non-infinite.</summary>
         </member>
-        <member name="M:System.Text.RegularExpressions.Generated.Utilities.IndexOfAnyWhiteSpace(System.ReadOnlySpan{System.Char})">
-            <summary>Finds the next index of any character that matches a whitespace character.</summary>
-        </member>
         <member name="M:System.Text.RegularExpressions.Generated.Utilities.IndexOfNonAsciiOrAny_95064C55B42AF5461629EEF251E7B2E145398FFCBFBD713EF157A1B2DE7B6B11(System.ReadOnlySpan{System.Char})">
             <summary>Finds the next index of any character that matches a character in the set [\t"%&amp;*,/&lt;&gt;cg\s].</summary>
         </member>
@@ -26551,9 +26573,6 @@
         </member>
         <member name="M:System.Text.RegularExpressions.Generated.Utilities.StackPush(System.Int32[]@,System.Int32@,System.Int32,System.Int32,System.Int32)">
             <summary>Pushes 3 values onto the backtracking stack.</summary>
-        </member>
-        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_asciiExceptWhiteSpace">
-            <summary>Supports searching for characters in or not in "\0\u0001\u0002\u0003\u0004\u0005\u0006\a\b\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f!\"#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u007f".</summary>
         </member>
         <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_20FF03FEFFFF07FEFFFF07">
             <summary>Supports searching for characters in or not in "-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".</summary>
@@ -26588,8 +26607,17 @@
         <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_FFC1FFFF9A6BFFAFFFFFFFFF77FFFFFF">
             <summary>Supports searching for characters in or not in "\0\u0001\u0002\u0003\u0004\u0005\u0006\a\b\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f!#$'()+-.0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abdefhijklmnopqrstuvwxyz{|}~\u007f".</summary>
         </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_indexOfAnyStrings_OrdinalIgnoreCase_19F3DE3D1A11DE12E465FDA6D92AD39BD861E0139E0151994A15A42585BD677D">
+            <summary>Supports searching for the specified strings.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_indexOfAnyStrings_OrdinalIgnoreCase_32A8F218CE0926BCF87D9CA0D7073CB714902C72CAF0EEA25BB16F7EC15B43B2">
+            <summary>Supports searching for the specified strings.</summary>
+        </member>
         <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_nonAscii_7F5B1278888193BB55E90C209E921A8AE726FA72D91C3C471711E50DB9F43FE2">
             <summary>Supports searching for characters in or not in "?CDISUcdisuİ".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_whitespace">
+            <summary>Supports searching for characters in or not in "\t\n\v\f\r \u0085             \u2028\u2029  　".</summary>
         </member>
     </members>
 </doc>
