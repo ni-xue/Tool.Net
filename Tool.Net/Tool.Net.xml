@@ -16738,6 +16738,19 @@
             </summary>
             <returns>结果</returns>
         </member>
+        <member name="M:Tool.Utils.JsonVar.GetEnumerator">
+            <summary>
+            获取可以用于遍历Json的集合
+            </summary>
+            <returns><see cref="T:System.Collections.Generic.IEnumerator`1"/></returns>
+            <exception cref="T:System.Exception">不存在可以使用的集合</exception>
+        </member>
+        <member name="M:Tool.Utils.JsonVar.op_Implicit(Tool.Utils.JsonEnumerator)~Tool.Utils.JsonVar">
+            <summary>
+            JsonEnumerator
+            </summary>
+            <param name="value"></param>
+        </member>
         <member name="M:Tool.Utils.JsonVar.op_Implicit(System.Collections.Generic.Dictionary{System.String,System.Object})~Tool.Utils.JsonVar">
             <summary>
             <see cref="T:System.Collections.Generic.Dictionary`2"/>
@@ -16803,6 +16816,49 @@
             decimal
             </summary>
             <param name="value"></param>
+        </member>
+        <member name="T:Tool.Utils.JsonEnumerator">
+            <summary>
+            获取集合源
+            </summary>
+        </member>
+        <member name="M:Tool.Utils.JsonEnumerator.#ctor(Tool.Utils.JsonKeyKind,System.Object,Tool.Utils.JsonVar)">
+            <summary>
+            创建集合对象
+            </summary>
+            <param name="Kind">Key的类型</param>
+            <param name="Key">键名或下标</param>
+            <param name="Current">数据源</param>
+        </member>
+        <member name="P:Tool.Utils.JsonEnumerator.Kind">
+            <summary>
+            Key的类型
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.JsonEnumerator.Key">
+            <summary>
+            键名或下标
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.JsonEnumerator.Current">
+            <summary>
+            数据源
+            </summary>
+        </member>
+        <member name="T:Tool.Utils.JsonKeyKind">
+            <summary>
+            Key的类型
+            </summary>
+        </member>
+        <member name="F:Tool.Utils.JsonKeyKind.Key">
+            <summary>
+            字典类型
+            </summary>
+        </member>
+        <member name="F:Tool.Utils.JsonKeyKind.Index">
+            <summary>
+            数组类型
+            </summary>
         </member>
         <member name="T:Tool.Utils.Log">
             <summary>
@@ -26618,6 +26674,10 @@
         </member>
         <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_whitespace">
             <summary>Supports searching for characters in or not in "\t\n\v\f\r \u0085             \u2028\u2029  　".</summary>
+        </member>
+    </members>
+</doc>
+uİ".</summary>
         </member>
     </members>
 </doc>

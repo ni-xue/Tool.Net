@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Tool.Utils
 {
@@ -185,7 +186,7 @@ namespace Tool.Utils
     /// <summary>
     /// 一种获取 Json 格式数据的实现
     /// </summary>
-    public readonly struct JsonVar
+    public readonly struct JsonVar : IEnumerable<JsonEnumerator>
     {
         /// <summary>
         /// 大概确定 Json 数据的类型
@@ -254,7 +255,7 @@ namespace Tool.Utils
         {
             get
             {
-                if (ValueKind is JsonValueKind.Object && Data is IDictionary dic)
+                if (ValueKind is JsonValueKind.Object && Data is IDictionary dic && dic.Contains(name))
                 {
                     return new JsonVar(dic[name]);
                 }
@@ -366,6 +367,44 @@ namespace Tool.Utils
         }
 
         /// <summary>
+        /// 获取可以用于遍历Json的集合
+        /// </summary>
+        /// <returns><see cref="IEnumerator{JsonVar}"/></returns>
+        /// <exception cref="Exception">不存在可以使用的集合</exception>
+        public IEnumerator<JsonEnumerator> GetEnumerator()
+        {
+            switch (ValueKind)
+            {
+                case JsonValueKind.Object:
+                    if (Data is IDictionary dic)
+                    {
+                        var enumerator = dic.GetEnumerator();
+                        while (enumerator.MoveNext()) yield return new JsonEnumerator(JsonKeyKind.Key, enumerator.Key, new JsonVar(enumerator.Value));
+                    }
+                    break;
+                case JsonValueKind.Array:
+                    if (Data is IList list)
+                    {
+                        for (int i = 0; i < list.Count; i++) yield return new JsonEnumerator(JsonKeyKind.Index, i, new JsonVar(list[i]));
+                    }
+                    break;
+                default:
+                    throw new Exception("不存在可以使用的集合！");
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        /// <summary>
+        /// JsonEnumerator
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator JsonVar(JsonEnumerator value) => value.Current;
+
+        /// <summary>
         /// <see cref="Dictionary{String, Object}"/>
         /// </summary>
         /// <param name="value"></param>
@@ -430,5 +469,54 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="value"></param>
         public static implicit operator decimal(JsonVar value) => value.GetVar<decimal>();
+    }
+
+    /// <summary>
+    /// 获取集合源
+    /// </summary>
+    public readonly struct JsonEnumerator
+    {
+        /// <summary>
+        /// 创建集合对象
+        /// </summary>
+        /// <param name="Kind">Key的类型</param>
+        /// <param name="Key">键名或下标</param>
+        /// <param name="Current">数据源</param>
+        public JsonEnumerator(JsonKeyKind Kind, object Key, JsonVar Current)
+        {
+            this.Kind = Kind;
+            this.Key = Key;
+            this.Current = Current;
+        }
+
+        /// <summary>
+        /// Key的类型
+        /// </summary>
+        public JsonKeyKind Kind { get; }
+
+        /// <summary>
+        /// 键名或下标
+        /// </summary>
+        public object Key { get; }
+
+        /// <summary>
+        /// 数据源
+        /// </summary>
+        public JsonVar Current { get; }
+    }
+
+    /// <summary>
+    /// Key的类型
+    /// </summary>
+    public enum JsonKeyKind
+    {
+        /// <summary>
+        /// 字典类型
+        /// </summary>
+        Key,
+        /// <summary>
+        /// 数组类型
+        /// </summary>
+        Index
     }
 }

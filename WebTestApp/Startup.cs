@@ -265,6 +265,50 @@ namespace WebTestApp
             //s.ActionMethods[0].Action.Invoke()
 
             //var s = ActionHelper<ApplicationBuilder>.GetActionMethodHelper(MethodFlags.Private);
+            string jsonstr = "{\"Inbound\":{\"TcpList\":{\"50\":{\"Ip\":\"0.0.0.0\",\"Auth\":null,\"ServeId\":6060,\"P2P\":true,\"Exolain\":\"描述\",\"Open\":true}},\"UdpList\":{\"50\":{\"Ip\":\"0.0.0.0\",\"Auth\":null,\"ServeId\":6060,\"P2P\":true,\"Exolain\":\"描述\",\"Open\":true}}},\"Outbound\":{\"TcpList\":{\"50\":{\"Ip\":\"0.0.0.0\",\"Port\":6060,\"AuthList\":null,\"P2P\":true,\"Open\":true,\"Exolain\":\"描述\"}},\"UdpList\":{\"50\":{\"Ip\":\"0.0.0.0\",\"Port\":6060,\"AuthList\":null,\"P2P\":true,\"Open\":true,\"Exolain\":\"描述\"}}}}";
+            JsonVar jsonVar = jsonstr.JsonVar();
+
+            foreach (var item in jsonVar)
+            {
+                Console.WriteLine(item.Key + ":" + item.Current.ToString());
+                foreach (var item0 in item.Current)
+                {
+                    Console.WriteLine(item0.Key + ":" + item0.Current.ToString());
+                    foreach (var item1 in item0.Current)
+                    {
+                        Console.WriteLine(item1.Key + ":" + item1.Current.ToString());
+                        foreach (var item2 in item1.Current)
+                        {
+                            Console.WriteLine(item2.Key + ":" + item2.Current.ToString());
+                        }
+                    }
+                }
+            }
+
+            if (jsonVar.TryGet(out var Inbound, "Inbound"))
+            {
+                if (Inbound.TryGet(out var TcpList, "TcpList"))
+                {
+                    //foreach (var item in TcpList)
+                    //{
+
+                    //}
+                    if (TcpList)
+                    {
+
+                    }
+                    if (true)
+                    {
+
+                    }
+                    //InServerInfo
+                }
+                if (Inbound.TryGet(out var UdpList, "UdpList"))
+                {
+                    //InServerInfo
+                }
+                //InServerInfo
+            }
 
             EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
             EnumEventQueue.OnInterceptor(EnClient.Receive, true);
