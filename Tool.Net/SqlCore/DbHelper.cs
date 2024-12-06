@@ -1631,13 +1631,9 @@ namespace Tool.SqlCore
         public DataSet ExecuteDataSet(CommandType commandType, string commandText, params DbParameter[] commandParameters)
         {
             IsNullConnectionString();
-            DataSet result;
-            using (DbConnection dbConnection = NewDbConnection())
-            {
-                //dbConnection.Open();
-                result = this.ExecuteDataSet(dbConnection, commandType, commandText, commandParameters);
-            }
-            return result;
+            using DbConnection dbConnection = NewDbConnection();
+            //dbConnection.Open();
+            return this.ExecuteDataSet(dbConnection, commandType, commandText, commandParameters);
         }
 
         /// <summary>
@@ -1818,17 +1814,9 @@ namespace Tool.SqlCore
         public async Task<DataSet> ExecuteDataSetAsync(CommandType commandType, string commandText, params DbParameter[] commandParameters)
         {
             IsNullConnectionString();
-            async Task<DataSet> ExecuteDataSetAsync()
-            {
-                DataSet result;
-                using (DbConnection dbConnection = NewDbConnection())
-                {
-                    //await dbConnection.OpenAsync();
-                    result = await this.ExecuteDataSetAsync(dbConnection, commandType, commandText, commandParameters);
-                }
-                return result;
-            }
-            return await ExecuteDataSetAsync();
+            await using DbConnection dbConnection = NewDbConnection();
+            //await dbConnection.OpenAsync();
+            return await this.ExecuteDataSetAsync(dbConnection, commandType, commandText, commandParameters);
         }
 
         /// <summary>
@@ -1924,7 +1912,9 @@ namespace Tool.SqlCore
 
         private async Task<DataSet> ExecuteDataSetAsync(DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DbParameter[] commandParameters)
         {
-            using var reader = await this.ExecuteReaderAsync(connection, transaction, commandType, commandText, commandParameters, DbHelper.DbConnectionOwnership.External);
+            var watch = GetStopwatch();
+            if (transaction is null && connection.State is not ConnectionState.Open) await connection.OpenAsync();
+            using var reader = await this.ExecuteReaderAsync(connection, transaction, commandType, commandText, commandParameters, DbHelper.DbConnectionOwnership.External, watch: watch);
             var dataSet = await reader.GetDataSetAsync();
             return dataSet;
         }
@@ -2113,13 +2103,9 @@ namespace Tool.SqlCore
         public int ExecuteNonQuery(CommandType commandType, string commandText, params DbParameter[] commandParameters)
         {
             IsNullConnectionString();
-            int result;
-            using (DbConnection dbConnection = NewDbConnection())
-            {
-                //dbConnection.Open();
-                result = this.ExecuteNonQuery(dbConnection, commandType, commandText, commandParameters);
-            }
-            return result;
+            using DbConnection dbConnection = NewDbConnection();
+            //dbConnection.Open();
+            return this.ExecuteNonQuery(dbConnection, commandType, commandText, commandParameters);
         }
 
         /// <summary>
@@ -2336,7 +2322,7 @@ namespace Tool.SqlCore
         public async Task<int> ExecuteNonQueryAsync(CommandType commandType, string commandText, params DbParameter[] commandParameters)
         {
             IsNullConnectionString();
-            using DbConnection dbConnection = NewDbConnection();
+            await using DbConnection dbConnection = NewDbConnection();
             //await dbConnection.OpenAsync();
             return await this.ExecuteNonQueryAsync(dbConnection, commandType, commandText, commandParameters);
         }
@@ -2547,7 +2533,7 @@ namespace Tool.SqlCore
         public async Task<DbTransResult> TransExecuteNonQueryAsync(params SqlTextParameter[] sqlTexts)
         {
             IsNullConnectionString();
-            using DbConnection dbConnection = NewDbConnection();
+            await using DbConnection dbConnection = NewDbConnection();
             await dbConnection.OpenAsync();
 
             DbTransaction transaction = await dbConnection.BeginTransactionAsync();
@@ -2582,13 +2568,8 @@ namespace Tool.SqlCore
         public int ExecuteNonQuery(out object id, CommandType commandType, string commandText, params DbParameter[] commandParameters)
         {
             IsNullConnectionString();
-            int result;
-            using (DbConnection dbConnection = NewDbConnection())
-            {
-                //dbConnection.Open();
-                result = this.ExecuteNonQuery(out id, dbConnection, commandType, commandText, commandParameters);
-            }
-            return result;
+            using DbConnection dbConnection = NewDbConnection();
+            return this.ExecuteNonQuery(out id, dbConnection, commandType, commandText, commandParameters);
         }
 
         /// <summary>
@@ -2717,7 +2698,7 @@ namespace Tool.SqlCore
         public async Task<SqlNonQuery> ExecuteNonQueryIdAsync(CommandType commandType, string commandText, params DbParameter[] commandParameters)
         {
             IsNullConnectionString();
-            using DbConnection dbConnection = NewDbConnection();
+            await using DbConnection dbConnection = NewDbConnection();
             //await dbConnection.OpenAsync();
             return await this.ExecuteNonQueryIdAsync(dbConnection, commandType, commandText, commandParameters);
         }
@@ -3203,7 +3184,7 @@ namespace Tool.SqlCore
             DbDataReader result;
             try
             {
-                dbConnection = NewDbConnection(); 
+                dbConnection = NewDbConnection();
                 var watch = GetStopwatch();
                 await dbConnection.OpenAsync();
                 result = await this.ExecuteReaderAsync(dbConnection, null, commandType, commandText, commandParameters, DbHelper.DbConnectionOwnership.Internal, watch: watch);
@@ -3516,13 +3497,9 @@ namespace Tool.SqlCore
         public object ExecuteScalar(CommandType commandType, string commandText, params DbParameter[] commandParameters)
         {
             IsNullConnectionString();
-            object result;
-            using (DbConnection dbConnection = NewDbConnection())
-            {
-                //dbConnection.Open();
-                result = this.ExecuteScalar(dbConnection, commandType, commandText, commandParameters);
-            }
-            return result;
+            using DbConnection dbConnection = NewDbConnection();
+            //dbConnection.Open();
+            return this.ExecuteScalar(dbConnection, commandType, commandText, commandParameters);
         }
 
         /// <summary>
@@ -3666,13 +3643,9 @@ namespace Tool.SqlCore
         public async Task<object> ExecuteScalarAsync(CommandType commandType, string commandText, params DbParameter[] commandParameters)
         {
             IsNullConnectionString();
-            object result;
-            using (DbConnection dbConnection = NewDbConnection())
-            {
-                //dbConnection.Open();
-                result = await this.ExecuteScalarAsync(dbConnection, commandType, commandText, commandParameters);
-            }
-            return result;
+            using DbConnection dbConnection = NewDbConnection();
+            //dbConnection.Open();
+            return await this.ExecuteScalarAsync(dbConnection, commandType, commandText, commandParameters);
         }
 
         /// <summary>

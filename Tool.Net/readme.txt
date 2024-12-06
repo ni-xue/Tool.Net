@@ -4,7 +4,7 @@
 
 2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils）
 
-3. 当前版本（5.4.0）为正式版，用于任何项目开发使用。 
+3. 当前版本（5.4.2）为正式版，用于任何项目开发使用。 
 
 4. 架构基于 .Net9（兼容 .Net8、.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
 
@@ -780,8 +780,13 @@ _ = Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(GetIntAsync).ContinueWith((a)
 7. 对象下GetValue 和 SetValue 在有意隐藏上级变量时，会出现报错，无法使用问题，目前已修复。
 6. 部分功能及实现优化，已知问题修复等。
 8. 隐藏福利，在线文档已就绪初版虽然不完善，但会持续完善维护，http://tool.nixue.top/
-  5.4.1 - 正式版 - 重大改变
+  5.4.1 - 正式版 - 修复漏洞
 1. 主要是修复 EnumEventQueue.OnInterceptor(EnServer.Receive, true); 设置后行为是颠倒的
+
+  ------------2024/12/06------------
+  5.4.2 - 正式版 - 修复漏洞
+1. dbHelper.ExecuteDataSetAsync 异步获取 DataSet 对象 数据时，因被系统回收资源导致 返回时发生报错。
+2. 优化异步打开Sql连接后，采用异步关闭模式。
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。

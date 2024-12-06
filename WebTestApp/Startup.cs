@@ -284,7 +284,7 @@ namespace WebTestApp
             //var dic = dbHelper.SelectDictionaryAsync("SELECT TOP (10000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];").Result;
 
             //var array = dbHelper.SelectArrayAsync("SELECT TOP (10000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID  = 1 }).Result;
-
+            var dataSet = dbHelper.ExecuteDataSetAsync("SELECT TOP (10000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 1 }).Result;
             DiyDbBatch diyDbBatch = dbHelper.NewDbBatch(IsolationLevel.Unspecified);
             diyDbBatch.AddDbBatchCommand(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 1 });
             diyDbBatch.AddDbBatchCommand(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 2 });
