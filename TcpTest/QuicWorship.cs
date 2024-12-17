@@ -49,7 +49,7 @@ namespace TcpTest
             QuicServerAsync server = new(NetBufferSize.Default, true);
             server.SetInitCertificate(async (conn, ssl) =>
             {
-                X509Certificate2 certificate2 = new("nixue.top.pfx", "au1pcpa1");
+                X509Certificate2 certificate2 = X509CertificateLoader.LoadPkcs12FromFile("nixue.top.pfx", "au1pcpa1");
                 await Console.Out.WriteLineAsync($"发送证书：{certificate2.Subject}");
                 return certificate2;
             });

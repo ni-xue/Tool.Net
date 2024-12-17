@@ -80,7 +80,7 @@ namespace Tool.Sockets.UdpHelper.Extend
         private readonly int replyDelay;
         private readonly INetworkCore networkCore;
         private readonly Func<UserKey, byte, ValueTask> complete;
-        private readonly UdpStateObject udpState;
+        private readonly UdpStateObject udpState;//TaskCompletionSource
         //private readonly PipeWriter sendwriter;
         //private readonly PipeWriter receivewriter;
         private readonly ConcurrentDictionary<uint, Pack> packInfos; //发送数据包存根
@@ -98,7 +98,7 @@ namespace Tool.Sockets.UdpHelper.Extend
             this.isserver = isserver;
             this._loading = !isserver;
             this.isp2p = isp2p;
-            this.networkCore = networkCore ?? throw new ArgumentNullException(nameof(complete));
+            this.networkCore = networkCore ?? throw new ArgumentNullException(nameof(networkCore));
             this.complete = complete ?? throw new ArgumentNullException(nameof(complete));
             adoptBufferSizs = IPAddress.IsLoopback(endPoint.Address) || TextUtility.IsPrivateNetwork(endPoint.Address) ? IntranetBufferSizs : InternetBufferSizs;
 
@@ -363,21 +363,16 @@ namespace Tool.Sockets.UdpHelper.Extend
                 else
                 {
                     //验证是不是需要重发数据包？
-
-                    if ((isserver || isp2p) && udpState.IsKeepAlive(in memory))
+                    //else
+                    //{
+                    await SendNoWaitAsync(memory[..StateObject.HeadSize]);
+                    BytesCore owner = new(memory.Length);
+                    owner.SetMemory(in memory);
+                    if (!block.Post(new ProtocolBody(in protocol, in owner)))
                     {
-                        await complete(udpState.IpPort, 0);
+                        throw new Exception("缓冲池已关闭！");
                     }
-                    else
-                    {
-                        await SendNoWaitAsync(memory[..StateObject.HeadSize]);
-                        BytesCore owner = new(memory.Length);
-                        owner.SetMemory(in memory);
-                        if (!block.Post(new ProtocolBody(in protocol, in owner)))
-                        {
-                            throw new Exception("缓冲池已关闭！");
-                        }
-                    }
+                    //}
 
                     //try
                     //{
@@ -393,6 +388,10 @@ namespace Tool.Sockets.UdpHelper.Extend
                     //    throw;
                     //}
                 }
+            }
+            else if ((isserver || isp2p) && udpState.IsKeepAlive(in memory))
+            {
+                await complete(udpState.IpPort, 0);
             }
         }
 
@@ -663,7 +662,7 @@ namespace Tool.Sockets.UdpHelper.Extend
             }
         }
 
-        private async ValueTask FirstLoading() 
+        private async ValueTask FirstLoading()
         {
             if (!_loading)
             {

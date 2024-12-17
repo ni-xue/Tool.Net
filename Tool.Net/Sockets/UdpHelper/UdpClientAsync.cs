@@ -206,7 +206,7 @@ namespace Tool.Sockets.UdpHelper
                         if (udp is not null)
                         {
                             await SendNoWaitAsync(udp.UdpState.GetKeepObj());
-                            if (TryP2PConnect is not null) await OnComplete(Server, EnClient.HeartBeat);
+                            if (TryP2PConnect is null) await OnComplete(Server, EnClient.HeartBeat);
                         }
                     });
                     return;

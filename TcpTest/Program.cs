@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Reflection.PortableExecutable;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Threading;
 using Tool;
 using Tool.Sockets.Kernels;
 using Tool.Sockets.NetFrame;
@@ -28,12 +29,12 @@ namespace TcpTest
         public string? b { get; set; }
         public DateTime? c { get; init; } = DateTime.Now;
 
-        public string b1;
+        public string b1 = string.Empty;
     }
 
     public class Abc : Def
     {
-        public new string b1;
+        public new string b1 = string.Empty;
 
         public new int? a { get; init; }
         public new string? b { get; set; }
@@ -43,21 +44,21 @@ namespace TcpTest
         public double? f;
         public decimal? g { get; init; }
 
-        protected object s => throw new AggregateException();
+        protected object? s => throw new AggregateException();
 
-        protected static object a1 { get; set; }
+        protected static object? a1 { get; set; }
 
-        private static object a2 { get; set; }
+        private static object? a2 { get; set; }
 
-        public static object a3 { get; set; }
+        public static object? a3 { get; set; }
 
-        protected static object a4;
+        protected static object? a4;
 
-        private static object a5;
+        private static object? a5;
 
-        public static object a6;
+        public static object? a6;
 
-        private readonly string rest;
+        private readonly string rest = string.Empty;
     }
 
     [SupportedOSPlatform("windows")]
@@ -273,67 +274,67 @@ namespace TcpTest
             //Console.ReadKey();
             //chaxun();
 
-            UdpServerAsync serverAsync = new(NetBufferSize.Size256K, true) { Millisecond = 0 /*ReceiveTimeout = 5000*/ };
-            serverAsync.SetCompleted((age0, age1, age2) => age1 != EnServer.SendMsg ? Completed($"UDPServer{i0.Increment()}", age0, age1, age2) : ValueTask.CompletedTask);
-            serverAsync.SetReceived(async a =>
-            {
-                //await Console.Out.WriteLineAsync($"当前位：{a.OrderCount()} 原子计数：{i0.Increment()}");
-                if (a.Length > 2)
-                {
-                    await serverAsync.SendAsync(a.Client, "ok");
-                }
-                a.Dispose();
-            });
-            await serverAsync.StartAsync(12344);
+            //UdpServerAsync serverAsync = new(NetBufferSize.Size256K, true) { Millisecond = 0 /*ReceiveTimeout = 5000*/ };
+            //serverAsync.SetCompleted((age0, age1, age2) => age1 != EnServer.SendMsg ? Completed($"UDPServer{i0.Increment()}", age0, age1, age2) : ValueTask.CompletedTask);
+            //serverAsync.SetReceived(async a =>
+            //{
+            //    //await Console.Out.WriteLineAsync($"当前位：{a.OrderCount()} 原子计数：{i0.Increment()}");
+            //    if (a.Length > 2)
+            //    {
+            //        await serverAsync.SendAsync(a.Client, "ok");
+            //    }
+            //    a.Dispose();
+            //});
+            //await serverAsync.StartAsync(12344);
 
             //for (int i = 0; i < 1; i++)
             //{
             //    await serverAsync.SendAsync("Hello Several .NET Aspire templates include ASP.NET Core projects that are configured to use HTTPS by default. If this is the first time you're running the project, and you're using Visual Studio, you're prompted to install a localhost certificate.\r\n\r\nThere are situations in which you trust/install the development certificate, but you don't close all your browser windows. In these cases, your browser might indicate that the certificate isn't trusted.\r\n\r\nThere are also situations where you don't trust the certificate at all. In these cases, your browser might indicate that the certificate isn't trusted.\r\n\r\nAdditionally, there are warning messages from Kestrel written to the console that indicate that the certificate is not trusted.");
             //}
 
-            Console.ReadKey();
+            //Console.ReadKey();
 
-            UdpClientAsync clientAsync = new(NetBufferSize.Size256K, true) { Millisecond = 0 /*ReceiveTimeout = 5000*/ };
-            clientAsync.SetCompleted((age0, age1, age2) => age1 != EnClient.SendMsg ? Completed($"UDPClient{i1.Increment()}", age0, age1, age2) : ValueTask.CompletedTask);
-            clientAsync.SetReceived(async a =>
-            {
-                //await Console.Out.WriteLineAsync($"当前位：{a.OrderCount()} 原子计数：{i0.Increment()}");
-                if (a.Length > 2)
-                {
-                    await clientAsync.SendAsync("ok");
-                }
-                a.Dispose();
-            });
-            await clientAsync.ConnectAsync(12344);
+            //UdpClientAsync clientAsync = new(NetBufferSize.Size256K, true) { Millisecond = 0 /*ReceiveTimeout = 5000*/ };
+            //clientAsync.SetCompleted((age0, age1, age2) => age1 != EnClient.SendMsg ? Completed($"UDPClient{i1.Increment()}", age0, age1, age2) : ValueTask.CompletedTask);
+            //clientAsync.SetReceived(async a =>
+            //{
+            //    //await Console.Out.WriteLineAsync($"当前位：{a.OrderCount()} 原子计数：{i0.Increment()}");
+            //    if (a.Length > 2)
+            //    {
+            //        await clientAsync.SendAsync("ok");
+            //    }
+            //    a.Dispose();
+            //});
+            //await clientAsync.ConnectAsync(12344);
 
-            for (int i = 0; i < 1000; i++)
-            {
-                await clientAsync.SendAsync(
-                    @"Hello Several .NET Aspire templates include ASP.NET Core projects that are configured to use HTTPS by default. 
-                    If this is the first time you're running the project, and you're using Visual Studio, you're prompted to install a
-                     localhost certificate.\r\n\r\nThere are situations in which you trust/install the development certificate, but you 
-                    don't close all your browser windows. In these cases, your browser might indicate that the certificate isn't trusted.
-                    \r\n\r\nThere are also situations where you don't trust the certificate at all. In these cases, your browser might indicate 
-                    that the certificate isn't trusted.\r\n\r\nAdditionally, there are warning messages from Kestrel written to the console that 
-                    indicate that the certificate is not trusted.
+            //for (int i = 0; i < 1000; i++)
+            //{
+            //    await clientAsync.SendAsync(
+            //        @"Hello Several .NET Aspire templates include ASP.NET Core projects that are configured to use HTTPS by default. 
+            //        If this is the first time you're running the project, and you're using Visual Studio, you're prompted to install a
+            //         localhost certificate.\r\n\r\nThere are situations in which you trust/install the development certificate, but you 
+            //        don't close all your browser windows. In these cases, your browser might indicate that the certificate isn't trusted.
+            //        \r\n\r\nThere are also situations where you don't trust the certificate at all. In these cases, your browser might indicate 
+            //        that the certificate isn't trusted.\r\n\r\nAdditionally, there are warning messages from Kestrel written to the console that 
+            //        indicate that the certificate is not trusted.
 
-                    实例 Stopwatch 可以测量一个间隔的已用时间，或跨多个间隔的总已用时间。 在典型Stopwatch方案中，
-                    调用 Start 方法，最终调用 Stop 方法，然后使用 属性检查运行时间Elapsed。
+            //        实例 Stopwatch 可以测量一个间隔的已用时间，或跨多个间隔的总已用时间。 在典型Stopwatch方案中，
+            //        调用 Start 方法，最终调用 Stop 方法，然后使用 属性检查运行时间Elapsed。
                     
-                    Stopwatch实例正在运行或已停止;使用 IsRunning 确定 的Stopwatch当前状态。 使用 Start 开始测量已用时间;使用 Stop 停止测量已用时间。 
-                    通过属性 Elapsed、 ElapsedMilliseconds或 ElapsedTicks查询已用时间值。 可以在实例正在运行或停止时查询已用时间属性。 运行时间属性在 Stopwatch 运行时稳步增加;当实例停止时，它们保持不变。
+            //        Stopwatch实例正在运行或已停止;使用 IsRunning 确定 的Stopwatch当前状态。 使用 Start 开始测量已用时间;使用 Stop 停止测量已用时间。 
+            //        通过属性 Elapsed、 ElapsedMilliseconds或 ElapsedTicks查询已用时间值。 可以在实例正在运行或停止时查询已用时间属性。 运行时间属性在 Stopwatch 运行时稳步增加;当实例停止时，它们保持不变。
                     
-                    默认情况下，实例的已用时间值 Stopwatch 等于所有测量时间间隔的总和。 对 的每个调用 Start 在累积运行时间开始计数;
-                    对 的每次调用 Stop 将结束当前间隔度量并冻结累积已用时间值。 Reset使用 方法清除现有Stopwatch实例中的累积运行时间。
+            //        默认情况下，实例的已用时间值 Stopwatch 等于所有测量时间间隔的总和。 对 的每个调用 Start 在累积运行时间开始计数;
+            //        对 的每次调用 Stop 将结束当前间隔度量并冻结累积已用时间值。 Reset使用 方法清除现有Stopwatch实例中的累积运行时间。
                     
-                    通过 Stopwatch 对基础计时器机制中的计时器计时周期进行计数来测量运行时间。 如果安装的硬件和操作系统支持高分辨率性能计数器，
-                    则 Stopwatch 类使用该计数器来测量运行时间。 否则， Stopwatch 类使用系统计时器来测量已用时间。 Frequency使用 和 IsHighResolution 字段确定计时实现的Stopwatch精度和分辨率。
+            //        通过 Stopwatch 对基础计时器机制中的计时器计时周期进行计数来测量运行时间。 如果安装的硬件和操作系统支持高分辨率性能计数器，
+            //        则 Stopwatch 类使用该计数器来测量运行时间。 否则， Stopwatch 类使用系统计时器来测量已用时间。 Frequency使用 和 IsHighResolution 字段确定计时实现的Stopwatch精度和分辨率。
                     
-                    类 Stopwatch 有助于在托管代码中操作与计时相关的性能计数器。 具体而言， Frequency 字段和 GetTimestamp 方法可用于代替非托管 
-                    Windows API QueryPerformanceFrequency 和 QueryPerformanceCounter。");
-            }
+            //        类 Stopwatch 有助于在托管代码中操作与计时相关的性能计数器。 具体而言， Frequency 字段和 GetTimestamp 方法可用于代替非托管 
+            //        Windows API QueryPerformanceFrequency 和 QueryPerformanceCounter。");
+            //}
 
-            Console.ReadKey();
+            //Console.ReadKey();
             //await PipeAsync();
 
             //P2pClientAsync.TimedDelay = 60000;
@@ -350,7 +351,7 @@ namespace TcpTest
 
             await Console.Out.WriteLineAsync($"尝试P2P：{DateTime.Now:yyyy/MM/dd HH:mm:ss:fffffff}");
 
-#if false
+#if true
             P2pServerAsync p2PServerAsync0 = await P2pServerAsync.GetFreeTcp();
             P2pServerAsync p2PServerAsync1 = await P2pServerAsync.GetFreeTcp();
 
@@ -427,6 +428,10 @@ namespace TcpTest
             //var a3 = BitConverter.ToUInt16(data.Reverse().ToArray());
 
 #endif
+            
+
+            //using Tool.Utils.TaskHelper.TaskWithTimeout taskWith = new(TimeSpan.FromMilliseconds(10000));
+            //await taskWith;
 
             //var re = await Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue<int>(GetIntAsync);
             //await Tool.Utils.ThreadQueue.TaskQueue.StaticEnqueue(Main, args);

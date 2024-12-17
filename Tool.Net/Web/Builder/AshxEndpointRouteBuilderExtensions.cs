@@ -24,6 +24,7 @@ namespace Microsoft.AspNetCore.Builder
     /// <summary>
     /// 终结点模式扩展
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public static class AshxEndpointRouteBuilderExtensions
     {
         /// <summary>

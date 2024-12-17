@@ -13,6 +13,7 @@ namespace Tool.Utils.ActionDelegate
     /// <summary>
     /// 创建通用调用函数模型
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public static class DispatcherCore
     {
         internal readonly static MethodInfo AsTask = typeof(ValueTask).GetMethod("AsTask");

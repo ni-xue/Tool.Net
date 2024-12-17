@@ -68,6 +68,7 @@ namespace TcpFrameTest
         [DataNet(104)]
         public async Task<IGoOut> E(string a)
         {
+            //await Task.Delay(1000);
             return await WriteAsync(a);
         }
 

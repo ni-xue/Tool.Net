@@ -5,6 +5,7 @@ using Tool.Sockets.Kernels;
 using Tool.Utils;
 using Tool.Utils.Data;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Tool.Sockets.NetFrame.Internal
 {
@@ -44,7 +45,7 @@ namespace Tool.Sockets.NetFrame.Internal
         internal static void SetSendFail(this ThreadObj threadObj, in Exception ex)
         {
             threadObj.Error = ex;
-            threadObj.State = NetFrameState.SendFail;
+            threadObj.Set(NetFrameState.SendFail);
         }
     }
 
@@ -53,25 +54,30 @@ namespace Tool.Sockets.NetFrame.Internal
      */
     internal class ThreadObj : IDisposable
     {
-        private readonly bool IsReply;
+        internal readonly bool IsReply;
+        internal readonly Guid OnlyId;
 
         private bool disposedValue;
-        private ManualResetEventSlim ResetEven;
+        //private ManualResetEventSlim ResetEven;
         internal NetFrameState State;
         internal Exception Error;
         internal IDataPacket Packet;
 
-        public ThreadObj(bool isreply)
+        private TaskCompletionSource<NetResponse> source;
+
+        public ThreadObj(Guid clmidmt, bool isreply)
         {
+            OnlyId = clmidmt;
             IsReply = isreply;
-            ResetEven = new ManualResetEventSlim(false, 50);//ManualResetEvent(false);
+            //ResetEven = new ManualResetEventSlim(false, 50);//ManualResetEvent(false);
+            source = new(TaskCreationOptions.RunContinuationsAsynchronously);
         }
 
-        public NetResponse GetResponse(in Guid onlyId)
+        private NetResponse GetResponse()
         {
             if (State > NetFrameState.Default)
             {
-                return new NetResponse(in onlyId, IsReply, State, Error);
+                return new NetResponse(in OnlyId, IsReply, State, Error);
             }
             else if (Packet is not null)
             {
@@ -79,25 +85,16 @@ namespace Tool.Sockets.NetFrame.Internal
             }
             else
             {
-                return new NetResponse(in onlyId, IsReply, NetFrameState.Exception, new Exception("意料之外的异常，不因发生！"));
+                return new NetResponse(in OnlyId, IsReply, NetFrameState.Exception, new Exception("意料之外的异常，不因发生！"));
             }
         }
-
-        ///// <summary>
-        ///// 初始化
-        ///// </summary>
-        //public void Reset()
-        //{
-        //    State = NetFrameState.Default;
-        //    Error = null;
-        //    Packet = null;
-        //}
 
         private bool Set()
         {
             if (!disposedValue)
             {
-                ResetEven.Set();
+                source.TrySetResult(GetResponse());
+                //ResetEven.Set();
                 return true;
             }
             return false;
@@ -109,22 +106,29 @@ namespace Tool.Sockets.NetFrame.Internal
             return Set();
         }
 
-        public bool Set(NetFrameState state)
+        public bool Set(in NetFrameState state)
         {
             State = state;
             return Set();
         }
 
-        public bool WaitOne(int Millisecond)
+        public async Task<NetResponse> WaitResponse(int Millisecond, ThreadUuIdObj threadUuIdObj)
         {
             if (IsReply)
             {
-                return ResetEven.Wait(Millisecond);
+                using CancellationTokenSource cts = new(Millisecond);
+                cts.Token.UnsafeRegister((state) =>
+                {
+                    threadUuIdObj.SetTimeout(in OnlyId, this);
+                }, null);
+                //return ResetEven.Wait(Millisecond);
+                return await source.Task;
             }
             else
             {
                 State = NetFrameState.Success;
-                return true;
+                Set();
+                return await source.Task;
             }
         }
 
@@ -145,10 +149,11 @@ namespace Tool.Sockets.NetFrame.Internal
             if (!disposedValue)
             {
                 disposedValue = true;
-                ResetEven.Dispose();
+                //ResetEven.Dispose();
                 Error = null;
                 Packet = null;
-                ResetEven = null;
+                source = null;
+                //ResetEven = null;
             }
             GC.SuppressFinalize(this);
         }
@@ -175,7 +180,7 @@ namespace Tool.Sockets.NetFrame.Internal
             threadObj = default;
             return false;
 
-            ThreadObj AddThreadObj(Guid clmidmt) => new(isreply);
+            ThreadObj AddThreadObj(Guid clmidmt) => new(clmidmt, isreply);
             ThreadObj UpdateThreadObj(Guid clmidmt, ThreadObj removeThreadObj)
             {
                 removeThreadObj.Set(NetFrameState.OnlyID);
@@ -186,13 +191,18 @@ namespace Tool.Sockets.NetFrame.Internal
         internal void SetTimeout(in Guid onlyId, ThreadObj threadObj)
         {
             //if (pairs.TryRemove(onlyId, out var threadObj)) threadObj.State = NetFrameState.Timeout;
-            if (pairs.TryRemove(new(onlyId, threadObj))) threadObj.State = NetFrameState.Timeout;
+            if (Destroy(in onlyId, in threadObj)) threadObj.Set(NetFrameState.Timeout);
         }
 
         internal void SetException(in Guid onlyId, ThreadObj threadObj, Exception ex)
         {
             //if (pairs.TryRemove(onlyId, out var threadObj)) threadObj.SetSendFail(ex);
-            if (pairs.TryRemove(new(onlyId, threadObj))) threadObj.SetSendFail(ex);
+            if (Destroy(in onlyId, in threadObj)) threadObj.SetSendFail(ex);
+        }
+
+        private bool Destroy(in Guid onlyId, in ThreadObj threadObj) 
+        {
+            return pairs.TryRemove(new(onlyId, threadObj));
         }
 
         internal bool Complete(in Guid clmidmt, out ThreadObj Threads)

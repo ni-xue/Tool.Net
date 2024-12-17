@@ -9,6 +9,7 @@ namespace Tool.Utils
     /// <summary>
     /// 验证码帮助类
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     [SupportedOSPlatform("windows")]
     public static class VerificCodeHelper
     {

@@ -7,6 +7,7 @@ namespace Microsoft.Extensions.Hosting
     /// <summary>
     /// HostBuilder扩展
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public static class HostBuilderExtensions
     {
         /// <summary>

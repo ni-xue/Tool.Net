@@ -20,6 +20,7 @@ namespace Microsoft.AspNetCore.Builder //Tool.Web.Builder
     /// <summary>
     /// Ashx 核心路由 扩展类
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public static class AshxApplicationBuilderExtensions
     {
         /// <summary>

@@ -34,6 +34,7 @@
             <summary>
             图片压缩帮助类
             </summary>
+            <remarks>代码由逆血提供支持</remarks>
         </member>
         <member name="M:Tool.Utils.ImageHelper.GetEncoderInfo(System.String)">
             <summary>

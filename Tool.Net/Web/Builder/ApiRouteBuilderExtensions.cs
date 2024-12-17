@@ -11,6 +11,7 @@ namespace Microsoft.AspNetCore.Builder  //Tool.Web.Builder
     /// <summary>
     /// Ashx 路由模式扩展
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public static class ApiRouteBuilderExtensions
     {
 

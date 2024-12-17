@@ -387,7 +387,7 @@ namespace Tool.Sockets.QuicHelper
                     //如果发生异常，说明客户端失去连接，触发关闭事件
                     await InsideClose();
                     await OnComplete(obj.SocketKey, EnClient.Close);
-                    await StartReconnect();
+                    if (!await StartReconnect()) isClose = true;
                     break;
                 } //Thread.Sleep(Millisecond);
             }
@@ -423,7 +423,7 @@ namespace Tool.Sockets.QuicHelper
                 //    //await Received.InvokeAsync(obj.IpPort, ListData);
                 //}
 
-                if (result.IsCompleted) isClose = true;
+                //if (result.IsCompleted) isClose = true;
             }
             catch (Exception ex)
             {
@@ -488,14 +488,16 @@ namespace Tool.Sockets.QuicHelper
             }
         }
 
-        private async Task StartReconnect()
+        private async Task<bool> StartReconnect()
         {
             if (IsReconnect && !isWhileReconnect)
             {
                 isWhileReconnect = true;
                 await OnComplete(Server, EnClient.Reconnect);
                 StateObject.StartTask("Quic重连", WhileReconnect);
+                return true;
             }
+            return false;
         }
 
         #endregion
@@ -564,7 +566,7 @@ namespace Tool.Sockets.QuicHelper
         public async ValueTask CloseAsync()
         {
             IsReconnect = false;
-            isClose = true;
+            //isClose = true;
             await InsideClose();
             Keep?.Close();
         }

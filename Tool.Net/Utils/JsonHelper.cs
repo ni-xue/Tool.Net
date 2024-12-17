@@ -194,6 +194,11 @@ namespace Tool.Utils
         public JsonValueKind ValueKind { get; }
 
         /// <summary>
+        /// 判断是否支持枚举器
+        /// </summary>
+        public bool IsEnumerator => ValueKind is JsonValueKind.Object or JsonValueKind.Array;
+
+        /// <summary>
         /// 当前 层 可能存在的 集合 长度 （string 会显示 字符长度）
         /// </summary>
         public int Count { get; }

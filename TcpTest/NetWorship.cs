@@ -20,13 +20,12 @@ namespace TcpTest
 
             KeepAlive keepok = new(1, async () =>
             {
-                Console.Clear(); 
-                int maxThreadNum, portThreadNum, minThreadNum;
-                ThreadPool.GetMaxThreads(out maxThreadNum, out portThreadNum);
-                ThreadPool.GetMinThreads(out minThreadNum, out portThreadNum);
+                Console.Clear();
+                ThreadPool.GetMaxThreads(out int maxThreadNum, out int portThreadNum); 
+                Console.WriteLine("最大线程数：{0}-{1}", maxThreadNum, portThreadNum);
+                ThreadPool.GetMinThreads(out int minThreadNum, out portThreadNum);
+                Console.WriteLine("最小空闲线程数：{0}-{1}", minThreadNum, portThreadNum);
                 Console.WriteLine("情况：{0}，{1}，{2}", ThreadPool.ThreadCount, ThreadPool.PendingWorkItemCount, ThreadPool.CompletedWorkItemCount);
-                Console.WriteLine("最大线程数：{0}", maxThreadNum);
-                Console.WriteLine("最小空闲线程数：{0}", minThreadNum);
                 for (int i = 0; i < 20; i++)
                 {
                     await Task.Delay(i);
@@ -34,8 +33,8 @@ namespace TcpTest
                 }
             });
 
-            EnumEventQueue.OnInterceptor(EnClient.SendMsg, true);
-            EnumEventQueue.OnInterceptor(EnClient.Receive, true);
+            EnumEventQueue.OnInterceptor(EnClient.SendMsg, false);
+            EnumEventQueue.OnInterceptor(EnClient.Receive, false);
 
             ClientFrame client = new(NetBufferSize.Default, true);// { IsThreadPool = false };
 
@@ -59,14 +58,14 @@ namespace TcpTest
             switch (Console.ReadKey(true).KeyChar)
             {
                 case '0':
-                    tasks = new Task[8];
+                    tasks = new Task[1];//在包非常小的情况下，且单个线程处理基本不耗时时，单线程远高于多线程性能
                     for (int i = 0; i < tasks.Length; i++)
                     {
-                        tasks[i] = Task.Factory.StartNew(example0);
+                        tasks[i] = Task.Factory.StartNew(example0, TaskCreationOptions.None);
                     }
                     break;
                 default:
-                    tasks = new Task[Environment.ProcessorCount * 6];
+                    tasks = new Task[Environment.ProcessorCount * 10];
                     for (int i = 0; i < tasks.Length; i++)
                     {
                         tasks[i] = Task.Factory.StartNew(example1);
@@ -80,7 +79,7 @@ namespace TcpTest
             {
                 Stopwatch watch = Stopwatch.StartNew();
                 var guid = StringExtension.GetGuid();
-                ApiPacket packet = new(1, 104, 10000, false);
+                ApiPacket packet = new(1, 104, 2000, true);
                 packet.Set("a", guid);
                 while (watch.ElapsedMilliseconds < 20000)
                 {
@@ -93,7 +92,7 @@ namespace TcpTest
             async Task example1()
             {
                 string url = 0 == 0 ? "3cd107e4ec103f614b6f7f1eca9e18e6.jpeg" : "1f94a936494a49b6b2fbcadecd4ca16c.jpeg";
-                ApiPacket packet = new(1, 102, 10000);
+                ApiPacket packet = new(1, 102, 1000);
                 packet.Set("path", url);
                 packet.Bytes = File.ReadAllBytes(url);
                 while (true)

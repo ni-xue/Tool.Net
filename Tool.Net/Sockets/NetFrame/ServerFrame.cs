@@ -279,19 +279,14 @@ namespace Tool.Sockets.NetFrame
                         if (!ipParser.IsOk) throw new("接收方不存在！");
 
                         using IDataPacket dataPacket = FrameCommon.GetDataPacket(api, clmidmt, true);
-
-                        await SendAsync(dataPacket, ipParser.Client).IsNewTask();
-                        if (!_threadObj.WaitOne(api.Millisecond))
-                        {
-                            threadUuIdObj.SetTimeout(in clmidmt, _threadObj);
-                        }
+                        await SendAsync(dataPacket, ipParser.Client);//.IsNewTask();
                     }
                     catch (Exception ex)
                     {
                         if (api.IsReply) threadUuIdObj.SetException(in clmidmt, _threadObj, ex); else _threadObj.SetSendFail(ex);
                     }
 
-                    return _threadObj.GetResponse(in clmidmt);
+                    return await _threadObj.WaitResponse(api.Millisecond, threadUuIdObj);
                 }
             }
             else

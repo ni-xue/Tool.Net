@@ -12,6 +12,7 @@ namespace Microsoft.AspNetCore.Builder
     /// <summary>
     /// 注册 Ashx 终结点路由的扩展模式
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public static class ApiRouteEndpointBuilderExtensions
     {
         /// <summary>

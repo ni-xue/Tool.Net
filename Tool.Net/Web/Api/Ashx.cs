@@ -267,10 +267,12 @@ namespace Tool.Web.Api
         /// </summary>
         internal Action<OnAshxEvent> ActionEvent { get; set; } = null;
 
-        /// <summary>
-        /// 当前对象绑定的线程信号
-        /// </summary>
-        internal ManualResetEvent ManualReset { get; set; } = null;
+        ///// <summary>
+        ///// 当前对象绑定的线程信号
+        ///// </summary>
+        //internal ManualResetEvent ManualReset { get; set; } = null;
+
+        internal Utils.TaskHelper.TaskWithTimeout TaskWith { get; set; } = null;
 
         /// <summary>
         /// 触发已有的事件
@@ -298,7 +300,8 @@ namespace Tool.Web.Api
             {
                 onAshxEvent.OnAshx = OnAshxEventState.Success;
                 onAshxEvent.Data = Data ?? onAshxEvent.Data;
-                onAshxEvent.ManualReset?.Set();
+                onAshxEvent.TaskWith?.TrySetResult();
+                //onAshxEvent.ManualReset?.Set();
                 return true;
             }
             return false;
@@ -311,9 +314,9 @@ namespace Tool.Web.Api
         /// </summary>
         public void Dispose()
         {
-            if (ManualReset is null) return;
-            ManualReset.Dispose();
-            ManualReset = null;
+            if (TaskWith is null) return;
+            TaskWith.Dispose();
+            TaskWith = null;
             ActionEvent = null;
             Data = null;
             GuId = null;

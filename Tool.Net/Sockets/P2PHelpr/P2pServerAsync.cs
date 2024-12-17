@@ -5,9 +5,11 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Tool.Sockets.Kernels;
+using Tool.Sockets.NetFrame.Internal;
 using Tool.Sockets.TcpHelper;
 using Tool.Sockets.UdpHelper;
 using Tool.Utils;
+using Tool.Utils.TaskHelper;
 
 namespace Tool.Sockets.P2PHelpr
 {
@@ -27,11 +29,17 @@ namespace Tool.Sockets.P2PHelpr
         /// </summary>
         public static Memory<byte> UdpTop { get; } = new byte[] { 128, 168, 218, 248 };
 
+        /// <summary>
+        /// 设置连接服务器超时时间
+        /// </summary>
+        public int Millisecond { get; init; } = 10000;
+
         private const int port = 11111;
 
         private bool success;
         private bool okwait;
         private INetworkConnect network;
+        private TaskCompletionSource<bool> taskWith;
 
         /// <summary>
         /// 用于本地绑定的IP:Port
@@ -158,6 +166,7 @@ namespace Tool.Sockets.P2PHelpr
 
         private Task ConnectAsync(IPEndPoint endPoint)
         {
+            taskWith = new(TaskCreationOptions.RunContinuationsAsynchronously);
             if (network is TcpClientAsync tcpClientAsync)
             {
                 tcpClientAsync.SetReceived(async (receive) =>
@@ -167,6 +176,7 @@ namespace Tool.Sockets.P2PHelpr
                         await P2PValidate(receive.Memory, TcpTop);
                     }
                 });
+                tcpClientAsync.SetCompleted(valueTask);
             }
             if (network is UdpClientAsync udpClientAsync)
             {
@@ -177,6 +187,16 @@ namespace Tool.Sockets.P2PHelpr
                         await P2PValidate(receive.Memory, UdpTop);
                     }
                 });
+                udpClientAsync.SetCompleted(valueTask);
+            }
+
+            ValueTask valueTask(UserKey a, EnClient b, DateTime c)
+            {
+                if (b is EnClient.Fail or EnClient.Close)
+                {
+                    taskWith.TrySetException(new Exception("与服务器协议不一致或中断连接。"));
+                }
+                return ValueTask.CompletedTask;
             }
 
             return network.ConnectAsync(endPoint.Address.ToString(), endPoint.Port);
@@ -189,11 +209,16 @@ namespace Tool.Sockets.P2PHelpr
                 LocalEP = new(memory[4..10].ToArray());
                 RemoteEP = new(memory[10..16].ToArray());
                 success = true;
+                taskWith.TrySetResult(success);
             }
             else if (success && memory.Length == 10 && Utility.SequenceCompare(memory.Span[6..], isor.Span))
             {
                 Ipv4Port testip = new(memory[0..6].ToArray());
-                if (RemoteEP == testip) okwait = true;
+                if (RemoteEP == testip)
+                {
+                    okwait = true;
+                    taskWith.TrySetResult(okwait);
+                }
             }
             return ValueTask.CompletedTask;
         }
@@ -221,14 +246,26 @@ namespace Tool.Sockets.P2PHelpr
 
         private bool NotConnected => network is TcpClientAsync && !network.Connected;
 
-        private Task EndAuthAsync()
+        private async Task EndAuthAsync()
         {
             ThrowIfDisposed();
-
-            if (!SpinWait.SpinUntil(IsSuccess, 10000)) throw new Exception("在P2P服务器等待结果期间超时。");
             if (NotConnected) throw new Exception("与服务器协议不一致或中断连接。");
+            try
+            {
+                using CancellationTokenSource cts = new(Millisecond);
+                cts.Token.UnsafeRegister((state) =>
+                {
+                    taskWith.TrySetCanceled();
+                }, null);
+                await taskWith.Task;
+            }
+            catch (TaskCanceledException)
+            {
+                throw new TimeoutException("在P2P服务器等待结果期间超时。");
+            }
+            //if (!SpinWait.SpinUntil(IsSuccess, 10000)) throw new Exception("在P2P服务器等待结果期间超时。");
 
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
 
         /// <summary>
@@ -265,12 +302,12 @@ namespace Tool.Sockets.P2PHelpr
                     using var sendBytes = tcpClientAsync.CreateSendBytes(10);
                     sendBytes.SetMemory(RemoteEP.Bytes);
                     sendBytes.SetMemory(TcpTop, 6);
-                    
+
                     await clientAsync.P2PConnectAsync(LocalEP, RemoteEP, async token =>
                     {
                         DateTime Now01 = DateTime.Now;
-                        await tcpClientAsync.SendAsync(sendBytes).IsNewTask();
-                        return WaitP2pOk(Now01, timedDelay, token);
+                        await tcpClientAsync.SendAsync(sendBytes);//.IsNewTask();
+                        return await WaitP2pOk(Now01, timedDelay, token);
                     });
                 }
                 finally
@@ -307,8 +344,8 @@ namespace Tool.Sockets.P2PHelpr
                     await clientAsync.P2PConnectAsync(LocalEP, RemoteEP, async token =>
                     {
                         DateTime Now01 = DateTime.Now;
-                        await udpClientAsync.SendAsync(sendBytes).IsNewTask();
-                        return WaitP2pOk(Now01, timedDelay, token);
+                        await udpClientAsync.SendAsync(sendBytes);//.IsNewTask();
+                        return await WaitP2pOk(Now01, timedDelay, token);
                     });
                 }
                 finally
@@ -322,11 +359,29 @@ namespace Tool.Sockets.P2PHelpr
             }
         }
 
-        private int WaitP2pOk(DateTime Now01, int timedDelay, CancellationToken token)
+        private async Task<int> WaitP2pOk(DateTime Now01, int timedDelay, CancellationToken token)
         {
             okwait = false;
+            taskWith = new(TaskCreationOptions.RunContinuationsAsynchronously); //重置新任务
+
+            using var cts = CancellationTokenSource.CreateLinkedTokenSource(token);
+            cts.Token.UnsafeRegister((state) =>
+            {
+                taskWith.TrySetCanceled();
+            }, null);
+            cts.CancelAfter(timedDelay);
+
+            try
+            {
+                await taskWith.Task;
+            }
+            catch (TaskCanceledException)
+            {
+                throw new TimeoutException("等待对方发起P2P尝试，超时！");
+            }
+
             //await Task.Run(() => { if (!SpinWait.SpinUntil(OkWait, timedDelay)) throw new Exception("等待对方发起P2P尝试，超时！"); });
-            if (!SpinWait.SpinUntil(() => OkWait(token), timedDelay) && !okwait) throw new Exception("等待对方发起P2P尝试，超时！");
+            //if (!SpinWait.SpinUntil(() => OkWait(token), timedDelay) && !okwait) throw new Exception("等待对方发起P2P尝试，超时！");
             DateTime Now02 = DateTime.Now;
             double seconds = (Now02 - Now01).TotalMilliseconds;
             Debug.WriteLine($"P2P同步协议！{Now02:O},{seconds}ms");

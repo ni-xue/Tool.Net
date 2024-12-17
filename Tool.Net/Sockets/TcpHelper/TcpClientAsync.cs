@@ -206,14 +206,16 @@ namespace Tool.Sockets.TcpHelper
             }
         }
 
-        private async Task StartReconnect()
+        private async Task<bool> StartReconnect()
         {
             if (IsReconnect && !isWhileReconnect)
             {
                 isWhileReconnect = true;
                 await OnComplete(Server, EnClient.Reconnect);
                 StateObject.StartTask("Tcp重连", WhileReconnect);
+                return true;
             }
+            return false;
         }
 
         #endregion
@@ -234,7 +236,7 @@ namespace Tool.Sockets.TcpHelper
                     Keep = new KeepAlive(TimeInterval, async () =>
                     {
                         await SendNoWaitAsync(KeepAlive.TcpKeepObj);
-                        if (TryP2PConnect is not null) await OnComplete(Server, EnClient.HeartBeat);
+                        if (TryP2PConnect is null) await OnComplete(Server, EnClient.HeartBeat);
                     });
                     return;
                 }
@@ -531,7 +533,7 @@ namespace Tool.Sockets.TcpHelper
                     //如果发生异常，说明客户端失去连接，触发关闭事件
                     InsideClose();
                     await OnComplete(obj.IpPort, EnClient.Close);
-                    await StartReconnect();
+                    if (!await StartReconnect()) isClose = true;
                     break;
                 }
             }
@@ -603,7 +605,6 @@ namespace Tool.Sockets.TcpHelper
         public override void Close()
         {
             IsReconnect = false;
-            isClose = true;
             InsideClose();
             Keep?.Close();
         }

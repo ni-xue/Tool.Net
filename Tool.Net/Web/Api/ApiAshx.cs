@@ -5,6 +5,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Sources;
+using Tool.Utils.TaskHelper;
 using Tool.Web.Api.ApiCore;
 using Tool.Web.Routing;
 
@@ -608,28 +610,50 @@ namespace Tool.Web.Api
             if (StaticData.AshxEvents.TryRemove(onAshxEvent.GuId, out OnAshxEvent onAshxEvent1))
             {
                 onAshxEvent1.OnAshx = OnAshxEventState.OnlyID;
-                onAshxEvent1.ManualReset?.Set();
+                onAshxEvent1.TaskWith?.TrySetResult();
+                //onAshxEvent1.ManualReset?.Set();
             }
 
             StaticData.AshxEvents.TryAdd(onAshxEvent.GuId, onAshxEvent);
 
-            Task task = Task.Run(() =>
+            onAshxEvent.TaskWith = new(TimeSpan.FromMilliseconds(onAshxEvent.DelayTime), TaskCreationOptions.RunContinuationsAsynchronously);
+
+            try
             {
-                onAshxEvent.ManualReset = new ManualResetEvent(false);
+                await onAshxEvent.TaskWith;
+            }
+            catch (OperationCanceledException) when (onAshxEvent.TaskWith.IsCancellationRequested)
+            {
+                StaticData.AshxEvents.TryRemove(onAshxEvent.GuId, out _);
+                onAshxEvent.OnAshx = OnAshxEventState.Timeout;
+            }
+            finally 
+            {
+                onAshxEvent.TaskWith.Dispose();
+            }
 
-                if (!onAshxEvent.ManualReset.WaitOne(onAshxEvent.DelayTime))
-                {
-                    StaticData.AshxEvents.TryRemove(onAshxEvent.GuId, out _);
-                    onAshxEvent.OnAshx = OnAshxEventState.Timeout;
-                }
+            using (onAshxEvent)
+            {
+                onAshxEvent.Revive();
+            }
 
-                using (onAshxEvent)
-                {
-                    onAshxEvent.Revive();
-                }
-            });
+            //Task task = Task.Run(() =>
+            //{
+            //    onAshxEvent.ManualReset = new ManualResetEvent(false);
 
-            await task;
+            //    if (!onAshxEvent.ManualReset.WaitOne(onAshxEvent.DelayTime))
+            //    {
+            //        StaticData.AshxEvents.TryRemove(onAshxEvent.GuId, out _);
+            //        onAshxEvent.OnAshx = OnAshxEventState.Timeout;
+            //    }
+
+            //    using (onAshxEvent)
+            //    {
+            //        onAshxEvent.Revive();
+            //    }
+            //});
+
+            //await task;
         }
 
         private static void IsException(AshxException ex)

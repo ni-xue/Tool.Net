@@ -5,6 +5,7 @@ using Tool.Sockets.TcpHelper;
 using Tool.Utils;
 using Tool.Sockets.NetFrame.Internal;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace Tool.Sockets.NetFrame
 {
@@ -357,18 +358,13 @@ namespace Tool.Sockets.NetFrame
                     try
                     {
                         using IDataPacket dataPacket = FrameCommon.GetDataPacket(api, clmidmt, false, in ipPort);
-
-                        await SendAsync(dataPacket).IsNewTask();
-                        if (!_threadObj.WaitOne(api.Millisecond))
-                        {
-                            threadUuIdObj.SetTimeout(in clmidmt, _threadObj);
-                        }
+                        await SendAsync(dataPacket);//.IsNewTask();
                     }
                     catch (Exception ex)
                     {
-                        if (api.IsReply) threadUuIdObj.SetException(in clmidmt, _threadObj, ex); else _threadObj.SetSendFail(ex);
+                        if (_threadObj.IsReply) threadUuIdObj.SetException(in clmidmt, _threadObj, ex); else _threadObj.SetSendFail(ex);
                     }
-                    return _threadObj.GetResponse(in clmidmt);
+                    return await _threadObj.WaitResponse(api.Millisecond, threadUuIdObj);
                 }
             }
             else

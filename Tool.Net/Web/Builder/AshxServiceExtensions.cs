@@ -16,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection //Tool.Web.Builder
     /// <summary>
     /// Ashx 核心对象扩展类
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public static class AshxServiceExtensions
     {
         /// <summary>
