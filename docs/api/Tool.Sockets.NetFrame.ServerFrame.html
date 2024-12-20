@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class ServerFrame | Tool.Net </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class ServerFrame | Tool.Net ">
+      
+      <meta name="description" content="封装的一个TCP框架（服务端）">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ni-xue/Tool.Net/new/master/apiSpec/new?filename=Tool_Sockets_NetFrame_ServerFrame.md&amp;value=---%0Auid%3A%20Tool.Sockets.NetFrame.ServerFrame%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Tool.Net">
+            Tool.Net
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Tool.Sockets.NetFrame.ServerFrame">
+
+
+
+  <h1 id="Tool_Sockets_NetFrame_ServerFrame" data-uid="Tool.Sockets.NetFrame.ServerFrame" class="text-break">
+Class ServerFrame  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L17"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Tool.html">Tool</a>.<a class="xref" href="Tool.Sockets.html">Sockets</a>.<a class="xref" href="Tool.Sockets.NetFrame.html">NetFrame</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Tool.Net.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>封装的一个TCP框架（服务端）</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ServerFrame : EnServerEventDrive</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html">EnServerEventDrive</a></div>
+      <div><span class="xref">ServerFrame</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_OnInterceptor_Tool_Sockets_Kernels_EnServer_System_Boolean_">EnServerEventDrive.OnInterceptor(EnServer, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_OnIsQueue_Tool_Sockets_Kernels_EnServer_System_Boolean_">EnServerEventDrive.OnIsQueue(EnServer, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_IsEvent_Tool_Sockets_Kernels_EnServer_">EnServerEventDrive.IsEvent(EnServer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_IsQueue_Tool_Sockets_Kernels_EnServer_">EnServerEventDrive.IsQueue(EnServer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_OpenAllEvent">EnServerEventDrive.OpenAllEvent()</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_OpenAllQueue">EnServerEventDrive.OpenAllQueue()</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_CloseAllEvent">EnServerEventDrive.CloseAllEvent()</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_CloseAllQueue">EnServerEventDrive.CloseAllQueue()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Add__1_System_Object_System_Object_System_Object_">ObjectExtension.Add&lt;T&gt;(object, object, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_CopyEntity_System_Object_System_Object_System_String___">ObjectExtension.CopyEntity(object, object, params string[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_">ObjectExtension.EntityToJson(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_System_Boolean_">ObjectExtension.EntityToJson(object, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_System_Boolean_System_String_">ObjectExtension.EntityToJson(object, bool, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_GetIntPtr_System_Object_">ObjectExtension.GetIntPtr(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_GetIntPtrInt_System_Object_">ObjectExtension.GetIntPtrInt(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Read__1_System_Object_System_Int32_System_Object_System_Int32_System_Int32_">ObjectExtension.Read&lt;T&gt;(object, int, object, int, int)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Read__1_System_Object_System_Object_System_Int32_System_Int32_">ObjectExtension.Read&lt;T&gt;(object, object, int, int)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBase64String_System_Object_">ObjectExtension.ToBase64String(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBytes_System_Object_">ObjectExtension.ToBytes(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBytes_System_Object_System_Type__">ObjectExtension.ToBytes(object, out Type)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJson_System_Object_">ObjectExtension.ToJson(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJson_System_Object_System_Text_Json_JsonSerializerOptions_">ObjectExtension.ToJson(object, JsonSerializerOptions)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJsonWeb_System_Object_">ObjectExtension.ToJsonWeb(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJsonWeb_System_Object_System_Action_System_Text_Json_JsonSerializerOptions__">ObjectExtension.ToJsonWeb(object, Action&lt;JsonSerializerOptions&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToTryVar__1_System_Object___0_">ObjectExtension.ToTryVar&lt;T&gt;(object, T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar_System_Object_System_String_">ObjectExtension.ToVar(object, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar_System_Object_System_Type_System_Boolean_">ObjectExtension.ToVar(object, Type, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar__1_System_Object_">ObjectExtension.ToVar&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToXml_System_Object_">ObjectExtension.ToXml(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_GetDictionary_System_Object_">DictionaryExtension.GetDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_SetDictionary_System_Object_System_Collections_Generic_IDictionary_System_String_System_Object__">DictionaryExtension.SetDictionary(object, IDictionary&lt;string, object&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToDictionary_System_Object_">DictionaryExtension.ToDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToDictionary__1_System_Object_">DictionaryExtension.ToDictionary&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToIDictionary_System_Object_">DictionaryExtension.ToIDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToIDictionary__1_System_Object_">DictionaryExtension.ToIDictionary&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey_System_Object_System_String_System_Boolean__">TypeExtension.GetFieldKey(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey_System_Object_System_Type_System_String_System_Boolean__">TypeExtension.GetFieldKey(object, Type, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey__1_System_Object_System_String_System_Boolean__">TypeExtension.GetFieldKey&lt;T&gt;(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertieFind_System_Object_System_String_System_Boolean_">TypeExtension.GetPropertieFind(object, string, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetProperties_System_Object_">TypeExtension.GetProperties(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey_System_Object_System_String_System_Boolean__">TypeExtension.GetPropertyKey(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey_System_Object_System_Type_System_String_System_Boolean__">TypeExtension.GetPropertyKey(object, Type, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey__1_System_Object_System_String_System_Boolean__">TypeExtension.GetPropertyKey&lt;T&gt;(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_ComponentModel_PropertyDescriptor_">TypeExtension.GetValue(object, PropertyDescriptor)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_String_">TypeExtension.GetValue(object, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_String_System_Boolean_">TypeExtension.GetValue(object, string, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey_System_Object_System_String_System_Object_">TypeExtension.SetFieldKey(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey_System_Object_System_Type_System_String_System_Object_">TypeExtension.SetFieldKey(object, Type, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey__1_System_Object_System_String_System_Object_">TypeExtension.SetFieldKey&lt;T&gt;(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey_System_Object_System_String_System_Object_">TypeExtension.SetPropertyKey(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey_System_Object_System_Type_System_String_System_Object_">TypeExtension.SetPropertyKey(object, Type, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey__1_System_Object_System_String_System_Object_">TypeExtension.SetPropertyKey&lt;T&gt;(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_ComponentModel_PropertyDescriptor_System_Object_">TypeExtension.SetValue(object, PropertyDescriptor, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_String_System_Object_">TypeExtension.SetValue(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_String_System_Object_System_Boolean_">TypeExtension.SetValue(object, string, object, bool)</a>
+  </div>
+  </dd></dl>
+
+
+
+  <h2 id="Tool_Sockets_NetFrame_ServerFrame_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>代码由逆血提供支持</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame__ctor_" data-uid="Tool.Sockets.NetFrame.ServerFrame.#ctor*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame__ctor" data-uid="Tool.Sockets.NetFrame.ServerFrame.#ctor">
+  ServerFrame()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L82"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>无参构造</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ServerFrame()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame__ctor_" data-uid="Tool.Sockets.NetFrame.ServerFrame.#ctor*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame__ctor_Tool_Sockets_Kernels_NetBufferSize_" data-uid="Tool.Sockets.NetFrame.ServerFrame.#ctor(Tool.Sockets.Kernels.NetBufferSize)">
+  ServerFrame(NetBufferSize)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L88"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>初始化包</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ServerFrame(NetBufferSize bufferSize)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>bufferSize</code> <a class="xref" href="Tool.Sockets.Kernels.NetBufferSize.html">NetBufferSize</a></dt>
+    <dd><p>收包规范</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_IsAllowRelay_" data-uid="Tool.Sockets.NetFrame.ServerFrame.IsAllowRelay*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_IsAllowRelay" data-uid="Tool.Sockets.NetFrame.ServerFrame.IsAllowRelay">
+  IsAllowRelay
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L77"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>表示服务器是否接受转发消息（默认接受）</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsAllowRelay { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_IsClose_" data-uid="Tool.Sockets.NetFrame.ServerFrame.IsClose*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_IsClose" data-uid="Tool.Sockets.NetFrame.ServerFrame.IsClose">
+  IsClose
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>标识服务端连接是否关闭</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsClose { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_IsThreadPool_" data-uid="Tool.Sockets.NetFrame.ServerFrame.IsThreadPool*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_IsThreadPool" data-uid="Tool.Sockets.NetFrame.ServerFrame.IsThreadPool">
+  IsThreadPool
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L65"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>是否使用线程池调度接收后的数据（允许使用者初始化时设置，消息是否有序获取）
+默认 true 开启</p>
+<table><tbody></tbody></table><table><tbody></tbody></table>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsThreadPool { get; init; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_ListClient_" data-uid="Tool.Sockets.NetFrame.ServerFrame.ListClient*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_ListClient" data-uid="Tool.Sockets.NetFrame.ServerFrame.ListClient">
+  ListClient
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L72"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>已建立连接的集合
+key:ip:port
+value:Socket</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReadOnlyDictionary&lt;UserKey, Socket&gt; ListClient { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2">IReadOnlyDictionary</a>&lt;<a class="xref" href="Tool.Sockets.Kernels.UserKey.html">UserKey</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.sockets.socket">Socket</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_Server_" data-uid="Tool.Sockets.NetFrame.ServerFrame.Server*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_Server" data-uid="Tool.Sockets.NetFrame.ServerFrame.Server">
+  Server
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L52"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>服务器创建时的信息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UserKey Server { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.Sockets.Kernels.UserKey.html">UserKey</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_ClientClose_" data-uid="Tool.Sockets.NetFrame.ServerFrame.ClientClose*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_ClientClose_Tool_Sockets_Kernels_Ipv4Port_" data-uid="Tool.Sockets.NetFrame.ServerFrame.ClientClose(Tool.Sockets.Kernels.Ipv4Port)">
+  ClientClose(Ipv4Port)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L153"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>关闭存在的连接用户</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ClientClose(Ipv4Port ipv4)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ipv4</code> <a class="xref" href="Tool.Sockets.Kernels.Ipv4Port.html">Ipv4Port</a></dt>
+    <dd><p>IpV4</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>成功/失败</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_Close_" data-uid="Tool.Sockets.NetFrame.ServerFrame.Close*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_Close" data-uid="Tool.Sockets.NetFrame.ServerFrame.Close">
+  Close()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L449"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>关闭服务器并断开所有连接的客户端</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Close()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_Send_" data-uid="Tool.Sockets.NetFrame.ServerFrame.Send*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_Send_Tool_Sockets_Kernels_Ipv4Port__Tool_Sockets_NetFrame_ApiPacket_" data-uid="Tool.Sockets.NetFrame.ServerFrame.Send(Tool.Sockets.Kernels.Ipv4Port@,Tool.Sockets.NetFrame.ApiPacket)">
+  Send(in Ipv4Port, ApiPacket)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L262"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>同步发送消息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public NetResponse Send(in Ipv4Port key, ApiPacket api)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>key</code> <a class="xref" href="Tool.Sockets.Kernels.Ipv4Port.html">Ipv4Port</a></dt>
+    <dd><p>发送人的IP</p>
+</dd>
+    <dt><code>api</code> <a class="xref" href="Tool.Sockets.NetFrame.ApiPacket.html">ApiPacket</a></dt>
+    <dd><p>接口调用信息</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.Sockets.NetFrame.NetResponse.html">NetResponse</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_SendAsync_" data-uid="Tool.Sockets.NetFrame.ServerFrame.SendAsync*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_SendAsync_Tool_Sockets_Kernels_Ipv4Port_Tool_Sockets_NetFrame_ApiPacket_" data-uid="Tool.Sockets.NetFrame.ServerFrame.SendAsync(Tool.Sockets.Kernels.Ipv4Port,Tool.Sockets.NetFrame.ApiPacket)">
+  SendAsync(Ipv4Port, ApiPacket)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L251"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>异步发送消息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ValueTask&lt;NetResponse&gt; SendAsync(Ipv4Port key, ApiPacket api)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>key</code> <a class="xref" href="Tool.Sockets.Kernels.Ipv4Port.html">Ipv4Port</a></dt>
+    <dd><p>发送人的IP</p>
+</dd>
+    <dt><code>api</code> <a class="xref" href="Tool.Sockets.NetFrame.ApiPacket.html">ApiPacket</a></dt>
+    <dd><p>接口调用信息</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1">ValueTask</a>&lt;<a class="xref" href="Tool.Sockets.NetFrame.NetResponse.html">NetResponse</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_SetCompleted_" data-uid="Tool.Sockets.NetFrame.ServerFrame.SetCompleted*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_SetCompleted_Tool_Sockets_Kernels_CompletedEvent_Tool_Sockets_Kernels_EnServer__" data-uid="Tool.Sockets.NetFrame.ServerFrame.SetCompleted(Tool.Sockets.Kernels.CompletedEvent{Tool.Sockets.Kernels.EnServer})">
+  SetCompleted(CompletedEvent&lt;EnServer&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L114"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>连接、发送、关闭事件 <a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetCompleted(CompletedEvent&lt;EnServer&gt; Completed)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>Completed</code> <a class="xref" href="Tool.Sockets.Kernels.CompletedEvent-1.html">CompletedEvent</a>&lt;<a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_SetIpParser_" data-uid="Tool.Sockets.NetFrame.ServerFrame.SetIpParser*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_SetIpParser_Tool_Sockets_Kernels_IpParserEvent_" data-uid="Tool.Sockets.NetFrame.ServerFrame.SetIpParser(Tool.Sockets.Kernels.IpParserEvent)">
+  SetIpParser(IpParserEvent)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L124"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>实现IP:Port解释器 （返回有效的IP:Port,返回空使用原值）
+参数1：发起方信息空表示无发起方，参数2：接收方信息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetIpParser(IpParserEvent IpParser)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>IpParser</code> <a class="xref" href="Tool.Sockets.Kernels.IpParserEvent.html">IpParserEvent</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_StartAsync_" data-uid="Tool.Sockets.NetFrame.ServerFrame.StartAsync*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_StartAsync_System_Int32_" data-uid="Tool.Sockets.NetFrame.ServerFrame.StartAsync(System.Int32)">
+  StartAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L133"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>开始异步监听ip地址的端口</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task StartAsync(int port)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>port</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_NetFrame_ServerFrame_StartAsync_" data-uid="Tool.Sockets.NetFrame.ServerFrame.StartAsync*"></a>
+
+  <h3 id="Tool_Sockets_NetFrame_ServerFrame_StartAsync_System_String_System_Int32_" data-uid="Tool.Sockets.NetFrame.ServerFrame.StartAsync(System.String,System.Int32)">
+  StartAsync(string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L143"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>开始异步监听ip地址的端口</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task StartAsync(string ip, int port)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ip</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>port</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/NetFrame/ServerFrame.cs/#L17" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

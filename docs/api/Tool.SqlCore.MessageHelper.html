@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class MessageHelper | Tool.Net </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class MessageHelper | Tool.Net ">
+      
+      <meta name="description" content="存储过程操作类">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ni-xue/Tool.Net/new/master/apiSpec/new?filename=Tool_SqlCore_MessageHelper.md&amp;value=---%0Auid%3A%20Tool.SqlCore.MessageHelper%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Tool.Net">
+            Tool.Net
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Tool.SqlCore.MessageHelper">
+
+
+
+  <h1 id="Tool_SqlCore_MessageHelper" data-uid="Tool.SqlCore.MessageHelper" class="text-break">
+Class MessageHelper  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L15"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Tool.html">Tool</a>.<a class="xref" href="Tool.SqlCore.html">SqlCore</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Tool.Net.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>存储过程操作类</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class MessageHelper</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">MessageHelper</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+  <h2 id="Tool_SqlCore_MessageHelper_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>代码由逆血提供支持</p>
+</div>
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessage_" data-uid="Tool.SqlCore.MessageHelper.GetMessage*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessage_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetMessage(System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetMessage(List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L22"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个<a class="xref" href="Tool.SqlCore.Message.html">Message</a>对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Message GetMessage(List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.Message.html">Message</a></dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessage_" data-uid="Tool.SqlCore.MessageHelper.GetMessage*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessage_Tool_SqlCore_DbHelper_System_String_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetMessage(Tool.SqlCore.DbHelper,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetMessage(DbHelper, string, List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L36"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Message GetMessage(this DbHelper database, string procName, List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.Message.html">Message</a></dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessage_" data-uid="Tool.SqlCore.MessageHelper.GetMessage*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessage_Tool_SqlCore_DbHelper_System_String_System_Object_System_Data_Common_DbParameter___" data-uid="Tool.SqlCore.MessageHelper.GetMessage(Tool.SqlCore.DbHelper,System.String,System.Object,System.Data.Common.DbParameter[])">
+  GetMessage(DbHelper, string, object, params DbParameter[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L51"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Message GetMessage(this DbHelper database, string procName, object prams, params DbParameter[] parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]</dt>
+    <dd><p>具有返回值的参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.Message.html">Message</a></dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageAsync_" data-uid="Tool.SqlCore.MessageHelper.GetMessageAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageAsync_Tool_SqlCore_DbHelper_System_String_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetMessageAsync(Tool.SqlCore.DbHelper,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetMessageAsync(DbHelper, string, List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L278"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;Message&gt; GetMessageAsync(this DbHelper database, string procName, List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Tool.SqlCore.Message.html">Message</a>&gt;</dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageAsync_" data-uid="Tool.SqlCore.MessageHelper.GetMessageAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageAsync_Tool_SqlCore_DbHelper_System_String_System_Object_System_Data_Common_DbParameter___" data-uid="Tool.SqlCore.MessageHelper.GetMessageAsync(Tool.SqlCore.DbHelper,System.String,System.Object,System.Data.Common.DbParameter[])">
+  GetMessageAsync(DbHelper, string, object, params DbParameter[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L293"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;Message&gt; GetMessageAsync(this DbHelper database, string procName, object prams, params DbParameter[] parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]</dt>
+    <dd><p>具有返回值的参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Tool.SqlCore.Message.html">Message</a>&gt;</dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageForDataSet_" data-uid="Tool.SqlCore.MessageHelper.GetMessageForDataSet*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageForDataSet_Tool_SqlCore_DbHelper_System_String_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetMessageForDataSet(Tool.SqlCore.DbHelper,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetMessageForDataSet(DbHelper, string, List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L65"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.dataset">DataSet</a>对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Message GetMessageForDataSet(this DbHelper database, string procName, List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.Message.html">Message</a></dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageForDataSet_" data-uid="Tool.SqlCore.MessageHelper.GetMessageForDataSet*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageForDataSet_Tool_SqlCore_DbHelper_System_String_System_Object_System_Data_Common_DbParameter___" data-uid="Tool.SqlCore.MessageHelper.GetMessageForDataSet(Tool.SqlCore.DbHelper,System.String,System.Object,System.Data.Common.DbParameter[])">
+  GetMessageForDataSet(DbHelper, string, object, params DbParameter[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L85"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.dataset">DataSet</a>对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Message GetMessageForDataSet(this DbHelper database, string procName, object prams, params DbParameter[] parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]</dt>
+    <dd><p>具有返回值的参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.Message.html">Message</a></dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageForDataSetAsync_" data-uid="Tool.SqlCore.MessageHelper.GetMessageForDataSetAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageForDataSetAsync_Tool_SqlCore_DbHelper_System_String_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetMessageForDataSetAsync(Tool.SqlCore.DbHelper,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetMessageForDataSetAsync(DbHelper, string, List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L307"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.dataset">DataSet</a>对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;Message&gt; GetMessageForDataSetAsync(this DbHelper database, string procName, List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Tool.SqlCore.Message.html">Message</a>&gt;</dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageForDataSetAsync_" data-uid="Tool.SqlCore.MessageHelper.GetMessageForDataSetAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageForDataSetAsync_Tool_SqlCore_DbHelper_System_String_System_Object_System_Data_Common_DbParameter___" data-uid="Tool.SqlCore.MessageHelper.GetMessageForDataSetAsync(Tool.SqlCore.DbHelper,System.String,System.Object,System.Data.Common.DbParameter[])">
+  GetMessageForDataSetAsync(DbHelper, string, object, params DbParameter[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L327"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.dataset">DataSet</a>对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;Message&gt; GetMessageForDataSetAsync(this DbHelper database, string procName, object prams, params DbParameter[] parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]</dt>
+    <dd><p>具有返回值的参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Tool.SqlCore.Message.html">Message</a>&gt;</dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageForObjectAsync_" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObjectAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageForObjectAsync__1_Tool_SqlCore_DbHelper_System_String_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObjectAsync``1(Tool.SqlCore.DbHelper,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetMessageForObjectAsync&lt;T&gt;(DbHelper, string, List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L347"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个实体对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;Message&gt; GetMessageForObjectAsync&lt;T&gt;(this DbHelper database, string procName, List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Tool.SqlCore.Message.html">Message</a>&gt;</dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageForObjectAsync_" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObjectAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageForObjectAsync__1_Tool_SqlCore_DbHelper_System_String_System_Object_System_Data_Common_DbParameter___" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObjectAsync``1(Tool.SqlCore.DbHelper,System.String,System.Object,System.Data.Common.DbParameter[])">
+  GetMessageForObjectAsync&lt;T&gt;(DbHelper, string, object, params DbParameter[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L368"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个实体对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;Message&gt; GetMessageForObjectAsync&lt;T&gt;(this DbHelper database, string procName, object prams, params DbParameter[] parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]</dt>
+    <dd><p>具有返回值的参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Tool.SqlCore.Message.html">Message</a>&gt;</dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageForObjectListAsync_" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObjectListAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageForObjectListAsync__1_Tool_SqlCore_DbHelper_System_String_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObjectListAsync``1(Tool.SqlCore.DbHelper,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetMessageForObjectListAsync&lt;T&gt;(DbHelper, string, List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L388"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个实体对象数组</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;Message&gt; GetMessageForObjectListAsync&lt;T&gt;(this DbHelper database, string procName, List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Tool.SqlCore.Message.html">Message</a>&gt;</dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageForObjectListAsync_" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObjectListAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageForObjectListAsync__1_Tool_SqlCore_DbHelper_System_String_System_Object_System_Data_Common_DbParameter___" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObjectListAsync``1(Tool.SqlCore.DbHelper,System.String,System.Object,System.Data.Common.DbParameter[])">
+  GetMessageForObjectListAsync&lt;T&gt;(DbHelper, string, object, params DbParameter[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L409"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个实体对象数组</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;Message&gt; GetMessageForObjectListAsync&lt;T&gt;(this DbHelper database, string procName, object prams, params DbParameter[] parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]</dt>
+    <dd><p>具有返回值的参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Tool.SqlCore.Message.html">Message</a>&gt;</dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageForObjectList_" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObjectList*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageForObjectList__1_Tool_SqlCore_DbHelper_System_String_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObjectList``1(Tool.SqlCore.DbHelper,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetMessageForObjectList&lt;T&gt;(DbHelper, string, List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L146"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个实体对象数组</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Message GetMessageForObjectList&lt;T&gt;(this DbHelper database, string procName, List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.Message.html">Message</a></dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageForObjectList_" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObjectList*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageForObjectList__1_Tool_SqlCore_DbHelper_System_String_System_Object_System_Data_Common_DbParameter___" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObjectList``1(Tool.SqlCore.DbHelper,System.String,System.Object,System.Data.Common.DbParameter[])">
+  GetMessageForObjectList&lt;T&gt;(DbHelper, string, object, params DbParameter[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L167"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个实体对象数组</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Message GetMessageForObjectList&lt;T&gt;(this DbHelper database, string procName, object prams, params DbParameter[] parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]</dt>
+    <dd><p>具有返回值的参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.Message.html">Message</a></dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageForObject_" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObject*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageForObject__1_Tool_SqlCore_DbHelper_System_String_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObject``1(Tool.SqlCore.DbHelper,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetMessageForObject&lt;T&gt;(DbHelper, string, List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L105"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个实体对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Message GetMessageForObject&lt;T&gt;(this DbHelper database, string procName, List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.Message.html">Message</a></dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetMessageForObject_" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObject*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetMessageForObject__1_Tool_SqlCore_DbHelper_System_String_System_Object_System_Data_Common_DbParameter___" data-uid="Tool.SqlCore.MessageHelper.GetMessageForObject``1(Tool.SqlCore.DbHelper,System.String,System.Object,System.Data.Common.DbParameter[])">
+  GetMessageForObject&lt;T&gt;(DbHelper, string, object, params DbParameter[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L126"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个实体对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Message GetMessageForObject&lt;T&gt;(this DbHelper database, string procName, object prams, params DbParameter[] parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]</dt>
+    <dd><p>具有返回值的参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.Message.html">Message</a></dt>
+    <dd><p>返回存储过程对象<a class="xref" href="Tool.SqlCore.Message.html">Message</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetObjectAsync_" data-uid="Tool.SqlCore.MessageHelper.GetObjectAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetObjectAsync__1_Tool_SqlCore_DbHelper_System_String_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetObjectAsync``1(Tool.SqlCore.DbHelper,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetObjectAsync&lt;T&gt;(DbHelper, string, List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L429"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个泛型对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;T&gt; GetObjectAsync&lt;T&gt;(this DbHelper database, string procName, List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;T&gt;</dt>
+    <dd><p>泛型对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetObjectAsync_" data-uid="Tool.SqlCore.MessageHelper.GetObjectAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetObjectAsync__1_Tool_SqlCore_DbHelper_System_String_System_Object_" data-uid="Tool.SqlCore.MessageHelper.GetObjectAsync``1(Tool.SqlCore.DbHelper,System.String,System.Object)">
+  GetObjectAsync&lt;T&gt;(DbHelper, string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L443"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个泛型对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;T&gt; GetObjectAsync&lt;T&gt;(this DbHelper database, string procName, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;T&gt;</dt>
+    <dd><p>泛型对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetObjectAsync_" data-uid="Tool.SqlCore.MessageHelper.GetObjectAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetObjectAsync__1_Tool_SqlCore_DbHelper_System_String_System_Object_System_Collections_Generic_List_System_Data_Common_DbParameter___System_Data_Common_DbParameter___" data-uid="Tool.SqlCore.MessageHelper.GetObjectAsync``1(Tool.SqlCore.DbHelper,System.String,System.Object,System.Collections.Generic.List{System.Data.Common.DbParameter}@,System.Data.Common.DbParameter[])">
+  GetObjectAsync&lt;T&gt;(DbHelper, string, object, out List&lt;DbParameter&gt;, params DbParameter[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L458"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个泛型对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;T&gt; GetObjectAsync&lt;T&gt;(this DbHelper database, string procName, object prams, out List&lt;DbParameter&gt; parameters, params DbParameter[] parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+    <dt><code>parameters</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>返回<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]对象集合</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]</dt>
+    <dd><p>具有返回值的参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;T&gt;</dt>
+    <dd><p>泛型对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetObjectListAsync_" data-uid="Tool.SqlCore.MessageHelper.GetObjectListAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetObjectListAsync__1_Tool_SqlCore_DbHelper_System_String_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetObjectListAsync``1(Tool.SqlCore.DbHelper,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetObjectListAsync&lt;T&gt;(DbHelper, string, List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L473"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个泛型数组对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;IList&lt;T&gt;&gt; GetObjectListAsync&lt;T&gt;(this DbHelper database, string procName, List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;&gt;</dt>
+    <dd><p>泛型数组对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetObjectListAsync_" data-uid="Tool.SqlCore.MessageHelper.GetObjectListAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetObjectListAsync__1_Tool_SqlCore_DbHelper_System_String_System_Object_" data-uid="Tool.SqlCore.MessageHelper.GetObjectListAsync``1(Tool.SqlCore.DbHelper,System.String,System.Object)">
+  GetObjectListAsync&lt;T&gt;(DbHelper, string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L487"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个泛型数组对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;IList&lt;T&gt;&gt; GetObjectListAsync&lt;T&gt;(this DbHelper database, string procName, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;&gt;</dt>
+    <dd><p>泛型数组对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetObjectListAsync_" data-uid="Tool.SqlCore.MessageHelper.GetObjectListAsync*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetObjectListAsync__1_Tool_SqlCore_DbHelper_System_String_System_Object_System_Collections_Generic_List_System_Data_Common_DbParameter___System_Data_Common_DbParameter___" data-uid="Tool.SqlCore.MessageHelper.GetObjectListAsync``1(Tool.SqlCore.DbHelper,System.String,System.Object,System.Collections.Generic.List{System.Data.Common.DbParameter}@,System.Data.Common.DbParameter[])">
+  GetObjectListAsync&lt;T&gt;(DbHelper, string, object, out List&lt;DbParameter&gt;, params DbParameter[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L502"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个泛型数组对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;IList&lt;T&gt;&gt; GetObjectListAsync&lt;T&gt;(this DbHelper database, string procName, object prams, out List&lt;DbParameter&gt; parameters, params DbParameter[] parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+    <dt><code>parameters</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>返回<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]对象集合</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]</dt>
+    <dd><p>具有返回值的参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;&gt;</dt>
+    <dd><p>泛型数组对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetObjectList_" data-uid="Tool.SqlCore.MessageHelper.GetObjectList*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetObjectList__1_Tool_SqlCore_DbHelper_System_String_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetObjectList``1(Tool.SqlCore.DbHelper,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetObjectList&lt;T&gt;(DbHelper, string, List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L231"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个泛型数组对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IList&lt;T&gt; GetObjectList&lt;T&gt;(this DbHelper database, string procName, List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;</dt>
+    <dd><p>泛型数组对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetObjectList_" data-uid="Tool.SqlCore.MessageHelper.GetObjectList*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetObjectList__1_Tool_SqlCore_DbHelper_System_String_System_Object_" data-uid="Tool.SqlCore.MessageHelper.GetObjectList``1(Tool.SqlCore.DbHelper,System.String,System.Object)">
+  GetObjectList&lt;T&gt;(DbHelper, string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L245"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个泛型数组对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IList&lt;T&gt; GetObjectList&lt;T&gt;(this DbHelper database, string procName, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;</dt>
+    <dd><p>泛型数组对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetObjectList_" data-uid="Tool.SqlCore.MessageHelper.GetObjectList*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetObjectList__1_Tool_SqlCore_DbHelper_System_String_System_Object_System_Collections_Generic_List_System_Data_Common_DbParameter___System_Data_Common_DbParameter___" data-uid="Tool.SqlCore.MessageHelper.GetObjectList``1(Tool.SqlCore.DbHelper,System.String,System.Object,System.Collections.Generic.List{System.Data.Common.DbParameter}@,System.Data.Common.DbParameter[])">
+  GetObjectList&lt;T&gt;(DbHelper, string, object, out List&lt;DbParameter&gt;, params DbParameter[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L260"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个泛型数组对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IList&lt;T&gt; GetObjectList&lt;T&gt;(this DbHelper database, string procName, object prams, out List&lt;DbParameter&gt; parameters, params DbParameter[] parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+    <dt><code>parameters</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>返回<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]对象集合</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]</dt>
+    <dd><p>具有返回值的参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;</dt>
+    <dd><p>泛型数组对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetObject_" data-uid="Tool.SqlCore.MessageHelper.GetObject*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetObject__1_Tool_SqlCore_DbHelper_System_String_System_Collections_Generic_List_System_Data_Common_DbParameter__" data-uid="Tool.SqlCore.MessageHelper.GetObject``1(Tool.SqlCore.DbHelper,System.String,System.Collections.Generic.List{System.Data.Common.DbParameter})">
+  GetObject&lt;T&gt;(DbHelper, string, List&lt;DbParameter&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L187"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个泛型对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T GetObject&lt;T&gt;(this DbHelper database, string procName, List&lt;DbParameter&gt; prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd><p>泛型对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetObject_" data-uid="Tool.SqlCore.MessageHelper.GetObject*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetObject__1_Tool_SqlCore_DbHelper_System_String_System_Object_" data-uid="Tool.SqlCore.MessageHelper.GetObject``1(Tool.SqlCore.DbHelper,System.String,System.Object)">
+  GetObject&lt;T&gt;(DbHelper, string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L201"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个泛型对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T GetObject&lt;T&gt;(this DbHelper database, string procName, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd><p>泛型对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_MessageHelper_GetObject_" data-uid="Tool.SqlCore.MessageHelper.GetObject*"></a>
+
+  <h3 id="Tool_SqlCore_MessageHelper_GetObject__1_Tool_SqlCore_DbHelper_System_String_System_Object_System_Collections_Generic_List_System_Data_Common_DbParameter___System_Data_Common_DbParameter___" data-uid="Tool.SqlCore.MessageHelper.GetObject``1(Tool.SqlCore.DbHelper,System.String,System.Object,System.Collections.Generic.List{System.Data.Common.DbParameter}@,System.Data.Common.DbParameter[])">
+  GetObject&lt;T&gt;(DbHelper, string, object, out List&lt;DbParameter&gt;, params DbParameter[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L216"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据存储过程返回一个泛型对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T GetObject&lt;T&gt;(this DbHelper database, string procName, object prams, out List&lt;DbParameter&gt; parameters, params DbParameter[] parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据底层对象</p>
+</dd>
+    <dt><code>procName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>存储过程名</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>存储过程参数</p>
+</dd>
+    <dt><code>parameters</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>&gt;</dt>
+    <dd><p>返回<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]对象集合</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.common.dbparameter">DbParameter</a>[]</dt>
+    <dd><p>具有返回值的参数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd><p>泛型对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/MessageHelper.cs/#L15" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

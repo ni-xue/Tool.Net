@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class BaseDataProvider | Tool.Net </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class BaseDataProvider | Tool.Net ">
+      
+      <meta name="description" content="数据库访问底层父类，继承皆可实现高效开发访问">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ni-xue/Tool.Net/new/master/apiSpec/new?filename=Tool_SqlCore_BaseDataProvider.md&amp;value=---%0Auid%3A%20Tool.SqlCore.BaseDataProvider%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Tool.Net">
+            Tool.Net
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Tool.SqlCore.BaseDataProvider">
+
+
+
+  <h1 id="Tool_SqlCore_BaseDataProvider" data-uid="Tool.SqlCore.BaseDataProvider" class="text-break">
+Class BaseDataProvider  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L13"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Tool.html">Tool</a>.<a class="xref" href="Tool.SqlCore.html">SqlCore</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Tool.Net.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>数据库访问底层父类，继承皆可实现高效开发访问</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class BaseDataProvider</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">BaseDataProvider</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Add__1_System_Object_System_Object_System_Object_">ObjectExtension.Add&lt;T&gt;(object, object, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_CopyEntity_System_Object_System_Object_System_String___">ObjectExtension.CopyEntity(object, object, params string[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_">ObjectExtension.EntityToJson(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_System_Boolean_">ObjectExtension.EntityToJson(object, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_System_Boolean_System_String_">ObjectExtension.EntityToJson(object, bool, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_GetIntPtr_System_Object_">ObjectExtension.GetIntPtr(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_GetIntPtrInt_System_Object_">ObjectExtension.GetIntPtrInt(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Read__1_System_Object_System_Int32_System_Object_System_Int32_System_Int32_">ObjectExtension.Read&lt;T&gt;(object, int, object, int, int)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Read__1_System_Object_System_Object_System_Int32_System_Int32_">ObjectExtension.Read&lt;T&gt;(object, object, int, int)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBase64String_System_Object_">ObjectExtension.ToBase64String(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBytes_System_Object_">ObjectExtension.ToBytes(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBytes_System_Object_System_Type__">ObjectExtension.ToBytes(object, out Type)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJson_System_Object_">ObjectExtension.ToJson(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJson_System_Object_System_Text_Json_JsonSerializerOptions_">ObjectExtension.ToJson(object, JsonSerializerOptions)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJsonWeb_System_Object_">ObjectExtension.ToJsonWeb(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJsonWeb_System_Object_System_Action_System_Text_Json_JsonSerializerOptions__">ObjectExtension.ToJsonWeb(object, Action&lt;JsonSerializerOptions&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToTryVar__1_System_Object___0_">ObjectExtension.ToTryVar&lt;T&gt;(object, T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar_System_Object_System_String_">ObjectExtension.ToVar(object, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar_System_Object_System_Type_System_Boolean_">ObjectExtension.ToVar(object, Type, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar__1_System_Object_">ObjectExtension.ToVar&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToXml_System_Object_">ObjectExtension.ToXml(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_GetDictionary_System_Object_">DictionaryExtension.GetDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_SetDictionary_System_Object_System_Collections_Generic_IDictionary_System_String_System_Object__">DictionaryExtension.SetDictionary(object, IDictionary&lt;string, object&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToDictionary_System_Object_">DictionaryExtension.ToDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToDictionary__1_System_Object_">DictionaryExtension.ToDictionary&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToIDictionary_System_Object_">DictionaryExtension.ToIDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToIDictionary__1_System_Object_">DictionaryExtension.ToIDictionary&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey_System_Object_System_String_System_Boolean__">TypeExtension.GetFieldKey(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey_System_Object_System_Type_System_String_System_Boolean__">TypeExtension.GetFieldKey(object, Type, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey__1_System_Object_System_String_System_Boolean__">TypeExtension.GetFieldKey&lt;T&gt;(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertieFind_System_Object_System_String_System_Boolean_">TypeExtension.GetPropertieFind(object, string, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetProperties_System_Object_">TypeExtension.GetProperties(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey_System_Object_System_String_System_Boolean__">TypeExtension.GetPropertyKey(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey_System_Object_System_Type_System_String_System_Boolean__">TypeExtension.GetPropertyKey(object, Type, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey__1_System_Object_System_String_System_Boolean__">TypeExtension.GetPropertyKey&lt;T&gt;(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_ComponentModel_PropertyDescriptor_">TypeExtension.GetValue(object, PropertyDescriptor)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_String_">TypeExtension.GetValue(object, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_String_System_Boolean_">TypeExtension.GetValue(object, string, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey_System_Object_System_String_System_Object_">TypeExtension.SetFieldKey(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey_System_Object_System_Type_System_String_System_Object_">TypeExtension.SetFieldKey(object, Type, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey__1_System_Object_System_String_System_Object_">TypeExtension.SetFieldKey&lt;T&gt;(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey_System_Object_System_String_System_Object_">TypeExtension.SetPropertyKey(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey_System_Object_System_Type_System_String_System_Object_">TypeExtension.SetPropertyKey(object, Type, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey__1_System_Object_System_String_System_Object_">TypeExtension.SetPropertyKey&lt;T&gt;(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_ComponentModel_PropertyDescriptor_System_Object_">TypeExtension.SetValue(object, PropertyDescriptor, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_String_System_Object_">TypeExtension.SetValue(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_String_System_Object_System_Boolean_">TypeExtension.SetValue(object, string, object, bool)</a>
+  </div>
+  </dd></dl>
+
+
+
+  <h2 id="Tool_SqlCore_BaseDataProvider_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>代码由逆血提供支持</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Tool_SqlCore_BaseDataProvider__ctor_" data-uid="Tool.SqlCore.BaseDataProvider.#ctor*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider__ctor_System_String_System_String_Tool_SqlCore_IDbProvider_" data-uid="Tool.SqlCore.BaseDataProvider.#ctor(System.String,System.String,Tool.SqlCore.IDbProvider)">
+  BaseDataProvider(string, string, IDbProvider)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L51"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>初始化 底层 默认为SqlServer 数据库的访问</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected BaseDataProvider(string connectionString, string dbProviderName, IDbProvider dbProvider)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>connectionString</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>连接字符串</p>
+</dd>
+    <dt><code>dbProviderName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>数据库类型定义名称</p>
+</dd>
+    <dt><code>dbProvider</code> <a class="xref" href="Tool.SqlCore.IDbProvider.html">IDbProvider</a></dt>
+    <dd><p>实现SQL对象类，具有高扩展性</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_BaseDataProvider__ctor_" data-uid="Tool.SqlCore.BaseDataProvider.#ctor*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider__ctor_System_String_System_String_Tool_SqlCore_IDbProvider_Microsoft_Extensions_Logging_ILogger_" data-uid="Tool.SqlCore.BaseDataProvider.#ctor(System.String,System.String,Tool.SqlCore.IDbProvider,Microsoft.Extensions.Logging.ILogger)">
+  BaseDataProvider(string, string, IDbProvider, ILogger)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L76"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>初始化 底层 默认为SqlServer 数据库的访问</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected BaseDataProvider(string connectionString, string dbProviderName, IDbProvider dbProvider, ILogger logger)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>connectionString</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>连接字符串</p>
+</dd>
+    <dt><code>dbProviderName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>数据库类型定义名称</p>
+</dd>
+    <dt><code>dbProvider</code> <a class="xref" href="Tool.SqlCore.IDbProvider.html">IDbProvider</a></dt>
+    <dd><p>实现SQL对象类，具有高扩展性</p>
+</dd>
+    <dt><code>logger</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.logging.ilogger">ILogger</a></dt>
+    <dd><p>用于打印程序日志，可以为null</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_BaseDataProvider__ctor_" data-uid="Tool.SqlCore.BaseDataProvider.#ctor*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider__ctor_System_String_Tool_SqlCore_DbProviderType_Tool_SqlCore_IDbProvider_" data-uid="Tool.SqlCore.BaseDataProvider.#ctor(System.String,Tool.SqlCore.DbProviderType,Tool.SqlCore.IDbProvider)">
+  BaseDataProvider(string, DbProviderType, IDbProvider)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L63"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>初始化 底层</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected BaseDataProvider(string connectionString, DbProviderType dbProviderType, IDbProvider dbProvider)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>connectionString</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>连接字符串</p>
+</dd>
+    <dt><code>dbProviderType</code> <a class="xref" href="Tool.SqlCore.DbProviderType.html">DbProviderType</a></dt>
+    <dd><p>数据库类型</p>
+</dd>
+    <dt><code>dbProvider</code> <a class="xref" href="Tool.SqlCore.IDbProvider.html">IDbProvider</a></dt>
+    <dd><p>实现SQL对象类，具有高扩展性</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_BaseDataProvider__ctor_" data-uid="Tool.SqlCore.BaseDataProvider.#ctor*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider__ctor_System_String_Tool_SqlCore_DbProviderType_Tool_SqlCore_IDbProvider_Microsoft_Extensions_Logging_ILogger_" data-uid="Tool.SqlCore.BaseDataProvider.#ctor(System.String,Tool.SqlCore.DbProviderType,Tool.SqlCore.IDbProvider,Microsoft.Extensions.Logging.ILogger)">
+  BaseDataProvider(string, DbProviderType, IDbProvider, ILogger)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L89"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>初始化 底层</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected BaseDataProvider(string connectionString, DbProviderType dbProviderType, IDbProvider dbProvider, ILogger logger)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>connectionString</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>连接字符串</p>
+</dd>
+    <dt><code>dbProviderType</code> <a class="xref" href="Tool.SqlCore.DbProviderType.html">DbProviderType</a></dt>
+    <dd><p>数据库类型</p>
+</dd>
+    <dt><code>dbProvider</code> <a class="xref" href="Tool.SqlCore.IDbProvider.html">IDbProvider</a></dt>
+    <dd><p>实现SQL对象类，具有高扩展性</p>
+</dd>
+    <dt><code>logger</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.logging.ilogger">ILogger</a></dt>
+    <dd><p>用于打印程序日志，可以为null</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_BaseDataProvider__ctor_" data-uid="Tool.SqlCore.BaseDataProvider.#ctor*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider__ctor_Tool_SqlCore_DbHelper_" data-uid="Tool.SqlCore.BaseDataProvider.#ctor(Tool.SqlCore.DbHelper)">
+  BaseDataProvider(DbHelper)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L99"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>初始化 底层</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected BaseDataProvider(DbHelper database)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>操作对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Tool_SqlCore_BaseDataProvider_ConnectionString_" data-uid="Tool.SqlCore.BaseDataProvider.ConnectionString*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider_ConnectionString" data-uid="Tool.SqlCore.BaseDataProvider.ConnectionString">
+  ConnectionString
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L18"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>链接字符串</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected string ConnectionString { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_BaseDataProvider_Database_" data-uid="Tool.SqlCore.BaseDataProvider.Database*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider_Database" data-uid="Tool.SqlCore.BaseDataProvider.Database">
+  Database
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>数据底层类</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected DbHelper Database { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_BaseDataProvider_DbProviderName_" data-uid="Tool.SqlCore.BaseDataProvider.DbProviderName*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider_DbProviderName" data-uid="Tool.SqlCore.BaseDataProvider.DbProviderName">
+  DbProviderName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取当前访问的数据库类型</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected string DbProviderName { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_BaseDataProvider_DbProviderType_" data-uid="Tool.SqlCore.BaseDataProvider.DbProviderType*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider_DbProviderType" data-uid="Tool.SqlCore.BaseDataProvider.DbProviderType">
+  DbProviderType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L23"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取当前访问的数据库类型</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected DbProviderType DbProviderType { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.DbProviderType.html">DbProviderType</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_BaseDataProvider_IsSqlLog_" data-uid="Tool.SqlCore.BaseDataProvider.IsSqlLog*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider_IsSqlLog" data-uid="Tool.SqlCore.BaseDataProvider.IsSqlLog">
+  IsSqlLog
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L38"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>是否启动SQL日志打印</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool IsSqlLog { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Tool_SqlCore_BaseDataProvider_GetPagerSet_" data-uid="Tool.SqlCore.BaseDataProvider.GetPagerSet*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider_GetPagerSet_Tool_SqlCore_PagerParameters_" data-uid="Tool.SqlCore.BaseDataProvider.GetPagerSet(Tool.SqlCore.PagerParameters)">
+  GetPagerSet(PagerParameters)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L110"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>分页，用于SQL对象的分页</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual PagerSet GetPagerSet(PagerParameters prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>prams</code> <a class="xref" href="Tool.SqlCore.PagerParameters.html">PagerParameters</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.PagerSet.html">PagerSet</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_BaseDataProvider_GetPagerSetAsync_" data-uid="Tool.SqlCore.BaseDataProvider.GetPagerSetAsync*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider_GetPagerSetAsync_Tool_SqlCore_PagerParameters_" data-uid="Tool.SqlCore.BaseDataProvider.GetPagerSetAsync(Tool.SqlCore.PagerParameters)">
+  GetPagerSetAsync(PagerParameters)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L120"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>分页，用于SQL对象的分页</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Task&lt;PagerSet&gt; GetPagerSetAsync(PagerParameters prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>prams</code> <a class="xref" href="Tool.SqlCore.PagerParameters.html">PagerParameters</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Tool.SqlCore.PagerSet.html">PagerSet</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_BaseDataProvider_GetTableProvider_" data-uid="Tool.SqlCore.BaseDataProvider.GetTableProvider*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider_GetTableProvider_System_String_" data-uid="Tool.SqlCore.BaseDataProvider.GetTableProvider(System.String)">
+  GetTableProvider(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L140"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>表信息对象，用于对单张表的处理</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual ITableProvider GetTableProvider(string tableName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>tableName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>表名</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.ITableProvider.html">ITableProvider</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_BaseDataProvider_GetTableProvider_" data-uid="Tool.SqlCore.BaseDataProvider.GetTableProvider*"></a>
+
+  <h3 id="Tool_SqlCore_BaseDataProvider_GetTableProvider__1_System_String_" data-uid="Tool.SqlCore.BaseDataProvider.GetTableProvider``1(System.String)">
+  GetTableProvider&lt;T&gt;(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L151"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>表信息对象，用于对单张表的处理，可以通过自己实现接口来完成效果。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual ITableProvider GetTableProvider&lt;T&gt;(string tableName) where T : ITableProvider, new()</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>tableName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>表名</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.ITableProvider.html">ITableProvider</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>自己实现的单表操作类</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/BaseDataProvider.cs/#L13" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,2990 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class TableProvider | Tool.Net </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class TableProvider | Tool.Net ">
+      
+      <meta name="description" content="单表操作对象，系统提供，如果有特殊需求，建议重新实现接口完成。">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ni-xue/Tool.Net/new/master/apiSpec/new?filename=Tool_SqlCore_TableProvider.md&amp;value=---%0Auid%3A%20Tool.SqlCore.TableProvider%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Tool.Net">
+            Tool.Net
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Tool.SqlCore.TableProvider">
+
+
+
+  <h1 id="Tool_SqlCore_TableProvider" data-uid="Tool.SqlCore.TableProvider" class="text-break">
+Class TableProvider  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L16"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Tool.html">Tool</a>.<a class="xref" href="Tool.SqlCore.html">SqlCore</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Tool.Net.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>单表操作对象，系统提供，如果有特殊需求，建议重新实现接口完成。</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class TableProvider : ITableProvider</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">TableProvider</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Tool.SqlCore.ITableProvider.html">ITableProvider</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Add__1_System_Object_System_Object_System_Object_">ObjectExtension.Add&lt;T&gt;(object, object, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_CopyEntity_System_Object_System_Object_System_String___">ObjectExtension.CopyEntity(object, object, params string[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_">ObjectExtension.EntityToJson(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_System_Boolean_">ObjectExtension.EntityToJson(object, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_System_Boolean_System_String_">ObjectExtension.EntityToJson(object, bool, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_GetIntPtr_System_Object_">ObjectExtension.GetIntPtr(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_GetIntPtrInt_System_Object_">ObjectExtension.GetIntPtrInt(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Read__1_System_Object_System_Int32_System_Object_System_Int32_System_Int32_">ObjectExtension.Read&lt;T&gt;(object, int, object, int, int)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Read__1_System_Object_System_Object_System_Int32_System_Int32_">ObjectExtension.Read&lt;T&gt;(object, object, int, int)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBase64String_System_Object_">ObjectExtension.ToBase64String(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBytes_System_Object_">ObjectExtension.ToBytes(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBytes_System_Object_System_Type__">ObjectExtension.ToBytes(object, out Type)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJson_System_Object_">ObjectExtension.ToJson(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJson_System_Object_System_Text_Json_JsonSerializerOptions_">ObjectExtension.ToJson(object, JsonSerializerOptions)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJsonWeb_System_Object_">ObjectExtension.ToJsonWeb(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJsonWeb_System_Object_System_Action_System_Text_Json_JsonSerializerOptions__">ObjectExtension.ToJsonWeb(object, Action&lt;JsonSerializerOptions&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToTryVar__1_System_Object___0_">ObjectExtension.ToTryVar&lt;T&gt;(object, T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar_System_Object_System_String_">ObjectExtension.ToVar(object, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar_System_Object_System_Type_System_Boolean_">ObjectExtension.ToVar(object, Type, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar__1_System_Object_">ObjectExtension.ToVar&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToXml_System_Object_">ObjectExtension.ToXml(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_GetDictionary_System_Object_">DictionaryExtension.GetDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_SetDictionary_System_Object_System_Collections_Generic_IDictionary_System_String_System_Object__">DictionaryExtension.SetDictionary(object, IDictionary&lt;string, object&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToDictionary_System_Object_">DictionaryExtension.ToDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToDictionary__1_System_Object_">DictionaryExtension.ToDictionary&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToIDictionary_System_Object_">DictionaryExtension.ToIDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToIDictionary__1_System_Object_">DictionaryExtension.ToIDictionary&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey_System_Object_System_String_System_Boolean__">TypeExtension.GetFieldKey(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey_System_Object_System_Type_System_String_System_Boolean__">TypeExtension.GetFieldKey(object, Type, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey__1_System_Object_System_String_System_Boolean__">TypeExtension.GetFieldKey&lt;T&gt;(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertieFind_System_Object_System_String_System_Boolean_">TypeExtension.GetPropertieFind(object, string, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetProperties_System_Object_">TypeExtension.GetProperties(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey_System_Object_System_String_System_Boolean__">TypeExtension.GetPropertyKey(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey_System_Object_System_Type_System_String_System_Boolean__">TypeExtension.GetPropertyKey(object, Type, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey__1_System_Object_System_String_System_Boolean__">TypeExtension.GetPropertyKey&lt;T&gt;(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_ComponentModel_PropertyDescriptor_">TypeExtension.GetValue(object, PropertyDescriptor)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_String_">TypeExtension.GetValue(object, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_String_System_Boolean_">TypeExtension.GetValue(object, string, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey_System_Object_System_String_System_Object_">TypeExtension.SetFieldKey(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey_System_Object_System_Type_System_String_System_Object_">TypeExtension.SetFieldKey(object, Type, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey__1_System_Object_System_String_System_Object_">TypeExtension.SetFieldKey&lt;T&gt;(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey_System_Object_System_String_System_Object_">TypeExtension.SetPropertyKey(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey_System_Object_System_Type_System_String_System_Object_">TypeExtension.SetPropertyKey(object, Type, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey__1_System_Object_System_String_System_Object_">TypeExtension.SetPropertyKey&lt;T&gt;(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_ComponentModel_PropertyDescriptor_System_Object_">TypeExtension.SetValue(object, PropertyDescriptor, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_String_System_Object_">TypeExtension.SetValue(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_String_System_Object_System_Boolean_">TypeExtension.SetValue(object, string, object, bool)</a>
+  </div>
+  </dd></dl>
+
+
+
+  <h2 id="Tool_SqlCore_TableProvider_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>代码由逆血提供支持</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Tool_SqlCore_TableProvider__ctor_" data-uid="Tool.SqlCore.TableProvider.#ctor*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider__ctor" data-uid="Tool.SqlCore.TableProvider.#ctor">
+  TableProvider()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>无参构造，接口自动实现</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TableProvider()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider__ctor_" data-uid="Tool.SqlCore.TableProvider.#ctor*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider__ctor_Tool_SqlCore_DbHelper_System_String_" data-uid="Tool.SqlCore.TableProvider.#ctor(Tool.SqlCore.DbHelper,System.String)">
+  TableProvider(DbHelper, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L43"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>有参构造</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TableProvider(DbHelper database, string tableName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>database</code> <a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd><p>数据源对象</p>
+</dd>
+    <dt><code>tableName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>表名</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Tool_SqlCore_TableProvider_Database_" data-uid="Tool.SqlCore.TableProvider.Database*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Database" data-uid="Tool.SqlCore.TableProvider.Database">
+  Database
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L23"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>核心数据对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DbHelper Database { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.SqlCore.DbHelper.html">DbHelper</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_TableName_" data-uid="Tool.SqlCore.TableProvider.TableName*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_TableName" data-uid="Tool.SqlCore.TableProvider.TableName">
+  TableName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>表名</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string TableName { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Tool_SqlCore_TableProvider_BatchCommitData_" data-uid="Tool.SqlCore.TableProvider.BatchCommitData*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_BatchCommitData_System_Data_DataSet_System_String_____" data-uid="Tool.SqlCore.TableProvider.BatchCommitData(System.Data.DataSet,System.String[][])">
+  BatchCommitData(DataSet, string[][])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L65"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>批量提交数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void BatchCommitData(DataSet dataSet, string[][] columnMapArray)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataSet</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.dataset">DataSet</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.dataset">DataSet</a>对象</p>
+</dd>
+    <dt><code>columnMapArray</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[][]</dt>
+    <dd><p>列映射数组</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_BatchCommitData_" data-uid="Tool.SqlCore.TableProvider.BatchCommitData*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_BatchCommitData_System_Data_DataTable_System_String_____" data-uid="Tool.SqlCore.TableProvider.BatchCommitData(System.Data.DataTable,System.String[][])">
+  BatchCommitData(DataTable, string[][])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L75"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>批量提交数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void BatchCommitData(DataTable table, string[][] columnMapArray)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>table</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>对象</p>
+</dd>
+    <dt><code>columnMapArray</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[][]</dt>
+    <dd><p>列映射数组</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_CommitData_" data-uid="Tool.SqlCore.TableProvider.CommitData*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_CommitData_System_Data_DataTable_" data-uid="Tool.SqlCore.TableProvider.CommitData(System.Data.DataTable)">
+  CommitData(DataTable)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L96"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>插入新的数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CommitData(DataTable dt)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dt</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Delete_" data-uid="Tool.SqlCore.TableProvider.Delete*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Delete_System_String_" data-uid="Tool.SqlCore.TableProvider.Delete(System.String)">
+  Delete(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L205"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>删除该表数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Delete(string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的删除条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>受影响行数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Delete_" data-uid="Tool.SqlCore.TableProvider.Delete*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Delete_System_String_System_Object_" data-uid="Tool.SqlCore.TableProvider.Delete(System.String,System.Object)">
+  Delete(string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L217"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>删除该表数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Delete(string where, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的删除条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>受影响行数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_DeleteAsync_" data-uid="Tool.SqlCore.TableProvider.DeleteAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_DeleteAsync_System_String_" data-uid="Tool.SqlCore.TableProvider.DeleteAsync(System.String)">
+  DeleteAsync(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L742"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>删除该表数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;int&gt; DeleteAsync(string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的删除条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd><p>受影响行数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_DeleteAsync_" data-uid="Tool.SqlCore.TableProvider.DeleteAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_DeleteAsync_System_String_System_Object_" data-uid="Tool.SqlCore.TableProvider.DeleteAsync(System.String,System.Object)">
+  DeleteAsync(string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L754"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>删除该表数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;int&gt; DeleteAsync(string where, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的删除条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd><p>受影响行数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Get_" data-uid="Tool.SqlCore.TableProvider.Get*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Get_System_String_" data-uid="Tool.SqlCore.TableProvider.Get(System.String)">
+  Get(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L294"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>查询该表信息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataTable Get(string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的查询条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Get_" data-uid="Tool.SqlCore.TableProvider.Get*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Get_System_String_System_Object_" data-uid="Tool.SqlCore.TableProvider.Get(System.String,System.Object)">
+  Get(string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L312"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>查询该表信息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataTable Get(string where, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Get_" data-uid="Tool.SqlCore.TableProvider.Get*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Get_System_String_System_Object_System_String___" data-uid="Tool.SqlCore.TableProvider.Get(System.String,System.Object,System.String[])">
+  Get(string, object, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L360"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>查询该表信息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataTable Get(string where, object prams, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Get_" data-uid="Tool.SqlCore.TableProvider.Get*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Get_System_String_System_String___" data-uid="Tool.SqlCore.TableProvider.Get(System.String,System.String[])">
+  Get(string, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L330"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>查询该表信息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataTable Get(string where, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的查询条件</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetAsync_" data-uid="Tool.SqlCore.TableProvider.GetAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetAsync_System_String_" data-uid="Tool.SqlCore.TableProvider.GetAsync(System.String)">
+  GetAsync(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L830"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>查询该表信息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;DataTable&gt; GetAsync(string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的查询条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>&gt;</dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetAsync_" data-uid="Tool.SqlCore.TableProvider.GetAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetAsync_System_String_System_Object_" data-uid="Tool.SqlCore.TableProvider.GetAsync(System.String,System.Object)">
+  GetAsync(string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L848"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>查询该表信息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;DataTable&gt; GetAsync(string where, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>&gt;</dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetAsync_" data-uid="Tool.SqlCore.TableProvider.GetAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetAsync_System_String_System_Object_System_String___" data-uid="Tool.SqlCore.TableProvider.GetAsync(System.String,System.Object,System.String[])">
+  GetAsync(string, object, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L896"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>查询该表信息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;DataTable&gt; GetAsync(string where, object prams, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>&gt;</dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetAsync_" data-uid="Tool.SqlCore.TableProvider.GetAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetAsync_System_String_System_String___" data-uid="Tool.SqlCore.TableProvider.GetAsync(System.String,System.String[])">
+  GetAsync(string, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L866"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>查询该表信息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;DataTable&gt; GetAsync(string where, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的查询条件</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>&gt;</dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetEmptyTable_" data-uid="Tool.SqlCore.TableProvider.GetEmptyTable*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetEmptyTable" data-uid="Tool.SqlCore.TableProvider.GetEmptyTable">
+  GetEmptyTable()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L387"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取空表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataTable GetEmptyTable()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetEmptyTableAsync_" data-uid="Tool.SqlCore.TableProvider.GetEmptyTableAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetEmptyTableAsync" data-uid="Tool.SqlCore.TableProvider.GetEmptyTableAsync">
+  GetEmptyTableAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L923"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取空表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;DataTable&gt; GetEmptyTableAsync()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>&gt;</dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datatable">DataTable</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObjectAsync_" data-uid="Tool.SqlCore.TableProvider.GetObjectAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObjectAsync__1_System_String_" data-uid="Tool.SqlCore.TableProvider.GetObjectAsync``1(System.String)">
+  GetObjectAsync&lt;T&gt;(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L951"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;T&gt; GetObjectAsync&lt;T&gt;(string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;T&gt;</dt>
+    <dd><p>返回实体对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObjectAsync_" data-uid="Tool.SqlCore.TableProvider.GetObjectAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObjectAsync__1_System_String_System_Object_" data-uid="Tool.SqlCore.TableProvider.GetObjectAsync``1(System.String,System.Object)">
+  GetObjectAsync&lt;T&gt;(string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L968"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;T&gt; GetObjectAsync&lt;T&gt;(string where, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;T&gt;</dt>
+    <dd><p>返回实体对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObjectAsync_" data-uid="Tool.SqlCore.TableProvider.GetObjectAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObjectAsync__1_System_String_System_Object_System_String___" data-uid="Tool.SqlCore.TableProvider.GetObjectAsync``1(System.String,System.Object,System.String[])">
+  GetObjectAsync&lt;T&gt;(string, object, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L1003"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;T&gt; GetObjectAsync&lt;T&gt;(string where, object prams, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;T&gt;</dt>
+    <dd><p>返回实体对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObjectAsync_" data-uid="Tool.SqlCore.TableProvider.GetObjectAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObjectAsync__1_System_String_System_String___" data-uid="Tool.SqlCore.TableProvider.GetObjectAsync``1(System.String,System.String[])">
+  GetObjectAsync&lt;T&gt;(string, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L985"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;T&gt; GetObjectAsync&lt;T&gt;(string where, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;T&gt;</dt>
+    <dd><p>返回实体对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObjectListAsync_" data-uid="Tool.SqlCore.TableProvider.GetObjectListAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObjectListAsync__1_System_String_" data-uid="Tool.SqlCore.TableProvider.GetObjectListAsync``1(System.String)">
+  GetObjectListAsync&lt;T&gt;(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L1019"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象列表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;IList&lt;T&gt;&gt; GetObjectListAsync&lt;T&gt;(string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;&gt;</dt>
+    <dd><p>返回实体对象集合</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObjectListAsync_" data-uid="Tool.SqlCore.TableProvider.GetObjectListAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObjectListAsync__1_System_String_System_Object_" data-uid="Tool.SqlCore.TableProvider.GetObjectListAsync``1(System.String,System.Object)">
+  GetObjectListAsync&lt;T&gt;(string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L1036"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象列表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;IList&lt;T&gt;&gt; GetObjectListAsync&lt;T&gt;(string where, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;&gt;</dt>
+    <dd><p>返回实体对象集合</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObjectListAsync_" data-uid="Tool.SqlCore.TableProvider.GetObjectListAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObjectListAsync__1_System_String_System_Object_System_String___" data-uid="Tool.SqlCore.TableProvider.GetObjectListAsync``1(System.String,System.Object,System.String[])">
+  GetObjectListAsync&lt;T&gt;(string, object, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L1071"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象列表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;IList&lt;T&gt;&gt; GetObjectListAsync&lt;T&gt;(string where, object prams, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;&gt;</dt>
+    <dd><p>返回实体对象集合</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObjectListAsync_" data-uid="Tool.SqlCore.TableProvider.GetObjectListAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObjectListAsync__1_System_String_System_String___" data-uid="Tool.SqlCore.TableProvider.GetObjectListAsync``1(System.String,System.String[])">
+  GetObjectListAsync&lt;T&gt;(string, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L1053"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象列表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;IList&lt;T&gt;&gt; GetObjectListAsync&lt;T&gt;(string where, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;&gt;</dt>
+    <dd><p>返回实体对象集合</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObjectList_" data-uid="Tool.SqlCore.TableProvider.GetObjectList*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObjectList__1_System_String_" data-uid="Tool.SqlCore.TableProvider.GetObjectList``1(System.String)">
+  GetObjectList&lt;T&gt;(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L483"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象列表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IList&lt;T&gt; GetObjectList&lt;T&gt;(string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;</dt>
+    <dd><p>返回实体对象集合</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObjectList_" data-uid="Tool.SqlCore.TableProvider.GetObjectList*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObjectList__1_System_String_System_Object_" data-uid="Tool.SqlCore.TableProvider.GetObjectList``1(System.String,System.Object)">
+  GetObjectList&lt;T&gt;(string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L500"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象列表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IList&lt;T&gt; GetObjectList&lt;T&gt;(string where, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;</dt>
+    <dd><p>返回实体对象集合</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObjectList_" data-uid="Tool.SqlCore.TableProvider.GetObjectList*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObjectList__1_System_String_System_Object_System_String___" data-uid="Tool.SqlCore.TableProvider.GetObjectList``1(System.String,System.Object,System.String[])">
+  GetObjectList&lt;T&gt;(string, object, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L535"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象列表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IList&lt;T&gt; GetObjectList&lt;T&gt;(string where, object prams, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;</dt>
+    <dd><p>返回实体对象集合</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObjectList_" data-uid="Tool.SqlCore.TableProvider.GetObjectList*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObjectList__1_System_String_System_String___" data-uid="Tool.SqlCore.TableProvider.GetObjectList``1(System.String,System.String[])">
+  GetObjectList&lt;T&gt;(string, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L517"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象列表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IList&lt;T&gt; GetObjectList&lt;T&gt;(string where, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;T&gt;</dt>
+    <dd><p>返回实体对象集合</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObject_" data-uid="Tool.SqlCore.TableProvider.GetObject*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObject__1_System_String_" data-uid="Tool.SqlCore.TableProvider.GetObject``1(System.String)">
+  GetObject&lt;T&gt;(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L415"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public T GetObject&lt;T&gt;(string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd><p>返回实体对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObject_" data-uid="Tool.SqlCore.TableProvider.GetObject*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObject__1_System_String_System_Object_" data-uid="Tool.SqlCore.TableProvider.GetObject``1(System.String,System.Object)">
+  GetObject&lt;T&gt;(string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L432"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public T GetObject&lt;T&gt;(string where, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd><p>返回实体对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObject_" data-uid="Tool.SqlCore.TableProvider.GetObject*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObject__1_System_String_System_Object_System_String___" data-uid="Tool.SqlCore.TableProvider.GetObject``1(System.String,System.Object,System.String[])">
+  GetObject&lt;T&gt;(string, object, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L467"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public T GetObject&lt;T&gt;(string where, object prams, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd><p>返回实体对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetObject_" data-uid="Tool.SqlCore.TableProvider.GetObject*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetObject__1_System_String_System_String___" data-uid="Tool.SqlCore.TableProvider.GetObject``1(System.String,System.String[])">
+  GetObject&lt;T&gt;(string, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L449"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public T GetObject&lt;T&gt;(string where, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd><p>返回实体对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetOne_" data-uid="Tool.SqlCore.TableProvider.GetOne*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetOne_System_String_" data-uid="Tool.SqlCore.TableProvider.GetOne(System.String)">
+  GetOne(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L550"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取当前查询的数据的第一行</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataRow GetOne(string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p>返回第一条数据</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetOne_" data-uid="Tool.SqlCore.TableProvider.GetOne*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetOne_System_String_System_Object_" data-uid="Tool.SqlCore.TableProvider.GetOne(System.String,System.Object)">
+  GetOne(string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L566"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取当前查询的数据的第一行</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataRow GetOne(string where, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p>返回第一条数据</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetOne_" data-uid="Tool.SqlCore.TableProvider.GetOne*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetOne_System_String_System_Object_System_String___" data-uid="Tool.SqlCore.TableProvider.GetOne(System.String,System.Object,System.String[])">
+  GetOne(string, object, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L599"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取当前查询的数据的第一行</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataRow GetOne(string where, object prams, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p>返回第一条数据</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetOne_" data-uid="Tool.SqlCore.TableProvider.GetOne*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetOne_System_String_System_String___" data-uid="Tool.SqlCore.TableProvider.GetOne(System.String,System.String[])">
+  GetOne(string, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L582"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取当前查询的数据的第一行</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataRow GetOne(string where, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p>返回第一条数据</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetOneAsync_" data-uid="Tool.SqlCore.TableProvider.GetOneAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetOneAsync_System_String_" data-uid="Tool.SqlCore.TableProvider.GetOneAsync(System.String)">
+  GetOneAsync(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L1086"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取当前查询的数据的第一行</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;DataRow&gt; GetOneAsync(string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>&gt;</dt>
+    <dd><p>返回第一条数据</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetOneAsync_" data-uid="Tool.SqlCore.TableProvider.GetOneAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetOneAsync_System_String_System_Object_" data-uid="Tool.SqlCore.TableProvider.GetOneAsync(System.String,System.Object)">
+  GetOneAsync(string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L1102"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取当前查询的数据的第一行</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;DataRow&gt; GetOneAsync(string where, object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>&gt;</dt>
+    <dd><p>返回第一条数据</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetOneAsync_" data-uid="Tool.SqlCore.TableProvider.GetOneAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetOneAsync_System_String_System_Object_System_String___" data-uid="Tool.SqlCore.TableProvider.GetOneAsync(System.String,System.Object,System.String[])">
+  GetOneAsync(string, object, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L1135"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取当前查询的数据的第一行</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;DataRow&gt; GetOneAsync(string where, object prams, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>&gt;</dt>
+    <dd><p>返回第一条数据</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetOneAsync_" data-uid="Tool.SqlCore.TableProvider.GetOneAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetOneAsync_System_String_System_String___" data-uid="Tool.SqlCore.TableProvider.GetOneAsync(System.String,System.String[])">
+  GetOneAsync(string, params string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L1118"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取当前查询的数据的第一行</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;DataRow&gt; GetOneAsync(string where, params string[] fields)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+    <dt><code>fields</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>要查询的字段</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>&gt;</dt>
+    <dd><p>返回第一条数据</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetRecordsCount_" data-uid="Tool.SqlCore.TableProvider.GetRecordsCount*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetRecordsCount_System_String_" data-uid="Tool.SqlCore.TableProvider.GetRecordsCount(System.String)">
+  GetRecordsCount(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L614"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>查询行数</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetRecordsCount(string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>返回行数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_GetRecordsCountAsync_" data-uid="Tool.SqlCore.TableProvider.GetRecordsCountAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_GetRecordsCountAsync_System_String_" data-uid="Tool.SqlCore.TableProvider.GetRecordsCountAsync(System.String)">
+  GetRecordsCountAsync(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L654"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>查询行数</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;int&gt; GetRecordsCountAsync(string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>查询条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd><p>返回行数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Insert_" data-uid="Tool.SqlCore.TableProvider.Insert*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Insert_System_Collections_Generic_Dictionary_System_String_System_Object__" data-uid="Tool.SqlCore.TableProvider.Insert(System.Collections.Generic.Dictionary{System.String,System.Object})">
+  Insert(Dictionary&lt;string, object&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L127"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>插入新的数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Insert(Dictionary&lt;string, object&gt; keyValues)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>keyValues</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;</dt>
+    <dd><p>键值对的数据集</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>返回受影响数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Insert_" data-uid="Tool.SqlCore.TableProvider.Insert*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Insert_System_Collections_Generic_Dictionary_System_String_System_Object__System_Object__" data-uid="Tool.SqlCore.TableProvider.Insert(System.Collections.Generic.Dictionary{System.String,System.Object},System.Object@)">
+  Insert(Dictionary&lt;string, object&gt;, out object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L146"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>插入新的数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Insert(Dictionary&lt;string, object&gt; keyValues, out object ID)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>keyValues</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;</dt>
+    <dd><p>键值对的数据集</p>
+</dd>
+    <dt><code>ID</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>获取插入数据的ID</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>返回受影响数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Insert_" data-uid="Tool.SqlCore.TableProvider.Insert*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Insert_System_Data_DataRow_" data-uid="Tool.SqlCore.TableProvider.Insert(System.Data.DataRow)">
+  Insert(DataRow)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L625"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>插入新的数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Insert(DataRow row)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>row</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p>新数据<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Insert_" data-uid="Tool.SqlCore.TableProvider.Insert*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Insert_System_Object_" data-uid="Tool.SqlCore.TableProvider.Insert(System.Object)">
+  Insert(object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L164"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>插入新的数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Insert(object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对虚构参数进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>返回受影响数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Insert_" data-uid="Tool.SqlCore.TableProvider.Insert*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Insert_System_Object_System_Object__" data-uid="Tool.SqlCore.TableProvider.Insert(System.Object,System.Object@)">
+  Insert(object, out object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L185"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>插入新的数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Insert(object prams, out object ID)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+    <dt><code>ID</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>获取插入数据的ID</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>返回受影响数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_InsertAsync_" data-uid="Tool.SqlCore.TableProvider.InsertAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_InsertAsync_System_Collections_Generic_Dictionary_System_String_System_Object__" data-uid="Tool.SqlCore.TableProvider.InsertAsync(System.Collections.Generic.Dictionary{System.String,System.Object})">
+  InsertAsync(Dictionary&lt;string, object&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L666"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>插入新的数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;int&gt; InsertAsync(Dictionary&lt;string, object&gt; keyValues)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>keyValues</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;</dt>
+    <dd><p>键值对的数据集</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd><p>返回受影响数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_InsertAsync_" data-uid="Tool.SqlCore.TableProvider.InsertAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_InsertAsync_System_Object_" data-uid="Tool.SqlCore.TableProvider.InsertAsync(System.Object)">
+  InsertAsync(object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L722"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>插入新的数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;int&gt; InsertAsync(object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对虚构参数进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd><p>返回受影响数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_InsertIdAsync_" data-uid="Tool.SqlCore.TableProvider.InsertIdAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_InsertIdAsync_System_Collections_Generic_Dictionary_System_String_System_Object__" data-uid="Tool.SqlCore.TableProvider.InsertIdAsync(System.Collections.Generic.Dictionary{System.String,System.Object})">
+  InsertIdAsync(Dictionary&lt;string, object&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L684"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>插入新的数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;SqlNonQuery&gt; InsertIdAsync(Dictionary&lt;string, object&gt; keyValues)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>keyValues</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;</dt>
+    <dd><p>键值对的数据集</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Tool.SqlCore.SqlNonQuery.html">SqlNonQuery</a>&gt;</dt>
+    <dd><p>返回受影响数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_InsertIdAsync_" data-uid="Tool.SqlCore.TableProvider.InsertIdAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_InsertIdAsync_System_Object_" data-uid="Tool.SqlCore.TableProvider.InsertIdAsync(System.Object)">
+  InsertIdAsync(object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L702"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>插入新的数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;SqlNonQuery&gt; InsertIdAsync(object prams)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对字符串进行映射</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="Tool.SqlCore.SqlNonQuery.html">SqlNonQuery</a>&gt;</dt>
+    <dd><p>返回受影响数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_NewRow_" data-uid="Tool.SqlCore.TableProvider.NewRow*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_NewRow" data-uid="Tool.SqlCore.TableProvider.NewRow">
+  NewRow()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L398"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>新行</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataRow NewRow()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_NewRowAsync_" data-uid="Tool.SqlCore.TableProvider.NewRowAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_NewRowAsync" data-uid="Tool.SqlCore.TableProvider.NewRowAsync">
+  NewRowAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L934"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>新行</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;DataRow&gt; NewRowAsync()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>&gt;</dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Update_" data-uid="Tool.SqlCore.TableProvider.Update*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Update_System_Collections_Generic_Dictionary_System_String_System_Object__System_String_" data-uid="Tool.SqlCore.TableProvider.Update(System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
+  Update(Dictionary&lt;string, object&gt;, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L276"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>修改数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Update(Dictionary&lt;string, object&gt; keyValues, string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>keyValues</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;</dt>
+    <dd><p>修改的键值对集合</p>
+</dd>
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的修改的条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Update_" data-uid="Tool.SqlCore.TableProvider.Update*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Update_System_Object_System_String_" data-uid="Tool.SqlCore.TableProvider.Update(System.Object,System.String)">
+  Update(object, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L228"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>修改数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Update(object prams, string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对虚构参数进行映射</p>
+</dd>
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的修改的条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_Update_" data-uid="Tool.SqlCore.TableProvider.Update*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_Update_System_Object_System_String_System_Object_" data-uid="Tool.SqlCore.TableProvider.Update(System.Object,System.String,System.Object)">
+  Update(object, string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L250"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>修改数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Update(object prams, string where, object parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对虚构参数进行映射</p>
+</dd>
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的修改的条件</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>警告：where 条件的参数，切记字符串映射名不要与字段名同名</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_UpdateAsync_" data-uid="Tool.SqlCore.TableProvider.UpdateAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_UpdateAsync_System_Collections_Generic_Dictionary_System_String_System_Object__System_String_" data-uid="Tool.SqlCore.TableProvider.UpdateAsync(System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
+  UpdateAsync(Dictionary&lt;string, object&gt;, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L812"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>修改数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;int&gt; UpdateAsync(Dictionary&lt;string, object&gt; keyValues, string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>keyValues</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;</dt>
+    <dd><p>修改的键值对集合</p>
+</dd>
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的修改的条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_UpdateAsync_" data-uid="Tool.SqlCore.TableProvider.UpdateAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_UpdateAsync_System_Object_System_String_" data-uid="Tool.SqlCore.TableProvider.UpdateAsync(System.Object,System.String)">
+  UpdateAsync(object, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L765"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>修改数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;int&gt; UpdateAsync(object prams, string where)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对虚构参数进行映射</p>
+</dd>
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的修改的条件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_SqlCore_TableProvider_UpdateAsync_" data-uid="Tool.SqlCore.TableProvider.UpdateAsync*"></a>
+
+  <h3 id="Tool_SqlCore_TableProvider_UpdateAsync_System_Object_System_String_System_Object_" data-uid="Tool.SqlCore.TableProvider.UpdateAsync(System.Object,System.String,System.Object)">
+  UpdateAsync(object, string, object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L786"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>修改数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;int&gt; UpdateAsync(object prams, string where, object parameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>prams</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>对虚构参数进行映射</p>
+</dd>
+    <dt><code>where</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>指定的修改的条件</p>
+</dd>
+    <dt><code>parameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>警告：where 条件的参数，切记字符串映射名不要与字段名同名</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/SqlCore/TableProvider.cs/#L16" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

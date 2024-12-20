@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class EnServerEventDrive | Tool.Net </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class EnServerEventDrive | Tool.Net ">
+      
+      <meta name="description" content="事件控制抽象类（服务端版）">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ni-xue/Tool.Net/new/master/apiSpec/new?filename=Tool_Sockets_Kernels_EnServerEventDrive.md&amp;value=---%0Auid%3A%20Tool.Sockets.Kernels.EnServerEventDrive%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Tool.Net">
+            Tool.Net
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Tool.Sockets.Kernels.EnServerEventDrive">
+
+
+
+  <h1 id="Tool_Sockets_Kernels_EnServerEventDrive" data-uid="Tool.Sockets.Kernels.EnServerEventDrive" class="text-break">
+Class EnServerEventDrive  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/Kernels/Abstract/EnServerEventDrive.cs/#L9"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Tool.html">Tool</a>.<a class="xref" href="Tool.Sockets.html">Sockets</a>.<a class="xref" href="Tool.Sockets.Kernels.html">Kernels</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Tool.Net.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>事件控制抽象类（服务端版）</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class EnServerEventDrive</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">EnServerEventDrive</span></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="Tool.Sockets.Kernels.NetworkListener-1.html">NetworkListener&lt;ISocket&gt;</a></div>
+      <div><a class="xref" href="Tool.Sockets.NetFrame.ServerFrame.html">ServerFrame</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Add__1_System_Object_System_Object_System_Object_">ObjectExtension.Add&lt;T&gt;(object, object, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_CopyEntity_System_Object_System_Object_System_String___">ObjectExtension.CopyEntity(object, object, params string[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_">ObjectExtension.EntityToJson(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_System_Boolean_">ObjectExtension.EntityToJson(object, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_System_Boolean_System_String_">ObjectExtension.EntityToJson(object, bool, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_GetIntPtr_System_Object_">ObjectExtension.GetIntPtr(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_GetIntPtrInt_System_Object_">ObjectExtension.GetIntPtrInt(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Read__1_System_Object_System_Int32_System_Object_System_Int32_System_Int32_">ObjectExtension.Read&lt;T&gt;(object, int, object, int, int)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Read__1_System_Object_System_Object_System_Int32_System_Int32_">ObjectExtension.Read&lt;T&gt;(object, object, int, int)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBase64String_System_Object_">ObjectExtension.ToBase64String(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBytes_System_Object_">ObjectExtension.ToBytes(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBytes_System_Object_System_Type__">ObjectExtension.ToBytes(object, out Type)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJson_System_Object_">ObjectExtension.ToJson(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJson_System_Object_System_Text_Json_JsonSerializerOptions_">ObjectExtension.ToJson(object, JsonSerializerOptions)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJsonWeb_System_Object_">ObjectExtension.ToJsonWeb(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJsonWeb_System_Object_System_Action_System_Text_Json_JsonSerializerOptions__">ObjectExtension.ToJsonWeb(object, Action&lt;JsonSerializerOptions&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToTryVar__1_System_Object___0_">ObjectExtension.ToTryVar&lt;T&gt;(object, T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar_System_Object_System_String_">ObjectExtension.ToVar(object, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar_System_Object_System_Type_System_Boolean_">ObjectExtension.ToVar(object, Type, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar__1_System_Object_">ObjectExtension.ToVar&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToXml_System_Object_">ObjectExtension.ToXml(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_GetDictionary_System_Object_">DictionaryExtension.GetDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_SetDictionary_System_Object_System_Collections_Generic_IDictionary_System_String_System_Object__">DictionaryExtension.SetDictionary(object, IDictionary&lt;string, object&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToDictionary_System_Object_">DictionaryExtension.ToDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToDictionary__1_System_Object_">DictionaryExtension.ToDictionary&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToIDictionary_System_Object_">DictionaryExtension.ToIDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToIDictionary__1_System_Object_">DictionaryExtension.ToIDictionary&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey_System_Object_System_String_System_Boolean__">TypeExtension.GetFieldKey(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey_System_Object_System_Type_System_String_System_Boolean__">TypeExtension.GetFieldKey(object, Type, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey__1_System_Object_System_String_System_Boolean__">TypeExtension.GetFieldKey&lt;T&gt;(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertieFind_System_Object_System_String_System_Boolean_">TypeExtension.GetPropertieFind(object, string, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetProperties_System_Object_">TypeExtension.GetProperties(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey_System_Object_System_String_System_Boolean__">TypeExtension.GetPropertyKey(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey_System_Object_System_Type_System_String_System_Boolean__">TypeExtension.GetPropertyKey(object, Type, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey__1_System_Object_System_String_System_Boolean__">TypeExtension.GetPropertyKey&lt;T&gt;(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_ComponentModel_PropertyDescriptor_">TypeExtension.GetValue(object, PropertyDescriptor)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_String_">TypeExtension.GetValue(object, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_String_System_Boolean_">TypeExtension.GetValue(object, string, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey_System_Object_System_String_System_Object_">TypeExtension.SetFieldKey(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey_System_Object_System_Type_System_String_System_Object_">TypeExtension.SetFieldKey(object, Type, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey__1_System_Object_System_String_System_Object_">TypeExtension.SetFieldKey&lt;T&gt;(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey_System_Object_System_String_System_Object_">TypeExtension.SetPropertyKey(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey_System_Object_System_Type_System_String_System_Object_">TypeExtension.SetPropertyKey(object, Type, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey__1_System_Object_System_String_System_Object_">TypeExtension.SetPropertyKey&lt;T&gt;(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_ComponentModel_PropertyDescriptor_System_Object_">TypeExtension.SetValue(object, PropertyDescriptor, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_String_System_Object_">TypeExtension.SetValue(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_String_System_Object_System_Boolean_">TypeExtension.SetValue(object, string, object, bool)</a>
+  </div>
+  </dd></dl>
+
+
+
+  <h2 id="Tool_Sockets_Kernels_EnServerEventDrive_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>代码由逆血提供支持</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Tool_Sockets_Kernels_EnServerEventDrive__ctor_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.#ctor*"></a>
+
+  <h3 id="Tool_Sockets_Kernels_EnServerEventDrive__ctor" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.#ctor">
+  EnServerEventDrive()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/Kernels/Abstract/EnServerEventDrive.cs/#L14"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>默认构造（公共模板信息）</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected EnServerEventDrive()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Tool_Sockets_Kernels_EnServerEventDrive_CloseAllEvent_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.CloseAllEvent*"></a>
+
+  <h3 id="Tool_Sockets_Kernels_EnServerEventDrive_CloseAllEvent" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.CloseAllEvent">
+  CloseAllEvent()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/Kernels/Abstract/EnServerEventDrive.cs/#L111"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>关闭全部事件</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual EnServerEventDrive CloseAllEvent()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html">EnServerEventDrive</a></dt>
+    <dd><p>返回当前对象，快速配置</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_Kernels_EnServerEventDrive_CloseAllQueue_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.CloseAllQueue*"></a>
+
+  <h3 id="Tool_Sockets_Kernels_EnServerEventDrive_CloseAllQueue" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.CloseAllQueue">
+  CloseAllQueue()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/Kernels/Abstract/EnServerEventDrive.cs/#L121"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>全部事件都设置成主要事件</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual EnServerEventDrive CloseAllQueue()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html">EnServerEventDrive</a></dt>
+    <dd><p>返回当前对象，快速配置</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_Kernels_EnServerEventDrive_IsEvent_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.IsEvent*"></a>
+
+  <h3 id="Tool_Sockets_Kernels_EnServerEventDrive_IsEvent_Tool_Sockets_Kernels_EnServer_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.IsEvent(Tool.Sockets.Kernels.EnServer)">
+  IsEvent(EnServer)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/Kernels/Abstract/EnServerEventDrive.cs/#L78"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取该事件是否会触发</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool IsEvent(EnServer enServer)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>enServer</code> <a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a></dt>
+    <dd><p><a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_Kernels_EnServerEventDrive_IsQueue_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.IsQueue*"></a>
+
+  <h3 id="Tool_Sockets_Kernels_EnServerEventDrive_IsQueue_Tool_Sockets_Kernels_EnServer_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.IsQueue(Tool.Sockets.Kernels.EnServer)">
+  IsQueue(EnServer)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/Kernels/Abstract/EnServerEventDrive.cs/#L85"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取该事件是否在队列任务中运行</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool IsQueue(EnServer enServer)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>enServer</code> <a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a></dt>
+    <dd><p><a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_Kernels_EnServerEventDrive_OnInterceptor_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.OnInterceptor*"></a>
+
+  <h3 id="Tool_Sockets_Kernels_EnServerEventDrive_OnInterceptor_Tool_Sockets_Kernels_EnServer_System_Boolean_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.OnInterceptor(Tool.Sockets.Kernels.EnServer,System.Boolean)">
+  OnInterceptor(EnServer, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/Kernels/Abstract/EnServerEventDrive.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>设置开启或关闭不想收到的消息事件</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool OnInterceptor(EnServer enServer, bool state)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>enServer</code> <a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a></dt>
+    <dd><p><a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a></p>
+</dd>
+    <dt><code>state</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>等于true时生效，将关闭一切的相关事件</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>返回true时表示设置成功！</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_Kernels_EnServerEventDrive_OnIsQueue_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.OnIsQueue*"></a>
+
+  <h3 id="Tool_Sockets_Kernels_EnServerEventDrive_OnIsQueue_Tool_Sockets_Kernels_EnServer_System_Boolean_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.OnIsQueue(Tool.Sockets.Kernels.EnServer,System.Boolean)">
+  OnIsQueue(EnServer, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/Kernels/Abstract/EnServerEventDrive.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>设置将<a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a>事件，载入或不载入</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool OnIsQueue(EnServer enServer, bool state)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>enServer</code> <a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a></dt>
+    <dd><p><a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a></p>
+</dd>
+    <dt><code>state</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>等于true时，事件由队列线程完成，false时交由任务线程自行完成</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>返回true时表示设置成功！</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_Kernels_EnServerEventDrive_OpenAllEvent_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.OpenAllEvent*"></a>
+
+  <h3 id="Tool_Sockets_Kernels_EnServerEventDrive_OpenAllEvent" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.OpenAllEvent">
+  OpenAllEvent()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/Kernels/Abstract/EnServerEventDrive.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>开启全部事件</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual EnServerEventDrive OpenAllEvent()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html">EnServerEventDrive</a></dt>
+    <dd><p>返回当前对象，快速配置</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_Kernels_EnServerEventDrive_OpenAllQueue_" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.OpenAllQueue*"></a>
+
+  <h3 id="Tool_Sockets_Kernels_EnServerEventDrive_OpenAllQueue" data-uid="Tool.Sockets.Kernels.EnServerEventDrive.OpenAllQueue">
+  OpenAllQueue()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/Kernels/Abstract/EnServerEventDrive.cs/#L101"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>全部事件都设置成队列事件</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual EnServerEventDrive OpenAllQueue()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html">EnServerEventDrive</a></dt>
+    <dd><p>返回当前对象，快速配置</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/Kernels/Abstract/EnServerEventDrive.cs/#L9" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

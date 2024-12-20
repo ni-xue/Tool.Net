@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class DataRowExtension | Tool.Net </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class DataRowExtension | Tool.Net ">
+      
+      <meta name="description" content="对DataRow进行升级">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ni-xue/Tool.Net/new/master/apiSpec/new?filename=Tool_Utils_Data_DataRowExtension.md&amp;value=---%0Auid%3A%20Tool.Utils.Data.DataRowExtension%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Tool.Net">
+            Tool.Net
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Tool.Utils.Data.DataRowExtension">
+
+
+
+  <h1 id="Tool_Utils_Data_DataRowExtension" data-uid="Tool.Utils.Data.DataRowExtension" class="text-break">
+Class DataRowExtension  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L14"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Tool.html">Tool</a>.<a class="xref" href="Tool.Utils.html">Utils</a>.<a class="xref" href="Tool.Utils.Data.html">Data</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Tool.Net.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>对DataRow进行升级</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class DataRowExtension</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">DataRowExtension</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+  <h2 id="Tool_Utils_Data_DataRowExtension_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>代码由逆血提供支持</p>
+</div>
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Tool_Utils_Data_DataRowExtension_DataRowToEntity_" data-uid="Tool.Utils.Data.DataRowExtension.DataRowToEntity*"></a>
+
+  <h3 id="Tool_Utils_Data_DataRowExtension_DataRowToEntity__1_System_Data_DataRow_" data-uid="Tool.Utils.Data.DataRowExtension.DataRowToEntity``1(System.Data.DataRow)">
+  DataRowToEntity&lt;T&gt;(DataRow)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L63"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>将<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>对象 转换为 实体对象（旧版本）</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;当前方法，已被弃用，有更新的方法，请使用（ToEntity&lt;T&gt;）方法&quot;, false)]
+public static T DataRowToEntity&lt;T&gt;(this DataRow dataRow) where T : new()</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p>数据源</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd><p>返回实体对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Utils_Data_DataRowExtension_IsEmpty_" data-uid="Tool.Utils.Data.DataRowExtension.IsEmpty*"></a>
+
+  <h3 id="Tool_Utils_Data_DataRowExtension_IsEmpty_System_Data_DataRow_" data-uid="Tool.Utils.Data.DataRowExtension.IsEmpty(System.Data.DataRow)">
+  IsEmpty(DataRow)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>判断<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>对象中的是否为空，行为空，对象为空</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool IsEmpty(this DataRow dataRow)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>返回<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>类型</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Utils_Data_DataRowExtension_RowToJson_" data-uid="Tool.Utils.Data.DataRowExtension.RowToJson*"></a>
+
+  <h3 id="Tool_Utils_Data_DataRowExtension_RowToJson_System_Data_DataRow_" data-uid="Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow)">
+  RowToJson(DataRow)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L358"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>序列化AjaxJson（DataRow）</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string RowToJson(this DataRow dataRow)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p>DataRow</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>返回JSON字符串</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Utils_Data_DataRowExtension_RowToJson_" data-uid="Tool.Utils.Data.DataRowExtension.RowToJson*"></a>
+
+  <h3 id="Tool_Utils_Data_DataRowExtension_RowToJson_System_Data_DataRow_System_Boolean_" data-uid="Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow,System.Boolean)">
+  RowToJson(DataRow, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L369"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>序列化AjaxJson（DataRow）</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string RowToJson(this DataRow dataRow, bool IsDate)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p>DataRow</p>
+</dd>
+    <dt><code>IsDate</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>ToJson格式时间，启用转字符串</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>返回JSON字符串</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Utils_Data_DataRowExtension_RowToJson_" data-uid="Tool.Utils.Data.DataRowExtension.RowToJson*"></a>
+
+  <h3 id="Tool_Utils_Data_DataRowExtension_RowToJson_System_Data_DataRow_System_Boolean_System_String_" data-uid="Tool.Utils.Data.DataRowExtension.RowToJson(System.Data.DataRow,System.Boolean,System.String)">
+  RowToJson(DataRow, bool, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L381"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>序列化AjaxJson（DataRow）</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string RowToJson(this DataRow dataRow, bool IsDate, string ToDateString)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p>DataRow</p>
+</dd>
+    <dt><code>IsDate</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>ToJson格式时间，启用转字符串</p>
+</dd>
+    <dt><code>ToDateString</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Date.ToString()的写法。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>返回JSON字符串</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Utils_Data_DataRowExtension_ToDictionary_" data-uid="Tool.Utils.Data.DataRowExtension.ToDictionary*"></a>
+
+  <h3 id="Tool_Utils_Data_DataRowExtension_ToDictionary_System_Data_DataRow_" data-uid="Tool.Utils.Data.DataRowExtension.ToDictionary(System.Data.DataRow)">
+  ToDictionary(DataRow)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L45"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>（DataRow）转换 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary&lt;TKey, TValue&gt;</a> 集合</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Dictionary&lt;string, object&gt; ToDictionary(this DataRow dataRow)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p>DataRow</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;</dt>
+    <dd><p>返回Dictionary</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Utils_Data_DataRowExtension_ToDictionary_" data-uid="Tool.Utils.Data.DataRowExtension.ToDictionary*"></a>
+
+  <h3 id="Tool_Utils_Data_DataRowExtension_ToDictionary_System_Data_DataRow___" data-uid="Tool.Utils.Data.DataRowExtension.ToDictionary(System.Data.DataRow[])">
+  ToDictionary(DataRow[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L280"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>（DataRow[]）转换 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary&lt;TKey, TValue&gt;</a> 集合</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static List&lt;Dictionary&lt;string, object&gt;&gt; ToDictionary(this DataRow[] dataRows)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataRows</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>[]</dt>
+    <dd><p>DataRow[]</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;&gt;</dt>
+    <dd><p>返回List{Dictionary{string, object}}</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Utils_Data_DataRowExtension_ToEntityList_" data-uid="Tool.Utils.Data.DataRowExtension.ToEntityList*"></a>
+
+  <h3 id="Tool_Utils_Data_DataRowExtension_ToEntityList__1_System_Data_DataRowCollection_" data-uid="Tool.Utils.Data.DataRowExtension.ToEntityList``1(System.Data.DataRowCollection)">
+  ToEntityList&lt;T&gt;(DataRowCollection)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L137"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>将<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarowcollection">DataRowCollection</a> 对象 转换为 实体对象数组 (优化版)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T[] ToEntityList&lt;T&gt;(this DataRowCollection dataRows) where T : new()</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataRows</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarowcollection">DataRowCollection</a></dt>
+    <dd><p>数据源</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt>T[]</dt>
+    <dd><p>返回实体对象数组</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Utils_Data_DataRowExtension_ToEntity_" data-uid="Tool.Utils.Data.DataRowExtension.ToEntity*"></a>
+
+  <h3 id="Tool_Utils_Data_DataRowExtension_ToEntity__1_System_Data_DataRow_" data-uid="Tool.Utils.Data.DataRowExtension.ToEntity``1(System.Data.DataRow)">
+  ToEntity&lt;T&gt;(DataRow)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L76"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>将<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a>对象 转换为 实体对象（新版本）</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T ToEntity&lt;T&gt;(this DataRow dataRow) where T : new()</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p>数据源</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd><p>返回实体对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>实体对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Utils_Data_DataRowExtension_ToObject_" data-uid="Tool.Utils.Data.DataRowExtension.ToObject*"></a>
+
+  <h3 id="Tool_Utils_Data_DataRowExtension_ToObject_System_Data_DataRow_" data-uid="Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRow)">
+  ToObject(DataRow)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L302"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>（DataRow）转换 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a> 对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static dynamic ToObject(this DataRow dataRow)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarow">DataRow</a></dt>
+    <dd><p>DataRow</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">dynamic</span></dt>
+    <dd><p>返回dynamic</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Utils_Data_DataRowExtension_ToObject_" data-uid="Tool.Utils.Data.DataRowExtension.ToObject*"></a>
+
+  <h3 id="Tool_Utils_Data_DataRowExtension_ToObject_System_Data_DataRowCollection_" data-uid="Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection)">
+  ToObject(DataRowCollection)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L327"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>（DataRowCollection）转换 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a> 集合</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static dynamic[] ToObject(this DataRowCollection dataRows)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataRows</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarowcollection">DataRowCollection</a></dt>
+    <dd><p>DataRowCollection</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">dynamic</span>[]</dt>
+    <dd><p>返回dynamic[]</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Utils_Data_DataRowExtension_ToObject_" data-uid="Tool.Utils.Data.DataRowExtension.ToObject*"></a>
+
+  <h3 id="Tool_Utils_Data_DataRowExtension_ToObject_System_Data_DataRowCollection_System_Int32_" data-uid="Tool.Utils.Data.DataRowExtension.ToObject(System.Data.DataRowCollection,System.Int32)">
+  ToObject(DataRowCollection, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L346"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>（DataRowCollection）转换 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static dynamic ToObject(this DataRowCollection dataRows, int index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dataRows</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.data.datarowcollection">DataRowCollection</a></dt>
+    <dd><p>DataRowCollection</p>
+</dd>
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>要读取的那一条数组的下标</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">dynamic</span></dt>
+    <dd><p>返回dynamic</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Utils/Data/DataRowExtension.cs/#L14" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

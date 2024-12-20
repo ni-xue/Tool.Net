@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class TcpServerAsync | Tool.Net </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class TcpServerAsync | Tool.Net ">
+      
+      <meta name="description" content="封装一个底层异步TCP对象（服务端）IpV4">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/ni-xue/Tool.Net/new/master/apiSpec/new?filename=Tool_Sockets_TcpHelper_TcpServerAsync.md&amp;value=---%0Auid%3A%20Tool.Sockets.TcpHelper.TcpServerAsync%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Tool.Net">
+            Tool.Net
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Tool.Sockets.TcpHelper.TcpServerAsync">
+
+
+
+  <h1 id="Tool_Sockets_TcpHelper_TcpServerAsync" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync" class="text-break">
+Class TcpServerAsync  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L16"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Tool.html">Tool</a>.<a class="xref" href="Tool.Sockets.html">Sockets</a>.<a class="xref" href="Tool.Sockets.TcpHelper.html">TcpHelper</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Tool.Net.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>封装一个底层异步TCP对象（服务端）IpV4</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class TcpServerAsync : NetworkListener&lt;Socket&gt;, INetworkListener&lt;Socket&gt;, INetworkListener, INetworkCore, IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html">EnServerEventDrive</a></div>
+      <div><a class="xref" href="Tool.Sockets.Kernels.NetworkListener-1.html">NetworkListener</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.sockets.socket">Socket</a>&gt;</div>
+      <div><span class="xref">TcpServerAsync</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Tool.Sockets.Kernels.INetworkListener-1.html">INetworkListener</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.sockets.socket">Socket</a>&gt;</div>
+      <div><a class="xref" href="Tool.Sockets.Kernels.INetworkListener.html">INetworkListener</a></div>
+      <div><a class="xref" href="Tool.Sockets.Kernels.INetworkCore.html">INetworkCore</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.NetworkListener-1.html#Tool_Sockets_Kernels_NetworkListener_1_IsThreadPool">NetworkListener&lt;Socket&gt;.IsThreadPool</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.NetworkListener-1.html#Tool_Sockets_Kernels_NetworkListener_1_BufferSize">NetworkListener&lt;Socket&gt;.BufferSize</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_OnInterceptor_Tool_Sockets_Kernels_EnServer_System_Boolean_">EnServerEventDrive.OnInterceptor(EnServer, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_OnIsQueue_Tool_Sockets_Kernels_EnServer_System_Boolean_">EnServerEventDrive.OnIsQueue(EnServer, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_IsEvent_Tool_Sockets_Kernels_EnServer_">EnServerEventDrive.IsEvent(EnServer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_IsQueue_Tool_Sockets_Kernels_EnServer_">EnServerEventDrive.IsQueue(EnServer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_OpenAllEvent">EnServerEventDrive.OpenAllEvent()</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_OpenAllQueue">EnServerEventDrive.OpenAllQueue()</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_CloseAllEvent">EnServerEventDrive.CloseAllEvent()</a>
+    </div>
+    <div>
+      <a class="xref" href="Tool.Sockets.Kernels.EnServerEventDrive.html#Tool_Sockets_Kernels_EnServerEventDrive_CloseAllQueue">EnServerEventDrive.CloseAllQueue()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Add__1_System_Object_System_Object_System_Object_">ObjectExtension.Add&lt;T&gt;(object, object, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_CopyEntity_System_Object_System_Object_System_String___">ObjectExtension.CopyEntity(object, object, params string[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_">ObjectExtension.EntityToJson(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_System_Boolean_">ObjectExtension.EntityToJson(object, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_EntityToJson_System_Object_System_Boolean_System_String_">ObjectExtension.EntityToJson(object, bool, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_GetIntPtr_System_Object_">ObjectExtension.GetIntPtr(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_GetIntPtrInt_System_Object_">ObjectExtension.GetIntPtrInt(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Read__1_System_Object_System_Int32_System_Object_System_Int32_System_Int32_">ObjectExtension.Read&lt;T&gt;(object, int, object, int, int)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_Read__1_System_Object_System_Object_System_Int32_System_Int32_">ObjectExtension.Read&lt;T&gt;(object, object, int, int)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBase64String_System_Object_">ObjectExtension.ToBase64String(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBytes_System_Object_">ObjectExtension.ToBytes(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToBytes_System_Object_System_Type__">ObjectExtension.ToBytes(object, out Type)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJson_System_Object_">ObjectExtension.ToJson(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJson_System_Object_System_Text_Json_JsonSerializerOptions_">ObjectExtension.ToJson(object, JsonSerializerOptions)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJsonWeb_System_Object_">ObjectExtension.ToJsonWeb(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToJsonWeb_System_Object_System_Action_System_Text_Json_JsonSerializerOptions__">ObjectExtension.ToJsonWeb(object, Action&lt;JsonSerializerOptions&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToTryVar__1_System_Object___0_">ObjectExtension.ToTryVar&lt;T&gt;(object, T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar_System_Object_System_String_">ObjectExtension.ToVar(object, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar_System_Object_System_Type_System_Boolean_">ObjectExtension.ToVar(object, Type, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToVar__1_System_Object_">ObjectExtension.ToVar&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.ObjectExtension.html#Tool_ObjectExtension_ToXml_System_Object_">ObjectExtension.ToXml(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_GetDictionary_System_Object_">DictionaryExtension.GetDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_SetDictionary_System_Object_System_Collections_Generic_IDictionary_System_String_System_Object__">DictionaryExtension.SetDictionary(object, IDictionary&lt;string, object&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToDictionary_System_Object_">DictionaryExtension.ToDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToDictionary__1_System_Object_">DictionaryExtension.ToDictionary&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToIDictionary_System_Object_">DictionaryExtension.ToIDictionary(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.Data.DictionaryExtension.html#Tool_Utils_Data_DictionaryExtension_ToIDictionary__1_System_Object_">DictionaryExtension.ToIDictionary&lt;T&gt;(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey_System_Object_System_String_System_Boolean__">TypeExtension.GetFieldKey(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey_System_Object_System_Type_System_String_System_Boolean__">TypeExtension.GetFieldKey(object, Type, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetFieldKey__1_System_Object_System_String_System_Boolean__">TypeExtension.GetFieldKey&lt;T&gt;(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertieFind_System_Object_System_String_System_Boolean_">TypeExtension.GetPropertieFind(object, string, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetProperties_System_Object_">TypeExtension.GetProperties(object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey_System_Object_System_String_System_Boolean__">TypeExtension.GetPropertyKey(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey_System_Object_System_Type_System_String_System_Boolean__">TypeExtension.GetPropertyKey(object, Type, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetPropertyKey__1_System_Object_System_String_System_Boolean__">TypeExtension.GetPropertyKey&lt;T&gt;(object, string, out bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_ComponentModel_PropertyDescriptor_">TypeExtension.GetValue(object, PropertyDescriptor)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_String_">TypeExtension.GetValue(object, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_GetValue_System_Object_System_String_System_Boolean_">TypeExtension.GetValue(object, string, bool)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey_System_Object_System_String_System_Object_">TypeExtension.SetFieldKey(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey_System_Object_System_Type_System_String_System_Object_">TypeExtension.SetFieldKey(object, Type, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetFieldKey__1_System_Object_System_String_System_Object_">TypeExtension.SetFieldKey&lt;T&gt;(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey_System_Object_System_String_System_Object_">TypeExtension.SetPropertyKey(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey_System_Object_System_Type_System_String_System_Object_">TypeExtension.SetPropertyKey(object, Type, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetPropertyKey__1_System_Object_System_String_System_Object_">TypeExtension.SetPropertyKey&lt;T&gt;(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_ComponentModel_PropertyDescriptor_System_Object_">TypeExtension.SetValue(object, PropertyDescriptor, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_String_System_Object_">TypeExtension.SetValue(object, string, object)</a>
+  </div>
+  <div>
+      <a class="xref" href="Tool.Utils.TypeExtension.html#Tool_Utils_TypeExtension_SetValue_System_Object_System_String_System_Object_System_Boolean_">TypeExtension.SetValue(object, string, object, bool)</a>
+  </div>
+  </dd></dl>
+
+
+
+  <h2 id="Tool_Sockets_TcpHelper_TcpServerAsync_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>代码由逆血提供支持</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync__ctor_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.#ctor*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync__ctor" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.#ctor">
+  TcpServerAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L106"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>创建一个 <a class="xref" href="Tool.Sockets.TcpHelper.TcpClientAsync.html">TcpClientAsync</a> 服务器类</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TcpServerAsync()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync__ctor_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.#ctor*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync__ctor_Tool_Sockets_Kernels_NetBufferSize_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.#ctor(Tool.Sockets.Kernels.NetBufferSize)">
+  TcpServerAsync(NetBufferSize)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L112"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>创建一个 <a class="xref" href="Tool.Sockets.TcpHelper.TcpClientAsync.html">TcpClientAsync</a> 服务器类，并确定是否开启框架验证模式保证数据唯一性。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TcpServerAsync(NetBufferSize size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>size</code> <a class="xref" href="Tool.Sockets.Kernels.NetBufferSize.html">NetBufferSize</a></dt>
+    <dd><p>数据缓冲区大小</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync__ctor_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.#ctor*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync__ctor_Tool_Sockets_Kernels_NetBufferSize_System_Boolean_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.#ctor(Tool.Sockets.Kernels.NetBufferSize,System.Boolean)">
+  TcpServerAsync(NetBufferSize, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L119"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>创建一个 <a class="xref" href="Tool.Sockets.TcpHelper.TcpClientAsync.html">TcpClientAsync</a> 服务器类，确认模式和设置流大小</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TcpServerAsync(NetBufferSize size, bool OnlyData)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>size</code> <a class="xref" href="Tool.Sockets.Kernels.NetBufferSize.html">NetBufferSize</a></dt>
+    <dd><p>数据缓冲区大小</p>
+</dd>
+    <dt><code>OnlyData</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否启动框架模式</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_IsClose_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.IsClose*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_IsClose" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.IsClose">
+  IsClose
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>标识服务端连接是否关闭</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool IsClose { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_ListClient_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.ListClient*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_ListClient" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.ListClient">
+  ListClient
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L39"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>已建立连接的集合
+key:UserKey
+value:Socket</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IReadOnlyDictionary&lt;UserKey, Socket&gt; ListClient { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2">IReadOnlyDictionary</a>&lt;<a class="xref" href="Tool.Sockets.Kernels.UserKey.html">UserKey</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.sockets.socket">Socket</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_Millisecond_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.Millisecond*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_Millisecond" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.Millisecond">
+  Millisecond
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L53"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>监听控制毫秒</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int Millisecond { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_OnlyData_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.OnlyData*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_OnlyData" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.OnlyData">
+  OnlyData
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L27"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>是否保证数据唯一性，开启后将采用框架验证保证其每次的数据唯一性，（如果不满足数据条件将直接与其断开连接）</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool OnlyData { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_Server_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.Server*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_Server" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.Server">
+  Server
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L48"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>服务器创建时的信息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override UserKey Server { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.Sockets.Kernels.UserKey.html">UserKey</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_CreateSendBytes_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.CreateSendBytes*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_CreateSendBytes_System_Net_Sockets_Socket_System_Int32_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.CreateSendBytes(System.Net.Sockets.Socket,System.Int32)">
+  CreateSendBytes(Socket, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L344"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>创建数据发送空间</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override SendBytes&lt;Socket&gt; CreateSendBytes(Socket client, int length = 0)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>client</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.sockets.socket">Socket</a></dt>
+    <dd><p>收数据的对象</p>
+</dd>
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>数据大小</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.Sockets.Kernels.SendBytes-1.html">SendBytes</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.sockets.socket">Socket</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_CreateSendBytes_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.CreateSendBytes*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_CreateSendBytes_Tool_Sockets_Kernels_Ipv4Port_System_Int32_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.CreateSendBytes(Tool.Sockets.Kernels.Ipv4Port,System.Int32)">
+  CreateSendBytes(Ipv4Port, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L326"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>创建数据发送空间</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SendBytes&lt;Socket&gt; CreateSendBytes(Ipv4Port key, int length)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>key</code> <a class="xref" href="Tool.Sockets.Kernels.Ipv4Port.html">Ipv4Port</a></dt>
+    <dd><p>接收者信息</p>
+</dd>
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>数据大小</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Tool.Sockets.Kernels.SendBytes-1.html">SendBytes</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.sockets.socket">Socket</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>连接已中断</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_Dispose_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.Dispose*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_Dispose" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.Dispose">
+  Dispose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L467"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>关闭连接，回收相关资源</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_OnComplete_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.OnComplete*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_OnComplete_Tool_Sockets_Kernels_UserKey__Tool_Sockets_Kernels_EnServer_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.OnComplete(Tool.Sockets.Kernels.UserKey@,Tool.Sockets.Kernels.EnServer)">
+  OnComplete(in UserKey, EnServer)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L440"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>可供开发重写的事件方法</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override ValueTask&lt;IGetQueOnEnum&gt; OnComplete(in UserKey IpPort, EnServer enAction)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>IpPort</code> <a class="xref" href="Tool.Sockets.Kernels.UserKey.html">UserKey</a></dt>
+    <dd><p>指定发送对象</p>
+</dd>
+    <dt><code>enAction</code> <a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a></dt>
+    <dd><p>消息类型</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1">ValueTask</a>&lt;<a class="xref" href="Tool.Sockets.Kernels.IGetQueOnEnum.html">IGetQueOnEnum</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_SendAsync_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_SendAsync_System_Net_Sockets_Socket_System_ArraySegment_System_Byte__" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync(System.Net.Sockets.Socket,System.ArraySegment{System.Byte})">
+  SendAsync(Socket, ArraySegment&lt;byte&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L274"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>开始异步发送数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ValueTask SendAsync(Socket client, ArraySegment&lt;byte&gt; listData)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>client</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.sockets.socket">Socket</a></dt>
+    <dd><p>Socket对象</p>
+</dd>
+    <dt><code>listData</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.arraysegment-1">ArraySegment</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>要发送的内容</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask">ValueTask</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_SendAsync_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_SendAsync_System_Net_Sockets_Socket_System_String_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync(System.Net.Sockets.Socket,System.String)">
+  SendAsync(Socket, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L252"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>开始异步发送数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ValueTask SendAsync(Socket client, string msg)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>client</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.sockets.socket">Socket</a></dt>
+    <dd><p>Socket对象</p>
+</dd>
+    <dt><code>msg</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要发送的内容</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask">ValueTask</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_SendAsync_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_SendAsync_Tool_Sockets_Kernels_Ipv4Port_System_ArraySegment_System_Byte__" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync(Tool.Sockets.Kernels.Ipv4Port,System.ArraySegment{System.Byte})">
+  SendAsync(Ipv4Port, ArraySegment&lt;byte&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L235"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>开始异步发送数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ValueTask SendAsync(Ipv4Port key, ArraySegment&lt;byte&gt; listData)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>key</code> <a class="xref" href="Tool.Sockets.Kernels.Ipv4Port.html">Ipv4Port</a></dt>
+    <dd><p>客户端的ip地址和端口号</p>
+</dd>
+    <dt><code>listData</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.arraysegment-1">ArraySegment</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd><p>要发送的内容</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask">ValueTask</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_SendAsync_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_SendAsync_Tool_Sockets_Kernels_Ipv4Port_System_String_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync(Tool.Sockets.Kernels.Ipv4Port,System.String)">
+  SendAsync(Ipv4Port, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L218"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>开始异步发送数据</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ValueTask SendAsync(Ipv4Port key, string msg)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>key</code> <a class="xref" href="Tool.Sockets.Kernels.Ipv4Port.html">Ipv4Port</a></dt>
+    <dd><p>客户端的ip地址和端口号</p>
+</dd>
+    <dt><code>msg</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要发送的内容</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask">ValueTask</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_SendAsync_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_SendAsync_Tool_Sockets_Kernels_SendBytes_System_Net_Sockets_Socket__" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SendAsync(Tool.Sockets.Kernels.SendBytes{System.Net.Sockets.Socket})">
+  SendAsync(SendBytes&lt;Socket&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L296"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>异步发送消息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override ValueTask SendAsync(SendBytes&lt;Socket&gt; sendBytes)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sendBytes</code> <a class="xref" href="Tool.Sockets.Kernels.SendBytes-1.html">SendBytes</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.sockets.socket">Socket</a>&gt;</dt>
+    <dd><p>数据包</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask">ValueTask</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></dt>
+    <dd><p>OnlyData验证失败</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>连接已断开</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_SetCompleted_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SetCompleted*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_SetCompleted_Tool_Sockets_Kernels_CompletedEvent_Tool_Sockets_Kernels_EnServer__" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SetCompleted(Tool.Sockets.Kernels.CompletedEvent{Tool.Sockets.Kernels.EnServer})">
+  SetCompleted(CompletedEvent&lt;EnServer&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L81"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>连接、发送、关闭事件</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void SetCompleted(CompletedEvent&lt;EnServer&gt; Completed)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>Completed</code> <a class="xref" href="Tool.Sockets.Kernels.CompletedEvent-1.html">CompletedEvent</a>&lt;<a class="xref" href="Tool.Sockets.Kernels.EnServer.html">EnServer</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_SetReceived_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SetReceived*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_SetReceived_Tool_Sockets_Kernels_ReceiveEvent_System_Net_Sockets_Socket__" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.SetReceived(Tool.Sockets.Kernels.ReceiveEvent{System.Net.Sockets.Socket})">
+  SetReceived(ReceiveEvent&lt;Socket&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L87"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>接收到数据事件</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void SetReceived(ReceiveEvent&lt;Socket&gt; Received)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>Received</code> <a class="xref" href="Tool.Sockets.Kernels.ReceiveEvent-1.html">ReceiveEvent</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.sockets.socket">Socket</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_StartAsync_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.StartAsync*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_StartAsync_System_Int32_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.StartAsync(System.Int32)">
+  StartAsync(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L143"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>开始异步监听本机127.0.0.1的端口号</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task StartAsync(int port)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>port</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_StartAsync_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.StartAsync*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_StartAsync_System_String_System_Int32_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.StartAsync(System.String,System.Int32)">
+  StartAsync(string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L153"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>开始异步监听ip地址的端口</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Task StartAsync(string ip, int port)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ip</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>port</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_Stop_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.Stop*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_Stop" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.Stop">
+  Stop()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L458"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>TCP关闭</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Stop()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Tool_Sockets_TcpHelper_TcpServerAsync_TrySocket_" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.TrySocket*"></a>
+
+  <h3 id="Tool_Sockets_TcpHelper_TcpServerAsync_TrySocket_Tool_Sockets_Kernels_UserKey__System_Net_Sockets_Socket__" data-uid="Tool.Sockets.TcpHelper.TcpServerAsync.TrySocket(Tool.Sockets.Kernels.UserKey@,System.Net.Sockets.Socket@)">
+  TrySocket(in UserKey, out Socket)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L99"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>根据IP:Port获取对应的连接对象</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool TrySocket(in UserKey key, out Socket client)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>key</code> <a class="xref" href="Tool.Sockets.Kernels.UserKey.html">UserKey</a></dt>
+    <dd><p>IP:Port</p>
+</dd>
+    <dt><code>client</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.sockets.socket">Socket</a></dt>
+    <dd><p>连接对象</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>返回成功状态</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/ni-xue/Tool.Net/blob/master/Tool.Net/Sockets/TcpHelper/TcpServerAsync.cs/#L16" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

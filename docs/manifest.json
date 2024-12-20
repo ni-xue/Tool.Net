@@ -1,0 +1,2805 @@
+{
+  "source_base_path": "D:/NixueStudio/Tool.Net/Tool.Docs/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.AspNetCore.Builder.ApiRouteBuilderExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.AspNetCore.Builder.ApiRouteBuilderExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.AspNetCore.Builder.ApiRouteEndpointBuilderExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.AspNetCore.Builder.ApiRouteEndpointBuilderExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.AspNetCore.Builder.AshxActionEndpointConventionBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.AspNetCore.Builder.AshxActionEndpointConventionBuilder.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.AspNetCore.Builder.AshxApplicationBuilderExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.AspNetCore.Builder.AshxEndpointDataSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.AspNetCore.Builder.AshxEndpointDataSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.AspNetCore.Builder.AshxEndpointRouteBuilderExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.AspNetCore.Builder.AshxEndpointRouteBuilderExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.AspNetCore.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.AspNetCore.Builder.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.Extensions.DependencyInjection.AshxServiceExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.Extensions.DependencyInjection.AshxServiceExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.Extensions.DependencyInjection.SessionServiceExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.Extensions.DependencyInjection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.Extensions.DependencyInjection.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.Extensions.Hosting.HostBuilderExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.Extensions.Hosting.HostBuilderExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.Extensions.Hosting.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.Extensions.Hosting.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.BoolExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.BoolExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.ByteExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.ByteExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.CharExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.CharExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.DateTimeExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.DateTimeExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.DecimalExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.DecimalExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.DoubleExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.DoubleExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.FloatExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.FloatExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.GlobalObj.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.GlobalObj.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.IntExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.IntExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.LongExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.LongExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Net.Explains.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Net.Explains.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Net.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Net.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.ObjectExtension.ThreadStart.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.ObjectExtension.ThreadStart.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.ObjectExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.ObjectExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.ShortExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.ShortExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.ApiValue.ValueType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.ApiValue.ValueType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.ApiValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.ApiValue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.BytesCore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.BytesCore.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.CompletedEvent-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.CompletedEvent-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.EnClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.EnClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.EnClientEventDrive.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.EnClientEventDrive.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.EnServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.EnServer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.EnServerEventDrive.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.EnServerEventDrive.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.EnumEventQueue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.EnumEventQueue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.IApiResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.IApiResult.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.IBytesCore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.IBytesCore.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.IDataPacket.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.IDataPacket.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.IGetQueOnEnum.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.IGetQueOnEnum.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.INetworkConnect-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.INetworkConnect-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.INetworkConnect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.INetworkConnect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.INetworkCore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.INetworkCore.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.INetworkListener-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.INetworkListener-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.INetworkListener.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.INetworkListener.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.IpParserEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.IpParserEvent.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.Ipv4Port.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.Ipv4Port.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.KeepAlive.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.KeepAlive.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.MemoryWriteHeap.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.MemoryWriteHeap.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.NetBufferSize.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.NetBufferSize.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.NetFrameState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.NetFrameState.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.NetworkConnect-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.NetworkConnect-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.NetworkListener-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.NetworkListener-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.QuicSocket.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.QuicSocket.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.QuicStateObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.QuicStateObject.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.ReceiveBytes-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.ReceiveBytes-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.ReceiveEvent-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.ReceiveEvent-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.SendBytes-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.SendBytes-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.SocketEventPool.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.SocketEventPool.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.StateObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.StateObject.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.TcpStateObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.TcpStateObject.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.UdpStateObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.UdpStateObject.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.UserKey.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.UserKey.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.WebStateObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.WebStateObject.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.Kernels.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.Kernels.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.NetFrame.ApiPacket.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.NetFrame.ApiPacket.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.NetFrame.ClientFrame.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.NetFrame.ClientFrame.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.NetFrame.ClientFrameList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.NetFrame.ClientFrameList.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.NetFrame.DataBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.NetFrame.DataBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.NetFrame.DataNet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.NetFrame.DataNet.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.NetFrame.GoOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.NetFrame.GoOut.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.NetFrame.IGoOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.NetFrame.IGoOut.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.NetFrame.NetResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.NetFrame.NetResponse.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.NetFrame.ProtocolStatus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.NetFrame.ProtocolStatus.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.NetFrame.ServerFrame.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.NetFrame.ServerFrame.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.NetFrame.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.NetFrame.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.P2PHelpr.P2pClientAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.P2PHelpr.P2pClientAsync.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.P2PHelpr.P2pServerAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.P2PHelpr.P2pServerAsync.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.P2PHelpr.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.P2PHelpr.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.QuicHelper.QuicClientAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.QuicHelper.QuicClientAsync.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.QuicHelper.QuicServerAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.QuicHelper.QuicServerAsync.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.QuicHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.QuicHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.TcpHelper.TcpClientAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.TcpHelper.TcpClientAsync.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.TcpHelper.TcpServerAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.TcpHelper.TcpServerAsync.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.TcpHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.TcpHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.UdpHelper.IUdpCore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.UdpHelper.IUdpCore.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.UdpHelper.UdpClientAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.UdpHelper.UdpClientAsync.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.UdpHelper.UdpEndPoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.UdpHelper.UdpEndPoint.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.UdpHelper.UdpServerAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.UdpHelper.UdpServerAsync.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.UdpHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.UdpHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.WebHelper.WebClientAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.WebHelper.WebClientAsync.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.WebHelper.WebServerAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.WebHelper.WebServerAsync.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Sockets.WebHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Sockets.WebHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.BaseDataProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.BaseDataProvider.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.DbHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.DbHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.DbHelperExensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.DbHelperExensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.DbParameterCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.DbParameterCache.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.DbProviderType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.DbProviderType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.DbTransResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.DbTransResult.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.DbTransactionExensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.DbTransactionExensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.IDbProvider-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.IDbProvider-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.IDbProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.IDbProvider.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.IMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.IMessage.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.ITableProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.ITableProvider.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.Message.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.Message.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.MessageHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.MessageHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.PagerManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.PagerManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.PagerParameters.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.PagerParameters.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.PagerSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.PagerSet.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.ProviderFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.ProviderFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.ProxyFactory.CreateInstanceHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.ProxyFactory.CreateInstanceHandler.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.ProxyFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.ProxyFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.SqlNonQuery.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.SqlNonQuery.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.SqlTextParameter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.SqlTextParameter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.TableProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.TableProvider.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.SqlCore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.SqlCore.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.StringExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.StringExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.UintExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.UintExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.UlongExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.UlongExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.UshortExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.UshortExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.ActionDispatcher-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.ActionDispatcher-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.ActionDispatcher-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.ActionDispatcher-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.ActionDispatcher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.ActionDispatcher.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.ActionExecutor-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.ActionExecutor-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.ActionHelper-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.ActionHelper-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.ActionMethod-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.ActionMethod-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.ClassDispatcher-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.ClassDispatcher-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.ClassDispatcher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.ClassDispatcher.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.ClassField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.ClassField.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.ClassFieldDispatcher.GetClassField.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.ClassFieldDispatcher.SetClassField.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.ClassFieldDispatcher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.ClassFieldDispatcher.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.DispatcherCore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.DispatcherCore.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.IActionDispatcher-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.IActionDispatcher-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.IActionDispatcher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.IActionDispatcher.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.Method.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.Method.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.MethodFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.MethodFlags.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.NewClass-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.NewClass-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.Parameter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.Parameter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.PropertyDescriptor.GetClassProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.PropertyDescriptor.GetClassProperty.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.PropertyDescriptor.SetClassProperty.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.PropertyDescriptor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.PropertyDescriptor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.PropertyEnum.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.PropertyEnum.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.TaskActionExecutor-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.TaskActionExecutor-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.TypeInvoke.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.TypeInvoke.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.TypePropertyDescriptor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.TypePropertyDescriptor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.VoidActionExecutor-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.VoidActionExecutor-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.VoidTaskActionExecutor-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.VoidTaskActionExecutor-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ActionDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ActionDelegate.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.AppSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.AppSettings.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Crc32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Crc32.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.DBNullConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.DBNullConverter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Data.ArrayExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Data.ArrayExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Data.DataRowExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Data.DataRowExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Data.DataSetExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Data.DataSetExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Data.DataTableExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Data.DataTableExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Data.DictionaryExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Data.DictionaryExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Data.Enumerator-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Data.Enumerator-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Data.LazyConcurrentDictionary-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Data.LazyConcurrentDictionary-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Data.ListExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Data.ListExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Data.TaskConcurrentDictionary-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Data.TaskConcurrentDictionary-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Data.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Data.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.DataHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.DataHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.DataTableProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.DataTableProperty.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.DateConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.DateConverter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Encryption.AES.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Encryption.AES.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Encryption.DES.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Encryption.DES.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Encryption.MD5ResultMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Encryption.MD5ResultMode.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Encryption.TextEncrypt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Encryption.TextEncrypt.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Encryption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Encryption.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.EntityBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.EntityBuilder.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.FileManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.FileManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.FlashLogLevel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.FlashLogLevel.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.FlashLogMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.FlashLogMessage.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.FolderInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.FolderInfo.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.FsoMethod.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.FsoMethod.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.FtpHelper.FTPHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.FtpHelper.FTPHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.FtpHelper.FtpClient.TransferType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.FtpHelper.FtpClient.TransferType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.FtpHelper.FtpClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.FtpHelper.FtpClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.FtpHelper.FtpOperater.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.FtpHelper.FtpOperater.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.FtpHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.FtpHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.HashHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.HashHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.HttpHelpers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.HttpHelpers.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.IntPtrHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.IntPtrHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.IocCore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.IocCore.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.IocHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.IocHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.JsonConverterHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.JsonConverterHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.JsonHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.JsonHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.JsonVar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.JsonVar.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Log.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Log.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.MemorySegment-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.MemorySegment-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ObjectPool-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ObjectPool-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Other.CodeTimer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Other.CodeTimer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Other.ConvertHzToPy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Other.ConvertHzToPy.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Other.ConvertHzToPzGb2312.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Other.ConvertHzToPzGb2312.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Other.DllInjectionResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Other.DllInjectionResult.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Other.DllInjector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Other.DllInjector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Other.IniFile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Other.IniFile.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Other.Rmb.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Other.Rmb.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Other.StrToPinyin.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Other.StrToPinyin.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Other.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Other.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ReflectionHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ReflectionHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.TaskHelper.TaskAsyncHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.TaskHelper.TaskAsyncHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.TaskHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.TaskHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.TextUtility.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.TextUtility.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ThreadQueue.ActionLock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ThreadQueue.ActionLock.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ThreadQueue.ActionQueue-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ThreadQueue.ActionQueue-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ThreadQueue.AtomCountLock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ThreadQueue.AtomCountLock.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ThreadQueue.TaskQueue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ThreadQueue.TaskQueue-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ThreadQueue.TaskQueue-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ThreadQueue.TaskQueue-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ThreadQueue.TaskQueue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ThreadQueue.TaskQueue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ThreadQueue.WaitAction-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ThreadQueue.WaitAction-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.ThreadQueue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.ThreadQueue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.TypeExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.TypeExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.TypeHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.TypeHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.TypeParse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.TypeParse.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.UserSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.UserSystem.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Utility.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Utility.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Validate.CardDetail.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Validate.CardDetail.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Validate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Validate.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.Validator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.Validator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Utils.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.ApiAshx.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.ApiAshx.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.ApiCore.ApiParameter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.ApiCore.ApiParameter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.ApiCore.AshxHandlerOrAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.ApiCore.AshxHandlerOrAsync.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.ApiCore.AshxOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.ApiCore.AshxOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.ApiCore.IHttpApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.ApiCore.IHttpApi.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.ApiCore.IHttpAsynApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.ApiCore.IHttpAsynApi.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.ApiCore.IMinHttpApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.ApiCore.IMinHttpApi.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.ApiCore.IMinHttpAsynApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.ApiCore.IMinHttpAsynApi.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.ApiCore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.ApiCore.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.ApiOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.ApiOut.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.ApiVal.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.ApiVal.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.Ashx.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.Ashx.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.AshxException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.AshxException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.AshxState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.AshxState.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.CrossDomain.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.CrossDomain.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.EventStreamOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.EventStreamOut.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.FileOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.FileOut.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.IApiOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.IApiOut.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.JsonOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.JsonOut.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.MinApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.MinApi.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.NoContentOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.NoContentOut.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.OnAshxEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.OnAshxEvent.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.OnAshxEventState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.OnAshxEventState.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.RedirectOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.RedirectOut.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.Val.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.Val.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.ViewOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.ViewOut.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.WriteOut.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.WriteOut.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.WriteType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.WriteType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Api.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Api.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Builder.IAshxBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Builder.IAshxBuilder.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Builder.IgnoreUrlMiddleware.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Builder.IgnoreUrlMiddleware.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Builder.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.EventStream.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.EventStream.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Hosting.DiyContainerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Hosting.DiyContainerBuilder.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Hosting.DiyServiceProviderFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Hosting.DiyServiceProviderFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Hosting.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Hosting.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.HttpContextExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.HttpContextExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.HttpRequestExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.HttpRequestExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.HttpResponseExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.HttpResponseExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.IEventStream.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.IEventStream.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Range.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Range.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Routing.AshxRouteAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Routing.AshxRouteAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Routing.AshxRouteData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Routing.AshxRouteData.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Routing.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Routing.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Session.DiySession.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Session.DiySession.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Session.DiySessionMiddleware.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Session.DiySessionMiddleware.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Session.DiySessionOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Session.DiySessionOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.Session.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.Session.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.SessionExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.SessionExtension.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.Web.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.Web.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tool.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tool.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "getting-started.md",
+      "output": {
+        ".html": {
+          "relative_path": "getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "introduction.md",
+      "output": {
+        ".html": {
+          "relative_path": "introduction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
