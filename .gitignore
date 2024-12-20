@@ -1,0 +1,13 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+/.vs
+/TcpFrameTest
+/TcpTest
+/TestResults
+/Tool.Docs
+/Tool.Net
+/Tool.Net.Drawing
+/Tool.NetTests
+/WebTestApp
