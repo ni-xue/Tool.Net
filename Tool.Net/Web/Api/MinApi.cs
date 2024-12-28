@@ -262,11 +262,11 @@ namespace Tool.Web.Api
 
         //public abstract void HttpOutput(AshxRouteData ashxRoute);
 
-        async Task IApiOut.HttpOutput(AshxRouteData ashxRoute)
+        Task IApiOut.HttpOutput(AshxRouteData ashxRoute)
         {
             ashxRoute.HttpContext.Response.StatusCode = StatusCode;
             ashxRoute.HttpContext.Response.ContentType = string.Concat(ContentType, "; charset=utf-8");
-            await ExecuteOutAsync(ashxRoute);
+            return ExecuteOutAsync(ashxRoute);
             //HttpContext context = ashxRoute.HttpContext;
             //context.Response.StatusCode = StatusCode; //Microsoft.AspNetCore.Http.DefaultHttpContext
             ////byte[] bytes;

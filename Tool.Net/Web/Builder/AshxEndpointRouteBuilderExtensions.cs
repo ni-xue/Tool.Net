@@ -87,7 +87,7 @@ namespace Microsoft.AspNetCore.Builder
 
             builder.Logger = loggerFactory.CreateLogger("Tool.Api");
 
-            builder.Logger.LogWarning("您好，当前您正在使用的是公测版本3.0的终结点模式，目前已是最终版本，如使用过程中发现任何问题，都可以邮件告知！");
+            builder.Logger.LogDebug("您好，当前您正在使用的是公测版本3.0的终结点模式，目前已是最终版本，如使用过程中发现任何问题，都可以邮件告知（nx.nixue.top）！");
 
             //创建默认mvc处理类 
             //RouteBuilder为RouterMiddleware中间件创建所需的Router对象

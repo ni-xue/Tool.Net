@@ -45,6 +45,13 @@ namespace Tool.Utils.ActionDelegate
         }
 
         /// <summary>
+        /// 获取指定类的方法（默认查找静态的和公开的）
+        /// </summary>
+        public ActionHelper(): this(MethodFlags.Static | MethodFlags.Public)
+        {
+        }
+
+        /// <summary>
         /// 获取指定类的方法
         /// </summary>
         /// <param name="methodFlags">根据查找类型，获得相应方法</param>

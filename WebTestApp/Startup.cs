@@ -328,64 +328,64 @@ namespace WebTestApp
             //var dic = dbHelper.SelectDictionaryAsync("SELECT TOP (10000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];").Result;
 
             //var array = dbHelper.SelectArrayAsync("SELECT TOP (10000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID  = 1 }).Result;
-            var dataSet = dbHelper.ExecuteDataSetAsync("SELECT TOP (10000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 1 }).Result;
-            DiyDbBatch diyDbBatch = dbHelper.NewDbBatch(IsolationLevel.Unspecified);
-            diyDbBatch.AddDbBatchCommand(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 1 });
-            diyDbBatch.AddDbBatchCommand(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 2 });
-            diyDbBatch.AddDbBatchCommand(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 3 });
-            diyDbBatch.AddDbBatchCommand(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 4 });
-            var diyreader0 = diyDbBatch.ExecuteReader();
-            var diydic0 = diyreader0.GetListHash();
-            diyreader0.NextResult();
-            var diydic1 = diyreader0.GetListHash();
-            diyreader0.NextResult();
-            var diydic2 = diyreader0.GetListHash();
-            diyreader0.NextResult();
-            var diydic3 = diyreader0.GetListHash();
+            //var dataSet = dbHelper.ExecuteDataSetAsync("SELECT TOP (10000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 1 }).Result;
+            //DiyDbBatch diyDbBatch = dbHelper.NewDbBatch(IsolationLevel.Unspecified);
+            //diyDbBatch.AddDbBatchCommand(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 1 });
+            //diyDbBatch.AddDbBatchCommand(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 2 });
+            //diyDbBatch.AddDbBatchCommand(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 3 });
+            //diyDbBatch.AddDbBatchCommand(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub] WHERE SerNo=@SerID", new { SerID = 4 });
+            //var diyreader0 = diyDbBatch.ExecuteReader();
+            //var diydic0 = diyreader0.GetListHash();
+            //diyreader0.NextResult();
+            //var diydic1 = diyreader0.GetListHash();
+            //diyreader0.NextResult();
+            //var diydic2 = diyreader0.GetListHash();
+            //diyreader0.NextResult();
+            //var diydic3 = diyreader0.GetListHash();
 
-            diyDbBatch.Dispose();
+            //diyDbBatch.Dispose();
 
-            string str0 = "";// array.ToJson();
-            string str1 = diydic0.ToJson();
+            //string str0 = "{}";// array.ToJson();
+            //string str1 = diydic0.ToJson();
 
-            DataTable dt = new();
-            //dt.CloneArray(array);
+            //DataTable dt = new();
+            ////dt.CloneArray(array);
 
-            DataTable dt1 = new();
-            var varjson0 = str0.JsonVar();
+            //DataTable dt1 = new();
+            //var varjson0 = str0.JsonVar();
 
-            var varjson1 = str1.JsonVar();
+            //var varjson1 = str1.JsonVar();
 
-            if (varjson0.TryGet(out JsonVar varobj0, 6, 4))
-            {
-                Console.WriteLine(varobj0.ToString());
-            }
+            //if (varjson0.TryGet(out JsonVar varobj0, 6, 4))
+            //{
+            //    Console.WriteLine(varobj0.ToString());
+            //}
 
-            if (varjson1.TryGet(out JsonVar varobj1, 5, "FromNo"))
-            {
-                Console.WriteLine(varobj1.ToString());
-            }
+            //if (varjson1.TryGet(out JsonVar varobj1, 5, "FromNo"))
+            //{
+            //    Console.WriteLine(varobj1.ToString());
+            //}
 
-            dt1.CloneArray(varjson0);
+            //dt1.CloneArray(varjson0);
 
-            Console.WriteLine(dt1.Rows.Count);
+            //Console.WriteLine(dt1.Rows.Count);
 
-            using var data = dbHelper.ExecuteDataSetAsync("SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];SELECT * FROM [HKR51].[dbo].[XGDZ_cUser];SELECT * FROM [HKR51].[dbo].[XGDZ_cUserQx]").Result;
+            //using var data = dbHelper.ExecuteDataSetAsync("SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];SELECT * FROM [HKR51].[dbo].[XGDZ_cUser];SELECT * FROM [HKR51].[dbo].[XGDZ_cUserQx]").Result;
 
-            var array0 = data.Tables[0].ToArray();
-            array0.ToJson();
+            //var array0 = data.Tables[0].ToArray();
+            //array0.ToJson();
 
-            using (var reader = dbHelper.ExecuteReader(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];SELECT * FROM [HKR51].[dbo].[XGDZ_cUser];SELECT * FROM [HKR51].[dbo].[XGDZ_cUserQx]"))
-            {
-                var dataTable = reader.GetDataTableAsync().Result;
-                var dataset = reader.GetDataSetAsync().Result;
-            }
+            //using (var reader = dbHelper.ExecuteReader(CommandType.Text, "SELECT TOP (1000) * FROM [HKR51].[dbo].[XGDZ_CheckSub];SELECT * FROM [HKR51].[dbo].[XGDZ_cUser];SELECT * FROM [HKR51].[dbo].[XGDZ_cUserQx]"))
+            //{
+            //    var dataTable = reader.GetDataTableAsync().Result;
+            //    var dataset = reader.GetDataSetAsync().Result;
+            //}
 
-            var dataset0 = dbHelper.GetMessageForDataSetAsync("usp_output", new { bookname = "T001" }, dbHelper.GetOutParam("recordCount", typeof(int))).Result;
+            //var dataset0 = dbHelper.GetMessageForDataSetAsync("usp_output", new { bookname = "T001" }, dbHelper.GetOutParam("recordCount", typeof(int))).Result;
 
-            var dbParameters = dbHelper.GetSpParameterSetAsync("usp_output").Result;
+            //var dbParameters = dbHelper.GetSpParameterSetAsync("usp_output").Result;
 
-            var dbParameters0 = dbHelper.GetSpParameterSetAsync("usp_output1").Result;
+            //var dbParameters0 = dbHelper.GetSpParameterSetAsync("usp_output1").Result;
 
             if (env.IsDevelopment())
             {

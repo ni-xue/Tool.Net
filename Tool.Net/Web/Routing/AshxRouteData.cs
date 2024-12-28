@@ -298,7 +298,8 @@ namespace Tool.Web.Routing
                 throw context.AddHttpException(404, "在创建时发生异常，应该是使用有参构造函数，URL: {0}", error: e, new object[] { context.Request.Path });
             }
 
-            if (AshxHandlerOrAsync.Initialize(handler, this, out object[] _objs, out Exception error))//初始加载
+            (object[] _objs, Exception error, bool isok) = await AshxHandlerOrAsync.Initialize(handler, this);
+            if (isok)//初始加载
             {
                 if (await IsNotError(error))
                 {
@@ -318,7 +319,8 @@ namespace Tool.Web.Routing
         {
             IMinHttpAsynApi handler = ashx.ClassMinApi();
 
-            if (AshxHandlerOrAsync.MinInitialize(handler, this, out object[] _objs, out Exception error))
+            (object[] _objs, Exception error, bool isok) = await AshxHandlerOrAsync.MinInitialize(handler, this);
+            if (isok)
             {
                 if (await IsNotError(error))
                 {

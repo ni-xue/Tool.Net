@@ -253,54 +253,31 @@ namespace Tool.Web.Api.ApiCore
             //}
         }
 
-        internal static object GetParameterObj(HttpRequest request, ApiParameter parameter)
+        internal static async ValueTask<object> GetParameterObj(HttpRequest request, ApiParameter parameter)
         {
-            switch (parameter.GetVal)
+            return parameter.GetVal switch
             {
-                case Val.AllData:
-                    return QueryOrForm(0);
-                case Val.Query:
-                    return QueryOrForm(1);
-                case Val.Form:
-                    return QueryOrForm(2);
-
-                case Val.AllMode:
-                    return Mode(0);
-                case Val.QueryMode:
-                    return Mode(1);
-                case Val.FormMode:
-                    return Mode(2);
-
-                case Val.Header:
-                    //request.Headers.TryGetValue(parameter.Name, out Microsoft.Extensions.Primitives.StringValues value1);
-                    //return value1.ToString().ToVar(parameter.ParameterType, false);
-
-                    return GetHeader();
-                case Val.Cookie:
-                    //request.Cookies.TryGetValue(parameter.Name, out string value2);
-                    //return value2.ToVar(parameter.ParameterType, false);
-
-                    return request.Cookies.TryGetValue(parameter.KeyName, out string value2) ? value2.ToVar(parameter.ParameterType, false) : null;
-                case Val.File:
-                    return GetFile();// request.HasFormContentType ? request.Form.Files.GetFile(parameter.Name) : null;
-                case Val.Files:
-                    return request.HasFormContentType ? request.Form.Files : null;
-                case Val.Service:
-                    return request.HttpContext.RequestServices.GetService(parameter.ParameterType);
-                case Val.Session:
-                    return GetSession();
-                case Val.RouteKey:
-                    return request.RouteValues.TryGetValue(parameter.KeyName, out object value4) ? value4.ToVar(parameter.ParameterType, false) : null;
+                Val.AllData => QueryOrForm(0),
+                Val.Query => QueryOrForm(1),
+                Val.Form => QueryOrForm(2),
+                Val.AllMode => Mode(0),
+                Val.QueryMode => Mode(1),
+                Val.FormMode => Mode(2),
+                Val.Header => GetHeader(),//request.Headers.TryGetValue(parameter.Name, out Microsoft.Extensions.Primitives.StringValues value1);
+                                          //return value1.ToString().ToVar(parameter.ParameterType, false);
+                Val.Cookie => request.Cookies.TryGetValue(parameter.KeyName, out string value2) ? value2.ToVar(parameter.ParameterType, false) : null,//request.Cookies.TryGetValue(parameter.Name, out string value2);
+                                                                                                                                                      //return value2.ToVar(parameter.ParameterType, false);
+                Val.File => GetFile(),// request.HasFormContentType ? request.Form.Files.GetFile(parameter.Name) : null;
+                Val.Files => request.HasFormContentType ? request.Form.Files : null,
+                Val.Service => request.HttpContext.RequestServices.GetService(parameter.ParameterType),
+                Val.Session => GetSession(),
+                Val.RouteKey => request.RouteValues.TryGetValue(parameter.KeyName, out object value4) ? value4.ToVar(parameter.ParameterType, false) : null,
                 //(parameter.DefaultValue is System.DBNull) ? parameter.ParameterObj : parameter.DefaultValue;
-                case Val.Body:
-                    return GetBody().Preserve().Result;
-                case Val.BodyJson:
-                    return GetBodyJson().Preserve().Result;
-                case Val.BodyString:
-                    return GetBodyString().Preserve().Result;
-                default:
-                    return null;
-            }
+                Val.Body => await GetBody(),
+                Val.BodyJson => await GetBodyJson(),
+                Val.BodyString => await GetBodyString(),
+                _ => null,
+            };
 
             object Mode(int state)
             {
@@ -441,7 +418,7 @@ namespace Tool.Web.Api.ApiCore
             }
         }
 
-        internal static object[] GetParameterObjs(Ashx ashx, HttpRequest request, int index, int length, object[] _objs, out Exception error)
+        internal static async ValueTask<ValueTuple<object[], Exception>> GetParameterObjs(Ashx ashx, HttpRequest request, int index, int length, object[] _objs)
         {
             //int index = 0;
             //int length = ashx.Parameters.Length;
@@ -465,7 +442,7 @@ namespace Tool.Web.Api.ApiCore
 
                     object obj = null;
 
-                    obj = GetParameterObj(request, parameter);
+                    obj = await GetParameterObj(request, parameter);
 
                     //if (parameter.IsType)
                     //{
@@ -548,15 +525,12 @@ namespace Tool.Web.Api.ApiCore
                     index++;
                 }
 
-                error = null;
-
-                return _objs;
+                return new ValueTuple<object[], Exception>(_objs, null);
             }
             catch (Exception e)
             {
                 Log.Fatal("Api调用异常（参数错误）:", e, "Log/Tool");
-                error = e;
-                return null;
+                return new ValueTuple<object[], Exception>(_objs, e);
             }
         }
 

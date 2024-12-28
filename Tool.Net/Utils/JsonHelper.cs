@@ -15,6 +15,12 @@ namespace Tool.Utils
     public sealed class JsonHelper
     {
         /// <summary>
+        /// 属性用于 所有尝试 读取<see cref="JsonVar"/>值时，出现异常时是否 被忽略
+        /// true 时， 表示人为忽视这种错误
+        /// </summary>
+        public static bool IsTryJsonVar { set; get; } = false;
+
+        /// <summary>
         /// 将 <see cref="JsonElement"/> 原型对象 丢入格式成任意实际结果
         /// </summary>
         /// <param name="element">原型对象</param>
@@ -215,7 +221,7 @@ namespace Tool.Utils
         public JsonVar(object data)
         {
             int count = 0;
-            if (data == null)
+            if (data is null)
             {
                 ValueKind = JsonValueKind.Null;
             }
@@ -264,6 +270,10 @@ namespace Tool.Utils
                 {
                     return new JsonVar(dic[name]);
                 }
+                if (JsonHelper.IsTryJsonVar)
+                {
+                    return new JsonVar(null);
+                }
                 throw new Exception("对象下不存在字典结构！");
             }
         }
@@ -280,6 +290,10 @@ namespace Tool.Utils
                 if (ValueKind is JsonValueKind.Array && Data is IList list)
                 {
                     return new JsonVar(list[i]);
+                }
+                if (JsonHelper.IsTryJsonVar)
+                {
+                    return new JsonVar(null);
                 }
                 throw new Exception("对象下不存在数组结构！");
             }
@@ -394,6 +408,10 @@ namespace Tool.Utils
                     }
                     break;
                 default:
+                    if (JsonHelper.IsTryJsonVar)
+                    {
+                        break;
+                    }
                     throw new Exception("不存在可以使用的集合！");
             }
         }
@@ -452,6 +470,12 @@ namespace Tool.Utils
         public static implicit operator bool(JsonVar value) => value.GetVar<bool>();
 
         /// <summary>
+        /// short
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator short(JsonVar value) => value.GetVar<short>();
+
+        /// <summary>
         /// int
         /// </summary>
         /// <param name="value"></param>
@@ -474,6 +498,12 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="value"></param>
         public static implicit operator decimal(JsonVar value) => value.GetVar<decimal>();
+
+        /// <summary>
+        /// byte
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator byte(JsonVar value) => value.GetVar<byte>();
     }
 
     /// <summary>
@@ -508,6 +538,66 @@ namespace Tool.Utils
         /// 数据源
         /// </summary>
         public JsonVar Current { get; }
+
+        /// <summary>
+        /// <see cref="Dictionary{String, Object}"/>
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator Dictionary<string, object>(JsonEnumerator value) => value;
+
+        /// <summary>
+        /// ArrayList
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator ArrayList(JsonEnumerator value) => value;
+
+        /// <summary>
+        /// string
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator string(JsonEnumerator value) => value;
+
+        /// <summary>
+        /// bool
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator bool(JsonEnumerator value) => value;
+
+        /// <summary>
+        /// short
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator short(JsonEnumerator value) => value;
+
+        /// <summary>
+        /// int
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator int(JsonEnumerator value) => value;
+
+        /// <summary>
+        /// long
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator long(JsonEnumerator value) => value;
+
+        /// <summary>
+        /// double
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator double(JsonEnumerator value) => value;
+
+        /// <summary>
+        /// decimal
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator decimal(JsonEnumerator value) => value;
+
+        /// <summary>
+        /// byte
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator byte(JsonEnumerator value) => value;
     }
 
     /// <summary>

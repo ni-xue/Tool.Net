@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Tool.Web.Api.ApiCore
         /// <summary>
         /// 当前Ashx版本号
         /// </summary>
-        public const string AshxVersion = "3.9.0"; // static readonly 
+        public const string AshxVersion = "3.9.2"; // static readonly 
 
         /// <summary>
         /// Ashx路由模式的表头 同步
@@ -43,21 +44,18 @@ namespace Tool.Web.Api.ApiCore
         /// </summary>
         /// <param name="httpHandler"></param>
         /// <param name="RouteData"></param>
-        /// <param name="_objs"></param>
-        /// <param name="error"></param>
         /// <returns></returns>
-        internal static bool Initialize(IHttpApi httpHandler, AshxRouteData RouteData, out object[] _objs, out Exception error)
+        internal static async ValueTask<ValueTuple<object[], Exception, bool>> Initialize(IHttpApi httpHandler, AshxRouteData RouteData)
         {
             httpHandler.SetRouteData(RouteData);
             RouteData.HttpContext.Response.AppendHeader(RouteData.GetAshx.IsTask ? AshxVersionHeaderAsyncName : AshxVersionHeaderName, AshxVersion);
             if (httpHandler.Initialize(RouteData.GetAshx))
             {
-                error = GetApiObj(RouteData, out _objs);
-                return true;
+
+                var result = await GetApiObj(RouteData);
+                return new(result.Item1, result.Item2, true);
             }
-            _objs = null;
-            error = null;
-            return false;
+            return new(null, null, false);
         }
 
         /// <summary>
@@ -65,20 +63,16 @@ namespace Tool.Web.Api.ApiCore
         /// </summary>
         /// <param name="httpHandler"></param>
         /// <param name="RouteData"></param>
-        /// <param name="_objs"></param>
-        /// <param name="error"></param>
         /// <returns></returns>
-        internal static bool MinInitialize(IMinHttpApi httpHandler, AshxRouteData RouteData, out object[] _objs, out Exception error)
+        internal static async ValueTask<ValueTuple<object[], Exception, bool>> MinInitialize(IMinHttpApi httpHandler, AshxRouteData RouteData)
         {
             RouteData.HttpContext.Response.AppendHeader(RouteData.GetAshx.IsTask ? MinAshxVersionHeaderAsyncName : MinAshxVersionHeaderName, AshxVersion);
             if (httpHandler.Initialize(RouteData))
             {
-                error = GetApiObj(RouteData, out _objs);
-                return true;
+                var result = await GetApiObj(RouteData);
+                return new(result.Item1, result.Item2, true);
             }
-            _objs = null;
-            error = null;
-            return false;
+            return new(null, null, false);
         }
 
         ///// <summary>
@@ -109,30 +103,27 @@ namespace Tool.Web.Api.ApiCore
         /// 获取参数
         /// </summary>
         /// <param name="RouteData"></param>
-        /// <param name="_objs"></param>
         /// <returns></returns>
-        internal static Exception GetApiObj(AshxRouteData RouteData, out object[] _objs)
+        internal static async ValueTask<ValueTuple<object[], Exception>> GetApiObj(AshxRouteData RouteData)
         {
             Ashx ashx = RouteData.GetAshx;
             int length = ashx.Parameters.Length;
             if (length > 0)
             {
-                Exception Obj(out object[] _objs)
+                ValueTask<ValueTuple<object[], Exception>> Obj()
                 {
                     int index = 0;
-                    _objs = new object[length];
+                    object[] _objs = new object[length];
                     if (ashx.IsMinApi && ashx.Parameters[index].ParameterType == typeof(HttpContext))
                     {
                         _objs[0] = RouteData.HttpContext;
                         index++;
                     }
-                    _objs = AshxExtension.GetParameterObjs(ashx, RouteData.HttpContext.Request, index, length, _objs, out Exception error);
-                    return error;
+                    return AshxExtension.GetParameterObjs(ashx, RouteData.HttpContext.Request, index, length, _objs);
                 }
-                return Obj(out _objs);
+                return await Obj();
             }
-            _objs = default;
-            return null;
+            return new ValueTuple<object[], Exception>(null, null);
         }
 
         /// <summary>
