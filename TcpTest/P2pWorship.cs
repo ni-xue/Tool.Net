@@ -182,14 +182,14 @@ namespace TcpTest
             P2pServerAsync p2PServerAsync0 = await P2pServerAsync.GetFreeUdp();
             P2pServerAsync p2PServerAsync1 = await P2pServerAsync.GetFreeUdp();
 
-            await Task.Delay(5000);
+            await Task.Delay(30000);
 
             UdpClientAsync p2PClientAsync0 = new(NetBufferSize.Default, true) { ReceiveTimeout = 5000 };
             p2PClientAsync0.SetCompleted((age0, age1, age2) => Completed("UDP", age0, age1, age2));
             var task0 = p2PServerAsync0.P2PConnectAsync(p2PClientAsync0, p2PServerAsync1.RemoteEP, 100000);
             //var task0 = p2PClientAsync0.P2PConnectAsync(p2PServerAsync0.LocalEP, p2PServerAsync1.RemoteEP);
 
-            await Task.Delay(5000);
+            await Task.Delay(30000);
 
             UdpClientAsync p2PClientAsync1 = new(NetBufferSize.Default, true) { ReceiveTimeout = 5000 };
             p2PClientAsync1.SetCompleted((age0, age1, age2) => Completed("UDP", age0, age1, age2));

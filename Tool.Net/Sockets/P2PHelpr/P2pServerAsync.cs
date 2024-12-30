@@ -228,7 +228,7 @@ namespace Tool.Sockets.P2PHelpr
             ThrowIfDisposed();
             if (network is TcpClientAsync tcpClientAsync)
             {
-                tcpClientAsync.AddKeepAlive(50); //毫秒
+                tcpClientAsync.AddKeepAlive(100); //毫秒
                 using var sendBytes = tcpClientAsync.CreateSendBytes(10);
                 sendBytes.SetMemory(TcpTop);
                 sendBytes.SetMemory(network.LocalPoint.Bytes, 4);
