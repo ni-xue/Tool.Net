@@ -195,6 +195,11 @@ namespace Tool.Sockets.UdpHelper
         /// </summary>
         public void AddKeepAlive(byte TimeInterval)
         {
+            AddKeepAlive(TimeInterval * 1000);
+        }
+
+        internal void AddKeepAlive(int TimeInterval)
+        {
             ThrowIfDisposed();
 
             lock (StateObject.Lock)

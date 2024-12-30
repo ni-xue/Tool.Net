@@ -38,9 +38,9 @@ namespace Tool.Sockets.Kernels
 
         internal KeepAlive(int TimeInterval, Func<Task> OnStart)
         {
-            if (TimeInterval < 100)
+            if (TimeInterval < 10)
             {
-                throw new ArgumentException("TimeInterval 值必须>0！", nameof(TimeInterval));
+                throw new ArgumentException("TimeInterval 值必须>10！", nameof(TimeInterval));
             }
             TimeDelay = TimeInterval < 1000 ? 10 : 100; //检查频率
             ElapsedTicks = DateTime.UtcNow.Ticks / 10000;

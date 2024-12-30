@@ -225,6 +225,11 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         public void AddKeepAlive(byte TimeInterval)
         {
+            AddKeepAlive(TimeInterval * 1000);
+        }
+
+        internal void AddKeepAlive(int TimeInterval)
+        {
             ThrowIfDisposed();
 
             if (!OnlyData) throw new InvalidOperationException("OnlyData 未设置成 true 无法提供相关服务。");

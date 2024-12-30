@@ -115,7 +115,7 @@ namespace Tool.Sockets.P2PHelpr
             try
             {
                 await p2PServerAsync.ConnectAsync(endPoint);
-                await p2PServerAsync.SendAuthAsync();
+                await p2PServerAsync.SendAuthAsync(); //需要增加心跳业务，确保双方均未断开
                 await p2PServerAsync.EndAuthAsync();
             }
             catch (Exception)
@@ -228,7 +228,7 @@ namespace Tool.Sockets.P2PHelpr
             ThrowIfDisposed();
             if (network is TcpClientAsync tcpClientAsync)
             {
-                tcpClientAsync.AddKeepAlive(10);
+                tcpClientAsync.AddKeepAlive(50); //毫秒
                 using var sendBytes = tcpClientAsync.CreateSendBytes(10);
                 sendBytes.SetMemory(TcpTop);
                 sendBytes.SetMemory(network.LocalPoint.Bytes, 4);
@@ -236,7 +236,7 @@ namespace Tool.Sockets.P2PHelpr
             }
             if (network is UdpClientAsync udpClientAsync)
             {
-                udpClientAsync.AddKeepAlive(10);
+                udpClientAsync.AddKeepAlive(10); //毫秒
                 using var sendBytes = udpClientAsync.CreateSendBytes(10);
                 sendBytes.SetMemory(UdpTop);
                 sendBytes.SetMemory(network.LocalPoint.Bytes, 4);
