@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Buffers;
 using System.Net.Sockets;
 using System.Security.Authentication;
+using Tool.Utils;
 
 namespace Tool.Sockets.QuicHelper
 {
@@ -63,6 +64,11 @@ namespace Tool.Sockets.QuicHelper
          * 接收到数据事件
          */
         private ReceiveEvent<QuicSocket> Received; //event
+
+        /**
+        * 需要产生重连行为时发生，初衷因存在ip和端口更换，变动故需要产生该行为
+        */
+        private ReconnectEvent Reconnect; //event
 
         /// <summary>
         /// 标识客户端连接是否关闭
@@ -126,6 +132,12 @@ namespace Tool.Sockets.QuicHelper
             if (isReceive) throw new Exception("当前已无法绑定接收委托了，因为ConnectAsync()已经调用了。");
             this.Received ??= Received;
         }
+
+        /// <summary>
+        /// 需要产生重连行为时发生，初衷因存在ip和端口更换，变动故需要产生该行为
+        /// </summary>
+        /// <param name="Reconnect">任务委托</param>
+        public override void SetReconnect(ReconnectEvent Reconnect) => this.Reconnect ??= Reconnect;
 
         /// <summary>
         /// 是否在与服务器断开后主动重连？ 
@@ -454,9 +466,34 @@ namespace Tool.Sockets.QuicHelper
                 {
                     if (!QuicStateObject.IsConnected(quicclient))
                     {
-                        //client.Abort();
-                        //client.Dispose();
                         await quicclient.Connection.DisposeAsync();
+
+                        if (Reconnect is not null)
+                        {
+                            var userKey = await Reconnect.Invoke(server);
+                            if (userKey.IsIpv4Port)
+                            {
+                                server = userKey;
+                                endPointServer = new IPEndPoint(server.Ip, server.Port);
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    string hostport = userKey;
+                                    string[] strings = hostport.Split(':');
+                                    var dnsEndPoint = new DnsEndPoint(strings[0], strings[1].ToInt());
+                                    var ipadrs = await Utility.GetIPAddressAsync(dnsEndPoint.Host, AddressFamily.InterNetwork) ?? throw new Exception("域名无法解析到服务器！");
+                                    endPointServer = dnsEndPoint;
+                                    server = $"{ipadrs}:{dnsEndPoint.Port}";
+                                }
+                                catch (Exception ex)
+                                {
+                                    Log.Error($"域名解析失败：{userKey}", ex);
+                                }
+                            }
+                        }
+
                         await ConnectAsync();
 
                         return QuicStateObject.IsConnected(quicclient);

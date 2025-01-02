@@ -138,6 +138,9 @@ namespace Tool.Sockets.UdpHelper
             this.Received ??= Received;
         }
 
+
+        public override void SetReconnect(ReconnectEvent Reconnect) => throw new NotImplementedException("UDP 无有效连接！");
+
         #region UdpClientAsync
 
         /// <summary>

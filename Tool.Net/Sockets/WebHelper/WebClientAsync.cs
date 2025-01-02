@@ -97,6 +97,11 @@ namespace Tool.Sockets.WebHelper
          */
         private ReceiveEvent<WebSocket> Received; //event
 
+        /**
+        * 需要产生重连行为时发生，初衷因存在ip和端口更换，变动故需要产生该行为
+        */
+        private ReconnectEvent Reconnect; //event
+
         //**
         //* 信号
         //*/
@@ -128,6 +133,12 @@ namespace Tool.Sockets.WebHelper
             if (isReceive) throw new Exception("当前已无法绑定接收委托了，因为ConnectAsync()已经调用了。");
             this.Received ??= Received;
         }
+
+        /// <summary>
+        /// 需要产生重连行为时发生，初衷因存在ip和端口更换，变动故需要产生该行为
+        /// </summary>
+        /// <param name="Reconnect">任务委托</param>
+        public override void SetReconnect(ReconnectEvent Reconnect) => this.Reconnect ??= Reconnect;
 
         #region WebClientAsync
 
@@ -337,6 +348,17 @@ namespace Tool.Sockets.WebHelper
                     {
                         client.Abort();
                         client.Dispose();
+
+
+                        if (Reconnect is not null)
+                        {
+                            var userKey = await Reconnect.Invoke(server);
+                            if (!userKey.IsEmpty)
+                            {
+                                server = userKey;
+                            }
+                        }
+
                         await ConnectAsync();
                         return WebStateObject.IsConnected(client);
                     }

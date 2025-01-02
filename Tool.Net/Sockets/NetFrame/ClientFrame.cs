@@ -27,6 +27,8 @@ namespace Tool.Sockets.NetFrame
 
         private CompletedEvent<EnClient> Completed = null;
 
+        private ReconnectEvent Reconnect = null;
+
         /// <summary>
         /// 服务器的连接信息
         /// </summary>
@@ -102,6 +104,15 @@ namespace Tool.Sockets.NetFrame
             if (this.Completed == null)
                 this.Completed = Completed;
             else throw new InvalidOperationException("ClientFrame 已绑定委托回调");
+        }
+
+        /// <summary>
+        /// 需要产生重连行为时发生，初衷因存在ip和端口更换，变动故需要产生该行为
+        /// </summary>
+        /// <param name="Received">任务委托</param>
+        public void SetReconnect(ReconnectEvent Received)
+        {
+            clientAsync.SetReconnect(Received);
         }
 
         /// <summary>

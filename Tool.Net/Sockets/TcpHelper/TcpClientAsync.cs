@@ -186,6 +186,17 @@ namespace Tool.Sockets.TcpHelper
                     {
                         client.Close();
                         client.Dispose();
+
+                        if (Reconnect is not null)
+                        {
+                            var userKey = await Reconnect.Invoke(server);
+                            if (userKey.IsIpv4Port)
+                            {
+                                server = userKey;
+                                endPointServer = new(server.Ip, server.Port);
+                            }
+                        }
+                        
                         await ConnectAsync();
                         return TcpStateObject.IsConnected(client);
                     }
