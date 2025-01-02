@@ -90,19 +90,25 @@ namespace Tool.Sockets.Kernels
         /// 异步发送消息
         /// </summary>
         /// <param name="sendBytes">数据包</param>
-        /// <returns></returns>
+        /// <returns>可等待</returns>
         public abstract ValueTask SendAsync(SendBytes<ISocket> sendBytes);
 
         /// <summary>
         /// 连接、发送、关闭事件
         /// </summary>
-        /// <param name="Completed"></param>
+        /// <param name="Completed">任务委托</param>
         public abstract void SetCompleted(CompletedEvent<EnClient> Completed);
 
         /// <summary>
         /// 接收到数据事件
         /// </summary>
-        /// <param name="Received"></param>
+        /// <param name="Received">任务委托</param>
         public abstract void SetReceived(ReceiveEvent<ISocket> Received);
+
+        /// <summary>
+        /// 需要产生重连行为时发生，初衷因存在ip和端口更换，变动故需要产生该行为
+        /// </summary>
+        /// <param name="Reconnect">任务委托</param>
+        public abstract void SetReconnect(ReconnectEvent Reconnect);
     }
 }

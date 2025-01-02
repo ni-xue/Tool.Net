@@ -35,6 +35,10 @@ namespace Tool.Sockets.TcpHelper
          */
         private ReceiveEvent<Socket> Received; //event Span<byte>
 
+        /**
+        * 需要产生重连行为时发生，初衷因存在ip和端口更换，变动故需要产生该行为
+        */
+        private ReconnectEvent Reconnect; //event
 
         private bool isClose = false; //标识客户端是否关闭
         private bool isConnect = false; //标识是否调用了连接函数
@@ -101,18 +105,24 @@ namespace Tool.Sockets.TcpHelper
         /// <summary>
         /// 连接、发送、关闭事件
         /// </summary>
-        /// <param name="Completed"></param>
+        /// <param name="Completed">任务委托</param>
         public override void SetCompleted(CompletedEvent<EnClient> Completed) => this.Completed ??= Completed;
 
         /// <summary>
         /// 接收到数据事件
         /// </summary>
-        /// <param name="Received"></param>
+        /// <param name="Received">任务委托</param>
         public override void SetReceived(ReceiveEvent<Socket> Received)
         {
             if (isReceive) throw new Exception("当前已无法绑定接收委托了，因为ConnectAsync()已经调用了。");
             this.Received ??= Received;
         }
+
+        /// <summary>
+        /// 需要产生重连行为时发生，初衷因存在ip和端口更换，变动故需要产生该行为
+        /// </summary>
+        /// <param name="Reconnect">任务委托</param>
+        public override void SetReconnect(ReconnectEvent Reconnect) => this.Reconnect ??= Reconnect;
 
         #region TcpClientAsync
 

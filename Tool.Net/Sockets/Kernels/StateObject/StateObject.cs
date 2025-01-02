@@ -60,6 +60,13 @@ namespace Tool.Sockets.Kernels
     public delegate ValueTask CompletedEvent<T>(UserKey age0, T age1, DateTime age2) where T : Enum;
 
     /// <summary>
+    /// 重连事件委托（出现理由，因为存在网络切换导致服务器地址变更，故需要可以改变连接源入口）
+    /// </summary>
+    /// <param name="age0">原访问源</param>
+    /// <returns><see cref="ValueTask{UserKey}"/>返回新访问源</returns>
+    public delegate ValueTask<UserKey> ReconnectEvent(UserKey age0);
+
+    /// <summary>
     /// Socket IpPort 解释器委托
     /// </summary>
     /// <param name="age0">带验证信息</param>
