@@ -163,7 +163,7 @@ namespace Tool.Sockets.Kernels
             if (state)
             {
                 if (!isno) return false;
-                Instance.noEnClient &= enClient;
+                Instance.noEnClient &= ~enClient;
             }
             else
             {
@@ -185,7 +185,7 @@ namespace Tool.Sockets.Kernels
             if (state)
             {
                 if (!isno) return false;
-                Instance.noEnServer &= enServer;
+                Instance.noEnServer &= ~enServer;
             }
             else
             {
@@ -207,7 +207,7 @@ namespace Tool.Sockets.Kernels
             if (state)
             {
                 if (!isno) return false;
-                Instance.noQueueEnClient &= enClient;
+                Instance.noQueueEnClient &= ~enClient;
             }
             else
             {
@@ -229,7 +229,7 @@ namespace Tool.Sockets.Kernels
             if (state)
             {
                 if (!isno) return false;
-                Instance.noQueueEnServer &= enServer;
+                Instance.noQueueEnServer &= ~enServer;
             }
             else
             {

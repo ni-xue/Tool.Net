@@ -35,13 +35,13 @@
             bool isno = !IsEvent(enClient);
             if (state)
             {
-                if (isno) return false;
-                noEnClient |= enClient;
+                if (!isno) return false;
+                noEnClient &= ~enClient;
             }
             else
             {
-                if (!isno) return false;
-                noEnClient &= enClient;
+                if (isno) return false;
+                noEnClient |= enClient;
             }
             return true;
         }
@@ -58,7 +58,7 @@
             if (state)
             {
                 if (!isno) return false;
-                noQueueEnClient &= enClient;
+                noQueueEnClient &= ~enClient;
             }
             else
             {

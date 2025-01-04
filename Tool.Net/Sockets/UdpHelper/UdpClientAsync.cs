@@ -138,7 +138,11 @@ namespace Tool.Sockets.UdpHelper
             this.Received ??= Received;
         }
 
-
+        /// <summary>
+        /// 不支持
+        /// </summary>
+        /// <param name="Reconnect"></param>
+        /// <exception cref="NotImplementedException">UDP 无有效连接！</exception>
         public override void SetReconnect(ReconnectEvent Reconnect) => throw new NotImplementedException("UDP 无有效连接！");
 
         #region UdpClientAsync
@@ -187,7 +191,7 @@ namespace Tool.Sockets.UdpHelper
         #region Reconnection
 
         /// <summary>
-        /// 重连，返回是否重连，如果没有断开是不会重连的
+        /// 不支持
         /// </summary>
         public override Task<bool> Reconnection() => throw new NotImplementedException("UDP 无有效连接！");
 

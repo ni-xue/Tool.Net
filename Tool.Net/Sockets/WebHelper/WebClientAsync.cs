@@ -349,7 +349,6 @@ namespace Tool.Sockets.WebHelper
                         client.Abort();
                         client.Dispose();
 
-
                         if (Reconnect is not null)
                         {
                             var userKey = await Reconnect.Invoke(server);

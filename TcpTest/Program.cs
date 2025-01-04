@@ -249,8 +249,8 @@ namespace TcpTest
 
             //abc.GetPropertyKey("s", out var s);
 
-            await P2pWorship.OnMain(args);
-            //await NetWorship.OnMain(args);
+            //await P2pWorship.OnMain(args);
+            await NetWorship.OnMain(args);
             //await TcpWorship.OnMain(args);
             //await UdpWorship.OnMain(args);
             //await WebWorship.OnMain(args);

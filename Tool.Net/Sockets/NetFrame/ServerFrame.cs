@@ -101,7 +101,7 @@ namespace Tool.Sockets.NetFrame
             threadKeyObj = new ThreadKeyObj();
 
             serverAsync = new TcpServerAsync(bufferSize, true) { Millisecond = 0 };//这里就必须加回去
-            serverAsync.OpenAllEvent().OnInterceptor(EnServer.Receive, true);
+            serverAsync.OpenAllEvent().OnInterceptor(EnServer.Receive, false);
             serverAsync.CloseAllQueue();
             serverAsync.SetCompleted(Server_Completed);
             serverAsync.SetReceived(Server_Received);

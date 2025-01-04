@@ -21,7 +21,7 @@ namespace TcpTest
             KeepAlive keepok = new(1, async () =>
             {
                 Console.Clear();
-                ThreadPool.GetMaxThreads(out int maxThreadNum, out int portThreadNum); 
+                ThreadPool.GetMaxThreads(out int maxThreadNum, out int portThreadNum);
                 Console.WriteLine("最大线程数：{0}-{1}", maxThreadNum, portThreadNum);
                 ThreadPool.GetMinThreads(out int minThreadNum, out portThreadNum);
                 Console.WriteLine("最小空闲线程数：{0}-{1}", minThreadNum, portThreadNum);
@@ -38,7 +38,8 @@ namespace TcpTest
 
             ClientFrame client = new(NetBufferSize.Default, true);// { IsThreadPool = false };
 
-            //client.OnInterceptor(EnClient.Receive, true);
+            client.OnInterceptor(EnClient.Receive, true);
+            client.OnIsQueue(EnClient.Connect, true);
 
             client.SetCompleted((a1, b1, c1) =>
             {
@@ -48,6 +49,12 @@ namespace TcpTest
                 }
                 Console.WriteLine("IP:{0} \t{1} \t{2}", a1, b1, c1.ToString("yyyy/MM/dd HH:mm:ss:fffffff"));
                 return ValueTask.CompletedTask;
+            });
+
+            client.SetReconnect((ip) =>
+            {
+                UserKey usrkey = UserKey.Empty;
+                return ValueTask.FromResult(usrkey);//UserKey.Empty
             });
 
             await client.ConnectAsync("127.0.0.1", 444);//120.79.58.17 

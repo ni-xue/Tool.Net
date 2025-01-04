@@ -27,8 +27,6 @@ namespace Tool.Sockets.NetFrame
 
         private CompletedEvent<EnClient> Completed = null;
 
-        private ReconnectEvent Reconnect = null;
-
         /// <summary>
         /// 服务器的连接信息
         /// </summary>
@@ -89,7 +87,7 @@ namespace Tool.Sockets.NetFrame
             threadUuIdObj = new();
 
             clientAsync = new TcpClientAsync(bufferSize, true, IsReconnect) { Millisecond = 0 };//这里就必须加回去
-            clientAsync.OpenAllEvent().OnInterceptor(EnClient.Receive, true);
+            clientAsync.OpenAllEvent().OnInterceptor(EnClient.Receive, false);
             clientAsync.CloseAllQueue();
             clientAsync.SetCompleted(Client_Completed);
             clientAsync.SetReceived(Client_Received);

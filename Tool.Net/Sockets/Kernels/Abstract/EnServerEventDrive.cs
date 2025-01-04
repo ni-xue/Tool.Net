@@ -37,13 +37,13 @@ namespace Tool.Sockets.Kernels
             bool isno = !IsEvent(enServer);
             if (state)
             {
-                if (isno) return false;
-                noEnServer |= enServer;
+                if (!isno) return false;
+                noEnServer &= ~enServer;
             }
             else
             {
-                if (!isno) return false;
-                noEnServer &= enServer;
+                if (isno) return false;
+                noEnServer |= enServer;
             }
             return true;
         }
@@ -60,7 +60,7 @@ namespace Tool.Sockets.Kernels
             if (state)
             {
                 if (!isno) return false;
-                noQueueEnServer &= enServer;
+                noQueueEnServer &= ~enServer;
             }
             else
             {
