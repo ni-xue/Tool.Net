@@ -217,8 +217,8 @@ namespace Tool.Sockets.UdpHelper
                     {
                         if (udp is not null)
                         {
-                            await SendNoWaitAsync(udp.UdpState.GetKeepObj());
-                            if (TryP2PConnect is null) await OnComplete(Server, EnClient.HeartBeat);
+                            await SendNoWaitAsync(udp.UdpState.GetKeepObj()).ConfigureAwait(false);
+                            if (TryP2PConnect is null) await OnComplete(Server, EnClient.HeartBeat).ConfigureAwait(false);
                         }
                     });
                     return;
@@ -264,7 +264,7 @@ namespace Tool.Sockets.UdpHelper
         /// <param name="port">要连接服务端的端口</param>
         public async Task ConnectAsync(int port)
         {
-            await ConnectAsync(StaticData.LocalIp, port);
+            await ConnectAsync(StaticData.LocalIp, port).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace Tool.Sockets.UdpHelper
             {
                 throw new FormatException("ip:port 无法被 IPEndPoint 对象识别！");
             }
-            await ConnectAsync(ipv4Port);
+            await ConnectAsync(ipv4Port).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -295,7 +295,7 @@ namespace Tool.Sockets.UdpHelper
             endPointServer = new(ipv4Port.Ip, ipv4Port.Port);
             server = ipv4Port;
             isConnect = true;
-            await ConnectAsync();
+            await ConnectAsync().ConfigureAwait(false);
         }
 
         private async Task ConnectAsync()
@@ -305,17 +305,17 @@ namespace Tool.Sockets.UdpHelper
             {
                 if (isp2p)
                 {
-                    client = await TryP2PConnect.Invoke(endPointServer);
+                    client = await TryP2PConnect.Invoke(endPointServer).ConfigureAwait(false);
                 }
                 else
                 {
                     client = StateObject.CreateSocket(false, BufferSize);
-                    await client.ConnectAsync(endPointServer, CancellationToken.None);
+                    await client.ConnectAsync(endPointServer, CancellationToken.None).ConfigureAwait(false);
                 }
                 //需要增加对有效连接的验证消息
                 if (OnlyData)
                 {
-                    await Handshake.UdpAuthenticAtion(client, endPointServer, isp2p);
+                    await Handshake.UdpAuthenticAtion(client, endPointServer, isp2p).ConfigureAwait(false);
                 }
                 isAuth = true;
             }
@@ -331,7 +331,7 @@ namespace Tool.Sockets.UdpHelper
             }
             finally
             {
-                if (client is not null) await ConnectCallBack();
+                if (client is not null) await ConnectCallBack().ConfigureAwait(false);
             }
         }
 
@@ -352,7 +352,7 @@ namespace Tool.Sockets.UdpHelper
             try
             {
                 Encoding.UTF8.GetBytes(chars.Span, sendBytes.Span);
-                await SendAsync(sendBytes);
+                await SendAsync(sendBytes).ConfigureAwait(false);
             }
             finally
             {
@@ -371,7 +371,7 @@ namespace Tool.Sockets.UdpHelper
             try
             {
                 sendBytes.SetMemory(listData);
-                await SendAsync(sendBytes);
+                await SendAsync(sendBytes).ConfigureAwait(false);
             }
             finally
             {
@@ -417,9 +417,9 @@ namespace Tool.Sockets.UdpHelper
             do
             {
                 var memory = udp.GetSendMemory(sendBytes, ref ispart, ref i);
-                await SendNoWaitAsync(memory);
+                await SendNoWaitAsync(memory).ConfigureAwait(false);
             } while (ispart);
-            await OnComplete(Server, EnClient.SendMsg);
+            await OnComplete(Server, EnClient.SendMsg).ConfigureAwait(false);
             Keep?.ResetTime();
         }
 
@@ -427,7 +427,7 @@ namespace Tool.Sockets.UdpHelper
         {
             ThrowIfDisposed();
             if (udp is null) throw new Exception("未调用ConnectAsync函数或未连接！");
-            await udp.SendAsync(buffers);
+            await udp.SendAsync(buffers).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -458,7 +458,7 @@ namespace Tool.Sockets.UdpHelper
             else
             {
                 Dispose();//连接失败直接关闭并回收
-                await OnComplete(Server, EnClient.Fail);
+                await OnComplete(Server, EnClient.Fail).ConfigureAwait(false);
             }
 
             async ValueTask IsReceived(UserKey key, byte type)
@@ -467,10 +467,10 @@ namespace Tool.Sockets.UdpHelper
                 switch (type)
                 {
                     case 0:
-                        await OnComplete(key, EnClient.HeartBeat);
+                        await OnComplete(key, EnClient.HeartBeat).ConfigureAwait(false);
                         break;
                     case 1:
-                        await OnComplete(key, EnClient.Receive);
+                        await OnComplete(key, EnClient.Receive).ConfigureAwait(false);
                         break;
                 }
             }
@@ -484,12 +484,12 @@ namespace Tool.Sockets.UdpHelper
             isReceive = true;
             //接收数据包
             //endPointServer.SetUdpState(this.DataLength, this.OnlyData, Received);
-            await OnComplete(Server, EnClient.Connect);
+            await OnComplete(Server, EnClient.Connect).ConfigureAwait(false);
             while (!isClose)
             {
                 if (UdpStateObject.IsConnected(client))
                 {
-                    await ReceiveAsync(udp.UdpState);
+                    await ReceiveAsync(udp.UdpState).ConfigureAwait(false);
                 }
                 else
                 {
@@ -500,8 +500,8 @@ namespace Tool.Sockets.UdpHelper
                     break; //直接结束
                 }
             }
-            await udp.DisposeAsync();
-            await OnComplete(Server, EnClient.Close);
+            await udp.DisposeAsync().ConfigureAwait(false);
+            await OnComplete(Server, EnClient.Close).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -512,12 +512,12 @@ namespace Tool.Sockets.UdpHelper
             //doReceive.Reset();
             try
             {
-                SocketReceiveFromResult result = await UdpStateObject.ReceiveFromAsync(client, arrayData, endPointServer, receiveTimeout);
+                SocketReceiveFromResult result = await UdpStateObject.ReceiveFromAsync(client, arrayData, endPointServer, receiveTimeout).ConfigureAwait(false);
                 if (result.RemoteEndPoint is UdpEndPoint point && point == endPointServer) //客户端只处理匹配的数据包
                 {
                     obj.UpDateSignal();
 
-                    await udp.ReceiveAsync(arrayData[..result.ReceivedBytes]);
+                    await udp.ReceiveAsync(arrayData[..result.ReceivedBytes]).ConfigureAwait(false);
 
                     //var head = arrayData[..StateObject.HeadSize];
                     //if (obj.OnReceiveTask(head, result.ReceivedBytes, out bool isreply, out bool isReceive))//尝试使用，原线程处理包解析，验证效率
@@ -569,10 +569,15 @@ namespace Tool.Sockets.UdpHelper
         {
             if (!_disposed)
             {
-                _disposed = true;
+                _disposed = true; 
                 Close();
                 client?.Dispose();
+                client = null;
+                udp = null;
+                endPointServer = null;
                 arrayData = null;
+                server = null;
+                Keep = null;
 
                 //doConnect.Close();
                 //_mre.Close();

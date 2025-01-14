@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -312,6 +313,21 @@ namespace Tool.Utils
         /// <summary>
         /// 获取当前Json集合下可能存在的数据信息
         /// </summary>
+        /// <param name="defaultValue">不存在时返回特定默认值</param>
+        /// <param name="keys">查找的Key和下标</param>
+        /// <returns>返回结果</returns>
+        public JsonVar GetOrDefault(JsonVar defaultValue, params object[] keys)
+        {
+            if (TryGet(out JsonVar jsons, keys))
+            {
+                return jsons;
+            }
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// 获取当前Json集合下可能存在的数据信息
+        /// </summary>
         /// <param name="jsonVar">返回存在的结果</param>
         /// <param name="keys">查找的Key和下标</param>
         /// <returns><see cref="bool"/></returns>
@@ -440,6 +456,12 @@ namespace Tool.Utils
         public static implicit operator Dictionary<string, object>(JsonVar value) => value.GetVar<Dictionary<string, object>>();
 
         /// <summary>
+        /// Array
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator JsonVar(Array value) => new(value);
+
+        /// <summary>
         /// ArrayList
         /// </summary>
         /// <param name="value"></param>
@@ -520,9 +542,68 @@ namespace Tool.Utils
         public JsonEnumerator(JsonKeyKind Kind, object Key, JsonVar Current)
         {
             this.Kind = Kind;
-            this.Key = Key;
+            this.ObjKey = Key;
             this.Current = Current;
         }
+
+        /// <summary>
+        /// 通过键名获取值
+        /// </summary>
+        /// <param name="name">键名</param>
+        /// <returns></returns>
+        public JsonVar this[string name] => Current[name];
+
+        /// <summary>
+        /// 通过下标获取值
+        /// </summary>
+        /// <param name="i">下标</param>
+        /// <returns></returns>
+        public JsonVar this[int i] => Current[i];
+
+        /// <summary>
+        /// 将对象还原成 特定值
+        /// </summary>
+        /// <typeparam name="T">转换的值</typeparam>
+        /// <returns>得到的值</returns>
+        public T GetVar<T>() => Current.GetVar<T>();
+
+        /// <summary>
+        /// 获取当前Json集合下可能存在的数据信息
+        /// </summary>
+        /// <param name="defaultValue">不存在时返回特定默认值</param>
+        /// <param name="keys">查找的Key和下标</param>
+        /// <returns>返回结果</returns>
+        public JsonVar GetOrDefault(JsonVar defaultValue, params object[] keys) => Current.GetOrDefault(defaultValue, keys);
+
+        /// <summary>
+        /// 获取当前Json集合下可能存在的数据信息
+        /// </summary>
+        /// <param name="jsonVar">返回存在的结果</param>
+        /// <param name="keys">查找的Key和下标</param>
+        /// <returns><see cref="bool"/></returns>
+        public bool TryGet(out JsonVar jsonVar, params object[] keys) => Current.TryGet(out jsonVar, keys);
+
+        /// <summary>
+        /// 获取当前对象的Json字符串
+        /// </summary>
+        /// <returns></returns>
+        public string GetJson() => Current.GetJson();
+
+        /// <summary>
+        /// 根据实际类型返回特定内容
+        /// </summary>
+        /// <returns>结果</returns>
+        public override string ToString() => Current.ToString();
+
+        /// <summary>
+        /// 键名
+        /// </summary>
+        public string Key => Kind is JsonKeyKind.Key ? (string)ObjKey : throw new Exception("不是键值对集合。");
+
+        /// <summary>
+        /// 下标
+        /// </summary>
+        public int Index => Kind is JsonKeyKind.Index ? (int)ObjKey : throw new Exception("不是键值对集合。");
 
         /// <summary>
         /// Key的类型
@@ -532,7 +613,7 @@ namespace Tool.Utils
         /// <summary>
         /// 键名或下标
         /// </summary>
-        public object Key { get; }
+        public object ObjKey { get; }
 
         /// <summary>
         /// 数据源
@@ -543,61 +624,61 @@ namespace Tool.Utils
         /// <see cref="Dictionary{String, Object}"/>
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator Dictionary<string, object>(JsonEnumerator value) => value;
+        public static implicit operator Dictionary<string, object>(JsonEnumerator value) => value.Current;
 
         /// <summary>
         /// ArrayList
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator ArrayList(JsonEnumerator value) => value;
+        public static implicit operator ArrayList(JsonEnumerator value) => value.Current;
 
         /// <summary>
         /// string
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator string(JsonEnumerator value) => value;
+        public static implicit operator string(JsonEnumerator value) => value.Current;
 
         /// <summary>
         /// bool
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator bool(JsonEnumerator value) => value;
+        public static implicit operator bool(JsonEnumerator value) => value.Current;
 
         /// <summary>
         /// short
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator short(JsonEnumerator value) => value;
+        public static implicit operator short(JsonEnumerator value) => value.Current;
 
         /// <summary>
         /// int
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator int(JsonEnumerator value) => value;
+        public static implicit operator int(JsonEnumerator value) => value.Current;
 
         /// <summary>
         /// long
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator long(JsonEnumerator value) => value;
+        public static implicit operator long(JsonEnumerator value) => value.Current;
 
         /// <summary>
         /// double
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator double(JsonEnumerator value) => value;
+        public static implicit operator double(JsonEnumerator value) => value.Current;
 
         /// <summary>
         /// decimal
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator decimal(JsonEnumerator value) => value;
+        public static implicit operator decimal(JsonEnumerator value) => value.Current;
 
         /// <summary>
         /// byte
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator byte(JsonEnumerator value) => value;
+        public static implicit operator byte(JsonEnumerator value) => value.Current;
     }
 
     /// <summary>

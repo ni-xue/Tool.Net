@@ -640,10 +640,17 @@ namespace Tool.Sockets.TcpHelper
         /// </summary>
         public override void Dispose()
         {
-            _disposed = true;
-            Close();
-            client?.Dispose();
-            GC.SuppressFinalize(this);
+            if (!_disposed)
+            {
+                _disposed = true;
+                Close();
+                client?.Dispose();
+                client = null;
+                endPointServer = null;
+                server = null;
+                Keep = null;
+                GC.SuppressFinalize(this);
+            }
         }
 
         bool _disposed = false;

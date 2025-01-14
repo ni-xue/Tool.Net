@@ -16790,6 +16790,14 @@
             <typeparam name="T">转换的值</typeparam>
             <returns>得到的值</returns>
         </member>
+        <member name="M:Tool.Utils.JsonVar.GetOrDefault(Tool.Utils.JsonVar,System.Object[])">
+            <summary>
+            获取当前Json集合下可能存在的数据信息
+            </summary>
+            <param name="defaultValue">不存在时返回特定默认值</param>
+            <param name="keys">查找的Key和下标</param>
+            <returns>返回结果</returns>
+        </member>
         <member name="M:Tool.Utils.JsonVar.TryGet(Tool.Utils.JsonVar@,System.Object[])">
             <summary>
             获取当前Json集合下可能存在的数据信息
@@ -16914,12 +16922,71 @@
             <param name="Key">键名或下标</param>
             <param name="Current">数据源</param>
         </member>
+        <member name="P:Tool.Utils.JsonEnumerator.Item(System.String)">
+            <summary>
+            通过键名获取值
+            </summary>
+            <param name="name">键名</param>
+            <returns></returns>
+        </member>
+        <member name="P:Tool.Utils.JsonEnumerator.Item(System.Int32)">
+            <summary>
+            通过下标获取值
+            </summary>
+            <param name="i">下标</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.JsonEnumerator.GetVar``1">
+            <summary>
+            将对象还原成 特定值
+            </summary>
+            <typeparam name="T">转换的值</typeparam>
+            <returns>得到的值</returns>
+        </member>
+        <member name="M:Tool.Utils.JsonEnumerator.GetOrDefault(Tool.Utils.JsonVar,System.Object[])">
+            <summary>
+            获取当前Json集合下可能存在的数据信息
+            </summary>
+            <param name="defaultValue">不存在时返回特定默认值</param>
+            <param name="keys">查找的Key和下标</param>
+            <returns>返回结果</returns>
+        </member>
+        <member name="M:Tool.Utils.JsonEnumerator.TryGet(Tool.Utils.JsonVar@,System.Object[])">
+            <summary>
+            获取当前Json集合下可能存在的数据信息
+            </summary>
+            <param name="jsonVar">返回存在的结果</param>
+            <param name="keys">查找的Key和下标</param>
+            <returns><see cref="T:System.Boolean"/></returns>
+        </member>
+        <member name="M:Tool.Utils.JsonEnumerator.GetJson">
+            <summary>
+            获取当前对象的Json字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.JsonEnumerator.ToString">
+            <summary>
+            根据实际类型返回特定内容
+            </summary>
+            <returns>结果</returns>
+        </member>
+        <member name="P:Tool.Utils.JsonEnumerator.Key">
+            <summary>
+            键名
+            </summary>
+        </member>
+        <member name="P:Tool.Utils.JsonEnumerator.Index">
+            <summary>
+            下标
+            </summary>
+        </member>
         <member name="P:Tool.Utils.JsonEnumerator.Kind">
             <summary>
             Key的类型
             </summary>
         </member>
-        <member name="P:Tool.Utils.JsonEnumerator.Key">
+        <member name="P:Tool.Utils.JsonEnumerator.ObjKey">
             <summary>
             键名或下标
             </summary>

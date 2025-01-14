@@ -265,6 +265,12 @@ namespace WebTestApp
             //s.ActionMethods[0].Action.Invoke()
 
             //var s = ActionHelper<ApplicationBuilder>.GetActionMethodHelper(MethodFlags.Private);
+
+            //JsonVar jsons = [.. new List<string> { "123" }];
+
+            var  abc = "[1,2,3]".JsonVar();
+            int[] ints = [.. abc];
+
             string jsonstr = "{\"Inbound\":{\"TcpList\":{\"50\":{\"Ip\":\"0.0.0.0\",\"Auth\":null,\"ServeId\":6060,\"P2P\":true,\"Exolain\":\"描述\",\"Open\":true}},\"UdpList\":{\"50\":{\"Ip\":\"0.0.0.0\",\"Auth\":null,\"ServeId\":6060,\"P2P\":true,\"Exolain\":\"描述\",\"Open\":true}}},\"Outbound\":{\"TcpList\":{\"50\":{\"Ip\":\"0.0.0.0\",\"Port\":6060,\"AuthList\":null,\"P2P\":true,\"Open\":true,\"Exolain\":\"描述\"}},\"UdpList\":{\"50\":{\"Ip\":\"0.0.0.0\",\"Port\":6060,\"AuthList\":null,\"P2P\":true,\"Open\":true,\"Exolain\":\"描述\"}}}}";
             JsonVar jsonVar = jsonstr.JsonVar();
 
