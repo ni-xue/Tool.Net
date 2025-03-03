@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using Tool.Utils.ActionDelegate;
@@ -177,7 +178,7 @@ namespace Tool.Utils
             if (list.Count > 0)
             {
                 string text = list[^1].Trim();
-                if (text.EndsWith('\"'))
+                if (text.EndsWith(Path.DirectorySeparatorChar))
                 {
                     text = text.TrimEnd('"');
                     list.RemoveAt(list.Count - 1);

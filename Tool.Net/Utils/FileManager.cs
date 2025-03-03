@@ -271,7 +271,7 @@ namespace Tool.Utils
 					dataRow[1] = fileInfo.FullName;
 					dataRow[2] = fileInfo.Extension.Replace(".", "");
 					dataRow[3] = 1;
-					dataRow[4] = fileInfo.DirectoryName + "\\";
+					dataRow[4] = $"{fileInfo.DirectoryName}{Path.DirectorySeparatorChar}";
 					dataRow[5] = fileInfo.LastWriteTime;
 					dataRow[6] = fileInfo.Length;
 					dataTable.Rows.Add(dataRow);
@@ -358,8 +358,8 @@ namespace Tool.Utils
 					dataRow[1] = fileInfo.FullName;
 					dataRow[2] = fileInfo.Extension.Replace(".", "");
 					dataRow[3] = 1;
-					dataRow[4] = fileInfo.DirectoryName + "\\";
-					dataRow[5] = fileInfo.LastWriteTime;
+					dataRow[4] = $"{fileInfo.DirectoryName}{Path.DirectorySeparatorChar}";
+                    dataRow[5] = fileInfo.LastWriteTime;
 					dataRow[6] = fileInfo.Length;
 					dataTable.Rows.Add(dataRow);
 				}

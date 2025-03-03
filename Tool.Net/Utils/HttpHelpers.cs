@@ -26,6 +26,11 @@ namespace Tool.Utils
         private static readonly HttpClient _HttpClient;
 
         /// <summary>
+        /// Http请求处理程序
+        /// </summary>
+        public static HttpMessageHandler HttpHandler { get; set; }
+
+        /// <summary>
         /// 默认编码格式
         /// </summary>
         public static Encoding DefaultEncoding { get; set; } = Encoding.UTF8;
@@ -40,7 +45,13 @@ namespace Tool.Utils
 
         static HttpHelpers()
         {
-            _HttpClient = new(new SocketsHttpHandler() { UseCookies = false, AutomaticDecompression = DecompressionMethods.All, SslOptions = new System.Net.Security.SslClientAuthenticationOptions { RemoteCertificateValidationCallback = (a, b, c, d) => true } }, true);   //HttpClientHandler
+            HttpHandler = CreateHttpHandler();
+            _HttpClient = new(HttpHandler, true);   //HttpClientHandler
+        }
+
+        private static SocketsHttpHandler CreateHttpHandler()
+        {
+            return new SocketsHttpHandler() { UseCookies = false, AutomaticDecompression = DecompressionMethods.All, SslOptions = new System.Net.Security.SslClientAuthenticationOptions { RemoteCertificateValidationCallback = (a, b, c, d) => true } };
         }
 
         /// <summary>
@@ -54,13 +65,14 @@ namespace Tool.Utils
         /// <param name="url"></param>
         /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static Stream Get(string url, Action<HttpRequestHeaders> onheaders = null)
+        public static Stream Get(string url, Func<HttpRequestHeaders, HttpContent> onheaders = null)
         {
             try
             {
                 using var requestMessage = CreateHttpRequestMessage(HttpMethod.Get, url);
 
-                onheaders?.Invoke(requestMessage.Headers);
+                var content = onheaders?.Invoke(requestMessage.Headers);
+                if (content != null) requestMessage.Content = content;
 
                 using var http = Send(requestMessage);
 
@@ -79,13 +91,14 @@ namespace Tool.Utils
         /// <param name="url"></param>
         /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static async Task<Stream> GetAsync(string url, Action<HttpRequestHeaders> onheaders = null)
+        public static async Task<Stream> GetAsync(string url, Func<HttpRequestHeaders, HttpContent> onheaders = null)
         {
             try
             {
                 using var requestMessage = CreateHttpRequestMessage(HttpMethod.Get, url);
 
-                onheaders?.Invoke(requestMessage.Headers);
+                var content = onheaders?.Invoke(requestMessage.Headers);
+                if (content != null) requestMessage.Content = content;
 
                 using var http = await SendAsync(requestMessage);
 
@@ -105,7 +118,7 @@ namespace Tool.Utils
         /// <param name="url"></param>
         /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static T GetJson<T>(string url, Action<HttpRequestHeaders> onheaders = null)
+        public static T GetJson<T>(string url, Func<HttpRequestHeaders, HttpContent> onheaders = null)
         {
             try
             {
@@ -125,7 +138,7 @@ namespace Tool.Utils
         /// <param name="url"></param>
         /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static async Task<T> GetJsonAsync<T>(string url, Action<HttpRequestHeaders> onheaders = null)
+        public static async Task<T> GetJsonAsync<T>(string url, Func<HttpRequestHeaders, HttpContent> onheaders = null)
         {
             try
             {
@@ -144,17 +157,10 @@ namespace Tool.Utils
         /// <param name="url"></param>
         /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static string GetString(string url, Action<HttpRequestHeaders> onheaders = null)
+        public static string GetString(string url, Func<HttpRequestHeaders, HttpContent> onheaders = null)
         {
             var result = Get(url, onheaders);
-
-            if (result == null)
-            {
-                return null; //throw new Exception("请求失败。");
-            }
-
-            using var _StreamReader = new StreamReader(result, DefaultEncoding ?? Encoding.Default);
-            return _StreamReader.ReadToEnd();
+            return GetString(result);
         }
 
         /// <summary>
@@ -163,17 +169,114 @@ namespace Tool.Utils
         /// <param name="url"></param>
         /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static async Task<string> GetStringAsync(string url, Action<HttpRequestHeaders> onheaders = null)
+        public static async Task<string> GetStringAsync(string url, Func<HttpRequestHeaders, HttpContent> onheaders = null)
         {
             var result = await GetAsync(url, onheaders);
+            return await GetStringAsync(result);
+        }
 
-            if (result == null)
+        /// <summary>
+        /// POST 方式获取响应流
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="onheaders"></param>
+        /// <returns></returns>
+        public static Stream Post(string url, Func<HttpRequestHeaders, HttpContent> onheaders = null)
+        {
+            try
             {
-                return null; //throw new Exception("请求失败。");
-            }
+                using var requestMessage = CreateHttpRequestMessage(HttpMethod.Post, url);
 
-            using var _StreamReader = new StreamReader(result, DefaultEncoding ?? Encoding.Default);
-            return await _StreamReader.ReadToEndAsync();
+                var content = onheaders?.Invoke(requestMessage.Headers);
+                if (content != null) requestMessage.Content = content;
+
+                using var http = Send(requestMessage);
+
+                return GetMemory(http.Content);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Post", ex, LogFilePath);
+                return default;
+            }
+        }
+
+        /// <summary>
+        /// POST 方式获取响应流(异步获取)
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="onheaders"></param>
+        /// <returns></returns>
+        public static async Task<Stream> PostAsync(string url, Func<HttpRequestHeaders, HttpContent> onheaders = null)
+        {
+            try
+            {
+                using var requestMessage = CreateHttpRequestMessage(HttpMethod.Post, url);
+
+                var content = onheaders?.Invoke(requestMessage.Headers);
+                if (content != null) requestMessage.Content = content;
+
+                using var http = await SendAsync(requestMessage);
+
+                return await GetMemoryAsync(http.Content);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error("PostAsync", ex, LogFilePath);
+                return default;
+            }
+        }
+
+        /// <summary>
+        /// POST 方式获取响应流  返回字符串
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="onheaders"></param>
+        /// <returns></returns>
+        public static string PostString(string url, Func<HttpRequestHeaders, HttpContent> onheaders = null)
+        {
+            var result = Post(url, onheaders);
+            return GetString(result);
+        }
+
+        /// <summary>
+        /// POST 方式获取响应流  返回字符串 (异步获取)
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="onheaders"></param>
+        /// <returns></returns>
+        public static async Task<string> PostStringAsync(string url, Func<HttpRequestHeaders, HttpContent> onheaders = null)
+        {
+            var result = await PostAsync(url, onheaders);
+            return await GetStringAsync(result);
+        }
+
+
+        /// <summary>
+        /// POST 方式获取响应流  返回字符串
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <param name="onheaders"></param>
+        /// <returns></returns>
+        public static string PostString(string url, IDictionary<string, string> data, Action<HttpRequestHeaders> onheaders = null)
+        {
+            var result = Post(url, data, onheaders);
+            return GetString(result);
+        }
+
+        /// <summary>
+        /// POST 方式获取响应流  返回字符串 (异步获取)
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <param name="onheaders"></param>
+        /// <returns></returns>
+        public static async Task<string> PostStringAsync(string url, IDictionary<string, string> data, Action<HttpRequestHeaders> onheaders = null)
+        {
+            var result = await PostAsync(url, data, onheaders);
+            return await GetStringAsync(result);
         }
 
         /// <summary>
@@ -187,15 +290,7 @@ namespace Tool.Utils
         {
             try
             {
-                using var requestMessage = CreateHttpRequestMessage(HttpMethod.Post, url);
-
-                onheaders?.Invoke(requestMessage.Headers);
-
-                if (data != null) requestMessage.Content = new FormUrlEncodedContent(data);
-
-                using var http = Send(requestMessage);
-
-                return GetMemory(http.Content);
+                return Post(url, ops => { onheaders(ops); return data is null ? null : BodyForm(data); });
             }
             catch (Exception ex)
             {
@@ -215,16 +310,7 @@ namespace Tool.Utils
         {
             try
             {
-                using var requestMessage = CreateHttpRequestMessage(HttpMethod.Post, url);
-
-                onheaders?.Invoke(requestMessage.Headers);
-
-                if (data != null) requestMessage.Content = new FormUrlEncodedContent(data);
-
-                using var http = await SendAsync(requestMessage);
-
-                return await GetMemoryAsync(http.Content);
-
+                return await PostAsync(url, ops => { onheaders(ops); return data is null ? null : BodyForm(data); });
             }
             catch (Exception ex)
             {
@@ -295,44 +381,6 @@ namespace Tool.Utils
             {
                 return string.Empty;
             }
-        }
-
-        /// <summary>
-        /// POST 方式获取响应流  返回字符串
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="onheaders"></param>
-        /// <returns></returns>
-        public static string PostString(string url, IDictionary<string, string> data, Action<HttpRequestHeaders> onheaders = null)
-        {
-            var result = Post(url, data, onheaders);
-
-            if (result == null)
-            {
-                return null; //throw new Exception("请求失败。");
-            }
-            using var _StreamReader = new StreamReader(result, DefaultEncoding ?? Encoding.Default);
-            return _StreamReader.ReadToEnd();
-        }
-
-        /// <summary>
-        /// POST 方式获取响应流  返回字符串 (异步获取)
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="onheaders"></param>
-        /// <returns></returns>
-        public static async Task<string> PostStringAsync(string url, IDictionary<string, string> data, Action<HttpRequestHeaders> onheaders = null)
-        {
-            var result = await PostAsync(url, data, onheaders);
-
-            if (result == null)
-            {
-                return null; //throw new Exception("请求失败。");
-            }
-            using var _StreamReader = new StreamReader(result, DefaultEncoding ?? Encoding.Default);
-            return await _StreamReader.ReadToEndAsync();
         }
 
         /// <summary>
@@ -410,13 +458,14 @@ namespace Tool.Utils
         /// <param name="url"></param>
         /// <param name="onheaders"></param>
         /// <returns></returns>
-        public static HttpStatusCode HeadHttpCode(string url, Action<HttpRequestHeaders> onheaders = null)
+        public static HttpStatusCode HeadHttpCode(string url, Func<HttpRequestHeaders, HttpContent> onheaders = null)
         {
             try
             {
                 using var requestMessage = CreateHttpRequestMessage(HttpMethod.Head, url);
 
-                onheaders?.Invoke(requestMessage.Headers);
+                var content = onheaders?.Invoke(requestMessage.Headers);
+                if (content != null) requestMessage.Content = content;
 
                 using var http = Send(requestMessage);
 
@@ -470,7 +519,7 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="requestMessage">请求信息</param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> SendAsync(HttpRequestMessage requestMessage) 
+        public static async Task<HttpResponseMessage> SendAsync(HttpRequestMessage requestMessage)
         {
             return await _HttpClient.SendAsync(requestMessage);
         }
@@ -485,7 +534,12 @@ namespace Tool.Utils
             return _HttpClient.Send(requestMessage);
         }
 
-        private static async Task<Stream> GetMemoryAsync(HttpContent content) 
+        /// <summary>
+        /// 获取内存流
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static async Task<Stream> GetMemoryAsync(HttpContent content)
         {
             MemoryStream memoryStream = new();
             using (content) await content.CopyToAsync(memoryStream, null, CancellationToken.None);
@@ -493,12 +547,47 @@ namespace Tool.Utils
             return memoryStream;
         }
 
-        private static MemoryStream GetMemory(HttpContent content)
+        /// <summary>
+        /// 获取内存流
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static Stream GetMemory(HttpContent content)
         {
             MemoryStream memoryStream = new();
             using (content) content.CopyTo(memoryStream, null, CancellationToken.None);
             memoryStream.Position = 0;
             return memoryStream;
+        }
+
+        /// <summary>
+        /// 获取字符串
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static string GetString(Stream result)
+        {
+            if (result == null)
+            {
+                return null; //throw new Exception("请求失败。");
+            }
+            using var _StreamReader = new StreamReader(result, DefaultEncoding ?? Encoding.Default);
+            return _StreamReader.ReadToEnd();
+        }
+
+        /// <summary>
+        /// 获取字符串
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static async Task<string> GetStringAsync(Stream result)
+        {
+            if (result == null)
+            {
+                return null; //throw new Exception("请求失败。");
+            }
+            using var _StreamReader = new StreamReader(result, DefaultEncoding ?? Encoding.Default);
+            return await _StreamReader.ReadToEndAsync();
         }
 
         ///// <summary>
@@ -520,7 +609,7 @@ namespace Tool.Utils
         /// </summary>
         /// <param name="data">字典对象</param>
         /// <returns></returns>
-        public static string QueryString(IDictionary<string, string>  data) 
+        public static string QueryString(IDictionary<string, string> data)
         {
             return data is null
                  ? string.Empty
@@ -545,6 +634,47 @@ namespace Tool.Utils
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 生成请求体
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="ContentType"></param>
+        /// <returns></returns>
+        public static HttpContent BodyString(string data, string ContentType = "application/json")
+        {
+            HttpContent content = new ByteArrayContent(data.ToBytes(encoding: DefaultEncoding));
+            content.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
+            return content;
+        }
+
+        /// <summary>
+        /// 生成请求体
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="bufferSize"></param>
+        /// <param name="ContentType"></param>
+        /// <returns></returns>
+        public static HttpContent BodyStream(Stream data, int bufferSize = -1, string ContentType = "application/json")
+        {
+            HttpContent content = new StreamContent(data, bufferSize == -1 ? (int)data.Length : bufferSize);
+            content.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
+            return content;
+        }
+
+        /// <summary>
+        /// 生成请求体
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <param name="ContentType"></param>
+        /// <returns></returns>
+        public static HttpContent BodyForm<T>(T data, string ContentType = "application/x-www-form-urlencoded") where T : IEnumerable<KeyValuePair<string, string>>
+        {
+            HttpContent content = new FormUrlEncodedContent(data);
+            content.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
+            return content;
         }
 
         //public static IDictionary<string, string> FormatData(string query)

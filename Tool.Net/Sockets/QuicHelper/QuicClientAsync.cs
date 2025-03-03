@@ -27,7 +27,11 @@ namespace Tool.Sockets.QuicHelper
     [SupportedOSPlatform("macOS")]
     [SupportedOSPlatform("OSX")]
     [SupportedOSPlatform("windows")]
+
+#if NET7_0 || NET8_0
     [RequiresPreviewFeatures]
+#endif
+
 #else
     /// <summary>
     /// .Net7 以上支持

@@ -3,6 +3,7 @@ using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Pipelines;
 using System.Linq;
 using System.Net;
@@ -588,7 +589,7 @@ namespace Tool.Sockets.UdpHelper.Extend
             }
             catch (Exception ex)
             {
-                Log.Error("补发模式：", ex, "Log\\UdpStream");
+                Log.Error("补发模式：", ex, Path.Combine("Log","UdpStream"));
             }
             #endregion
 
@@ -645,7 +646,7 @@ namespace Tool.Sockets.UdpHelper.Extend
             }
             catch (Exception ex)
             {
-                Log.Error("合包模式：", ex, "Log\\UdpStream");
+                Log.Error("合包模式：", ex, Path.Combine("Log", "UdpStream"));
             }
             #endregion
         }

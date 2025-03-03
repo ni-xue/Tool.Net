@@ -328,9 +328,9 @@ namespace Tool.Utils.FtpHelper
             {
                 Connect();
             }
-            string str = strFileName.Substring(0, strFileName.LastIndexOf("\\"));
-            string strTypeName = strFileName.Substring(strFileName.LastIndexOf("."));
-            strGuid = str + "\\" + strGuid;
+            string str = strFileName[..strFileName.LastIndexOf(Path.DirectorySeparatorChar)];
+            string strTypeName = strFileName[strFileName.LastIndexOf(".")..];
+            strGuid = $"{str}{Path.DirectorySeparatorChar}{strGuid}";
             Socket socketData = CreateDataSocket();
             SendCommand("STOR " + Path.GetFileName(strGuid));
             if (!(iReplyCode == 125 || iReplyCode == 150))
@@ -469,7 +469,7 @@ namespace Tool.Utils.FtpHelper
         /// 下载一批文件
         /// </summary>
         /// <param name="strFileNameMask">文件名的匹配字符串</param>
-        /// <param name="strFolder">本地目录(不得以\结束)</param>
+        /// <param name="strFolder">本地目录(不得以/或\结束)</param>
         public void Get(string strFileNameMask, string strFolder)
         {
             if (!bConnected)
@@ -490,7 +490,7 @@ namespace Tool.Utils.FtpHelper
         /// 下载一个文件
         /// </summary>
         /// <param name="strRemoteFileName">要下载的文件名</param>
-        /// <param name="strFolder">本地目录(不得以\结束)</param>
+        /// <param name="strFolder">本地目录(不得以/或\结束)</param>
         /// <param name="strLocalFileName">保存在本地时的文件名</param>
         public void Get(string strRemoteFileName, string strFolder, string strLocalFileName)
         {
@@ -511,7 +511,7 @@ namespace Tool.Utils.FtpHelper
                 {
                     throw new IOException(strReply.Substring(4));
                 }
-                FileStream output = new FileStream(strFolder + "\\" + strLocalFileName, FileMode.Create);
+                FileStream output = new($"{strFolder}{Path.DirectorySeparatorChar}{strLocalFileName}", FileMode.Create);
                 while (true)
                 {
                     int iBytes = socketData.Receive(buffer, buffer.Length, 0);
@@ -549,7 +549,7 @@ namespace Tool.Utils.FtpHelper
         /// 下载一个文件
         /// </summary>
         /// <param name="strRemoteFileName">要下载的文件名</param>
-        /// <param name="strFolder">本地目录(不得以\结束)</param>
+        /// <param name="strFolder">本地目录(不得以/或\结束)</param>
         /// <param name="strLocalFileName">保存在本地时的文件名</param>
         public void GetNoBinary(string strRemoteFileName, string strFolder, string strLocalFileName)
         {
@@ -568,7 +568,7 @@ namespace Tool.Utils.FtpHelper
             {
                 throw new IOException(strReply.Substring(4));
             }
-            FileStream output = new FileStream(strFolder + "\\" + strLocalFileName, FileMode.Create);
+            FileStream output = new FileStream($"{strFolder}{Path.DirectorySeparatorChar}{strLocalFileName}", FileMode.Create);
             while (true)
             {
                 int iBytes = socketData.Receive(buffer, buffer.Length, 0);
@@ -596,7 +596,7 @@ namespace Tool.Utils.FtpHelper
         /// <summary>
         /// 上传一批文件
         /// </summary>
-        /// <param name="strFolder">本地目录(不得以\结束)</param>
+        /// <param name="strFolder">本地目录(不得以/或\结束)</param>
         /// <param name="strFileNameMask">文件名匹配字符(可以包含*和?)</param>
         public void Put(string strFolder, string strFileNameMask)
         {
@@ -661,9 +661,9 @@ namespace Tool.Utils.FtpHelper
             {
                 Connect();
             }
-            string str = strFileName.Substring(0, strFileName.LastIndexOf("\\"));
-            string strTypeName = strFileName.Substring(strFileName.LastIndexOf("."));
-            strGuid = str + "\\" + strGuid;
+            string str = strFileName[..strFileName.LastIndexOf(Path.DirectorySeparatorChar)];
+            string strTypeName = strFileName[strFileName.LastIndexOf(".")..];
+            strGuid = $"{str}{Path.DirectorySeparatorChar}{strGuid}";
             System.IO.File.Copy(strFileName, strGuid);
             System.IO.File.SetAttributes(strGuid, System.IO.FileAttributes.Normal);
             Socket socketData = CreateDataSocket();
@@ -672,7 +672,7 @@ namespace Tool.Utils.FtpHelper
             {
                 throw new IOException(strReply.Substring(4));
             }
-            FileStream input = new FileStream(strGuid, FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read);
+            FileStream input = new(strGuid, FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read);
             int iBytes = 0;
             while ((iBytes = input.Read(buffer, 0, buffer.Length)) > 0)
             {

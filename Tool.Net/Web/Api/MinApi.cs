@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tool.Web.Api.ApiCore;
 using Tool.Web.Routing;
 using System.Threading;
+using System.IO;
 
 namespace Tool.Web.Api
 {
@@ -719,8 +720,8 @@ namespace Tool.Web.Api
 
             if (env.WebRootPath is null)
             {
-                string webRootPath = env.ContentRootPath + "\\wwwroot";
-                System.IO.Directory.CreateDirectory(webRootPath + "\\Views");
+                string webRootPath = $"{env.ContentRootPath}{Path.DirectorySeparatorChar}wwwroot";
+                System.IO.Directory.CreateDirectory($"{webRootPath}{Path.DirectorySeparatorChar}Views");
                 env.WebRootPath = webRootPath;
                 env.WebRootFileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(webRootPath);
             }
@@ -729,15 +730,15 @@ namespace Tool.Web.Api
             if (IsView)
             {
                 //string directory = AppContext.BaseDirectory;
-                //filePath = string.Concat(directory, "ApiView\\", ashxRoute.Controller, '\\', ashxRoute.Action, ".html");
+                //filePath = string.Concat(directory, "ApiView", Path.DirectorySeparatorChar, ashxRoute.Controller, Path.DirectorySeparatorChar, ashxRoute.Action, ".html");
 
                 if (string.IsNullOrEmpty(ViewName))
                 {
-                    ViewName = $"Views\\{ashxRoute.Controller}\\{ashxRoute.Action}.html";
+                    ViewName = $"Views{Path.DirectorySeparatorChar}{ashxRoute.Controller}{Path.DirectorySeparatorChar}{ashxRoute.Action}.html";
                 }
                 else
                 {
-                    ViewName = $"Views\\{ashxRoute.Controller}\\{ViewName}\\{ashxRoute.Action}.html";
+                    ViewName = $"Views{Path.DirectorySeparatorChar}{ashxRoute.Controller}{Path.DirectorySeparatorChar}{ViewName}{Path.DirectorySeparatorChar}{ashxRoute.Action}.html";
                 }
 
                 view = env.WebRootFileProvider.GetFileInfo(ViewName);
@@ -755,11 +756,6 @@ namespace Tool.Web.Api
                 //    string directory = AppContext.BaseDirectory;
                 //    filePath = string.Concat(directory, ViewName);// '\\' $"{directory}/{ViewName}";
                 //}
-
-                //System.IO.File.Exists(@"D:\Nixue工作室\Tool.Net\WebTestApp\wwwroot\"+ViewName);
-
-                //System.IO.File.OpenRead(@"D:\Nixue工作室\Tool.Net\WebTestApp\wwwroot\" + ViewName);
-
             }
             //if (System.IO.File.Exists(filePath))
             //{
@@ -799,7 +795,7 @@ namespace Tool.Web.Api
             }
             else
             {
-                throw new Exception("找不到页面:“(相对路径)wwwroot\\" + ViewName + "”,无法显示！");
+                throw new Exception($"找不到页面:“(相对路径)wwwroot{Path.DirectorySeparatorChar}{ViewName}”,无法显示！");
             }
         }
     }

@@ -15796,14 +15796,14 @@
             下载一批文件
             </summary>
             <param name="strFileNameMask">文件名的匹配字符串</param>
-            <param name="strFolder">本地目录(不得以\结束)</param>
+            <param name="strFolder">本地目录(不得以/或\结束)</param>
         </member>
         <member name="M:Tool.Utils.FtpHelper.FtpClient.Get(System.String,System.String,System.String)">
             <summary>
             下载一个文件
             </summary>
             <param name="strRemoteFileName">要下载的文件名</param>
-            <param name="strFolder">本地目录(不得以\结束)</param>
+            <param name="strFolder">本地目录(不得以/或\结束)</param>
             <param name="strLocalFileName">保存在本地时的文件名</param>
         </member>
         <member name="M:Tool.Utils.FtpHelper.FtpClient.GetNoBinary(System.String,System.String,System.String)">
@@ -15811,14 +15811,14 @@
             下载一个文件
             </summary>
             <param name="strRemoteFileName">要下载的文件名</param>
-            <param name="strFolder">本地目录(不得以\结束)</param>
+            <param name="strFolder">本地目录(不得以/或\结束)</param>
             <param name="strLocalFileName">保存在本地时的文件名</param>
         </member>
         <member name="M:Tool.Utils.FtpHelper.FtpClient.Put(System.String,System.String)">
             <summary>
             上传一批文件
             </summary>
-            <param name="strFolder">本地目录(不得以\结束)</param>
+            <param name="strFolder">本地目录(不得以/或\结束)</param>
             <param name="strFileNameMask">文件名匹配字符(可以包含*和?)</param>
         </member>
         <member name="M:Tool.Utils.FtpHelper.FtpClient.Put(System.String)">
@@ -16210,6 +16210,11 @@
             相关请求异常日志输出位置
             </summary>
         </member>
+        <member name="P:Tool.Utils.HttpHelpers.HttpHandler">
+            <summary>
+            Http请求处理程序
+            </summary>
+        </member>
         <member name="P:Tool.Utils.HttpHelpers.DefaultEncoding">
             <summary>
             默认编码格式
@@ -16228,7 +16233,7 @@
             自动回收
             </summary>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.Get(System.String,System.Action{System.Net.Http.Headers.HttpRequestHeaders})">
+        <member name="M:Tool.Utils.HttpHelpers.Get(System.String,System.Func{System.Net.Http.Headers.HttpRequestHeaders,System.Net.Http.HttpContent})">
             <summary>
             GET 方式获取响应流
             </summary>
@@ -16236,7 +16241,7 @@
             <param name="onheaders"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.GetAsync(System.String,System.Action{System.Net.Http.Headers.HttpRequestHeaders})">
+        <member name="M:Tool.Utils.HttpHelpers.GetAsync(System.String,System.Func{System.Net.Http.Headers.HttpRequestHeaders,System.Net.Http.HttpContent})">
             <summary>
             GET 方式获取响应流(异步获取)
             </summary>
@@ -16244,7 +16249,7 @@
             <param name="onheaders"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.GetJson``1(System.String,System.Action{System.Net.Http.Headers.HttpRequestHeaders})">
+        <member name="M:Tool.Utils.HttpHelpers.GetJson``1(System.String,System.Func{System.Net.Http.Headers.HttpRequestHeaders,System.Net.Http.HttpContent})">
             <summary>
             GET 方式获取响应流 返回实体
             </summary>
@@ -16253,7 +16258,7 @@
             <param name="onheaders"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.GetJsonAsync``1(System.String,System.Action{System.Net.Http.Headers.HttpRequestHeaders})">
+        <member name="M:Tool.Utils.HttpHelpers.GetJsonAsync``1(System.String,System.Func{System.Net.Http.Headers.HttpRequestHeaders,System.Net.Http.HttpContent})">
             <summary>
             GET 方式获取响应流 返回实体 (异步获取)
             </summary>
@@ -16262,7 +16267,7 @@
             <param name="onheaders"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.GetString(System.String,System.Action{System.Net.Http.Headers.HttpRequestHeaders})">
+        <member name="M:Tool.Utils.HttpHelpers.GetString(System.String,System.Func{System.Net.Http.Headers.HttpRequestHeaders,System.Net.Http.HttpContent})">
             <summary>
             GET 方式获取响应流 返回字符串
             </summary>
@@ -16270,11 +16275,61 @@
             <param name="onheaders"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.GetStringAsync(System.String,System.Action{System.Net.Http.Headers.HttpRequestHeaders})">
+        <member name="M:Tool.Utils.HttpHelpers.GetStringAsync(System.String,System.Func{System.Net.Http.Headers.HttpRequestHeaders,System.Net.Http.HttpContent})">
             <summary>
             GET 方式获取响应流 返回字符串 (异步获取)
             </summary>
             <param name="url"></param>
+            <param name="onheaders"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.Post(System.String,System.Func{System.Net.Http.Headers.HttpRequestHeaders,System.Net.Http.HttpContent})">
+            <summary>
+            POST 方式获取响应流
+            </summary>
+            <param name="url"></param>
+            <param name="onheaders"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.PostAsync(System.String,System.Func{System.Net.Http.Headers.HttpRequestHeaders,System.Net.Http.HttpContent})">
+            <summary>
+            POST 方式获取响应流(异步获取)
+            </summary>
+            <param name="url"></param>
+            <param name="onheaders"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.PostString(System.String,System.Func{System.Net.Http.Headers.HttpRequestHeaders,System.Net.Http.HttpContent})">
+            <summary>
+            POST 方式获取响应流  返回字符串
+            </summary>
+            <param name="url"></param>
+            <param name="onheaders"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.PostStringAsync(System.String,System.Func{System.Net.Http.Headers.HttpRequestHeaders,System.Net.Http.HttpContent})">
+            <summary>
+            POST 方式获取响应流  返回字符串 (异步获取)
+            </summary>
+            <param name="url"></param>
+            <param name="onheaders"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.PostString(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Action{System.Net.Http.Headers.HttpRequestHeaders})">
+            <summary>
+            POST 方式获取响应流  返回字符串
+            </summary>
+            <param name="url"></param>
+            <param name="data"></param>
+            <param name="onheaders"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.PostStringAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Action{System.Net.Http.Headers.HttpRequestHeaders})">
+            <summary>
+            POST 方式获取响应流  返回字符串 (异步获取)
+            </summary>
+            <param name="url"></param>
+            <param name="data"></param>
             <param name="onheaders"></param>
             <returns></returns>
         </member>
@@ -16332,24 +16387,6 @@
             <param name="onheaders"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.PostString(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Action{System.Net.Http.Headers.HttpRequestHeaders})">
-            <summary>
-            POST 方式获取响应流  返回字符串
-            </summary>
-            <param name="url"></param>
-            <param name="data"></param>
-            <param name="onheaders"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tool.Utils.HttpHelpers.PostStringAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Action{System.Net.Http.Headers.HttpRequestHeaders})">
-            <summary>
-            POST 方式获取响应流  返回字符串 (异步获取)
-            </summary>
-            <param name="url"></param>
-            <param name="data"></param>
-            <param name="onheaders"></param>
-            <returns></returns>
-        </member>
         <member name="M:Tool.Utils.HttpHelpers.PostJson``1(System.String,System.String,System.Action{System.Net.Http.Headers.HttpRequestHeaders})">
             <summary>
             POST 方式获取响应流  返回实体
@@ -16390,7 +16427,7 @@
             <param name="onheaders"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.Utils.HttpHelpers.HeadHttpCode(System.String,System.Action{System.Net.Http.Headers.HttpRequestHeaders})">
+        <member name="M:Tool.Utils.HttpHelpers.HeadHttpCode(System.String,System.Func{System.Net.Http.Headers.HttpRequestHeaders,System.Net.Http.HttpContent})">
             <summary>
             HEAD 方式获取响应的状态
             </summary>
@@ -16420,6 +16457,34 @@
             <param name="requestMessage">请求信息</param>
             <returns></returns>
         </member>
+        <member name="M:Tool.Utils.HttpHelpers.GetMemoryAsync(System.Net.Http.HttpContent)">
+            <summary>
+            获取内存流
+            </summary>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.GetMemory(System.Net.Http.HttpContent)">
+            <summary>
+            获取内存流
+            </summary>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.GetString(System.IO.Stream)">
+            <summary>
+            获取字符串
+            </summary>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.GetStringAsync(System.IO.Stream)">
+            <summary>
+            获取字符串
+            </summary>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
         <member name="M:Tool.Utils.HttpHelpers.QueryString(System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             根据字典高效组装成以转义的字符串
@@ -16432,6 +16497,32 @@
             高效解析http表单类文本 
             </summary>
             <param name="query">待解析的http表单值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.BodyString(System.String,System.String)">
+            <summary>
+            生成请求体
+            </summary>
+            <param name="data"></param>
+            <param name="ContentType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.BodyStream(System.IO.Stream,System.Int32,System.String)">
+            <summary>
+            生成请求体
+            </summary>
+            <param name="data"></param>
+            <param name="bufferSize"></param>
+            <param name="ContentType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tool.Utils.HttpHelpers.BodyForm``1(``0,System.String)">
+            <summary>
+            生成请求体
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
+            <param name="ContentType"></param>
             <returns></returns>
         </member>
         <member name="T:Tool.Utils.IntPtrHelper">
@@ -16840,6 +16931,12 @@
         <member name="M:Tool.Utils.JsonVar.op_Implicit(Tool.Utils.JsonVar)~System.Collections.Generic.Dictionary{System.String,System.Object}">
             <summary>
             <see cref="T:System.Collections.Generic.Dictionary`2"/>
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Tool.Utils.JsonVar.op_Implicit(System.Array)~Tool.Utils.JsonVar">
+            <summary>
+            Array
             </summary>
             <param name="value"></param>
         </member>

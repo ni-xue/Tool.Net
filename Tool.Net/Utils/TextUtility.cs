@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -723,18 +724,18 @@ namespace Tool.Utils
         /// <returns></returns>
         public static string GetFullPath(string strPath)
         {
-            string text = TextUtility.AddLast(AppDomain.CurrentDomain.BaseDirectory, "\\");
+            string text = TextUtility.AddLast(AppDomain.CurrentDomain.BaseDirectory, Path.DirectorySeparatorChar.ToString());
             if (strPath.IndexOf(":") < 0)
             {
-                string text2 = strPath.Replace("..\\", "");
+                string text2 = strPath.Replace($"..{Path.DirectorySeparatorChar}", "");
                 if (text2 != strPath)
                 {
-                    int num = (strPath.Length - text2.Length) / "..\\".Length + 1;
+                    int num = (strPath.Length - text2.Length) / $"..{Path.DirectorySeparatorChar}".Length + 1;
                     for (int i = 0; i < num; i++)
                     {
-                        text = text.Substring(0, text.LastIndexOf("\\"));
+                        text = text[..text.LastIndexOf(Path.DirectorySeparatorChar)];
                     }
-                    text2 = "\\" + text2;
+                    text2 = $"{Path.DirectorySeparatorChar}{text2}";
                 }
                 strPath = text + text2;
             }

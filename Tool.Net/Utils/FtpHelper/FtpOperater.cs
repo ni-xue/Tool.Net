@@ -131,13 +131,13 @@ namespace Tool.Utils.FtpHelper
         {
             string sLine = "";
             string sResult = "";
-            path = path.Substring(0, path.LastIndexOf("\\"));
+            path = path[..path.LastIndexOf(Path.DirectorySeparatorChar)];
             try
             {
-                FileStream fsFile = new FileStream(ftpFolder + "\\" + ftpFileName, FileMode.Open);
-                FileStream fsFileWrite = new FileStream(localFolder + "\\" + localFileName, FileMode.Create);
-                StreamReader sr = new StreamReader(fsFile);
-                StreamWriter sw = new StreamWriter(fsFileWrite);
+                FileStream fsFile = new($"{ftpFolder}{Path.DirectorySeparatorChar}{ftpFileName}", FileMode.Open);
+                FileStream fsFileWrite = new($"{localFolder}{Path.DirectorySeparatorChar}{localFileName}", FileMode.Create);
+                StreamReader sr = new(fsFile);
+                StreamWriter sw = new(fsFileWrite);
                 sr.BaseStream.Seek(0, SeekOrigin.Begin);
                 while (sr.Peek() > -1)
                 {

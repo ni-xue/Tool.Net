@@ -20,7 +20,7 @@ namespace Tool.Utils
         private static readonly Lazy<Log> _flashLog = new(() => new Log());
 
         ///日志文件路径 
-        public const string LogFilePath = @"Log\";//Error/
+        public const string LogFilePath = "Log";//Error/
 
         /// <summary>
         /// 记录消息Queue
@@ -75,7 +75,7 @@ namespace Tool.Utils
         private Log()
         {
             IsAlive = true;
-            _directory = Path.Combine(Environment.CurrentDirectory, LogFilePath); //AppDomain.CurrentDomain.BaseDirectory
+            _directory = Path.Combine(Environment.CurrentDirectory, $"{LogFilePath}{Path.DirectorySeparatorChar}"); //AppDomain.CurrentDomain.BaseDirectory
 
             if (!Directory.Exists(_directory))
             {
@@ -468,7 +468,7 @@ namespace Tool.Utils
             {
                 tryi++;
                 string directory = string.Empty;
-                directory = Path.Combine(string.IsNullOrWhiteSpace(LogFilePath) ? _directory : LogFilePath, $@"{LevelName}\");
+                directory = Path.Combine(string.IsNullOrWhiteSpace(LogFilePath) ? _directory : LogFilePath, $@"{LevelName}{Path.DirectorySeparatorChar}");
 
                 if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
@@ -481,7 +481,8 @@ namespace Tool.Utils
                     fullPath = sparepath;//$"{directory}{LevelName}Log{DateTime.Now:yyyy-MM}[{i}].log";
 
                 // 写入日志
-                await File.AppendAllTextAsync(fullPath, $"{_log}———————————————————————————————————————\r\n", Encoding.Unicode);
+                Encoding encoding = OperatingSystem.IsWindows() ? Encoding.Unicode : Encoding.UTF8;
+                await File.AppendAllTextAsync(fullPath, $"{_log}———————————————————————————————————————\r\n", encoding);
             }
             catch (Exception e)
             {

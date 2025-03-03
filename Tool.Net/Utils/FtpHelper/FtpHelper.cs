@@ -82,7 +82,7 @@ namespace Tool.Utils.FtpHelper
         {
             try
             {
-                FileStream outputStream = new(filePath + "\\" + fileName, FileMode.Create);
+                FileStream outputStream = new($"{filePath}{Path.DirectorySeparatorChar}{fileName}", FileMode.Create);
                 FtpWebRequest reqFTP;
                 reqFTP = GetFtpWebRequest(ftpURI + fileName);
                 reqFTP.Credentials = new NetworkCredential(ftpUserID, ftpPassword);
