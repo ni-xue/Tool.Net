@@ -9172,7 +9172,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns><see cref="T:System.Data.DataTable"/>对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.Get(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.Get(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             查询该表信息
             </summary>
@@ -9180,7 +9180,7 @@
             <param name="fields">要查询的字段</param>
             <returns><see cref="T:System.Data.DataTable"/>对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.Get(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.Get(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             查询该表信息
             </summary>
@@ -9212,7 +9212,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回实体对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetObject``1(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetObject``1(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象
             </summary>
@@ -9221,7 +9221,7 @@
             <param name="fields">要查询的字段</param>
             <returns>返回实体对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetObject``1(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetObject``1(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象
             </summary>
@@ -9248,7 +9248,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回实体对象集合</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetObjectList``1(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectList``1(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象列表
             </summary>
@@ -9257,7 +9257,7 @@
             <param name="fields">要查询的字段</param>
             <returns>返回实体对象集合</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetObjectList``1(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectList``1(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象列表
             </summary>
@@ -9282,7 +9282,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回第一条数据</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetOne(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetOne(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             获取当前查询的数据的第一行
             </summary>
@@ -9290,7 +9290,7 @@
             <param name="fields">要查询的字段</param>
             <returns>返回第一条数据</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetOne(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetOne(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             获取当前查询的数据的第一行
             </summary>
@@ -9419,7 +9419,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns><see cref="T:System.Data.DataTable"/>对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetAsync(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetAsync(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             查询该表信息
             </summary>
@@ -9427,7 +9427,7 @@
             <param name="fields">要查询的字段</param>
             <returns><see cref="T:System.Data.DataTable"/>对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetAsync(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetAsync(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             查询该表信息
             </summary>
@@ -9459,7 +9459,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回实体对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetObjectAsync``1(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectAsync``1(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象
             </summary>
@@ -9468,7 +9468,7 @@
             <param name="fields">要查询的字段</param>
             <returns>返回实体对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetObjectAsync``1(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectAsync``1(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象
             </summary>
@@ -9495,7 +9495,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回实体对象集合</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetObjectListAsync``1(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectListAsync``1(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象列表
             </summary>
@@ -9504,7 +9504,7 @@
             <param name="fields">要查询的字段</param>
             <returns>返回实体对象集合</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetObjectListAsync``1(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetObjectListAsync``1(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象列表
             </summary>
@@ -9529,7 +9529,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回第一条数据</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetOneAsync(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetOneAsync(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             获取当前查询的数据的第一行
             </summary>
@@ -9537,7 +9537,7 @@
             <param name="fields">要查询的字段</param>
             <returns>返回第一条数据</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.GetOneAsync(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.ITableProvider.GetOneAsync(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             获取当前查询的数据的第一行
             </summary>
@@ -10501,7 +10501,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns><see cref="T:System.Data.DataTable"/>对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.Get(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.Get(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             查询该表信息
             </summary>
@@ -10509,7 +10509,7 @@
             <param name="fields">要查询的字段</param>
             <returns><see cref="T:System.Data.DataTable"/>对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.Get(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.Get(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             查询该表信息
             </summary>
@@ -10547,7 +10547,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回实体对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetObject``1(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetObject``1(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象
             </summary>
@@ -10556,7 +10556,7 @@
             <param name="fields">要查询的字段</param>
             <returns>返回实体对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetObject``1(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetObject``1(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象
             </summary>
@@ -10583,7 +10583,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回实体对象集合</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetObjectList``1(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectList``1(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象列表
             </summary>
@@ -10592,7 +10592,7 @@
             <param name="fields">要查询的字段</param>
             <returns>返回实体对象集合</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetObjectList``1(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectList``1(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象列表
             </summary>
@@ -10617,7 +10617,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回第一条数据</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetOne(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetOne(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             获取当前查询的数据的第一行
             </summary>
@@ -10625,7 +10625,7 @@
             <param name="fields">要查询的字段</param>
             <returns>返回第一条数据</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetOne(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetOne(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             获取当前查询的数据的第一行
             </summary>
@@ -10734,7 +10734,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns><see cref="T:System.Data.DataTable"/>对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetAsync(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetAsync(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             查询该表信息
             </summary>
@@ -10742,7 +10742,7 @@
             <param name="fields">要查询的字段</param>
             <returns><see cref="T:System.Data.DataTable"/>对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetAsync(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetAsync(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             查询该表信息
             </summary>
@@ -10780,7 +10780,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回实体对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetObjectAsync``1(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectAsync``1(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象
             </summary>
@@ -10789,7 +10789,7 @@
             <param name="fields">要查询的字段</param>
             <returns>返回实体对象</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetObjectAsync``1(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectAsync``1(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象
             </summary>
@@ -10816,7 +10816,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回实体对象集合</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetObjectListAsync``1(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectListAsync``1(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象列表
             </summary>
@@ -10825,7 +10825,7 @@
             <param name="fields">要查询的字段</param>
             <returns>返回实体对象集合</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetObjectListAsync``1(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetObjectListAsync``1(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             获取对象列表
             </summary>
@@ -10850,7 +10850,7 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回第一条数据</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetOneAsync(System.String,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetOneAsync(System.String,Tool.SqlCore.SqlField[])">
             <summary>
             获取当前查询的数据的第一行
             </summary>
@@ -10858,7 +10858,7 @@
             <param name="fields">要查询的字段</param>
             <returns>返回第一条数据</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.GetOneAsync(System.String,System.Object,System.String[])">
+        <member name="M:Tool.SqlCore.TableProvider.GetOneAsync(System.String,System.Object,Tool.SqlCore.SqlField[])">
             <summary>
             获取当前查询的数据的第一行
             </summary>
@@ -10866,6 +10866,45 @@
             <param name="prams">对字符串进行映射</param>
             <param name="fields">要查询的字段</param>
             <returns>返回第一条数据</returns>
+        </member>
+        <member name="T:Tool.SqlCore.SqlField">
+            <summary>
+            参数值类型
+            </summary>
+            <remarks>代码由逆血提供支持</remarks>
+        </member>
+        <member name="P:Tool.SqlCore.SqlField.Field">
+            <summary>
+            字段名或函数
+            </summary>
+        </member>
+        <member name="P:Tool.SqlCore.SqlField.Separator">
+            <summary>
+            分隔符
+            </summary>
+        </member>
+        <member name="P:Tool.SqlCore.SqlField.Special">
+            <summary>
+            是否是特殊类型
+            </summary>
+        </member>
+        <member name="M:Tool.SqlCore.SqlField.op_Implicit(System.ValueTuple{System.String,System.Char})~Tool.SqlCore.SqlField">
+            <summary>
+            特殊类型
+            </summary>
+            <param name="rules"></param>
+        </member>
+        <member name="M:Tool.SqlCore.SqlField.op_Implicit(System.String)~Tool.SqlCore.SqlField">
+            <summary>
+            参数
+            </summary>
+            <param name="field"></param>
+        </member>
+        <member name="M:Tool.SqlCore.SqlField.ToString">
+            <summary>
+            获取参数
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Tool.StaticData">
             <summary>
@@ -15960,11 +15999,15 @@
         </member>
         <member name="M:Tool.Utils.FtpHelper.FTPHelper.IsFileListRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>[\\S]+ [\\S]+</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase</code><br/>
+            Explanation:<br/>
             <code>
-            ○ Match any character other than a space character atomically at least once.<br/>
+            ○ Match any character other than a whitespace character atomically at least once.<br/>
             ○ Match ' '.<br/>
-            ○ Match any character other than a space character atomically at least once.<br/>
+            ○ Match any character other than a whitespace character atomically at least once.<br/>
             </code>
             </remarks>
         </member>
@@ -18696,7 +18739,9 @@
         </member>
         <member name="M:Tool.Utils.TextUtility.CutStringTitleRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>&lt;[^&gt;]+&gt;</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match '&lt;'.<br/>
             ○ Match a character other than '&gt;' atomically at least once.<br/>
@@ -18706,7 +18751,9 @@
         </member>
         <member name="M:Tool.Utils.TextUtility.ReplaceCnCharRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>[^\\u4E00-\\u9FA5]</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match a character in the set [^\u4E00-\u9FA5].<br/>
             </code>
@@ -18714,7 +18761,9 @@
         </member>
         <member name="M:Tool.Utils.TextUtility.CutUrlReturnPathRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^(http:\\/\\/||https:\\/\\/)[A-Za-z0-9_:.]*\\/</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
@@ -19776,12 +19825,14 @@
         </member>
         <member name="M:Tool.Utils.TypeParse.IsFloatRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^([-]|[0-9])[0-9]*(\\.\\w*)?$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
                 ○ Match a character in the set [-0-9].<br/>
-            ○ Match '0' through '9' greedily any number of times.<br/>
+            ○ Match a character in the set [0-9] greedily any number of times.<br/>
             ○ Optional (greedy).<br/>
                 ○ 2nd capture group.<br/>
                     ○ Match '.'.<br/>
@@ -19792,11 +19843,13 @@
         </member>
         <member name="M:Tool.Utils.TypeParse.IsIntRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^[-]?[0-9]*$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match '-' atomically, optionally.<br/>
-            ○ Match '0' through '9' atomically any number of times.<br/>
+            ○ Match a character in the set [0-9] atomically any number of times.<br/>
             ○ Match if at the end of the string or if before an ending newline.<br/>
             </code>
             </remarks>
@@ -20060,7 +20113,11 @@
         </member>
         <member name="M:Tool.Utils.Utility.GetTextFromHTMLRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>&lt;/?(?!br|/?p|img)[^&gt;]*&gt;</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match '&lt;'.<br/>
             ○ Match '/' greedily, optionally.<br/>
@@ -20083,7 +20140,9 @@
         </member>
         <member name="M:Tool.Utils.Utility.ToColorRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>[g-zG-Z]</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match a character in the set [G-Zg-z].<br/>
             </code>
@@ -20532,7 +20591,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsBase64StringRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>[A-Za-z0-9\\+\\/\\=]</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match a character in the set [+/-9=A-Za-z].<br/>
             </code>
@@ -20540,7 +20601,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsCnCharRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^(?:[一-龥])+$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match a character in the set [\u4E00-\u9FA5] atomically at least once.<br/>
@@ -20550,7 +20613,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsCnCharAndWordAndNumRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^[0-9a-zA-Z一-龥]+$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match a character in the set [0-9A-Za-z\u4E00-\u9FA5] atomically at least once.<br/>
@@ -20560,7 +20625,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsDateRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
@@ -20695,21 +20764,27 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsDecimalFractionRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^([0-9]{1,10})\\.([0-9]{1,10})$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
-                ○ Match '0' through '9' atomically at least 1 and at most 10 times.<br/>
+                ○ Match a character in the set [0-9] atomically at least 1 and at most 10 times.<br/>
             ○ Match '.'.<br/>
             ○ 2nd capture group.<br/>
-                ○ Match '0' through '9' atomically at least 1 and at most 10 times.<br/>
+                ○ Match a character in the set [0-9] atomically at least 1 and at most 10 times.<br/>
             ○ Match if at the end of the string or if before an ending newline.<br/>
             </code>
             </remarks>
         </member>
         <member name="M:Tool.Utils.Validate.IsDoEmailRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match '@'.<br/>
@@ -20717,11 +20792,11 @@
                 ○ Match with 2 alternative expressions.<br/>
                     ○ 2nd capture group.<br/>
                         ○ Match '['.<br/>
-                        ○ Match '0' through '9' atomically at least 1 and at most 3 times.<br/>
+                        ○ Match a character in the set [0-9] atomically at least 1 and at most 3 times.<br/>
                         ○ Match '.'.<br/>
-                        ○ Match '0' through '9' atomically at least 1 and at most 3 times.<br/>
+                        ○ Match a character in the set [0-9] atomically at least 1 and at most 3 times.<br/>
                         ○ Match '.'.<br/>
-                        ○ Match '0' through '9' atomically at least 1 and at most 3 times.<br/>
+                        ○ Match a character in the set [0-9] atomically at least 1 and at most 3 times.<br/>
                         ○ Match '.'.<br/>
                     ○ 3rd capture group.<br/>
                         ○ Loop greedily at least once.<br/>
@@ -20731,7 +20806,7 @@
             ○ 5th capture group.<br/>
                 ○ Match with 2 alternative expressions.<br/>
                     ○ Match a character in the set [A-Za-z] atomically at least 2 and at most 4 times.<br/>
-                    ○ Match '0' through '9' atomically at least 1 and at most 3 times.<br/>
+                    ○ Match a character in the set [0-9] atomically at least 1 and at most 3 times.<br/>
             ○ 6th capture group.<br/>
                 ○ Match ']' atomically, optionally.<br/>
             ○ Match if at the end of the string or if before an ending newline.<br/>
@@ -20740,7 +20815,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsDomainRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^\\d+$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match a Unicode digit atomically at least once.<br/>
@@ -20750,12 +20827,16 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsDoubleRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^([0-9])[0-9]*(\\.\\w*)?$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase | RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
-                ○ Match '0' through '9'.<br/>
-            ○ Match '0' through '9' greedily any number of times.<br/>
+                ○ Match a character in the set [0-9].<br/>
+            ○ Match a character in the set [0-9] greedily any number of times.<br/>
             ○ Optional (greedy).<br/>
                 ○ 2nd capture group.<br/>
                     ○ Match '.'.<br/>
@@ -20766,7 +20847,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsEmailRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^([\\w-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
@@ -20776,11 +20859,11 @@
                 ○ Match with 2 alternative expressions.<br/>
                     ○ 3rd capture group.<br/>
                         ○ Match '['.<br/>
-                        ○ Match '0' through '9' atomically at least 1 and at most 3 times.<br/>
+                        ○ Match a character in the set [0-9] atomically at least 1 and at most 3 times.<br/>
                         ○ Match '.'.<br/>
-                        ○ Match '0' through '9' atomically at least 1 and at most 3 times.<br/>
+                        ○ Match a character in the set [0-9] atomically at least 1 and at most 3 times.<br/>
                         ○ Match '.'.<br/>
-                        ○ Match '0' through '9' atomically at least 1 and at most 3 times.<br/>
+                        ○ Match a character in the set [0-9] atomically at least 1 and at most 3 times.<br/>
                         ○ Match '.'.<br/>
                     ○ 4th capture group.<br/>
                         ○ Loop greedily at least once.<br/>
@@ -20790,7 +20873,7 @@
             ○ 6th capture group.<br/>
                 ○ Match with 2 alternative expressions.<br/>
                     ○ Match a character in the set [A-Za-z] atomically at least 2 and at most 4 times.<br/>
-                    ○ Match '0' through '9' atomically at least 1 and at most 3 times.<br/>
+                    ○ Match a character in the set [0-9] atomically at least 1 and at most 3 times.<br/>
             ○ 7th capture group.<br/>
                 ○ Match ']' atomically, optionally.<br/>
             ○ Match if at the end of the string or if before an ending newline.<br/>
@@ -20799,7 +20882,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsFileNameRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>[&lt;&gt;/";#$*%]+</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase | RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match a character in the set ["-%*/;&lt;&gt;] atomically at least once.<br/>
             </code>
@@ -20807,7 +20894,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsIDCard0Regex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^(\\d{6})(\\d{2})(\\d{2})(\\d{2})(\\d{3})$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
@@ -20826,7 +20915,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsIDCard1Regex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^(\\d{6})(\\d{4})(\\d{2})(\\d{2})(\\d{3})([0-9Xx])$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
@@ -20847,7 +20938,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsImageRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>\\.(gif|jpg|bmp|png|jpeg)$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase | RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match '.'.<br/>
             ○ 1st capture group.<br/>
@@ -20879,7 +20974,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsIpRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Loop exactly 3 times.<br/>
@@ -20919,7 +21016,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsIpAndPortRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9]),\\d{1,5}?$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
@@ -20932,13 +21031,13 @@
                                 ○ Match a character in the set [0-5].<br/>
                             ○ Match a sequence of expressions.<br/>
                                 ○ Match a character in the set [0-4].<br/>
-                                ○ Match '0' through '9'.<br/>
+                                ○ Match a character in the set [0-9].<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [01].<br/>
-                        ○ Match '0' through '9' exactly 2 times.<br/>
+                        ○ Match a character in the set [0-9] exactly 2 times.<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [1-9].<br/>
-                        ○ Match '0' through '9'.<br/>
+                        ○ Match a character in the set [0-9].<br/>
                     ○ Match a character in the set [1-9].<br/>
             ○ Match '.'.<br/>
             ○ 2nd capture group.<br/>
@@ -20951,14 +21050,14 @@
                                 ○ Match a character in the set [0-5].<br/>
                             ○ Match a sequence of expressions.<br/>
                                 ○ Match a character in the set [0-4].<br/>
-                                ○ Match '0' through '9'.<br/>
+                                ○ Match a character in the set [0-9].<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [01].<br/>
-                        ○ Match '0' through '9' exactly 2 times.<br/>
+                        ○ Match a character in the set [0-9] exactly 2 times.<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [1-9].<br/>
-                        ○ Match '0' through '9'.<br/>
-                    ○ Match '0' through '9'.<br/>
+                        ○ Match a character in the set [0-9].<br/>
+                    ○ Match a character in the set [0-9].<br/>
             ○ Match '.'.<br/>
             ○ 3rd capture group.<br/>
                 ○ Match with 4 alternative expressions.<br/>
@@ -20970,14 +21069,14 @@
                                 ○ Match a character in the set [0-5].<br/>
                             ○ Match a sequence of expressions.<br/>
                                 ○ Match a character in the set [0-4].<br/>
-                                ○ Match '0' through '9'.<br/>
+                                ○ Match a character in the set [0-9].<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [01].<br/>
-                        ○ Match '0' through '9' exactly 2 times.<br/>
+                        ○ Match a character in the set [0-9] exactly 2 times.<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [1-9].<br/>
-                        ○ Match '0' through '9'.<br/>
-                    ○ Match '0' through '9'.<br/>
+                        ○ Match a character in the set [0-9].<br/>
+                    ○ Match a character in the set [0-9].<br/>
             ○ Match '.'.<br/>
             ○ 4th capture group.<br/>
                 ○ Match with 4 alternative expressions.<br/>
@@ -20989,14 +21088,14 @@
                                 ○ Match a character in the set [0-5].<br/>
                             ○ Match a sequence of expressions.<br/>
                                 ○ Match a character in the set [0-4].<br/>
-                                ○ Match '0' through '9'.<br/>
+                                ○ Match a character in the set [0-9].<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [01].<br/>
-                        ○ Match '0' through '9' exactly 2 times.<br/>
+                        ○ Match a character in the set [0-9] exactly 2 times.<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Match a character in the set [1-9].<br/>
-                        ○ Match '0' through '9'.<br/>
-                    ○ Match '0' through '9'.<br/>
+                        ○ Match a character in the set [0-9].<br/>
+                    ○ Match a character in the set [0-9].<br/>
             ○ Match ','.<br/>
             ○ Match a Unicode digit atomically at least 1 and at most 5 times.<br/>
             ○ Match if at the end of the string or if before an ending newline.<br/>
@@ -21005,7 +21104,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsIpSectRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){2}((2[0-4]\\d|25[0-5]|[01]?\\d\\d?|\\*)\\.)(2[0-4]\\d|25[0-5]|[01]?\\d\\d?|\\*)$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Loop exactly 2 times.<br/>
@@ -21063,7 +21164,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsLongDateRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\\d):[0-5]?\\d:[0-5]?\\d$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
@@ -21213,7 +21318,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsMobileCodeRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^13|15|18\\d{9}$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match with 3 alternative expressions, atomically.<br/>
                 ○ Match a sequence of expressions.<br/>
@@ -21229,7 +21338,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsNegativeIntRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^-\\d+$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match '-'.<br/>
@@ -21240,7 +21353,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsNickNameRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^[a-zA-Z\\u4e00-\\u9fa5\\d_]+$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match a character in the set [A-Z_a-z\u4E00-\u9FA5\d] atomically at least once.<br/>
@@ -21250,20 +21367,28 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsNumericRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^[-]?[0-9]*[.]?[0-9]*$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match '-' atomically, optionally.<br/>
-            ○ Match '0' through '9' greedily any number of times.<br/>
+            ○ Match a character in the set [0-9] greedily any number of times.<br/>
             ○ Match '.' atomically, optionally.<br/>
-            ○ Match '0' through '9' atomically any number of times.<br/>
+            ○ Match a character in the set [0-9] atomically any number of times.<br/>
             ○ Match if at the end of the string or if before an ending newline.<br/>
             </code>
             </remarks>
         </member>
         <member name="M:Tool.Utils.Validate.IsPhoneCodeRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^(86)?(-)?(0\\d{2,3})?(-)?(\\d{7,8})(-)?(\\d{3,5})?$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Optional (greedy).<br/>
@@ -21293,7 +21418,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsPhysicalPathRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^\\s*[a-zA-Z]:.*$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match a whitespace character atomically any number of times.<br/>
@@ -21306,7 +21433,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsInt0Regex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^\\d+$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match a Unicode digit atomically at least once.<br/>
@@ -21316,7 +21447,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsPostalCodeRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^\\d{6}$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match a Unicode digit exactly 6 times.<br/>
@@ -21326,7 +21461,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsRelativePathRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^\\s*[a-zA-Z]{1,10}:.*$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match a whitespace character atomically any number of times.<br/>
@@ -21339,7 +21476,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsSafeInputWordsRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>/^\\s*$|^c:\\\\con\\\\con$|[%,\\*"\\s\\t\\&lt;\\&gt;\\&amp;]|$guestexp/is</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match with 4 alternative expressions, atomically.<br/>
                 ○ Match a sequence of expressions.<br/>
@@ -21360,7 +21499,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsSafeSqlStringRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>[-|;|,|\\/|\\(|\\)|\\[|\\]|\\}|\\{|%|@|\\*|!|\\']</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match a character in the set [!%'-*,-/;@[]{-}].<br/>
             </code>
@@ -21368,7 +21509,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.Replace0Regex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>\\s</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match a whitespace character.<br/>
             </code>
@@ -21376,7 +21519,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsSafetyRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>select |insert |delete from |count\\(|drop table|update |truncate |asc\\(|mid\\(|char\\(|xp_cmdshell|exec master|net localgroup administrators|:|net user|"|\\'| or </code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match with 17 alternative expressions, atomically.<br/>
                 ○ Match a sequence of expressions.<br/>
@@ -21534,7 +21681,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsShortDateRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
@@ -21669,7 +21820,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsSqlRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>\\?|select%20|select\\s+|insert%20|insert\\s+|delete%20|delete\\s+|count\\(|drop%20|drop\\s+|update%20|update\\s+</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase | RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match with 12 alternative expressions, atomically.<br/>
                 ○ Match '?'.<br/>
@@ -21761,7 +21916,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsTimeRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^((([0-1]?[0-9])|(2[0-3])):([0-5]?[0-9])(:[0-5]?[0-9])?)$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
@@ -21769,26 +21926,28 @@
                     ○ Match with 2 alternative expressions.<br/>
                         ○ 3rd capture group.<br/>
                             ○ Match a character in the set [01] greedily, optionally.<br/>
-                            ○ Match '0' through '9'.<br/>
+                            ○ Match a character in the set [0-9].<br/>
                         ○ 4th capture group.<br/>
                             ○ Match '2'.<br/>
                             ○ Match a character in the set [0-3].<br/>
                 ○ Match ':'.<br/>
                 ○ 5th capture group.<br/>
                     ○ Match a character in the set [0-5] greedily, optionally.<br/>
-                    ○ Match '0' through '9'.<br/>
+                    ○ Match a character in the set [0-9].<br/>
                 ○ Optional (greedy).<br/>
                     ○ 6th capture group.<br/>
                         ○ Match ':'.<br/>
                         ○ Match a character in the set [0-5] greedily, optionally.<br/>
-                        ○ Match '0' through '9'.<br/>
+                        ○ Match a character in the set [0-9].<br/>
             ○ Match if at the end of the string or if before an ending newline.<br/>
             </code>
             </remarks>
         </member>
         <member name="M:Tool.Utils.Validate.IsUnicodeRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^[\\u4E00-\\u9FA5\\uE815-\\uFA29]+$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match a character in the set [\u4E00-\u9FA5\uE815-\uFA29] atomically at least once.<br/>
@@ -21798,7 +21957,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsUrlRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^(http|https)\\://([a-zA-Z0-9\\.\\-]+(\\:[a-zA-Z0-9\\.&amp;%\\$\\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{1,10}))(\\:[0-9]+)*(/($|[a-zA-Z0-9\\.\\,\\?\\'\\\\\\+&amp;%\\$#\\=~_\\-]+))*$</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
@@ -21828,13 +21989,13 @@
                                             ○ Match a character in the set [0-5].<br/>
                                         ○ Match a sequence of expressions.<br/>
                                             ○ Match a character in the set [0-4].<br/>
-                                            ○ Match '0' through '9'.<br/>
+                                            ○ Match a character in the set [0-9].<br/>
                                 ○ Match a sequence of expressions.<br/>
                                     ○ Match a character in the set [01].<br/>
-                                    ○ Match '0' through '9' exactly 2 times.<br/>
+                                    ○ Match a character in the set [0-9] exactly 2 times.<br/>
                                 ○ Match a sequence of expressions.<br/>
                                     ○ Match a character in the set [1-9].<br/>
-                                    ○ Match '0' through '9'.<br/>
+                                    ○ Match a character in the set [0-9].<br/>
                                 ○ Match a character in the set [1-9].<br/>
                         ○ Match '.'.<br/>
                         ○ 6th capture group.<br/>
@@ -21847,14 +22008,14 @@
                                             ○ Match a character in the set [0-5].<br/>
                                         ○ Match a sequence of expressions.<br/>
                                             ○ Match a character in the set [0-4].<br/>
-                                            ○ Match '0' through '9'.<br/>
+                                            ○ Match a character in the set [0-9].<br/>
                                 ○ Match a sequence of expressions.<br/>
                                     ○ Match a character in the set [01].<br/>
-                                    ○ Match '0' through '9' exactly 2 times.<br/>
+                                    ○ Match a character in the set [0-9] exactly 2 times.<br/>
                                 ○ Match a sequence of expressions.<br/>
                                     ○ Match a character in the set [1-9].<br/>
-                                    ○ Match '0' through '9'.<br/>
-                                ○ Match '0' through '9'.<br/>
+                                    ○ Match a character in the set [0-9].<br/>
+                                ○ Match a character in the set [0-9].<br/>
                         ○ Match '.'.<br/>
                         ○ 7th capture group.<br/>
                             ○ Match with 4 alternative expressions.<br/>
@@ -21866,14 +22027,14 @@
                                             ○ Match a character in the set [0-5].<br/>
                                         ○ Match a sequence of expressions.<br/>
                                             ○ Match a character in the set [0-4].<br/>
-                                            ○ Match '0' through '9'.<br/>
+                                            ○ Match a character in the set [0-9].<br/>
                                 ○ Match a sequence of expressions.<br/>
                                     ○ Match a character in the set [01].<br/>
-                                    ○ Match '0' through '9' exactly 2 times.<br/>
+                                    ○ Match a character in the set [0-9] exactly 2 times.<br/>
                                 ○ Match a sequence of expressions.<br/>
                                     ○ Match a character in the set [1-9].<br/>
-                                    ○ Match '0' through '9'.<br/>
-                                ○ Match '0' through '9'.<br/>
+                                    ○ Match a character in the set [0-9].<br/>
+                                ○ Match a character in the set [0-9].<br/>
                         ○ Match '.'.<br/>
                         ○ 8th capture group.<br/>
                             ○ Match with 4 alternative expressions.<br/>
@@ -21885,14 +22046,14 @@
                                             ○ Match a character in the set [0-5].<br/>
                                         ○ Match a sequence of expressions.<br/>
                                             ○ Match a character in the set [0-4].<br/>
-                                            ○ Match '0' through '9'.<br/>
+                                            ○ Match a character in the set [0-9].<br/>
                                 ○ Match a sequence of expressions.<br/>
                                     ○ Match a character in the set [01].<br/>
-                                    ○ Match '0' through '9' exactly 2 times.<br/>
+                                    ○ Match a character in the set [0-9] exactly 2 times.<br/>
                                 ○ Match a sequence of expressions.<br/>
                                     ○ Match a character in the set [1-9].<br/>
-                                    ○ Match '0' through '9'.<br/>
-                                ○ Match '0' through '9'.<br/>
+                                    ○ Match a character in the set [0-9].<br/>
+                                ○ Match a character in the set [0-9].<br/>
                     ○ Match the string "localhost".<br/>
                     ○ Match a sequence of expressions.<br/>
                         ○ Loop greedily any number of times.<br/>
@@ -21922,7 +22083,7 @@
             ○ Loop greedily any number of times.<br/>
                 ○ 11th capture group.<br/>
                     ○ Match ':'.<br/>
-                    ○ Match '0' through '9' greedily at least once.<br/>
+                    ○ Match a character in the set [0-9] greedily at least once.<br/>
             ○ Loop greedily any number of times.<br/>
                 ○ 12th capture group.<br/>
                     ○ Match '/'.<br/>
@@ -21936,7 +22097,9 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsWordAndNumRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>[0-9a-zA-Z]?</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match a character in the set [0-9A-Za-z] atomically, optionally.<br/>
             </code>
@@ -21944,7 +22107,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsUserNameRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^[a-zA-Z\\d_]+$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match a character in the set [A-Z_a-z\d] atomically at least once.<br/>
@@ -21954,7 +22121,11 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsSqlWhereRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^(?=\\().*(?&lt;=\\))</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase | RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Zero-width positive lookahead.<br/>
@@ -21967,12 +22138,16 @@
         </member>
         <member name="M:Tool.Utils.Validate.IsIntRegex">
             <remarks>
-            Pattern explanation:<br/>
+            Pattern:<br/>
+            <code>^([0-9])[0-9]*(\\.\\w*)?$</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
-                ○ Match '0' through '9'.<br/>
-            ○ Match '0' through '9' greedily any number of times.<br/>
+                ○ Match a character in the set [0-9].<br/>
+            ○ Match a character in the set [0-9] greedily any number of times.<br/>
             ○ Optional (greedy).<br/>
                 ○ 2nd capture group.<br/>
                     ○ Match '.'.<br/>
@@ -26925,20 +27100,65 @@
         <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_hasTimeout">
             <summary>Whether <see cref="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout"/> is non-infinite.</summary>
         </member>
-        <member name="M:System.Text.RegularExpressions.Generated.Utilities.StackPush(System.Int32[]@,System.Int32@,System.Int32,System.Int32)">
-            <summary>Pushes 2 values onto the backtracking stack.</summary>
+        <member name="M:System.Text.RegularExpressions.Generated.Utilities.IndexOfAnyWhiteSpace(System.ReadOnlySpan{System.Char})">
+            <summary>Finds the next index of any character that matches a whitespace character.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.Utilities.IndexOfNonAsciiOrAny_95064C55B42AF5461629EEF251E7B2E145398FFCBFBD713EF157A1B2DE7B6B11(System.ReadOnlySpan{System.Char})">
+            <summary>Finds the next index of any character that matches a character in the set [\t"%&amp;*,/&lt;&gt;cg\s].</summary>
         </member>
         <member name="M:System.Text.RegularExpressions.Generated.Utilities.IsWordChar(System.Char)">
             <summary>Determines whether the character is part of the [\w] set.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.Utilities.StackPush(System.Int32[]@,System.Int32@,System.Int32,System.Int32,System.Int32)">
-            <summary>Pushes 3 values onto the backtracking stack.</summary>
         </member>
         <member name="M:System.Text.RegularExpressions.Generated.Utilities.StackPop(System.Int32[],System.Int32@,System.Int32@,System.Int32@)">
             <summary>Pops 2 values from the backtracking stack.</summary>
         </member>
         <member name="M:System.Text.RegularExpressions.Generated.Utilities.StackPush(System.Int32[]@,System.Int32@,System.Int32)">
             <summary>Pushes 1 value onto the backtracking stack.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.Utilities.StackPush(System.Int32[]@,System.Int32@,System.Int32,System.Int32)">
+            <summary>Pushes 2 values onto the backtracking stack.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.Utilities.StackPush(System.Int32[]@,System.Int32@,System.Int32,System.Int32,System.Int32)">
+            <summary>Pushes 3 values onto the backtracking stack.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_asciiExceptWhiteSpace">
+            <summary>Supports searching for characters in or not in "\0\u0001\u0002\u0003\u0004\u0005\u0006\a\b\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f!\"#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u007f".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_20FF03FEFFFF07FEFFFF07">
+            <summary>Supports searching for characters in or not in "-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_3C8400580000000000000000">
+            <summary>Supports searching for characters in or not in "\"#$%*/;&lt;&gt;".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_40FF07FEFFFF87FEFFFF07">
+            <summary>Supports searching for characters in or not in ".0123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_60FF03FEFFFF07FEFFFF07">
+            <summary>Supports searching for characters in or not in "-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_7060FF03FEFFFF07FEFFFF07">
+            <summary>Supports searching for characters in or not in "$%&amp;-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_80FFFF0780FFFF07">
+            <summary>Supports searching for characters in or not in "GHIJKLMNOPQRSTUVWXYZghijklmnopqrstuvwxyz".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_850000043A6238013A623801">
+            <summary>Supports searching for characters in or not in " \"':ACDEIMNSTUXacdeimnstux".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_88FF23FEFFFF07FEFFFF07">
+            <summary>Supports searching for characters in or not in "+/0123456789=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_A2B700080100002800000038">
+            <summary>Supports searching for characters in or not in "!%'()*,-/;@[]{|}".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_F878FFA3FEFFFF97FEFFFF47">
+            <summary>Supports searching for characters in or not in "#$%&amp;'+,-.0123456789=?ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz~".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_FFC1FFFF9A6BFFAFFFFFFFFF77FFFFFF">
+            <summary>Supports searching for characters in or not in "\0\u0001\u0002\u0003\u0004\u0005\u0006\a\b\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f!#$'()+-.0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abdefhijklmnopqrstuvwxyz{|}~\u007f".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_nonAscii_7F5B1278888193BB55E90C209E921A8AE726FA72D91C3C471711E50DB9F43FE2">
+            <summary>Supports searching for characters in or not in "?CDISUcdisuİ".</summary>
         </member>
     </members>
 </doc>

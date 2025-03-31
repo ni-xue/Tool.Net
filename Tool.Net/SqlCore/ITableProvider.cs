@@ -115,7 +115,7 @@ namespace Tool.SqlCore
         /// <param name="where">指定的查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns><see cref="DataTable"/>对象</returns>
-        DataTable Get(string where, params string[] fields);
+        DataTable Get(string where, params SqlField[] fields);
 
         /// <summary>
         /// 查询该表信息
@@ -124,7 +124,7 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns><see cref="DataTable"/>对象</returns>
-        DataTable Get(string where, object prams, params string[] fields);
+        DataTable Get(string where, object prams, params SqlField[] fields);
 
         /// <summary>
         /// 获取空表
@@ -156,7 +156,7 @@ namespace Tool.SqlCore
         /// <param name="where">查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象</returns>
-        T GetObject<T>(string where, params string[] fields);
+        T GetObject<T>(string where, params SqlField[] fields);
 
         /// <summary>
         /// 获取对象
@@ -166,7 +166,7 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象</returns>
-        T GetObject<T>(string where, object prams, params string[] fields);
+        T GetObject<T>(string where, object prams, params SqlField[] fields);
 
         /// <summary>
         /// 获取对象列表
@@ -192,7 +192,7 @@ namespace Tool.SqlCore
         /// <param name="where">查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象集合</returns>
-        IList<T> GetObjectList<T>(string where, params string[] fields);
+        IList<T> GetObjectList<T>(string where, params SqlField[] fields);
 
         /// <summary>
         /// 获取对象列表
@@ -202,7 +202,7 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象集合</returns>
-        IList<T> GetObjectList<T>(string where, object prams, params string[] fields);
+        IList<T> GetObjectList<T>(string where, object prams, params SqlField[] fields);
 
         /// <summary>
         /// 获取当前查询的数据的第一行
@@ -225,7 +225,7 @@ namespace Tool.SqlCore
         /// <param name="where">查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回第一条数据</returns>
-        DataRow GetOne(string where, params string[] fields);
+        DataRow GetOne(string where, params SqlField[] fields);
 
         /// <summary>
         /// 获取当前查询的数据的第一行
@@ -234,7 +234,7 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回第一条数据</returns>
-        DataRow GetOne(string where, object prams, params string[] fields);
+        DataRow GetOne(string where, object prams, params SqlField[] fields);
 
         /// <summary>
         /// 查询行数
@@ -362,7 +362,7 @@ namespace Tool.SqlCore
         /// <param name="where">指定的查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns><see cref="DataTable"/>对象</returns>
-        Task<DataTable> GetAsync(string where, params string[] fields);
+        Task<DataTable> GetAsync(string where, params SqlField[] fields);
 
         /// <summary>
         /// 查询该表信息
@@ -371,7 +371,7 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns><see cref="DataTable"/>对象</returns>
-        Task<DataTable> GetAsync(string where, object prams, params string[] fields);
+        Task<DataTable> GetAsync(string where, object prams, params SqlField[] fields);
 
         /// <summary>
         /// 获取空表
@@ -403,7 +403,7 @@ namespace Tool.SqlCore
         /// <param name="where">查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象</returns>
-        Task<T> GetObjectAsync<T>(string where, params string[] fields);
+        Task<T> GetObjectAsync<T>(string where, params SqlField[] fields);
 
         /// <summary>
         /// 获取对象
@@ -413,7 +413,7 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象</returns>
-        Task<T> GetObjectAsync<T>(string where, object prams, params string[] fields);
+        Task<T> GetObjectAsync<T>(string where, object prams, params SqlField[] fields);
 
         /// <summary>
         /// 获取对象列表
@@ -439,7 +439,7 @@ namespace Tool.SqlCore
         /// <param name="where">查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象集合</returns>
-        Task<IList<T>> GetObjectListAsync<T>(string where, params string[] fields);
+        Task<IList<T>> GetObjectListAsync<T>(string where, params SqlField[] fields);
 
         /// <summary>
         /// 获取对象列表
@@ -449,7 +449,7 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象集合</returns>
-        Task<IList<T>> GetObjectListAsync<T>(string where, object prams, params string[] fields);
+        Task<IList<T>> GetObjectListAsync<T>(string where, object prams, params SqlField[] fields);
 
         /// <summary>
         /// 获取当前查询的数据的第一行
@@ -472,7 +472,7 @@ namespace Tool.SqlCore
         /// <param name="where">查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回第一条数据</returns>
-        Task<DataRow> GetOneAsync(string where, params string[] fields);
+        Task<DataRow> GetOneAsync(string where, params SqlField[] fields);
 
         /// <summary>
         /// 获取当前查询的数据的第一行
@@ -481,7 +481,7 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回第一条数据</returns>
-        Task<DataRow> GetOneAsync(string where, object prams, params string[] fields);
+        Task<DataRow> GetOneAsync(string where, object prams, params SqlField[] fields);
 
         /// <summary>
         /// 新行

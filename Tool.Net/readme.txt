@@ -4,7 +4,7 @@
 
 2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils）
 
-3. 当前版本（5.5.0）为正式版，用于任何项目开发使用。 
+3. 当前版本（5.5.1）为正式版，用于任何项目开发使用。 
 
 4. 架构基于 .Net9（兼容 .Net8、.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
 
@@ -843,6 +843,13 @@ abc.GetOrDefault("1", 3); //取不到时返回默认值
 2. QUIC在.net9中完全可用。
 3. HttpHelpers类优化，更简单，更好用。
 4. 其他功能优化和改进
+
+------------2025/03/31------------
+5.5.1 - 正式版
+1. 修复sql表操作对象无法放入特殊函数或表达式的问题，考虑到安全性，采用一下方式可使用表达式。 var table = new TableProvider(dbHelper, "table");
+   var result = await table.GetOneAsync("1=1", ("max(name)", ','), "val");
+   var result = await table.GetAsync("1=1", ("top 1", ' '), ("max(name)", ','), "val");
+2. 修复CloneArray() 函数 将含有 DBNull 对象的 DataTable 数据还原时出现的BUG。
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。

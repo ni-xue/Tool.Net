@@ -328,6 +328,13 @@ namespace WebTestApp
 
             var s = batch.GetValue("Commands");
 
+            var table = new TableProvider(dbHelper, "table");
+
+            table.GetRecordsCountAsync("1=1");
+            var result = table.GetOneAsync("1=1", ("top 1", ' '), ("max(name)", ','), "val").Result;
+            var result = await table.GetOneAsync("1=1", ("top 1", ' '), ("max(name)", ','), "val");
+
+
             //var s0 = batch.Commands;
             //batch.BatchCommands;
 

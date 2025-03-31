@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Tool.Utils;
@@ -40,7 +43,7 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="database">数据源对象</param>
         /// <param name="tableName">表名</param>
-        public TableProvider(DbHelper database, string tableName): this()
+        public TableProvider(DbHelper database, string tableName) : this()
         {
             this.Database = database;
             this.TableName = tableName;
@@ -133,7 +136,7 @@ namespace Tool.SqlCore
 
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
-            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+            string commandText = GetInsertSql(key, value);
             return Database.ExecuteNonQuery(CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -152,7 +155,7 @@ namespace Tool.SqlCore
 
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
-            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+            string commandText = GetInsertSql(key, value);
             return Database.ExecuteNonQuery(out ID, CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -172,7 +175,7 @@ namespace Tool.SqlCore
 
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
-            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+            string commandText = GetInsertSql(key, value);
             return Database.ExecuteNonQuery(CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -193,7 +196,7 @@ namespace Tool.SqlCore
 
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
-            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+            string commandText = GetInsertSql(key, value);
             return Database.ExecuteNonQuery(out ID, CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -204,7 +207,7 @@ namespace Tool.SqlCore
         /// <returns>受影响行数</returns>
         public int Delete(string where)
         {
-            string commandText = string.Format("DELETE FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
+            string commandText = GetDeleteSql(where);
             return Database.ExecuteNonQuery(commandText);
         }
 
@@ -216,7 +219,7 @@ namespace Tool.SqlCore
         /// <returns>受影响行数</returns>
         public int Delete(string where, object prams)
         {
-            string commandText = string.Format("DELETE FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
+            string commandText = GetDeleteSql(where);
             return Database.ExecuteNonQuery(commandText, prams);
         }
 
@@ -236,7 +239,7 @@ namespace Tool.SqlCore
 
             List<DbParameter> parms = Database.GetUpdateParams(keyValues, out string strsql);
 
-            string commandText = string.Format("UPDATE {0} SET {1} {2}", this.TableName, strsql, DbHelperExensions.WhereStr(where));
+            string commandText = GetUpdateSql(strsql, where);
             return Database.ExecuteNonQuery(CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -264,7 +267,7 @@ namespace Tool.SqlCore
                 parms.AddRange(dbParameters);
             }
 
-            string commandText = string.Format("UPDATE {0} SET {1} {2}", this.TableName, strsql, DbHelperExensions.WhereStr(where));
+            string commandText = GetUpdateSql(strsql, where);
             return Database.ExecuteNonQuery(CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -282,7 +285,7 @@ namespace Tool.SqlCore
 
             List<DbParameter> parms = Database.GetUpdateParams(keyValues, out string strsql);
 
-            string commandText = string.Format("UPDATE {0} SET {1} {2}", this.TableName, strsql, DbHelperExensions.WhereStr(where));
+            string commandText = GetUpdateSql(strsql, where);
             return Database.ExecuteNonQuery(CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -293,8 +296,7 @@ namespace Tool.SqlCore
         /// <returns><see cref="DataTable"/>对象</returns>
         public DataTable Get(string where)
         {
-            string commandText = string.Format("SELECT * FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
-
+            string commandText = GetSelectSql(new SqlField[] { ("*", ' ') }, where);
             DataSet dataSet = Database.ExecuteDataSet(commandText);
             if (!dataSet.IsEmpty())
             {
@@ -311,8 +313,7 @@ namespace Tool.SqlCore
         /// <returns><see cref="DataTable"/>对象</returns>
         public DataTable Get(string where, object prams)
         {
-            string commandText = string.Format("SELECT * FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
-
+            string commandText = GetSelectSql(new SqlField[] { ("*", ' ') }, where);
             DataSet dataSet = Database.ExecuteDataSet(commandText, prams);
             if (!dataSet.IsEmpty())
             {
@@ -327,21 +328,9 @@ namespace Tool.SqlCore
         /// <param name="where">指定的查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns><see cref="DataTable"/>对象</returns>
-        public DataTable Get(string where, params string[] fields)
+        public DataTable Get(string where, params SqlField[] fields)
         {
-            if (fields == null || fields.Length == 0)
-            {
-                throw NullException;
-            }
-            StringBuilder key = new();
-
-            foreach (string field in fields)
-            {
-                key.AppendFormat("[{0}],", field);
-            }
-
-            string commandText = string.Format("SELECT {0} FROM {1} {2}", key.ToString(0, key.Length - 1), this.TableName, DbHelperExensions.WhereStr(where));
-
+            string commandText = GetSelectSql(fields, where);
             DataSet dataSet = Database.ExecuteDataSet(commandText);
             if (!dataSet.IsEmpty())
             {
@@ -357,21 +346,9 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns><see cref="DataTable"/>对象</returns>
-        public DataTable Get(string where, object prams, params string[] fields)
+        public DataTable Get(string where, object prams, params SqlField[] fields)
         {
-            if (fields == null || fields.Length == 0)
-            {
-                throw NullException;
-            }
-            StringBuilder key = new();
-
-            foreach (string field in fields)
-            {
-                key.AppendFormat("[{0}],", field);
-            }
-
-            string commandText = string.Format("SELECT {0} FROM {1} {2}", key.ToString(0, key.Length - 1), this.TableName, DbHelperExensions.WhereStr(where));
-
+            string commandText = GetSelectSql(fields, where);
             DataSet dataSet = Database.ExecuteDataSet(commandText, prams);
             if (!dataSet.IsEmpty())
             {
@@ -446,7 +423,7 @@ namespace Tool.SqlCore
         /// <param name="where">查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象</returns>
-        public T GetObject<T>(string where, params string[] fields)
+        public T GetObject<T>(string where, params SqlField[] fields)
         {
             DataRow one = this.GetOne(where, fields);
             if (one == null)
@@ -464,7 +441,7 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象</returns>
-        public T GetObject<T>(string where, object prams, params string[] fields)
+        public T GetObject<T>(string where, object prams, params SqlField[] fields)
         {
             DataRow one = this.GetOne(where, prams, fields);
             if (one == null)
@@ -514,7 +491,7 @@ namespace Tool.SqlCore
         /// <param name="where">查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象集合</returns>
-        public IList<T> GetObjectList<T>(string where, params string[] fields)
+        public IList<T> GetObjectList<T>(string where, params SqlField[] fields)
         {
             DataTable dataTable = this.Get(where, fields);
             if (!dataTable.IsEmpty())
@@ -532,7 +509,7 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象集合</returns>
-        public IList<T> GetObjectList<T>(string where, object prams, params string[] fields)
+        public IList<T> GetObjectList<T>(string where, object prams, params SqlField[] fields)
         {
             DataTable dataTable = this.Get(where, prams, fields);
             if (!dataTable.IsEmpty())
@@ -579,9 +556,11 @@ namespace Tool.SqlCore
         /// <param name="where">查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回第一条数据</returns>
-        public DataRow GetOne(string where, params string[] fields)
+        public DataRow GetOne(string where, params SqlField[] fields)
         {
-            DataTable dataTable = this.Get(where, fields);
+            SqlField top1Field = ("top 1", ' ');
+            SqlField[] allFields = PrependHeaderField(top1Field, fields);
+            DataTable dataTable = this.Get(where, allFields);
             if (!dataTable.IsEmpty())
             {
                 return dataTable.Rows[0];
@@ -596,9 +575,11 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回第一条数据</returns>
-        public DataRow GetOne(string where, object prams, params string[] fields)
+        public DataRow GetOne(string where, object prams, params SqlField[] fields)
         {
-            DataTable dataTable = this.Get(where, prams, fields);
+            SqlField top1Field = ("top 1", ' ');
+            SqlField[] allFields = PrependHeaderField(top1Field, fields);
+            DataTable dataTable = this.Get(where, prams, allFields);
             if (!dataTable.IsEmpty())
             {
                 return dataTable.Rows[0];
@@ -614,7 +595,7 @@ namespace Tool.SqlCore
         public int GetRecordsCount(string where)
         {
             where ??= "";
-            string commandText = string.Format("SELECT COUNT(*) FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
+            string commandText = GetSelectSql(new SqlField[] { ("COUNT(*)", ' ') }, where);
             return int.Parse(Database.ExecuteScalarToStr(CommandType.Text, commandText));
         }
 
@@ -654,7 +635,7 @@ namespace Tool.SqlCore
         public async Task<int> GetRecordsCountAsync(string where)
         {
             where ??= "";
-            string commandText = string.Format("SELECT COUNT(*) FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
+            string commandText = GetSelectSql(new SqlField[] { ("COUNT(*)", ' ') }, where);
             return int.Parse(await Database.ExecuteScalarToStrAsync(CommandType.Text, commandText));
         }
 
@@ -672,7 +653,7 @@ namespace Tool.SqlCore
 
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
-            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+            string commandText = GetInsertSql(key, value);
             return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -690,7 +671,7 @@ namespace Tool.SqlCore
 
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
-            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+            string commandText = GetInsertSql(key, value);
             return Database.ExecuteNonQueryIdAsync(CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -710,7 +691,7 @@ namespace Tool.SqlCore
 
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
-            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+            string commandText = GetInsertSql(key, value);
             return Database.ExecuteNonQueryIdAsync(CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -730,7 +711,7 @@ namespace Tool.SqlCore
 
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
-            string commandText = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+            string commandText = GetInsertSql(key, value);
             return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -741,7 +722,7 @@ namespace Tool.SqlCore
         /// <returns>受影响行数</returns>
         public Task<int> DeleteAsync(string where)
         {
-            string commandText = string.Format("DELETE FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
+            string commandText = GetDeleteSql(where);
             return Database.ExecuteNonQueryAsync(commandText);
         }
 
@@ -753,7 +734,7 @@ namespace Tool.SqlCore
         /// <returns>受影响行数</returns>
         public Task<int> DeleteAsync(string where, object prams)
         {
-            string commandText = string.Format("DELETE FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
+            string commandText = GetDeleteSql(where);
             return Database.ExecuteNonQueryAsync(commandText, prams);
         }
 
@@ -773,7 +754,7 @@ namespace Tool.SqlCore
 
             List<DbParameter> parms = Database.GetUpdateParams(keyValues, out string strsql);
 
-            string commandText = string.Format("UPDATE {0} SET {1} {2}", this.TableName, strsql, DbHelperExensions.WhereStr(where));
+            string commandText = GetUpdateSql(strsql, where);
             return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -800,7 +781,7 @@ namespace Tool.SqlCore
                 parms.AddRange(dbParameters);
             }
 
-            string commandText = string.Format("UPDATE {0} SET {1} {2}", this.TableName, strsql, DbHelperExensions.WhereStr(where));
+            string commandText = GetUpdateSql(strsql, where);
             return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -818,7 +799,7 @@ namespace Tool.SqlCore
 
             List<DbParameter> parms = Database.GetUpdateParams(keyValues, out string strsql);
 
-            string commandText = string.Format("UPDATE {0} SET {1} {2}", this.TableName, strsql, DbHelperExensions.WhereStr(where));
+            string commandText = GetUpdateSql(strsql, where);
             return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
         }
 
@@ -829,8 +810,7 @@ namespace Tool.SqlCore
         /// <returns><see cref="DataTable"/>对象</returns>
         public async Task<DataTable> GetAsync(string where)
         {
-            string commandText = string.Format("SELECT * FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
-
+            string commandText = GetSelectSql(new SqlField[] { ("*", ' ') }, where);
             DataSet dataSet = await Database.ExecuteDataSetAsync(commandText);
             if (!dataSet.IsEmpty())
             {
@@ -847,8 +827,7 @@ namespace Tool.SqlCore
         /// <returns><see cref="DataTable"/>对象</returns>
         public async Task<DataTable> GetAsync(string where, object prams)
         {
-            string commandText = string.Format("SELECT * FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
-
+            string commandText = GetSelectSql(new SqlField[] { ("*", ' ') }, where);
             DataSet dataSet = await Database.ExecuteDataSetAsync(commandText, prams);
             if (!dataSet.IsEmpty())
             {
@@ -863,21 +842,9 @@ namespace Tool.SqlCore
         /// <param name="where">指定的查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns><see cref="DataTable"/>对象</returns>
-        public async Task<DataTable> GetAsync(string where, params string[] fields)
+        public async Task<DataTable> GetAsync(string where, params SqlField[] fields)
         {
-            if (fields == null || fields.Length == 0)
-            {
-                throw NullException;
-            }
-            StringBuilder key = new();
-
-            foreach (string field in fields)
-            {
-                key.AppendFormat("[{0}],", field);
-            }
-
-            string commandText = string.Format("SELECT {0} FROM {1} {2}", key.ToString(0, key.Length - 1), this.TableName, DbHelperExensions.WhereStr(where));
-
+            string commandText = GetSelectSql(fields, where);
             DataSet dataSet = await Database.ExecuteDataSetAsync(commandText);
             if (!dataSet.IsEmpty())
             {
@@ -893,21 +860,9 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns><see cref="DataTable"/>对象</returns>
-        public async Task<DataTable> GetAsync(string where, object prams, params string[] fields)
+        public async Task<DataTable> GetAsync(string where, object prams, params SqlField[] fields)
         {
-            if (fields == null || fields.Length == 0)
-            {
-                throw NullException;
-            }
-            StringBuilder key = new();
-
-            foreach (string field in fields)
-            {
-                key.AppendFormat("[{0}],", field);
-            }
-
-            string commandText = string.Format("SELECT {0} FROM {1} {2}", key.ToString(0, key.Length - 1), this.TableName, DbHelperExensions.WhereStr(where));
-
+            string commandText = GetSelectSql(fields, where);
             DataSet dataSet = await Database.ExecuteDataSetAsync(commandText, prams);
             if (!dataSet.IsEmpty())
             {
@@ -982,7 +937,7 @@ namespace Tool.SqlCore
         /// <param name="where">查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象</returns>
-        public async Task<T> GetObjectAsync<T>(string where, params string[] fields)
+        public async Task<T> GetObjectAsync<T>(string where, params SqlField[] fields)
         {
             DataRow one = await this.GetOneAsync(where, fields);
             if (one == null)
@@ -1000,7 +955,7 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象</returns>
-        public async Task<T> GetObjectAsync<T>(string where, object prams, params string[] fields)
+        public async Task<T> GetObjectAsync<T>(string where, object prams, params SqlField[] fields)
         {
             DataRow one = await this.GetOneAsync(where, prams, fields);
             if (one == null)
@@ -1050,7 +1005,7 @@ namespace Tool.SqlCore
         /// <param name="where">查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象集合</returns>
-        public async Task<IList<T>> GetObjectListAsync<T>(string where, params string[] fields)
+        public async Task<IList<T>> GetObjectListAsync<T>(string where, params SqlField[] fields)
         {
             DataTable dataTable = await this.GetAsync(where, fields);
             if (!dataTable.IsEmpty())
@@ -1068,7 +1023,7 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回实体对象集合</returns>
-        public async Task<IList<T>> GetObjectListAsync<T>(string where, object prams, params string[] fields)
+        public async Task<IList<T>> GetObjectListAsync<T>(string where, object prams, params SqlField[] fields)
         {
             DataTable dataTable = await this.GetAsync(where, prams, fields);
             if (!dataTable.IsEmpty())
@@ -1115,9 +1070,11 @@ namespace Tool.SqlCore
         /// <param name="where">查询条件</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回第一条数据</returns>
-        public async Task<DataRow> GetOneAsync(string where, params string[] fields)
+        public async Task<DataRow> GetOneAsync(string where, params SqlField[] fields)
         {
-            DataTable dataTable = await this.GetAsync(where, fields);
+            SqlField top1Field = ("top 1", ' ');
+            SqlField[] allFields = PrependHeaderField(top1Field, fields);
+            DataTable dataTable = await this.GetAsync(where, allFields);
             if (!dataTable.IsEmpty())
             {
                 return dataTable.Rows[0];
@@ -1132,14 +1089,151 @@ namespace Tool.SqlCore
         /// <param name="prams">对字符串进行映射</param>
         /// <param name="fields">要查询的字段</param>
         /// <returns>返回第一条数据</returns>
-        public async Task<DataRow> GetOneAsync(string where, object prams, params string[] fields)
+        public async Task<DataRow> GetOneAsync(string where, object prams, params SqlField[] fields)
         {
-            DataTable dataTable = await this.GetAsync(where, prams, fields);
+            SqlField top1Field = ("top 1", ' ');
+            SqlField[] allFields = PrependHeaderField(top1Field, fields);
+            DataTable dataTable = await this.GetAsync(where, prams, allFields);
             if (!dataTable.IsEmpty())
             {
                 return dataTable.Rows[0];
             }
+
             return null;
+        }
+
+        private string GetInsertSql(string key, string value) => string.Format("INSERT INTO {0} ({1}) VALUES ({2})", this.TableName, key, value);
+        private string GetDeleteSql(string where) => string.Format("DELETE FROM {0} {1}", this.TableName, DbHelperExensions.WhereStr(where));
+        private string GetUpdateSql(string strsql, string where) => string.Format("UPDATE {0} SET {1} {2}", this.TableName, strsql, DbHelperExensions.WhereStr(where));
+        private string GetSelectSql(SqlField[] fields, string where)
+        {
+            string fieldstr;
+            {
+                StringBuilder key = new();
+                foreach (SqlField field in fields)
+                {
+                    if (field.Special)
+                    {
+                        key.Append(field.ToString());
+                    }
+                    else
+                    {
+                        switch (Database.DbProviderType)
+                        {
+                            case DbProviderType.Oracle:
+                            case DbProviderType.SqlServer:
+                            case DbProviderType.SqlServer1:
+                            case DbProviderType.OleDb:
+                                key.Append('[').Append(field.Field).Append(']').Append(field.Separator);
+                                break;
+                            case DbProviderType.MySql:
+                                key.Append('`').Append(field.Field).Append('`').Append(field.Separator);
+                                break;
+                            default:
+                                key.Append(field.Field).Append(field.Separator);
+                                break;
+                        }
+                    }
+                }
+                fieldstr = key.Length > 0 ? key.ToString(0, key.Length - 1) : key.ToString();
+            }
+            if (string.IsNullOrWhiteSpace(fieldstr))
+            {
+                throw NullException;
+            }
+            string commandText = string.Format("SELECT {0} FROM {1} {2}", fieldstr, this.TableName, DbHelperExensions.WhereStr(where));
+            return commandText;
+        }
+
+        private static SqlField[] PrependHeaderField(SqlField headerField, params SqlField[] fields)
+        {
+            if (fields == null || fields.Length == 0)
+            {
+                return new[] { headerField };
+            }
+            else
+            {
+                SqlField[] allFields = new SqlField[fields.Length + 1];
+                allFields[0] = headerField;
+                Array.Copy(fields, 0, allFields, 1, fields.Length);
+                return allFields;
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// 参数值类型
+    /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
+#if NET6_0_OR_GREATER
+    [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
+#else
+    [DebuggerDisplay("{" + nameof(GetDebuggerDisplay) + "(),nq}")]
+#endif
+    public readonly struct SqlField
+    {
+        private const char DefaultSeparator = ','; // 定义默认分隔符
+
+        private SqlField(string field, char separator, bool special)
+        {
+            Field = field ?? throw new ArgumentNullException(nameof(field));
+            if (!IsValidSeparator(separator))
+            {
+                throw new ArgumentException($"Invalid separator: {separator}. Allowed separators are:[,| ]", nameof(separator));
+            }
+            Separator = separator;
+            Special = special;
+        }
+
+        private static bool IsValidSeparator(char separator) // 允许的分隔符
+        {
+            return separator switch
+            {
+                ',' or ' ' => true,
+                _ => false,
+            };
+        }
+
+        /// <summary>
+        /// 字段名或函数
+        /// </summary>
+        public string Field { get; }
+
+        /// <summary>
+        /// 分隔符
+        /// </summary>
+        public char Separator { get; }
+
+        /// <summary>
+        /// 是否是特殊类型
+        /// </summary>
+        public bool Special { get; }
+
+        /// <summary>
+        /// 特殊类型
+        /// </summary>
+        /// <param name="rules"></param>
+        public static implicit operator SqlField((string field, char separator) rules) => new(rules.field, rules.separator, true);
+
+        /// <summary>
+        /// 参数
+        /// </summary>
+        /// <param name="field"></param>
+        public static implicit operator SqlField(string field) => new(field, DefaultSeparator, false);
+
+        /// <summary>
+        /// 获取参数
+        /// </summary>
+        /// <returns></returns>
+        public override readonly string ToString()
+        {
+            return $"{Field}{Separator}";
+        }
+
+        private string GetDebuggerDisplay()
+        {
+            return $"Field: [{Field}] Separator: [{Separator}] Special: {Special}";
         }
     }
 }

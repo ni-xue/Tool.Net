@@ -121,7 +121,11 @@ namespace Tool.Utils.Data
                             var data = table.NewRow();
                             for (int j = 0; j < objs.Count; j++)
                             {
-                                data[j] = objs[j];
+                                var obj = objs[j];
+                                if (obj is not IDictionary)
+                                {
+                                    data[j] = obj;
+                                }
                             }
                             table.Rows.Add(data);
                         }

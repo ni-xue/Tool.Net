@@ -743,6 +743,7 @@ namespace Tool.SqlCore
                     {
                         case DbProviderType.Oracle:
                         case DbProviderType.SqlServer:
+                        case DbProviderType.SqlServer1:
                         case DbProviderType.OleDb:
                             _key.Append('[').Append(keyValue.Key).Append("],");
                             break;
@@ -793,6 +794,7 @@ namespace Tool.SqlCore
                     {
                         case DbProviderType.Oracle:
                         case DbProviderType.SqlServer:
+                        case DbProviderType.SqlServer1:
                             _value.Append('[').Append(keyValue.Key).Append(']').Append('=').Append(database.Provider.ParameterPrefix).Append(keyValue.Key).Append(',');
                             break;
                         case DbProviderType.MySql:
