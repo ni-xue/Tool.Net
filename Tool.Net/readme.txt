@@ -4,7 +4,7 @@
 
 2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils）
 
-3. 当前版本（5.5.1）为正式版，用于任何项目开发使用。 
+3. 当前版本（5.5.3）为正式版，用于任何项目开发使用。 
 
 4. 架构基于 .Net9（兼容 .Net8、.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
 
@@ -850,6 +850,11 @@ abc.GetOrDefault("1", 3); //取不到时返回默认值
    var result = await table.GetOneAsync("1=1", ("max(name)", ','), "val");
    var result = await table.GetAsync("1=1", ("top 1", ' '), ("max(name)", ','), "val");
 2. 修复CloneArray() 函数 将含有 DBNull 对象的 DataTable 数据还原时出现的BUG。
+
+------------2025/04/28------------
+5.5.2 - 正式版
+1. 新增 IHostApplicationBuilder.UseDiyServiceProvider 允许服务也可以替换容器
+2. 新增 ILoggingBuilder.AddLogSave 允许直接将输入的日志，本地存储成日志文件。
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。
