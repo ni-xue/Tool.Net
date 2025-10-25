@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -109,7 +110,8 @@ namespace Tool.SqlCore
         /// </summary>
         public string SubPath
         {
-            get => log_subPath; set
+            get => log_subPath; 
+            set
             {
                 for (int q = 0; q < value.Length; q++)
                 {
@@ -125,7 +127,7 @@ namespace Tool.SqlCore
                         throw new FormatException("开头或结尾处不能出现‘.’");
                     }
                 }
-                log_subPath = $"/{value}";
+                log_subPath = $"{Path.DirectorySeparatorChar}{value}";
             }
         }
 
@@ -4719,7 +4721,7 @@ namespace Tool.SqlCore
             watch.Stop();
             if (IsSqlLog)
             {
-                string sqltext = GetQueryDetail(commandText, watch.ElapsedMilliseconds, cmdParams, guid);// IsSqlLogHtml,
+                string sqltext = GetQueryDetail(commandText, watch.GetElapsedMs(), cmdParams, guid);// IsSqlLogHtml,
                 string logpath = $"{LogPath}{DbProviderName}{log_subPath}";//{Logger}
                 if (iserror)
                 {
@@ -4753,7 +4755,7 @@ namespace Tool.SqlCore
             {
                 StringBuilder sqllog = new();
                 sqllog.AppendLine($"SQL执行情况：{guid}");
-                sqllog.Append("  耗时：").Append(watch.ElapsedMilliseconds).AppendLine("毫秒");
+                sqllog.Append("  耗时：").Append(watch.GetElapsedMs()).AppendLine("ms");
                 foreach (var command in dbBatchCommands)
                 {
                     sqllog.Append(GetSqlLog(command));
@@ -4812,7 +4814,7 @@ namespace Tool.SqlCore
         /// <param name="cmdParams">执行参数</param>
         /// <param name="guid">id</param>
         /// <returns>返回日志</returns>
-        private static string GetQueryDetail(string commandText, long ElapsedMilliseconds, DbParameter[] cmdParams, string guid)// bool IsSqlLogHtml,
+        private static string GetQueryDetail(string commandText, decimal ElapsedMilliseconds, DbParameter[] cmdParams, string guid)// bool IsSqlLogHtml,
         {
             //if (IsSqlLogHtml)
             //{
@@ -4850,7 +4852,7 @@ namespace Tool.SqlCore
             StringBuilder sqllog = new();
 
             sqllog.AppendLine($"SQL执行情况：{guid}");
-            sqllog.Append("  耗时：").Append(ElapsedMilliseconds).AppendLine("毫秒");
+            sqllog.Append("  耗时：").Append(ElapsedMilliseconds).AppendLine("ms");
             sqllog.Append("  执行命令：").AppendLine(commandText);
 
             if (cmdParams != null && cmdParams.Length > 0)

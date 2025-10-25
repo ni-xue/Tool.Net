@@ -2,9 +2,9 @@
 
 1.详细AIP文档：https://tool.nixue.top
 
-2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils）
+2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils，Trojan）
 
-3. 当前版本（5.5.3）为正式版，用于任何项目开发使用。 
+3. 当前版本（5.5.5）为正式版，用于任何项目开发使用。 
 
 4. 架构基于 .Net9（兼容 .Net8、.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
 
@@ -855,6 +855,24 @@ abc.GetOrDefault("1", 3); //取不到时返回默认值
 5.5.2 - 正式版
 1. 新增 IHostApplicationBuilder.UseDiyServiceProvider 允许服务也可以替换容器
 2. 新增 ILoggingBuilder.AddLogSave 允许直接将输入的日志，本地存储成日志文件。
+
+------------2025/10/23------------
+5.5.3 - 正式版
+1. this.CopyEntity(); 拷贝时，不传字段参，拷贝无效
+2. server = new ServerFrame(NetBufferSize.Size1024K); 明明是类ID 重复报错，提示却是方法ID重复
+3. JsonVar 提供几个静态变量 空数组和空字典 Dictionary<string, object>
+4. WebServerAsync或WebClientAsync 连接地址，被误拼接了 尾部分隔符
+5. WebServerAsync或WebClientAsync 需要实现 Text 和 Close 的枚举实现
+6. WebServerAsync或WebClientAsync 修复包大于缓冲区，但又不是特别大时，出现的计数错误，导致丢失完整包
+7. WebServerAsync或WebClientAsync 收发数据对象新增 GetMessageType、SetMessageType函数用于设置和读取数据类型
+8. ReceiveBytes 接收对象新增 扩展读取GetString 函数简化读取。
+9. 新增 TimestampedClock 类,可以通过时间戳创建专属的时间流速器。
+
+------------2025/10/25------------
+5.5.5 - 正式版
+1. 新增功能 Trojan 协议支持 Tcp 模式 TrojanTcpClient，udp 还在积极适配中
+2. 新增 TrojanHttpHandlerFactory 工厂，让你轻松集成到 HttpClient 对象中进行连接代理
+3. 其他优化
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。

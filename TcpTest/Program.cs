@@ -5,6 +5,8 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.IO.Pipelines;
+using System.Net;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Reflection.PortableExecutable;
@@ -17,6 +19,7 @@ using Tool.Sockets.NetFrame;
 using Tool.Sockets.P2PHelpr;
 using Tool.Sockets.TcpHelper;
 using Tool.Sockets.UdpHelper;
+using Tool.Sockets.WebHelper;
 using Tool.SqlCore;
 using Tool.Utils;
 using Tool.Utils.Data;
@@ -201,6 +204,28 @@ namespace TcpTest
 
         static async Task Main(string[] args)
         {
+            try
+            {
+                //new Tool.Sockets.TrojanHelper.TrojanHttpMessageHandler("nbaqz0vlmeo0k3d-hk.fcnode.net", 53575, "aeb69c19-90cb-4785-ad08-964d93708f25")
+
+                var trojanConnect = new Tool.Sockets.TrojanHelper.TrojanConnect("nbaqz0vlmeo0k3d-hk.fcnode.net", 53575, "aeb69c19-90cb-4785-ad08-964d93708f25");
+                await using Tool.Sockets.TrojanHelper.TrojanHttpHandlerFactory trojanHttpHandler = new(trojanConnect);
+                using HttpClient client = new(trojanHttpHandler.HttpMessageHandler);
+
+                var httpResponse = await client.GetAsync("https://www.youtube.com/");
+
+                var @string = await httpResponse.Content.ReadAsStringAsync();
+
+                var http02 = await client.GetAsync("https://www.google.com/");
+
+                var @string1 = await http02.Content.ReadAsStringAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
             //using Tool.Utils.TaskHelper.TaskWithTimeout taskWith = new(TimeSpan.FromMilliseconds(10000));
             //await taskWith;
 
@@ -217,10 +242,10 @@ namespace TcpTest
 
             ////var dir = asda.Invoke(new Abc());
 
-            Abc abc = new Abc() { a = 20, b1 = "我在" };
+            //Abc abc = new Abc() { a = 20, b1 = "我在" };
 
-            var b1 = abc.GetValue("b1");
-            var a = abc.GetValue("a");
+            //var b1 = abc.GetValue("b1");
+            //var a = abc.GetValue("a");
 
             //abc.GetValue("rest");
 
@@ -250,10 +275,10 @@ namespace TcpTest
             //abc.GetPropertyKey("s", out var s);
 
             //await P2pWorship.OnMain(args);
-            await NetWorship.OnMain(args);
+            //await NetWorship.OnMain(args);
             //await TcpWorship.OnMain(args);
             //await UdpWorship.OnMain(args);
-            //await WebWorship.OnMain(args);
+            await WebWorship.OnMain(args);
             //await QuicWorship.OnMain(args);
 
             #region 暂无用

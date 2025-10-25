@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 
 namespace Tool.Web.Hosting
@@ -31,7 +32,7 @@ namespace Tool.Web.Hosting
         }
 
         /// <summary>
-        /// 使用 <see cref="DiyContainerBuilder"/> 构建 Autofac 容器，并返回一个 <see cref="IServiceProvider"/>
+        /// 使用 <see cref="DiyContainerBuilder"/> 构建 Tool.Ioc 容器，并返回一个 <see cref="IServiceProvider"/>
         /// </summary>
         /// <param name="containerBuilder"></param>
         /// <returns></returns>

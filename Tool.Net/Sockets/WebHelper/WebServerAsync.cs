@@ -197,14 +197,15 @@ namespace Tool.Sockets.WebHelper
             }
             listener = new HttpListener();
 
-            string url = string.Concat(IsSSL ? "https://" : "http://", uriPrefix, '/');
+            string url = string.Concat(IsSSL ? "https://" : "http://", uriPrefix);
             server = uriPrefix;
             try
             {
-                listener.Prefixes.Add(url);
+                var newurl = new Uri(url);
+                listener.Prefixes.Add(newurl.AbsoluteUri);
                 listener.Start();
 
-               await OnComplete(in server, EnServer.Create);
+                await OnComplete(in server, EnServer.Create);
             }
             catch (Exception e)
             {
@@ -277,8 +278,14 @@ namespace Tool.Sockets.WebHelper
 
             try
             {
+                sendBytes.SetMessageType(WebSocketMessageType.Text);
                 Encoding.UTF8.GetBytes(chars.Span, sendBytes.Span);
-                return await SendAsync(client, sendBytes.GetMemory());
+                await SendAsync(sendBytes);
+                return true;
+            }
+            catch
+            {
+                return false;
             }
             finally
             {
@@ -350,7 +357,8 @@ namespace Tool.Sockets.WebHelper
 
             var buffers = sendBytes.GetMemory();
 
-            await WebStateObject.SendAsync(sendBytes.Client.WebSocket, buffers, DataLength);
+            var messageType = sendBytes.GetMessageType();
+            await WebStateObject.SendAsync(sendBytes.Client.WebSocket, messageType, buffers, DataLength);
             await OnComplete(sendBytes.Client.SecWebSocketKey, EnServer.SendMsg);
         }
 
@@ -383,7 +391,9 @@ namespace Tool.Sockets.WebHelper
         {
             if (client is null) throw new ArgumentException("WebSocketContext不能为空！", nameof(client));
             if (length == 0) length = DataLength;
-            return new SendBytes<WebSocketContext>(client, length, false);
+            var sendBytes = new SendBytes<WebSocketContext>(client, length, false);
+            sendBytes.SetMessageType(WebSocketMessageType.Binary);
+            return sendBytes;
         }
 
         #endregion

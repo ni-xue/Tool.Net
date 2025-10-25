@@ -57,6 +57,11 @@ namespace Tool.Utils
         private ServiceProvider _provider;
 
         /// <summary>
+        /// 获取当前依赖注入是否调用Build函数
+        /// </summary>
+        public bool IsBuild => _provider is not null;
+
+        /// <summary>
         /// 初始化
         /// </summary>
         public IocCore()

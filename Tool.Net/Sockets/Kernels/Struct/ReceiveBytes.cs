@@ -1,7 +1,7 @@
-﻿using System.Buffers;
+﻿using System;
+using System.Buffers;
+using System.Collections.Generic;
 using System.Net.Sockets;
-using System;
-using System.Net.WebSockets;
 using Tool.Sockets.UdpHelper;
 
 namespace Tool.Sockets.Kernels
@@ -12,6 +12,7 @@ namespace Tool.Sockets.Kernels
     public readonly struct ReceiveBytes<ISocket> : IBytesCore
     {
         private readonly BytesCore _bytesCore;
+        internal readonly Dictionary<string, object> datastate;
 
         /// <summary>
         /// 资源对象
@@ -26,6 +27,7 @@ namespace Tool.Sockets.Kernels
             OnlyData = onlydata;
             Client = client;
             _bytesCore = new BytesCore(length);
+            datastate = new();
         }
 
         /// <summary>
@@ -42,6 +44,7 @@ namespace Tool.Sockets.Kernels
             OnlyData = onlydata;
             Client = client;
             _bytesCore = new BytesCore(dataOwner, length);
+            datastate = new();
         }
 
         /// <summary>
@@ -57,6 +60,7 @@ namespace Tool.Sockets.Kernels
             OnlyData = onlydata;
             Client = client;
             _bytesCore = bytesCore;
+            datastate = new();
         }
 
         /// <summary>

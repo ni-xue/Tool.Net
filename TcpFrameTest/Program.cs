@@ -59,6 +59,7 @@ namespace TcpFrameTest
                 Abc abc = new() { Aid = 666, Bkey_en = "", Ckey_cn = "", Dvalue = "6666666666" };
 
                 system.CopyEntity(abc, "Id=Aid", "Key_cn=Ckey_cn", "Value=Dvalue");
+                system.CopyEntity(abc);
             }
 
             return "";
@@ -105,10 +106,10 @@ namespace TcpFrameTest
 
         public static async Task Main(string[] args) //http://huodong2.4399.com/2022/zmwsezn/?pop_activity=1
         {
-//#if !DEBUG
-//            var ipadrs = await Tool.Utils.Utility.GetIPAddressAsync("nixue.top", System.Net.Sockets.AddressFamily.InterNetwork);
-//            if (ipadrs is not null) ip = ipadrs.ToString();
-//#endif
+            //#if !DEBUG
+            //            var ipadrs = await Tool.Utils.Utility.GetIPAddressAsync("nixue.top", System.Net.Sockets.AddressFamily.InterNetwork);
+            //            if (ipadrs is not null) ip = ipadrs.ToString();
+            //#endif
 
             await Console.Out.WriteLineAsync($"IP:{ip}");
 

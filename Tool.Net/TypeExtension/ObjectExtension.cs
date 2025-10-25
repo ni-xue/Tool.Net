@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -830,8 +828,7 @@ namespace Tool
             var oriobj = origobj.GetDictionary();
 
             if (entity0.Parameters.Length == 0 || oriobj.Count == 0) return false;
-
-            keys ??= oriobj.Keys.ToArray();
+            if (keys is null || keys.Length is 0) keys = oriobj.Keys.ToArray();
 
             Dictionary<string, object> pairs = new(keys.Length); //List<string> keysList = keys == null ? oriobj.Keys.ToList() : keys.ToList();
 
@@ -1114,6 +1111,22 @@ namespace Tool
         /// <param name="task">需要完成的任务</param>
         /// <returns>返回与原线程不一样的继续线程</returns>
         public static async ValueTask<TResult> IsNewTask<TResult>(this ValueTask<TResult> task) => await task.AsTask().IsNewTask();
+
+        #endregion
+
+        #region Stopwatch
+
+        /// <summary>
+        /// 获取毫秒耗时单位
+        /// </summary>
+        /// <param name="watch">计时器</param>
+        /// <param name="decimals">保留精度</param>
+        /// <returns></returns>
+        public static decimal GetElapsedMs(this Stopwatch watch, int decimals = 3)
+        {
+            decimal ms = (watch.ElapsedTicks * 1000.0m) / Stopwatch.Frequency;
+            return Math.Round(ms, decimals);
+        }
 
         #endregion
     }

@@ -50,14 +50,19 @@ namespace TcpTest
                 {
                     using (a)
                     {
-                        if (Utility.SequenceCompare(a.Span, sendBytes.Span))
-                        {
-                            await Console.Out.WriteLineAsync("验证成功！");
-                        }
+                        var messageType = a.GetMessageType();
+                        var ss = a.GetString();
+                        //if (Utility.SequenceCompare(a.Span, sendBytes.Span))
+                        //{
+                        //    await Console.Out.WriteLineAsync("验证成功！");
+                        //}
 
                         //await Console.Out.WriteLineAsync($"ip:{a.Key},{Encoding.UTF8.GetString(a.Span)},{DateTime.Now}");
                         //await Task.Delay(10);
                         Interlocked.Increment(ref a1);
+
+                        //webServer.CreateSendBytes(a.Client);
+
                         await webServer.SendAsync(a.Client, "接收成功！");
                     }
                 }
@@ -95,9 +100,10 @@ namespace TcpTest
 
             await webServer.StartAsync("127.0.0.1", 9999);
 
-            //Console.WriteLine($"已启动服务器！");
-            //Console.ReadKey();
-            //return;
+            AppSettings.Get("");
+            Console.WriteLine($"已启动服务器！");
+            Console.ReadKey();
+            return;
 
             Tool.Sockets.WebHelper.WebClientAsync webClient = new(NetBufferSize.Size1024K, true) { Millisecond = 0, IsSSL = false };
             webClient.Millisecond = 0;
@@ -151,10 +157,16 @@ namespace TcpTest
             await webClient.ConnectAsync("127.0.0.1", 9999);
             webClient.AddKeepAlive(1);
 
-            FileStream ReadStream = new("D:\\ToDesk0.exe", FileMode.Open, FileAccess.Read);
-            sendBytes = webClient.CreateSendBytes((int)ReadStream.Length);
-            int len = await ReadStream.ReadAsync(sendBytes.Memory);
-            if (len > 0) { }
+            //using FileStream ReadStream = new("D:\\ToDesk0.exe", FileMode.Open, FileAccess.Read);
+            //sendBytes = webClient.CreateSendBytes((int)ReadStream.Length);
+            //int len = await ReadStream.ReadAsync(sendBytes.Memory);
+            //if (len > 0) { }
+
+            sendBytes = webClient.CreateSendBytes(100);
+            sendBytes.SetMessageType(WebSocketMessageType.Text);
+
+            //await sendBytes.Client.SendAsync(sendBytes.Array, WebSocketMessageType.Text, true, CancellationToken.None);
+            //await sendBytes.Client.SendAsync(sendBytes.Array, WebSocketMessageType.Binary, true, CancellationToken.None);
             IsRead = true;
 
             while (Console.ReadKey(true).Key != ConsoleKey.F5) ;

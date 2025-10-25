@@ -96,7 +96,7 @@ namespace Tool.Sockets.Kernels
             return isKeep;
         }
 
-        internal static async ValueTask SendAsync(WebSocket client, Memory<byte> listData, int dataLength)
+        internal static async ValueTask SendAsync(WebSocket client, WebSocketMessageType messageType, Memory<byte> listData, int dataLength)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace Tool.Sockets.Kernels
                         part = listData[position..];
                         sendend = false;
                     }
-                    await client.SendAsync(part, WebSocketMessageType.Binary, !sendend, CancellationToken.None);// : WebSocketMessageType.Text
+                    await client.SendAsync(part, messageType, !sendend, CancellationToken.None);// : WebSocketMessageType.Text WebSocketMessageType.Binary
                 }
             }
             finally
@@ -127,31 +127,37 @@ namespace Tool.Sockets.Kernels
 
         internal async ValueTask<bool> ReceiveAsync()
         {
+            if (Client.State != WebSocketState.Open) return false;
+
             ValueWebSocketReceiveResult receiveResult = await Client.ReceiveAsync(ListData[Count..], CancellationToken.None);
 
             switch (receiveResult.MessageType)
             {
+                case WebSocketMessageType.Text:
                 case WebSocketMessageType.Binary:
                     Count += receiveResult.Count;
                     if (receiveResult.EndOfMessage)
                     {
-                        if (!WriteHeap.IsEmpty) goto A;
-                        Count = receiveResult.Count;
-                        goto B;
+                        if (!WriteHeap.IsEmpty) CopyWriteHeap();
+                        MessageType = receiveResult.MessageType;
+                        return true;
                     }
-                    if (ListData.Length > Count) goto B;
-                    A:
-                    WriteHeap.Copy(ListData[..Count]);
-                    Count = 0;
-                B:
-                    if (receiveResult.EndOfMessage) return true;
-                    break;
+                    else
+                    {
+                        if (Count >= ListData.Length) CopyWriteHeap();
+                        return false;
+                    }
+                case WebSocketMessageType.Close:
                 default:
                     Client.Abort();
-                    break;
+                    return false;
             }
 
-            return false;
+            void CopyWriteHeap()
+            {
+                WriteHeap.Copy(ListData[..Count]);
+                Count = 0;
+            }
         }
 
         internal async ValueTask OnReceivedAsync<T>(bool IsThreadPool, T Client, ReceiveEvent<T> Received)
@@ -161,6 +167,7 @@ namespace Tool.Sockets.Kernels
                 int count = GetCount();
                 if (Received is null) return;
                 var receiveBytes = new ReceiveBytes<T>(SocketKey, Client, count, false);
+                receiveBytes.SetMessageType(MessageType);
                 if (WriteHeap.IsEmpty)
                 {
                     receiveBytes.SetMemory(ListData[..count]);
@@ -243,6 +250,11 @@ namespace Tool.Sockets.Kernels
         */
         private int Count;
 
+        /**
+         * 表示当前数据包类型
+         */
+        private WebSocketMessageType MessageType;
+
         /// <summary>
         /// 接收的数据
         /// </summary>
@@ -254,6 +266,7 @@ namespace Tool.Sockets.Kernels
         public void Close()
         {
             ListData = Memory<byte>.Empty;//new ArraySegment<byte>();
+            if (!WriteHeap.IsEmpty) WriteHeap.Empty();
             WriteHeap = null;
             //doReceive?.Close();
             Client.Dispose();

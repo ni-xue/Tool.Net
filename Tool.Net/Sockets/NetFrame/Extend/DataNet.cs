@@ -156,6 +156,7 @@ namespace Tool.Sockets.NetFrame
 
         private static System.Collections.ObjectModel.ReadOnlyDictionary<ushort, DataNet> GetDicDataTcps(Assembly assembly)
         {
+            HashSet<byte> hashClassID = new();
             Dictionary<ushort, DataNet> _dicDataTcps = new();
 
             Type[] types = assembly.GetTypes();
@@ -174,6 +175,11 @@ namespace Tool.Sockets.NetFrame
 
                     if (Attribute.GetCustomAttribute(constructorInfos[0], typeof(DataNet)) is DataNet constructorId)
                     {
+                        if (hashClassID.Contains(constructorId.ClassID))
+                        {
+                            throw new Exception(string.Format("类：{0}，[{1}]类ID:{2} 出现了重复，主Id重复！", type.FullName, type.Name, constructorId.ClassID));
+                        }
+                        hashClassID.Add(constructorId.ClassID);
                         var _class = new ClassDispatcher<DataBase>(constructorInfos[0]);
                         MethodInfo[] method = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
                         foreach (MethodInfo info in method)

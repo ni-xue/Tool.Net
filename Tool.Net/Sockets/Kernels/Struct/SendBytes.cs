@@ -1,5 +1,6 @@
 ﻿using System.Buffers;
 using System;
+using System.Collections.Generic;
 
 namespace Tool.Sockets.Kernels
 {
@@ -9,6 +10,7 @@ namespace Tool.Sockets.Kernels
     public readonly struct SendBytes<ISocket> : IBytesCore
     {
         private readonly BytesCore _bytesCore;
+        internal readonly Dictionary<string, object> datastate;
 
         /// <summary>
         /// 资源对象
@@ -22,6 +24,7 @@ namespace Tool.Sockets.Kernels
             Client = client;
             OnlyData = onlydata;
             _bytesCore = new BytesCore(islength + length);
+            datastate = new();
         }
 
         /// <summary>
@@ -37,6 +40,7 @@ namespace Tool.Sockets.Kernels
             Client = client;
             OnlyData = onlydata;
             _bytesCore = new BytesCore(dataOwner, islength + length);
+            datastate = new();
         }
 
         /// <summary>
@@ -50,6 +54,7 @@ namespace Tool.Sockets.Kernels
             Client = client;
             OnlyData = onlydata;
             _bytesCore = bytesCore;
+            datastate = new();
         }
 
         /// <summary>

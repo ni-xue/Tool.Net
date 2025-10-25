@@ -55,14 +55,14 @@ namespace WebTestApp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            AppSettings.GetSection("Test:a:b").Value = new string[] { "1", "2", "3", "7", "8", "9" }.ToJson();
+            //AppSettings.GetSection("Test:a:b").Value = new string[] { "1", "2", "3", "7", "8", "9" }.ToJson();
 
-            AppSettings.GetSection("Test:name").Value = new { a = 1, b = 2, c = "666666" }.ToJson();
-            AppSettings.GetSection("Test:name").Value = new { a = 1, b = 2, c = "666666" }.ToJson();
+            //AppSettings.GetSection("Test:name").Value = new { a = 1, b = 2, c = "666666" }.ToJson();
+            //AppSettings.GetSection("Test:name").Value = new { a = 1, b = 2, c = "666666" }.ToJson();
 
-            AppSettings.GetSection("Test:int").Value = "我和你";
-            AppSettings.GetSection("Test:list:2:name").Value = "我";
-            AppSettings.GetSection("Test:list:1:0").Value = "我";
+            //AppSettings.GetSection("Test:int").Value = "我和你";
+            //AppSettings.GetSection("Test:list:2:name").Value = "我";
+            //AppSettings.GetSection("Test:list:1:0").Value = "我";
 
             //services.AddSession();
 
@@ -267,7 +267,7 @@ namespace WebTestApp
             //var s = ActionHelper<ApplicationBuilder>.GetActionMethodHelper(MethodFlags.Private);
 
             //JsonVar jsons = [.. new List<string> { "123" }];
-
+            AppSettings.Get("server.urls");
             var  abc = "[1,2,3]".JsonVar();
             int[] ints = [.. abc];
 
@@ -328,11 +328,11 @@ namespace WebTestApp
 
             var s = batch.GetValue("Commands");
 
-            var table = new TableProvider(dbHelper, "table");
+            //var table = new TableProvider(dbHelper, "table");
 
-            table.GetRecordsCountAsync("1=1");
-            var result = table.GetOneAsync("1=1", ("top 1", ' '), ("max(name)", ','), "val").Result;
-            var result = await table.GetOneAsync("1=1", ("top 1", ' '), ("max(name)", ','), "val");
+            //table.GetRecordsCountAsync("1=1");
+            //var result = table.GetOneAsync("1=1", ("top 1", ' '), ("max(name)", ','), "val").Result;
+            //var result = await table.GetOneAsync("1=1", ("top 1", ' '), ("max(name)", ','), "val");
 
 
             //var s0 = batch.Commands;

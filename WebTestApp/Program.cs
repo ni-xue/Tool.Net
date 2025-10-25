@@ -210,7 +210,7 @@ namespace WebTestApp
                     .UseDiyServiceProvider()
                     .ConfigureWebHostDefaults(webBuilder =>
                     {
-                        webBuilder.UseUrls(AppSettings.Get("server.urls").Split(';'));
+                        //webBuilder.UseUrls(AppSettings.Get("server.urls").Split(';'));
                         webBuilder.UseStartup<Startup>();
                     });
     }

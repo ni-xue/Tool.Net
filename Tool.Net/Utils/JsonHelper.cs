@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Tool.Utils
 {
@@ -196,6 +192,21 @@ namespace Tool.Utils
     public readonly struct JsonVar : IEnumerable<JsonEnumerator>
     {
         /// <summary>
+        /// 获取一个空类型
+        /// </summary>
+        public static JsonVar Empty { get; } = new(true);
+
+        /// <summary>
+        /// 获取一个空数组
+        /// </summary>
+        public static JsonVar EmptyArray { get; } = new(new ArrayList());
+
+        /// <summary>
+        /// 获取一个空字典
+        /// </summary>
+        public static JsonVar EmptyHash { get; } = new(new Dictionary<string, object>());
+
+        /// <summary>
         /// 大概确定 Json 数据的类型
         /// </summary>
         public JsonValueKind ValueKind { get; }
@@ -206,6 +217,11 @@ namespace Tool.Utils
         public bool IsEnumerator => ValueKind is JsonValueKind.Object or JsonValueKind.Array;
 
         /// <summary>
+        /// 是否为空
+        /// </summary>
+        public bool IsEmpty { get; }
+
+        /// <summary>
         /// 当前 层 可能存在的 集合 长度 （string 会显示 字符长度）
         /// </summary>
         public int Count { get; }
@@ -214,6 +230,14 @@ namespace Tool.Utils
         /// 当前 Json 的数据结构
         /// </summary>
         public object Data { get; }
+
+        private JsonVar(bool isEmpty) 
+        {
+            this.Data = null;
+            this.Count = 0;
+            ValueKind = JsonValueKind.Undefined;
+            IsEmpty = isEmpty;
+        }
 
         /// <summary>
         /// 添加任意的数据，无规则。
@@ -256,6 +280,7 @@ namespace Tool.Utils
 
             this.Data = data;
             this.Count = count;
+            this.IsEmpty = false;
         }
 
         /// <summary>
@@ -619,6 +644,11 @@ namespace Tool.Utils
         /// 数据源
         /// </summary>
         public JsonVar Current { get; }
+
+        /// <summary>
+        /// 大概确定 Json 数据的类型
+        /// </summary>
+        public JsonValueKind ValueKind => Current.ValueKind;
 
         /// <summary>
         /// <see cref="Dictionary{String, Object}"/>

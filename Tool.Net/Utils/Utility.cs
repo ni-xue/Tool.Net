@@ -37,6 +37,23 @@ namespace Tool.Utils
             return x.SequenceEqual(y);
         }
 
+        /// <summary>
+        /// 比较多个值或对象是否相等
+        /// </summary>
+        /// <param name="objects">比较的数组</param>
+        /// <returns>布尔类型</returns>
+        public static bool CompareVar(params object[] objects) 
+        {
+            if (objects is null) return true;
+            if(objects.Length == 0) return true;
+            HashSet<object> result = new();
+            foreach (object obj in objects)
+            {
+                result.Add(obj);
+            }
+            return result.Count == objects.Length;
+        }
+
         #region 获取整数的某一位，设置整数的某一位  
 
         /// <summary>  

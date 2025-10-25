@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tool.Sockets.Kernels;
+using Tool.Utils;
 
 namespace Tool.Sockets.WebHelper
 {
@@ -179,7 +180,7 @@ namespace Tool.Sockets.WebHelper
             //    throw new ArgumentException("DataLength 值必须是在20M(DataLength < 1024 * 1024 * 20)以内！", nameof(DataLength));
             //}
             this.BufferSize = bufferSize;
-            //this.DataLength = (int)bufferSize;
+            this.DataLength = (int)bufferSize;
             //this.OnlyData = OnlyData;
             this.IsReconnect = IsReconnect;
         }
@@ -235,7 +236,7 @@ namespace Tool.Sockets.WebHelper
         private async Task ConnectAsync()
         {
             client = new ClientWebSocket();
-            string url = string.Concat(IsSSL ? "wss://" : "ws://", server, '/');
+            string url = string.Concat(IsSSL ? "wss://" : "ws://", server);
             try
             {
                 if (InitWebOptions is not null)
@@ -245,8 +246,9 @@ namespace Tool.Sockets.WebHelper
 
                 await client.ConnectAsync(new Uri(url), CancellationToken.None);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Debug("WebClientAsync连接错误！", ex);
             }
             finally
             {
@@ -270,8 +272,14 @@ namespace Tool.Sockets.WebHelper
 
             try
             {
+                sendBytes.SetMessageType(WebSocketMessageType.Text);
                 Encoding.UTF8.GetBytes(chars.Span, sendBytes.Span);
-                return await SendAsync(sendBytes.GetMemory());
+                await SendAsync(sendBytes);
+                return true;
+            }
+            catch 
+            {
+                return false;
             }
             finally
             {
@@ -285,14 +293,21 @@ namespace Tool.Sockets.WebHelper
         /// <param name="listData">要发送的内容</param>
         public async ValueTask<bool> SendAsync(Memory<byte> listData)
         {
+            var sendBytes = CreateSendBytes(listData.Length);
+
             try
             {
-                await SendAsync(listData, EnClient.SendMsg);
+                sendBytes.SetMemory(listData);
+                await SendAsync(sendBytes);
                 return true;
             }
             catch (Exception)
             {
                 return false;
+            }
+            finally 
+            {
+                sendBytes.Dispose(); 
             }
         }
 
@@ -304,7 +319,8 @@ namespace Tool.Sockets.WebHelper
         public override async ValueTask SendAsync(SendBytes<WebSocket> sendBytes)
         {
             var buffers = sendBytes.GetMemory();
-            await SendAsync(buffers, EnClient.SendMsg);
+            var messageType = sendBytes.GetMessageType();
+            await SendAsync(buffers, messageType, EnClient.SendMsg);
         }
 
         /// <summary>
@@ -316,16 +332,18 @@ namespace Tool.Sockets.WebHelper
         {
             if (client == null) throw new Exception("未调用ConnectAsync函数！");
             if (length == 0) length = DataLength;
-            return new SendBytes<WebSocket>(client, length, false);
+            var sendBytes = new SendBytes<WebSocket>(client, length, false);
+            sendBytes.SetMessageType(WebSocketMessageType.Binary);
+            return sendBytes;
         }
 
-        private async ValueTask SendAsync(Memory<byte> listData, EnClient en)
+        private async ValueTask SendAsync(Memory<byte> listData, WebSocketMessageType messageType, EnClient en)
         {
             ThrowIfDisposed();
 
             if (!WebStateObject.IsConnected(client)) throw new Exception("与服务端的连接已断开！");
 
-            await WebStateObject.SendAsync(client, listData, DataLength);
+            await WebStateObject.SendAsync(client, messageType, listData, DataLength);
             await OnComplete(in server, en);
             if (EnClient.SendMsg == en) Keep?.ResetTime();
         }
@@ -415,7 +433,7 @@ namespace Tool.Sockets.WebHelper
                 {
                     Keep = new KeepAlive(TimeInterval, async () =>
                     {
-                        await SendAsync(KeepAlive.KeepAliveObj, EnClient.HeartBeat);
+                        await SendAsync(KeepAlive.KeepAliveObj, WebSocketMessageType.Binary, EnClient.HeartBeat);
                     });
                     return;
                 }
