@@ -16,11 +16,7 @@ namespace Tool.NetTests.Sockets.Trojan
         [TestMethod()]
         public async Task Main()
         {
-            //using HttpClient client = new HttpClient(new TrojanHttpMessageHandler("nbaqz0vlmeo0k3d-hk.fcnode.net", 53501, "aeb69c19-90cb-4785-ad08-964d93708f25"));
-
-            //var httpResponse = await client.GetAsync("http://www.baidu.com");
-
-            var trojanClient = new TrojanTcpClient(new TrojanConnect("nbaqz0vlmeo0k3d-hk.fcnode.net", 53575, "aeb69c19-90cb-4785-ad08-964d93708f25"));
+            var trojanClient = new TrojanTcpClient(new TrojanConnect("hk.ssazxc.net", 5575, "964d93708f25"));
             try
             {
                 // 连接到 Trojan 服务器

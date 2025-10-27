@@ -20,12 +20,17 @@ namespace Tool.Sockets.TrojanHelper
         private bool _disposed = false;
 
         /// <summary>
+        /// 是否连接中
+        /// </summary>
+        public bool Connected => _tcpClient != null && _tcpClient.Connected;
+
+        /// <summary>
         /// Tls认证属性设置
         /// </summary>
         public SslClientAuthenticationOptions SslOptions { get; set; }
 
         /// <summary>
-        /// 测试产物
+        /// 构造函数
         /// </summary>
         /// <param name="trojanConnect"></param>
         public TrojanTcpClient(TrojanConnect trojanConnect)
@@ -65,13 +70,13 @@ namespace Tool.Sockets.TrojanHelper
         /// <summary>
         /// 通过 Trojan 代理连接到目标服务器
         /// </summary>
-        public async Task<SslStream> ConnectToTargetAsync(string targetHost, int targetPort, CancellationToken token)
+        public async ValueTask<SslStream> ConnectToTargetAsync(string targetHost, int targetPort, CancellationToken token)
         {
             if (_sslStream == null)
                 throw new InvalidOperationException("未连接到 Trojan 服务器");
 
             // 构造 Trojan 协议的第一个数据包
-            using var requestPacket = TrojanExtension.CreateTrojanRequestPacket(true, targetHost, targetPort, _trojanConnect.Password);
+            using var requestPacket = TrojanExtension.CreateTrojanRequestPacketTcp(targetHost, targetPort, _trojanConnect.Password);
             await _sslStream.WriteAsync(requestPacket.Memory, token);
             await _sslStream.FlushAsync(token);
 
@@ -81,18 +86,18 @@ namespace Tool.Sockets.TrojanHelper
         /// <summary>
         /// 发送数据
         /// </summary>
-        public async Task SendAsync(byte[] data, CancellationToken token)
+        public async ValueTask SendAsync(ReadOnlyMemory<byte> buffer, CancellationToken token)
         {
             if (_sslStream == null)
                 throw new InvalidOperationException("未连接到目标");
 
-            await _sslStream.WriteAsync(data, token);
+            await _sslStream.WriteAsync(buffer, token);
         }
 
         /// <summary>
         /// 接收数据
         /// </summary>
-        public async Task<int> ReceiveAsync(byte[] buffer, CancellationToken token)
+        public async ValueTask<int> ReceiveAsync(Memory<byte> buffer, CancellationToken token)
         {
             if (_sslStream == null)
                 throw new InvalidOperationException("未连接到目标");

@@ -15,7 +15,7 @@ namespace Tool.Sockets.TrojanHelper
         /// <summary>
         /// 创建 Trojan 协议请求包
         /// </summary>
-        internal static BytesCore CreateTrojanRequestPacket(bool istcp, string targetHost, int targetPort, string _password)
+        internal static BytesCore CreateTrojanRequestPacketTcp(string targetHost, int targetPort, string _password)
         {
             using var hostBytes = GetHostBytes(targetHost, out byte atyp);
             BytesCore bytesCore = new(56 + 2 + 1 + 1 + hostBytes.Length + 2 + 2);
@@ -30,20 +30,83 @@ namespace Tool.Sockets.TrojanHelper
             bytesCore.Span[index++] = 0x0A;
 
             // 命令类型 (0x01 表示 CONNECT)
-            bytesCore.Span[index++] = istcp ? (byte)0x01 : (byte)0x03;
+            bytesCore.Span[index++] = 0x01;
 
             // 目标地址类型和地址
             bytesCore.Span[index++] = atyp;
             hostBytes.Span.CopyTo(bytesCore.Span[index..]);
             index += hostBytes.Length;
 
-            // 5. 目标端口
+            // 目标端口
             bytesCore.Span[index++] = (byte)(targetPort >> 8);
             bytesCore.Span[index++] = (byte)targetPort;
 
             // CRLF 结束
             bytesCore.Span[index++] = 0x0D;
             bytesCore.Span[index++] = 0x0A;
+
+            return bytesCore;
+        }
+
+        /// <summary>
+        /// 创建 Trojan 协议请求包
+        /// </summary>
+        internal static BytesCore CreateTrojanUdpAuth(string _password)
+        {
+            BytesCore bytesCore = new(56 + 2 + 1);
+
+            int index = 0;
+            // 密码的 SHA224 哈希
+            CalculateSHA224(bytesCore, _password);
+            index += 56;
+
+            // CRLF (Trojan 协议要求)
+            bytesCore.Span[index++] = 0x0D;
+            bytesCore.Span[index++] = 0x0A;
+
+            // 命令类型 (0x03 表示 UDP)
+            bytesCore.Span[index++] = 0x03;
+
+            return bytesCore;
+        }
+
+        /// <summary>
+        /// 创建 Trojan 协议请求包
+        /// </summary>
+        internal static BytesCore CreateTrojanRequestPacketUdp(byte[] data, string targetHost, int targetPort)
+        {
+            if (targetPort < ushort.MinValue || targetPort > ushort.MaxValue) throw new ArgumentException("端口号无效。");
+
+            int dataLength = data.Length;
+            if (dataLength > ushort.MaxValue)
+                throw new ArgumentException($"数据报长度过长，不能超过 {ushort.MaxValue} 字节。");
+
+            using var hostBytes = GetHostBytes(targetHost, out byte atyp);
+
+            // 1(ATYP) + addr + 2(PORT) + 2(LENGTH) + 2(CRLF) + payload
+            BytesCore bytesCore = new(1 + hostBytes.Length + 2 + 2 + 2 + dataLength);
+
+            int index = 0;
+
+            bytesCore.Span[index++] = atyp;
+            hostBytes.Span.CopyTo(bytesCore.Span[index..]);
+            index += hostBytes.Length;
+
+            // 目标端口
+            bytesCore.Span[index++] = (byte)(targetPort >> 8);
+            bytesCore.Span[index++] = (byte)targetPort;
+
+            //数据包大小
+            bytesCore.Span[index++] = (byte)(dataLength >> 8);
+            bytesCore.Span[index++] = (byte)dataLength;
+
+            // CRLF 结束
+            bytesCore.Span[index++] = 0x0D;
+            bytesCore.Span[index++] = 0x0A;
+
+            // 写入携带数据报
+            data.CopyTo(bytesCore.Span[index..]);
+            index += dataLength;
 
             return bytesCore;
         }
@@ -72,7 +135,7 @@ namespace Tool.Sockets.TrojanHelper
                 string normalizedDomain = targetHost.ToLowerInvariant();
                 if (!IsAscii(normalizedDomain))
                 {
-                    normalizedDomain = new IdnMapping().GetAscii(targetHost);
+                    normalizedDomain = new IdnMapping().GetAscii(normalizedDomain);
                 }
                 atyp = 0x03;
                 var domainLength = Encoding.ASCII.GetByteCount(normalizedDomain);

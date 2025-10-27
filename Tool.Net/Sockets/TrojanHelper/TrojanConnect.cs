@@ -52,5 +52,14 @@ namespace Tool.Sockets.TrojanHelper
         /// 密码
         /// </summary>
         public string Password {  get; }
+
+        /// <summary>
+        /// 获取字符串内容
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"{Host}:{Port}";
+        }
     }
 }

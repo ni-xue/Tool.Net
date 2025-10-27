@@ -4,7 +4,7 @@
 
 2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils，Trojan）
 
-3. 当前版本（5.5.5）为正式版，用于任何项目开发使用。 
+3. 当前版本（5.5.7）为正式版，用于任何项目开发使用。 
 
 4. 架构基于 .Net9（兼容 .Net8、.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
 
@@ -872,7 +872,38 @@ abc.GetOrDefault("1", 3); //取不到时返回默认值
 5.5.5 - 正式版
 1. 新增功能 Trojan 协议支持 Tcp 模式 TrojanTcpClient，udp 还在积极适配中
 2. 新增 TrojanHttpHandlerFactory 工厂，让你轻松集成到 HttpClient 对象中进行连接代理
+示例：
+await using Tool.Sockets.TrojanHelper.TrojanHttpHandlerFactory trojanHttpHandler = new(trojans);
+using HttpClient client = new(trojanHttpHandler.HttpMessageHandler);
+var httpResponse = await client.GetAsync("https://www.youtube.com/");
+var @string = await httpResponse.Content.ReadAsStringAsync();
+var http02 = await client.GetAsync("https://www.google.com/");
+var @string1 = await http02.Content.ReadAsStringAsync();
 3. 其他优化
+
+------------2025/10/27------------
+5.5.6 - 正式版
+1. 新增 TrojanHttpProxyFactory 工厂，让你轻松连接代理
+示例：
+List<Tool.Sockets.TrojanHelper.TrojanConnect> trojans = [];
+for (int i = 5000; i < 5100; i++)
+{
+    trojans.Add(new Tool.Sockets.TrojanHelper.TrojanConnect("host", i, "password"));
+}
+
+Tool.Sockets.TrojanHelper.FlexibleAclService aclService = new();
+aclService.LoadDefaultLocalDomains(); //默认直连配置
+aclService.ImportLocalDomains(["tool.nixue.top"]);
+
+Tool.Sockets.TrojanHelper.TrojanHttpProxyFactory proxyFactory = new("127.0.0.1:7080", trojans[1..4]) { Logger = ObjectExtension.Provider.GetService<ILogger<Program>>() };
+proxyFactory.SetProxyOverride(async (dnsip, ipkey) =>
+{
+    return await aclService.ShouldUseLocal(dnsip, ipkey);
+});
+await proxyFactory.StartAsync();
+2. 修复 TrojanHttpHandlerFactory 工厂下，存在计数溢出问题，并改为在超时前尽可能的使用代理池尝试连接
+3. TrojanUdpClient 还在测试阶段，主要缺少测试验证平台
+4. 其他优化
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。

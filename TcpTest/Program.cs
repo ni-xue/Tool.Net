@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.Buffers;
 using System.Data;
@@ -23,6 +26,7 @@ using Tool.Sockets.WebHelper;
 using Tool.SqlCore;
 using Tool.Utils;
 using Tool.Utils.Data;
+using Tool.Web;
 
 namespace TcpTest
 {
@@ -206,10 +210,45 @@ namespace TcpTest
         {
             try
             {
-                //new Tool.Sockets.TrojanHelper.TrojanHttpMessageHandler("nbaqz0vlmeo0k3d-hk.fcnode.net", 53575, "aeb69c19-90cb-4785-ad08-964d93708f25")
+                //var builder = Host.CreateApplicationBuilder();
+                //builder.Logging.AddLogSave();
+                //builder.UseDiyServiceProvider();
+                //builder.Build();
 
-                var trojanConnect = new Tool.Sockets.TrojanHelper.TrojanConnect("nbaqz0vlmeo0k3d-hk.fcnode.net", 53575, "aeb69c19-90cb-4785-ad08-964d93708f25");
-                await using Tool.Sockets.TrojanHelper.TrojanHttpHandlerFactory trojanHttpHandler = new(trojanConnect);
+                List<Tool.Sockets.TrojanHelper.TrojanConnect> trojans = [];
+                for (int i = 53501; i < 53585; i++)
+                {
+                    trojans.Add(new Tool.Sockets.TrojanHelper.TrojanConnect("nbaqz0vlmeo0k3d-hk.fcnode.net", i, "aeb69c19-90cb-4785-ad08-964d93708f25"));
+                }
+
+                //Tool.Sockets.TrojanHelper.FlexibleAclService aclService = new();
+                //aclService.LoadDefaultLocalDomains(); //默认直连配置
+                //aclService.ImportLocalDomains(["nas.nixue.top"]);
+
+                //Tool.Sockets.TrojanHelper.TrojanHttpProxyFactory proxyFactory = new("127.0.0.1:7080", trojans[1..4]) { Logger = ObjectExtension.Provider.GetService<ILogger<Program>>() };
+                //proxyFactory.SetProxyOverride(async (dnsip, ipkey) =>
+                //{
+                //    return await aclService.ShouldUseLocal(dnsip, ipkey);
+
+                //});
+                //await proxyFactory.StartAsync();
+
+                //Console.ReadKey();
+                //return;
+
+                //Tool.Sockets.TrojanHelper.TrojanUdpClient trojanUdp = new(trojans[0]);
+                //await trojanUdp.ConnectAsync(CancellationToken.None);
+                //await trojanUdp.AuthAsync(CancellationToken.None);
+                //byte[] trojanUdpFrame = new byte[]
+                //{
+                //    0x1A, 0x2B, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00,
+                //    0x03, 0x77, 0x77, 0x77, 0x07, 0x79, 0x6F, 0x75, 0x74, 0x75,
+                //    0x62, 0x65, 0x03, 0x63, 0x6F, 0x6D, 0x00, 0x00, 0x01, 0x00, 0x01
+                //};
+                //await trojanUdp.SendUdpAsync(trojanUdpFrame, "8.8.8.8", 53, CancellationToken.None);
+                //await trojanUdp.ReceiveUdpAsync(CancellationToken.None);
+
+                await using Tool.Sockets.TrojanHelper.TrojanHttpHandlerFactory trojanHttpHandler = new(trojans);
                 using HttpClient client = new(trojanHttpHandler.HttpMessageHandler);
 
                 var httpResponse = await client.GetAsync("https://www.youtube.com/");

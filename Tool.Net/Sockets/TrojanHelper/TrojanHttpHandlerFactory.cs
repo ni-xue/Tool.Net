@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Security;
@@ -15,7 +16,7 @@ namespace Tool.Sockets.TrojanHelper
     /// </summary>
     public class TrojanHttpHandlerFactory : IDisposable, IAsyncDisposable
     {
-        private int _index;
+        private uint _index;
         private readonly TrojanConnect[] _trojans;
         //private readonly HashSet<TrojanTcpClient> trojanTcpClients;
         private readonly CancellationTokenSource _cancellationTokenSource;
@@ -49,32 +50,60 @@ namespace Tool.Sockets.TrojanHelper
             if (trojans == null || trojans.Length == 0)
                 throw new ArgumentException("Trojan 节点不能为空", nameof(trojans));
 
-            _index = 0;
+            _index = uint.MaxValue;
             _trojans = trojans;
             _cancellationTokenSource = new CancellationTokenSource();
-            HttpMessageHandler = new SocketsHttpHandler() { ConnectCallback = HttpConnect, AutomaticDecompression = DecompressionMethods.All };
+            HttpMessageHandler = new SocketsHttpHandler() { ConnectCallback = HttpConnect, AutomaticDecompression = DecompressionMethods.All, UseProxy = false, Proxy = null };
         }
+
+        /// <summary>
+        /// 构造工厂
+        /// </summary>
+        /// <param name="trojans"></param>
+        public TrojanHttpHandlerFactory(IEnumerable<TrojanConnect> trojans) : this(trojans.ToArray()) { }
 
         private async ValueTask<Stream> HttpConnect(SocketsHttpConnectionContext context, CancellationToken token)
         {
-            int current = _index.Increment();
-            TrojanConnect selected = _trojans[current % _trojans.Length];
-
-            var trojanClient = new TrojanTcpClient(selected) { SslOptions = TrojanSslOptions };
-            await trojanClient.ConnectAsync(token).ConfigureAwait(false);
-            var dnsEndPoint = context.DnsEndPoint;
-            var stream = await trojanClient.ConnectToTargetAsync(dnsEndPoint.Host, dnsEndPoint.Port, token).ConfigureAwait(false);
-            bool isssl = context.InitialRequestMessage.RequestUri?.Scheme.Equals("https", StringComparison.OrdinalIgnoreCase) ?? false;
-            if (isssl)
+            var attemptedServers = new HashSet<int>();
+            for (int attempt = 0; attempt < _trojans.Length && !token.IsCancellationRequested; attempt++)
             {
-                var sslStream = new SslStream(stream, leaveInnerStreamOpen: false);
-                var options = HttpSslOptions != null ? CloneSslOptions(HttpSslOptions) : new SslClientAuthenticationOptions();
-                options.TargetHost ??= dnsEndPoint.Host;
-                await sslStream.AuthenticateAsClientAsync(options, token);
-                stream = sslStream;
+                uint current = _index.Increment();
+                int serverIndex = (int)(current % _trojans.Length);
+                if (!attemptedServers.Add(serverIndex)) continue;
+                TrojanConnect selected = _trojans[serverIndex];
+
+                var trojanClient = new TrojanTcpClient(selected) { SslOptions = TrojanSslOptions };
+                try
+                {
+                    await trojanClient.ConnectAsync(token).ConfigureAwait(false);
+                    var dnsEndPoint = context.DnsEndPoint;
+                    var stream = await trojanClient.ConnectToTargetAsync(dnsEndPoint.Host, dnsEndPoint.Port, token).ConfigureAwait(false);
+                    bool isssl = context.InitialRequestMessage.RequestUri?.Scheme.Equals("https", StringComparison.OrdinalIgnoreCase) ?? false;
+                    if (isssl)
+                    {
+                        var sslStream = new SslStream(stream, leaveInnerStreamOpen: false);
+                        try
+                        {
+                            var options = HttpSslOptions != null ? CloneSslOptions(HttpSslOptions) : new SslClientAuthenticationOptions();
+                            options.TargetHost ??= dnsEndPoint.Host;
+                            await sslStream.AuthenticateAsClientAsync(options, token);
+                            stream = sslStream;
+                        }
+                        catch
+                        {
+                            sslStream.Dispose();
+                            throw;
+                        }
+                    }
+                    Token.Register(() => trojanClient?.Dispose());
+                    return stream;
+                }
+                catch
+                {
+                    trojanClient.Dispose();
+                }
             }
-            Token.Register(() => trojanClient.Dispose());
-            return stream;
+            throw new Exception("无法完成代理请求，已尝试所有Trojan服务器！");
         }
 
         private static SslClientAuthenticationOptions CloneSslOptions(SslClientAuthenticationOptions original)
@@ -88,7 +117,7 @@ namespace Tool.Sockets.TrojanHelper
                 ClientCertificates = original.ClientCertificates,
                 EncryptionPolicy = original.EncryptionPolicy,
                 AllowRenegotiation = original.AllowRenegotiation,
-                ApplicationProtocols = original.ApplicationProtocols == null ? null : new List<SslApplicationProtocol>(original.ApplicationProtocols)
+                ApplicationProtocols = original.ApplicationProtocols == null ? null : new(original.ApplicationProtocols)
             };
         }
 
