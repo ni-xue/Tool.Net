@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace Tool.Utils.Data
@@ -173,10 +174,7 @@ namespace Tool.Utils.Data
         /// </summary>
         /// <param name="table">DataTable</param>
         /// <returns>返回<see cref="System.Collections.ArrayList"/></returns>
-        public static System.Collections.ArrayList ToArray(this DataTable table)
-        {
-            return table.ToArrayIf(null);
-        }
+        public static System.Collections.ArrayList ToArray(this DataTable table) => table.ToArrayIf(null);
 
         /// <summary>
         /// （DataTable）转换 <see cref="System.Collections.ArrayList"/> 集合（结果可自定义）
@@ -205,6 +203,30 @@ namespace Tool.Utils.Data
                 return parentRow;
             }
             return default;
+        }
+
+        /// <summary>
+        /// （DataTable）转换 <see cref="System.Collections.ArrayList"/> 集合（结果可自定义）可带空行的表头
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns>返回<see cref="System.Collections.ArrayList"/></returns>
+        public static object ToDefaultArray(this DataTable table) => table.ToDefaultArrayIf(null);
+
+        /// <summary>
+        /// （DataTable）转换 <see cref="System.Collections.ArrayList"/> 集合（结果可自定义）可带空行的表头
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="func">用于指定特殊结果的函数</param>
+        /// <returns>返回<see cref="System.Collections.ArrayList"/></returns>
+        public static object ToDefaultArrayIf(this DataTable table, Func<string, object, object> func)
+        {
+            var list = table.ToArrayIf(func);
+            if (list is null && table is not null && table.Columns.Count > 0)
+            {
+                list = new();
+                list.Insert(0, GetEmptyDictionaryKey(table));
+            }
+            return list;
         }
 
         private static Dictionary<string, string> GetEmptyDictionaryKey(DataTable table)

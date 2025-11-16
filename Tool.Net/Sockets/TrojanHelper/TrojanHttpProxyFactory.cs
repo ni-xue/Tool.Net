@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Server.HttpSys;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,10 +6,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Security;
 using System.Net.Sockets;
-using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -320,7 +315,10 @@ namespace Tool.Sockets.TrojanHelper
                     {
                         int count = await proxyNet.ReceiveAsync(sendBytes.Memory, Token);
                         if (count is 0) break;
-                        await _serverAsync.SendAsync(sendBytes[0..count]);
+                        if (TcpStateObject.IsConnected(sendBytes.Client))
+                        {
+                            await _serverAsync.SendAsync(sendBytes[0..count]);
+                        }
                     }
                 }
                 catch (OperationCanceledException)
@@ -334,6 +332,7 @@ namespace Tool.Sockets.TrojanHelper
                 finally
                 {
                     proxyNet?.Dispose();
+                    sendBytes.Client.Close(); //取消本地连接
                 }
             }, Token);
         }
@@ -417,9 +416,10 @@ namespace Tool.Sockets.TrojanHelper
         /// <summary>
         /// 关闭代理服务
         /// </summary>
-        public void Stop()
+        public ValueTask StopAsync()
         {
             _serverAsync.Stop();
+            return ValueTask.CompletedTask;
         }
 
         /// <summary>

@@ -210,10 +210,11 @@ namespace TcpTest
         {
             try
             {
-                //var builder = Host.CreateApplicationBuilder();
-                //builder.Logging.AddLogSave();
-                //builder.UseDiyServiceProvider();
-                //builder.Build();
+                var builder = Host.CreateApplicationBuilder();
+                builder.Logging.AddLogSave();
+                builder.Logging.AddConsole();
+                builder.UseDiyServiceProvider();
+                builder.Build();
 
                 List<Tool.Sockets.TrojanHelper.TrojanConnect> trojans = [];
                 for (int i = 53501; i < 53585; i++)
@@ -221,20 +222,20 @@ namespace TcpTest
                     trojans.Add(new Tool.Sockets.TrojanHelper.TrojanConnect("nbaqz0vlmeo0k3d-hk.fcnode.net", i, "aeb69c19-90cb-4785-ad08-964d93708f25"));
                 }
 
-                //Tool.Sockets.TrojanHelper.FlexibleAclService aclService = new();
-                //aclService.LoadDefaultLocalDomains(); //默认直连配置
-                //aclService.ImportLocalDomains(["nas.nixue.top"]);
+                Tool.Sockets.TrojanHelper.FlexibleAclService aclService = new();
+                aclService.LoadDefaultLocalDomains(); //默认直连配置
+                aclService.ImportLocalDomains(["nas.nixue.top"]);
 
-                //Tool.Sockets.TrojanHelper.TrojanHttpProxyFactory proxyFactory = new("127.0.0.1:7080", trojans[1..4]) { Logger = ObjectExtension.Provider.GetService<ILogger<Program>>() };
-                //proxyFactory.SetProxyOverride(async (dnsip, ipkey) =>
-                //{
-                //    return await aclService.ShouldUseLocal(dnsip, ipkey);
+                Tool.Sockets.TrojanHelper.TrojanHttpProxyFactory proxyFactory = new("127.0.0.1:7080", trojans[1..4]) { Logger = ObjectExtension.Provider.GetService<ILogger<Program>>() };
+                proxyFactory.SetProxyOverride(async (dnsip, ipkey) =>
+                {
+                    return await aclService.ShouldUseLocal(dnsip, ipkey);
 
-                //});
-                //await proxyFactory.StartAsync();
+                });
+                await proxyFactory.StartAsync();
 
-                //Console.ReadKey();
-                //return;
+                Console.ReadKey();
+                return;
 
                 //Tool.Sockets.TrojanHelper.TrojanUdpClient trojanUdp = new(trojans[0]);
                 //await trojanUdp.ConnectAsync(CancellationToken.None);
