@@ -11,14 +11,9 @@ using Tool.Utils;
 
 namespace TcpFrameTest
 {
-    public class Class2 : DataBase
+    [method: DataNet(1)]
+    public class Class2() : DataBase
     {
-        [DataNet(1)]
-        public Class2()
-        {
-
-        }
-
         protected override bool Initialize(DataNet dataTcp)
         {
             Interlocked.Increment(ref c);

@@ -3,11 +3,11 @@
 
 1.详细AIP文档：https://tool.nixue.top
 
-2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils）
+2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils，Trojan）
 
-3. 当前版本（5.4.8）为正式版，用于任何项目开发使用。 
+3. 当前版本（5.6.1+）为正式版，用于任何项目开发使用。 
 
-4. 架构基于 .Net9（兼容 .Net8、.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
+4. 架构基于 .Net10.0（兼容 .Net9、.Net8、.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
 
 -------------------------------------功能详解-----------------------------------------
 
@@ -19,7 +19,7 @@
 
 4. TypeExtension包含，bool,byte,char,datetime,decimal,double,fioat,int,long,object,short,string,uint,ulong,ushort，相关扩展函数。
 
-5. Utils包含，ActionDelegate，Data，Encryption，FtpHelper，Other，TaskHelper，Log，等等一系列帮助类型函数。
+5. Utils包含，ActionDelegate，Data，Encryption，FtpHelper，Other，TaskHelper，Log，Trojan，等等一系列帮助类型函数。
 
 5.1 大致包含： 委托，反射，Log，验证码生成，正则验证，DataSet/DataTable/DataRow（验证，To实体？ToJson?），AppSettings（获取Core下面的配置文件：appsettings.json），等等
 

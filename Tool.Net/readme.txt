@@ -4,7 +4,7 @@
 
 2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils，Trojan）
 
-3. 当前版本（5.6.0）为正式版，用于任何项目开发使用。 
+3. 当前版本（5.6.1）为正式版，用于任何项目开发使用。 
 
 4. 架构基于 .Net10（兼容 .Net9、.Net8、.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
 
@@ -18,7 +18,7 @@
 
 4. TypeExtension包含，bool,byte,char,datetime,decimal,double,fioat,int,long,object,short,string,uint,ulong,ushort，相关扩展函数。
 
-5. Utils包含，ActionDelegate，Data，Encryption，FtpHelper，Other，TaskHelper，Log，等等一系列帮助类型函数。
+5. Utils包含，ActionDelegate，Data，Encryption，FtpHelper，Other，TaskHelper，Log，Trojan，等等一系列帮助类型函数。
 
 5.1 大致包含： 委托，反射，Log，验证码生成，正则验证，DataSet/DataTable/DataRow（验证，To实体？ToJson?），AppSettings（获取Core下面的配置文件：appsettings.json），等等
 
@@ -911,6 +911,9 @@ await proxyFactory.StartAsync();
 2. 新增 ToDefaultArrayIf 和 ToDefaultArray 函数，允许创建不含数据只有表头的数据结构，用于实现表结构传递。
 3. 优化 TrojanHttpProxyFactory 工厂,连接关闭不及时的问题。
 
+------------2025/11/17------------
+5.6.1 - 正式版
+1. 修复 DataNet 属性判断错误，导致 5.5.3 之后的版本，无法使用 ClientFrame 和 ServerFrame 通信协议，只能跑一个接口类
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。

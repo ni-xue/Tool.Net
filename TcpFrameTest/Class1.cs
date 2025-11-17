@@ -11,14 +11,9 @@ using Tool.Utils;
 
 namespace TcpFrameTest
 {
-    public class Class1 : DataBase
+    [method: DataNet(0)]
+    public class Class1() : DataBase
     {
-        [DataNet(1)]
-        public Class1()
-        {
-
-        }
-
         protected override bool Initialize(DataNet dataTcp)
         {
             Interlocked.Increment(ref c);
@@ -67,6 +62,13 @@ namespace TcpFrameTest
 
         [DataNet(104)]
         public async Task<IGoOut> E(string a)
+        {
+            //await Task.Delay(1000);
+            return await WriteAsync(a);
+        }
+
+        [DataNet(105)]
+        public async Task<IGoOut> F(string a)
         {
             //await Task.Delay(1000);
             return await WriteAsync(a);
