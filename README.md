@@ -10,6 +10,8 @@ Tool 作为 UniversalFrame 的延续产品，将秉承开源原则，继续维�
 5. 使用API文档：http://tool.nixue.top
 6. 开源项目实例：https://github.com/ni-xue/UniversalFrame
 
+[![Powered by OrcaRouter](https://img.shields.io/badge/Powered_by-OrcaRouter-2563eb)](https://www.orcarouter.ai/ref/ref_9d2f851a0a3aa530b360)
+
 ### Nuget
 
 | 包名 | 描述 | Nuget |
@@ -42,7 +44,7 @@ Tool 作为 UniversalFrame 的延续产品，将秉承开源原则，继续维�
 # 执照
 ``` a
 
-Copyright 2018-2025 Gianluca Cacace
+Copyright 2018-2026 Gianluca Cacace
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
