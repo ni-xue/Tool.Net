@@ -1,4 +1,4 @@
-# Tool.Net [![](https://img.shields.io/badge/IDE-Visual%20Studio-blue?style=flat-square&logo=visual-studio-code&logoColor=ffffff)](https://visualstudio.com/) [![](https://img.shields.io/badge/IDE-Visual%20Studio%20Code-blue?style=flat-square&logo=visual-studio-code&logoColor=ffffff)](https://code.visualstudio.com/) [![](https://img.shields.io/badge/C%23-43853d?style=flat-square&logo=CSharp&logoColor=ffffff)](https://docs.microsoft.com/en-us/dotnet/csharp/)
+# Tool.Net [![](https://img.shields.io/badge/IDE-Visual%20Studio-blue?style=flat-square&logo=visual-studio-code&logoColor=ffffff)](https://visualstudio.com/) [![](https://img.shields.io/badge/IDE-Visual%20Studio%20Code-blue?style=flat-square&logo=visual-studio-code&logoColor=ffffff)](https://code.visualstudio.com/) [![](https://img.shields.io/badge/C%23-43853d?style=flat-square&logo=CSharp&logoColor=ffffff)](https://docs.microsoft.com/en-us/dotnet/csharp/) [![Powered by OrcaRouter](https://img.shields.io/badge/Powered_by-OrcaRouter-2563eb)](https://www.orcarouter.ai/ref/ref_9d2f851a0a3aa530b360)
 
 Tool 作为 UniversalFrame 的延续产品，将秉承开源原则，继续维护，主要包含：Sql，Socket，Web，Tools
 有任何问题建议提问，我将会在第一时间给出答复。
@@ -9,8 +9,6 @@ Tool 作为 UniversalFrame 的延续产品，将秉承开源原则，继续维�
 4. 相关开发文档：https://blog.csdn.net/qq_33484542
 5. 使用API文档：http://tool.nixue.top
 6. 开源项目实例：https://github.com/ni-xue/UniversalFrame
-
-[![Powered by OrcaRouter](https://img.shields.io/badge/Powered_by-OrcaRouter-2563eb)](https://www.orcarouter.ai/ref/ref_9d2f851a0a3aa530b360)
 
 ### Nuget
 
