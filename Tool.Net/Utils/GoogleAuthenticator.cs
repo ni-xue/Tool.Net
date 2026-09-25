@@ -165,8 +165,17 @@ namespace Tool.Utils
             return new string(str.Where(c => !char.IsWhiteSpace(c)).ToArray());
         }
 
+        /// <summary>
+        /// 关联加密算法实现
+        /// </summary>
         public static class Base32
         {
+            /// <summary>
+            /// 传入原始密码生成新密码流
+            /// </summary>
+            /// <param name="input">原始密码</param>
+            /// <returns>新密码流</returns>
+            /// <exception cref="ArgumentNullException">input 为 null</exception>
             public static byte[] ToBytes(string input)
             {
                 if (string.IsNullOrEmpty(input))
@@ -209,6 +218,12 @@ namespace Tool.Utils
                 return returnArray;
             }
 
+            /// <summary>
+            /// 传入原始密码生成新密码
+            /// </summary>
+            /// <param name="input">原始密码</param>
+            /// <returns>新密码</returns>
+            /// <exception cref="ArgumentNullException">input 为 null</exception>
             public static string ToString(byte[] input)
             {
                 if (input == null || input.Length == 0)

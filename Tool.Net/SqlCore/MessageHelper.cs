@@ -18,7 +18,8 @@ namespace Tool.SqlCore
         /// 根据存储过程返回一个<see cref="Message"/>对象
         /// </summary>
         /// <param name="prams">存储过程参数</param>
-        /// <returns>返回存储过程对象<see cref="Message"/></returns>
+        /// <param name="parameterPrefix"></param>
+        /// <returns>返回存储过程对象<see cref="Message"/>参数表示符号</returns>
         public static Message GetMessage(List<DbParameter> prams, string parameterPrefix)
         {
             return new Message(prams, parameterPrefix);//(TypeParse.StrToInt(prams[prams.Count - 1].Value, -1), prams[prams.Count - 2].Value.ToString());
