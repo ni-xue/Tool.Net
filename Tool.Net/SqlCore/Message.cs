@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Text;
 
 namespace Tool.SqlCore
 {
@@ -13,6 +12,21 @@ namespace Tool.SqlCore
     [Serializable]
     public class Message : IMessage
     {
+        /// <summary>
+        /// 参数表示符号 '@' 或 ':'
+        /// </summary>
+        public string ParameterPrefix
+        {
+            get
+            {
+                return this.m_parameterPrefix;
+            }
+            set
+            {
+                this.m_parameterPrefix = value;
+            }
+        }
+        
         /// <summary>
         /// 返回的状态ID
         /// </summary>
@@ -64,14 +78,14 @@ namespace Tool.SqlCore
         /// <summary>
         /// 根据参数名称获取参数值
         /// </summary>
-        /// <param name="Name">参数名称,模糊查询，尽量精确变量名称</param>
+        /// <param name="Name">参数名称，无需带上表示符号</param>
         /// <returns>返回参数值</returns>
         public object GetPramsName(string Name)
         {
             object obj = null;
             foreach (DbParameter _prams in Prams)
             {
-                if (_prams.ParameterName.Contains(Name))
+                if (_prams.ParameterName.Equals($"{ParameterPrefix}{Name}"))
                 {
                     obj = _prams.Value;
                     break;
@@ -85,6 +99,7 @@ namespace Tool.SqlCore
         /// </summary>
         public Message()
         {
+            this.ParameterPrefix = string.Empty;
             this.MessageID = 0;
             this.Success = true;
             this.Content = string.Empty;
@@ -126,8 +141,10 @@ namespace Tool.SqlCore
         /// 初始化参数
         /// </summary>
         /// <param name="prams">SQL数据对象</param>
-        public Message(List<DbParameter> prams) : this()
+        /// <param name="parameterPrefix">参数表示符号</param>
+        public Message(List<DbParameter> prams, string parameterPrefix) : this()
         {
+            this.m_parameterPrefix = parameterPrefix;
             this.m_prams = prams;
             this.MessageID = Utils.TypeParse.StrToInt(prams[^1].Value, -1);
             if (prams.Count > 1)
@@ -215,6 +232,8 @@ namespace Tool.SqlCore
             get;
             set;
         }
+
+        private string m_parameterPrefix;
 
         private int m_messageID;
 

@@ -19,9 +19,9 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="prams">存储过程参数</param>
         /// <returns>返回存储过程对象<see cref="Message"/></returns>
-        public static Message GetMessage(List<DbParameter> prams)
+        public static Message GetMessage(List<DbParameter> prams, string parameterPrefix)
         {
-            return new Message(prams);//(TypeParse.StrToInt(prams[prams.Count - 1].Value, -1), prams[prams.Count - 2].Value.ToString());
+            return new Message(prams, parameterPrefix);//(TypeParse.StrToInt(prams[prams.Count - 1].Value, -1), prams[prams.Count - 2].Value.ToString());
         }
 
         #region 同步存储过程执行函数
@@ -37,7 +37,7 @@ namespace Tool.SqlCore
         {
             prams ??= new List<DbParameter>();
             database.RunProc(procName, prams);
-            return MessageHelper.GetMessage(prams);
+            return MessageHelper.GetMessage(prams, database.Provider.ParameterPrefix);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Tool.SqlCore
         {
             List<DbParameter> commandParameters = database.SetParameterParams(prams, parameter);
             database.RunProc(procName, commandParameters);
-            return MessageHelper.GetMessage(commandParameters);
+            return MessageHelper.GetMessage(commandParameters, database.Provider.ParameterPrefix);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Tool.SqlCore
         {
             prams ??= new List<DbParameter>();
             database.RunProc(procName, prams, out DataSet entity);
-            Message message = MessageHelper.GetMessage(prams);
+            Message message = MessageHelper.GetMessage(prams, database.Provider.ParameterPrefix);
             if (message.MessageID == 0)
             {
                 message.AddEntity(entity);
@@ -86,7 +86,7 @@ namespace Tool.SqlCore
         {
             List<DbParameter> commandParameters = database.SetParameterParams(prams, parameter);
             database.RunProc(procName, commandParameters, out DataSet entity);
-            Message message = MessageHelper.GetMessage(commandParameters);
+            Message message = MessageHelper.GetMessage(commandParameters, database.Provider.ParameterPrefix);
             if (message.MessageID == 0)
             {
                 message.AddEntity(entity);
@@ -106,7 +106,7 @@ namespace Tool.SqlCore
         {
             prams ??= new List<DbParameter>();
             database.RunProc(procName, prams, out DataSet dataSet);
-            Message message = MessageHelper.GetMessage(prams);
+            Message message = MessageHelper.GetMessage(prams, database.Provider.ParameterPrefix );
             if (message.MessageID == 0)
             {
                 message.AddEntity(DataHelper.ConvertRowToObject<T>(dataSet.Tables[0].Rows[0]));
@@ -127,7 +127,7 @@ namespace Tool.SqlCore
         {
             List<DbParameter> commandParameters = database.SetParameterParams(prams, parameter);
             database.RunProc(procName, commandParameters, out DataSet dataSet);
-            Message message = MessageHelper.GetMessage(commandParameters);
+            Message message = MessageHelper.GetMessage(commandParameters, database.Provider.ParameterPrefix);
             if (message.MessageID == 0)
             {
                 message.AddEntity(DataHelper.ConvertRowToObject<T>(dataSet.Tables[0].Rows[0]));
@@ -147,7 +147,7 @@ namespace Tool.SqlCore
         {
             prams ??= new List<DbParameter>();
             database.RunProc(procName, prams, out DataSet dataSet);
-            Message message = MessageHelper.GetMessage(prams);
+            Message message = MessageHelper.GetMessage(prams, database.Provider.ParameterPrefix);
             if (message.MessageID == 0)
             {
                 message.AddEntity(DataHelper.ConvertDataTableToObjects<T>(dataSet.Tables[0]));
@@ -168,7 +168,7 @@ namespace Tool.SqlCore
         {
             List<DbParameter> commandParameters = database.SetParameterParams(prams, parameter);
             database.RunProc(procName, commandParameters, out DataSet dataSet);
-            Message message = MessageHelper.GetMessage(commandParameters);
+            Message message = MessageHelper.GetMessage(commandParameters, database.Provider.ParameterPrefix);
             if (message.MessageID == 0)
             {
                 message.AddEntity(DataHelper.ConvertDataTableToObjects<T>(dataSet.Tables[0]));
@@ -279,7 +279,7 @@ namespace Tool.SqlCore
         {
             prams ??= new List<DbParameter>();
             await database.RunProcAsync(procName, prams);
-            return MessageHelper.GetMessage(prams);
+            return MessageHelper.GetMessage(prams, database.Provider.ParameterPrefix);
         }
 
         /// <summary>
@@ -294,7 +294,7 @@ namespace Tool.SqlCore
         {
             List<DbParameter> commandParameters = database.SetParameterParams(prams, parameter);
             await database.RunProcAsync(procName, commandParameters);
-            return MessageHelper.GetMessage(commandParameters);
+            return MessageHelper.GetMessage(commandParameters, database.Provider.ParameterPrefix);
         }
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace Tool.SqlCore
         {
             prams ??= new List<DbParameter>();
             DataSet entity = await database.RunProcDataSetAsync(procName, prams);
-            Message message = MessageHelper.GetMessage(prams);
+            Message message = MessageHelper.GetMessage(prams, database.Provider.ParameterPrefix);
             if (message.MessageID == 0)
             {
                 message.AddEntity(entity);
@@ -328,7 +328,7 @@ namespace Tool.SqlCore
         {
             List<DbParameter> commandParameters = database.SetParameterParams(prams, parameter);
             DataSet entity = await database.RunProcDataSetAsync(procName, commandParameters);
-            Message message = MessageHelper.GetMessage(commandParameters);
+            Message message = MessageHelper.GetMessage(commandParameters, database.Provider.ParameterPrefix);
             if (message.MessageID == 0)
             {
                 message.AddEntity(entity);
@@ -348,7 +348,7 @@ namespace Tool.SqlCore
         {
             prams ??= new List<DbParameter>();
             DataSet dataSet = await database.RunProcDataSetAsync(procName, prams);
-            Message message = MessageHelper.GetMessage(prams);
+            Message message = MessageHelper.GetMessage(prams, database.Provider.ParameterPrefix);
             if (message.MessageID == 0)
             {
                 message.AddEntity(DataHelper.ConvertRowToObject<T>(dataSet.Tables[0].Rows[0]));
@@ -369,7 +369,7 @@ namespace Tool.SqlCore
         {
             List<DbParameter> commandParameters = database.SetParameterParams(prams, parameter);
             DataSet dataSet = await database.RunProcDataSetAsync(procName, commandParameters);
-            Message message = MessageHelper.GetMessage(commandParameters);
+            Message message = MessageHelper.GetMessage(commandParameters, database.Provider.ParameterPrefix);
             if (message.MessageID == 0)
             {
                 message.AddEntity(DataHelper.ConvertRowToObject<T>(dataSet.Tables[0].Rows[0]));
@@ -389,7 +389,7 @@ namespace Tool.SqlCore
         {
             prams ??= new List<DbParameter>();
             DataSet dataSet = await database.RunProcDataSetAsync(procName, prams);
-            Message message = MessageHelper.GetMessage(prams);
+            Message message = MessageHelper.GetMessage(prams, database.Provider.ParameterPrefix);
             if (message.MessageID == 0)
             {
                 message.AddEntity(DataHelper.ConvertDataTableToObjects<T>(dataSet.Tables[0]));
@@ -410,7 +410,7 @@ namespace Tool.SqlCore
         {
             List<DbParameter> commandParameters = database.SetParameterParams(prams, parameter);
             DataSet dataSet = await database.RunProcDataSetAsync(procName, commandParameters);
-            Message message = MessageHelper.GetMessage(commandParameters);
+            Message message = MessageHelper.GetMessage(commandParameters, database.Provider.ParameterPrefix);
             if (message.MessageID == 0)
             {
                 message.AddEntity(DataHelper.ConvertDataTableToObjects<T>(dataSet.Tables[0]));

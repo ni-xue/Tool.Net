@@ -189,6 +189,10 @@ namespace Tool.SqlCore
         /// OleDb 数据库(例如：xls格式的文件)
         /// </summary>
         OleDb,
+        /// <summary>
+        /// PostgreSql 数据库
+        /// </summary>
+        PostgreSql,
         ///// <summary>
         ///// ODBC 数据库
         ///// </summary>
@@ -197,10 +201,6 @@ namespace Tool.SqlCore
         ///// Firebird 数据库
         ///// </summary>
         //Firebird,
-        ///// <summary>
-        ///// PostgreSql 数据库
-        ///// </summary>
-        //PostgreSql,
         ///// <summary>
         ///// DB2 数据库
         ///// </summary>

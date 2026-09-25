@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Reflection;
 using System.Text;
-using Tool.Utils.ActionDelegate;
 
 namespace Tool.SqlCore
 {
@@ -25,10 +24,10 @@ namespace Tool.SqlCore
             providerInvariantNames.Add(DbProviderType.Oracle, "Oracle.ManagedDataAccess.Client.OracleClientFactory, Oracle.ManagedDataAccess");//"Oracle.DataAccess.Client"
             providerInvariantNames.Add(DbProviderType.SQLite, "System.Data.SQLite.SQLiteFactory, System.Data.SQLite");
             providerInvariantNames.Add(DbProviderType.OleDb, "System.Data.OleDb.OleDbFactory, System.Data.OleDb");
+            providerInvariantNames.Add(DbProviderType.PostgreSql, "Npgsql.NpgsqlFactory, Npgsql");
 
             //providerInvariantNames.Add(DbProviderType.ODBC, "System.Data.ODBC");
             //providerInvariantNames.Add(DbProviderType.Firebird, "FirebirdSql.Data.Firebird");
-            //providerInvariantNames.Add(DbProviderType.PostgreSql, "Npgsql");
             //providerInvariantNames.Add(DbProviderType.DB2, "IBM.Data.DB2.iSeries");
             //providerInvariantNames.Add(DbProviderType.Informix, "IBM.Data.Informix");
             //providerInvariantNames.Add(DbProviderType.SqlServerCe, "System.Data.SqlServerCe");

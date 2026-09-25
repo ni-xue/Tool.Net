@@ -915,6 +915,15 @@ await proxyFactory.StartAsync();
 5.6.1 - 正式版
 1. 修复 DataNet 属性判断错误，导致 5.5.3 之后的版本，无法使用 ClientFrame 和 ServerFrame 通信协议，只能跑一个接口类
 
+------------2026-09-26------------
+5.6.2 - 正式版
+1. 新增 GoogleAuthenticator 用于谷歌动态密码生成和获取，有关使用方式，详情看类注释
+2. GetOneAsync Or GetOne 查询函数，在之前的版本中如果不指定列名，会查询全部行的问题已修复
+3. ToDictionary 获取任意对象公开字段，返回字典，原内部实现是反射，现已将内部统一为GetDictionary，高效的缓存命中委托
+4. ToDefaultArray 原本将 DataTable 转换成Array特有数据时，返回类型是object现纠正为ArrayList
+5. DbProviderType 新增 PostgreSQL 枚举和相关内部注册服务实现
+6. Message.GetPramsName 函数优化，从包含字段名，改为精准获取字段的值
+
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。
 1. Microsoft.AspNetCore.Diagnostics

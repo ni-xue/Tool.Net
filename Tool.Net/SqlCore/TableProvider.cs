@@ -526,7 +526,8 @@ namespace Tool.SqlCore
         /// <returns>返回第一条数据</returns>
         public DataRow GetOne(string where)
         {
-            DataTable dataTable = this.Get(where);
+            SqlField top1Field = ("top 1", ' ');
+            DataTable dataTable = this.Get(where, top1Field);
             if (!dataTable.IsEmpty())
             {
                 return dataTable.Rows[0];
@@ -542,7 +543,8 @@ namespace Tool.SqlCore
         /// <returns>返回第一条数据</returns>
         public DataRow GetOne(string where, object prams)
         {
-            DataTable dataTable = this.Get(where, prams);
+            SqlField top1Field = ("top 1", ' ');
+            DataTable dataTable = this.Get(where, prams, top1Field);
             if (!dataTable.IsEmpty())
             {
                 return dataTable.Rows[0];
@@ -1040,7 +1042,8 @@ namespace Tool.SqlCore
         /// <returns>返回第一条数据</returns>
         public async Task<DataRow> GetOneAsync(string where)
         {
-            DataTable dataTable = await this.GetAsync(where);
+            SqlField top1Field = ("top 1", ' ');
+            DataTable dataTable = await this.GetAsync(where, top1Field);
             if (!dataTable.IsEmpty())
             {
                 return dataTable.Rows[0];
@@ -1056,7 +1059,8 @@ namespace Tool.SqlCore
         /// <returns>返回第一条数据</returns>
         public async Task<DataRow> GetOneAsync(string where, object prams)
         {
-            DataTable dataTable = await this.GetAsync(where, prams);
+            SqlField top1Field = ("top 1", ' ');
+            DataTable dataTable = await this.GetAsync(where, prams, top1Field);
             if (!dataTable.IsEmpty())
             {
                 return dataTable.Rows[0];
