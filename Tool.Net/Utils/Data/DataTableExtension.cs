@@ -210,7 +210,7 @@ namespace Tool.Utils.Data
         /// </summary>
         /// <param name="table"></param>
         /// <returns>返回<see cref="System.Collections.ArrayList"/></returns>
-        public static object ToDefaultArray(this DataTable table) => table.ToDefaultArrayIf(null);
+        public static System.Collections.ArrayList ToDefaultArray(this DataTable table) => table.ToDefaultArrayIf(null);
 
         /// <summary>
         /// （DataTable）转换 <see cref="System.Collections.ArrayList"/> 集合（结果可自定义）可带空行的表头
@@ -218,7 +218,7 @@ namespace Tool.Utils.Data
         /// <param name="table"></param>
         /// <param name="func">用于指定特殊结果的函数</param>
         /// <returns>返回<see cref="System.Collections.ArrayList"/></returns>
-        public static object ToDefaultArrayIf(this DataTable table, Func<string, object, object> func)
+        public static System.Collections.ArrayList ToDefaultArrayIf(this DataTable table, Func<string, object, object> func)
         {
             var list = table.ToArrayIf(func);
             if (list is null && table is not null && table.Columns.Count > 0)

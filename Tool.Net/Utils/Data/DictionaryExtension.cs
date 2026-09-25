@@ -67,24 +67,17 @@ namespace Tool.Utils.Data
             if (source == null)
                 throw new ArgumentNullException(nameof(source), "无法将对象转换为字典。源对象为NULL");
 
+            var keys = GetDictionary(source);
+            if (typeof(T) == typeof(object)) return keys as Dictionary<string, T>;
             var dictionary = new Dictionary<string, T>();
-            var entityBuilder = EntityBuilder.GetEntity(source);
-            foreach (PropertyInfo property in entityBuilder.Parameters) //PropertyDescriptor property is TypeDescriptor.GetProperties(source)
-                AddPropertyToDictionary(property, source, dictionary);
-            return dictionary;
-        }
-
-        private static void AddPropertyToDictionary<T>(PropertyInfo property, object source, Dictionary<string, T> dictionary) //PropertyDescriptor property
-        {
-            object value = property.GetValue(source);
-            if (IsOfType(value, out T data))
+            foreach (var valuePair in keys) 
             {
-                dictionary.Add(property.Name, data);
+                if (IsOfType(valuePair.Value, out T data))
+                {
+                    dictionary.Add(valuePair.Key, data);
+                }
             }
-            //else if (typeof(T) == typeof(object) && value == null)
-            //{
-            //    dictionary.Add(property.Name, default);
-            //}
+            return dictionary;
         }
 
         private static bool IsOfType<T>(object value, out T data)
