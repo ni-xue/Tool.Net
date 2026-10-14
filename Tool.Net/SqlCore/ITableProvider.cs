@@ -75,13 +75,6 @@ namespace Tool.SqlCore
         /// <summary>
         /// 修改数据
         /// </summary>
-        /// <param name="keyValues">修改的键值对集合</param>
-        /// <param name="where">指定的修改的条件</param>
-        int Update(Dictionary<string, object> keyValues, string where);
-
-        /// <summary>
-        /// 修改数据
-        /// </summary>
         /// <param name="prams">对虚构参数进行映射</param>
         /// <param name="where">指定的修改的条件</param>
         int Update(object prams, string where);
@@ -93,6 +86,21 @@ namespace Tool.SqlCore
         /// <param name="where">指定的修改的条件</param>
         /// <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
         int Update(object prams, string where, object parameter);
+
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="keyValues">修改的键值对集合</param>
+        /// <param name="where">指定的修改的条件</param>
+        int Update(IDictionary<string, object> keyValues, string where);
+
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="keyValues">修改的键值对集合</param>
+        /// <param name="where">指定的修改的条件</param>
+        /// <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
+        int Update(IDictionary<string, object> keyValues, string where, object parameter);
 
         /// <summary>
         /// 查询该表信息
@@ -253,7 +261,7 @@ namespace Tool.SqlCore
         /// 插入新的数据
         /// </summary>
         /// <param name="keyValues">键值对的数据集</param>
-        int Insert(Dictionary<string, object> keyValues);
+        int Insert(IDictionary<string, object> keyValues);
 
         /// <summary>
         /// 插入新的数据
@@ -266,7 +274,7 @@ namespace Tool.SqlCore
         /// </summary>
         /// <param name="keyValues">键值对的数据集</param>
         /// <param name="ID">获取插入数据的ID</param>
-        int Insert(Dictionary<string, object> keyValues, out object ID);
+        int Insert(IDictionary<string, object> keyValues, out object ID);
 
         /// <summary>
         /// 插入新的数据
@@ -286,7 +294,7 @@ namespace Tool.SqlCore
         /// 插入新的数据
         /// </summary>
         /// <param name="keyValues">键值对的数据集</param>
-        Task<int> InsertAsync(Dictionary<string, object> keyValues);
+        Task<int> InsertAsync(IDictionary<string, object> keyValues);
 
         /// <summary>
         /// 插入新的数据
@@ -298,7 +306,7 @@ namespace Tool.SqlCore
         /// 插入新的数据
         /// </summary>
         /// <param name="keyValues">键值对的数据集</param>
-        Task<SqlNonQuery> InsertIdAsync(Dictionary<string, object> keyValues);
+        Task<SqlNonQuery> InsertIdAsync(IDictionary<string, object> keyValues);
 
         /// <summary>
         /// 插入新的数据
@@ -322,13 +330,6 @@ namespace Tool.SqlCore
         /// <summary>
         /// 修改数据
         /// </summary>
-        /// <param name="keyValues">修改的键值对集合</param>
-        /// <param name="where">指定的修改的条件</param>
-        Task<int> UpdateAsync(Dictionary<string, object> keyValues, string where);
-
-        /// <summary>
-        /// 修改数据
-        /// </summary>
         /// <param name="prams">对虚构参数进行映射</param>
         /// <param name="where">指定的修改的条件</param>
         Task<int> UpdateAsync(object prams, string where);
@@ -340,6 +341,21 @@ namespace Tool.SqlCore
         /// <param name="where">指定的修改的条件</param>
         /// <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
         Task<int> UpdateAsync(object prams, string where, object parameter);
+
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="keyValues">修改的键值对集合</param>
+        /// <param name="where">指定的修改的条件</param>
+        Task<int> UpdateAsync(IDictionary<string, object> keyValues, string where);
+
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="keyValues">修改的键值对集合</param>
+        /// <param name="where">指定的修改的条件</param>
+        /// <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
+        Task<int> UpdateAsync(IDictionary<string, object> keyValues, string where, object parameter);
 
         /// <summary>
         /// 查询该表信息

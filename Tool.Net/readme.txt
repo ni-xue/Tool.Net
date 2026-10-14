@@ -4,7 +4,7 @@
 
 2.框架包含功能（Web，Sql，Sockets，TypeExtension，Utils，Trojan）
 
-3. 当前版本（5.6.2）为正式版，用于任何项目开发使用。 
+3. 当前版本（5.6.3）为正式版，用于任何项目开发使用。 
 
 4. 架构基于 .Net10（兼容 .Net9、.Net8、.Net7、.Net6、.Net5） 采用最新技术，具有最新的技术支持。
 
@@ -923,6 +923,10 @@ await proxyFactory.StartAsync();
 4. ToDefaultArray 原本将 DataTable 转换成Array特有数据时，返回类型是object现纠正为ArrayList
 5. DbProviderType 新增 PostgreSQL 枚举和相关内部注册服务实现
 6. Message.GetPramsName 函数优化，从包含字段名，改为精准获取字段的值
+
+------------2026-10-15------------
+5.6.3 - 正式版
+1. GetOneAsync Or GetOne 修复不带参数版的异常报错问题，因引用错误导致。
 
 -------------------------------------移除SDK-----------------------------------------
 本次移除全部 Web SDK 模块，不会影响框架性能，反之可能因此提高性能。

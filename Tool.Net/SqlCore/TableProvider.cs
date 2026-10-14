@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -125,58 +123,12 @@ namespace Tool.SqlCore
         /// <summary>
         /// 插入新的数据 
         /// </summary>
-        /// <param name="keyValues">键值对的数据集</param>
-        /// <returns>返回受影响数</returns>
-        public int Insert(Dictionary<string, object> keyValues)
-        {
-            if (keyValues == null || keyValues.Count == 0)
-            {
-                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
-            }
-
-            List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
-
-            string commandText = GetInsertSql(key, value);
-            return Database.ExecuteNonQuery(CommandType.Text, commandText, parms.ToArray());
-        }
-
-        /// <summary>
-        /// 插入新的数据
-        /// </summary>
-        /// <param name="keyValues">键值对的数据集</param>
-        /// <param name="ID">获取插入数据的ID</param>
-        /// <returns>返回受影响数</returns>
-        public int Insert(Dictionary<string, object> keyValues, out object ID)
-        {
-            if (keyValues == null || keyValues.Count == 0)
-            {
-                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
-            }
-
-            List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
-
-            string commandText = GetInsertSql(key, value);
-            return Database.ExecuteNonQuery(out ID, CommandType.Text, commandText, parms.ToArray());
-        }
-
-        /// <summary>
-        /// 插入新的数据 
-        /// </summary>
         /// <param name="prams">对虚构参数进行映射</param>
         /// <returns>返回受影响数</returns>
         public int Insert(object prams)
         {
             IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
-
-            if (keyValues == null || keyValues.Count == 0)
-            {
-                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
-            }
-
-            List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
-
-            string commandText = GetInsertSql(key, value);
-            return Database.ExecuteNonQuery(CommandType.Text, commandText, parms.ToArray());
+            return this.Insert(keyValues);
         }
 
         /// <summary>
@@ -188,7 +140,35 @@ namespace Tool.SqlCore
         public int Insert(object prams, out object ID)
         {
             IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+            return this.Insert(keyValues, out ID);
+        }
 
+        /// <summary>
+        /// 插入新的数据 
+        /// </summary>
+        /// <param name="keyValues">键值对的数据集</param>
+        /// <returns>返回受影响数</returns>
+        public int Insert(IDictionary<string, object> keyValues)
+        {
+            if (keyValues == null || keyValues.Count == 0)
+            {
+                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
+            }
+
+            List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
+
+            string commandText = GetInsertSql(key, value);
+            return Database.ExecuteNonQuery(CommandType.Text, commandText, parms.ToArray());
+        }
+
+        /// <summary>
+        /// 插入新的数据
+        /// </summary>
+        /// <param name="keyValues">键值对的数据集</param>
+        /// <param name="ID">获取插入数据的ID</param>
+        /// <returns>返回受影响数</returns>
+        public int Insert(IDictionary<string, object> keyValues, out object ID)
+        {
             if (keyValues == null || keyValues.Count == 0)
             {
                 throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
@@ -231,7 +211,28 @@ namespace Tool.SqlCore
         public int Update(object prams, string where)
         {
             IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+            return this.Update(keyValues, where);
+        }
 
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="prams">对虚构参数进行映射</param>
+        /// <param name="where">指定的修改的条件</param>
+        /// <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
+        public int Update(object prams, string where, object parameter)
+        {
+            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+            return this.Update(keyValues, where, parameter);
+        }
+
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="keyValues">修改的键值对集合</param>
+        /// <param name="where">指定的修改的条件</param>
+        public int Update(IDictionary<string, object> keyValues, string where)
+        {
             if (keyValues == null || keyValues.Count == 0)
             {
                 throw NullException;
@@ -243,17 +244,14 @@ namespace Tool.SqlCore
             return Database.ExecuteNonQuery(CommandType.Text, commandText, parms.ToArray());
         }
 
-
         /// <summary>
         /// 修改数据
         /// </summary>
-        /// <param name="prams">对虚构参数进行映射</param>
+        /// <param name="keyValues">修改的键值对集合</param>
         /// <param name="where">指定的修改的条件</param>
         /// <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
-        public int Update(object prams, string where, object parameter)
+        public int Update(IDictionary<string, object> keyValues, string where, object parameter)
         {
-            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
-
             if (keyValues == null || keyValues.Count == 0)
             {
                 throw NullException;
@@ -266,24 +264,6 @@ namespace Tool.SqlCore
             {
                 parms.AddRange(dbParameters);
             }
-
-            string commandText = GetUpdateSql(strsql, where);
-            return Database.ExecuteNonQuery(CommandType.Text, commandText, parms.ToArray());
-        }
-
-        /// <summary>
-        /// 修改数据
-        /// </summary>
-        /// <param name="keyValues">修改的键值对集合</param>
-        /// <param name="where">指定的修改的条件</param>
-        public int Update(Dictionary<string, object> keyValues, string where)
-        {
-            if (keyValues == null || keyValues.Count == 0)
-            {
-                throw NullException;
-            }
-
-            List<DbParameter> parms = Database.GetUpdateParams(keyValues, out string strsql);
 
             string commandText = GetUpdateSql(strsql, where);
             return Database.ExecuteNonQuery(CommandType.Text, commandText, parms.ToArray());
@@ -527,7 +507,7 @@ namespace Tool.SqlCore
         public DataRow GetOne(string where)
         {
             SqlField top1Field = ("top 1", ' ');
-            DataTable dataTable = this.Get(where, top1Field);
+            DataTable dataTable = this.Get(where, top1Field, ("*", ' '));
             if (!dataTable.IsEmpty())
             {
                 return dataTable.Rows[0];
@@ -544,7 +524,7 @@ namespace Tool.SqlCore
         public DataRow GetOne(string where, object prams)
         {
             SqlField top1Field = ("top 1", ' ');
-            DataTable dataTable = this.Get(where, prams, top1Field);
+            DataTable dataTable = this.Get(where, prams, top1Field, ("*", ' '));
             if (!dataTable.IsEmpty())
             {
                 return dataTable.Rows[0];
@@ -644,37 +624,12 @@ namespace Tool.SqlCore
         /// <summary>
         /// 插入新的数据 
         /// </summary>
-        /// <param name="keyValues">键值对的数据集</param>
+        /// <param name="prams">对虚构参数进行映射</param>
         /// <returns>返回受影响数</returns>
-        public Task<int> InsertAsync(Dictionary<string, object> keyValues)
+        public Task<int> InsertAsync(object prams)
         {
-            if (keyValues == null || keyValues.Count == 0)
-            {
-                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", nameof(keyValues));
-            }
-
-            List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
-
-            string commandText = GetInsertSql(key, value);
-            return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
-        }
-
-        /// <summary>
-        /// 插入新的数据
-        /// </summary>
-        /// <param name="keyValues">键值对的数据集</param>
-        /// <returns>返回受影响数</returns>
-        public Task<SqlNonQuery> InsertIdAsync(Dictionary<string, object> keyValues)
-        {
-            if (keyValues == null || keyValues.Count == 0)
-            {
-                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", nameof(keyValues));
-            }
-
-            List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
-
-            string commandText = GetInsertSql(key, value);
-            return Database.ExecuteNonQueryIdAsync(CommandType.Text, commandText, parms.ToArray());
+            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+            return this.InsertAsync(keyValues);
         }
 
         /// <summary>
@@ -685,36 +640,43 @@ namespace Tool.SqlCore
         public Task<SqlNonQuery> InsertIdAsync(object prams)
         {
             IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
-
-            if (keyValues == null || keyValues.Count == 0)
-            {
-                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
-            }
-
-            List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
-
-            string commandText = GetInsertSql(key, value);
-            return Database.ExecuteNonQueryIdAsync(CommandType.Text, commandText, parms.ToArray());
+            return this.InsertIdAsync(keyValues);
         }
 
         /// <summary>
         /// 插入新的数据 
         /// </summary>
-        /// <param name="prams">对虚构参数进行映射</param>
+        /// <param name="keyValues">键值对的数据集</param>
         /// <returns>返回受影响数</returns>
-        public Task<int> InsertAsync(object prams)
+        public Task<int> InsertAsync(IDictionary<string, object> keyValues)
         {
-            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
-
             if (keyValues == null || keyValues.Count == 0)
             {
-                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", "错误提示：");
+                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", nameof(keyValues));
             }
 
             List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
 
             string commandText = GetInsertSql(key, value);
             return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
+        }
+
+        /// <summary>
+        /// 插入新的数据
+        /// </summary>
+        /// <param name="keyValues">键值对的数据集</param>
+        /// <returns>返回受影响数</returns>
+        public Task<SqlNonQuery> InsertIdAsync(IDictionary<string, object> keyValues)
+        {
+            if (keyValues == null || keyValues.Count == 0)
+            {
+                throw new ArgumentException("在准备新增一行数据的时候发生异常，键值对集合为空！", nameof(keyValues));
+            }
+
+            List<DbParameter> parms = Database.GetInsertParams(keyValues, out string key, out string value);
+
+            string commandText = GetInsertSql(key, value);
+            return Database.ExecuteNonQueryIdAsync(CommandType.Text, commandText, parms.ToArray());
         }
 
         /// <summary>
@@ -748,7 +710,28 @@ namespace Tool.SqlCore
         public Task<int> UpdateAsync(object prams, string where)
         {
             IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+            return this.UpdateAsync(keyValues, where);
+        }
 
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="prams">对虚构参数进行映射</param>
+        /// <param name="where">指定的修改的条件</param>
+        /// <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
+        public Task<int> UpdateAsync(object prams, string where, object parameter)
+        {
+            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
+            return this.UpdateAsync(keyValues, where, parameter);
+        }
+
+        /// <summary>
+        /// 修改数据
+        /// </summary>
+        /// <param name="keyValues">修改的键值对集合</param>
+        /// <param name="where">指定的修改的条件</param>
+        public Task<int> UpdateAsync(IDictionary<string, object> keyValues, string where)
+        {
             if (keyValues == null || keyValues.Count == 0)
             {
                 throw NullException;
@@ -763,13 +746,11 @@ namespace Tool.SqlCore
         /// <summary>
         /// 修改数据
         /// </summary>
-        /// <param name="prams">对虚构参数进行映射</param>
+        /// <param name="keyValues">修改的键值对集合</param>
         /// <param name="where">指定的修改的条件</param>
         /// <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
-        public Task<int> UpdateAsync(object prams, string where, object parameter)
+        public Task<int> UpdateAsync(IDictionary<string, object> keyValues, string where, object parameter)
         {
-            IDictionary<string, object> keyValues = Database.SetDictionaryParam(prams);
-
             if (keyValues == null || keyValues.Count == 0)
             {
                 throw NullException;
@@ -782,24 +763,6 @@ namespace Tool.SqlCore
             {
                 parms.AddRange(dbParameters);
             }
-
-            string commandText = GetUpdateSql(strsql, where);
-            return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
-        }
-
-        /// <summary>
-        /// 修改数据
-        /// </summary>
-        /// <param name="keyValues">修改的键值对集合</param>
-        /// <param name="where">指定的修改的条件</param>
-        public Task<int> UpdateAsync(Dictionary<string, object> keyValues, string where)
-        {
-            if (keyValues == null || keyValues.Count == 0)
-            {
-                throw NullException;
-            }
-
-            List<DbParameter> parms = Database.GetUpdateParams(keyValues, out string strsql);
 
             string commandText = GetUpdateSql(strsql, where);
             return Database.ExecuteNonQueryAsync(CommandType.Text, commandText, parms.ToArray());
@@ -1043,7 +1006,7 @@ namespace Tool.SqlCore
         public async Task<DataRow> GetOneAsync(string where)
         {
             SqlField top1Field = ("top 1", ' ');
-            DataTable dataTable = await this.GetAsync(where, top1Field);
+            DataTable dataTable = await this.GetAsync(where, top1Field, ("*", ' '));
             if (!dataTable.IsEmpty())
             {
                 return dataTable.Rows[0];
@@ -1060,7 +1023,7 @@ namespace Tool.SqlCore
         public async Task<DataRow> GetOneAsync(string where, object prams)
         {
             SqlField top1Field = ("top 1", ' ');
-            DataTable dataTable = await this.GetAsync(where, prams, top1Field);
+            DataTable dataTable = await this.GetAsync(where, prams, top1Field, ("*", ' '));
             if (!dataTable.IsEmpty())
             {
                 return dataTable.Rows[0];
@@ -1102,7 +1065,6 @@ namespace Tool.SqlCore
             {
                 return dataTable.Rows[0];
             }
-
             return null;
         }
 

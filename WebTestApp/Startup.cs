@@ -323,10 +323,13 @@ namespace WebTestApp
             dbHelper.CommandTimeout = 1800;
             dbHelper.SetLogger(loggerFactory.CreateLogger("sql"));
 
-            var batch = dbHelper.CreateBatch();
-            var batchdic = batch.GetDictionary();
+            TableProvider provider = new(dbHelper, "Abc");
+            var ss = provider.GetOne("");
 
-            var s = batch.GetValue("Commands");
+            //var batch = dbHelper.CreateBatch();
+            //var batchdic = batch.GetDictionary();
+
+            //var s = batch.GetValue("Commands");
 
             //var table = new TableProvider(dbHelper, "table");
 
