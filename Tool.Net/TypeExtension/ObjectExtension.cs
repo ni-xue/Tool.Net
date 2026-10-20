@@ -1016,55 +1016,64 @@ namespace Tool
         }
         #endregion
 
-        #region TaskFactory 异步模型封装
+        #region Run 异步模型封装
 
         /// <summary>
-        /// 原 StartNew 方法的封装·支持对异步模型的线程创建
+        /// 原 Run 方法的封装·支持对异步模型的线程创建
         /// </summary>
         /// <returns></returns>
-        public static Task RunTask(this Func<Task> task, TaskCreationOptions creationOptions = TaskCreationOptions.None, CancellationToken token = default)
+        public static Task RunTask(this Func<Task> task, CancellationToken token = default)
         {
-            return Task.Factory.StartNew(gettask, token, creationOptions, TaskScheduler.Default);
-            void gettask() => task().Wait(token);
+            return Task.Run(async () =>
+            {
+                token.ThrowIfCancellationRequested();
+                await task().ConfigureAwait(false);
+            }, token);
         }
 
         /// <summary>
-        /// 原 StartNew 方法的封装·支持对异步模型的线程创建
+        /// 原 Run 方法的封装·支持对异步模型的线程创建
         /// </summary>
         /// <returns></returns>
-        public static ValueTask RunTask(this Func<ValueTask> task, TaskCreationOptions creationOptions = TaskCreationOptions.None, CancellationToken token = default)
+        public static ValueTask RunTask(this Func<ValueTask> task, CancellationToken token = default)
         {
-            return new ValueTask(Task.Factory.StartNew(gettask, token, creationOptions, TaskScheduler.Default));
-            void gettask() => task().Preserve();
+            return new ValueTask(Task.Run(async () =>
+            {
+                token.ThrowIfCancellationRequested();
+                await task().ConfigureAwait(false);
+            }, token));
         }
 
         #endregion
 
-        #region TaskFactory<T> 异步模型封装
+        #region Run<T> 异步模型封装
 
         /// <summary>
-        /// 原 StartNew 方法的封装·支持对异步模型的线程创建
+        /// 原 Run 方法的封装·支持对异步模型的线程创建
         /// </summary>
         /// <returns>返回结果</returns>
-        public static Task<T> RunTask<T>(this Func<Task<T>> task, TaskCreationOptions creationOptions = TaskCreationOptions.None, CancellationToken token = default)
+        public static Task<T> RunTask<T>(this Func<Task<T>> task, CancellationToken token = default)
         {
-            return Task.Factory.StartNew(gettask, token, creationOptions, TaskScheduler.Default);
-            T gettask()
+            return Task.Run(async () =>
             {
+                token.ThrowIfCancellationRequested();
                 var _t = task();
-                _t.Wait(token);
-                return _t.Result;
-            }
+                return await _t.ConfigureAwait(false);
+            }, token);
         }
 
         /// <summary>
         /// 原 StartNew 方法的封装·支持对异步模型的线程创建
         /// </summary>
         /// <returns>返回结果</returns>
-        public static ValueTask<T> RunTask<T>(this Func<ValueTask<T>> task, TaskCreationOptions creationOptions = TaskCreationOptions.None, CancellationToken token = default)
+        public static ValueTask<T> RunTask<T>(this Func<ValueTask<T>> task, CancellationToken token = default)
         {
-            return new ValueTask<T>(Task.Factory.StartNew(gettask, token, creationOptions, TaskScheduler.Default));
-            T gettask() => task().Preserve().Result;
+            return new ValueTask<T>(Task.Run(async () =>
+            {
+                token.ThrowIfCancellationRequested();
+                var _t = task();
+                return await _t.ConfigureAwait(false);
+            }, token));
         }
 
         #endregion

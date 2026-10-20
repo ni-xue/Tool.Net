@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Diagnostics.Tracing;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -113,12 +112,72 @@ namespace Tool.Sockets.P2PHelpr
                 using CancellationTokenSource tokenSource = new(500);
                 var token = tokenSource.Token;
                 TaskCompletionSource<bool> taskWith = new(TaskCreationOptions.RunContinuationsAsynchronously);
-                socket.Bind(localEP);
+
+                //try
+                //{
+                //    socket.Bind(localEP);
+                //    Console.WriteLine($"[Bind OK] {localEP}");
+                //}
+                //catch (SocketException ex)
+                //{
+                //    Console.WriteLine($"[Bind失败] {localEP} -> {ex.SocketErrorCode}");
+                //    throw;
+                //}
+
+                Stopwatch sw = Stopwatch.StartNew();
+                bool bindOk = false;
+                for (int i = 0; i < 3; i++)
+                {
+                    try
+                    {
+                        try
+                        {
+                            // 在 Linux 上，用 ip addr 查地址状态，看是否有 "tentative" 或 "deprecated" 标记
+                            var psi = new ProcessStartInfo("ip", "addr show dev enp3s0")
+                            {
+                                RedirectStandardOutput = true,
+                                UseShellExecute = false
+                            };
+                            using var proc = Process.Start(psi);
+                            Console.WriteLine($"[地址状态] {proc.StandardOutput.ReadToEnd()}");
+                        }
+                        catch
+                        {
+                            Console.WriteLine($"命令不可执行！");
+                        }
+
+                        socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                        Console.WriteLine($"[Bind前] localEP={localEP}, socket.Handle={socket.Handle}, socket.LocalEndPoint={socket.LocalEndPoint}");
+                        socket.Bind(localEP);
+                        Console.WriteLine($"[Bind成功] 实际绑定={socket.LocalEndPoint}");
+                        bindOk = true;
+                        break;
+                    }
+                    catch (SocketException ex) when (ex.SocketErrorCode == SocketError.AddressAlreadyInUse)
+                    {
+                        Console.WriteLine($"[Bind失败] localEP={localEP}, ErrorCode={ex.SocketErrorCode}, NativeErrorCode={ex.NativeErrorCode}, Message={ex.Message}");
+                        Console.WriteLine($"[Bind重试] 第{i + 1}次 {localEP}");
+                        Console.WriteLine($"[Bind重试] 第{i + 1}次, 距上轮={sw.ElapsedMilliseconds}ms");
+                        try { socket.Shutdown(SocketShutdown.Both); } catch { }
+                        socket.Close();      // Close 比 Dispose 更明确地释放句柄
+                        Console.WriteLine($"[Dispose前] socket.Handle={socket.Handle}");
+                        socket.Dispose();
+                        Console.WriteLine($"[Dispose后] socket.Handle={socket.Handle}");
+                        await Task.Delay(200);              // 延迟加大到 200ms
+                        socket = StateObject.CreateSocket(isTcp, bufferSize);
+                    }
+                }
+                if (!bindOk)
+                {
+                    Console.WriteLine($"[Bind最终失败] {localEP}");
+                    socket.Dispose();
+                    return false;   // 明确失败，不要拿着没绑上的 socket 去 Connect
+                }
 
                 bool isConnect = false;
                 using var eventArgs = SocketEventPool.Pop();
                 eventArgs.RemoteEndPoint = endPoint;
-                eventArgs.Completed += (_, _) => { isConnect = true; taskWith.TrySetResult(isConnect); };
+                eventArgs.Completed += (_, e) => { Console.WriteLine($"[Connect完成] Error={e.SocketError}, RemoteEP={e.RemoteEndPoint}"); isConnect = true; taskWith.TrySetResult(isConnect); };
                 eventArgs.SocketError = SocketError.ConnectionRefused;
                 token.UnsafeRegister((state) =>
                 {
@@ -142,6 +201,7 @@ namespace Tool.Sockets.P2PHelpr
                         return await task;
                     }
                 }
+                Console.WriteLine($"[Connect失败] SocketError={eventArgs.SocketError}, RemoteEndPoint={socket.RemoteEndPoint}");
                 return false;
 
                 //while (!token.IsCancellationRequested)
@@ -239,13 +299,16 @@ namespace Tool.Sockets.P2PHelpr
                     //if (isTcp) break; else 
 
                     Debug.WriteLine($"{endPoint}:开启{timedDelay - (DateTime.UtcNow - StartTime).TotalMilliseconds}ms！");
-
+                    Console.WriteLine($"[开启] localEP={localEP}, endPoint={endPoint}, 剩余={timedDelay - (DateTime.UtcNow - StartTime).TotalMilliseconds:F0}ms");
                     p2psuccess = await ConnectAsync();
 
                     if (p2psuccess) break;
                     if (tokenSource.IsCancellationRequested) continue;
                     Debug.WriteLine($"{endPoint}:重试！{DateTime.Now:O}");
+                    Console.WriteLine("[重试] 重建 Socket");
+                    try { socket.Shutdown(SocketShutdown.Both); } catch { }
                     socket.Dispose(); //重置Socket，再尝试！
+                    await Task.Delay(50);  // 给内核清理窗口
                     socket = StateObject.CreateSocket(isTcp, bufferSize);
                     await func(tokenSource.Token);//重新等待对接
 

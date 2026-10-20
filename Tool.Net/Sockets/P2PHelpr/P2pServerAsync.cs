@@ -5,18 +5,33 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Tool.Sockets.Kernels;
-using Tool.Sockets.NetFrame.Internal;
 using Tool.Sockets.TcpHelper;
 using Tool.Sockets.UdpHelper;
 using Tool.Utils;
-using Tool.Utils.TaskHelper;
 
 namespace Tool.Sockets.P2PHelpr
 {
     /// <summary>
+    /// P2p服务类型
+    /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
+    public enum P2pRole
+    {
+        /// <summary>
+        /// 发起方
+        /// </summary>
+        InKey,
+        /// <summary>
+        /// 接受方
+        /// </summary>
+        OutKey
+    }
+
+    /// <summary>
     /// 开放用于P2P模块化的支持类
     /// 可以获取免费开放的打洞公网服务器支持
     /// </summary>
+    /// <remarks>代码由逆血提供支持</remarks>
     public sealed class P2pServerAsync : IDisposable
     {
         /// <summary>
@@ -42,14 +57,32 @@ namespace Tool.Sockets.P2PHelpr
         private TaskCompletionSource<bool> taskWith;
 
         /// <summary>
-        /// 用于本地绑定的IP:Port
+        /// 服务类型
+        /// </summary>
+        public P2pRole Role { get; private set; }
+
+        /// <summary>
+        /// 服务ID
+        /// </summary>
+        public Guid Key { get; private set; }
+
+        /// <summary>
+        /// 用于本地绑定的IP:Port，近当前服务商的，与P2P无关
         /// </summary>
         public Ipv4Port LocalEP { get; private set; }
 
         /// <summary>
-        /// 用于P2P绑定的IP:Port
+        /// 用于P2P绑定的IP:Port，近当前服务商的，与P2P无关
         /// </summary>
         public Ipv4Port RemoteEP { get; private set; }
+
+        private readonly TcpClientAsync _network;      // 共享
+        private readonly IPEndPoint _endPoint;        // 所属连接池的 key
+
+        private TaskCompletionSource<bool> _taskWith;
+        private bool _success;
+        private bool _okwait;
+        private bool _disposed = false;
 
         private static async ValueTask<IPAddress> GetHost() => await Utility.GetIPAddressAsync("p2p.nixue.top", AddressFamily.InterNetwork) ?? throw new Exception("无法获取云端服务器信息，请确认网络是否正常！");
 
@@ -140,8 +173,6 @@ namespace Tool.Sockets.P2PHelpr
             }
         }
 
-        bool _disposed = false;
-
         private void ThrowIfDisposed()
         {
             if (_disposed)
@@ -162,6 +193,49 @@ namespace Tool.Sockets.P2PHelpr
             {
                 network = new UdpClientAsync(NetBufferSize.Size8K, true) { Millisecond = 0 };
             }
+        }
+
+        private P2pServerAsync(TcpClientAsync network, IPEndPoint endPoint, P2pRole role)
+        {
+            _network = network;
+            _endPoint = endPoint;
+            Role = role;
+        }
+
+        /// <summary>
+        /// 获取方：申请 Guid。
+        /// </summary>
+        public static async ValueTask<P2pServerAsync> GetFreeInKeyAsync(IPEndPoint endPoint)
+        {
+            var network = await P2pConnectionPool.Instance.GetOrCreateAsync(endPoint);
+            var session = new P2pServerAsync(network, endPoint, P2pRole.InKey);
+            await session.RequestGuidAsync();
+            return session;
+        }
+
+        /// <summary>
+        /// 等待方：用已有 Guid 等待配对。
+        /// </summary>
+        public static async ValueTask<P2pServerAsync> GetFreeOutKeyAsync(IPEndPoint endPoint, Guid key)
+        {
+            var network = await P2pConnectionPool.Instance.GetOrCreateAsync(endPoint);
+            var session = new P2pServerAsync(network, endPoint, P2pRole.OutKey);
+            await session.SetGuidAsync(key);
+            return session;
+        }
+
+        private async Task RequestGuidAsync()
+        {
+            Key = Guid.NewGuid();
+            // TODO: 通过 _network 发“申请 Guid”请求，等服务器返回。
+            throw new NotImplementedException("申请 Guid 协议待实现");
+        }
+
+        private async Task SetGuidAsync(Guid key)
+        {
+            Key = key;
+            // TODO: 通过 _network 发“设置 Guid”请求，等服务器确认。
+            throw new NotImplementedException("设置 Guid 协议待实现");
         }
 
         private Task ConnectAsync(IPEndPoint endPoint)

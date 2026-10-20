@@ -210,13 +210,13 @@ namespace TcpTest
             p2PClientAsync0.Dispose();
             p2PClientAsync1.Dispose();
 
-            UserKey userKey = "1.1.1.1:65535";
+            //UserKey userKey = "1.1.1.1:65535";
 
-            Ipv4Port ipv4Port = userKey;
+            //Ipv4Port ipv4Port = userKey;
 
-            ipv4Port.GetHashCode();
+            //ipv4Port.GetHashCode();
 
-            StateObject.IsIpPort("120.255.1.1:1", out var ipnum);
+            //StateObject.IsIpPort("120.255.1.1:1", out var ipnum);
 
             //Creates an IpEndPoint.
             //IPAddress ipAddress = IPAddress.Parse("127.0.0.1");

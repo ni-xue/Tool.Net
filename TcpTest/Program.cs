@@ -210,29 +210,31 @@ namespace TcpTest
         {
             try
             {
-                var builder = Host.CreateApplicationBuilder();
-                builder.Logging.AddLogSave();
-                builder.Logging.AddConsole();
-                builder.UseDiyServiceProvider();
-                builder.Build();
+                await P2pWorship.OnMain(args);
 
-                List<Tool.Sockets.TrojanHelper.TrojanConnect> trojans = [];
-                for (int i = 53501; i < 53585; i++)
-                {
-                    trojans.Add(new Tool.Sockets.TrojanHelper.TrojanConnect("nbaqz0vlmeo0k3d-hk.fcnode.net", i, "aeb69c19-90cb-4785-ad08-964d93708f25"));
-                }
+                //var builder = Host.CreateApplicationBuilder();
+                //builder.Logging.AddLogSave();
+                //builder.Logging.AddConsole();
+                //builder.UseDiyServiceProvider();
+                //builder.Build();
 
-                Tool.Sockets.TrojanHelper.FlexibleAclService aclService = new();
-                aclService.LoadDefaultLocalDomains(); //默认直连配置
-                aclService.ImportLocalDomains(["nas.nixue.top"]);
+                //List<Tool.Sockets.TrojanHelper.TrojanConnect> trojans = [];
+                //for (int i = 53501; i < 53585; i++)
+                //{
+                //    trojans.Add(new Tool.Sockets.TrojanHelper.TrojanConnect("nbaqz0vlmeo0k3d-hk.fcnode.net", i, "aeb69c19-90cb-4785-ad08-964d93708f25"));
+                //}
 
-                Tool.Sockets.TrojanHelper.TrojanHttpProxyFactory proxyFactory = new("127.0.0.1:7080", trojans[1..4]) { Logger = ObjectExtension.Provider.GetService<ILogger<Program>>() };
-                proxyFactory.SetProxyOverride(async (dnsip, ipkey) =>
-                {
-                    return await aclService.ShouldUseLocal(dnsip, ipkey);
+                //Tool.Sockets.TrojanHelper.FlexibleAclService aclService = new();
+                //aclService.LoadDefaultLocalDomains(); //默认直连配置
+                //aclService.ImportLocalDomains(["nas.nixue.top"]);
 
-                });
-                await proxyFactory.StartAsync();
+                //Tool.Sockets.TrojanHelper.TrojanHttpProxyFactory proxyFactory = new("127.0.0.1:7080", trojans[1..4]) { Logger = ObjectExtension.Provider.GetService<ILogger<Program>>() };
+                //proxyFactory.SetProxyOverride(async (dnsip, ipkey) =>
+                //{
+                //    return await aclService.ShouldUseLocal(dnsip, ipkey);
+
+                //});
+                //await proxyFactory.StartAsync();
 
                 Console.ReadKey();
                 return;

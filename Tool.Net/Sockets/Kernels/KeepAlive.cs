@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,9 +43,7 @@ namespace Tool.Sockets.Kernels
             ElapsedTicks = DateTime.UtcNow.Ticks / 10000;
             this.TimeInterval = TimeInterval;
             this.OnStart = OnStart ?? throw new ArgumentNullException(nameof(OnStart), "OnStart 不能为空！");
-            //Task.Factory.StartNew(HeartBeatStart, TaskCreationOptions.LongRunning);//Timer
-            ObjectExtension.RunTask(HeartBeatStart, TaskCreationOptions.LongRunning);
-            //HeartBeatStart().
+            ObjectExtension.RunTask(HeartBeatStart);
         }
 
         /// <summary>

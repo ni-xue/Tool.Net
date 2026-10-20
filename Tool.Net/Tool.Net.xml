@@ -4925,7 +4925,7 @@
             ○ Match the string "CONNECT".<br/>
             ○ Match a whitespace character atomically at least once.<br/>
             ○ 1st capture group.<br/>
-                ○ Match a character in the set [^\s] atomically at least once.<br/>
+                ○ Match any character other than a whitespace character atomically at least once.<br/>
             ○ Match a whitespace character atomically at least once.<br/>
             ○ Match the string "HTTP".<br/>
             </code>
@@ -4955,11 +4955,11 @@
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
-                ○ Match a character in the set [-.\w] greedily at least once.<br/>
+                ○ Match a character in the set [\-.\w] greedily at least once.<br/>
             ○ Optional (greedy).<br/>
                 ○ Match ':'.<br/>
                 ○ 2nd capture group.<br/>
-                    ○ Match a Unicode digit greedily at least 1 and at most 5 times.<br/>
+                    ○ Match a Unicode digit atomically at least 1 and at most 5 times.<br/>
             ○ Match if at the end of the string or if before an ending newline.<br/>
             </code>
             </remarks>
@@ -9731,13 +9731,6 @@
             <param name="where">指定的删除条件</param>
             <param name="prams">对虚构参数进行映射</param>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.Update(System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
-            <summary>
-            修改数据
-            </summary>
-            <param name="keyValues">修改的键值对集合</param>
-            <param name="where">指定的修改的条件</param>
-        </member>
         <member name="M:Tool.SqlCore.ITableProvider.Update(System.Object,System.String)">
             <summary>
             修改数据
@@ -9750,6 +9743,21 @@
             修改数据
             </summary>
             <param name="prams">对虚构参数进行映射</param>
+            <param name="where">指定的修改的条件</param>
+            <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.Update(System.Collections.Generic.IDictionary{System.String,System.Object},System.String)">
+            <summary>
+            修改数据
+            </summary>
+            <param name="keyValues">修改的键值对集合</param>
+            <param name="where">指定的修改的条件</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.Update(System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Object)">
+            <summary>
+            修改数据
+            </summary>
+            <param name="keyValues">修改的键值对集合</param>
             <param name="where">指定的修改的条件</param>
             <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
         </member>
@@ -9908,7 +9916,7 @@
             </summary>
             <param name="row">新数据<see cref="T:System.Data.DataRow"/>对象</param>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.Insert(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Tool.SqlCore.ITableProvider.Insert(System.Collections.Generic.IDictionary{System.String,System.Object})">
             <summary>
             插入新的数据
             </summary>
@@ -9920,7 +9928,7 @@
             </summary>
             <param name="prams">对字符串进行映射</param>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.Insert(System.Collections.Generic.Dictionary{System.String,System.Object},System.Object@)">
+        <member name="M:Tool.SqlCore.ITableProvider.Insert(System.Collections.Generic.IDictionary{System.String,System.Object},System.Object@)">
             <summary>
             插入新的数据
             </summary>
@@ -9941,7 +9949,7 @@
             <param name="where">查询条件</param>
             <returns>返回行数</returns>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.InsertAsync(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Tool.SqlCore.ITableProvider.InsertAsync(System.Collections.Generic.IDictionary{System.String,System.Object})">
             <summary>
             插入新的数据
             </summary>
@@ -9953,7 +9961,7 @@
             </summary>
             <param name="prams">对字符串进行映射</param>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.InsertIdAsync(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Tool.SqlCore.ITableProvider.InsertIdAsync(System.Collections.Generic.IDictionary{System.String,System.Object})">
             <summary>
             插入新的数据
             </summary>
@@ -9978,13 +9986,6 @@
             <param name="where">指定的删除条件</param>
             <param name="prams">对虚构参数进行映射</param>
         </member>
-        <member name="M:Tool.SqlCore.ITableProvider.UpdateAsync(System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
-            <summary>
-            修改数据
-            </summary>
-            <param name="keyValues">修改的键值对集合</param>
-            <param name="where">指定的修改的条件</param>
-        </member>
         <member name="M:Tool.SqlCore.ITableProvider.UpdateAsync(System.Object,System.String)">
             <summary>
             修改数据
@@ -9997,6 +9998,21 @@
             修改数据
             </summary>
             <param name="prams">对虚构参数进行映射</param>
+            <param name="where">指定的修改的条件</param>
+            <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.UpdateAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.String)">
+            <summary>
+            修改数据
+            </summary>
+            <param name="keyValues">修改的键值对集合</param>
+            <param name="where">指定的修改的条件</param>
+        </member>
+        <member name="M:Tool.SqlCore.ITableProvider.UpdateAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Object)">
+            <summary>
+            修改数据
+            </summary>
+            <param name="keyValues">修改的键值对集合</param>
             <param name="where">指定的修改的条件</param>
             <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
         </member>
@@ -11022,21 +11038,6 @@
             <param name="dt"></param>
             <returns></returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.Insert(System.Collections.Generic.Dictionary{System.String,System.Object})">
-            <summary>
-            插入新的数据 
-            </summary>
-            <param name="keyValues">键值对的数据集</param>
-            <returns>返回受影响数</returns>
-        </member>
-        <member name="M:Tool.SqlCore.TableProvider.Insert(System.Collections.Generic.Dictionary{System.String,System.Object},System.Object@)">
-            <summary>
-            插入新的数据
-            </summary>
-            <param name="keyValues">键值对的数据集</param>
-            <param name="ID">获取插入数据的ID</param>
-            <returns>返回受影响数</returns>
-        </member>
         <member name="M:Tool.SqlCore.TableProvider.Insert(System.Object)">
             <summary>
             插入新的数据 
@@ -11049,6 +11050,21 @@
             插入新的数据
             </summary>
             <param name="prams">对字符串进行映射</param>
+            <param name="ID">获取插入数据的ID</param>
+            <returns>返回受影响数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.Insert(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            插入新的数据 
+            </summary>
+            <param name="keyValues">键值对的数据集</param>
+            <returns>返回受影响数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.Insert(System.Collections.Generic.IDictionary{System.String,System.Object},System.Object@)">
+            <summary>
+            插入新的数据
+            </summary>
+            <param name="keyValues">键值对的数据集</param>
             <param name="ID">获取插入数据的ID</param>
             <returns>返回受影响数</returns>
         </member>
@@ -11082,12 +11098,20 @@
             <param name="where">指定的修改的条件</param>
             <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.Update(System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
+        <member name="M:Tool.SqlCore.TableProvider.Update(System.Collections.Generic.IDictionary{System.String,System.Object},System.String)">
             <summary>
             修改数据
             </summary>
             <param name="keyValues">修改的键值对集合</param>
             <param name="where">指定的修改的条件</param>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.Update(System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Object)">
+            <summary>
+            修改数据
+            </summary>
+            <param name="keyValues">修改的键值对集合</param>
+            <param name="where">指定的修改的条件</param>
+            <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
         </member>
         <member name="M:Tool.SqlCore.TableProvider.Get(System.String)">
             <summary>
@@ -11257,18 +11281,11 @@
             <param name="where">查询条件</param>
             <returns>返回行数</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.InsertAsync(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Tool.SqlCore.TableProvider.InsertAsync(System.Object)">
             <summary>
             插入新的数据 
             </summary>
-            <param name="keyValues">键值对的数据集</param>
-            <returns>返回受影响数</returns>
-        </member>
-        <member name="M:Tool.SqlCore.TableProvider.InsertIdAsync(System.Collections.Generic.Dictionary{System.String,System.Object})">
-            <summary>
-            插入新的数据
-            </summary>
-            <param name="keyValues">键值对的数据集</param>
+            <param name="prams">对虚构参数进行映射</param>
             <returns>返回受影响数</returns>
         </member>
         <member name="M:Tool.SqlCore.TableProvider.InsertIdAsync(System.Object)">
@@ -11278,11 +11295,18 @@
             <param name="prams">对字符串进行映射</param>
             <returns>返回受影响数</returns>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.InsertAsync(System.Object)">
+        <member name="M:Tool.SqlCore.TableProvider.InsertAsync(System.Collections.Generic.IDictionary{System.String,System.Object})">
             <summary>
             插入新的数据 
             </summary>
-            <param name="prams">对虚构参数进行映射</param>
+            <param name="keyValues">键值对的数据集</param>
+            <returns>返回受影响数</returns>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.InsertIdAsync(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            插入新的数据
+            </summary>
+            <param name="keyValues">键值对的数据集</param>
             <returns>返回受影响数</returns>
         </member>
         <member name="M:Tool.SqlCore.TableProvider.DeleteAsync(System.String)">
@@ -11315,12 +11339,20 @@
             <param name="where">指定的修改的条件</param>
             <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
         </member>
-        <member name="M:Tool.SqlCore.TableProvider.UpdateAsync(System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
+        <member name="M:Tool.SqlCore.TableProvider.UpdateAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.String)">
             <summary>
             修改数据
             </summary>
             <param name="keyValues">修改的键值对集合</param>
             <param name="where">指定的修改的条件</param>
+        </member>
+        <member name="M:Tool.SqlCore.TableProvider.UpdateAsync(System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Object)">
+            <summary>
+            修改数据
+            </summary>
+            <param name="keyValues">修改的键值对集合</param>
+            <param name="where">指定的修改的条件</param>
+            <param name="parameter">警告：where 条件的参数，切记字符串映射名不要与字段名同名</param>
         </member>
         <member name="M:Tool.SqlCore.TableProvider.GetAsync(System.String)">
             <summary>
@@ -20779,7 +20811,7 @@
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
-                ○ Match a character in the set [-0-9].<br/>
+                ○ Match a character in the set [\-0-9].<br/>
             ○ Match a character in the set [0-9] greedily any number of times.<br/>
             ○ Optional (greedy).<br/>
                 ○ 2nd capture group.<br/>
@@ -21756,11 +21788,11 @@
                     ○ 3rd capture group.<br/>
                         ○ Loop greedily at least once.<br/>
                             ○ 4th capture group.<br/>
-                                ○ Match a character in the set [-\w] atomically at least once.<br/>
+                                ○ Match a character in the set [\-\w] atomically at least once.<br/>
                                 ○ Match '.'.<br/>
             ○ 5th capture group.<br/>
                 ○ Match with 2 alternative expressions.<br/>
-                    ○ Match a character in the set [A-Za-z] atomically at least 2 and at most 4 times.<br/>
+                    ○ Match an ASCII letter atomically at least 2 and at most 4 times.<br/>
                     ○ Match a character in the set [0-9] atomically at least 1 and at most 3 times.<br/>
             ○ 6th capture group.<br/>
                 ○ Match ']' atomically, optionally.<br/>
@@ -21808,7 +21840,7 @@
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
-                ○ Match a character in the set [-.\w] atomically at least once.<br/>
+                ○ Match a character in the set [\-.\w] atomically at least once.<br/>
             ○ Match '@'.<br/>
             ○ 2nd capture group.<br/>
                 ○ Match with 2 alternative expressions.<br/>
@@ -21823,11 +21855,11 @@
                     ○ 4th capture group.<br/>
                         ○ Loop greedily at least once.<br/>
                             ○ 5th capture group.<br/>
-                                ○ Match a character in the set [-\w] atomically at least once.<br/>
+                                ○ Match a character in the set [\-\w] atomically at least once.<br/>
                                 ○ Match '.'.<br/>
             ○ 6th capture group.<br/>
                 ○ Match with 2 alternative expressions.<br/>
-                    ○ Match a character in the set [A-Za-z] atomically at least 2 and at most 4 times.<br/>
+                    ○ Match an ASCII letter atomically at least 2 and at most 4 times.<br/>
                     ○ Match a character in the set [0-9] atomically at least 1 and at most 3 times.<br/>
             ○ 7th capture group.<br/>
                 ○ Match ']' atomically, optionally.<br/>
@@ -22366,7 +22398,7 @@
                     ○ Match '-'.<br/>
             ○ Optional (greedy).<br/>
                 ○ 7th capture group.<br/>
-                    ○ Match a Unicode digit greedily at least 3 and at most 5 times.<br/>
+                    ○ Match a Unicode digit atomically at least 3 and at most 5 times.<br/>
             ○ Match if at the end of the string or if before an ending newline.<br/>
             </code>
             </remarks>
@@ -22379,7 +22411,7 @@
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match a whitespace character atomically any number of times.<br/>
-            ○ Match a character in the set [A-Za-z].<br/>
+            ○ Match an ASCII letter.<br/>
             ○ Match ':'.<br/>
             ○ Match a character other than '\n' greedily any number of times.<br/>
             ○ Match if at the end of the string or if before an ending newline.<br/>
@@ -22422,7 +22454,7 @@
             <code>
             ○ Match if at the beginning of the string.<br/>
             ○ Match a whitespace character atomically any number of times.<br/>
-            ○ Match a character in the set [A-Za-z] atomically at least 1 and at most 10 times.<br/>
+            ○ Match an ASCII letter atomically at least 1 and at most 10 times.<br/>
             ○ Match ':'.<br/>
             ○ Match a character other than '\n' greedily any number of times.<br/>
             ○ Match if at the end of the string or if before an ending newline.<br/>
@@ -22458,7 +22490,7 @@
             <code>[-|;|,|\\/|\\(|\\)|\\[|\\]|\\}|\\{|%|@|\\*|!|\\']</code><br/>
             Explanation:<br/>
             <code>
-            ○ Match a character in the set [!%'-*,-/;@[]{-}].<br/>
+            ○ Match a character in the set [!%'-*,\-/;@[]{-}].<br/>
             </code>
             </remarks>
         </member>
@@ -22919,17 +22951,15 @@
             ○ Match if at the beginning of the string.<br/>
             ○ 1st capture group.<br/>
                 ○ Match the string "http".<br/>
-                ○ Match with 2 alternative expressions.<br/>
-                    ○ Match an empty string.<br/>
-                    ○ Match 's'.<br/>
+                ○ Match 's' atomically, optionally.<br/>
             ○ Match the string "://".<br/>
             ○ Loop greedily any number of times.<br/>
                 ○ 2nd capture group.<br/>
-                    ○ Match a character in the set [-.0-9A-Za-z] greedily at least once.<br/>
+                    ○ Match a character in the set [\-.0-9A-Za-z] greedily at least once.<br/>
                     ○ Loop greedily any number of times.<br/>
                         ○ 3rd capture group.<br/>
                             ○ Match ':'.<br/>
-                            ○ Match a character in the set [$-&amp;-.0-9A-Za-z] atomically at least once.<br/>
+                            ○ Match a character in the set [$-&amp;\-.0-9A-Za-z] atomically at least once.<br/>
                     ○ Match '@'.<br/>
             ○ 4th capture group.<br/>
                 ○ Match with 3 alternative expressions.<br/>
@@ -23013,9 +23043,9 @@
                     ○ Match a sequence of expressions.<br/>
                         ○ Loop greedily any number of times.<br/>
                             ○ 9th capture group.<br/>
-                                ○ Match a character in the set [-0-9A-Za-z] atomically at least once.<br/>
+                                ○ Match a character in the set [\-0-9A-Za-z] atomically at least once.<br/>
                                 ○ Match '.'.<br/>
-                        ○ Match a character in the set [-0-9A-Za-z] atomically at least once.<br/>
+                        ○ Match a character in the set [\-0-9A-Za-z] atomically at least once.<br/>
                         ○ Match '.'.<br/>
                         ○ 10th capture group.<br/>
                             ○ Match with 16 alternative expressions.<br/>
@@ -23034,7 +23064,7 @@
                                 ○ Match the string "aero".<br/>
                                 ○ Match the string "coop".<br/>
                                 ○ Match the string "museum".<br/>
-                                ○ Match a character in the set [A-Za-z] greedily at least 1 and at most 10 times.<br/>
+                                ○ Match an ASCII letter greedily at least 1 and at most 10 times.<br/>
             ○ Loop greedily any number of times.<br/>
                 ○ 11th capture group.<br/>
                     ○ Match ':'.<br/>
@@ -23056,7 +23086,7 @@
             <code>[0-9a-zA-Z]?</code><br/>
             Explanation:<br/>
             <code>
-            ○ Match a character in the set [0-9A-Za-z] atomically, optionally.<br/>
+            ○ Match an ASCII letter or digit atomically, optionally.<br/>
             </code>
             </remarks>
         </member>
@@ -28236,9 +28266,6 @@
         <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_hasTimeout">
             <summary>Whether <see cref="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout"/> is non-infinite.</summary>
         </member>
-        <member name="M:System.Text.RegularExpressions.Generated.Utilities.IndexOfAnyWhiteSpace(System.ReadOnlySpan{System.Char})">
-            <summary>Finds the next index of any character that matches a whitespace character.</summary>
-        </member>
         <member name="M:System.Text.RegularExpressions.Generated.Utilities.IndexOfNonAsciiOrAny_95064C55B42AF5461629EEF251E7B2E145398FFCBFBD713EF157A1B2DE7B6B11(System.ReadOnlySpan{System.Char})">
             <summary>Finds the next index of any character that matches a character in the set [\t"%&amp;*,/&lt;&gt;cg\s].</summary>
         </member>
@@ -28257,20 +28284,23 @@
         <member name="M:System.Text.RegularExpressions.Generated.Utilities.StackPush(System.Int32[]@,System.Int32@,System.Int32,System.Int32,System.Int32)">
             <summary>Pushes 3 values onto the backtracking stack.</summary>
         </member>
-        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_asciiExceptWhiteSpace">
-            <summary>Supports searching for characters in or not in "\0\u0001\u0002\u0003\u0004\u0005\u0006\a\b\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f!\"#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u007f".</summary>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.WordCategoriesMask">
+            <summary>Provides a mask of Unicode categories that combine to form [\w].</summary>
         </member>
-        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_20FF03FEFFFF07FEFFFF07">
+        <member name="P:System.Text.RegularExpressions.Generated.Utilities.WordCharBitmap">
+            <summary>Gets a bitmap for whether each character 0 through 127 is in [\w]</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_asciiLettersAndDigitsAndDash">
             <summary>Supports searching for characters in or not in "-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_asciiLettersAndDigitsAndDashDot">
+            <summary>Supports searching for characters in or not in "-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".</summary>
         </member>
         <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_3C8400580000000000000000">
             <summary>Supports searching for characters in or not in "\"#$%*/;&lt;&gt;".</summary>
         </member>
         <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_40FF07FEFFFF87FEFFFF07">
             <summary>Supports searching for characters in or not in ".0123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".</summary>
-        </member>
-        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_60FF03FEFFFF07FEFFFF07">
-            <summary>Supports searching for characters in or not in "-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".</summary>
         </member>
         <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_7060FF03FEFFFF07FEFFFF07">
             <summary>Supports searching for characters in or not in "$%&amp;-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".</summary>
@@ -28293,8 +28323,23 @@
         <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_FFC1FFFF9A6BFFAFFFFFFFFF77FFFFFF">
             <summary>Supports searching for characters in or not in "\0\u0001\u0002\u0003\u0004\u0005\u0006\a\b\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f!#$'()+-.0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abdefhijklmnopqrstuvwxyz{|}~\u007f".</summary>
         </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_indexOfAnyStrings_OrdinalIgnoreCase_19F3DE3D1A11DE12E465FDA6D92AD39BD861E0139E0151994A15A42585BD677D">
+            <summary>Supports searching for the specified strings.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_indexOfAnyStrings_OrdinalIgnoreCase_32A8F218CE0926BCF87D9CA0D7073CB714902C72CAF0EEA25BB16F7EC15B43B2">
+            <summary>Supports searching for the specified strings.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_indexOfString_CONNECT_Ordinal">
+            <summary>Supports searching for the string "CONNECT".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_indexOfString_http_Ordinal">
+            <summary>Supports searching for the string "http".</summary>
+        </member>
         <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_nonAscii_7F5B1278888193BB55E90C209E921A8AE726FA72D91C3C471711E50DB9F43FE2">
             <summary>Supports searching for characters in or not in "?CDISUcdisuİ".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_whitespace">
+            <summary>Supports searching for characters in or not in "\t\n\v\f\r \u0085             \u2028\u2029  　".</summary>
         </member>
     </members>
 </doc>
