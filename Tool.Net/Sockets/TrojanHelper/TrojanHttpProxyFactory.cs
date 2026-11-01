@@ -821,7 +821,7 @@ namespace Tool.Sockets.TrojanHelper
             var clients = lines
                 .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#"))
                 .Select(line => ParseIpv4Port(line.Trim()))
-                .Where(client => client != null);
+                .Where(client => client != Ipv4Port.Empty);
 
             ImportLocalClients(clients!);
         }

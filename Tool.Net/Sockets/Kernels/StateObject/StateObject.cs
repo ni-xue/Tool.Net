@@ -577,11 +577,9 @@ namespace Tool.Sockets.Kernels
 #else
                 if (chars.Contains('.') && IPEndPoint.TryParse(chars, out var result) && result.AddressFamily is AddressFamily.InterNetwork)
                 {
-                    Memory<byte> bytes = new byte[6];
-                    Span<byte> span = bytes.Span;
-                    if (result.Address.TryWriteBytes(span, out var bytesWritten) && BitConverter.TryWriteBytes(span[bytesWritten..], (ushort)result.Port))
+                    var bytes = IPEndPointToBytes(result);
+                    if (!bytes.IsEmpty)
                     {
-                        //fixed (byte* ptr = span) Unsafe.Write(&ptr[bytesWritten], result.Port);
                         ipnum = new(in bytes);
                         return true;
                     }
@@ -591,6 +589,18 @@ namespace Tool.Sockets.Kernels
 
             ipnum = Ipv4Port.Empty;
             return false;
+        }
+
+        internal static unsafe Memory<byte> IPEndPointToBytes(IPEndPoint endPoint) 
+        {
+            Memory<byte> bytes = new byte[6];
+            Span<byte> span = bytes.Span;
+            if (endPoint.Address.TryWriteBytes(span, out var bytesWritten) && BitConverter.TryWriteBytes(span[bytesWritten..], (ushort)endPoint.Port))
+            {
+                //fixed (byte* ptr = span) Unsafe.Write(&ptr[bytesWritten], result.Port);
+                return bytes;
+            }
+            return Memory<byte>.Empty;
         }
 
         private static unsafe bool TryByte<T>(void* destination, char* chars, ref int old, ref int fresh) where T : struct

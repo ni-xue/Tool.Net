@@ -14,12 +14,12 @@ namespace Tool.Sockets.Kernels
     internal static class Handshake
     {
         /// <summary>
-        /// 描述UDP可靠传输验证协议
+        /// 描述UDP Or TCP可靠传输验证协议
         /// </summary>
         private static readonly ArraySegment<byte> Bytes = new byte[] { 0, 2, 4, 8, 16, 32, 64, 128, 0 }; //000204081020408000
 
         /// <summary>
-        /// 描述UDP可靠传输完成协议
+        /// 描述UDP Or TCP可靠传输完成协议
         /// </summary>
         private static readonly ArraySegment<byte> Ready = new byte[] { 0, 128, 64, 32, 16, 8, 4, 2, 0 }; //008040201008040200
 
@@ -44,7 +44,7 @@ namespace Tool.Sockets.Kernels
             if (!Utility.SequenceCompare(isp2p ? Bytes : Ready, buffer[..coun])) //特殊行为
             {
                 if (isp2p) goto A; //当这个模式时，等待最大失败
-                throw new Exception("于服务器协议不一致！");
+                throw new Exception("UDP 与服务器协议不一致！");
             }
         }
 
@@ -64,7 +64,7 @@ namespace Tool.Sockets.Kernels
                 }
                 else
                 {
-                    Debug.Fail("于客户端协议不一致！");
+                    Debug.Fail("UDP 与客户端协议不一致！");
                     //throw new Exception("于客户端协议不一致！");
                     return false;
                 }
@@ -119,9 +119,11 @@ namespace Tool.Sockets.Kernels
             ArraySegment<byte> buffer = new byte[9];
             using CancellationTokenSource tokenSource = new((int)MillisecondsDelay);
             int coun = await ReceiveAsync(socket, buffer, tokenSource.Token);
+
+            if (coun is -1 or 0) throw new Exception("TCP 与服务器的连接已断开！");
             if (!Utility.SequenceCompare(isp2p ? Bytes : Ready, buffer[..coun])) //特殊行为
             {
-                throw new Exception("于服务器协议不一致！");
+                throw new Exception("TCP 与服务器协议不一致！");
             }
         }
 
@@ -137,7 +139,7 @@ namespace Tool.Sockets.Kernels
                 using CancellationTokenSource tokenSource = new((int)MillisecondsDelay);
                 int coun = await ReceiveAsync(socket, buffer, tokenSource.Token);
 
-                //System.Net.NetworkInformation.IPGlobalProperties
+                if (coun is -1 or 0) throw new Exception("TCP 与客户端的连接已断开！");
                 if (Utility.SequenceCompare(Bytes, buffer[..Bytes.Count].Span))
                 {
                     await socket.SendAsync(Ready, SocketFlags.None).IsNewTask();
@@ -145,7 +147,7 @@ namespace Tool.Sockets.Kernels
                 }
                 else
                 {
-                    Debug.Fail("于客户端协议不一致！");
+                    Debug.Fail("TCP 与客户端协议不一致！");
                     socket.Dispose();
                     //throw new Exception("于客户端协议不一致！");
                     return false;

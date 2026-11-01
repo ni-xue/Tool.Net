@@ -1739,7 +1739,7 @@ namespace Tool.SqlCore
             string guid = string.Empty;
             try
             {
-                PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out flag);
+                flag = PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
                 using DbDataAdapter dbDataAdapter = CreateDataAdapter();
                 dbDataAdapter.SelectCommand = dbCommand;
                 DataSet dataSet = new();
@@ -1916,9 +1916,38 @@ namespace Tool.SqlCore
         {
             var watch = GetStopwatch();
             if (transaction is null && connection.State is not ConnectionState.Open) await connection.OpenAsync();
-            using var reader = await this.ExecuteReaderAsync(connection, transaction, commandType, commandText, commandParameters, DbHelper.DbConnectionOwnership.External, watch: watch);
-            var dataSet = await reader.GetDataSetAsync();
+            var dataSet = await this.ExecuteDataSetAsync(connection, transaction, commandType, commandText, commandParameters, watch: watch);
             return dataSet;
+        }
+
+        private async Task<DataSet> ExecuteDataSetAsync(DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DbParameter[] commandParameters, Stopwatch watch = null)
+        {
+            ThrowIfNull(connection, nameof(connection));
+            using DbCommand dbCommand = CreateCommand();
+
+            watch ??= GetStopwatch(); //Stopwatch.StartNew();
+            bool iserror = false, flag = false, flag1 = true;
+            string guid = string.Empty;
+            try
+            {
+                flag = await PrepareCommandAsync(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
+
+                using DbDataReader dbDataReader = await dbCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+
+                flag1 = !IsAnyOut(dbCommand.Parameters);
+
+                return await dbDataReader.GetDataSetAsync();
+            }
+            catch (Exception ex)
+            {
+                throw GetException(ex, ref iserror, ref guid);
+            }
+            finally
+            {
+                AddQueryDetail(dbCommand.CommandText, watch, commandParameters, iserror, guid);
+                if (flag1) dbCommand.Parameters.Clear();
+                if (flag && transaction is null) await connection.CloseAsync();
+            }
         }
 
         #endregion
@@ -2211,7 +2240,7 @@ namespace Tool.SqlCore
             string guid = string.Empty;
             try
             {
-                PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out flag);
+                flag = PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
                 return dbCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -2249,7 +2278,7 @@ namespace Tool.SqlCore
                 string guid = string.Empty;
                 try
                 {
-                    PrepareCommand(dbCommand, CommandTimeout, transaction.Connection, transaction, sqlText.CommandType, sqlText.CommandText, sqlText.Parameters, out _);
+                    PrepareCommand(dbCommand, CommandTimeout, transaction.Connection, transaction, sqlText.CommandType, sqlText.CommandText, sqlText.Parameters);
                     result += dbCommand.ExecuteNonQuery();
 
                 }
@@ -2398,8 +2427,7 @@ namespace Tool.SqlCore
             string guid = string.Empty;
             try
             {
-                flag = await OpenCommandAsync(connection);
-                PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out _);
+                flag = await PrepareCommandAsync(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
                 return await dbCommand.ExecuteNonQueryAsync();
             }
             catch (Exception ex)
@@ -2437,8 +2465,7 @@ namespace Tool.SqlCore
                 string guid = string.Empty;
                 try
                 {
-                    await OpenCommandAsync(transaction.Connection);
-                    PrepareCommand(dbCommand, CommandTimeout, transaction.Connection, transaction, sqlText.CommandType, sqlText.CommandText, sqlText.Parameters, out _);
+                    await PrepareCommandAsync(dbCommand, CommandTimeout, transaction.Connection, transaction, sqlText.CommandType, sqlText.CommandText, sqlText.Parameters);
                     result += dbCommand.ExecuteNonQuery();
 
                 }
@@ -2655,7 +2682,7 @@ namespace Tool.SqlCore
             string guid = string.Empty;
             try
             {
-                PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out flag);
+                flag = PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
                 using var reader = dbCommand.ExecuteReader(CommandBehavior.CloseConnection);
                 reader.Read();
                 int result = reader.RecordsAffected;
@@ -2781,8 +2808,7 @@ namespace Tool.SqlCore
             string guid = string.Empty;
             try
             {
-                flag = await OpenCommandAsync(connection);
-                PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out _);
+                flag = await PrepareCommandAsync(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
 
                 using var reader = await dbCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection);
                 await reader.ReadAsync();
@@ -3100,20 +3126,13 @@ namespace Tool.SqlCore
             string guid = string.Empty;
             try
             {
-                PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out flag);
+                flag = PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
 
                 DbDataReader dbDataReader = connectionOwnership == DbHelper.DbConnectionOwnership.External
                     ? dbCommand.ExecuteReader()
                     : dbCommand.ExecuteReader(CommandBehavior.CloseConnection);
 
-                foreach (DbParameter dbParameter in dbCommand.Parameters)
-                {
-                    if (dbParameter.Direction != ParameterDirection.Input)
-                    {
-                        flag1 = false;
-                        break;
-                    }
-                }
+                flag1 = !IsAnyOut(dbCommand.Parameters);
 
                 return dbDataReader;
             }
@@ -3300,21 +3319,13 @@ namespace Tool.SqlCore
             string guid = string.Empty;
             try
             {
-                flag = await OpenCommandAsync(connection);
-                PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out _);
+                flag = await PrepareCommandAsync(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
 
                 DbDataReader dbDataReader = connectionOwnership == DbHelper.DbConnectionOwnership.External
                     ? await dbCommand.ExecuteReaderAsync()
                     : await dbCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
-                foreach (DbParameter dbParameter in dbCommand.Parameters)
-                {
-                    if (dbParameter.Direction != ParameterDirection.Input)
-                    {
-                        flag1 = false;
-                        break;
-                    }
-                }
+                flag1 = !IsAnyOut(dbCommand.Parameters);
 
                 return dbDataReader;
             }
@@ -3605,7 +3616,7 @@ namespace Tool.SqlCore
             string guid = string.Empty;
             try
             {
-                PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out flag);
+                flag = PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
                 return dbCommand.ExecuteScalar();
             }
             catch (Exception ex)
@@ -3751,8 +3762,7 @@ namespace Tool.SqlCore
             string guid = string.Empty;
             try
             {
-                flag = await OpenCommandAsync(connection);
-                PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out _);
+                flag = await PrepareCommandAsync(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
                 return await dbCommand.ExecuteScalarAsync();
             }
             catch (Exception ex)
@@ -4131,7 +4141,7 @@ namespace Tool.SqlCore
             string guid = string.Empty;
             try
             {
-                PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters, out flag);
+                flag = PrepareCommand(dbCommand, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
                 using DbDataAdapter dbDataAdapter = CreateDataAdapter();
                 dbDataAdapter.SelectCommand = dbCommand;
                 if (tableNames != null && tableNames.Length > 0)
@@ -5143,19 +5153,36 @@ namespace Tool.SqlCore
 
         #region 私有SQL验证部分
 
-        private static void PrepareCommand(DbCommand command, int CommandTimeout, DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DbParameter[] commandParameters, out bool mustCloseConnection)
+        private static bool PrepareCommand(DbCommand command, int CommandTimeout, DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DbParameter[] commandParameters)
         {
             ThrowIfNull(command, nameof(command));
             ThrowIfNullString(commandText, nameof(commandText));
+            bool mustCloseConnection = false;
             if (connection.State != ConnectionState.Open)
             {
                 mustCloseConnection = true;
                 connection.Open();
             }
-            else
+            PrepareCommandCore(command, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
+            return mustCloseConnection;
+        }
+
+        private static async Task<bool> PrepareCommandAsync(DbCommand command, int CommandTimeout, DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DbParameter[] commandParameters)
+        {
+            ThrowIfNull(command, nameof(command));
+            ThrowIfNullString(commandText, nameof(commandText));
+            bool mustCloseConnection = false;
+            if (connection.State != ConnectionState.Open)
             {
-                mustCloseConnection = false;
+                mustCloseConnection = true;
+                await connection.OpenAsync();
             }
+            PrepareCommandCore(command, CommandTimeout, connection, transaction, commandType, commandText, commandParameters);
+            return mustCloseConnection;
+        }
+
+        private static void PrepareCommandCore(DbCommand command, int CommandTimeout, DbConnection connection, DbTransaction transaction, CommandType commandType, string commandText, DbParameter[] commandParameters) 
+        {
             command.CommandTimeout = CommandTimeout;
             command.Connection = connection;
             command.CommandText = commandText;
@@ -5174,21 +5201,14 @@ namespace Tool.SqlCore
             }
         }
 
-        private static async Task<bool> OpenCommandAsync(DbConnection connection)
+        private static bool IsAnyOut(DbParameterCollection dbParameters) 
         {
-            bool mustCloseConnection;
-            if (connection.State != ConnectionState.Open)
+            foreach (DbParameter dbParameter in dbParameters)
             {
-                mustCloseConnection = true;
-                await connection.OpenAsync();
+                if (dbParameter.Direction != ParameterDirection.Input) return true;
             }
-            else
-            {
-                mustCloseConnection = false;
-            }
-            return mustCloseConnection;
+            return false;
         }
-
         #endregion
 
         #region 私有变量

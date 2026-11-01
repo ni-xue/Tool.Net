@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 using Tool.Sockets.Kernels;
 using Tool.Utils;
@@ -291,7 +289,7 @@ namespace Tool.Sockets.NetFrame
 
             //Form.Clear();
             Form = null;
-            IPEndPoint = null;
+            IPEndPoint = Ipv4Port.Empty;
             // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
             GC.SuppressFinalize(this);
         }

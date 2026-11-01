@@ -226,19 +226,10 @@ namespace Tool.Utils.ThreadQueue
         /// 创建执行需要的函数
         /// </summary>
         /// <param name="func">队列处理的函数</param>
-        public TaskQueue(Func<T, ValueTask> func) : this(func, TaskCreationOptions.LongRunning)
-        {
-        }
-
-        /// <summary>
-        /// 创建执行需要的函数
-        /// </summary>
-        /// <param name="func">队列处理的函数</param>
-        /// <param name="creationOptions">异步线程属性</param>
-        public TaskQueue(Func<T, ValueTask> func, TaskCreationOptions creationOptions)
+        public TaskQueue(Func<T, ValueTask> func)
         {
             this.func = func;
-            taskOueue = new TaskQueue<T, object>(OnFunc, creationOptions);
+            taskOueue = new TaskQueue<T, object>(OnFunc);
             taskOueue.ContinueWith += OnContinueWith;
         }
 
@@ -270,7 +261,6 @@ namespace Tool.Utils.ThreadQueue
         /// </summary>
         public const int WaitTimeout = 60 * 1000;
 
-        private readonly TaskCreationOptions _creationOptions;
         private readonly ConcurrentQueue<T> queue = new();
         private readonly Func<T, ValueTask<TResult>> func;
         private readonly ManualResetEventSlim ResetEven;
@@ -309,19 +299,9 @@ namespace Tool.Utils.ThreadQueue
         /// 创建执行需要的函数
         /// </summary>
         /// <param name="func">队列处理的函数</param>
-        public TaskQueue(Func<T, ValueTask<TResult>> func) : this(func, TaskCreationOptions.LongRunning)
-        {
-        }
-
-        /// <summary>
-        /// 创建执行需要的函数
-        /// </summary>
-        /// <param name="func">队列处理的函数</param>
-        /// <param name="creationOptions">异步线程属性</param>
-        public TaskQueue(Func<T, ValueTask<TResult>> func, TaskCreationOptions creationOptions)
+        public TaskQueue(Func<T, ValueTask<TResult>> func)
         {
             this.func = func;
-            _creationOptions = creationOptions;
             ResetEven = new ManualResetEventSlim(false, 100);
         }
 
@@ -346,7 +326,7 @@ namespace Tool.Utils.ThreadQueue
             if (task == null || task.IsCompleted)
             {
                 //Debug.WriteLine("1:{0}", Interlocked.Increment(ref a));
-                task = ObjectExtension.RunTask(gettask, _creationOptions).ContinueWith(finish);
+                task = ObjectExtension.RunTask(gettask).ContinueWith(finish);
                 //task = Task.Factory.StartNew(gettask, _creationOptions); 
                 //Debug.WriteLine("2:{0}", Interlocked.Increment(ref b));
             }

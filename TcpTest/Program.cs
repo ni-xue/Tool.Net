@@ -210,13 +210,15 @@ namespace TcpTest
         {
             try
             {
-                await P2pWorship.OnMain(args);
 
-                //var builder = Host.CreateApplicationBuilder();
-                //builder.Logging.AddLogSave();
-                //builder.Logging.AddConsole();
-                //builder.UseDiyServiceProvider();
-                //builder.Build();
+                var builder = Host.CreateApplicationBuilder();
+                builder.Logging.AddLogSave();
+                builder.Logging.AddConsole();
+                builder.UseDiyServiceProvider();
+                var host = builder.Build();
+
+                await P2pWorship.OnMain(args, host.Services.GetRequiredService<ILoggerFactory>());
+
 
                 //List<Tool.Sockets.TrojanHelper.TrojanConnect> trojans = [];
                 //for (int i = 53501; i < 53585; i++)
@@ -251,16 +253,16 @@ namespace TcpTest
                 //await trojanUdp.SendUdpAsync(trojanUdpFrame, "8.8.8.8", 53, CancellationToken.None);
                 //await trojanUdp.ReceiveUdpAsync(CancellationToken.None);
 
-                await using Tool.Sockets.TrojanHelper.TrojanHttpHandlerFactory trojanHttpHandler = new(trojans);
-                using HttpClient client = new(trojanHttpHandler.HttpMessageHandler);
+                //await using Tool.Sockets.TrojanHelper.TrojanHttpHandlerFactory trojanHttpHandler = new(trojans);
+                //using HttpClient client = new(trojanHttpHandler.HttpMessageHandler);
 
-                var httpResponse = await client.GetAsync("https://www.youtube.com/");
+                //var httpResponse = await client.GetAsync("https://www.youtube.com/");
 
-                var @string = await httpResponse.Content.ReadAsStringAsync();
+                //var @string = await httpResponse.Content.ReadAsStringAsync();
 
-                var http02 = await client.GetAsync("https://www.google.com/");
+                //var http02 = await client.GetAsync("https://www.google.com/");
 
-                var @string1 = await http02.Content.ReadAsStringAsync();
+                //var @string1 = await http02.Content.ReadAsStringAsync();
             }
             catch (Exception)
             {

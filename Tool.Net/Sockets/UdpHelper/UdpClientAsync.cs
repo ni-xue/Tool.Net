@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -24,7 +25,7 @@ namespace Tool.Sockets.UdpHelper
         private Socket client;
         private IUdpCore udp;
 
-        internal Func<System.Net.EndPoint, Task<Socket>> TryP2PConnect;
+        internal Func<System.Net.EndPoint, Task<P2PHelpr.P2pConnectResult>> TryP2PConnect;
 
         private bool isClose = false; //标识客户端连接是否关闭
         private bool isConnect = false; //标识是否调用了连接函数
@@ -305,7 +306,10 @@ namespace Tool.Sockets.UdpHelper
             {
                 if (isp2p)
                 {
-                    client = await TryP2PConnect.Invoke(endPointServer).ConfigureAwait(false);
+                    var p2PConnect = await TryP2PConnect.Invoke(endPointServer).ConfigureAwait(false);
+                    client = p2PConnect.Socket;
+                    server = (IPEndPoint)p2PConnect.EndPoint;
+                    endPointServer = new(server.Ip, server.Port);
                 }
                 else
                 {
@@ -576,7 +580,7 @@ namespace Tool.Sockets.UdpHelper
                 udp = null;
                 endPointServer = null;
                 arrayData = null;
-                server = null;
+                server = Ipv4Port.Empty;
                 Keep = null;
 
                 //doConnect.Close();

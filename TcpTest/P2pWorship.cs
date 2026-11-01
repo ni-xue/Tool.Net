@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Tool.Sockets.Kernels;
@@ -17,7 +19,7 @@ namespace TcpTest
             await Console.Out.WriteLineAsync($"[{key}]IP:{a1} \t{b1} \t{c1:yyyy/MM/dd HH:mm:ss:fffffff}");
         }
 
-        internal static async Task OnMain(string[] args)
+        internal static async Task OnMain(string[] args, ILoggerFactory loggerFactory)
         {
             //while (true)
             //{
@@ -159,56 +161,141 @@ namespace TcpTest
             //string server = "106.55.49.68";
             //string server = "127.0.0.1";
 
-            await Console.Out.WriteLineAsync($"尝试P2P：{DateTime.Now:yyyy/MM/dd HH:mm:ss:fffffff}");
+            ILogger 
+                logger = loggerFactory.CreateLogger("P2pTest"),
+                servicelog = loggerFactory.CreateLogger("P2pService"),
+                freeInKeylog = loggerFactory.CreateLogger("FreeInKey"),
+                freeOutKeylog = loggerFactory.CreateLogger("FreeOutKey");
 
-#if false
-            P2pServerAsync p2PServerAsync0 = await P2pServerAsync.GetFreeTcp();
-            P2pServerAsync p2PServerAsync1 = await P2pServerAsync.GetFreeTcp();
+            logger.LogInformation("尝试P2P：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", DateTime.Now);
 
-            await Task.Delay(2000);
+            var iPAddress = IPAddress.Parse("47.108.164.106"); // 47.108.164.106 | 127.0.0.1
 
-            TcpClientAsync p2PClientAsync0 = new(NetBufferSize.Default, true);
-            p2PClientAsync0.SetCompleted((age0, age1, age2) => Completed("TCP", age0, age1, age2));
-            var task0 = p2PServerAsync0.P2PConnectAsync(p2PClientAsync0, p2PServerAsync1.RemoteEP);
-            //var task0 = p2PClientAsync0.P2PConnectAsync(p2PServerAsync0.LocalEP, p2PServerAsync1.RemoteEP);
+            var endPoint = new IPEndPoint(iPAddress, 22222);
 
-            await Task.Delay(2000);
+            //using P2pServiceAsync p2PService = new(servicelog);
+            //await p2PService.StartAsync($"0.0.0.0:{endPoint.Port}");
 
-            TcpClientAsync p2PClientAsync1 = new(NetBufferSize.Default, true);
-            p2PClientAsync1.SetCompleted((age0, age1, age2) => Completed("TCP", age0, age1, age2));
-            var task1 = p2PServerAsync1.P2PConnectAsync(p2PClientAsync1, p2PServerAsync0.RemoteEP);
-            //var task1 = p2PClientAsync1.P2PConnectAsync(p2PServerAsync1.LocalEP, p2PServerAsync0.RemoteEP);
-#else
-            P2pServerAsync p2PServerAsync0 = await P2pServerAsync.GetFreeUdp();
-            P2pServerAsync p2PServerAsync1 = await P2pServerAsync.GetFreeUdp();
+            for (int i = 1; i <= 5; i++)
+            {
+                try
+                {
+                    logger.LogInformation("开始测试，第{i}次：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", i, DateTime.Now);
 
-            await Task.Delay(10000);
+                    {
+                        var sessionA = await P2pServerAsync.GetFreeInKeyAsync(endPoint, logger);
+                        var sessionB = await P2pServerAsync.GetFreeOutKeyAsync(endPoint, sessionA.Key, logger);
 
-            UdpClientAsync p2PClientAsync0 = new(NetBufferSize.Default, true) { ReceiveTimeout = 5000 };
-            p2PClientAsync0.SetCompleted((age0, age1, age2) => Completed("UDP", age0, age1, age2));
-            var task0 = p2PServerAsync0.P2PConnectAsync(p2PClientAsync0, p2PServerAsync1.RemoteEP, 100000);
-            //var task0 = p2PClientAsync0.P2PConnectAsync(p2PServerAsync0.LocalEP, p2PServerAsync1.RemoteEP);
+                        // 双方各自打洞（TCP 版本）
+                        var clientA = new TcpClientAsync(NetBufferSize.Default, true);
+                        var task0 = sessionA.P2PConnectAsync(clientA, 10000);
 
-            await Task.Delay(10000);
+                        var clientB = new TcpClientAsync(NetBufferSize.Default, true);
+                        var task1 = sessionB.P2PConnectAsync(clientB, 10000);
 
-            UdpClientAsync p2PClientAsync1 = new(NetBufferSize.Default, true) { ReceiveTimeout = 5000 };
-            p2PClientAsync1.SetCompleted((age0, age1, age2) => Completed("UDP", age0, age1, age2));
-            var task1 = p2PServerAsync1.P2PConnectAsync(p2PClientAsync1, p2PServerAsync0.RemoteEP, 100000);
-            //var task1 = p2PClientAsync1.P2PConnectAsync(p2PServerAsync1.LocalEP, p2PServerAsync0.RemoteEP);
-#endif
+                        await Task.WhenAll(task0, task1);
+                        logger.LogInformation("成功[Tcp]P2P：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", DateTime.Now);
+                    }
 
-            Task.WaitAll(task0, task1);
-            await Console.Out.WriteLineAsync($"成功P2P：{DateTime.Now:yyyy/MM/dd HH:mm:ss:fffffff}");
+                    {
+                        // UDP 轮：新 Key、新会话
+                        var sessionA = await P2pServerAsync.GetFreeInKeyAsync(endPoint, freeInKeylog);
+                        var sessionB = await P2pServerAsync.GetFreeOutKeyAsync(endPoint, sessionA.Key, freeOutKeylog);
 
-            p2PServerAsync0.Dispose();
-            p2PServerAsync1.Dispose();
+                        // 双方各自打洞（UDP 版本）
+                        var clientA = new UdpClientAsync(NetBufferSize.Default, true);
+                        var task2 = sessionA.P2PConnectAsync(clientA, 10000);
 
-            p2PClientAsync0.AddKeepAlive(1);
-            p2PClientAsync1.AddKeepAlive(1);
+                        var clientB = new UdpClientAsync(NetBufferSize.Default, true);
+                        var task3 = sessionB.P2PConnectAsync(clientB, 10000);
 
-            Console.ReadKey();
-            p2PClientAsync0.Dispose();
-            p2PClientAsync1.Dispose();
+                        await Task.WhenAll(task2, task3);
+                        logger.LogInformation("成功[Udp]P2P：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", DateTime.Now);
+                    }
+
+                    //Tool.Utils.JsonVar jsons = new Tool.Utils.JsonVar();
+                    //jsons.Select();
+
+                    //{
+                    //    // 只测试创建 端口 行为
+                    //    var sessionA = await P2pServerAsync.GetFreeInKeyAsync(endPoint, freeInKeylog);
+                    //    var sessionB = await P2pServerAsync.GetFreeOutKeyAsync(endPoint, sessionA.Key, freeOutKeylog);
+
+                    //    Func<P2PRetryInfo, ValueTask> puncherA = async info =>
+                    //    {
+                    //        freeInKeylog.LogInformation("[TestA] 窗口: local={local}, remote={remote}, timeout={timeout}",
+                    //            info.LocalEP, info.EndPoint, info.Timeout);
+                    //    };
+
+                    //    Func<P2PRetryInfo, ValueTask> puncherB = async info =>
+                    //    {
+                    //        freeOutKeylog.LogInformation("[TestB] 窗口: local={local}, remote={remote}, timeout={timeout}",
+                    //            info.LocalEP, info.EndPoint, info.Timeout);
+                    //    };
+
+                    //    var task2 = sessionA.P2PConnectTestAsync(60000, puncherA);
+                    //    var task3 = sessionB.P2PConnectTestAsync(60000, puncherB);
+
+                    //    await Task.WhenAll(task2, task3);
+                    //    logger.LogInformation("成功[多次创建端口]P2P：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", DateTime.Now);
+                    //}
+                }
+                catch (Exception)
+                {
+                    logger.LogInformation("第{i}次，打洞失败！{Now:yyyy/MM/dd HH:mm:ss:fffffff}", i, DateTime.Now);
+                }
+            }
+
+            await Task.Delay(Timeout.Infinite);
+
+            //#if false
+            //            P2pServerAsync p2PServerAsync0 = await P2pServerAsync.GetFreeTcp();
+            //            P2pServerAsync p2PServerAsync1 = await P2pServerAsync.GetFreeTcp();
+
+            //            await Task.Delay(2000);
+
+            //            TcpClientAsync p2PClientAsync0 = new(NetBufferSize.Default, true);
+            //            p2PClientAsync0.SetCompleted((age0, age1, age2) => Completed("TCP", age0, age1, age2));
+            //            var task0 = p2PServerAsync0.P2PConnectAsync(p2PClientAsync0, p2PServerAsync1.RemoteEP);
+            //            //var task0 = p2PClientAsync0.P2PConnectAsync(p2PServerAsync0.LocalEP, p2PServerAsync1.RemoteEP);
+
+            //            await Task.Delay(2000);
+
+            //            TcpClientAsync p2PClientAsync1 = new(NetBufferSize.Default, true);
+            //            p2PClientAsync1.SetCompleted((age0, age1, age2) => Completed("TCP", age0, age1, age2));
+            //            var task1 = p2PServerAsync1.P2PConnectAsync(p2PClientAsync1, p2PServerAsync0.RemoteEP);
+            //            //var task1 = p2PClientAsync1.P2PConnectAsync(p2PServerAsync1.LocalEP, p2PServerAsync0.RemoteEP);
+            //#else
+            //            P2pServerAsync p2PServerAsync0 = await P2pServerAsync.GetFreeUdp();
+            //            P2pServerAsync p2PServerAsync1 = await P2pServerAsync.GetFreeUdp();
+
+            //            await Task.Delay(10000);
+
+            //            UdpClientAsync p2PClientAsync0 = new(NetBufferSize.Default, true) { ReceiveTimeout = 5000 };
+            //            p2PClientAsync0.SetCompleted((age0, age1, age2) => Completed("UDP", age0, age1, age2));
+            //            var task0 = p2PServerAsync0.P2PConnectAsync(p2PClientAsync0, p2PServerAsync1.RemoteEP, 100000);
+            //            //var task0 = p2PClientAsync0.P2PConnectAsync(p2PServerAsync0.LocalEP, p2PServerAsync1.RemoteEP);
+
+            //            await Task.Delay(10000);
+
+            //            UdpClientAsync p2PClientAsync1 = new(NetBufferSize.Default, true) { ReceiveTimeout = 5000 };
+            //            p2PClientAsync1.SetCompleted((age0, age1, age2) => Completed("UDP", age0, age1, age2));
+            //            var task1 = p2PServerAsync1.P2PConnectAsync(p2PClientAsync1, p2PServerAsync0.RemoteEP, 100000);
+            //            //var task1 = p2PClientAsync1.P2PConnectAsync(p2PServerAsync1.LocalEP, p2PServerAsync0.RemoteEP);
+            //#endif
+
+            //            Task.WaitAll(task0, task1);
+            //            await Console.Out.WriteLineAsync($"成功P2P：{DateTime.Now:yyyy/MM/dd HH:mm:ss:fffffff}");
+
+            //            p2PServerAsync0.Dispose();
+            //            p2PServerAsync1.Dispose();
+
+            //            p2PClientAsync0.AddKeepAlive(1);
+            //            p2PClientAsync1.AddKeepAlive(1);
+
+            //            Console.ReadKey();
+            //            p2PClientAsync0.Dispose();
+            //            p2PClientAsync1.Dispose();
 
             //UserKey userKey = "1.1.1.1:65535";
 

@@ -23,7 +23,7 @@ namespace Tool.Sockets.TcpHelper
 
         private Socket client;
 
-        internal Func<EndPoint, Task<Socket>> TryP2PConnect;
+        internal Func<EndPoint, Task<P2PHelpr.P2pConnectResult>> TryP2PConnect;
 
         /**
          * 客户端连接完成、发送完成、连接异常或者服务端关闭触发的事件
@@ -358,18 +358,21 @@ namespace Tool.Sockets.TcpHelper
             {
                 if (isp2p)
                 {
-                    client = await TryP2PConnect.Invoke(endPointServer);
+                    var p2PConnect = await TryP2PConnect.Invoke(endPointServer).ConfigureAwait(false);
+                    client = p2PConnect.Socket;
+                    endPointServer = (IPEndPoint)p2PConnect.EndPoint;
+                    server = endPointServer;
                 }
                 else
                 {
                     client = StateObject.CreateSocket(true, BufferSize);
-                    await client.ConnectAsync(endPointServer, CancellationToken.None);
+                    await client.ConnectAsync(endPointServer, CancellationToken.None).ConfigureAwait(false);
                 }
                 isAuth = true; //连接成功后
                 //需要增加对有效连接的验证消息
                 if (OnlyData)
                 {
-                    await Handshake.TcpAuthenticAtion(client, isp2p);
+                    await Handshake.TcpAuthenticAtion(client, isp2p).ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
@@ -647,7 +650,7 @@ namespace Tool.Sockets.TcpHelper
                 client?.Dispose();
                 client = null;
                 endPointServer = null;
-                server = null;
+                server = Ipv4Port.Empty;
                 Keep = null;
                 GC.SuppressFinalize(this);
             }

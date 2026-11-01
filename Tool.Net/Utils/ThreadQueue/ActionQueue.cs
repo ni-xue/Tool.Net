@@ -48,7 +48,7 @@ namespace Tool.Utils.ThreadQueue
 
             if (task == null || task.IsCompleted)
             {
-                task = ObjectExtension.RunTask(gettask, TaskCreationOptions.LongRunning).ContinueWith(finish);
+                task = ObjectExtension.RunTask(gettask).ContinueWith(finish);
                 //task = Task.Factory.StartNew(gettask, TaskCreationOptions.LongRunning).ContinueWith(finish);
             }
 

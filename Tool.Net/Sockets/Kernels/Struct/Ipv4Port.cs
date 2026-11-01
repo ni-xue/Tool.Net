@@ -114,7 +114,21 @@ namespace Tool.Sockets.Kernels
         public static implicit operator Ipv4Port(UserKey ipport)
         {
             if (!ipport.IsIpv4Port) throw new ArgumentException("参数无法被转换，数据无效！", nameof(ipport));
-            return new(ipport.Bytes);
+            return new(in ipport.Bytes);
+        }
+
+        /// <summary>
+        ///  定义从 <see cref="IPEndPoint"/> 对象到 <see cref="Ipv4Port"/> 对象的隐式转换。
+        /// </summary>
+        /// <param name="ipport">要转换的对象。</param>
+        /// <returns>转换的 <see cref="Ipv4Port"/> 对象。</returns>
+        public static implicit operator Ipv4Port(IPEndPoint ipport)
+        {
+            if (ipport is null) throw new ArgumentException("参数无法被转换，数据为空！", nameof(ipport));
+            if (ipport.AddressFamily is not System.Net.Sockets.AddressFamily.InterNetwork) throw new ArgumentException("参数无法被转换，不是有效的IPv4！", nameof(ipport));
+            var bytes = StateObject.IPEndPointToBytes(ipport);
+            if (bytes.IsEmpty) throw new ArgumentException("参数无法被转换，转换失败！", nameof(ipport));
+            return new(in bytes);
         }
 
         /// <summary>
