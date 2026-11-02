@@ -189,7 +189,7 @@ namespace Tool.Utils
     /// <summary>
     /// 一种获取 Json 格式数据的实现
     /// </summary>
-    public readonly struct JsonVar : IEnumerable<JsonEnumerator>
+    public readonly struct JsonVar : IEnumerable<JsonEnumerator>, IEquatable<JsonVar>
     {
         /// <summary>
         /// 获取一个空类型
@@ -219,7 +219,7 @@ namespace Tool.Utils
         /// <summary>
         /// 是否为空
         /// </summary>
-        public bool IsEmpty { get; }
+        public bool IsEmpty => ValueKind is JsonValueKind.Undefined;
 
         /// <summary>
         /// 当前 层 可能存在的 集合 长度 （string 会显示 字符长度）
@@ -235,8 +235,7 @@ namespace Tool.Utils
         {
             this.Data = null;
             this.Count = 0;
-            ValueKind = JsonValueKind.Undefined;
-            IsEmpty = isEmpty;
+            ValueKind = isEmpty ? JsonValueKind.Undefined : JsonValueKind.Null;
         }
 
         /// <summary>
@@ -280,7 +279,6 @@ namespace Tool.Utils
 
             this.Data = data;
             this.Count = count;
-            this.IsEmpty = false;
         }
 
         /// <summary>
@@ -292,14 +290,25 @@ namespace Tool.Utils
         {
             get
             {
-                if (ValueKind is JsonValueKind.Object && Data is IDictionary dic && dic.Contains(name))
+                if (ValueKind is JsonValueKind.Object && Data is IDictionary dic)
                 {
+                    if (!dic.Contains(name)) throw new Exception($"{nameof(name)}:{name} 不存在该key！");
                     return new JsonVar(dic[name]);
                 }
                 if (JsonHelper.IsTryJsonVar)
                 {
                     return new JsonVar(null);
                 }
+                throw new Exception("对象下不存在字典结构！");
+            }
+            set 
+            {
+                if (ValueKind is JsonValueKind.Object && Data is IDictionary dic)
+                {
+                    dic[name] = value.Data;
+                    return;
+                }
+                if (JsonHelper.IsTryJsonVar) return;
                 throw new Exception("对象下不存在字典结构！");
             }
         }
@@ -315,6 +324,8 @@ namespace Tool.Utils
             {
                 if (ValueKind is JsonValueKind.Array && Data is IList list)
                 {
+                    if (i < 0) throw new Exception($"{nameof(i)}:{i} 不能为负数！");
+                    if (i >= list.Count) throw new Exception($"{nameof(i)}:{i} 不能访问不存在的下标！");
                     return new JsonVar(list[i]);
                 }
                 if (JsonHelper.IsTryJsonVar)
@@ -322,6 +333,18 @@ namespace Tool.Utils
                     return new JsonVar(null);
                 }
                 throw new Exception("对象下不存在数组结构！");
+            }
+            set
+            {
+                if (ValueKind is JsonValueKind.Array && Data is IList list)
+                {
+                    if (i < 0) throw new Exception($"{nameof(i)}:{i} 不能为负数！");
+                    if (i >= list.Count) throw new Exception($"{nameof(i)}:{i} 不能访问不存在的下标！");
+                    list[i] = value.Data;
+                    return;
+                }
+                if (JsonHelper.IsTryJsonVar) return;
+                throw new Exception("对象下不存在字典结构！");
             }
         }
 
@@ -461,6 +484,95 @@ namespace Tool.Utils
         {
             return GetEnumerator();
         }
+
+        /// <summary>
+        /// 比较器，与另一个 <see cref="JsonVar"/> 进行比较
+        /// </summary>
+        /// <param name="other">比较的 <see cref="JsonVar"/></param>
+        /// <returns><see cref="bool"/></returns>
+        public bool Equals(JsonVar other)
+        {
+            if (this.ValueKind != other.ValueKind) return false;
+
+            return this.ValueKind switch
+            {
+                JsonValueKind.Array => ArrayEqual(this, other),
+                JsonValueKind.Object => DictionaryEqual(this, other),
+                _ => Equals(this.Data, other.Data),
+            };
+        }
+
+        private static bool ArrayEqual(JsonVar a, JsonVar b) 
+        {
+            if (a.Count != b.Count) return false;
+
+            using var ea = a.GetEnumerator();
+            using var eb = b.GetEnumerator();
+            while (true)
+            {
+                bool ha = ea.MoveNext(), hb = eb.MoveNext();
+                if (ha != hb) return false;      // 长度不同
+                if (!ha) return true;            // 同时结束
+                JsonEnumerator enumeratorA = ea.Current, enumeratorB = eb.Current;
+                if (!enumeratorA.Current.Equals(enumeratorB.Current)) return false;
+            }
+        }
+
+        private static bool DictionaryEqual(JsonVar a, JsonVar b)
+        {
+            if (a.Count != b.Count) return false;
+
+            foreach (var jsona in a)
+            {
+                if (!b.TryGet(out var jsonb, jsona.Key)) return false;
+                if (!jsonb.Equals(jsona.Current)) return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 比较器，会将所有类型转换成同类型，进行比较
+        /// </summary>
+        /// <param name="obj">比较的对象</param>
+        /// <returns><see cref="bool"/></returns>
+        public override bool Equals(object obj)
+        {
+            JsonVar json = obj switch
+            {
+                JsonVar jsons => jsons,
+                JsonEnumerator enumerator => enumerator.Current,
+                _ => new(obj),
+            };
+            return Equals(json);
+        }
+
+        /// <summary>
+        /// 获取 哈希值 仅值类型可获得
+        /// </summary>
+        /// <returns>返回哈希值</returns>
+        /// <exception cref="NotSupportedException">Array/Object 类型不支持</exception>
+        public override int GetHashCode() => this.ValueKind switch
+        {
+            JsonValueKind.Array or JsonValueKind.Object
+                => throw new NotSupportedException("Array/Object 类型不支持 GetHashCode，请勿作为字典键。"),
+            _ => HashCode.Combine(this.ValueKind, this.Data),
+        };
+
+        /// <summary>
+        /// 比较是否相等
+        /// </summary>
+        /// <param name="a">比较A</param>
+        /// <param name="b">比较B</param>
+        /// <returns>bool</returns>
+        public static bool operator ==(JsonVar a, JsonVar b) => a.Equals(b);
+
+        /// <summary>
+        /// 比较是否不相等
+        /// </summary>
+        /// <param name="a">比较A</param>
+        /// <param name="b">比较B</param>
+        /// <returns>bool</returns>
+        public static bool operator !=(JsonVar a, JsonVar b) => !a.Equals(b);
 
         /// <summary>
         /// JsonEnumerator
@@ -649,6 +761,12 @@ namespace Tool.Utils
         /// 大概确定 Json 数据的类型
         /// </summary>
         public JsonValueKind ValueKind => Current.ValueKind;
+
+        /// <summary>
+        /// <see cref="JsonVar"/>
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator JsonVar(JsonEnumerator value) => value.Current;
 
         /// <summary>
         /// <see cref="Dictionary{String, Object}"/>
