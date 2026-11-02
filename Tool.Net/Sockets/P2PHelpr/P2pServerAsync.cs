@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -11,461 +11,419 @@ using Tool.Utils;
 
 namespace Tool.Sockets.P2PHelpr
 {
-    /// <summary>
-    /// P2p服务类型
-    /// </summary>
+    /// <summary>客户端在配对中的角色</summary>
     /// <remarks>代码由逆血提供支持</remarks>
-    public enum P2pRole
+    public enum P2pRole : byte
     {
-        /// <summary>
-        /// 发起方
-        /// </summary>
-        InKey,
-        /// <summary>
-        /// 接受方
-        /// </summary>
-        OutKey
+        /// <summary>发起方：申请 Key</summary>
+        InKey = 1,
+        /// <summary>等待方：设置 Key</summary>
+        OutKey = 2
+    }
+
+    /// <summary>服务器下发的配对信息</summary>
+    internal readonly struct PairInfo
+    {
+        /// <summary>本次回复对应的 roundKey</summary>
+        public Guid RoundKey { get; }
+        /// <summary>下一轮 roundKey（NoMoreRoundKey 表示服务端拒绝继续）</summary>
+        public Guid NextRoundKey { get; }
+        /// <summary>本端公网地址</summary>
+        public Ipv4Port LocalEP { get; }
+        /// <summary>对端公网地址</summary>
+        public Ipv4Port RemoteEP { get; }
+
+        public PairInfo(Guid roundKey, Guid nextRoundKey, Ipv4Port local, Ipv4Port remote)
+        {
+            RoundKey = roundKey;
+            NextRoundKey = nextRoundKey;
+            LocalEP = local;
+            RemoteEP = remote;
+        }
     }
 
     /// <summary>
-    /// 开放用于P2P模块化的支持类
-    /// 可以获取免费开放的打洞公网服务器支持
+    /// P2P 客户端会话。
+    /// <para>每次 <see cref="GetFreeInKeyAsync(ILogger, int)"/> / <see cref="GetFreeOutKeyAsync(Guid, ILogger, int)"/> 创建一个新实例，底层 TCP 长连接由连接池共享。</para>
+    /// <para>InKey 申请 Key，OutKey 设置 Key；双方各自发 UDP/TCP 就绪消息，服务器配对后通过 TCP 下发双方公网地址，然后打洞。</para>
     /// </summary>
     /// <remarks>代码由逆血提供支持</remarks>
     public sealed class P2pServerAsync : IDisposable
     {
-        /// <summary>
-        /// TCP验证头
-        /// </summary>
-        public static Memory<byte> TcpTop { get; } = new byte[] { 111, 121, 212, 222 };
-
-        /// <summary>
-        /// UDP验证头
-        /// </summary>
-        public static Memory<byte> UdpTop { get; } = new byte[] { 128, 168, 218, 248 };
-
-        /// <summary>
-        /// 设置连接服务器超时时间
-        /// </summary>
-        public int Millisecond { get; init; } = 10000;
-
-        private const int port = 11111;
-
-        private bool success;
-        private bool okwait;
-        private INetworkConnect network;
-        private TaskCompletionSource<bool> taskWith;
-
-        /// <summary>
-        /// 服务类型
-        /// </summary>
+        /// <summary>本会话角色</summary>
         public P2pRole Role { get; private set; }
 
-        /// <summary>
-        /// 服务ID
-        /// </summary>
+        /// <summary>服务端分配的 Key，InKey 时由服务器返回，OutKey 时由调用方传入</summary>
         public Guid Key { get; private set; }
 
-        /// <summary>
-        /// 用于本地绑定的IP:Port，近当前服务商的，与P2P无关
-        /// </summary>
+        /// <summary>服务器下发的本端公网地址（配对成功后有效）</summary>
         public Ipv4Port LocalEP { get; private set; }
 
-        /// <summary>
-        /// 用于P2P绑定的IP:Port，近当前服务商的，与P2P无关
-        /// </summary>
+        /// <summary>服务器下发的对端公网地址（配对成功后有效）</summary>
         public Ipv4Port RemoteEP { get; private set; }
 
-        private readonly TcpClientAsync _network;      // 共享
-        private readonly IPEndPoint _endPoint;        // 所属连接池的 key
+        private readonly TcpClientAsync _network;
+        private readonly IPEndPoint _endPoint;
+        private readonly ILogger _logger;
+        private readonly bool islog;
 
-        private TaskCompletionSource<bool> _taskWith;
-        private bool _success;
-        private bool _okwait;
-        private bool _disposed = false;
+        /// <summary>等待服务器回复（Key 申请/设置/配对）的 TCS</summary>
+        private TaskCompletionSource<PairInfo> _pairTcs;
+        private TaskCompletionSource<bool> _ackTcs;
 
-        private static async ValueTask<IPAddress> GetHost() => await Utility.GetIPAddressAsync("p2p.nixue.top", AddressFamily.InterNetwork) ?? throw new Exception("无法获取云端服务器信息，请确认网络是否正常！");
+        /// <summary>当前可用的 roundKey（一次性，MsgKeyAck / MsgPairReply 更新）</summary>
+        private Guid _roundKey;
 
-        private static async ValueTask<P2pServerAsync> GetFree(bool isTcp) => await GetFree(new IPEndPoint(await GetHost(), port), isTcp);
+        /// <summary>服务端拒绝继续分配 roundKey 的哨兵值</summary>
+        private static readonly Guid NoMoreRoundKey = new("ffffffff-ffff-ffff-ffff-ffffffffffff");
 
-        /// <summary>
-        /// 验证一个数据流，确定它是否是符合协议的P2P（发起）协议
-        /// </summary>
-        /// <param name="span"></param>
-        /// <param name="localEP"></param>
-        /// <returns></returns>
-        public static bool IsP2pAuth(Span<byte> span, out Ipv4Port localEP)
-        {
-            if (span.Length == 10 && (Utility.SequenceCompare(span[..4], TcpTop.Span) || Utility.SequenceCompare(span[..4], UdpTop.Span)))
-            {
-                localEP = new(span[4..10].ToArray());
-                return true;
-            }
-            localEP = null;
-            return false;
-        }
+        private int _p2pStarted;
+        private bool _disposed;
 
-        /// <summary>
-        /// 验证一个数据流，确定它是否是符合协议的P2P（等待）协议
-        /// </summary>
-        /// <param name="span"></param>
-        /// <param name="localEP"></param>
-        /// <returns></returns>
-        public static bool IsP2pWait(Span<byte> span, out Ipv4Port localEP)
-        {
-            if (span.Length == 10 && (Utility.SequenceCompare(span[6..], TcpTop.Span) || Utility.SequenceCompare(span[6..], UdpTop.Span)))
-            {
-                localEP = new(span[0..6].ToArray());
-                return true;
-            }
-            localEP = null;
-            return false;
-        }
-
-        /// <summary>
-        /// 获取公共的P2PServer服务器的通信消息 TCP版本
-        /// <list type="table">提供方：p2p.nixue.top</list>
-        /// </summary>
-        /// <returns>成功后的结果</returns>
-        public static ValueTask<P2pServerAsync> GetFreeTcp() => GetFree(true);
-
-        /// <summary>
-        /// 获取公共的P2PServer服务器的通信消息 UDP版本
-        /// <list type="table">提供方：p2p.nixue.top</list>
-        /// </summary>
-        /// <returns>成功后的结果</returns>
-        public static ValueTask<P2pServerAsync> GetFreeUdp() => GetFree(false);
-
-        /// <summary>
-        /// 用于获取私有P2PServer服务器的通信消息
-        /// </summary>
-        /// <param name="endPoint">服务器IP端口</param>
-        /// <param name="isTcp">获取的P2P类型</param>
-        /// <returns>成功后的结果</returns>
-        public static async ValueTask<P2pServerAsync> GetFree(IPEndPoint endPoint, bool isTcp)
-        {
-            P2pServerAsync p2PServerAsync = new(isTcp);
-            try
-            {
-                await p2PServerAsync.ConnectAsync(endPoint);
-                await p2PServerAsync.SendAuthAsync(); //需要增加心跳业务，确保双方均未断开
-                await p2PServerAsync.EndAuthAsync();
-            }
-            catch (Exception)
-            {
-                p2PServerAsync.Dispose();
-                throw;
-            }
-            return p2PServerAsync;
-        }
-
-        /// <summary>
-        /// 回收相关资源
-        /// </summary>
-        public void Dispose()
-        {
-            _disposed = true;
-            if (network is not null)
-            {
-                network.Dispose();
-                network = null;
-                GC.SuppressFinalize(this);
-            }
-        }
-
-        private void ThrowIfDisposed()
-        {
-            if (_disposed)
-            {
-                ThrowObjectDisposedException();
-            }
-
-            void ThrowObjectDisposedException() => throw new ObjectDisposedException(GetType().FullName);
-        }
-
-        private P2pServerAsync(bool isTcp)
-        {
-            if (isTcp)
-            {
-                network = new TcpClientAsync(NetBufferSize.Size8K, true) { Millisecond = 0 };
-            }
-            else
-            {
-                network = new UdpClientAsync(NetBufferSize.Size8K, true) { Millisecond = 0 };
-            }
-        }
-
-        private P2pServerAsync(TcpClientAsync network, IPEndPoint endPoint, P2pRole role)
+        private P2pServerAsync(TcpClientAsync network, IPEndPoint endPoint, P2pRole role, ILogger logger)
         {
             _network = network;
             _endPoint = endPoint;
             Role = role;
+            _logger = logger;
+            islog = logger != null;
+        }
+
+        #region 静态入口
+
+        private const string DefaultHost = "p2p.nixue.top";
+        private const int DefaultPort = 11111;
+
+        private static async ValueTask<IPEndPoint> GetDefaultEndPointAsync()
+        {
+            var ip = await Utility.GetIPAddressAsync(DefaultHost, AddressFamily.InterNetwork) ?? throw new Exception("无法获取云端服务器信息，请确认网络是否正常！");
+            return new IPEndPoint(ip, DefaultPort);
+        }
+
+        /// <summary>获取发起方会话（使用内置免费服务商 p2p.nixue.top）</summary>
+        public static async ValueTask<P2pServerAsync> GetFreeInKeyAsync(ILogger logger = null, int timeoutMs = 5000)
+        {
+            var ep = await GetDefaultEndPointAsync();
+            return await GetFreeInKeyAsync(ep, logger, timeoutMs);
+        }
+
+        /// <summary>获取等待方会话（使用内置免费服务商 p2p.nixue.top）</summary>
+        public static async ValueTask<P2pServerAsync> GetFreeOutKeyAsync(Guid key, ILogger logger = null, int timeoutMs = 5000)
+        {
+            var ep = await GetDefaultEndPointAsync();
+            return await GetFreeOutKeyAsync(ep, key, logger, timeoutMs);
         }
 
         /// <summary>
-        /// 获取方：申请 Guid。
+        /// 获取发起方会话：向服务器申请 Key。
         /// </summary>
-        public static async ValueTask<P2pServerAsync> GetFreeInKeyAsync(IPEndPoint endPoint)
+        /// <param name="endPoint">信标服务器 TCP 和 UDP 地址</param>
+        /// <param name="logger">可选日志</param>
+        /// <param name="timeoutMs">等待耗时 默认5秒</param>
+        public static async ValueTask<P2pServerAsync> GetFreeInKeyAsync(IPEndPoint endPoint, ILogger logger = null, int timeoutMs = 5000)
         {
             var network = await P2pConnectionPool.Instance.GetOrCreateAsync(endPoint);
-            var session = new P2pServerAsync(network, endPoint, P2pRole.InKey);
-            await session.RequestGuidAsync();
+            var session = new P2pServerAsync(network, endPoint, P2pRole.InKey, logger);
+            await session.RequestKeyAsync(timeoutMs);
             return session;
         }
 
         /// <summary>
-        /// 等待方：用已有 Guid 等待配对。
+        /// 获取等待方会话：用已有 Key 加入配对。
         /// </summary>
-        public static async ValueTask<P2pServerAsync> GetFreeOutKeyAsync(IPEndPoint endPoint, Guid key)
+        /// <param name="endPoint">信标服务器 TCP 和 UDP 地址</param>
+        /// <param name="key">发起方申请到的 Key</param>
+        /// <param name="logger">可选日志</param>
+        /// <param name="timeoutMs">等待时长</param>
+        public static async ValueTask<P2pServerAsync> GetFreeOutKeyAsync(IPEndPoint endPoint, Guid key, ILogger logger = null, int timeoutMs = 5000)
         {
             var network = await P2pConnectionPool.Instance.GetOrCreateAsync(endPoint);
-            var session = new P2pServerAsync(network, endPoint, P2pRole.OutKey);
-            await session.SetGuidAsync(key);
+            var session = new P2pServerAsync(network, endPoint, P2pRole.OutKey, logger);
+            await session.SetKeyAsync(key, timeoutMs);
             return session;
         }
 
-        private async Task RequestGuidAsync()
-        {
-            Key = Guid.NewGuid();
-            // TODO: 通过 _network 发“申请 Guid”请求，等服务器返回。
-            throw new NotImplementedException("申请 Guid 协议待实现");
-        }
+        #endregion
 
-        private async Task SetGuidAsync(Guid key)
+        #region Key 申请/设置
+
+        private async Task RequestKeyAsync(int timeoutMs)
         {
+            using var cts = new CancellationTokenSource(timeoutMs);
+            _ackTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var reg = cts.Token.Register(() => _ackTcs.TrySetCanceled());
+
+            var key = Guid.NewGuid();
+            P2pSessionRegistry.Instance.Register(key, Role, this);
+
+            if (islog && _logger.IsEnabled(LogLevel.Debug)) _logger.LogDebug("[P2P-{role}]申请 Key 发送, key={key}", Role, key);
+
+            using var send = _network.CreateSendBytes(P2pClientProtocol.TcpHeaderLen);
+            P2pClientProtocol.WriteTcpHeader(send.Span, P2pClientProtocol.MsgRequestKey, key, Role);
+            await _network.SendAsync(send);
+
+            var ok = await _ackTcs.Task;
+            if (islog && _logger.IsEnabled(LogLevel.Debug)) _logger.LogDebug("[P2P-{role}]申请 Key 结果, key={key}, ok={ok}", Role, key, ok);
+
+            if (!ok)
+            {
+                P2pSessionRegistry.Instance.Unregister(key, Role);
+                throw new InvalidOperationException($"申请 Key 被拒绝：{key}");
+            }
             Key = key;
-            // TODO: 通过 _network 发“设置 Guid”请求，等服务器确认。
-            throw new NotImplementedException("设置 Guid 协议待实现");
         }
 
-        private Task ConnectAsync(IPEndPoint endPoint)
+        private async Task SetKeyAsync(Guid key, int timeoutMs)
         {
-            taskWith = new(TaskCreationOptions.RunContinuationsAsynchronously);
-            if (network is TcpClientAsync tcpClientAsync)
-            {
-                tcpClientAsync.SetReceived(async (receive) =>
-                {
-                    using (receive)
-                    {
-                        await P2PValidate(receive.Memory, TcpTop);
-                    }
-                });
-                tcpClientAsync.SetCompleted(valueTask);
-            }
-            if (network is UdpClientAsync udpClientAsync)
-            {
-                udpClientAsync.SetReceived(async (receive) =>
-                {
-                    using (receive)
-                    {
-                        await P2PValidate(receive.Memory, UdpTop);
-                    }
-                });
-                udpClientAsync.SetCompleted(valueTask);
-            }
+            using var cts = new CancellationTokenSource(timeoutMs);
+            _ackTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var reg = cts.Token.Register(() => _ackTcs.TrySetCanceled());
 
-            ValueTask valueTask(UserKey a, EnClient b, DateTime c)
-            {
-                if (b is EnClient.Fail or EnClient.Close)
-                {
-                    taskWith.TrySetException(new Exception("与服务器协议不一致或中断连接。"));
-                }
-                return ValueTask.CompletedTask;
-            }
+            if (islog && _logger.IsEnabled(LogLevel.Debug)) _logger.LogDebug("[P2P-{role}]设置 Key 发送, key={key}", Role, key);
+            P2pSessionRegistry.Instance.Register(key, Role, this);
 
-            return network.ConnectAsync(endPoint.Address.ToString(), endPoint.Port);
+            using var send = _network.CreateSendBytes(P2pClientProtocol.TcpHeaderLen);
+            P2pClientProtocol.WriteTcpHeader(send.Span, P2pClientProtocol.MsgSetKey, key, Role);
+            await _network.SendAsync(send);
+
+            var ok = await _ackTcs.Task;
+            if (islog && _logger.IsEnabled(LogLevel.Debug)) _logger.LogDebug("[P2P-{role}]设置 Key 结果, key={key}, ok={ok}", Role, key, ok);
+
+            if (!ok)
+            {
+                P2pSessionRegistry.Instance.Unregister(key, Role);
+                throw new InvalidOperationException($"设置 Key 被拒绝：{key}");
+            }
+            Key = key;
         }
 
-        private ValueTask P2PValidate(Memory<byte> memory, Memory<byte> isor)
+        #endregion
+
+        #region 服务器消息分发（由注册表回调）
+
+        /// <summary>收到服务器对“设置 Key”的确认</summary>
+        internal void OnKeyAck(bool ok, Guid firstRoundKey)
         {
-            if (memory.Length == 16 && Utility.SequenceCompare(memory.Span[..4], isor.Span))
-            {
-                LocalEP = new(memory[4..10].ToArray());
-                RemoteEP = new(memory[10..16].ToArray());
-                success = true;
-                taskWith.TrySetResult(success);
-            }
-            else if (success && memory.Length == 10 && Utility.SequenceCompare(memory.Span[6..], isor.Span))
-            {
-                Ipv4Port testip = new(memory[0..6].ToArray());
-                if (RemoteEP == testip)
-                {
-                    okwait = true;
-                    taskWith.TrySetResult(okwait);
-                }
-            }
-            return ValueTask.CompletedTask;
+            if (ok) _roundKey = firstRoundKey;   // 第 1 轮
+            _ackTcs?.TrySetResult(ok);
         }
 
-        private async Task SendAuthAsync()
+        /// <summary>收到服务器配对结果</summary>
+        internal void OnPairReply(Guid roundKey, Guid nextRoundKey, Ipv4Port localEP, Ipv4Port remoteEP)
         {
-            ThrowIfDisposed();
-            if (network is TcpClientAsync tcpClientAsync)
-            {
-                tcpClientAsync.AddKeepAlive(100); //毫秒
-                using var sendBytes = tcpClientAsync.CreateSendBytes(10);
-                sendBytes.SetMemory(TcpTop);
-                sendBytes.SetMemory(network.LocalPoint.Bytes, 4);
-                await tcpClientAsync.SendAsync(sendBytes);
-            }
-            if (network is UdpClientAsync udpClientAsync)
-            {
-                udpClientAsync.AddKeepAlive(10); //毫秒
-                using var sendBytes = udpClientAsync.CreateSendBytes(10);
-                sendBytes.SetMemory(UdpTop);
-                sendBytes.SetMemory(network.LocalPoint.Bytes, 4);
-                await udpClientAsync.SendAsync(sendBytes);
-            }
+            if (roundKey != _roundKey) return;
+            _roundKey = nextRoundKey;
+            LocalEP = localEP;
+            RemoteEP = remoteEP;
+            _pairTcs?.TrySetResult(new PairInfo(roundKey, nextRoundKey, localEP, remoteEP));
         }
 
-        private bool NotConnected => network is TcpClientAsync && !network.Connected;
-
-        private async Task EndAuthAsync()
+        /// <summary>配对回复格式错误，通知等待方失败</summary>
+        internal void OnPairReplyFailed()
         {
-            ThrowIfDisposed();
-            if (NotConnected) throw new Exception("与服务器协议不一致或中断连接。");
+            _pairTcs?.TrySetException(new InvalidOperationException("配对回复格式错误"));
+        }
+
+        #endregion
+
+        #region 主流程：UDP 触发 → 等配对 → 打洞 → 重试
+
+        /// <summary>
+        /// 执行 P2P 打洞 - Udp
+        /// <para>循环：创建 UDP 随机端口 → 发就绪消息 → 等服务器 TCP 下发对方地址 → 用同一端口打洞；失败则换新端口重试，直到总超时。</para>
+        /// </summary>
+        /// <param name="client">UDP - P2P</param>
+        /// <param name="timedDelay">总超时毫秒数</param>
+        public Task P2PConnectAsync(UdpClientAsync client, int timedDelay = 5000) => P2PConnectAsync(client, timedDelay, null);
+
+        /// <summary>
+        /// 执行 P2P 打洞 - Tcp
+        /// <para>循环：创建 UDP 随机端口 → 发就绪消息 → 等服务器 TCP 下发对方地址 → 用同一端口打洞；失败则换新端口重试，直到总超时。</para>
+        /// </summary>
+        /// <param name="client">TCP - P2P</param>
+        /// <param name="timedDelay">总超时毫秒数</param>
+        public Task P2PConnectAsync(TcpClientAsync client, int timedDelay = 5000) => P2PConnectAsync(client, timedDelay, null);
+
+        /// <summary>
+        /// 执行 P2P 打洞 - Udp
+        /// <para>循环：创建 UDP 随机端口 → 发就绪消息 → 等服务器 TCP 下发对方地址 → 用同一端口打洞；失败则换新端口重试，直到总超时。</para>
+        /// </summary>
+        /// <param name="client">UDP - P2P</param>
+        /// <param name="timedDelay">总超时毫秒数</param>
+        /// <param name="holePuncher">连接信息窗口</param>
+        public Task P2PConnectAsync(UdpClientAsync client, int timedDelay, Func<P2pRetryInfo, ValueTask> holePuncher = null)
+        {
+            if (Interlocked.Exchange(ref _p2pStarted, 1) == 1) throw new InvalidOperationException("P2PConnectAsync 只能调用一次，请为新配对申请新的 Key");
+            if (timedDelay < 1000) throw new ArgumentOutOfRangeException(nameof(timedDelay), "不能小于 1000ms");
+            return client.P2PConnectAsync(async p2PHole =>
+            {
+                var p2PRetry = await GetP2PRetryAsync(p2PHole.StunSocket, p2PHole.HoleCount, timedDelay - p2PHole.InitElapsedMs, p2PHole.Token);
+                if (holePuncher is not null) await holePuncher.Invoke(p2PRetry);
+                return p2PRetry;
+            }, _logger);
+        }
+
+        /// <summary>
+        /// 执行 P2P 打洞 - Tcp
+        /// <para>循环：创建 UDP 随机端口 → 发就绪消息 → 等服务器 TCP 下发对方地址 → 用同一端口打洞；失败则换新端口重试，直到总超时。</para>
+        /// </summary>
+        /// <param name="client">TCP - P2P</param>
+        /// <param name="timedDelay">总超时毫秒数</param>
+        /// <param name="holePuncher">连接信息窗口</param>
+        public Task P2PConnectAsync(TcpClientAsync client, int timedDelay, Func<P2pRetryInfo, ValueTask> holePuncher = null)
+        {
+            if (Interlocked.Exchange(ref _p2pStarted, 1) == 1) throw new InvalidOperationException("P2PConnectAsync 只能调用一次，请为新配对申请新的 Key");
+            if (timedDelay < 1000) throw new ArgumentOutOfRangeException(nameof(timedDelay), "不能小于 1000ms");
+            return client.P2PConnectAsync(async p2PHole =>
+            {
+                var p2PRetry = await GetP2PRetryAsync(p2PHole.StunSocket, p2PHole.HoleCount, timedDelay - p2PHole.InitElapsedMs, p2PHole.Token);
+                if (holePuncher is not null) await holePuncher.Invoke(p2PRetry);
+                return p2PRetry;
+            }, _logger);
+        }
+
+        //public async Task P2PConnectTestAsync(int timedDelay, Func<P2PRetryInfo, ValueTask> holePuncher = null) //测试代码
+        //{
+        //    if (Interlocked.Exchange(ref _p2pStarted, 1) == 1) throw new InvalidOperationException("P2PConnectAsync 只能调用一次，请为新配对申请新的 Key");
+        //    if (timedDelay < 1000) throw new ArgumentOutOfRangeException(nameof(timedDelay), "不能小于 1000ms");
+        //    int round = 0;
+
+        //    Stopwatch sw = Stopwatch.StartNew();
+        //    using var cts = new CancellationTokenSource(timedDelay);
+        //    CancellationToken token = cts.Token;
+        //    var rand = new Random();
+        //    while (true)
+        //    {
+        //        var p2PRetry = await GetP2PRetryAsync(++round, timedDelay - (int)sw.ElapsedMilliseconds, token);
+        //        if (holePuncher is not null) await holePuncher.Invoke(p2PRetry);
+        //        await Task.Delay(rand.Next(100, 800));
+        //    }
+        //}
+
+        private async Task<P2pRetryInfo> GetP2PRetryAsync(Socket stunSocket, int round, int timedDelay, CancellationToken token)
+        {
+            if (_roundKey == NoMoreRoundKey) 
+            {
+                if (islog && _logger.IsEnabled(LogLevel.Warning)) _logger.LogWarning("[P2P-{role}]服务端拒绝继续分配 roundKey，打洞终止, key={key}, 超时={ms}ms", Role, Key, timedDelay);
+                throw new InvalidOperationException("服务端拒绝继续分配 roundKey，打洞终止");
+            }
+
+            using var cts = token == CancellationToken.None ? new CancellationTokenSource(timedDelay) : CancellationTokenSource.CreateLinkedTokenSource(token);
+            token = cts.Token;
+
+            if (islog && _logger.IsEnabled(LogLevel.Information)) _logger.LogInformation("[P2P-{role}]开始打洞, key={key}, 超时={ms}ms", Role, Key, timedDelay);
+
+            // 先准备等待，再发就绪
+            var tcs = new TaskCompletionSource<PairInfo>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var roundKey = _roundKey;
+
+            Ipv4Port localEP = await GetLocalEndPoint();
+
+            PairInfo pair;
             try
             {
-                using CancellationTokenSource cts = new(Millisecond);
-                cts.Token.UnsafeRegister((state) =>
-                {
-                    taskWith.TrySetCanceled();
-                }, null);
-                await taskWith.Task;
-            }
-            catch (TaskCanceledException)
-            {
-                throw new TimeoutException("在P2P服务器等待结果期间超时。");
-            }
-            //if (!SpinWait.SpinUntil(IsSuccess, 10000)) throw new Exception("在P2P服务器等待结果期间超时。");
+                if (islog && _logger.IsEnabled(LogLevel.Debug)) _logger.LogDebug("[P2P-{role}]等待配对回复, roundKey={roundKey}", Role, roundKey);
+                pair = await WaitPairInfoAsync();
 
-            //return Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// 判断是否P2P是否可用
-        /// </summary>
-        /// <returns></returns>
-        public bool IsSuccess() => NotConnected || success;
-
-        /// <summary>
-        /// 判断是否通过双方等待验证
-        /// </summary>
-        /// <returns></returns>
-        public bool OkWait(CancellationToken token)
-        {
-            return token.IsCancellationRequested || okwait;
-        }
-
-        /// <summary>
-        /// 尝试发起P2P连接，通过服务器验证确保可以更可靠的完成连接
-        /// </summary>
-        /// <param name="clientAsync">要建立连接的对象</param>
-        /// <param name="RemoteEP">连接的对方设备</param>
-        /// <param name="timedDelay">尝试等待超时时间（不能小于1000ms）</param>
-        /// <returns>结果</returns>
-        /// <exception cref="Exception">不可用 或 模式不一致 或 超时！</exception>
-        public async Task P2PConnectAsync(TcpClientAsync clientAsync, Ipv4Port RemoteEP, int timedDelay = 5000)
-        {
-            if (timedDelay < 1000) throw new Exception($"timedDelay < 1000 毫秒");
-            TryP2P();
-            if (network is TcpClientAsync tcpClientAsync)
-            {
+                if (islog && _logger.IsEnabled(LogLevel.Information)) _logger.LogInformation("[P2P-{role}]配对回复到达, roundKey={roundKey}, local={local}, remote={remote}, Time={time}", Role, roundKey, pair.LocalEP, pair.RemoteEP, DateTime.UtcNow.Ticks);
+                
                 try
                 {
-                    using var sendBytes = tcpClientAsync.CreateSendBytes(10);
-                    sendBytes.SetMemory(RemoteEP.Bytes);
-                    sendBytes.SetMemory(TcpTop, 6);
+                    //if (islog && _logger.IsEnabled(LogLevel.Information)) _logger.LogInformation("[P2P]开始打洞, local={local}, remote={remote}", localEP, pair.RemoteEP);
+                    //await holePuncher(localEP, pair.RemoteEP, token, _logger);
+                    //if (islog && _logger.IsEnabled(LogLevel.Information)) _logger.LogInformation("[P2P]打洞成功, local={local}, remote={remote}", localEP, pair.RemoteEP);
+                    var effectiveDelay = Math.Max(timedDelay, 1000);
+                    return new P2pRetryInfo(effectiveDelay, localEP, pair.RemoteEP);
+                }
+                catch (Exception ex)
+                {
+                    if (islog && _logger.IsEnabled(LogLevel.Information)) _logger.LogWarning(ex, "[P2P-{role}] 第 {round} 轮打洞失败, 换新端口重试", Role, round);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                if (islog && _logger.IsEnabled(LogLevel.Information)) _logger.LogInformation("[P2P-{role}]等待配对超时/取消, roundKey={roundKey}", Role, roundKey);
+            }
+            catch (InvalidOperationException ex)
+            {
+                if (islog && _logger.IsEnabled(LogLevel.Information)) _logger.LogWarning(ex, "[P2P-{role}]配对回复格式错误, roundKey={roundKey}", Role, roundKey);
+            }
 
-                    await clientAsync.P2PConnectAsync(LocalEP, RemoteEP, async token =>
+            async Task<Ipv4Port> GetLocalEndPoint()
+            {
+                _pairTcs = tcs;
+                stunSocket.Bind(new IPEndPoint(IPAddress.Any, 0)); // 绑定本地端口（如果需要固定端口），或让内核分配
+                bool isTcp = stunSocket.ProtocolType is ProtocolType.Tcp;
+
+                if (islog && _logger.IsEnabled(LogLevel.Information)) _logger.LogInformation("[P2P-{role}]第 {round} 轮, roundKey={roundKey}, local={local}", Role, round, roundKey, stunSocket.LocalEndPoint);
+
+                if (isTcp)
+                {
+                    using BytesCore bytesCore = new(P2pClientProtocol.RoundReadyLen + 6);
+                    P2pClientProtocol.WriteRoundReady(bytesCore.Span[6..], roundKey, Key, Role);
+                    StateObject.SetDataHeadTcp(bytesCore.Span, P2pClientProtocol.RoundReadyLen, 0);
+
+                    await stunSocket.ConnectAsync(_endPoint).ConfigureAwait(false); // TCP 先握手
+                    await Handshake.TcpAuthenticAtion(stunSocket, false).ConfigureAwait(false);
+                    await stunSocket.SendAsync(bytesCore.Memory, SocketFlags.None, token).ConfigureAwait(false);
+                    var localEndPoint = (IPEndPoint)stunSocket.LocalEndPoint;
+                    Ipv4Port localEP = localEndPoint;
+
+                    if (islog && _logger.IsEnabled(LogLevel.Debug)) _logger.LogDebug("[P2P-{role}]TCP 就绪已发 1 条 -> {ep}, roundKey={roundKey}, local={local}", Role, _endPoint, roundKey, localEP);
+
+                    return localEP;
+                }
+                else
+                {
+                    using BytesCore bytesCore = new(P2pClientProtocol.RoundReadyLen);
+                    P2pClientProtocol.WriteRoundReady(bytesCore.Span, roundKey, Key, Role);
+
+                    for (int i = 0; i < 3; i++)
                     {
-                        DateTime Now01 = DateTime.Now;
-                        await tcpClientAsync.SendAsync(sendBytes);//.IsNewTask();
-                        return await WaitP2pOk(Now01, timedDelay, token);
-                    });
-                }
-                finally
-                {
-                    Dispose(); //成功后回收当前类
+#if NET5_0
+                        await stunSocket.SendToAsync(bytesCore.Array, SocketFlags.None, _endPoint).ConfigureAwait(false);
+#else
+                        await stunSocket.SendToAsync(bytesCore.Memory, SocketFlags.None, _endPoint, token).ConfigureAwait(false);
+#endif
+                        await Task.Delay(1, token);
+                    }
+
+                    // 发完立刻取地址、关闭 UDP，让内核清掉本地绑定
+                    await stunSocket.ConnectAsync(_endPoint).ConfigureAwait(false); // UDP 的 Connect 不握手，只选路
+                    var localEndPoint = (IPEndPoint)stunSocket.LocalEndPoint;
+                    Ipv4Port localEP = localEndPoint;
+                    stunSocket.Close();
+
+                    if (islog && _logger.IsEnabled(LogLevel.Debug)) _logger.LogDebug("[P2P-{role}]UDP 就绪已发 3 条 -> {ep}, roundKey={roundKey}, local={local}", Role, _endPoint, roundKey, localEP);
+
+                    return localEP;
                 }
             }
-            else
+
+            async Task<PairInfo> WaitPairInfoAsync()
             {
-                throw new Exception("P2P模式，建立的通道是UDP模式！");
+                using var reg = token.Register(() => tcs.TrySetCanceled());
+                return await tcs.Task;
             }
+
+            if (islog && _logger.IsEnabled(LogLevel.Information)) _logger.LogError("[P2P-{role}]打洞申请超时, key={key}, 共 {round} 轮", Role, Key, round);
+            throw new TimeoutException("P2P 打洞申请超时");
         }
 
-        /// <summary>
-        /// 尝试发起P2P连接，通过服务器验证确保可以更可靠的完成连接
-        /// </summary>
-        /// <param name="clientAsync">要建立连接的对象</param>
-        /// <param name="RemoteEP">连接的对方设备</param>
-        /// <param name="timedDelay">尝试等待超时时间（不能小于1000ms）</param>
-        /// <returns>结果</returns>
-        /// <exception cref="Exception">不可用 或 模式不一致 或 超时！</exception>
-        public async Task P2PConnectAsync(UdpClientAsync clientAsync, Ipv4Port RemoteEP, int timedDelay = 5000)
+        #endregion
+
+        #region 释放
+
+        /// <summary>清理本会话状态，不释放共享连接</summary>
+        public void Dispose()
         {
-            if (timedDelay < 1000) throw new Exception($"timedDelay < 1000 毫秒");
-            TryP2P();
-            if (network is UdpClientAsync udpClientAsync)
-            {
-                try
-                {
-                    using var sendBytes = udpClientAsync.CreateSendBytes(10);
-                    sendBytes.SetMemory(RemoteEP.Bytes);
-                    sendBytes.SetMemory(UdpTop, 6);
-
-                    await clientAsync.P2PConnectAsync(LocalEP, RemoteEP, async token =>
-                    {
-                        DateTime Now01 = DateTime.Now;
-                        await udpClientAsync.SendAsync(sendBytes);//.IsNewTask();
-                        return await WaitP2pOk(Now01, timedDelay, token);
-                    });
-                }
-                finally
-                {
-                    Dispose(); //成功后回收当前类
-                }
-            }
-            else
-            {
-                throw new Exception("P2P模式，建立的通道是TCP模式！");
-            }
+            if (_disposed) return;
+            _disposed = true;
+            _ackTcs?.TrySetCanceled();
+            _pairTcs?.TrySetCanceled();
+            P2pSessionRegistry.Instance.Unregister(Key, Role);
         }
 
-        private async Task<int> WaitP2pOk(DateTime Now01, int timedDelay, CancellationToken token)
-        {
-            okwait = false;
-            taskWith = new(TaskCreationOptions.RunContinuationsAsynchronously); //重置新任务
-
-            using var cts = CancellationTokenSource.CreateLinkedTokenSource(token);
-            cts.Token.UnsafeRegister((state) =>
-            {
-                taskWith.TrySetCanceled();
-            }, null);
-            cts.CancelAfter(timedDelay);
-
-            try
-            {
-                await taskWith.Task;
-            }
-            catch (TaskCanceledException)
-            {
-                throw new TimeoutException("等待对方发起P2P尝试，超时！");
-            }
-
-            //await Task.Run(() => { if (!SpinWait.SpinUntil(OkWait, timedDelay)) throw new Exception("等待对方发起P2P尝试，超时！"); });
-            //if (!SpinWait.SpinUntil(() => OkWait(token), timedDelay) && !okwait) throw new Exception("等待对方发起P2P尝试，超时！");
-            DateTime Now02 = DateTime.Now;
-            double seconds = (Now02 - Now01).TotalMilliseconds;
-            Debug.WriteLine($"P2P同步协议！{Now02:O},{seconds}ms");
-            return (int)(timedDelay - seconds);
-        }
-
-        private void TryP2P()
-        {
-            ThrowIfDisposed();
-            if (!IsSuccess()) throw new Exception("当前P2P模式，不可用！");
-        }
+        #endregion
     }
 }

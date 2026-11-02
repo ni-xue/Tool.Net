@@ -1070,14 +1070,25 @@ namespace Tool //万能属性公有父类
             //}
             return string.Format("{0:x}", i - DateTime.Now.Ticks);
         }
+
         /// <summary>  
-        /// 根据GUID获取19位的唯一数字序列  
+        /// 根据GUID获取19位的唯一数字序列
         /// </summary>  
         /// <returns></returns>  
         public static long GuidToLongID()
         {
             byte[] buffer = Guid.NewGuid().ToByteArray();
             return BitConverter.ToInt64(buffer, 0);
+        }
+
+        /// <summary>  
+        /// 根据GUID获取19位的唯一数字序列 - 正整数
+        /// </summary>  
+        /// <returns></returns>  
+        public static ulong GuidToUlongID()
+        {
+            byte[] buffer = Guid.NewGuid().ToByteArray();
+            return BitConverter.ToUInt64(buffer, 0);
         }
 
         #endregion
