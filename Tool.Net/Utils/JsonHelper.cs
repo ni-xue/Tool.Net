@@ -575,12 +575,6 @@ namespace Tool.Utils
         public static bool operator !=(JsonVar a, JsonVar b) => !a.Equals(b);
 
         /// <summary>
-        /// JsonEnumerator
-        /// </summary>
-        /// <param name="value"></param>
-        public static implicit operator JsonVar(JsonEnumerator value) => value.Current;
-
-        /// <summary>
         /// <see cref="Dictionary{String, Object}"/>
         /// </summary>
         /// <param name="value"></param>
