@@ -1,10 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using Tool;
 using Tool.Sockets.Kernels;
 using Tool.Sockets.P2PHelpr;
 using Tool.Sockets.TcpHelper;
@@ -21,6 +17,33 @@ namespace TcpTest
 
         internal static async Task OnMain(string[] args, ILoggerFactory loggerFactory)
         {
+            Tool.Utils.JsonVar jsons0 = 1;
+
+            var @string = await File.ReadAllTextAsync("D:\\新建文本文档.txt");
+
+            Tool.Utils.JsonVar jsons1 = @string.JsonVar();
+
+
+            //var jsons4 = jsons1.GetJson().JsonVar();
+            //var jsons5 = jsons1.GetJson().JsonVar();
+            //var jsons6 = jsons1.GetJson().JsonVar();
+
+            var jsons2 = jsons1.DeepClone();
+
+            var jsons3 = jsons1.DeepClone();
+
+            if (jsons0 == jsons1)
+            {
+
+            }
+
+            jsons1[2] = 10;
+
+            if (jsons1.TryRemove(out var jsons, 2))
+            {
+
+            }
+
             //while (true)
             //{
             //    Tool.Utils.Log.Debug("1111111111111111111111111");
@@ -161,7 +184,7 @@ namespace TcpTest
             //string server = "106.55.49.68";
             //string server = "127.0.0.1";
 
-            ILogger 
+            ILogger
                 logger = loggerFactory.CreateLogger("P2pTest"),
                 servicelog = loggerFactory.CreateLogger("P2pService"),
                 freeInKeylog = loggerFactory.CreateLogger("FreeInKey"),
@@ -180,70 +203,74 @@ namespace TcpTest
             {
                 try
                 {
-                    logger.LogInformation("开始测试，第{i}次：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", i, DateTime.Now);
+                    logger.LogInformation("开始测试，第{i}次[Tcp]：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", i, DateTime.Now);
+                    var sessionA = await P2pServerAsync.GetFreeInKeyAsync(endPoint, logger);
+                    var sessionB = await P2pServerAsync.GetFreeOutKeyAsync(endPoint, sessionA.Key, logger);
 
-                    {
-                        var sessionA = await P2pServerAsync.GetFreeInKeyAsync(endPoint, logger);
-                        var sessionB = await P2pServerAsync.GetFreeOutKeyAsync(endPoint, sessionA.Key, logger);
+                    // 双方各自打洞（TCP 版本）
+                    var clientA = new TcpClientAsync(NetBufferSize.Default, true);
+                    var task0 = sessionA.P2PConnectAsync(clientA, 10000);
 
-                        // 双方各自打洞（TCP 版本）
-                        var clientA = new TcpClientAsync(NetBufferSize.Default, true);
-                        var task0 = sessionA.P2PConnectAsync(clientA, 10000);
+                    var clientB = new TcpClientAsync(NetBufferSize.Default, true);
+                    var task1 = sessionB.P2PConnectAsync(clientB, 10000);
 
-                        var clientB = new TcpClientAsync(NetBufferSize.Default, true);
-                        var task1 = sessionB.P2PConnectAsync(clientB, 10000);
+                    await Task.WhenAll(task0, task1);
+                    logger.LogInformation("成功[Tcp]P2P：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", DateTime.Now);
 
-                        await Task.WhenAll(task0, task1);
-                        logger.LogInformation("成功[Tcp]P2P：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", DateTime.Now);
-                    }
-
-                    {
-                        // UDP 轮：新 Key、新会话
-                        var sessionA = await P2pServerAsync.GetFreeInKeyAsync(endPoint, freeInKeylog);
-                        var sessionB = await P2pServerAsync.GetFreeOutKeyAsync(endPoint, sessionA.Key, freeOutKeylog);
-
-                        // 双方各自打洞（UDP 版本）
-                        var clientA = new UdpClientAsync(NetBufferSize.Default, true);
-                        var task2 = sessionA.P2PConnectAsync(clientA, 10000);
-
-                        var clientB = new UdpClientAsync(NetBufferSize.Default, true);
-                        var task3 = sessionB.P2PConnectAsync(clientB, 10000);
-
-                        await Task.WhenAll(task2, task3);
-                        logger.LogInformation("成功[Udp]P2P：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", DateTime.Now);
-                    }
-
-                    //Tool.Utils.JsonVar jsons = new Tool.Utils.JsonVar();
-                    //jsons.Select();
-
-                    //{
-                    //    // 只测试创建 端口 行为
-                    //    var sessionA = await P2pServerAsync.GetFreeInKeyAsync(endPoint, freeInKeylog);
-                    //    var sessionB = await P2pServerAsync.GetFreeOutKeyAsync(endPoint, sessionA.Key, freeOutKeylog);
-
-                    //    Func<P2PRetryInfo, ValueTask> puncherA = async info =>
-                    //    {
-                    //        freeInKeylog.LogInformation("[TestA] 窗口: local={local}, remote={remote}, timeout={timeout}",
-                    //            info.LocalEP, info.EndPoint, info.Timeout);
-                    //    };
-
-                    //    Func<P2PRetryInfo, ValueTask> puncherB = async info =>
-                    //    {
-                    //        freeOutKeylog.LogInformation("[TestB] 窗口: local={local}, remote={remote}, timeout={timeout}",
-                    //            info.LocalEP, info.EndPoint, info.Timeout);
-                    //    };
-
-                    //    var task2 = sessionA.P2PConnectTestAsync(60000, puncherA);
-                    //    var task3 = sessionB.P2PConnectTestAsync(60000, puncherB);
-
-                    //    await Task.WhenAll(task2, task3);
-                    //    logger.LogInformation("成功[多次创建端口]P2P：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", DateTime.Now);
-                    //}
                 }
                 catch (Exception)
                 {
-                    logger.LogInformation("第{i}次，打洞失败！{Now:yyyy/MM/dd HH:mm:ss:fffffff}", i, DateTime.Now);
+                    logger.LogInformation("第{i}次[Tcp]，打洞失败！{Now:yyyy/MM/dd HH:mm:ss:fffffff}", i, DateTime.Now);
                 }
+
+                try
+                {
+                    logger.LogInformation("开始测试，第{i}次[Udp]：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", i, DateTime.Now);
+                    // UDP 轮：新 Key、新会话
+                    var sessionA = await P2pServerAsync.GetFreeInKeyAsync(endPoint, freeInKeylog);
+                    var sessionB = await P2pServerAsync.GetFreeOutKeyAsync(endPoint, sessionA.Key, freeOutKeylog);
+
+                    // 双方各自打洞（UDP 版本）
+                    var clientA = new UdpClientAsync(NetBufferSize.Default, true);
+                    var task2 = sessionA.P2PConnectAsync(clientA, 10000);
+
+                    var clientB = new UdpClientAsync(NetBufferSize.Default, true);
+                    var task3 = sessionB.P2PConnectAsync(clientB, 10000);
+
+                    await Task.WhenAll(task2, task3);
+                    logger.LogInformation("成功[Udp]P2P：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", DateTime.Now);
+                }
+                catch (Exception)
+                {
+                    logger.LogInformation("第{i}次[Udp]，打洞失败！{Now:yyyy/MM/dd HH:mm:ss:fffffff}", i, DateTime.Now);
+                }
+
+                //Tool.Utils.JsonVar jsons = new Tool.Utils.JsonVar();
+                //jsons.Select();
+
+                //{
+                //    // 只测试创建 端口 行为
+                //    var sessionA = await P2pServerAsync.GetFreeInKeyAsync(endPoint, freeInKeylog);
+                //    var sessionB = await P2pServerAsync.GetFreeOutKeyAsync(endPoint, sessionA.Key, freeOutKeylog);
+
+                //    Func<P2PRetryInfo, ValueTask> puncherA = async info =>
+                //    {
+                //        freeInKeylog.LogInformation("[TestA] 窗口: local={local}, remote={remote}, timeout={timeout}",
+                //            info.LocalEP, info.EndPoint, info.Timeout);
+                //    };
+
+                //    Func<P2PRetryInfo, ValueTask> puncherB = async info =>
+                //    {
+                //        freeOutKeylog.LogInformation("[TestB] 窗口: local={local}, remote={remote}, timeout={timeout}",
+                //            info.LocalEP, info.EndPoint, info.Timeout);
+                //    };
+
+                //    var task2 = sessionA.P2PConnectTestAsync(60000, puncherA);
+                //    var task3 = sessionB.P2PConnectTestAsync(60000, puncherB);
+
+                //    await Task.WhenAll(task2, task3);
+                //    logger.LogInformation("成功[多次创建端口]P2P：{Now:yyyy/MM/dd HH:mm:ss:fffffff}", DateTime.Now);
+                //}
             }
 
             await Task.Delay(Timeout.Infinite);

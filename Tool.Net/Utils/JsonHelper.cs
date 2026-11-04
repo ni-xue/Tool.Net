@@ -424,6 +424,52 @@ namespace Tool.Utils
         }
 
         /// <summary>
+        /// 删除当前Json集合下可能存在的数据信息
+        /// </summary>
+        /// <param name="jsonVar">返回删除的结果</param>
+        /// <param name="keys">查找的Key和下标</param>
+        /// <returns><see cref="bool"/></returns>
+        public bool TryRemove(out JsonVar jsonVar, params object[] keys) 
+        {
+            if (TryGet(out jsonVar, keys)) 
+            {
+                var jsons = this;
+                int i = 0;
+                for (; i < keys.Length - 1; i++)
+                {
+                    var item = keys[i];
+                    if (item is string key)
+                    {
+                        jsons = jsons[key];
+                    }
+                    else if (item is int index)
+                    {
+                        jsons = jsons[index];
+                    }
+                }
+
+                switch (ValueKind)
+                {
+                    case JsonValueKind.Object:
+                        if (Data is IDictionary dic)
+                        {
+                            dic.Remove((string)keys[i]);
+                            return true;
+                        }
+                        break;
+                    case JsonValueKind.Array:
+                        if (Data is IList list)
+                        {
+                            list.RemoveAt((int)keys[i]);
+                            return true;
+                        }
+                        break;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// 获取当前对象的Json字符串
         /// </summary>
         /// <returns></returns>
@@ -559,6 +605,26 @@ namespace Tool.Utils
         };
 
         /// <summary>
+        /// 深度拷贝
+        /// </summary>
+        /// <returns></returns>
+        public JsonVar DeepClone() 
+        {
+            if (this.IsEmpty) return JsonVar.Empty;
+
+            using var buffer = new ChunkedPooledBufferWriter<byte>(); // 你自己实现的分块池化 writer
+            using (var writer = new Utf8JsonWriter(buffer))
+            {
+                JsonSerializer.Serialize(writer, Data);
+            }
+            var sequence = buffer.GetReadOnlySequence(); // 多块内存的 ReadOnlySequence
+            var reader = new Utf8JsonReader(sequence);
+            using var jsonDocument = JsonDocument.ParseValue(ref reader);
+            var data = JsonHelper.GetReturn(jsonDocument.RootElement);
+            return new(data);
+        }
+
+        /// <summary>
         /// 比较是否相等
         /// </summary>
         /// <param name="a">比较A</param>
@@ -620,7 +686,19 @@ namespace Tool.Utils
         /// bool
         /// </summary>
         /// <param name="value"></param>
+        public static implicit operator JsonVar(bool value) => new(value);
+
+        /// <summary>
+        /// bool
+        /// </summary>
+        /// <param name="value"></param>
         public static implicit operator bool(JsonVar value) => value.GetVar<bool>();
+
+        /// <summary>
+        /// short
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator JsonVar(short value) => new(value);
 
         /// <summary>
         /// short
@@ -632,7 +710,19 @@ namespace Tool.Utils
         /// int
         /// </summary>
         /// <param name="value"></param>
+        public static implicit operator JsonVar(int value) => new(value);
+
+        /// <summary>
+        /// int
+        /// </summary>
+        /// <param name="value"></param>
         public static implicit operator int(JsonVar value) => value.GetVar<int>();
+
+        /// <summary>
+        /// long
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator JsonVar(long value) => new(value);
 
         /// <summary>
         /// long
@@ -644,13 +734,31 @@ namespace Tool.Utils
         /// double
         /// </summary>
         /// <param name="value"></param>
+        public static implicit operator JsonVar(double value) => new(value);
+
+        /// <summary>
+        /// double
+        /// </summary>
+        /// <param name="value"></param>
         public static implicit operator double(JsonVar value) => value.GetVar<double>();
 
         /// <summary>
         /// decimal
         /// </summary>
         /// <param name="value"></param>
+        public static implicit operator JsonVar(decimal value) => new(value);
+
+        /// <summary>
+        /// decimal
+        /// </summary>
+        /// <param name="value"></param>
         public static implicit operator decimal(JsonVar value) => value.GetVar<decimal>();
+
+        /// <summary>
+        /// byte
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator JsonVar(byte value) => new(value);
 
         /// <summary>
         /// byte
